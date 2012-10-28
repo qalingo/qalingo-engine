@@ -1,0 +1,65 @@
+/**
+ * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+ * under the Apache License Version 2.0 (release version ${license.version})
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *                   Copyright (c) Hoteia, 2012-2013
+ * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+ *
+ */
+package fr.hoteia.qalingo.core.security.helper;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import fr.hoteia.qalingo.core.common.domain.Customer;
+import fr.hoteia.qalingo.core.common.domain.CustomerRole;
+import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.common.domain.UserRole;
+
+@Service("assembler")
+public class Assembler {
+	
+	@Transactional(readOnly = true)
+	public org.springframework.security.core.userdetails.User buildUserFromUserEntity(User user) {
+		
+		String username = user.getLogin();
+		String password = user.getPassword();
+		boolean enabled = user.isActive();
+		boolean accountNonExpired = user.isActive();
+		boolean credentialsNonExpired = user.isActive();
+		boolean accountNonLocked = user.isActive();
+		
+		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for (UserRole role : user.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		org.springframework.security.core.userdetails.User userSecurity = new org.springframework.security.core.userdetails.User(username, password, enabled, 
+												accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		return userSecurity;
+	}
+	
+	@Transactional(readOnly = true)
+	public org.springframework.security.core.userdetails.User buildUserFromCustomerEntity(Customer customer) {
+		
+		String username = customer.getLogin();
+		String password = customer.getPassword();
+		boolean enabled = customer.isActive();
+		boolean accountNonExpired = customer.isActive();
+		boolean credentialsNonExpired = customer.isActive();
+		boolean accountNonLocked = customer.isActive();
+		
+		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for (CustomerRole role : customer.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		org.springframework.security.core.userdetails.User userSecurity = new org.springframework.security.core.userdetails.User(username, password, enabled, 
+												accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		return userSecurity;
+	}
+}

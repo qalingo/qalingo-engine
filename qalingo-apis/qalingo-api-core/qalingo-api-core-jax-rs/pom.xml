@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.hoteia.qalingo</groupId>
+		<artifactId>qalingo-api-core</artifactId>
+		<version>0.7.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>qalingo-api-core-jax-rs</artifactId>
+	<packaging>jar</packaging>
+	<name>{Q} Commerce Solution Core Jax-RS API</name>
+	<description>{Q} Commerce Solution Core Jax-RS API</description>
+	<url>http://www.hoteia.com</url>
+	<organization>
+		<name>Hoteia</name>
+		<url>http://www.hoteia.com</url>
+	</organization>
+
+	<properties> 
+		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
+	</properties>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>${project.build.directory}/generated-resources</directory>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>${project.build.directory}/generated-test-resources/</directory>
+			</testResource>
+		</testResources>
+
+		<!--
+		<plugins>
+		</plugins>
+		-->
+	</build>
+
+	<dependencies>
+		<dependency>
+			<!-- Using Jackson for JSON marshaling -->
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

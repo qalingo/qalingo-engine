@@ -1,0 +1,54 @@
+/**
+ * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+ * under the Apache License Version 2.0 (release version ${license.version})
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *                   Copyright (c) Hoteia, 2012-2013
+ * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+ *
+ */
+package fr.hoteia.qalingo.web.mvc.viewbean;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CartShippingViewBean implements Serializable {
+
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = 251889000239105026L;
+
+	private String cartShippingCode;
+	private String cartShippingTotalLabel;
+	private String cartShippingTotal;
+
+	public CartShippingViewBean() {
+	}
+
+	public String getCartShippingCode() {
+		return cartShippingCode;
+	}
+	
+	public void setCartShippingCode(String cartShippingCode) {
+		this.cartShippingCode = cartShippingCode;
+	}
+	
+	public String getCartShippingTotalLabel() {
+		return cartShippingTotalLabel;
+	}
+
+	public void setCartShippingTotalLabel(String cartShippingTotalLabel) {
+		this.cartShippingTotalLabel = cartShippingTotalLabel;
+	}
+
+	public String getCartShippingTotal() {
+		return cartShippingTotal;
+	}
+
+	public void setCartShippingTotal(String cartShippingTotal) {
+		this.cartShippingTotal = cartShippingTotal;
+	}
+
+}

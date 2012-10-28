@@ -1,0 +1,19 @@
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version ${license.version})
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<dataset>
+	<TECO_CUSTOMER ID="1" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT1" FIRSTNAME="FN1" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="1" />
+	<TECO_CUSTOMER ID="2" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT2" FIRSTNAME="FN2" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="1" />
+	<TECO_CUSTOMER ID="3" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT3" FIRSTNAME="FN3" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="1" />
+	<TECO_CUSTOMER ID="4" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT4" FIRSTNAME="FN4" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="1" />
+	<TECO_CUSTOMER ID="5" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT5" FIRSTNAME="FN5" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="1" />
+	<TECO_CUSTOMER ID="6" VERSION="1" EMAIL="denis.gosset@gmail.com" LASTNAME="RT6" FIRSTNAME="FN6" PASSWORD="denis" LOGIN="denis" IS_ACTIVE="0" />
+</dataset>
