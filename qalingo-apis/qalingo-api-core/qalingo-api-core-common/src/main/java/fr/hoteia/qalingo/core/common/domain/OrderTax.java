@@ -23,13 +23,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_ORDER_SHIPMENT")
-public class OrderShipment implements Serializable {
+@Table(name="TECO_ORDER_TAX")
+public class OrderTax implements Serializable {
 
 	/**
-	 * Generated UID
+	 * 
 	 */
-	private static final long serialVersionUID = 3793149119444763336L;
+	private static final long serialVersionUID = -1091976459740418306L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,12 +38,12 @@ public class OrderShipment implements Serializable {
 	
 	@Column(name="NAME")
 	private String name;
+
+	@Column(name="tax_ID")
+	private Long taxId;
 	
-	@Column(name="PRICE")
-	private BigDecimal price;
-	
-	@Column(name="SHIPPING_ID")
-	private Long shippingId;
+	@Column(name="PERCENT")
+	private BigDecimal percent;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -53,7 +53,7 @@ public class OrderShipment implements Serializable {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public OrderShipment(){
+	public OrderTax(){
 	}
 	
 	public Long getId() {
@@ -67,25 +67,25 @@ public class OrderShipment implements Serializable {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public BigDecimal getPrice() {
-		return price;
+
+	public Long getTaxId() {
+		return taxId;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setTaxId(Long taxId) {
+		this.taxId = taxId;
 	}
 
-	public Long getShippingId() {
-		return shippingId;
+	public BigDecimal getPercent() {
+		return percent;
 	}
 
-	public void setShippingId(Long shippingId) {
-		this.shippingId = shippingId;
+	public void setPercent(BigDecimal percent) {
+		this.percent = percent;
 	}
 
 	public Date getDateCreate() {

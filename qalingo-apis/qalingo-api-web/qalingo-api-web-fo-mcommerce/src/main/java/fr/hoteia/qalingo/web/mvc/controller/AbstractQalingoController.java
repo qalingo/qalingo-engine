@@ -9,11 +9,7 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller;
 
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,16 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.drools.KnowledgeBase;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderError;
-import org.drools.builder.KnowledgeBuilderErrors;
-import org.drools.builder.KnowledgeBuilderFactory;
-import org.drools.builder.ResourceType;
-import org.drools.definition.KnowledgePackage;
-import org.drools.io.Resource;
-import org.drools.io.ResourceFactory;
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +27,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.EngineSession;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.domain.RuleRepository;
 import fr.hoteia.qalingo.core.common.service.CustomerService;
-import fr.hoteia.qalingo.core.common.service.RuleRepositoryService;
 import fr.hoteia.qalingo.core.common.service.UrlService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
@@ -106,12 +89,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 	 * 
 	 */
 	protected void initPage(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		
-//		// TODO : move this handleUrlParameters in a filter
-//		handleUrlParameters(request, response);
-//
-//		// TODO : move this handleUrlRules in a filter
-//		handleRules(request, response);
     }
 	
 	/**
@@ -217,59 +194,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 		modelAndView.addObject("customerLinks", customerLinks);
 	}
 	
-//	/**
-//	 * 
-//	 */
-//    private void handleUrlParameters(final HttpServletRequest request, final HttpServletResponse response){
-//    	try {
-//			requestUtil.handleUrlParameters(request);
-//		} catch (Exception e) {
-//			LOG.error("", e);
-//		}
-//    }
-    
-//	/**
-//	 * 
-//	 */
-//    private void handleRules(final HttpServletRequest request, final HttpServletResponse response){
-//    	try {
-//			
-//    		StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) getContext().getBean("ksessionQalingo");
-//
-//    		KnowledgeBase kbase = ksession.getKnowledgeBase();
-//    		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-//
-//    		List<RuleRepository> activeRules = ruleRepositoryService.findActiveRuleRepositories();
-//
-//    		for (Iterator<RuleRepository> iterator = activeRules.iterator(); iterator.hasNext();) {
-//				RuleRepository ruleRepository = (RuleRepository) iterator.next();
-//				String ruleDRL = ruleRepository.getRuleString().toString();
-//				Resource ruleResource = ResourceFactory.newReaderResource((Reader) new StringReader(ruleDRL)); 
-//				kbuilder.add(ruleResource, ResourceType.DRL); 
-//			}
-//
-//			if (kbuilder.hasErrors()) {
-//				KnowledgeBuilderErrors errors = kbuilder.getErrors();
-//				if(errors != null){
-//					for (Iterator<KnowledgeBuilderError> iterator = errors.iterator(); iterator.hasNext();) {
-//						KnowledgeBuilderError knowledgeBuilderError = (KnowledgeBuilderError) iterator.next();
-//						LOG.error(knowledgeBuilderError.getMessage());
-//					}
-//				}
-//	            throw new RuntimeException("Unable to compile drl"); 
-//	        } 
-//			
-//    		Collection<KnowledgePackage> pkgs = kbuilder.getKnowledgePackages();
-//    		kbase.addKnowledgePackages(pkgs);
-//    		EngineSession engineSession = requestUtil.getCurrentSession(request);
-//    		ksession.insert(engineSession);
-//    		ksession.fireAllRules();
-//    		
-//		} catch (Exception e) {
-//			LOG.error("", e);
-//		}
-//    }
-    
 	/**
 	 * 
 	 */

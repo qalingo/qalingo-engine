@@ -42,6 +42,8 @@ import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
 import fr.hoteia.qalingo.core.common.domain.Order;
 import fr.hoteia.qalingo.core.common.domain.OrderItem;
+import fr.hoteia.qalingo.core.common.domain.OrderShipment;
+import fr.hoteia.qalingo.core.common.domain.OrderTax;
 import fr.hoteia.qalingo.core.common.domain.ProductBrand;
 import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
 import fr.hoteia.qalingo.core.common.domain.ProductCrossLink;
@@ -91,6 +93,8 @@ import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderItemViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.OrderShippingViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.OrderTaxViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.OurCompanyViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductBrandViewBean;
@@ -1151,6 +1155,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 				cartShippingViewBean.setCartShippingTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.shippings", params, locale));
 				cartShippingViewBeans.add(cartShippingViewBean);
 			}
+			cartViewBean.setCartShippings(cartShippingViewBeans);
 		}
 		
 		// SUB PART : Taxes
@@ -1169,6 +1174,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 				cartTaxViewBean.setCartTaxTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.taxes", params, locale));
 				cartTaxViewBeans.add(cartTaxViewBean);
 			}
+			cartViewBean.setCartTaxes(cartTaxViewBeans);
 		}
 		carTotal = carTotal.add(cartItemsTotal);
 		carTotal = carTotal.add(cartShippingTotal);
@@ -1236,27 +1242,94 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String orderId = order.getId().toString();
 		final OrderViewBean orderViewBean = new OrderViewBean();
 
-		orderViewBean.setOrderNum(order.getOrderNum());
-		orderViewBean.setStatus(order.getStatus());
-		orderViewBean.setTotalAmount(order.getTotalAmount().toString());
+		orderViewBean.setOrderItemNameLabel(coreMessageSource.getMessage("shoppingcart.item.sku.label", null, locale));
+		orderViewBean.setOrderItemQuantityLabel(coreMessageSource.getMessage("shoppingcart.item.quantity.label", null, locale));
+		orderViewBean.setOrderItemDeleteActionLabel(coreMessageSource.getMessage("shoppingcart.item.remove.label", null, locale));
+		orderViewBean.setOrderItemPriceLabel(coreMessageSource.getMessage("shoppingcart.item.price", null, locale));
+		orderViewBean.setOrderItemSubTotalLabel(coreMessageSource.getMessage("shoppingcart.item.subtotal", null, locale));
 		
-		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.SHORT, DateFormat.SHORT);
-		orderViewBean.setDateCreate(dateFormat.format(order.getDateCreate()));
-		orderViewBean.setDateUpdate(dateFormat.format(order.getDateUpdate()));
+		orderViewBean.setOrderItemsTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.without.shippings", null, locale));
+		orderViewBean.setOrderTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.total", null, locale));
 
-		orderViewBean.setShippingAddressLabel(coreMessageSource.getMessage("order.shipping.address", null, locale));
-		orderViewBean.setBillingAddressLabel(coreMessageSource.getMessage("order.billing.address", null, locale));
+		orderViewBean.setShippingAddressLabel(coreMessageSource.getMessage("shoppingcart.shipping.address", null, locale));
+		orderViewBean.setBillingAddressLabel(coreMessageSource.getMessage("shoppingcart.billing.address", null, locale));
 
-		orderViewBean.setConfirmationMessage(coreMessageSource.getMessage("order.confirmation.message", null, locale));
+		orderViewBean.setCardHolderLabel(coreMessageSource.getMessage("shoppingcart.payment.card.holder", null, locale));
+		orderViewBean.setCardNumberLabel(coreMessageSource.getMessage("shoppingcart.payment.card.number", null, locale));
+		orderViewBean.setCardCryptoLabel(coreMessageSource.getMessage("shoppingcart.payment.card.crypto", null, locale));
+		orderViewBean.setCardExpirationDateLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.date", null, locale));
+		orderViewBean.setCardExpirationMonthLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.month", null, locale));
+		orderViewBean.setCardExpirationYearLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.year", null, locale));
 
-		List<OrderItemViewBean> orderItemViewBean = new ArrayList<OrderItemViewBean>();
+		// ITEMS PART
+		List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
 		Set<OrderItem> orderItems = order.getOrderItems();
 		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
 			OrderItem orderItem = (OrderItem) iterator.next();
-			orderItemViewBean.add(buildOrderItemViewBean(request, marketPlace, market, marketArea, localization, retailer, orderItem));
+			orderItemViewBeans.add(buildOrderItemViewBean(request, marketPlace, market, marketArea, localization, retailer, orderItem));
 		}
-		orderViewBean.setOrderItems(orderItemViewBean);
+		orderViewBean.setOrderItems(orderItemViewBeans);
 		
+		// SUB PART : Subtotal
+		String currencyCode = marketArea.getCurrency().getCode();
+		NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		BigDecimal orderItemsTotal = new BigDecimal("0");
+		BigDecimal orderShippingTotal = new BigDecimal("0");
+		BigDecimal orderFeesTotal = new BigDecimal("0");
+		BigDecimal orderTotal = new BigDecimal("0");
+		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
+			OrderItem orderItem = (OrderItem) iterator.next();
+			if(orderItem.getPrice() != null) {
+				orderItemsTotal = orderItemsTotal.add(orderItem.getPrice());
+			}
+		}
+		
+		// SUB PART : Shippings
+		List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
+		Set<OrderShipment> orderShipments = order.getOrderShipments();
+		if(orderShipments != null){
+			for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
+				OrderShipment orderShipment = (OrderShipment) iterator.next();
+				OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
+				if(orderShipment.getPrice() != null) {
+					orderShippingTotal = orderShippingTotal.add(orderShipment.getPrice());
+					orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
+				}
+				Object[] params = {orderShipment.getName()};
+				orderShippingViewBean.setOrderShippingTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.shippings", params, locale));
+				orderShippingViewBeans.add(orderShippingViewBean);
+			}
+			orderViewBean.setOrderShippings(orderShippingViewBeans);
+		}
+		
+		// SUB PART : Taxes
+		List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
+		Set<OrderTax> orderTaxes = order.getOrderTaxes();
+		if(orderTaxes != null){
+			for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
+				OrderTax orderTax = (OrderTax) iterator.next();
+				OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
+				BigDecimal taxesCalc = orderItemsTotal;
+				taxesCalc = taxesCalc.multiply(orderTax.getPercent());
+				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+				orderFeesTotal = orderFeesTotal.add(taxesCalc);
+				Object[] params = {orderTax.getName()};
+				orderTaxViewBean.setOrderTaxTotal(formatter.format(taxesCalc));
+				orderTaxViewBean.setOrderTaxTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.taxes", params, locale));
+				orderTaxViewBeans.add(orderTaxViewBean);
+			}
+			orderViewBean.setOrderTaxes(orderTaxViewBeans);
+		}
+		orderTotal = orderTotal.add(orderItemsTotal);
+		orderTotal = orderTotal.add(orderShippingTotal);
+		orderTotal = orderTotal.add(orderFeesTotal);
+		orderViewBean.setOrderItemsTotal(formatter.format(orderItemsTotal));
+		orderViewBean.setOrderShippingTotal(formatter.format(orderShippingTotal));
+		orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
+		orderViewBean.setOrderTotal(formatter.format(orderTotal));
+
+		orderViewBean.setConfirmationMessage(coreMessageSource.getMessage("order.confirmation.message", null, locale));
+
 		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId));
 		
 		return orderViewBean;
@@ -1331,6 +1404,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public ProductSkuViewBean buildProductSkuViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 													   final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku) 
 													   throws Exception {
+		final Locale locale = localization.getLocale();
 		final String localeCode = localization.getLocaleCode();
 		final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
@@ -1367,13 +1441,20 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String productSkuName = productSku.getI18nName(localeCode);
 		final String productSkuCode = productSku.getCode();
 		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
+		productSkuViewBean.setProductDetailsLabel(coreMessageSource.getMessage("product.details", null, locale));
 
 		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
+		productSkuViewBean.setAddToCartLabel(coreMessageSource.getMessage("product.add.to.cart", null, locale));
+
 		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
+		productSkuViewBean.setRemoveFromCartLabel(coreMessageSource.getMessage("product.remove.from.cart", null, locale));
 		
 		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
+		productSkuViewBean.setAddToWishlistLabel(coreMessageSource.getMessage("product.add.to.wishlist", null, locale));
+
 		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
-		
+		productSkuViewBean.setRemoveFromWishlistLabel(coreMessageSource.getMessage("product.remove.from.wishlist", null, locale));
+
 		return productSkuViewBean;
 	}
 	

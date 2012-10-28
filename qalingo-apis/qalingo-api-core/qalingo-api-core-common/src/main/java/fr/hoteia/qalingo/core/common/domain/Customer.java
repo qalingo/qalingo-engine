@@ -99,7 +99,7 @@ public class Customer implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>(); 
-	
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 

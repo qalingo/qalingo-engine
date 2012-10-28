@@ -19,8 +19,11 @@ public class OrderItemViewBean implements Serializable {
 	private static final long serialVersionUID = -1319651665404107265L;
 	
 	protected String skuCode;
+	protected String name;
 	protected int quantity;
-
+	protected String price;
+	protected String amount;
+	
 	public String getSkuCode() {
 		return skuCode;
 	}
@@ -29,12 +32,36 @@ public class OrderItemViewBean implements Serializable {
 		this.skuCode = skuCode;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public int getQuantity() {
 		return quantity;
 	}
 	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public String getPrice() {
+		return price;
+	}
+	
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
+	public String getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 	
 }

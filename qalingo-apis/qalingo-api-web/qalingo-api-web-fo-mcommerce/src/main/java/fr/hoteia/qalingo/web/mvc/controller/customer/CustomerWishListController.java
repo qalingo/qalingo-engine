@@ -71,7 +71,7 @@ public class CustomerWishListController extends AbstractQalingoController {
 	}
 	
 	@RequestMapping("/add-to-wishlist.html*")
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView AddToWishlist(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);

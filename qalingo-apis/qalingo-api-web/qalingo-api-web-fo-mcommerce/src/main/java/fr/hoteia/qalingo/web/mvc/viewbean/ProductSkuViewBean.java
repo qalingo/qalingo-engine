@@ -26,12 +26,17 @@ public class ProductSkuViewBean implements Serializable {
 	protected String iconImage;
 	
 	protected String addToCartUrl;
+	protected String addToCartLabel;
 	protected String removeFromCartUrl;
+	protected String removeFromCartLabel;
 
 	protected String addToWishlistUrl;
+	protected String addToWishlistLabel;
 	protected String removeFromWishlistUrl;
+	protected String removeFromWishlistLabel;
 	
 	protected String productDetailsUrl;
+	protected String productDetailsLabel;
 
 	public int getPositionItem() {
 		return positionItem;
@@ -88,37 +93,77 @@ public class ProductSkuViewBean implements Serializable {
 	public void setAddToCartUrl(String addToCartUrl) {
 		this.addToCartUrl = addToCartUrl;
 	}
-	
+
+	public String getAddToCartLabel() {
+		return addToCartLabel;
+	}
+
+	public void setAddToCartLabel(String addToCartLabel) {
+		this.addToCartLabel = addToCartLabel;
+	}
+
 	public String getRemoveFromCartUrl() {
 		return removeFromCartUrl;
 	}
-	
+
 	public void setRemoveFromCartUrl(String removeFromCartUrl) {
 		this.removeFromCartUrl = removeFromCartUrl;
 	}
-	
+
+	public String getRemoveFromCartLabel() {
+		return removeFromCartLabel;
+	}
+
+	public void setRemoveFromCartLabel(String removeFromCartLabel) {
+		this.removeFromCartLabel = removeFromCartLabel;
+	}
+
 	public String getAddToWishlistUrl() {
 		return addToWishlistUrl;
 	}
-	
+
 	public void setAddToWishlistUrl(String addToWishlistUrl) {
 		this.addToWishlistUrl = addToWishlistUrl;
 	}
-	
+
+	public String getAddToWishlistLabel() {
+		return addToWishlistLabel;
+	}
+
+	public void setAddToWishlistLabel(String addToWishlistLabel) {
+		this.addToWishlistLabel = addToWishlistLabel;
+	}
+
 	public String getRemoveFromWishlistUrl() {
 		return removeFromWishlistUrl;
 	}
-	
+
 	public void setRemoveFromWishlistUrl(String removeFromWishlistUrl) {
 		this.removeFromWishlistUrl = removeFromWishlistUrl;
 	}
-	
+
+	public String getRemoveFromWishlistLabel() {
+		return removeFromWishlistLabel;
+	}
+
+	public void setRemoveFromWishlistLabel(String removeFromWishlistLabel) {
+		this.removeFromWishlistLabel = removeFromWishlistLabel;
+	}
+
 	public String getProductDetailsUrl() {
 		return productDetailsUrl;
 	}
-	
+
 	public void setProductDetailsUrl(String productDetailsUrl) {
 		this.productDetailsUrl = productDetailsUrl;
 	}
-	
+
+	public String getProductDetailsLabel() {
+		return productDetailsLabel;
+	}
+
+	public void setProductDetailsLabel(String productDetailsLabel) {
+		this.productDetailsLabel = productDetailsLabel;
+	}
+
 }

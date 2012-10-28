@@ -70,12 +70,16 @@ public class Order implements Serializable {
 	private Set<OrderItem> orderItems = new HashSet<OrderItem>();
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="ORDER_PAYMENT_ID")
+    @JoinColumn(name="ORDER_ID")
 	private Set<OrderPayment> orderPayments = new HashSet<OrderPayment>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="ORDER_SHIPMENT_ID")
+    @JoinColumn(name="ORDER_ID")
 	private Set<OrderShipment> orderShipments = new HashSet<OrderShipment>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="ORDER_ID")
+	private Set<OrderTax> orderTaxes = new HashSet<OrderTax>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -184,12 +188,23 @@ public class Order implements Serializable {
 		this.orderShipments = orderShipments;
 	}
 	
+	public Set<OrderTax> getOrderTaxes() {
+		return orderTaxes;
+	}
+
+	public void setOrderTaxes(Set<OrderTax> orderTaxes) {
+		this.orderTaxes = orderTaxes;
+	}
+	
 	public BigDecimal getTotalAmount() {
 		if(orderItems != null){
-			BigDecimal totalAmount = new BigDecimal("");
+			BigDecimal totalAmount = new BigDecimal("0");
 			for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
 				OrderItem orderItem = (OrderItem) iterator.next();
-				totalAmount.add(orderItem.getTotalAmountOrderItem());
+				BigDecimal totalAmountOrderItem = orderItem.getTotalAmountOrderItem();
+				if(totalAmountOrderItem != null){
+					totalAmount = totalAmount.add(orderItem.getTotalAmountOrderItem());
+				}
 			}
 			return totalAmount;
 		}

@@ -156,6 +156,10 @@ INSERT INTO teco_customer
 (id, version, email, firstname, lastname, password, login, is_active)
 VALUES (1, 1, 'qalingo@qalingo.com', 'Customer', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'customer', 1);
 
+INSERT INTO teco_customer_address 
+(id, title, firstname, lastname, address1, address2, additional_information, address_name, city, postal_code, country_code, is_default_billing, is_default_shipping, customer_id)
+VALUES (1, 'MR', 'Customer', 'Qalingo', 'rue de versaille', '', '', 'address1', 'Paris', '75000', 'FR', 1, 1, 1);
+
 INSERT INTO teco_customer_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, customer_id, attribute_definition_id, localization_code, market_area_id)
 VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 10, null, null);

@@ -94,9 +94,11 @@ public class OrderItem implements Serializable {
 	}
 	
 	public BigDecimal getTotalAmountOrderItem() {
-		BigDecimal totalAmount = new BigDecimal("");
-		totalAmount.add(price);
-		totalAmount.multiply(new BigDecimal(quantity));
+		BigDecimal totalAmount = new BigDecimal("0");
+		if(price != null){
+			totalAmount = totalAmount.add(price);
+		}
+		totalAmount = totalAmount.multiply(new BigDecimal(quantity));
 		return totalAmount;
 	}
 	
