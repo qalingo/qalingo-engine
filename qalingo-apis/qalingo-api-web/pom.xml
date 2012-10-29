@@ -22,6 +22,7 @@
 		<module>qalingo-api-web-fo-mcommerce</module>
 		<module>qalingo-api-web-fo-prehome</module>
 		<module>qalingo-api-web-remote-rest</module>
+		<module>qalingo-api-web-remote-ws</module>
 	</modules>
 	
 	<properties>

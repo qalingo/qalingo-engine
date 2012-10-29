@@ -72,7 +72,17 @@
 			</dependency>
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
+				<artifactId>qalingo-api-core-xml-binding</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.hoteia.qalingo</groupId>
 				<artifactId>qalingo-api-core-jax-rs</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.hoteia.qalingo</groupId>
+				<artifactId>qalingo-api-core-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -113,6 +123,11 @@
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
 				<artifactId>qalingo-api-web-remote-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.hoteia.qalingo</groupId>
+				<artifactId>qalingo-api-web-remote-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -394,7 +409,6 @@
 				<version>1.1</version>
 			</dependency>
 
-            
 			<!-- Form Validation -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -414,13 +428,6 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>${jackson-version}</version>
-			</dependency>
-		
-			<!-- UI Vaadin -->
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin</artifactId>
-				<version>7.0.0.alpha3</version>
 			</dependency>
 	
 			<!-- Logs dependencies -->
@@ -550,21 +557,39 @@
 				<artifactId>mail</artifactId>
 				<version>1.4.5</version>
 			</dependency>
-			
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>${gwt.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>${gwt.version}</version>
-			</dependency>
             
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>

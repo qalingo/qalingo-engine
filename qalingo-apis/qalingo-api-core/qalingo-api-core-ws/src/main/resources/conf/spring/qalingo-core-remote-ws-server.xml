@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   ">
+
+	<context:component-scan base-package="fr.hoteia.qalingo.ws.remote" />
+
+    <import resource="classpath:conf/spring/qalingo-core-remote-ws-common.xml" />
+	
+    <bean id="payloadMapping" class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
+        <property name="interceptors">
+            <list>
+                <ref local="validatingInterceptor"/>
+                <ref local="loggingInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="validatingInterceptor"
+          class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+        <property name="xsdSchemaCollection" ref="xsdSchemas"/>
+        <property name="validateRequest" value="true"/>
+        <property name="validateResponse" value="true"/>
+    </bean>
+
+    <bean class="org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter"/>
+
+    <bean id="loggingInterceptor" class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor">
+    </bean>
+
+    <bean id="store" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schemaCollection" ref="xsdSchemas" />
+        <property name="portTypeName" value="Store" />
+        <property name="targetNamespace" value="http://ws.qalingo.com/schemas/ws/store"/>
+    </bean>
+
+</beans>

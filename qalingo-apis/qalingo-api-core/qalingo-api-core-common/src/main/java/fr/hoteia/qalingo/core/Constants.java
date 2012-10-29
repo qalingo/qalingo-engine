@@ -13,7 +13,7 @@ import java.util.Date;
 
 public final class Constants {
 
-		public static final String NAMESPACE_URI = "http://gcs.hoteia.com/schemas/ws/eco";
+		public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 
 		// GLOBAL
 		public static final String APP_NAME = "Globale Commerce Solution";

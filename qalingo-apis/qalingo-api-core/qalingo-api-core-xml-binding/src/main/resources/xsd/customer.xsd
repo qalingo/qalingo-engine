@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+	xmlns="http://ws.qalingo.com/schemas/commons/customer"
+	targetNamespace="http://ws.qalingo.com/schemas/commons/customer"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	jaxb:version="2.1">
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="fr.hoteia.qalingo.binding.common.customer" />
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:element name="customerElement" type="xmlCustomer" />
+	
+	<xsd:complexType name="xmlCustomer">
+		<xsd:sequence>
+			<xsd:element name="firstName" type="xsd:string" />
+			<xsd:element name="lastName" type="xsd:string" />
+			<xsd:element name="email" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

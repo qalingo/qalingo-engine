@@ -19,23 +19,23 @@ public class CustomerServiceImplTest {
 	
 //	private CustomerServiceImpl service;
 //	
-//	private CustomerDao retailOutletDao = Mockito.mock(CustomerDao.class);
+//	private CustomerDao storeDao = Mockito.mock(CustomerDao.class);
 //	
 //	@Before
 //	public void setUp() throws Exception{
 //		service = new CustomerServiceImpl();
-//		service.setCustomerDao(retailOutletDao);
+//		service.setCustomerDao(storeDao);
 //	}
 //	
 //	@Test
 //	public void getCustomerById() throws Exception{
-//		String retailoutletId = "1";
-//		service.getCustomerById(retailoutletId);
+//		String storeId = "1";
+//		service.getCustomerById(storeId);
 //	}
 //	
 //	@Test(expected=IllegalArgumentException.class)
 //	public void getCustomerByIdInvalid() throws Exception{
-//		String retailoutletId = "AAAA";
-//		service.getCustomerById(retailoutletId);
+//		String storeId = "AAAA";
+//		service.getCustomerById(storeId);
 //	}
 }

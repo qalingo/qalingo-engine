@@ -18,8 +18,10 @@
 	<modules>
 		<module>qalingo-api-core-common</module>
 		<module>qalingo-api-core-security</module>
-		<module>qalingo-api-core-drools</module>
+		<module>qalingo-api-core-xml-binding</module>
 		<module>qalingo-api-core-jax-rs</module>
+		<module>qalingo-api-core-ws</module>
+		<module>qalingo-api-core-drools</module>
 		<module>qalingo-api-core-batch</module>
 		<module>qalingo-api-core-solr</module>
 	</modules>

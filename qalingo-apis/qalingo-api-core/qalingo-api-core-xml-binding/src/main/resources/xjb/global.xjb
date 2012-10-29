@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="2.1"
+ xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc">
+	<jaxb:globalBindings>
+		<jaxb:javaType name="java.util.Date" xmlType="xsd:dateTime" 
+			parseMethod="fr.hoteia.qalingo.binding.jaxb.DateAdapter.parseDate"
+			printMethod="fr.hoteia.qalingo.binding.jaxb.DateAdapter.printDate" />
+	</jaxb:globalBindings>
+</jaxb:bindings>
