@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public Customer getCustomerById(String rawCustomerId) {
+	public Customer getCustomerById(final String rawCustomerId) {
 		long customerId = -1;
 		try {
 			customerId = Long.parseLong(rawCustomerId);
@@ -36,19 +36,19 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.getCustomerById(customerId);
 	}
 	
-	public Customer getCustomerByLoginOrEmail(String usernameOrEmail) {
+	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
 		return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
 	}
 
-	public List<Customer> findCustomer(Customer criteria) {
+	public List<Customer> findCustomer(final Customer criteria) {
 		return customerDao.findByExample(criteria);
 	}
 
-	public void saveOrUpdateCustomer(Customer customer) {
+	public void saveOrUpdateCustomer(final Customer customer) {
 		customerDao.saveOrUpdateCustomer(customer);
 	}
 
-	public void deleteCustomer(Customer customer) {
+	public void deleteCustomer(final Customer customer) {
 		customerDao.deleteCustomer(customer);
 	}
 

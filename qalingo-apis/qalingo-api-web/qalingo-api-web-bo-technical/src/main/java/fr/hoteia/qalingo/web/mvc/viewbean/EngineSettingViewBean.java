@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EngineSettingViewBean implements Serializable {
+public class EngineSettingViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

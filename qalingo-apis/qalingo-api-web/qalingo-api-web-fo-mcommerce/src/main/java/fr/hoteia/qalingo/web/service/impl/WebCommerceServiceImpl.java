@@ -270,13 +270,18 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 			CartItem cartItem = (CartItem) iterator.next();
 			OrderItem orderItem = new OrderItem();
 			orderItem.setProductSkuCode(cartItem.getProductSkuCode());
+			orderItem.setProductSku(cartItem.getProductSku());
+			orderItem.setPrice(cartItem.getPrice());
 			orderItem.setQuantity(cartItem.getQuantity());
 			orderItems.add(orderItem);
 		}
 		order.setOrderItems(orderItems);
 		
-		orderService.saveOrUpdateOrder(order);
+		order = orderService.createNewOrder(order);
 		
+		// Clean Cart
+		requestUtil.cleanCurrentCart(request);
+
 		requestUtil.saveLastOrder(request, order);
 		
 		return order;

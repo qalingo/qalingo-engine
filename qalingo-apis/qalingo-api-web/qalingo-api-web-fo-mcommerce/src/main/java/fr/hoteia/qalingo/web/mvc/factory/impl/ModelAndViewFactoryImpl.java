@@ -50,6 +50,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
@@ -129,19 +130,19 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		modelAndView.addObject("headerCart", headerCartViewBean);
 		
 		// ALL MARKETPLACES
-		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(request);
+		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(request, currentLocalization);
 		modelAndView.addObject("marketPlaces", marketPlaceViewBeans);
 		
 		// MARKETS FOR THE CURRENT MARKETPLACE
 		Set<Market> marketList = currentMarketPlace.getMarkets();
-		modelAndView.addObject("markets", viewBeanFactory.buildMarketViewBeans(request, new ArrayList<Market>(marketList)));
+		modelAndView.addObject("markets", viewBeanFactory.buildMarketViewBeans(request, new ArrayList<Market>(marketList), currentLocalization));
 		
 		// MARKET AREAS FOR THE CURRENT MARKET
 		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		modelAndView.addObject("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(marketAreaList)));
+		modelAndView.addObject("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(marketAreaList), currentLocalization));
 		
 		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
-		modelAndView.addObject("languages", viewBeanFactory.buildLocalizationViewBeans(request, currentMarketArea));
+		modelAndView.addObject("languages", viewBeanFactory.buildLocalizationViewBeans(request, currentMarketArea, currentLocalization));
 
 		// RETAILERS FOR THE CURRENT MARKET AREA
 		modelAndView.addObject("retailers", viewBeanFactory.buildRetailerViewBeans(request, currentMarketArea, currentLocalization));
@@ -309,6 +310,19 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final CustomerWishlistViewBean customerWishlistViewBean = viewBeanFactory.buildCustomerWishlistViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
 		modelAndView.addObject("customerWishlist", customerWishlistViewBean);
+	}
+	
+	/**
+     * 
+     */
+	public void initCustomerProductCommentModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final Customer customer) throws Exception {
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerProductComments", customerProductCommentsViewBean);
 	}
 	
 	/**

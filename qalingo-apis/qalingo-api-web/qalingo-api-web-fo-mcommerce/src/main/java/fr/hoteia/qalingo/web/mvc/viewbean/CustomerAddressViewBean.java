@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class CustomerAddressViewBean implements Serializable {
+public class CustomerAddressViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID
@@ -121,7 +121,7 @@ public class CustomerAddressViewBean implements Serializable {
 	}
 	
 	public String getCountyCode() {
-		return countyCode;
+		return handleString(countyCode);
 	}
 
 	public void setCountyCode(String countyCode) {

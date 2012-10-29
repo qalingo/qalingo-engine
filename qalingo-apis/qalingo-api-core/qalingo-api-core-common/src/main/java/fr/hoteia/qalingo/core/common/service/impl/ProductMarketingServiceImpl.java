@@ -74,8 +74,8 @@ public class ProductMarketingServiceImpl implements ProductMarketingService {
 	
 	protected List<ProductMarketing> orderList(final Long marketAreaId, final List<ProductMarketing> productMarketings){
 		if(productMarketings != null){
-			List<ProductMarketing> sortedProductMarketings = new LinkedList<ProductMarketing>(productMarketings);
-			Collections.sort(sortedProductMarketings, new Comparator<ProductMarketing>() {
+			List<ProductMarketing> sortedObjects = new LinkedList<ProductMarketing>(productMarketings);
+			Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
 				@Override
 				public int compare(ProductMarketing o1, ProductMarketing o2) {
 					if(o1 != null
@@ -85,12 +85,14 @@ public class ProductMarketingServiceImpl implements ProductMarketingService {
 						if(order1 != null
 								&& order2 != null){
 							return order1.compareTo(order2);				
+						} else {
+							return o1.getId().compareTo(o2.getId());	
 						}
 					}
 					return 0;
 				}
 			});
-			return sortedProductMarketings;
+			return sortedObjects;
 		}
 		return null;
 	}

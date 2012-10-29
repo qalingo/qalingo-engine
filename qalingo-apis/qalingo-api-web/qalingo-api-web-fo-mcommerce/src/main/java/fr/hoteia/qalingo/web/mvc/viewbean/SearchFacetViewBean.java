@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFacetViewBean implements Serializable {
+public class SearchFacetViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

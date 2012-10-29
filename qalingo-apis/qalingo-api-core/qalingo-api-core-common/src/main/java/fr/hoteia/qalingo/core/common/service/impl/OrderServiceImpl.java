@@ -40,8 +40,12 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.findOrdersByCustomerId(Long.parseLong(customerId));
 	}
 
-	public void saveOrUpdateOrder(Order order) {
-		orderDao.saveOrUpdateOrder(order);
+	public Order createNewOrder(Order order) {
+		return orderDao.createNewOrder(order);
+	}
+
+	public void updateOrder(Order order) {
+		orderDao.updateOrder(order);
 	}
 
 	public void deleteOrder(Order order) {

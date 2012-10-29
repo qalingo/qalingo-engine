@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerViewBean implements Serializable {
+public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

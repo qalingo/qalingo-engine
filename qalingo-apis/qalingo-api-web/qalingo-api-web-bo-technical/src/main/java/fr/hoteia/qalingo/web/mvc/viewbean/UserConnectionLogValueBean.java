@@ -9,8 +9,15 @@
  */
 package fr.hoteia.qalingo.web.mvc.viewbean;
 
-public class UserConnectionLogValueBean {
+import java.io.Serializable;
 
+public class UserConnectionLogValueBean extends AbstractViewBean implements Serializable {
+
+	/**
+	 * Generated UID
+	 */
+	private static final long serialVersionUID = 6316591620404013343L;
+	
 	String date;
 	String host;
 	String address;

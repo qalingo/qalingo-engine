@@ -85,13 +85,8 @@ public class CartOrderPaymentController extends AbstractQalingoController {
 		}
 		
 		// Create and Save a new order
-		final Order newOrder = webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
+		webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
 		
-		// Clean Cart
-		requestUtil.cleanCurrentCart(request);
-
-		requestUtil.saveLastOrder(request, newOrder);
-
 		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}

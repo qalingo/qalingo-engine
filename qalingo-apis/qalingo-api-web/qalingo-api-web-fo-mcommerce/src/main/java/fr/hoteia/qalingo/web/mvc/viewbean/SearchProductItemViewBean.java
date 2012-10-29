@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class SearchProductItemViewBean implements Serializable {
+public class SearchProductItemViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

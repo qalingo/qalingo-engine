@@ -24,7 +24,6 @@ import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Order;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
 import fr.hoteia.qalingo.core.common.service.UrlService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -285,6 +284,14 @@ public class UrlServiceImpl implements UrlService {
 	
 	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer, final boolean keepCurrentDomainName) {
 		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName)  +  getMessage(localization, "seo.url.customer")  + "/" + "customer-wishlist.html";
+	}
+
+	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer) {
+		return buildCustomerProductCommentUrl(request, marketPlace, market,  marketArea, localization, retailer, true);
+	}
+	
+	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer, final boolean keepCurrentDomainName) {
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName)  +  getMessage(localization, "seo.url.customer")  + "/" + "customer-product-comment-list.html";
 	}
 	
 	public String buildCustomerCreateAccountUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer) {

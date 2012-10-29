@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowUsViewBean implements Serializable {
+public class FollowUsViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

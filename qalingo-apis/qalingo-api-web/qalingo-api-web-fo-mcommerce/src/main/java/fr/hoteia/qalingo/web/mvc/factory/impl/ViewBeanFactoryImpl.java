@@ -26,6 +26,7 @@ import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
@@ -35,6 +36,7 @@ import fr.hoteia.qalingo.core.common.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.common.domain.Customer;
 import fr.hoteia.qalingo.core.common.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.common.domain.CustomerMarketArea;
+import fr.hoteia.qalingo.core.common.domain.CustomerProductComment;
 import fr.hoteia.qalingo.core.common.domain.CustomerWishlist;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
@@ -55,6 +57,7 @@ import fr.hoteia.qalingo.core.common.domain.Shipping;
 import fr.hoteia.qalingo.core.common.domain.Store;
 import fr.hoteia.qalingo.core.common.domain.Tax;
 import fr.hoteia.qalingo.core.common.domain.enumtype.ImageSize;
+import fr.hoteia.qalingo.core.common.service.CustomerProductCommentService;
 import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.common.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.common.service.MarketService;
@@ -66,6 +69,7 @@ import fr.hoteia.qalingo.core.common.service.UrlService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
+import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartItemViewBean;
@@ -79,8 +83,11 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
@@ -145,7 +152,30 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	protected ProductSkuService productSkuService;
 	
 	@Autowired
+	protected CustomerProductCommentService customerProductCommentService;
+	
+	@Autowired
     protected UrlService urlService;
+	
+	@Autowired
+	@Qualifier("menuMarketNavigationCacheHelper")
+    protected WebCacheHelper menuMarketNavigationCacheHelper;
+	
+	@Autowired
+	@Qualifier("menuTopCacheHelper")
+    protected WebCacheHelper menuTopCacheHelper;
+	
+	@Autowired
+	@Qualifier("menuFooterCacheHelper")
+    protected WebCacheHelper menuFooterCacheHelper;
+	
+	@Autowired
+	@Qualifier("menuCustomerCacheHelper")
+    protected WebCacheHelper menuCustomerCacheHelper;
+	
+	@Autowired
+	@Qualifier("storeLocatorCacheHelper")
+    protected WebCacheHelper storeLocatorCacheHelper;
 	
 	/**
      * 
@@ -153,8 +183,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public CommonViewBean buildCommonViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
 		final Locale locale = localization.getLocale();
-		
 		final CommonViewBean commonViewBean = new CommonViewBean();
+		
+		// NO CACHE FOR THIS PART
+		
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_MCOMMERCE);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
@@ -187,9 +219,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public HeaderCartViewBean buildHeaderCartViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
 		final Locale locale = localization.getLocale();
-		
 		final HeaderCartViewBean headerCartViewBean = new HeaderCartViewBean();
-		
+
+		// NO CACHE FOR THIS PART
+
 		final Cart currentCart = requestUtil.getCurrentCart(request);
 		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 		headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
@@ -208,12 +241,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request) throws Exception {
-		final List<MarketPlaceViewBean> marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
-		final List<MarketPlace> marketPlaceList = marketPlaceService.findMarketPlaces();
-		for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
-			MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
-			marketPlaceViewBeans.add(buildMarketPlaceViewBean(request, marketPlaceNavigation));
+	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+		final WebCacheHelper.ElementType marketPlaceElementType = WebCacheHelper.ElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
+		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
+		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE";
+		List<MarketPlaceViewBean> marketPlaceViewBeans = (List<MarketPlaceViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketPlaceElementType, marketPlaceCacheKey);
+		if(marketPlaceViewBeans == null){
+			marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
+			final List<MarketPlace> marketPlaceList = marketPlaceService.findMarketPlaces();
+			for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
+				final MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
+				marketPlaceViewBeans.add(buildMarketPlaceViewBean(request, marketPlaceNavigation));
+			}
+			menuMarketNavigationCacheHelper.addToCache(marketPlaceElementType, marketPlaceCacheKey, marketPlaceViewBeans);
 		}
 		return marketPlaceViewBeans;
 	}
@@ -231,7 +271,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		marketPlaceViewBean.setName(marketPlace.getName());
 		marketPlaceViewBean.setUrl(urlService.buildHomeUrl(request, marketPlace, defaultMarket, defaultMarketArea, defaultLocalization, defaultRetailer));
 		
-		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, new ArrayList<Market>(marketPlace.getMarkets())));
+		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, new ArrayList<Market>(marketPlace.getMarkets()), defaultLocalization));
 		
 		return marketPlaceViewBean;
 	}
@@ -239,11 +279,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final List<Market> markets) throws Exception {
-		final List<MarketViewBean> marketViewBeans = new ArrayList<MarketViewBean>();
-		for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
-			Market marketNavigation = (Market) iteratorMarket.next();
-			marketViewBeans.add(buildMarketViewBean(request, marketNavigation));
+	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final List<Market> markets, final Localization localization) throws Exception {
+		final WebCacheHelper.ElementType marketElementType = WebCacheHelper.ElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
+		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
+		final String marketCacheKey = marketPrefixCacheKey + "_MARKET";
+		List<MarketViewBean> marketViewBeans = (List<MarketViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketElementType, marketCacheKey);
+		if(marketViewBeans == null){
+			marketViewBeans = new ArrayList<MarketViewBean>();
+			for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
+				final Market marketNavigation = (Market) iteratorMarket.next();
+				marketViewBeans.add(buildMarketViewBean(request, marketNavigation));
+			}
+			menuMarketNavigationCacheHelper.addToCache(marketElementType, marketCacheKey, marketViewBeans);
 		}
 		return marketViewBeans;
 	}
@@ -261,7 +308,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		marketViewBean.setName(market.getName());
 		marketViewBean.setUrl(urlService.buildHomeUrl(request, marketPlace, market, defaultMarketArea, defaultLocalization, defaultRetailer));
 		
-		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(market.getMarketAreas())));
+		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(market.getMarketAreas()), defaultLocalization));
 		
 		return marketViewBean;
 	}
@@ -269,11 +316,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final List<MarketArea> marketAreas) throws Exception {
-		final List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
-		for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
-			MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-			marketAreaViewBeans.add(buildMarketAreaViewBean(request, marketArea));
+	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final List<MarketArea> marketAreas, final Localization localization) throws Exception {
+		final WebCacheHelper.ElementType marketAreaElementType = WebCacheHelper.ElementType.MARKET_AREA_VIEW_BEAN_LIST;
+		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
+		final String marketAreaCacheKey = marketAreaPrefixCacheKey + "_MARKET_AREA";
+		List<MarketAreaViewBean> marketAreaViewBeans = (List<MarketAreaViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketAreaElementType, marketAreaCacheKey);
+		if(marketAreaViewBeans == null){
+			marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
+			for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
+				final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
+				marketAreaViewBeans.add(buildMarketAreaViewBean(request, marketArea));
+			}
+			menuMarketNavigationCacheHelper.addToCache(marketAreaElementType, marketAreaCacheKey, marketAreaViewBeans);
 		}
 		return marketAreaViewBeans;
 	}
@@ -296,13 +350,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
-		
-		final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
-		for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
-			Localization localization = (Localization) iterator.next();
-			localizationViewBeans.add(buildLocalizationViewBean(request, marketArea, localization));
+	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
+		final WebCacheHelper.ElementType localizationElementType = WebCacheHelper.ElementType.LOCALIZATION_VIEW_BEAN_LIST;
+		final String localizationPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
+		final String localizationCacheKey = localizationPrefixCacheKey + "_LOCALIZATION";
+		List<LocalizationViewBean> localizationViewBeans = (List<LocalizationViewBean>) menuMarketNavigationCacheHelper.getFromCache(localizationElementType, localizationCacheKey);
+		if(localizationViewBeans == null){
+			final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
+			localizationViewBeans = new ArrayList<LocalizationViewBean>();
+			for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
+				final Localization localizationAvailable = (Localization) iterator.next();
+				localizationViewBeans.add(buildLocalizationViewBean(request, marketArea, localizationAvailable));
+			}
+			menuMarketNavigationCacheHelper.addToCache(localizationElementType, localizationCacheKey, localizationViewBeans);
 		}
 		return localizationViewBeans;
 	}
@@ -334,12 +394,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
-		final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-		
-		final List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
-		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-			Retailer retailer = (Retailer) iterator.next();
-			retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer));
+		final WebCacheHelper.ElementType retailerElementType = WebCacheHelper.ElementType.RETAILER_VIEW_BEAN_LIST;
+		final String retailerPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
+		final String retailerCacheKey = retailerPrefixCacheKey + "_RETAILER";
+		List<RetailerViewBean> retailerViewBeans = (List<RetailerViewBean>) menuMarketNavigationCacheHelper.getFromCache(retailerElementType, retailerCacheKey);
+		if(retailerViewBeans == null){
+			final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
+			retailerViewBeans = new ArrayList<RetailerViewBean>();
+			for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
+				final Retailer retailer = (Retailer) iterator.next();
+				retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer));
+			}
+			menuMarketNavigationCacheHelper.addToCache(retailerElementType, retailerCacheKey, retailerViewBeans);
 		}
 		return retailerViewBeans;
 	}
@@ -361,50 +427,58 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		final String localeCode = localization.getLocaleCode();
-		
-		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-		
-		MenuViewBean menu = new MenuViewBean();
-		menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-		menuViewBeans.add(menu);
+		final WebCacheHelper.ElementType menuTopElementType = WebCacheHelper.ElementType.TOP_MENU_VIEW_BEAN_LIST;
+		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
+		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
+		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
+		if(menuViewBeans == null){
+			final Locale locale = localization.getLocale();
+			final String localeCode = localization.getLocaleCode();
 
-		CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
-		
-		final Set<ProductCategoryVirtual> productCategoies = productCatalog.getProductCategories();
-		if(productCategoies != null) {
-			for (Iterator<ProductCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
-				ProductCategoryVirtual productCategory = (ProductCategoryVirtual) iteratorProductCategory.next();
-				menu = new MenuViewBean();
-				final String seoProductCategoryName = productCategory.getI18nName(localeCode);
-				final String seoProductCategoryCode = productCategory.getCode();
-				menu.setName(seoProductCategoryName);
-				menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
-				
-				Set<ProductCategoryVirtual> subProductCategories = productCategory.getProductCategories();
-				if(subProductCategories != null) {
-					List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
-					for (Iterator<ProductCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-						ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
-						MenuViewBean subMenu = new MenuViewBean();
-						final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
-						final String seoSubProductCategoryCode = subProductCategory.getCode();
-						subMenu.setName(seoSubProductCategoryName);
-						subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName, seoSubProductCategoryCode));
-						subMenus.add(subMenu);
+			menuViewBeans = new ArrayList<MenuViewBean>();
+			
+			MenuViewBean menu = new MenuViewBean();
+			menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
+			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
+			menuViewBeans.add(menu);
+
+			CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
+			
+			final List<ProductCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
+			if(productCategoies != null) {
+				for (Iterator<ProductCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
+					final ProductCategoryVirtual productCategory = (ProductCategoryVirtual) iteratorProductCategory.next();
+					menu = new MenuViewBean();
+					final String seoProductCategoryName = productCategory.getI18nName(localeCode);
+					final String seoProductCategoryCode = productCategory.getCode();
+					menu.setName(seoProductCategoryName);
+					menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
+					
+					List<ProductCategoryVirtual> subProductCategories = productCategory.getProductCategories(marketArea.getId());
+					if(subProductCategories != null) {
+						List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
+						for (Iterator<ProductCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
+							final ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
+							final MenuViewBean subMenu = new MenuViewBean();
+							final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
+							final String seoSubProductCategoryCode = subProductCategory.getCode();
+							subMenu.setName(seoSubProductCategoryName);
+							subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName, seoSubProductCategoryCode));
+							subMenus.add(subMenu);
+						}
+						menu.setSubMenus(subMenus);
 					}
-					menu.setSubMenus(subMenus);
+					menuViewBeans.add(menu);
 				}
-				menuViewBeans.add(menu);
 			}
+			
+			menu = new MenuViewBean();
+			menu.setName(coreMessageSource.getMessage("header.menu.our.company", null, locale));
+			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
+			menuViewBeans.add(menu);
+			
+			menuTopCacheHelper.addToCache(menuTopElementType, menuTopCacheKey, menuViewBeans);
 		}
-		
-		menu = new MenuViewBean();
-		menu.setName(coreMessageSource.getMessage("header.menu.our.company", null, locale));
-		menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
-		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
 	}
@@ -412,42 +486,96 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
+	public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
+			 final Localization localization, final Retailer retailer) throws Exception {
+		final WebCacheHelper.ElementType customerMenuElementType = WebCacheHelper.ElementType.CUSTOMER_MENU_VIEW_BEAN_LIST;
+		final String customerMenuPrefixCacheKey = menuCustomerCacheHelper.buildGlobalPrefixKey(localization);
+		final String customerMenuCacheKey = customerMenuPrefixCacheKey + "_CUSTOMER_MENU";
+		List<CutomerMenuViewBean> customerLinks = (List<CutomerMenuViewBean>) menuCustomerCacheHelper.getFromCache(customerMenuElementType, customerMenuCacheKey);
+		if(customerLinks == null){
+			final Locale locale = localization.getLocale();
+
+			customerLinks = new ArrayList<CutomerMenuViewBean>();
+			CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.details.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+
+			cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.address.list.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+			
+			cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.add.address.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+			
+			cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.order.list.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+			
+			cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.wishlist.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+			
+			cutomerMenuViewBean = new CutomerMenuViewBean();
+			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.product.comment.label", null, locale));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerProductCommentUrl(request, marketPlace, market, marketArea, localization, retailer));
+			customerLinks.add(cutomerMenuViewBean);
+			
+			menuCustomerCacheHelper.addToCache(customerMenuElementType, customerMenuCacheKey, customerLinks);
+		}
+		return customerLinks;
+	}
+	
+	/**
+     * 
+     */
 	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		
-		final List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
-		
-		FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.conditionsofuse", null, locale));
-		footerMenuList.setUrl(urlService.buildConditionOfUseUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-		
-		footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.legacy", null, locale));
-		footerMenuList.setUrl(urlService.buildLegacyUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-		
-		footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.faq", null, locale));
-		footerMenuList.setUrl(urlService.buildFaqUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-
-		footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.store.location", null, locale));
-		footerMenuList.setUrl(urlService.buildStoreLocationUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-		
-		footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.contactus", null, locale));
-		footerMenuList.setUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-		
-		footerMenuList = new FooterMenuViewBean();
-		footerMenuList.setName(coreMessageSource.getMessage("header.menu.followus", null, locale));
-		footerMenuList.setUrl(urlService.buildFollowUsUrl(request, marketPlace, market, marketArea, localization, retailer));
-		footerMenuViewBeans.add(footerMenuList);
-		
+		final WebCacheHelper.ElementType footerMenuElementType = WebCacheHelper.ElementType.FOOTER_MENU_VIEW_BEAN_LIST;
+		final String footerMenuPrefixCacheKey = menuFooterCacheHelper.buildGlobalPrefixKey(localization);
+		final String footerMenuCacheKey = footerMenuPrefixCacheKey + "_FOOTER_MENU";
+		List<FooterMenuViewBean> footerMenuViewBeans = (List<FooterMenuViewBean>) menuFooterCacheHelper.getFromCache(footerMenuElementType, footerMenuCacheKey);
+		if(footerMenuViewBeans == null){
+			final Locale locale = localization.getLocale();
+			footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
+			
+			FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.conditionsofuse", null, locale));
+			footerMenuList.setUrl(urlService.buildConditionOfUseUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+			
+			footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.legacy", null, locale));
+			footerMenuList.setUrl(urlService.buildLegacyUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+			
+			footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.faq", null, locale));
+			footerMenuList.setUrl(urlService.buildFaqUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+	
+			footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.store.location", null, locale));
+			footerMenuList.setUrl(urlService.buildStoreLocationUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+			
+			footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.contactus", null, locale));
+			footerMenuList.setUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+			
+			footerMenuList = new FooterMenuViewBean();
+			footerMenuList.setName(coreMessageSource.getMessage("header.menu.followus", null, locale));
+			footerMenuList.setUrl(urlService.buildFollowUsUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuViewBeans.add(footerMenuList);
+			
+			menuFooterCacheHelper.addToCache(footerMenuElementType, footerMenuCacheKey, footerMenuViewBeans);
+		}
 		return footerMenuViewBeans;
 	}
 	
@@ -628,17 +756,22 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public StoreLocatorViewBean buildStoreLocatorViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final List<Store> stores) throws Exception {
-		final Locale locale = localization.getLocale();
 		
-		final StoreLocatorViewBean storeLocator = new StoreLocatorViewBean();
-		storeLocator.setPageTitle(coreMessageSource.getMessage("header.title.store.location", null, locale));
-		storeLocator.setTextHtml(coreMessageSource.getMessage("store.location.content.text", null, locale));
-		
-		for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-			Store store = (Store) iterator.next();
-			storeLocator.getStores().add(buildStoreViewBean(request, marketPlace, market, marketArea, localization, retailer, store));
+		final WebCacheHelper.ElementType storeLocatorElementType = WebCacheHelper.ElementType.STORE_VIEW_BEAN_LIST;
+		final String storeLocatorPrefixCacheKey = storeLocatorCacheHelper.buildGlobalPrefixKey(localization);
+		final String storeLocatorCacheKey = storeLocatorPrefixCacheKey + "_STORE_LOCATOR";
+		StoreLocatorViewBean storeLocator = (StoreLocatorViewBean) storeLocatorCacheHelper.getFromCache(storeLocatorElementType, storeLocatorCacheKey);
+		if(storeLocator == null){
+			final Locale locale = localization.getLocale();
+			storeLocator = new StoreLocatorViewBean();
+			storeLocator.setPageTitle(coreMessageSource.getMessage("header.title.store.location", null, locale));
+			storeLocator.setTextHtml(coreMessageSource.getMessage("store.location.content.text", null, locale));
+			for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
+				final Store store = (Store) iterator.next();
+				storeLocator.getStores().add(buildStoreViewBean(request, marketPlace, market, marketArea, localization, retailer, store));
+			}
+			storeLocatorCacheHelper.addToCache(storeLocatorElementType, storeLocatorCacheKey, storeLocator);
 		}
-		
 		return storeLocator;
 	}
 	
@@ -656,6 +789,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		storeLocator.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
 		storeLocator.setPostalCode(store.getPostalCode());
 		
+		// I18n values
 		storeLocator.setCity(store.getI18nCity(localization));
 
 		storeLocator.setCountyCode(store.getCountyCode());
@@ -713,7 +847,6 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public CustomerWishlistViewBean buildCustomerWishlistViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
-
 		
 		final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
 		
@@ -732,6 +865,42 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		
 		return customerWishlistViewBean;
+	}
+	
+	/**
+     * 
+     */
+	public CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
+			 final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
+
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = new CustomerProductCommentsViewBean();
+		
+		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		if(customerMarketArea != null) {
+			final Set<CustomerProductComment> customerProductComments = customerMarketArea.getProductComments();
+			if(customerProductComments != null) {
+				for (Iterator<CustomerProductComment> iterator = customerProductComments.iterator(); iterator.hasNext();) {
+					final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
+					final ProductSku productSku = productSkuService.getProductSkuByCode(customerMarketArea.getId(), retailer.getId(), customerProductComment.getProductSkuCode());
+					final ProductMarketing productMarketing = productSku.getProductMarketing();
+					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+					customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(buildCustomerProductCommentViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku, customerProductComment));
+				}
+			}
+		}
+		return customerProductCommentsViewBean;
+	}
+	
+	/**
+     * 
+     */
+	public CustomerProductCommentViewBean buildCustomerProductCommentViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+													   final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku, final CustomerProductComment customerProductComment) 
+													   throws Exception {
+		final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
+		customerProductCommentViewBean.setProductSku(buildProductSkuViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku));
+		customerProductCommentViewBean.setComment(customerProductComment.getComment());
+		return customerProductCommentViewBean;
 	}
 	
 	/**
@@ -917,7 +1086,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			 final Localization localization, final Retailer retailer, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
 		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(request, marketPlace, market, marketArea, localization, retailer, productBrand);
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
-			ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+			final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
 			ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 			productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 		}
@@ -948,21 +1117,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
 		final ProductImage defaultBackgroundImage = productCategory.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productCategoryViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productCategoryViewBean.setBackgroundImage("");
 		}
 		final ProductImage defaultPaskshotImage = productCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
-			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productCategoryViewBean.setCarouselImage(carouselImage);
 		} else {
 			productCategoryViewBean.setCarouselImage("");
 		}
 		final ProductImage defaultIconImage = productCategory.getDefaultIconImage();
 		if(defaultIconImage != null){
-			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productCategoryViewBean.setIconImage(iconImage);
 		} else {
 			productCategoryViewBean.setIconImage("");
@@ -980,7 +1149,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		Set<ProductCategoryVirtual> subCategories = productCategory.getProductCategories();
 		if(subCategories != null){
 			for (Iterator<ProductCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-				ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
+				final ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
 				subProductCategoryViewBeans.add(buildProductCategoryViewBean(request, marketPlace, market, marketArea, localization, retailer, subProductCategory));
 			}
 		}
@@ -990,7 +1159,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		Set<ProductMarketing> productMarketings = productCategory.getProductMarketings();
 		if(productMarketings != null){
 			for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
-				ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
+				final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
 				productMarketingViewBeans.add(buildProductMarketingViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 			}
 		}
@@ -1014,21 +1183,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
 		final ProductImage defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productMarketingViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productMarketingViewBean.setBackgroundImage("");
 		}
 		final ProductImage defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
-			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productMarketingViewBean.setCarouselImage(carouselImage);
 		} else {
 			productMarketingViewBean.setCarouselImage("");
 		}
 		final ProductImage defaultIconImage = productMarketing.getDefaultIconImage();
 		if(defaultIconImage != null){
-			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productMarketingViewBean.setIconImage(iconImage);
 		} else {
 			productMarketingViewBean.setIconImage("");
@@ -1051,7 +1220,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		Set<ProductSku> skus = productMarketing.getProductSkus();
 		if(skus != null) {
 			for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
-				ProductSku productSku = (ProductSku) iterator.next();
+				final ProductSku productSku = (ProductSku) iterator.next();
 				productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku));
 			}
 		}
@@ -1059,7 +1228,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		Set<ProductCrossLink> productCrossLinks = productMarketing.getProductCrossLinks();
 		if(productCrossLinks != null) {
 			for (Iterator<ProductCrossLink> iterator = productCrossLinks.iterator(); iterator.hasNext();) {
-				ProductCrossLink productCrossLink = (ProductCrossLink) iterator.next();
+				final ProductCrossLink productCrossLink = (ProductCrossLink) iterator.next();
 				if(productCrossLink.getType().equals("CROSSSELL")) {
 					productMarketingViewBean.getProductCrossLinks().add(buildProductCrossLinkViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 				}
@@ -1121,32 +1290,32 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
 		Set<CartItem> cartItems = cart.getCartItems();
 		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-			CartItem cartItem = (CartItem) iterator.next();
+			final CartItem cartItem = (CartItem) iterator.next();
 			cartItemViewBeans.add(buildCartItemViewBean(request, marketPlace, market, marketArea, localization, retailer, cartItem));
 		}
 		cartViewBean.setCartItems(cartItemViewBeans);
 		
 		// SUB PART : Subtotal
-		String currencyCode = marketArea.getCurrency().getCode();
-		NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final String currencyCode = marketArea.getCurrency().getCode();
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
 		BigDecimal cartItemsTotal = new BigDecimal("0");
 		BigDecimal cartShippingTotal = new BigDecimal("0");
 		BigDecimal cartFeesTotal = new BigDecimal("0");
 		BigDecimal carTotal = new BigDecimal("0");
 		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-			CartItem cartItem = (CartItem) iterator.next();
+			final CartItem cartItem = (CartItem) iterator.next();
 			if(cartItem.getPrice() != null) {
 				cartItemsTotal = cartItemsTotal.add(cartItem.getPrice());
 			}
 		}
 		
 		// SUB PART : Shippings
-		List<CartShippingViewBean> cartShippingViewBeans = new ArrayList<CartShippingViewBean>();
-		Set<Shipping> shippings = cart.getShippings();
+		final List<CartShippingViewBean> cartShippingViewBeans = new ArrayList<CartShippingViewBean>();
+		final Set<Shipping> shippings = cart.getShippings();
 		if(shippings != null){
 			for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
-				Shipping shipping = (Shipping) iterator.next();
-				CartShippingViewBean cartShippingViewBean = new CartShippingViewBean();
+				final Shipping shipping = (Shipping) iterator.next();
+				final CartShippingViewBean cartShippingViewBean = new CartShippingViewBean();
 				if(shipping.getPrice() != null) {
 					cartShippingTotal = cartShippingTotal.add(shipping.getPrice());
 					cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
@@ -1159,12 +1328,12 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		
 		// SUB PART : Taxes
-		List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
-		Set<Tax> taxes = cart.getTaxes();
+		final List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
+		final Set<Tax> taxes = cart.getTaxes();
 		if(taxes != null){
 			for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
-				Tax tax = (Tax) iterator.next();
-				CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
+				final Tax tax = (Tax) iterator.next();
+				final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
 				BigDecimal taxesCalc = cartItemsTotal;
 				taxesCalc = taxesCalc.multiply(tax.getPercent());
 				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
@@ -1205,13 +1374,15 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		cartItemViewBean.setName(cartItem.getProductSku().getI18nName(localizationCode));
 		cartItemViewBean.setQuantity(cartItem.getQuantity());
 		
-		String currencyCode = marketArea.getCurrency().getCode();
-		NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
-		if(cartItem.getPrice() != null) {
-			cartItemViewBean.setPrice(formatter.format(cartItem.getPrice()));
+		final String currencyCode = marketArea.getCurrency().getCode();
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final BigDecimal price = cartItem.getPrice();
+		if(price != null) {
+			cartItemViewBean.setPrice(formatter.format(price));
 		}
-		if(cartItem.getTotalAmountCartItem() != null) {
-			cartItemViewBean.setAmount(formatter.format(cartItem.getTotalAmountCartItem()));
+		final BigDecimal totalAmountCartItem = cartItem.getTotalAmountCartItem();
+		if(totalAmountCartItem != null) {
+			cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
 		}
 		
 		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, cartItem.getProductSkuCode()));
@@ -1262,8 +1433,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		orderViewBean.setCardExpirationYearLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.year", null, locale));
 
 		// ITEMS PART
-		List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
-		Set<OrderItem> orderItems = order.getOrderItems();
+		final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
+		final Set<OrderItem> orderItems = order.getOrderItems();
 		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
 			OrderItem orderItem = (OrderItem) iterator.next();
 			orderItemViewBeans.add(buildOrderItemViewBean(request, marketPlace, market, marketArea, localization, retailer, orderItem));
@@ -1271,26 +1442,26 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		orderViewBean.setOrderItems(orderItemViewBeans);
 		
 		// SUB PART : Subtotal
-		String currencyCode = marketArea.getCurrency().getCode();
-		NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final String currencyCode = marketArea.getCurrency().getCode();
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
 		BigDecimal orderItemsTotal = new BigDecimal("0");
 		BigDecimal orderShippingTotal = new BigDecimal("0");
 		BigDecimal orderFeesTotal = new BigDecimal("0");
 		BigDecimal orderTotal = new BigDecimal("0");
 		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-			OrderItem orderItem = (OrderItem) iterator.next();
+			final OrderItem orderItem = (OrderItem) iterator.next();
 			if(orderItem.getPrice() != null) {
 				orderItemsTotal = orderItemsTotal.add(orderItem.getPrice());
 			}
 		}
 		
 		// SUB PART : Shippings
-		List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
-		Set<OrderShipment> orderShipments = order.getOrderShipments();
+		final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
+		final Set<OrderShipment> orderShipments = order.getOrderShipments();
 		if(orderShipments != null){
 			for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
-				OrderShipment orderShipment = (OrderShipment) iterator.next();
-				OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
+				final OrderShipment orderShipment = (OrderShipment) iterator.next();
+				final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
 				if(orderShipment.getPrice() != null) {
 					orderShippingTotal = orderShippingTotal.add(orderShipment.getPrice());
 					orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
@@ -1303,12 +1474,12 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		
 		// SUB PART : Taxes
-		List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
-		Set<OrderTax> orderTaxes = order.getOrderTaxes();
+		final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
+		final Set<OrderTax> orderTaxes = order.getOrderTaxes();
 		if(orderTaxes != null){
 			for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
-				OrderTax orderTax = (OrderTax) iterator.next();
-				OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
+				final OrderTax orderTax = (OrderTax) iterator.next();
+				final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
 				BigDecimal taxesCalc = orderItemsTotal;
 				taxesCalc = taxesCalc.multiply(orderTax.getPercent());
 				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
@@ -1328,7 +1499,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
 		orderViewBean.setOrderTotal(formatter.format(orderTotal));
 
-		orderViewBean.setConfirmationMessage(coreMessageSource.getMessage("order.confirmation.message", null, locale));
+		final Object[] params = {order.getOrderNum()};
+		orderViewBean.setConfirmationMessage(coreMessageSource.getMessage("order.confirmation.message", params, locale));
 
 		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId));
 		
@@ -1340,11 +1512,26 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public OrderItemViewBean buildOrderItemViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 													 final Localization localization, final Retailer retailer, final OrderItem orderItem) throws Exception {
+		final String localeCode = localization.getLocaleCode();
+		
 		final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
 
-		orderItemViewBean.setQuantity(orderItem.getQuantity());
 		orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
+		orderItemViewBean.setName(orderItem.getProductSku().getI18nName(localeCode));
 		
+		String currencyCode = marketArea.getCurrency().getCode();
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final BigDecimal price = orderItem.getPrice();
+		if(price != null){
+			orderItemViewBean.setPrice(formatter.format(price));
+		}
+		
+		orderItemViewBean.setQuantity(orderItem.getQuantity());
+		
+		final BigDecimal totalAmountOrderItem = orderItem.getTotalAmountOrderItem();
+		if(totalAmountOrderItem != null) {
+			orderItemViewBean.setAmount(formatter.format(totalAmountOrderItem));
+		}
 		return orderItemViewBean;
 	}
 	

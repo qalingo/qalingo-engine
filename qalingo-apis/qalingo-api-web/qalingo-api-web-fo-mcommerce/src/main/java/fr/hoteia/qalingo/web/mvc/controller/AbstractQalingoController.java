@@ -9,7 +9,6 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -161,36 +160,9 @@ public abstract class AbstractQalingoController extends AbstractController {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		List<CutomerMenuViewBean> customerLinks = new ArrayList<CutomerMenuViewBean>();
-
-		CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
-		cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.details.label", null, locale));
-		cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		customerLinks.add(cutomerMenuViewBean);
-
-		cutomerMenuViewBean = new CutomerMenuViewBean();
-		cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.address.list.label", null, locale));
-		cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		customerLinks.add(cutomerMenuViewBean);
-		
-		cutomerMenuViewBean = new CutomerMenuViewBean();
-		cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.add.address.label", null, locale));
-		cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		customerLinks.add(cutomerMenuViewBean);
-		
-		cutomerMenuViewBean = new CutomerMenuViewBean();
-		cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.order.list.label", null, locale));
-		cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		customerLinks.add(cutomerMenuViewBean);
-		
-		cutomerMenuViewBean = new CutomerMenuViewBean();
-		cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.wishlist.label", null, locale));
-		cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		customerLinks.add(cutomerMenuViewBean);
-		
+		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 		modelAndView.addObject("customerLinks", customerLinks);
 	}
 	

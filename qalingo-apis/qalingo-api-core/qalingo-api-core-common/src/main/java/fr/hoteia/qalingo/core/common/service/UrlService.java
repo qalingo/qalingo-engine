@@ -15,7 +15,6 @@ import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Order;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
 
 public interface UrlService {
@@ -149,6 +148,10 @@ public interface UrlService {
 	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 
 	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+
+	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+
+	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
 
 	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 	

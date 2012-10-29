@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.OrderDao;
 import fr.hoteia.qalingo.core.common.domain.Order;
+import fr.hoteia.qalingo.core.common.domain.OrderNumber;
 
 @Transactional
 @Repository("orderDao")
@@ -41,7 +42,48 @@ public class OrderDaoImpl extends AbstractGenericDaoImpl implements OrderDao {
 		return orders;
 	}
 
-	public void saveOrUpdateOrder(Order order) {
+	public Order createNewOrder(Order order) {
+		if(order.getDateCreate() == null){
+			order.setDateCreate(new Date());
+		}
+		order.setDateUpdate(new Date());
+		if(order.getId() == null){
+			createNewOrderWithCorrectOrderNumber(order);
+		}
+		return order;
+	}
+	
+	private Order createNewOrderWithCorrectOrderNumber(Order order){
+		try {
+			Session session = (Session) em.getDelegate();
+			String hql = "FROM OrderNumber";
+			Query query = session.createQuery(hql);
+			OrderNumber orderNumber = (OrderNumber) query.uniqueResult();
+			Integer previousLastOrderNumber = orderNumber.getLastOrderNumber();
+			Integer newLastOrderNumber = new Integer(previousLastOrderNumber.intValue() + 1);
+
+			order.setOrderNum("" + newLastOrderNumber);
+			
+			em.persist(order);
+			
+			hql = "UPDATE OrderNumber SET lastOrderNumber = :newLastOrderNumber WHERE lastOrderNumber = :previousLastOrderNumber";
+			query = session.createQuery(hql);
+	        query.setInteger("newLastOrderNumber", newLastOrderNumber);
+	        query.setInteger("previousLastOrderNumber", previousLastOrderNumber);
+	        int rowCount = query.executeUpdate();
+
+	        if(rowCount == 0){
+	        	em.getTransaction().rollback();
+	        	createNewOrderWithCorrectOrderNumber(order);
+	        }
+			
+		} catch (Exception e) {
+			LOG.error("Failed to create a new Order with a specific OrderNumber increment", e);
+		}
+		return order;
+	}
+	
+	public void updateOrder(Order order) {
 		if(order.getDateCreate() == null){
 			order.setDateCreate(new Date());
 		}

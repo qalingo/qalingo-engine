@@ -19,7 +19,9 @@ public interface OrderService {
 	
 	List<Order> findOrdersByCustomerId(String customerId);
 	
-	void saveOrUpdateOrder(Order order);
+	Order createNewOrder(Order order);
+	
+	void updateOrder(Order order);
 	
 	void deleteOrder(Order order);
 

@@ -66,6 +66,10 @@ public class CustomerMarketArea implements Serializable {
     @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
 	private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>(); 
 	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
+	private Set<CustomerProductComment> productComments = new HashSet<CustomerProductComment>(); 
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -150,6 +154,14 @@ public class CustomerMarketArea implements Serializable {
 	
 	public void setWishlistProducts(Set<CustomerWishlist> wishlistProducts) {
 		this.wishlistProducts = wishlistProducts;
+	}
+	
+	public Set<CustomerProductComment> getProductComments() {
+		return productComments;
+	}
+	
+	public void setProductComments(Set<CustomerProductComment> productComments) {
+		this.productComments = productComments;
 	}
 	
 	public Date getDateCreate() {

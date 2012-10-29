@@ -19,7 +19,8 @@ public interface EngineSettingService {
 	// TODO : enum or not ?
 	public final static String ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH = "THEME_RESOURCE_PREFIX_PATH";
 	public final static String ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH = "CATALOG_RESOURCE_PREFIX_PATH";
-	
+	public final static String WEB_CACHE_ELEMENT_TIME_TO_LIVE = "WEB_CACHE_ELEMENT_TIME_TO_LIVE";
+		
 	public final static String ENGINE_SETTING_CONTEXT_BO_BUSINESS  = "BO_BUSINESS";
 	public final static String ENGINE_SETTING_CONTEXT_BO_REPORTING = "BO_REPORTING";
 	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL = "BO_TECHNICAL";
@@ -41,7 +42,7 @@ public interface EngineSettingService {
 	EngineSetting getEngineSettingByCode(String code);
 
 	EngineSetting getThemeResourcePrefixPath();
-	
+
 	EngineSetting getCatalogImageResourcePrefixPath();
 	
 	List<EngineSetting> findEngineSettings();

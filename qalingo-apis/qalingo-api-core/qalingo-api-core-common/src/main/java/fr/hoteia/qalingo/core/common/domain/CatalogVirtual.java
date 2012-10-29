@@ -10,8 +10,12 @@
 package fr.hoteia.qalingo.core.common.domain;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -160,6 +164,27 @@ public class CatalogVirtual implements Serializable {
 		return productCategories;
 	}
 	
+	public List<ProductCategoryVirtual> getProductCategories(final Long marketAreaId) {
+		List<ProductCategoryVirtual> sortedObjects = new LinkedList<ProductCategoryVirtual>(productCategories);
+		Collections.sort(sortedObjects, new Comparator<ProductCategoryVirtual>() {
+			@Override
+			public int compare(ProductCategoryVirtual o1, ProductCategoryVirtual o2) {
+				if(o1 != null
+						&& o2 != null){
+					Integer order1 = o1.getOrder(marketAreaId);
+					Integer order2 = o2.getOrder(marketAreaId);
+					if(order1 != null
+							&& order2 != null){
+						return order1.compareTo(order2);				
+					} else {
+						return o1.getId().compareTo(o2.getId());	
+					}
+				}
+				return 0;
+			}
+		});
+		return sortedObjects;
+	}
 	public void setProductCategories(Set<ProductCategoryVirtual> productCategories) {
 		this.productCategories = productCategories;
 	}

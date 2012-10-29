@@ -28,11 +28,11 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	public Customer getCustomerById(Long customerId) {
+	public Customer getCustomerById(final Long customerId) {
 		return em.find(Customer.class, customerId);
 	}
 
-	public Customer getCustomerByLoginOrEmail(String usernameOrEmail) {
+	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
 		Session session = (Session) em.getDelegate();
 		String sql = "FROM Customer WHERE (login = :usernameOrEmail OR email = :usernameOrEmail) AND active = true";
 		Query query = session.createQuery(sql);
@@ -41,11 +41,11 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		return customer;
 	}
 	
-	public List<Customer> findByExample(Customer customerExample) {
+	public List<Customer> findByExample(final Customer customerExample) {
 		return super.findByExample(customerExample);
 	}
 
-	public void saveOrUpdateCustomer(Customer customer) {
+	public void saveOrUpdateCustomer(final Customer customer) {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());
 		}
@@ -57,7 +57,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		}
 	}
 
-	public void deleteCustomer(Customer customer) {
+	public void deleteCustomer(final Customer customer) {
 		em.remove(customer);
 	}
 

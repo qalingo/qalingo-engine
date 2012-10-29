@@ -18,6 +18,7 @@ import org.apache.solr.client.solrj.response.FacetField;
 import fr.hoteia.qalingo.core.common.domain.Cart;
 import fr.hoteia.qalingo.core.common.domain.Customer;
 import fr.hoteia.qalingo.core.common.domain.CustomerAddress;
+import fr.hoteia.qalingo.core.common.domain.CustomerProductComment;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
@@ -26,12 +27,10 @@ import fr.hoteia.qalingo.core.common.domain.Order;
 import fr.hoteia.qalingo.core.common.domain.OrderItem;
 import fr.hoteia.qalingo.core.common.domain.ProductBrand;
 import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.ProductImage;
 import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.common.domain.ProductSku;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
 import fr.hoteia.qalingo.core.common.domain.Store;
-import fr.hoteia.qalingo.core.common.domain.enumtype.ImageSize;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
@@ -42,8 +41,11 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
@@ -79,20 +81,23 @@ public interface ViewBeanFactory {
 	HeaderCartViewBean buildHeaderCartViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
-	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request) throws Exception;
+	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request, Localization localization) throws Exception;
 	
 	MarketPlaceViewBean buildMarketPlaceViewBean(HttpServletRequest request, MarketPlace marketPlace) throws Exception;
 	
-	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, List<Market> markets) throws Exception;
+	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, List<Market> markets, Localization localization) throws Exception;
 	
-	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, List<MarketArea> marketAreas) throws Exception;
+	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, List<MarketArea> marketAreas, Localization localization) throws Exception;
 	
-	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, MarketArea marketArea) throws Exception;
+	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
 
 	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
 	
 	List<MenuViewBean> buildMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
+	
+	List<CutomerMenuViewBean> buildCutomerMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+			 Localization localization, Retailer retailer) throws Exception;
 	
 	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
@@ -126,6 +131,13 @@ public interface ViewBeanFactory {
 
 	CustomerWishlistViewBean buildCustomerWishlistViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer, Customer customer) throws Exception;
+
+	CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+			Localization localization, Retailer retailer, Customer customer) throws Exception;
+	
+	CustomerProductCommentViewBean buildCustomerProductCommentViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+			   Retailer retailer, ProductCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku, CustomerProductComment customerProductComment) 
+			   throws Exception;
 	
 	CustomerCreateAccountViewBean buildCustomerCreateAccountViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer) throws Exception;

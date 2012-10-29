@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreLocatorViewBean implements Serializable {
+public class StoreLocatorViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

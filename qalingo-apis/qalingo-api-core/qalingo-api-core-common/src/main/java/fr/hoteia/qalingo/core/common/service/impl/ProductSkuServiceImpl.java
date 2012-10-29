@@ -69,14 +69,25 @@ public class ProductSkuServiceImpl implements ProductSkuService {
 	}
 	
 	protected List<ProductSku> orderList(final Long marketAreaId, final List<ProductSku> skus){
-		List<ProductSku> sortedSkus = new LinkedList<ProductSku>(skus);
-		Collections.sort(sortedSkus, new Comparator<ProductSku>() {
+		List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
+		Collections.sort(sortedObjects, new Comparator<ProductSku>() {
 			@Override
 			public int compare(ProductSku o1, ProductSku o2) {
-				return o1.getOrder(marketAreaId) - o2.getOrder(marketAreaId);				
+				if(o1 != null
+						&& o2 != null){
+					Integer order1 = o1.getOrder(marketAreaId);
+					Integer order2 = o2.getOrder(marketAreaId);
+					if(order1 != null
+							&& order2 != null){
+						return order1.compareTo(order2);				
+					} else {
+						return o1.getId().compareTo(o2.getId());	
+					}
+				}
+				return 0;
 			}
 		});
-		return sortedSkus;
+		return sortedObjects;
 	}
 
 }

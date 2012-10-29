@@ -46,7 +46,7 @@ public class OrderItem implements Serializable {
 	@Column(name="PRODUCT_SKU_CODE")
 	private String productSkuCode;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
 	private ProductSku productSku;
 

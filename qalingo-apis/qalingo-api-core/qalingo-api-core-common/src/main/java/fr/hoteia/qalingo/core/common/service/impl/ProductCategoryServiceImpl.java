@@ -85,13 +85,24 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	protected List<ProductCategoryVirtual> orderList(final Long marketAreaId, final List<ProductCategoryVirtual> categories){
-		List<ProductCategoryVirtual> sortedCategories = new LinkedList<ProductCategoryVirtual>(categories);
-		Collections.sort(sortedCategories, new Comparator<ProductCategoryVirtual>() {
+		List<ProductCategoryVirtual> sortedObjects = new LinkedList<ProductCategoryVirtual>(categories);
+		Collections.sort(sortedObjects, new Comparator<ProductCategoryVirtual>() {
 			@Override
 			public int compare(ProductCategoryVirtual o1, ProductCategoryVirtual o2) {
-				return o1.getOrder(marketAreaId) - o2.getOrder(marketAreaId);				
+				if(o1 != null
+						&& o2 != null){
+					Integer order1 = o1.getOrder(marketAreaId);
+					Integer order2 = o2.getOrder(marketAreaId);
+					if(order1 != null
+							&& order2 != null){
+						return order1.compareTo(order2);				
+					} else {
+						return o1.getId().compareTo(o2.getId());	
+					}
+				}
+				return 0;
 			}
 		});
-		return sortedCategories;
+		return sortedObjects;
 	}
 }

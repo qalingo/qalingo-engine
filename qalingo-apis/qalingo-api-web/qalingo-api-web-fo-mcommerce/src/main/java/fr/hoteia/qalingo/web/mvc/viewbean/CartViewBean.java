@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartViewBean implements Serializable {
+public class CartViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID

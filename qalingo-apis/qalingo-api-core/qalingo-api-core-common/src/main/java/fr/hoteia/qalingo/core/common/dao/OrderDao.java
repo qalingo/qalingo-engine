@@ -18,8 +18,10 @@ public interface OrderDao {
 	Order getOrderById(Long orderId);
 
 	List<Order> findOrdersByCustomerId(Long customerId);
-
-	void saveOrUpdateOrder(Order order);
+	
+	Order createNewOrder(Order order);
+	
+	void updateOrder(Order order);
 
 	void deleteOrder(Order order);
 

@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class FooterMenuViewBean implements Serializable {
+public class FooterMenuViewBean extends AbstractViewBean implements Serializable {
 	
 	/**
 	 * Generated UID

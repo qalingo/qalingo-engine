@@ -86,6 +86,12 @@ VALUES
 (50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
 (51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1);
 
+-- Cache TTL settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1, 'Cache TTL settings', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
+
 -- Theme settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)

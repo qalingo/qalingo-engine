@@ -48,6 +48,8 @@ public interface ModelAndViewFactory {
 	
 	void initCustomerWishListModelAndView(HttpServletRequest request, ModelAndView modelAndView, Customer customer) throws Exception;
 
+	void initCustomerProductCommentModelAndView(HttpServletRequest request, ModelAndView modelAndView, Customer customer) throws Exception;
+
 	void initFaqModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
 	
 	void initPageBrandLine(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ProductBrand productBrand, String titleKeyPrefixSufix) throws Exception;
