@@ -19,6 +19,8 @@ public interface CustomerDao {
 
 	Customer getCustomerByLoginOrEmail(String usernameOrEmail);
 	 
+	List<Customer> findCustomers();
+	
 	List<Customer> findByExample(Customer customerExample);
 
 	void saveOrUpdateCustomer(Customer customer);

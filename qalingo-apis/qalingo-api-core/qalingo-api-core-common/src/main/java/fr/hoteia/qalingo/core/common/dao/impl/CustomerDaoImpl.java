@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.CustomerDao;
 import fr.hoteia.qalingo.core.common.domain.Customer;
+import fr.hoteia.qalingo.core.common.domain.MarketPlace;
 
 @Transactional
 @Repository("customerDao")
@@ -39,6 +40,14 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		query.setString("usernameOrEmail", usernameOrEmail);
 		Customer customer = (Customer) query.uniqueResult();
 		return customer;
+	}
+	
+	public List<Customer> findCustomers() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Customer ORDER BY lastname";
+		Query query = session.createQuery(sql);
+		List<Customer> customers = (List<Customer>) query.list();
+		return customers;
 	}
 	
 	public List<Customer> findByExample(final Customer customerExample) {

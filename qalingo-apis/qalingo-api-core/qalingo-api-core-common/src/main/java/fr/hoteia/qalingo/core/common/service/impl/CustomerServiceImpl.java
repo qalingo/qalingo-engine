@@ -40,6 +40,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
 	}
 
+	public List<Customer> findCustomers() {
+		return customerDao.findCustomers();
+	}
+	
 	public List<Customer> findCustomer(final Customer criteria) {
 		return customerDao.findByExample(criteria);
 	}

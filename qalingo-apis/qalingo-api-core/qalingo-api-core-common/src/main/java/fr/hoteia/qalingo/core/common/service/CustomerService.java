@@ -19,6 +19,8 @@ public interface CustomerService {
 
 	Customer getCustomerByLoginOrEmail(String loginOrEmail);
 
+	List<Customer> findCustomers();
+	
 	List<Customer> findCustomer(Customer criteria);
 	
 	void saveOrUpdateCustomer(Customer customer);
