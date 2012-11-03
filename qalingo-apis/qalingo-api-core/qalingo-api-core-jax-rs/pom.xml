@@ -21,24 +21,6 @@
 	</properties>
 	
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>${project.build.directory}/generated-resources</directory>
-			</resource>
-		</resources>
-
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-			</testResource>
-			<testResource>
-				<directory>${project.build.directory}/generated-test-resources/</directory>
-			</testResource>
-		</testResources>
-
 		<!--
 		<plugins>
 		</plugins>

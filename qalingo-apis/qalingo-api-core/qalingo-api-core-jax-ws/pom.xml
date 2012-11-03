@@ -3,46 +3,52 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>fr.hoteia.qalingo</groupId>
-		<artifactId>qalingo-api-web</artifactId>
+		<artifactId>qalingo-api-core</artifactId>
 		<version>0.7.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>qalingo-api-web-bo-business</artifactId>
+	<artifactId>qalingo-api-core-jax-ws</artifactId>
 	<packaging>jar</packaging>
-	<name>{Q} Commerce Solution Web BO Business API</name>
-	<description>{Q} Commerce Solution Web BO Business API</description>
+	<name>{Q} Commerce Solution Core Jax-WS API</name>
+	<description>{Q} Commerce Solution Core Jax-WS API</description>
 	<url>http://www.hoteia.com</url>
 	<organization>
 		<name>Hoteia</name>
 		<url>http://www.hoteia.com</url>
 	</organization>
 
-	<properties>
+	<properties> 
 		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
+		<xsd.working.directory>target/work/xsd</xsd.working.directory>
 	</properties>
+	
+	<build>
+		<!--
+		<plugins>
+		</plugins>
+		-->
+	</build>
 
 	<dependencies>
-		<!-- Qalingo libs -->
+		<!-- Qalingo libs-->
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-common</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-security</artifactId>
+			<artifactId>qalingo-api-core-xml-binding</artifactId>
+		</dependency>
+
+		<!-- CXF framework -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-drools</artifactId>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-solr</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-servlet-api</artifactId>
-		</dependency>
-		
+
 	</dependencies>
+
 </project>

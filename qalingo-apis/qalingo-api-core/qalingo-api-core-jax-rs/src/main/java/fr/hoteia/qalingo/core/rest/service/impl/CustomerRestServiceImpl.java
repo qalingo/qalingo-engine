@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.common.domain.Customer;
 import fr.hoteia.qalingo.core.common.service.CustomerService;
-import fr.hoteia.qalingo.core.rest.api.bean.CustomerJsonBean;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
 
 @Service("customerRestService")
@@ -33,12 +33,12 @@ public class CustomerRestServiceImpl implements CustomerRestService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CustomerJsonBean> getCustomers() {
+	public List<CustomerJsonPojo> getCustomers() {
 		List<Customer> customers = customerService.findCustomers();
-		List<CustomerJsonBean> customerCustomerJsonBeans = new ArrayList<CustomerJsonBean>();
+		List<CustomerJsonPojo> customerCustomerJsonBeans = new ArrayList<CustomerJsonPojo>();
 		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
 			Customer customer = (Customer) iterator.next();
-			CustomerJsonBean customerJsonBean = buildCustomerJsonBean(customer);
+			CustomerJsonPojo customerJsonBean = buildCustomerJsonBean(customer);
 			customerCustomerJsonBeans.add(customerJsonBean);
 		}
 		return customerCustomerJsonBeans;
@@ -47,29 +47,29 @@ public class CustomerRestServiceImpl implements CustomerRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public CustomerJsonBean getCustomer(@PathParam("id") String id) {
+	public CustomerJsonPojo getCustomer(@PathParam("id") String id) {
 		Customer customer = customerService.getCustomerById(id);
-		CustomerJsonBean customerJsonBean = buildCustomerJsonBean(customer);
+		CustomerJsonPojo customerJsonBean = buildCustomerJsonBean(customer);
 		return customerJsonBean;
 	}
  
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveSomeBean(CustomerJsonBean customerJsonBean) {
+	public void saveSomeBean(CustomerJsonPojo customerJsonBean) {
 		Customer customer = buildCustomer(customerJsonBean);
 		customerService.saveOrUpdateCustomer(customer);
 	}
 
-	protected CustomerJsonBean buildCustomerJsonBean(Customer customer){
-			CustomerJsonBean customerJsonBean = new CustomerJsonBean();
+	protected CustomerJsonPojo buildCustomerJsonBean(Customer customer){
+		CustomerJsonPojo customerJsonBean = new CustomerJsonPojo();
+		customerJsonBean.setLastname(customer.getLastname());
 		
 		// TODO : ...
 		
-		customerJsonBean.setLastname(customer.getLastname());
 		return customerJsonBean;
 	}
 	
-	protected Customer buildCustomer(CustomerJsonBean customerJsonBean){
+	protected Customer buildCustomer(CustomerJsonPojo customerJsonBean){
 		Customer customer = new Customer();
 		customer.setLastname(customerJsonBean.getLastname());
 	
