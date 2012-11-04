@@ -3,7 +3,7 @@
 
 	<groupId>fr.hoteia.qalingo</groupId>
 	<artifactId>qalingo-b2c-engine</artifactId>
-	<version>0.7.0</version>
+	<version>0.7.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>qalingo-b2c-engine</name>
 	<description>{Q} Commerce Solution Project</description>
@@ -18,7 +18,7 @@
 		<connection>scm:git:git@github.com:qalingo/qalingo-b2c-engine.git</connection>
 		<developerConnection>scm:git:git@github.com:qalingo/qalingo-b2c-engine.git</developerConnection>
 		<url>scm:git:git@github.com:qalingo/qalingo-b2c-engine.git</url>
-	  <tag>qalingo-b2c-engine-0.7.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	
 	<properties>

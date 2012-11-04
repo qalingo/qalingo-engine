@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>fr.hoteia.qalingo</groupId>
 		<artifactId>qalingo-misc</artifactId>
-		<version>0.7.0</version>
+		<version>0.7.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>qalingo-wurfl</artifactId>
 	<packaging>pom</packaging>
