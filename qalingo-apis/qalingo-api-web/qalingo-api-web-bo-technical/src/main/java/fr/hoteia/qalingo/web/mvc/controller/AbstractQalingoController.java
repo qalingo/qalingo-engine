@@ -25,6 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.User;
 import fr.hoteia.qalingo.core.common.service.UrlService;
@@ -107,11 +108,21 @@ public abstract class AbstractQalingoController extends AbstractController {
 	protected void initCommon(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final String titleKeyPrefixSufix) throws Exception {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
+		
+		// Velocity layout mandatory attributes
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
+
+		modelAndView.addObject(Constants.APP_NAME, "Qalingo Technical Backoffice");;
+		modelAndView.addObject(Constants.APP_NAME_HTML, "Qalingo <span style=\"color: #a1cd44;\">Technical</span> Backoffice");;
+
 		modelAndView.addObject("localeLanguageCode", locale.getLanguage());
 		modelAndView.addObject("contextPath", request.getContextPath());
 		modelAndView.addObject("theme", requestUtil.getCurrentTheme(request));
+		
 		Object[] params = {requestUtil.getEnvironmentName()};
 		modelAndView.addObject("envName", coreMessageSource.getMessage("header.env.name", params, locale));
+		
 		modelAndView.addObject("mainContentTitle", coreMessageSource.getMessage("header.title." + titleKeyPrefixSufix, null, locale));
 		modelAndViewFactory.initCommonModelAndView(request, response, modelAndView);
 	}
@@ -139,16 +150,17 @@ public abstract class AbstractQalingoController extends AbstractController {
         modelAndView.addObject("seoPageMetaDescription", seoPageMetaDescription);
 
 		String pageTitleKey = "header.title." + titleKeyPrefixSufix;
-		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", null, locale) + " - " + coreMessageSource.getMessage(pageTitleKey, null, locale);
+		String appName = (String) modelAndView.getModelMap().get(Constants.APP_NAME);
+		String seoPageTitle = appName + " - " + coreMessageSource.getMessage(pageTitleKey, null, locale);
         modelAndView.addObject("seoPageTitle", seoPageTitle);
 
-		String mainContentTitleKey = "main.content.title." + titleKeyPrefixSufix;
-		try {
-			String mainContentTitle = coreMessageSource.getMessage(mainContentTitleKey, null, locale);
-	        modelAndView.addObject("mainContentTitle", mainContentTitle);
-		} catch (Exception e) {
-			// NOTHING
-		}
+//		String mainContentTitleKey = "main.content.title." + titleKeyPrefixSufix;
+//		try {
+//			String mainContentTitle = coreMessageSource.getMessage(mainContentTitleKey, null, locale);
+//	        modelAndView.addObject("mainContentTitle", mainContentTitle);
+//		} catch (Exception e) {
+//			// NOTHING
+//		}
 	}
 	
 	/**

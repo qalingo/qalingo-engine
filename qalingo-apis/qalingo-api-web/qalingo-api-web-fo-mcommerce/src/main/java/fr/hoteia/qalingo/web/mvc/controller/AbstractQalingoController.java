@@ -25,6 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Customer;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.Market;
@@ -108,6 +109,11 @@ public abstract class AbstractQalingoController extends AbstractController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String customerId = getCustomerId();
+		
+		// Velocity layout mandatory attributes
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
+		
 		modelAndView.addObject("localeLanguageCode", locale.getLanguage());
 		modelAndView.addObject("contextPath", request.getContextPath());
 		modelAndView.addObject("theme", requestUtil.getCurrentTheme(request));

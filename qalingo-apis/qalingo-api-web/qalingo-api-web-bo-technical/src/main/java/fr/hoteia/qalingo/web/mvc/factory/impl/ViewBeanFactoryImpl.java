@@ -102,33 +102,46 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		MenuViewBean menu = new MenuViewBean();
+		menu.setCssClass("active");
+		menu.setCssIcon("icon-home");
 		menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
 		menu.setUrl(boTechnicalUrlService.buildHomeUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
+		menu.setCssIcon("icon-cogs");
 		menu.setName("Engine Setting");
 		menu.setUrl(boTechnicalUrlService.buildEngineSettingListUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+		menu.setCssIcon("icon-reorder");
 		menu.setName("Cache");
 		menu.setUrl(boTechnicalUrlService.buildCacheUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setName("Users");
-		menu.setUrl(boTechnicalUrlService.buildUserListUrl(request));
-		menuViewBeans.add(menu);
-		
-		menu = new MenuViewBean();
+		menu.setCssIcon("icon-random");
 		menu.setName("Batch");
 		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setName("SORL");
-		menu.setUrl(boTechnicalUrlService.buildSearchConfigUrl(request));
+		menu.setCssIcon("icon-group");
+		menu.setName("Users");
+		menu.setUrl(boTechnicalUrlService.buildUserListUrl(request));
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
+		menu.setCssIcon("icon-bar-chart");
+		menu.setName("Monitoring");
+		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
+		menu.setCssIcon("icon-group");
+		menu.setName("FAQ");
+		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.common.domain.Localization;
@@ -28,11 +27,15 @@ import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
+import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.common.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.common.service.MarketService;
 import fr.hoteia.qalingo.core.common.service.UrlService;
+import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
+import fr.hoteia.qalingo.web.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.viewbean.LegacyViewBean;
 import fr.hoteia.qalingo.web.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketPlaceViewBean;
@@ -47,7 +50,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	protected MessageSource messageSource;
+	protected CoreMessageSource coreMessageSource;
 	
 	@Autowired
     protected RequestUtil requestUtil;
@@ -60,6 +63,41 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	
 	@Autowired
     protected UrlService urlService;
+	
+	
+	/**
+     * 
+     */
+	public CommonViewBean buildCommonViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
+			 final Localization localization, final Retailer retailer) throws Exception {
+		final CommonViewBean commonViewBean = new CommonViewBean();
+		
+		// NO CACHE FOR THIS PART
+		
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_PREHOME);
+		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
+		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
+		
+		return commonViewBean;
+	}
+	
+	/**
+     * 
+     */
+	public LegacyViewBean buildLegacyViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
+			 final Localization localization, final Retailer retailer) throws Exception {
+		final Locale locale = localization.getLocale();
+		
+		final LegacyViewBean legacy = new LegacyViewBean();
+		
+		legacy.setPageTitle(coreMessageSource.getMessage("header.title.legacy", null, locale));
+		legacy.setTextHtml(coreMessageSource.getMessage("legacy.content.text", null, locale));
+
+		legacy.setWarning(coreMessageSource.getMessage("legacy.warning", null, locale));
+		legacy.setCopyright(coreMessageSource.getMessage("footer.copyright", null, locale));
+		
+		return legacy;
+	}
 	
 	/**
      * 
@@ -167,9 +205,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			
 			if(StringUtils.isNotEmpty(localeCode)
 					&& localeCode.length() == 2){
-				localizationViewBean.setName(messageSource.getMessage("languages." + localeCode.toLowerCase(), null, locale));
+				localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCode.toLowerCase(), null, locale));
 			} else {
-				localizationViewBean.setName(messageSource.getMessage("languages." + localeCode, null, locale));
+				localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCode, null, locale));
 			}
 			
 			localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer, false));

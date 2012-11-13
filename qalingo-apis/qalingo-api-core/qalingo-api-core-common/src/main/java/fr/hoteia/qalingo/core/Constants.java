@@ -16,7 +16,8 @@ public final class Constants {
 		public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 
 		// GLOBAL
-		public static final String APP_NAME = "Globale Commerce Solution";
+		public static final String APP_NAME = "appName";
+		public static final String APP_NAME_HTML = "appNameHtml";
 		
 		public static final String UTF8 = "UTF-8";
 		public static final String ANSI = "ISO-8859-1";
@@ -115,10 +116,10 @@ public final class Constants {
 		public static final String REQUEST_PARAM_ENGINE_SETTING_VALUE_ID = "engine-setting-value-id";
 		public static final String REQUEST_PARAM_USER_ID = "user-id";
 
-		// PAGINATION
+		// SEARCH PAGINATION
 		public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
 
-		// PAGINATION
+		// SPRING VIEW PAGINATION
 		public static final String PAGE_PARAMETER = "page";
 		public static final String PAGE_URL = "currentPageUrl";
 		public static final String PAGE_PAGED_LIST_HOLDER = "pagedListHolder";
@@ -127,12 +128,16 @@ public final class Constants {
 		// SECURITY
 		public static final String SECRET_VALUE = "5U%oP9$";
 
+		// PROPERTIE FILE NAMES
+		public static final String TITLES_RESOURCE_BUNDLE = "qalingo-Titles";
+		public static final String COUNTRIES_RESOURCE_BUNDLE = "qalingo-Countries";
+		
+		// VELOCITY LAYOUT ATTRIBUTES
+		public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT = "head_content";
+		public static final String VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT = "footer_script_content";
+
 		// OTHERS
 		public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
 
-		// 
-		public static final String TITLES_RESOURCE_BUNDLE = "Q-Titles";
-		public static final String COUNTRIES_RESOURCE_BUNDLE = "Q-Countries";
-		
 
 }

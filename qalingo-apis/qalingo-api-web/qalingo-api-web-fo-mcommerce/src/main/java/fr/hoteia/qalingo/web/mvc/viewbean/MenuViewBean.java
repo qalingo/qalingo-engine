@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class MenuViewBean extends AbstractViewBean implements Serializable {
 
 	/**
@@ -36,6 +38,9 @@ public class MenuViewBean extends AbstractViewBean implements Serializable {
 	}
 
 	public String getAlt() {
+		if(StringUtils.isEmpty(alt)){
+			return getName();
+		}
 		return alt;
 	}
 	

@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MarketPlaceViewBean implements Serializable {
+public class MarketPlaceViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * 

@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class MenuViewBean implements Serializable {
 
 	/**
@@ -22,7 +24,8 @@ public class MenuViewBean implements Serializable {
 	
 	protected String name;
 	protected String alt;
-	protected String img;
+	protected String cssClass;
+	protected String cssIcon;
 	protected String url;
 	
 	List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
@@ -36,6 +39,9 @@ public class MenuViewBean implements Serializable {
 	}
 
 	public String getAlt() {
+		if(StringUtils.isEmpty(alt)){
+			return getName();
+		}
 		return alt;
 	}
 	
@@ -43,14 +49,22 @@ public class MenuViewBean implements Serializable {
 		this.alt = alt;
 	}
 	
-	public String getImg() {
-		return img;
+	public String getCssClass() {
+		return cssClass;
+	}
+	
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public String getCssIcon() {
+		return cssIcon;
 	}
-
+	
+	public void setCssIcon(String cssIcon) {
+		this.cssIcon = cssIcon;
+	}
+	
 	public String getUrl() {
 		return url;
 	}

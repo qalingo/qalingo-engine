@@ -39,6 +39,12 @@
 			<artifactId>qalingo-api-core-solr</artifactId>
 		</dependency>
 		
+		<!-- SOLR -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>

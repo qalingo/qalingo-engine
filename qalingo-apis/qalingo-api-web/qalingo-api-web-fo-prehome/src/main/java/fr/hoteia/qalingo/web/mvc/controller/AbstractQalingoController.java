@@ -18,15 +18,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 
 /**
  * 
@@ -49,6 +49,9 @@ public abstract class AbstractQalingoController extends AbstractController {
 	@Autowired
     protected RequestUtil requestUtil;
 	
+	@Autowired
+    protected ModelAndViewFactory modelAndViewFactory;
+	
 	@Override
 	protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
@@ -68,12 +71,15 @@ public abstract class AbstractQalingoController extends AbstractController {
 	 */
 	protected void initCommon(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final String titleKeyPrefixSufix) throws Exception {
 		final Locale locale = getCurrentLocale(request);
+		
+		// Velocity layout mandatory attributes
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
+		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
+		
 		modelAndView.addObject("localeLanguageCode", locale.getLanguage());
 		modelAndView.addObject("contextPath", request.getContextPath());
 		modelAndView.addObject("theme", requestUtil.getCurrentTheme(request));
-		
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_PREHOME);
-		modelAndView.addObject("themeResourcePrefixPath", currentThemeResourcePrefixPath);
+		modelAndViewFactory.initCommonModelAndView(request, response, modelAndView);
 	}
 	
 	/**

@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.web.mvc.factory;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +18,8 @@ import fr.hoteia.qalingo.core.common.domain.Market;
 import fr.hoteia.qalingo.core.common.domain.MarketArea;
 import fr.hoteia.qalingo.core.common.domain.MarketPlace;
 import fr.hoteia.qalingo.core.common.domain.Retailer;
+import fr.hoteia.qalingo.web.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.viewbean.LegacyViewBean;
 import fr.hoteia.qalingo.web.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketPlaceViewBean;
@@ -26,6 +27,12 @@ import fr.hoteia.qalingo.web.viewbean.MarketViewBean;
 
 public interface ViewBeanFactory {
 
+	CommonViewBean buildCommonViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+			 Localization localization, Retailer retailer) throws Exception;
+	
+	LegacyViewBean buildLegacyViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+			 Localization localization, Retailer retailer) throws Exception;
+	
 	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request) throws Exception;
 	
 	MarketPlaceViewBean buildMarketPlaceViewBean(HttpServletRequest request, MarketPlace marketPlace) throws Exception;

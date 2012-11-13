@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.web.viewbean;
 
 import java.io.Serializable;
 
-public class LocalizationViewBean implements Serializable {
+public class LocalizationViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * 

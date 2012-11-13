@@ -864,7 +864,7 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public String getCurrentVelocityPrefix(final HttpServletRequest request) throws Exception {
-		String velocityPath = "/" + getCurrentTheme(request) + "/www/" + getCurrentDevice(request) + "/";
+		String velocityPath = "/" + getCurrentTheme(request) + "/www/" + getCurrentDevice(request) + "/content/";
 		return velocityPath;
 	}
 	
