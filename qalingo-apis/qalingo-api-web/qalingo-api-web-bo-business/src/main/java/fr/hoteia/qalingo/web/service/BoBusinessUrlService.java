@@ -25,11 +25,17 @@ public interface BoBusinessUrlService {
 	
 	String buildUserListUrl(HttpServletRequest request);
 	
-	String buildEngineSettingUrl(HttpServletRequest request);
+	String buildCatalogUrl(HttpServletRequest request);
 	
-	String buildCacheUrl(HttpServletRequest request);
+	String buildPromotionUrl(HttpServletRequest request);
 	
-	String buildBatchUrl(HttpServletRequest request);
+	String buildShippingUrl(HttpServletRequest request);
+
+	String buildOrderListUrl(HttpServletRequest request);
+
+	String buildCustomerListUrl(HttpServletRequest request);
+
+	String buildFaqUrl(HttpServletRequest request);
 	
 	String buildForbiddenUrl(HttpServletRequest request);
 	

@@ -7,14 +7,13 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.controller.cache;
+package fr.hoteia.qalingo.web.mvc.controller.monitoring;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -24,19 +23,19 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
  * 
  */
 @Controller
-public class CacheController extends AbstractQalingoController {
+public class MonitoringController extends AbstractQalingoController {
 
-	@RequestMapping(value = "/cache.html*", method = RequestMethod.GET)
-	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cache/cache");
-		
-		final String titleKeyPrefixSufix = "cache";
+	@RequestMapping("/monitoring.html*")
+	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "monitoring/monitoring");
+
+		final String titleKeyPrefixSufix = "technical.monitoring";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-        String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
+		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
 		modelAndView.addObject("contentTest", contentTest);
 		
         return modelAndView;
 	}
-    
+	
 }

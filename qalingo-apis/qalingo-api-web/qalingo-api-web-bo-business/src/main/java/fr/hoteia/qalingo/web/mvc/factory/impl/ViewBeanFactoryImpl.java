@@ -93,37 +93,37 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-sitemap");
 		menu.setName("Catalog");
-		menu.setUrl(boBusinessUrlService.buildEngineSettingUrl(request));
+		menu.setUrl(boBusinessUrlService.buildCatalogUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion");
-		menu.setUrl(boBusinessUrlService.buildCacheUrl(request));
+		menu.setUrl(boBusinessUrlService.buildPromotionUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
-		menu.setName("shipping");
-		menu.setUrl(boBusinessUrlService.buildBatchUrl(request));
+		menu.setName("Shipping");
+		menu.setUrl(boBusinessUrlService.buildShippingUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
-		menu.setName("Order");
-		menu.setUrl(boBusinessUrlService.buildUserListUrl(request));
+		menu.setName("Orders");
+		menu.setUrl(boBusinessUrlService.buildOrderListUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers");
-		menu.setUrl(boBusinessUrlService.buildBatchUrl(request));
+		menu.setUrl(boBusinessUrlService.buildCustomerListUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(boBusinessUrlService.buildBatchUrl(request));
+		menu.setUrl(boBusinessUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

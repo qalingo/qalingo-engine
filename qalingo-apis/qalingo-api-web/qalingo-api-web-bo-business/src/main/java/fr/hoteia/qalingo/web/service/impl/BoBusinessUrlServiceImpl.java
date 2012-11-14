@@ -42,16 +42,28 @@ public class BoBusinessUrlServiceImpl implements BoBusinessUrlService {
 		return getContextPrefixUrl(request) + "sc/users.html";
 	}
 	
-	public String buildEngineSettingUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/engine-setting.html";
+	public String buildCatalogUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/catalog.html";
 	}
 	
-	public String buildCacheUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/cache.html";
+	public String buildPromotionUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/promotion.html";
 	}
 	
-	public String buildBatchUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/batch.html";
+	public String buildShippingUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/shipping.html";
+	}
+	
+	public String buildOrderListUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/order-list.html";
+	}
+	
+	public String buildCustomerListUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/customer-list.html";
+	}
+	
+	public String buildFaqUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/faq.html";
 	}
 	
 	public String buildChangeLanguageUrl(final HttpServletRequest request, final Localization localization) {

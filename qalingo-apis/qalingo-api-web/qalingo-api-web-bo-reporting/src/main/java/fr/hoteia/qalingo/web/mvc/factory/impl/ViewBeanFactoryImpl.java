@@ -91,45 +91,45 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-table");
+		menu.setCssIcon("icon-sitemap");
 		menu.setName("Catalog stats");
-		menu.setUrl(boReportingUrlService.buildHomeUrl(request));
+		menu.setUrl(boReportingUrlService.buildCatalogStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion stats");
-		menu.setUrl(boReportingUrlService.buildCacheUrl(request));
+		menu.setUrl(boReportingUrlService.buildPromotionStatsUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping stats");
-		menu.setUrl(boReportingUrlService.buildBatchUrl(request));
+		menu.setUrl(boReportingUrlService.buildShippingStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
-		menu.setName("Order stats");
-		menu.setUrl(boReportingUrlService.buildUserListUrl(request));
+		menu.setName("Orders stats");
+		menu.setUrl(boReportingUrlService.buildOrderStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers stats");
-		menu.setUrl(boReportingUrlService.buildBatchUrl(request));
+		menu.setUrl(boReportingUrlService.buildCustomerStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Reporting");
-		menu.setUrl(boReportingUrlService.buildBatchUrl(request));
+		menu.setUrl(boReportingUrlService.buildReportingUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(boReportingUrlService.buildBatchUrl(request));
+		menu.setUrl(boReportingUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

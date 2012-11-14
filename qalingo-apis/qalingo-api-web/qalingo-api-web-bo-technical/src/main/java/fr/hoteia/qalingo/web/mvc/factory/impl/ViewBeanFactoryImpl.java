@@ -135,13 +135,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Monitoring");
-		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
+		menu.setUrl(boTechnicalUrlService.buildMonitoringUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("FAQ");
-		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
+		menu.setUrl(boTechnicalUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
@@ -367,9 +367,17 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 		userDetailsViewBean.setDateCreateLabel(coreMessageSource.getMessage("user.date.create.label", null, locale));
-		userDetailsViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
+		if(user.getDateCreate() != null){
+			userDetailsViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
+		} else {
+			userDetailsViewBean.setDateCreate("NA");
+		}
 		userDetailsViewBean.setDateUpdateLabel(coreMessageSource.getMessage("user.date.update.label", null, locale));
-		userDetailsViewBean.setDateUpdate(dateFormat.format(user.getDateUpdate()));
+		if(user.getDateUpdate() != null){
+			userDetailsViewBean.setDateUpdate(dateFormat.format(user.getDateUpdate()));
+		} else {
+			userDetailsViewBean.setDateUpdate("NA");
+		}
 		
 		final Set<UserGroup> userGroups = user.getUserGroups();
 		for (Iterator<UserGroup> iteratorUserGroup = userGroups.iterator(); iteratorUserGroup.hasNext();) {

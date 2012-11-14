@@ -85,7 +85,15 @@ public class BoTechnicalUrlServiceImpl implements BoTechnicalUrlService {
 	public String buildBatchStockUrl(final HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/batch-stock.html";
 	}
+
+	public String buildMonitoringUrl(final HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/monitoring.html";
+	}
 	
+	public String buildFaqUrl(final HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/faq.html";
+	}
+
 	public String buildForbiddenUrl(final HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/forbidden.html";
 	}

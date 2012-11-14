@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.controller.cache;
+package fr.hoteia.qalingo.web.mvc.controller.catalog;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +24,13 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
  * 
  */
 @Controller
-public class CacheController extends AbstractQalingoController {
+public class CatalogController extends AbstractQalingoController {
 
-	@RequestMapping(value = "/cache.html*", method = RequestMethod.GET)
-	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cache/cache");
+	@RequestMapping(value = "/catalog-stats.html*", method = RequestMethod.GET)
+	public ModelAndView catalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/catalog");
 		
-		final String titleKeyPrefixSufix = "cache";
+		final String titleKeyPrefixSufix = "reporting.catalog.stats";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
         String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));

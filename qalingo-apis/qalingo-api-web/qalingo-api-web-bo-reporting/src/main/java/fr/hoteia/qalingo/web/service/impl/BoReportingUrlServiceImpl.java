@@ -42,20 +42,32 @@ public class BoReportingUrlServiceImpl implements BoReportingUrlService {
 		return getContextPrefixUrl(request) + "sc/users.html";
 	}
 	
-	public String buildEngineSettingUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/engine-setting.html";
+	public String buildCatalogStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/catalog-stats.html";
 	}
 	
-	public String buildCacheUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/cache.html";
+	public String buildPromotionStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/promotion-stats.html";
 	}
 	
-	public String buildBatchUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/batch.html";
+	public String buildShippingStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/shipping-stats.html";
 	}
 	
-	public String buildForbiddenUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/forbidden.html";
+	public String buildOrderStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/order-stats.html";
+	}
+	
+	public String buildCustomerStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/customer-stats.html";
+	}
+	
+	public String buildReportingUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/reporting.html";
+	}
+	
+	public String buildFaqUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/faq.html";
 	}
 	
 	public String buildChangeLanguageUrl(final HttpServletRequest request, final Localization localization) {
@@ -64,6 +76,10 @@ public class BoReportingUrlServiceImpl implements BoReportingUrlService {
 	
 	public String buildSpringSecurityCheckUrl(HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "j_spring_security_check";
+	}
+	
+	public String buildForbiddenUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/forbidden.html";
 	}
 	
 	public String buildForgottenPasswordUrl(HttpServletRequest request) {

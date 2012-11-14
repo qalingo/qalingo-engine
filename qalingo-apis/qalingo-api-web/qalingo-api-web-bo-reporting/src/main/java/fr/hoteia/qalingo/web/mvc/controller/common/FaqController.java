@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.controller.user;
+package fr.hoteia.qalingo.web.mvc.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,19 +23,19 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
  * 
  */
 @Controller
-public class UserController extends AbstractQalingoController {
+public class FaqController extends AbstractQalingoController {
 
-	@RequestMapping("/user-details.html*")
-	public ModelAndView userDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-details");
+	@RequestMapping("/faq.html*")
+	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "faq/faq");
 
-		final String titleKeyPrefixSufix = "user.details";
+		final String titleKeyPrefixSufix = "faq";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		final String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
+		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
 		modelAndView.addObject("contentTest", contentTest);
 		
         return modelAndView;
 	}
-    
+	
 }

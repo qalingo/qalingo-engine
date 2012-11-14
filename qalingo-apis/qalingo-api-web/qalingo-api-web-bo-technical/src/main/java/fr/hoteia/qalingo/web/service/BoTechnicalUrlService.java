@@ -11,7 +11,6 @@ package fr.hoteia.qalingo.web.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 
 public interface BoTechnicalUrlService {
@@ -51,6 +50,10 @@ public interface BoTechnicalUrlService {
 	String buildBatchCmsUrl(HttpServletRequest request);
 	
 	String buildBatchStockUrl(HttpServletRequest request);
+	
+	String buildMonitoringUrl(HttpServletRequest request);
+	
+	String buildFaqUrl(HttpServletRequest request);
 	
 	String buildForbiddenUrl(HttpServletRequest request);
 	

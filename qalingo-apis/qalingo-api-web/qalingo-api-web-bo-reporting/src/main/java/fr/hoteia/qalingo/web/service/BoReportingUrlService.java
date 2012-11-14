@@ -23,13 +23,19 @@ public interface BoReportingUrlService {
 	
 	String buildUserDetailsUrl(HttpServletRequest request);
 	
-	String buildUserListUrl(HttpServletRequest request);
+	String buildCatalogStatsUrl(HttpServletRequest request);
 	
-	String buildEngineSettingUrl(HttpServletRequest request);
+	String buildPromotionStatsUrl(HttpServletRequest request);
 	
-	String buildCacheUrl(HttpServletRequest request);
+	String buildShippingStatsUrl(HttpServletRequest request);
 	
-	String buildBatchUrl(HttpServletRequest request);
+	String buildOrderStatsUrl(HttpServletRequest request);
+	
+	String buildCustomerStatsUrl(HttpServletRequest request);
+	
+	String buildReportingUrl(HttpServletRequest request);
+	
+	String buildFaqUrl(HttpServletRequest request);
 	
 	String buildForbiddenUrl(HttpServletRequest request);
 	

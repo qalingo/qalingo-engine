@@ -38,16 +38,4 @@ public class UserController extends AbstractQalingoController {
         return modelAndView;
 	}
     
-	@RequestMapping("/users.html*")
-	public ModelAndView users(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-list");
-
-		final String titleKeyPrefixSufix = "user.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
-		
-        return modelAndView;
-	}
 }

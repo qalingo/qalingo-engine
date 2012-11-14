@@ -112,7 +112,7 @@ public abstract class AbstractQalingoController extends AbstractController {
 		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
 		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
 		
-		modelAndView.addObject(Constants.APP_NAME, "Qalingo Business Backoffice");;
+		modelAndView.addObject(Constants.APP_NAME, "Qalingo Business Backoffice");
 		modelAndView.addObject(Constants.APP_NAME_HTML, "Qalingo <span style=\"color: #a1cd44;\">Business</span> Backoffice");;
 
 		modelAndView.addObject("localeLanguageCode", locale.getLanguage());

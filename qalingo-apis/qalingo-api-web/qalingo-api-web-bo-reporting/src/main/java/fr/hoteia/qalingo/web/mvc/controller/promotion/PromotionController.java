@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.controller.batch;
+package fr.hoteia.qalingo.web.mvc.controller.promotion;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +24,13 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
  * 
  */
 @Controller
-public class BatchController extends AbstractQalingoController {
+public class PromotionController extends AbstractQalingoController {
 
-	@RequestMapping(value = "/batch.html*", method = RequestMethod.GET)
-	public ModelAndView batch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch");
+	@RequestMapping(value = "/promotion-stats.html*", method = RequestMethod.GET)
+	public ModelAndView promotion(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "promotion/promotion");
 		
-		final String titleKeyPrefixSufix = "batch";
+		final String titleKeyPrefixSufix = "reporting.promotion.stats";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
         String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));

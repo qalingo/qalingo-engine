@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.controller.enginesetting;
+package fr.hoteia.qalingo.web.mvc.controller.customer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +24,13 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
  * 
  */
 @Controller
-public class EngineSettingController extends AbstractQalingoController {
+public class CustomerController extends AbstractQalingoController {
 
-	@RequestMapping(value = "/engine-setting.html*", method = RequestMethod.GET)
-	public ModelAndView engineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting");
+	@RequestMapping(value = "/customer-stats.html*", method = RequestMethod.GET)
+	public ModelAndView orderList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer");
 		
-		final String titleKeyPrefixSufix = "engine.setting";
+		final String titleKeyPrefixSufix = "reporting.customer.stats";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
         String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));

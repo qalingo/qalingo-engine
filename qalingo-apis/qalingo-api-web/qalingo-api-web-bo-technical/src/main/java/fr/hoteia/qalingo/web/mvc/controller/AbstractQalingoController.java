@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +31,6 @@ import fr.hoteia.qalingo.core.common.service.UrlService;
 import fr.hoteia.qalingo.core.common.service.UserService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.web.util.ServerUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
@@ -113,7 +111,7 @@ public abstract class AbstractQalingoController extends AbstractController {
 		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
 		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
 
-		modelAndView.addObject(Constants.APP_NAME, "Qalingo Technical Backoffice");;
+		modelAndView.addObject(Constants.APP_NAME, "Qalingo Technical Backoffice");
 		modelAndView.addObject(Constants.APP_NAME_HTML, "Qalingo <span style=\"color: #a1cd44;\">Technical</span> Backoffice");;
 
 		modelAndView.addObject("localeLanguageCode", locale.getLanguage());
