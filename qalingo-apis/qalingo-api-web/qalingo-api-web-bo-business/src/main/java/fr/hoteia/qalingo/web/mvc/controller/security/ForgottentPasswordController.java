@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
+import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 
@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 public class ForgottentPasswordController extends AbstractQalingoController {
 
 	@Autowired
-    protected WebCommerceService webCommerceService;
+    protected WebBackofficeService webCommerceService;
 	
 	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.GET)
 	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {

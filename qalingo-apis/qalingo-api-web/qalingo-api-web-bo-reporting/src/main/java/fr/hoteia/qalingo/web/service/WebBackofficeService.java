@@ -7,18 +7,13 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.service.impl;
+package fr.hoteia.qalingo.web.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.web.mvc.form.UserForm;
 
-import fr.hoteia.qalingo.web.service.WebCommerceService;
+public interface WebBackofficeService {
 
-@Service("webCommerceService")
-@Transactional
-public class WebCommerceServiceImpl implements WebCommerceService {
-
-	
-
+	void updateUser(User user, UserForm userForm);
 	
 }

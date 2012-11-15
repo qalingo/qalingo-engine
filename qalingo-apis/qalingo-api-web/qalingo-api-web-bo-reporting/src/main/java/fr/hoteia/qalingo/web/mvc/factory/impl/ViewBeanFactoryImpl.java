@@ -9,10 +9,12 @@
  */
 package fr.hoteia.qalingo.web.mvc.factory.impl;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.common.domain.UserConnectionLog;
+import fr.hoteia.qalingo.core.common.domain.UserGroup;
+import fr.hoteia.qalingo.core.common.domain.UserPermission;
+import fr.hoteia.qalingo.core.common.domain.UserRole;
 import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
@@ -34,7 +41,10 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
-import fr.hoteia.qalingo.web.service.BoReportingUrlService;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserConnectionLogValueBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
+import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
 /**
  * 
@@ -51,7 +61,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
     protected RequestUtil requestUtil;
 	
 	@Autowired
-    protected BoReportingUrlService boReportingUrlService;
+    protected BackofficeUrlService backofficeUrlService;
 	
 	/**
      * 
@@ -63,13 +73,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_REPORTING);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
-		commonViewBean.setHomeUrl(boReportingUrlService.buildHomeUrl(request));
-		commonViewBean.setLoginUrl(boReportingUrlService.buildLoginUrl(request));
+		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl(request));
+		commonViewBean.setLoginUrl(backofficeUrlService.buildLoginUrl(request));
 		commonViewBean.setLoginLabel(coreMessageSource.getMessage("header.link.login", null, locale));
 //		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request));
-		commonViewBean.setLogoutUrl(boReportingUrlService.buildLogoutUrl(request));
+		commonViewBean.setLogoutUrl(backofficeUrlService.buildLogoutUrl(request));
 		commonViewBean.setLogoutLabel(coreMessageSource.getMessage("header.link.logout", null, locale));
-		commonViewBean.setUserDetailsUrl(boReportingUrlService.buildUserDetailsUrl(request));
+		commonViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request));
 		commonViewBean.setUserDetailsLabel(coreMessageSource.getMessage("header.link.my.account", null, locale));
 		
 		return commonViewBean;
@@ -87,49 +97,49 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
 		menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		menu.setUrl(boReportingUrlService.buildHomeUrl(request));
+		menu.setUrl(backofficeUrlService.buildHomeUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-sitemap");
 		menu.setName("Catalog stats");
-		menu.setUrl(boReportingUrlService.buildCatalogStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildCatalogStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion stats");
-		menu.setUrl(boReportingUrlService.buildPromotionStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildPromotionStatsUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping stats");
-		menu.setUrl(boReportingUrlService.buildShippingStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildShippingStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders stats");
-		menu.setUrl(boReportingUrlService.buildOrderStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildOrderStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers stats");
-		menu.setUrl(boReportingUrlService.buildCustomerStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildCustomerStatsUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Reporting");
-		menu.setUrl(boReportingUrlService.buildReportingUrl(request));
+		menu.setUrl(backofficeUrlService.buildReportingUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(boReportingUrlService.buildFaqUrl(request));
+		menu.setUrl(backofficeUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
@@ -145,7 +155,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
 		footerMenuList.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		footerMenuList.setUrl(boReportingUrlService.buildHomeUrl(request));
+		footerMenuList.setUrl(backofficeUrlService.buildHomeUrl(request));
 		footerMenuViewBeans.add(footerMenuList);
 		
 		return footerMenuViewBeans;
@@ -181,7 +191,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation, null, locale));
 		}
 		
-		localizationViewBean.setUrl(boReportingUrlService.buildChangeLanguageUrl(request, localization));
+		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(request, localization));
 		return localizationViewBean;
 	}
 	
@@ -228,9 +238,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		security.setForgottenPasswordEmailSucces(coreMessageSource.getMessage("forgotten.password.email.success", null, locale));
 	    
 		security.setLoginFormTitle(coreMessageSource.getMessage("login.form.login.title", null, locale));
-		security.setLoginUrl(boReportingUrlService.buildSpringSecurityCheckUrl(request));
+		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(request));
 		security.setLoginLabel(coreMessageSource.getMessage("login.form.login.label", null, locale));
-		security.setForgottenPasswordUrl(boReportingUrlService.buildForgottenPasswordUrl(request));
+		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl(request));
 		security.setForgottenPasswordLabel(coreMessageSource.getMessage("login.form.forgotten.password.label", null, locale));
 		security.setPasswordLabel(coreMessageSource.getMessage("login.form.password.label", null, locale));
 		security.setRememberLabel(coreMessageSource.getMessage("login.form.remember.label", null, locale));
@@ -246,7 +256,143 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		final QuickSearchViewBean quickSsearch = new QuickSearchViewBean();
 		quickSsearch.setTextLabel(coreMessageSource.getMessage("form.search.label.text", null, locale));
-		quickSsearch.setUrlFormSubmit(boReportingUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlFormSubmit(backofficeUrlService.buildSearchUrl(request));
 		return quickSsearch;
+	}
+	
+	/**
+     * 
+     */
+	public UserDetailsViewBean buildUserViewBean(final HttpServletRequest request, final Localization localization, final User user) throws Exception {
+		final Locale locale = localization.getLocale();
+		final UserDetailsViewBean userDetailsViewBean = new UserDetailsViewBean();
+		userDetailsViewBean.setId(user.getId());
+		userDetailsViewBean.setLoginLabel(coreMessageSource.getMessage("user.login.label", null, locale));
+		userDetailsViewBean.setLogin(user.getLogin());
+		userDetailsViewBean.setFirstnameLabel(coreMessageSource.getMessage("user.firstname.label", null, locale));
+		userDetailsViewBean.setFirstname(user.getFirstname());
+		userDetailsViewBean.setLastnameLabel(coreMessageSource.getMessage("user.lastname.label", null, locale));
+		userDetailsViewBean.setLastname(user.getLastname());
+		userDetailsViewBean.setEmailLabel(coreMessageSource.getMessage("user.email.label", null, locale));
+		userDetailsViewBean.setEmail(user.getEmail());
+		userDetailsViewBean.setPasswordLabel(coreMessageSource.getMessage("user.password.label", null, locale));
+		userDetailsViewBean.setPassword(user.getPassword());
+		userDetailsViewBean.setActiveLabel(coreMessageSource.getMessage("user.active.label", null, locale));
+		userDetailsViewBean.setActive(user.isActive());
+		if(user.isActive()){
+			userDetailsViewBean.setActiveValueLabel(coreMessageSource.getMessage("user.active.value.true", null, locale));
+		} else {
+			userDetailsViewBean.setActiveValueLabel(coreMessageSource.getMessage("user.active.value.false", null, locale));
+		}
+		
+		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+		userDetailsViewBean.setDateCreateLabel(coreMessageSource.getMessage("user.date.create.label", null, locale));
+		if(user.getDateCreate() != null){
+			userDetailsViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
+		} else {
+			userDetailsViewBean.setDateCreate("NA");
+		}
+		userDetailsViewBean.setDateUpdateLabel(coreMessageSource.getMessage("user.date.update.label", null, locale));
+		if(user.getDateUpdate() != null){
+			userDetailsViewBean.setDateUpdate(dateFormat.format(user.getDateUpdate()));
+		} else {
+			userDetailsViewBean.setDateUpdate("NA");
+		}
+		
+		final Set<UserGroup> userGroups = user.getUserGroups();
+		for (Iterator<UserGroup> iteratorUserGroup = userGroups.iterator(); iteratorUserGroup.hasNext();) {
+			UserGroup userGroup = (UserGroup) iteratorUserGroup.next();
+			String keyUserGroup = userGroup.getCode();
+			String valueUserGroup = userGroup.getName();
+			userDetailsViewBean.getUserGroups().put(keyUserGroup, valueUserGroup);
+			
+			final Set<UserRole> userRoles = userGroup.getGroupRoles();
+			for (Iterator<UserRole> iteratorUserRole = userRoles.iterator(); iteratorUserRole.hasNext();) {
+				UserRole userRole = (UserRole) iteratorUserRole.next();
+				String keyUserRole = userRole.getCode() + " (" + userGroup.getCode() + ")";
+				String valueUserRole = userRole.getName();
+				userDetailsViewBean.getUserRoles().put(keyUserRole, valueUserRole);
+				
+				final Set<UserPermission> rolePermissions = userRole.getRolePermissions();
+				for (Iterator<UserPermission> iteratorUserPermission = rolePermissions.iterator(); iteratorUserPermission.hasNext();) {
+					UserPermission userPermission = (UserPermission) iteratorUserPermission.next();
+					String keyUserPermission = userPermission.getCode() + " (" + userRole.getCode() + ")";
+					String valueUserPermission = userPermission.getName();
+					userDetailsViewBean.getUserPermissions().put(keyUserPermission, valueUserPermission);
+				}
+			}
+		}
+		
+		userDetailsViewBean.setUserConnectionLogLabel(coreMessageSource.getMessage("user.last.login.label", null, locale));
+		userDetailsViewBean.setUserGroupsLabel(coreMessageSource.getMessage("user.groups.label", null, locale));
+		userDetailsViewBean.setUserRolesLabel(coreMessageSource.getMessage("user.roles.label", null, locale));
+		userDetailsViewBean.setUserPermissionsLabel(coreMessageSource.getMessage("user.permissions.label", null, locale));
+		
+		userDetailsViewBean.setTableDateLabel(coreMessageSource.getMessage("user.details.table.date", null, locale));
+		userDetailsViewBean.setTableHostLabel(coreMessageSource.getMessage("user.details.table.host", null, locale));
+		userDetailsViewBean.setTableAddressLabel(coreMessageSource.getMessage("user.details.table.address", null, locale));
+		userDetailsViewBean.setTableCodeLabel(coreMessageSource.getMessage("user.details.table.code", null, locale));
+		userDetailsViewBean.setTableNameLabel(coreMessageSource.getMessage("user.details.table.name", null, locale));
+		
+		final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
+		for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
+			UserConnectionLog userConnectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
+			UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
+			userConnectionLogValueBean.setDate(dateFormat.format(userConnectionLog.getLoginDate()));
+			if(StringUtils.isNotEmpty(userConnectionLog.getHost())){
+				userConnectionLogValueBean.setHost(userConnectionLog.getHost());
+			} else {
+				userConnectionLogValueBean.setHost("NA");
+			}
+			if(StringUtils.isNotEmpty(userConnectionLog.getAddress())){
+				userConnectionLogValueBean.setAddress(userConnectionLog.getAddress());
+			} else {
+				userConnectionLogValueBean.setAddress("NA");
+			}
+			userDetailsViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
+		}
+
+		userDetailsViewBean.setBackLabel(coreMessageSource.getMessage("user.back.label", null, locale));
+		userDetailsViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
+
+		userDetailsViewBean.setUserDetailsLabel(coreMessageSource.getMessage("user.details.label", null, locale));
+		userDetailsViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request));
+
+		userDetailsViewBean.setUserEditLabel(coreMessageSource.getMessage("user.edit.label", null, locale));
+		userDetailsViewBean.setUserEditUrl(backofficeUrlService.buildUserEditUrl(request));
+		
+		return userDetailsViewBean;
+	}
+	
+	/**
+     * 
+     */
+	public UserEditViewBean buildUserEditViewBean(final HttpServletRequest request, final Localization localization, final User user) throws Exception {
+		final Locale locale = localization.getLocale();
+		final UserEditViewBean userEditViewBean = new UserEditViewBean();
+
+		userEditViewBean.setId(user.getId());
+		userEditViewBean.setLoginLabel(coreMessageSource.getMessage("user.login.label", null, locale));
+		userEditViewBean.setFirstnameLabel(coreMessageSource.getMessage("user.firstname.label", null, locale));
+		userEditViewBean.setLastnameLabel(coreMessageSource.getMessage("user.lastname.label", null, locale));
+		userEditViewBean.setEmailLabel(coreMessageSource.getMessage("user.email.label", null, locale));
+		userEditViewBean.setPasswordLabel(coreMessageSource.getMessage("user.password.label", null, locale));
+		userEditViewBean.setActiveLabel(coreMessageSource.getMessage("user.active.label", null, locale));
+		if(user.isActive()){
+			userEditViewBean.setActiveValueLabel(coreMessageSource.getMessage("user.active.value.true", null, locale));
+		} else {
+			userEditViewBean.setActiveValueLabel(coreMessageSource.getMessage("user.active.value.false", null, locale));
+		}
+		
+		userEditViewBean.setDateCreateLabel(coreMessageSource.getMessage("user.date.create.label", null, locale));
+		userEditViewBean.setDateUpdateLabel(coreMessageSource.getMessage("user.date.update.label", null, locale));
+		
+		userEditViewBean.setCancelLabel(coreMessageSource.getMessage("user.edit.cancel.label", null, locale));
+		userEditViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
+
+		userEditViewBean.setSubmitLabel(coreMessageSource.getMessage("user.edit.submit.label", null, locale));
+		userEditViewBean.setFormSubmitUrl(backofficeUrlService.buildUserEditUrl(request));
+		
+		return userEditViewBean;
 	}
 }

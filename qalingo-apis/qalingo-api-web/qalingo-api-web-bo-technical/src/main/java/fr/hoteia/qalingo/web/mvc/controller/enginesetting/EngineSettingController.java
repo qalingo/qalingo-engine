@@ -164,7 +164,7 @@ public class EngineSettingController extends AbstractQalingoController {
 			}
 		}
 
-		final String urlRedirect = boTechnicalUrlService.buildEngineSettingListUrl(request);
+		final String urlRedirect = backofficeUrlService.buildEngineSettingListUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -188,7 +188,7 @@ public class EngineSettingController extends AbstractQalingoController {
 		webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
 
 		final String engineSettingId = engineSettingValue.getEngineSetting().getId().toString();
-		final String urlRedirect = boTechnicalUrlService.buildEngineSettingDetailsUrl(request, engineSettingId);
+		final String urlRedirect = backofficeUrlService.buildEngineSettingDetailsUrl(request, engineSettingId);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -206,13 +206,13 @@ public class EngineSettingController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildEngineSettingListUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingListUrl(request));
 		customerLinks.add(linkMenuViewBean);
 
 		if(engineSetting != null){
 			linkMenuViewBean = new LinkMenuViewBean();
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.details", null, locale));
-			linkMenuViewBean.setUrl(boTechnicalUrlService.buildEngineSettingDetailsUrl(request, engineSetting.getId().toString()));
+			linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingDetailsUrl(request, engineSetting.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}
 		

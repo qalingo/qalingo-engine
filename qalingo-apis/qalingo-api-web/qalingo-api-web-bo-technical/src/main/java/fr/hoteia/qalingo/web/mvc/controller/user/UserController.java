@@ -172,7 +172,7 @@ public class UserController extends AbstractQalingoController {
 			return modelAndView;
 		}
 
-		final String urlRedirect = boTechnicalUrlService.buildUserListUrl(request);
+		final String urlRedirect = backofficeUrlService.buildUserListUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -224,7 +224,7 @@ public class UserController extends AbstractQalingoController {
 		// UPDATE USER
 		webBackofficeService.updateUser(user, userForm);
 		
-		final String urlRedirect = boTechnicalUrlService.buildUserDetailsUrl(request, userId);
+		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl(request, userId);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -253,13 +253,13 @@ public class UserController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildUserListUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildUserListUrl(request));
 		customerLinks.add(linkMenuViewBean);
 
 		if(user != null){
 			linkMenuViewBean = new LinkMenuViewBean();
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.details", null, locale));
-			linkMenuViewBean.setUrl(boTechnicalUrlService.buildUserDetailsUrl(request, user.getId().toString()));
+			linkMenuViewBean.setUrl(backofficeUrlService.buildUserDetailsUrl(request, user.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}
 		

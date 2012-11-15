@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.common.domain.User;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
@@ -21,6 +22,8 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 
 public interface ViewBeanFactory {
 
@@ -39,4 +42,8 @@ public interface ViewBeanFactory {
 	SecurityViewBean buildSecurityViewBean(HttpServletRequest request, Localization localization) throws Exception;
 
 	QuickSearchViewBean buildQuickSearchViewBean(HttpServletRequest request, Localization localization) throws Exception;
+	
+	UserDetailsViewBean buildUserViewBean(HttpServletRequest request, Localization localization, User user) throws Exception;
+	
+	UserEditViewBean buildUserEditViewBean(HttpServletRequest request, Localization localization, User user) throws Exception;
 }

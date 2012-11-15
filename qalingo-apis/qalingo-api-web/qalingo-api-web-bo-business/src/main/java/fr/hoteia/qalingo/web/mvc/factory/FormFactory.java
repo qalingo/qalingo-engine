@@ -9,9 +9,15 @@
  */
 package fr.hoteia.qalingo.web.mvc.factory;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.servlet.ModelAndView;
+
+import fr.hoteia.qalingo.core.common.domain.User;
+
 
 public interface FormFactory {
 
-//	 void buildSearchForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	void buildUserForm(HttpServletRequest request, ModelAndView modelAndView, User user) throws Exception;
 
 }

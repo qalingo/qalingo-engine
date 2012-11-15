@@ -36,6 +36,7 @@ import fr.hoteia.qalingo.core.web.util.ServerUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
+import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
 /**
  * 
@@ -75,6 +76,9 @@ public abstract class AbstractQalingoController extends AbstractController {
 
 	@Autowired
     protected UrlService urlService;
+	
+	@Autowired
+    protected BackofficeUrlService backofficeUrlService;
 	
 	/**
 	 * 

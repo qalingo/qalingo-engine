@@ -52,7 +52,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserConnectionLogValueBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
-import fr.hoteia.qalingo.web.service.BoTechnicalUrlService;
+import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
 /**
  * 
@@ -69,7 +69,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
     protected RequestUtil requestUtil;
 	
 	@Autowired
-    protected BoTechnicalUrlService boTechnicalUrlService;
+    protected BackofficeUrlService backofficeUrlService;
 	
 	/**
      * 
@@ -81,13 +81,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
-		commonViewBean.setHomeUrl(boTechnicalUrlService.buildHomeUrl(request));
-		commonViewBean.setLoginUrl(boTechnicalUrlService.buildLoginUrl(request));
+		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl(request));
+		commonViewBean.setLoginUrl(backofficeUrlService.buildLoginUrl(request));
 		commonViewBean.setLoginLabel(coreMessageSource.getMessage("header.link.login", null, locale));
 //		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request));
-		commonViewBean.setLogoutUrl(boTechnicalUrlService.buildLogoutUrl(request));
+		commonViewBean.setLogoutUrl(backofficeUrlService.buildLogoutUrl(request));
 		commonViewBean.setLogoutLabel(coreMessageSource.getMessage("header.link.logout", null, locale));
-		commonViewBean.setUserDetailsUrl(boTechnicalUrlService.buildUserDetailsUrl(request));
+		commonViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request));
 		commonViewBean.setUserDetailsLabel(coreMessageSource.getMessage("header.link.my.account", null, locale));
 		
 		return commonViewBean;
@@ -105,43 +105,43 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
 		menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		menu.setUrl(boTechnicalUrlService.buildHomeUrl(request));
+		menu.setUrl(backofficeUrlService.buildHomeUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-cogs");
 		menu.setName("Engine Setting");
-		menu.setUrl(boTechnicalUrlService.buildEngineSettingListUrl(request));
+		menu.setUrl(backofficeUrlService.buildEngineSettingListUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-reorder");
 		menu.setName("Cache");
-		menu.setUrl(boTechnicalUrlService.buildCacheUrl(request));
+		menu.setUrl(backofficeUrlService.buildCacheUrl(request));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-random");
 		menu.setName("Batch");
-		menu.setUrl(boTechnicalUrlService.buildBatchUrl(request));
+		menu.setUrl(backofficeUrlService.buildBatchUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Users");
-		menu.setUrl(boTechnicalUrlService.buildUserListUrl(request));
+		menu.setUrl(backofficeUrlService.buildUserListUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Monitoring");
-		menu.setUrl(boTechnicalUrlService.buildMonitoringUrl(request));
+		menu.setUrl(backofficeUrlService.buildMonitoringUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("FAQ");
-		menu.setUrl(boTechnicalUrlService.buildFaqUrl(request));
+		menu.setUrl(backofficeUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
@@ -157,7 +157,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
 		footerMenuList.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		footerMenuList.setUrl(boTechnicalUrlService.buildHomeUrl(request));
+		footerMenuList.setUrl(backofficeUrlService.buildHomeUrl(request));
 		footerMenuViewBeans.add(footerMenuList);
 		
 		return footerMenuViewBeans;
@@ -193,7 +193,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation, null, locale));
 		}
 		
-		localizationViewBean.setUrl(boTechnicalUrlService.buildChangeLanguageUrl(request, localization));
+		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(request, localization));
 		return localizationViewBean;
 	}
 	
@@ -240,9 +240,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		security.setForgottenPasswordEmailSucces(coreMessageSource.getMessage("forgotten.password.email.success", null, locale));
 	    
 		security.setLoginFormTitle(coreMessageSource.getMessage("login.form.login.title", null, locale));
-		security.setLoginUrl(boTechnicalUrlService.buildSpringSecurityCheckUrl(request));
+		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(request));
 		security.setLoginLabel(coreMessageSource.getMessage("login.form.login.label", null, locale));
-		security.setForgottenPasswordUrl(boTechnicalUrlService.buildForgottenPasswordUrl(request));
+		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl(request));
 		security.setForgottenPasswordLabel(coreMessageSource.getMessage("login.form.forgotten.password.label", null, locale));
 		security.setPasswordLabel(coreMessageSource.getMessage("login.form.password.label", null, locale));
 		security.setRememberLabel(coreMessageSource.getMessage("login.form.remember.label", null, locale));
@@ -259,10 +259,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final QuickSearchViewBean quickSsearch = new QuickSearchViewBean();
 		quickSsearch.setTextLabel(coreMessageSource.getMessage("form.search.label.text", null, locale));
 		quickSsearch.setLabelSubmit(coreMessageSource.getMessage("form.search.label.submit", null, locale));
-		quickSsearch.setUrlFormSubmit(boTechnicalUrlService.buildSearchUrl(request));
-		quickSsearch.setUrlEngineSettingFormSubmit(boTechnicalUrlService.buildSearchUrl(request));
-		quickSsearch.setUrlUserFormSubmit(boTechnicalUrlService.buildSearchUrl(request));
-		quickSsearch.setUrlBatchFormSubmit(boTechnicalUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlFormSubmit(backofficeUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlEngineSettingFormSubmit(backofficeUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlUserFormSubmit(backofficeUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlBatchFormSubmit(backofficeUrlService.buildSearchUrl(request));
 		return quickSsearch;
 	}
 	
@@ -285,7 +285,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final EngineSettingViewBean engineSettingViewBean = new EngineSettingViewBean();
 		engineSettingViewBean.setName(engineSetting.getName());
 		engineSettingViewBean.setDescription(engineSetting.getDescription());
-		engineSettingViewBean.setEngineSettingDetailsUrl(boTechnicalUrlService.buildEngineSettingDetailsUrl(request, engineSetting.getId().toString()));
+		engineSettingViewBean.setEngineSettingDetailsUrl(backofficeUrlService.buildEngineSettingDetailsUrl(request, engineSetting.getId().toString()));
 		Set<EngineSettingValue> engineSettingValues = engineSetting.getEngineSettingValues();
 		if(engineSettingValues != null){
 			for (Iterator<EngineSettingValue> iterator = engineSettingValues.iterator(); iterator.hasNext();) {
@@ -313,7 +313,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final EngineSettingValueViewBean engineSettingValueViewBean = new EngineSettingValueViewBean();
 		engineSettingValueViewBean.setContext(engineSettingValue.getContext());
 		engineSettingValueViewBean.setValue(engineSettingValue.getValue());
-		engineSettingValueViewBean.setEditUrl(boTechnicalUrlService.buildEngineSettingValueEditUrl(request, engineSettingValue.getId().toString()));
+		engineSettingValueViewBean.setEditUrl(backofficeUrlService.buildEngineSettingValueEditUrl(request, engineSettingValue.getId().toString()));
 		return engineSettingValueViewBean;
 	}
 	
@@ -324,7 +324,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		final EngineSettingValueEditViewBean engineSettingValueEdit = new EngineSettingValueEditViewBean();
 		engineSettingValueEdit.setSubmitLabel(coreMessageSource.getMessage("form.engine.setting.value.edit.submit.label", null, locale));
-		engineSettingValueEdit.setFormSubmitUrl(boTechnicalUrlService.buildEngineSettingValueEditUrl(request, engineSettingValue.getId().toString()));
+		engineSettingValueEdit.setFormSubmitUrl(backofficeUrlService.buildEngineSettingValueEditUrl(request, engineSettingValue.getId().toString()));
 		return engineSettingValueEdit;
 	}
 	
@@ -419,8 +419,16 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			UserConnectionLog userConnectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
 			UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
 			userConnectionLogValueBean.setDate(dateFormat.format(userConnectionLog.getLoginDate()));
-			userConnectionLogValueBean.setHost(userConnectionLog.getHost());
-			userConnectionLogValueBean.setAddress(userConnectionLog.getAddress());
+			if(StringUtils.isNotEmpty(userConnectionLog.getHost())){
+				userConnectionLogValueBean.setHost(userConnectionLog.getHost());
+			} else {
+				userConnectionLogValueBean.setHost("NA");
+			}
+			if(StringUtils.isNotEmpty(userConnectionLog.getAddress())){
+				userConnectionLogValueBean.setAddress(userConnectionLog.getAddress());
+			} else {
+				userConnectionLogValueBean.setAddress("NA");
+			}
 			userDetailsViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
 		}
 
@@ -428,10 +436,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		userDetailsViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
 
 		userDetailsViewBean.setUserDetailsLabel(coreMessageSource.getMessage("user.details.label", null, locale));
-		userDetailsViewBean.setUserDetailsUrl(boTechnicalUrlService.buildUserDetailsUrl(request, user.getId().toString()));
+		userDetailsViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request, user.getId().toString()));
 
 		userDetailsViewBean.setUserEditLabel(coreMessageSource.getMessage("user.edit.label", null, locale));
-		userDetailsViewBean.setUserEditUrl(boTechnicalUrlService.buildUserEditUrl(request, user.getId().toString()));
+		userDetailsViewBean.setUserEditUrl(backofficeUrlService.buildUserEditUrl(request, user.getId().toString()));
 		
 		return userDetailsViewBean;
 	}
@@ -458,7 +466,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		userEditViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
 
 		userEditViewBean.setSubmitLabel(coreMessageSource.getMessage("user.edit.submit.label", null, locale));
-		userEditViewBean.setFormSubmitUrl(boTechnicalUrlService.buildUserEditUrl(request, user.getId().toString()));
+		userEditViewBean.setFormSubmitUrl(backofficeUrlService.buildUserEditUrl(request, user.getId().toString()));
 		
 		return userEditViewBean;
 	}

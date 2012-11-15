@@ -214,27 +214,27 @@ public class BatchController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.customer.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildBatchCustomerUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCustomerUrl(request));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.order.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildBatchOrderUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchOrderUrl(request));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.email.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildBatchEmailUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchEmailUrl(request));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.cms.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildBatchCmsUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCmsUrl(request));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.stock.list", null, locale));
-		linkMenuViewBean.setUrl(boTechnicalUrlService.buildBatchStockUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchStockUrl(request));
 		batchLinks.add(linkMenuViewBean);
 		
 		modelAndView.addObject("links", batchLinks);

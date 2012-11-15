@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.web.service.BoBusinessUrlService;
+import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
-@Service("boBusinessUrlService")
+@Service("backofficeUrlService")
 @Transactional
-public class BoBusinessUrlServiceImpl implements BoBusinessUrlService {
+public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 
 	public String buildHomeUrl(HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/home.html";
@@ -34,32 +34,36 @@ public class BoBusinessUrlServiceImpl implements BoBusinessUrlService {
 		return getContextPrefixUrl(request) + "sc/logout-session.html";
 	}
 	
-	public String buildUserDetailsUrl(HttpServletRequest request) {
+	public String buildUserDetailsUrl(final HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/user-details.html";
 	}
 	
-	public String buildUserListUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/users.html";
+	public String buildUserEditUrl(final HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/user-edit.html";
 	}
 	
-	public String buildCatalogUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/catalog.html";
+	public String buildCatalogStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/catalog-stats.html";
 	}
 	
-	public String buildPromotionUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/promotion.html";
+	public String buildPromotionStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/promotion-stats.html";
 	}
 	
-	public String buildShippingUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/shipping.html";
+	public String buildShippingStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/shipping-stats.html";
 	}
 	
-	public String buildOrderListUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/order-list.html";
+	public String buildOrderStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/order-stats.html";
 	}
 	
-	public String buildCustomerListUrl(HttpServletRequest request) {
-		return getContextPrefixUrl(request) + "sc/customer-list.html";
+	public String buildCustomerStatsUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/customer-stats.html";
+	}
+	
+	public String buildReportingUrl(HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/reporting.html";
 	}
 	
 	public String buildFaqUrl(HttpServletRequest request) {

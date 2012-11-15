@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.web.service.BoTechnicalUrlService;
+import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
-@Service("boTechnicalUrlService")
+@Service("backofficeUrlService")
 @Transactional
-public class BoTechnicalUrlServiceImpl implements BoTechnicalUrlService {
+public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 
 	public String buildHomeUrl(final HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/home.html";

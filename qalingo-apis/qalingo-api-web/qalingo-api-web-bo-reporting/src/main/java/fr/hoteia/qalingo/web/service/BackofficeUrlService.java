@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.common.domain.Localization;
 
-public interface BoBusinessUrlService {
+public interface BackofficeUrlService {
 
 	String buildHomeUrl(HttpServletRequest request);
 	
@@ -23,18 +23,20 @@ public interface BoBusinessUrlService {
 	
 	String buildUserDetailsUrl(HttpServletRequest request);
 	
-	String buildUserListUrl(HttpServletRequest request);
+	String buildUserEditUrl(HttpServletRequest request);
 	
-	String buildCatalogUrl(HttpServletRequest request);
+	String buildCatalogStatsUrl(HttpServletRequest request);
 	
-	String buildPromotionUrl(HttpServletRequest request);
+	String buildPromotionStatsUrl(HttpServletRequest request);
 	
-	String buildShippingUrl(HttpServletRequest request);
-
-	String buildOrderListUrl(HttpServletRequest request);
-
-	String buildCustomerListUrl(HttpServletRequest request);
-
+	String buildShippingStatsUrl(HttpServletRequest request);
+	
+	String buildOrderStatsUrl(HttpServletRequest request);
+	
+	String buildCustomerStatsUrl(HttpServletRequest request);
+	
+	String buildReportingUrl(HttpServletRequest request);
+	
 	String buildFaqUrl(HttpServletRequest request);
 	
 	String buildForbiddenUrl(HttpServletRequest request);

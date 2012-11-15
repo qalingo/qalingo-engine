@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.common.domain.Localization;
 
-public interface BoTechnicalUrlService {
+public interface BackofficeUrlService {
 
 	String buildHomeUrl(HttpServletRequest request);
 	
