@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.CustomerConnectionLogDao;
 import fr.hoteia.qalingo.core.common.domain.CustomerConnectionLog;
+import fr.hoteia.qalingo.core.common.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.common.service.CustomerConnectionLogService;
+import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 
 @Service("customerConnectionLogService")
 @Transactional
@@ -26,6 +28,9 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 	@Autowired
 	private CustomerConnectionLogDao customerConnectionLogDao;
 
+	@Autowired
+	protected EngineSettingService engineSettingService;
+	
 	public CustomerConnectionLog getCustomerConnectionLogById(String rawCustomerConnectionLogId) {
 		long customerConnectionLogId = -1;
 		try {
@@ -36,12 +41,24 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 		return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId);
 	}
 
-	public List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria) {
-		return customerConnectionLogDao.findByExample(criteria);
-	}
+//	public List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria) {
+//		return customerConnectionLogDao.findByExample(criteria);
+//	}
 
 	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
-		customerConnectionLogDao.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
+		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG);
+		final Long customerId = customerConnectionLog.getCustomerId();
+		final String appCode = customerConnectionLog.getApp();
+		List<CustomerConnectionLog> customerConnectionLogs  = customerConnectionLogDao.findCustomerConnectionLogsByCustomerIdAndAppCode(customerId, appCode);
+		if(customerConnectionLogs.size() >= new Integer(maxConnectionToLog)){
+			CustomerConnectionLog customerConnectionLogToUpdate = customerConnectionLogs.get(0);
+			customerConnectionLogToUpdate.setAddress(customerConnectionLog.getAddress());
+			customerConnectionLogToUpdate.setHost(customerConnectionLog.getHost());
+			customerConnectionLogToUpdate.setLoginDate(customerConnectionLog.getLoginDate());
+			customerConnectionLogDao.saveOrUpdateCustomerConnectionLog(customerConnectionLogToUpdate);
+		} else {
+			customerConnectionLogDao.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
+		}
 	}
 
 	public void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {

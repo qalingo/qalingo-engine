@@ -43,6 +43,12 @@ public class ProductImage implements Serializable {
 	@Column(name="NAME")
 	private String name;
 
+	@Column(name="CODE")
+	private String code;
+	
+	@Column(name="DESCRIPTION")
+	private String description;
+	
 	@Column(name="PATH")
 	private String path;
 	
@@ -51,9 +57,6 @@ public class ProductImage implements Serializable {
 	
 	@Column(name="SIZE")
 	private String size;
-	
-	@Column(name="DESCRIPTION")
-	private String description;
 	
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
@@ -91,6 +94,14 @@ public class ProductImage implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	public String getType() {

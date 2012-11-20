@@ -131,7 +131,7 @@ public class CustomerOrderController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		List<OrderViewBean> orderViewBeans = viewBeanFactory.buildOrderViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, orders);
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
-		orderViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE); 
+		orderViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, orderViewBeanPagedListHolder);
         return orderViewBeanPagedListHolder;
 	}

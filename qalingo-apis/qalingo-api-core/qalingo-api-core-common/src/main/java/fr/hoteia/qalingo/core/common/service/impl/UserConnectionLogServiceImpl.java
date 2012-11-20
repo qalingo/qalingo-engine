@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.UserConnectionLogDao;
 import fr.hoteia.qalingo.core.common.domain.UserConnectionLog;
+import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.common.service.UserConnectionLogService;
 
 @Service("userConnectionLogService")
@@ -25,6 +26,9 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 
 	@Autowired
 	private UserConnectionLogDao userConnectionLogDao;
+	
+	@Autowired
+	protected EngineSettingService engineSettingService;
 
 	public UserConnectionLog getUserConnectionLogById(String rawUserConnectionLogId) {
 		long userConnectionLogId = -1;
@@ -36,12 +40,24 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 		return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId);
 	}
 
-	public List<UserConnectionLog> findUserConnectionLog(UserConnectionLog criteria) {
-		return userConnectionLogDao.findByExample(criteria);
-	}
+//	public List<UserConnectionLog> findUserConnectionLog(UserConnectionLog criteria) {
+//		return userConnectionLogDao.findByExample(criteria);
+//	}
 
 	public void saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog) {
-		userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLog);
+		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_USER_CONNECTION_LOG);
+		final Long userId = userConnectionLog.getUserId();
+		final String appCode = userConnectionLog.getApp();
+		List<UserConnectionLog> userConnectionLogs  = userConnectionLogDao.findUserConnectionLogsByUserIdAndAppCode(userId, appCode);
+		if(userConnectionLogs.size() >= new Integer(maxConnectionToLog)){
+			UserConnectionLog userConnectionLogToUpdate = userConnectionLogs.get(0);
+			userConnectionLogToUpdate.setAddress(userConnectionLog.getAddress());
+			userConnectionLogToUpdate.setHost(userConnectionLog.getHost());
+			userConnectionLogToUpdate.setLoginDate(userConnectionLog.getLoginDate());
+			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLogToUpdate);
+		} else {
+			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLog);
+		}
 	}
 
 	public void deleteUserConnectionLog(UserConnectionLog userConnectionLog) {

@@ -45,9 +45,6 @@ public class BatchController extends AbstractQalingoController {
 	@Autowired
 	protected BatchProcessObjectService batchProcessObjectService;
 	
-	@Autowired
-	protected EngineSettingService engineSettingService;
-	
 	@RequestMapping("/search-batch.html*")
 	public ModelAndView searchBatch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
@@ -173,40 +170,46 @@ public class BatchController extends AbstractQalingoController {
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
         String page = request.getParameter(Constants.PAGE_PARAMETER);
-		PagedListHolder<BatchViewBean> userViewBeanPagedListHolder;
+		PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
-        	userViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, new PagedListHolder<BatchViewBean>());
+        	batchViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, new PagedListHolder<BatchViewBean>());
         } else {
-	        userViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
-	        if (userViewBeanPagedListHolder == null) { 
-	        	userViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, userViewBeanPagedListHolder);
+	        batchViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
+	        if (batchViewBeanPagedListHolder == null) { 
+	        	batchViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, batchViewBeanPagedListHolder);
 	        }
 	        int pageTarget = new Integer(page).intValue() - 1;
-	        int pageCurrent = userViewBeanPagedListHolder.getPage();
+	        int pageCurrent = batchViewBeanPagedListHolder.getPage();
 	        if (pageCurrent < pageTarget) { 
 	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		userViewBeanPagedListHolder.nextPage(); 
+	        		batchViewBeanPagedListHolder.nextPage(); 
 				}
 	        } else if (pageCurrent > pageTarget) { 
 	        	for (int i = pageTarget; i < pageCurrent; i++) {
-		        	userViewBeanPagedListHolder.previousPage(); 
+		        	batchViewBeanPagedListHolder.previousPage(); 
 				}
 	        } 
         }
 		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, userViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, batchViewBeanPagedListHolder);
 		
 		formFactory.buildBatchQuickSearchForm(request, modelAndView);	
 	}
 	
 	protected PagedListHolder<BatchViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, 
-			final List<BatchProcessObject> batchProcessObjects, PagedListHolder<BatchViewBean> userViewBeanPagedListHolder) throws Exception{
+			final List<BatchProcessObject> batchProcessObjects, PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder) throws Exception{
 		List<BatchViewBean> batchViewBeans = viewBeanFactory.buildBatchViewBeans(request, currentLocalization, batchProcessObjects);
-		userViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
-		userViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE); 
-        request.getSession().setAttribute(sessionKey, userViewBeanPagedListHolder);
-        return userViewBeanPagedListHolder;
+		batchViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
+
+		batchViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
+		if(StringUtils.isNotEmpty(pageSize)){
+			batchViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 
+		}
+
+        request.getSession().setAttribute(sessionKey, batchViewBeanPagedListHolder);
+        return batchViewBeanPagedListHolder;
 	}
 	
 	protected void initLinks(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final Locale locale){

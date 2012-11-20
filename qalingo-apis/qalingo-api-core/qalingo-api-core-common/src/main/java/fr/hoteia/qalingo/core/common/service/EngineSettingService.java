@@ -36,7 +36,19 @@ public interface EngineSettingService {
 	public final static String ENGINE_SETTING_CODE_SOLR			= "SOLR";
 	public final static String ENGINE_SETTING_CONTEXT_MASTER	= "MASTER";
 	
+	// COUNT ITEM BY PAGE - PAGE SIZE
+	public final static String ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE = "COUNT_ITEM_BY_PAGE";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST = "BO_TECHNICAL_ENGINE_SETTING_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_USER_LIST = "BO_TECHNICAL_USER_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST = "BO_TECHNICAL_CACHE_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST = "BO_TECHNICAL_BATCH_LIST";
+
+	// MAX USER LOGIN SUCCES TO LOG
+	public final static String ENGINE_SETTING_MAX_USER_CONNECTION_LOG = "MAX_USER_CONNECTION_LOG";
+	public final static String ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG = "MAX_CUSTOMER_CONNECTION_LOG";
+
 	// Engine Setting
+	
 	EngineSetting getEngineSettingById(String id);
 
 	EngineSetting getEngineSettingByCode(String code);
@@ -52,8 +64,13 @@ public interface EngineSettingService {
 	void deleteEngineSetting(EngineSetting engineSetting);
 	
 	// Engine Setting Value
+	
 	EngineSettingValue getEngineSettingValueById(String id);
 
 	void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
+	
+	String getEngineSettingValueByCode(String engineSettingCode, String engineSettingValueCode);
+	
+	String getEngineSettingDefaultValueByCode(String engineSettingCode);
 
 }

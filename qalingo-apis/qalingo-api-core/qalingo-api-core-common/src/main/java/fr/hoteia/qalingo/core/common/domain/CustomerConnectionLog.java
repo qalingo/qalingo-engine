@@ -39,6 +39,15 @@ public class CustomerConnectionLog implements Serializable {
 	@Column(name="LOGIN_DATE")
 	private Date loginDate;
 	
+	@Column(name="APP")
+	private String app;
+	
+	@Column(name="HOST")
+	private String host;
+	
+	@Column(name="ADDRESS")
+	private String address;
+	
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 	
@@ -59,6 +68,30 @@ public class CustomerConnectionLog implements Serializable {
 
 	public void setLoginDate(Date loginDate) {
 		this.loginDate = loginDate;
+	}
+	
+	public String getApp() {
+		return app;
+	}
+	
+	public void setApp(String app) {
+		this.app = app;
+	}
+	
+	public String getHost() {
+		return host;
+	}
+	
+	public void setHost(String host) {
+		this.host = host;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public Long getCustomerId() {

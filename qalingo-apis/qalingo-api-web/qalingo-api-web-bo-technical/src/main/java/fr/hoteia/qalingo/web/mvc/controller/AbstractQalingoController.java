@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.common.service.UrlService;
 import fr.hoteia.qalingo.core.common.service.UserService;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -74,6 +75,9 @@ public abstract class AbstractQalingoController extends AbstractController {
 	
 	@Autowired
     protected BackofficeUrlService backofficeUrlService;
+	
+	@Autowired
+	protected EngineSettingService engineSettingService;
 	
 	/**
 	 * 

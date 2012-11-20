@@ -47,9 +47,6 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
 public class EngineSettingController extends AbstractQalingoController {
 
 	@Autowired
-	protected EngineSettingService engineSettingService;
-	
-	@Autowired
 	protected WebBackofficeService webBackofficeService;
 	
 	@RequestMapping("/search-engine-setting.html*")
@@ -196,7 +193,13 @@ public class EngineSettingController extends AbstractQalingoController {
 			PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder) throws Exception{
 		List<EngineSettingViewBean> engineSettingViewBeans = viewBeanFactory.buildEngineSettingViewBeans(request, engineSettings);
 		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
-		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE); 
+		
+		engineSettingViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
+		if(StringUtils.isNotEmpty(pageSize)){
+			engineSettingViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 
+		}
+		
         request.getSession().setAttribute(sessionKey, engineSettingViewBeanPagedListHolder);
         return engineSettingViewBeanPagedListHolder;
 	}

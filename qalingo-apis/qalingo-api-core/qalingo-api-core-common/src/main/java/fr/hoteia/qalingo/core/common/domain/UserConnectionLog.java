@@ -39,6 +39,9 @@ public class UserConnectionLog implements Serializable {
 	@Column(name="LOGIN_DATE")
 	private Date loginDate;
 	
+	@Column(name="APP")
+	private String app;
+	
 	@Column(name="HOST")
 	private String host;
 	
@@ -65,6 +68,14 @@ public class UserConnectionLog implements Serializable {
 
 	public void setLoginDate(Date loginDate) {
 		this.loginDate = loginDate;
+	}
+	
+	public String getApp() {
+		return app;
+	}
+	
+	public void setApp(String app) {
+		this.app = app;
 	}
 	
 	public String getHost() {

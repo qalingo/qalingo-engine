@@ -32,6 +32,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.common.service.EngineSettingService;
 import fr.hoteia.qalingo.core.common.service.UserService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
@@ -243,7 +244,13 @@ public class UserController extends AbstractQalingoController {
 			PagedListHolder<UserDetailsViewBean> userViewBeanPagedListHolder) throws Exception {
 		List<UserDetailsViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(request, currentLocalization, users);
 		userViewBeanPagedListHolder = new PagedListHolder<UserDetailsViewBean>(userViewBeans);
-		userViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE); 
+
+		userViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
+		if(StringUtils.isNotEmpty(pageSize)){
+			userViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 
+		}
+		
         request.getSession().setAttribute(sessionKey, userViewBeanPagedListHolder);
         return userViewBeanPagedListHolder;
 	}

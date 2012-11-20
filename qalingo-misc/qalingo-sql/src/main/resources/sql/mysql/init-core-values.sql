@@ -69,62 +69,106 @@ VALUES
 (50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
 (51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1);
 
+-- CORE ENGINE SETTINGS
+
 -- Cache TTL settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(1, 'Cache TTL settings', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
+(1000, 'Cache TTL settings', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
 
 -- Theme settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(10, 'Setting resource theme path', 'Setting resource theme path', 'THEME_RESOURCE_PREFIX_PATH', '', 1);
+(1010, 'Setting resource theme path', 'Setting resource theme path', 'THEME_RESOURCE_PREFIX_PATH', '', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(10, 'BO_BUSINESS',  '/bo-business-resources/', 10),
-(11, 'BO_REPORTING', '/bo-reporting-resources/', 10),
-(12, 'BO_TECHNICAL', '/bo-technical-resources/', 10),
-(13, 'FO_MCOMMERCE', '/fo-mcommerce-resources/', 10),
-(14, 'FO_PREHOME',   '/fo-prehome-resources/', 10);
+(1010, 'BO_BUSINESS',  '/bo-business-resources/', 1010),
+(1011, 'BO_REPORTING', '/bo-reporting-resources/', 1010),
+(1012, 'BO_TECHNICAL', '/bo-technical-resources/', 1010),
+(1013, 'FO_MCOMMERCE', '/fo-mcommerce-resources/', 1010),
+(1014, 'FO_PREHOME',   '/fo-prehome-resources/', 1010);
 
 -- Spring-batch settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(20, 'Spring-batch webapp Url', 'Spring-batch webapp Url', 'SPRING_BATCH_URL', '', 1);
+(1020, 'Spring-batch webapp Url', 'Spring-batch webapp Url', 'SPRING_BATCH_URL', '', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(20, 'CMS',  'http://app-cms-sync.demo.qalingo.com/', 20),
-(21, 'CRM', 'http://app-crm-sync.demo.qalingo.com/', 20),
-(22, 'ERP', 'http://app-erp-sync.demo.qalingo.com/', 20),
-(23, 'NOTIFICATION', 'http://app-notification.demo.qalingo.com/', 20);
+(1020, 'CMS',  'http://app-cms-sync.demo.qalingo.com/', 1020),
+(1021, 'CRM', 'http://app-crm-sync.demo.qalingo.com/', 1020),
+(1022, 'ERP', 'http://app-erp-sync.demo.qalingo.com/', 1020),
+(1023, 'NOTIFICATION', 'http://app-notification.demo.qalingo.com/', 1020);
 
 -- SOLR settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(30, 'SOLR webapp Url', 'SOLR webapp Url', 'SOLR', '', 1);
+(1030, 'SOLR webapp Url', 'SOLR webapp Url', 'SOLR', '', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(30, 'MASTER',  'http://176.31.248.152:14080/solr', 30);
+(1030, 'MASTER',  'http://176.31.248.152:14080/solr', 1030);
 
 -- Catalog resource settings like images
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(40, 'Catalog resource theme path', 'Catalog resource theme path', 'CATALOG_RESOURCE_PREFIX_PATH', '/fo-mcommerce-resources/', 1);
+(1040, 'Catalog resource theme path', 'Catalog resource theme path', 'CATALOG_RESOURCE_PREFIX_PATH', '/fo-mcommerce-resources/', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(15, 'INT', '/fo-mcommerce-resources/', 40);
+(1040, 'INT', '/fo-mcommerce-resources/', 1040);
+
+-- Page size settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1050, 'Setting items by list ', 'Setting items by list', 'COUNT_ITEM_BY_PAGE', '20', 1);
+
+INSERT INTO teco_engine_setting_value  
+(id, context, value, engine_setting_id)
+VALUES 
+(1050, 'BO_TECHNICAL_ENGINE_SETTING_LIST',  '20', 1050),
+(1051, 'BO_TECHNICAL_USER_LIST',  '20', 1050),
+(1052, 'BO_TECHNICAL_CACHE_LIST',  '20', 1050),
+(1053, 'BO_TECHNICAL_BATCH_LIST',  '20', 1050);
+
+-- MarketArea support checkout as guest settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1060, 'Setting MarketArea support checkout as guest', 'Setting MarketArea support checkout as guest', 'MARKETAREA_SUPPORT_CHECKOUT_AS_GUEST', 'true', 1);
+
+-- USER ENGINE SETTINGS
+
+-- User max connection log settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(2000, 'Setting max user connection log', 'Setting max user connection log', 'MAX_USER_CONNECTION_LOG', '20', 1);
+
+-- CUSTOMER ENGINE SETTINGS
+
+-- Customer max connection log settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(3000, 'Setting max customer connection log', 'Setting max customer connection log', 'MAX_CUSTOMER_CONNECTION_LOG', '10', 1);
+
+-- Customer max addresses settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(3010, 'Setting max customer addresses', 'Setting max customer addresses', 'MAX_CUSTOMER_ADDRESSES', '5', 1);
 
 -- ECO CUSTOMER
 INSERT INTO teco_group 

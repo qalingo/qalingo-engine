@@ -11,6 +11,8 @@ package fr.hoteia.qalingo.core.common.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -29,10 +31,29 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 		return em.find(CustomerConnectionLog.class, customerConnectionLogId);
 	}
 
-	public List<CustomerConnectionLog> findByExample(CustomerConnectionLog customerConnectionLogExample) {
-		return super.findByExample(customerConnectionLogExample);
-	}
+//	public List<CustomerConnectionLog> findByExample(CustomerConnectionLog customerConnectionLogExample) {
+//		return super.findByExample(customerConnectionLogExample);
+//	}
 
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId){
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId ORDER BY loginDate";
+		Query query = session.createQuery(sql);
+		query.setLong("customerId", customerId);
+		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
+		return customerConnectionLogs;
+	}
+	
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM CustomerConnectionLog WHERE userId = :customerId AND app = :appCode ORDER BY loginDate";
+		Query query = session.createQuery(sql);
+		query.setLong("customerId", customerId);
+		query.setString("appCode", appCode);
+		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
+		return customerConnectionLogs;
+	}
+	
 	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
 		if(customerConnectionLog.getId() == null){
 			em.persist(customerConnectionLog);

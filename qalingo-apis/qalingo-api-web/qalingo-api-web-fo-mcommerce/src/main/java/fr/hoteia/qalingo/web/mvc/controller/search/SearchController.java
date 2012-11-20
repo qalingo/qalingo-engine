@@ -138,7 +138,7 @@ public class SearchController extends AbstractQalingoController {
 		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, 
 				currentLocalization, currentRetailer, productResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
-		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE); 
+		accountsViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);
         return accountsViewBeanPagedListHolder;
 	}

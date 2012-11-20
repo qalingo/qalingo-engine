@@ -17,7 +17,7 @@ public interface CustomerConnectionLogService {
 
 	CustomerConnectionLog getCustomerConnectionLogById(String customerConnectionLogId);
 	
-	List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria);
+//	List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria);
 	
 	void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 	

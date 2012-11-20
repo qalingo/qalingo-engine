@@ -28,7 +28,7 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	private EngineSettingDao engineSettingDao;
 
 	// Engine Setting
-	public EngineSetting getEngineSettingById(String id) {
+	public EngineSetting getEngineSettingById(final String id) {
 		long engineSettingId = -1;
 		try {
 			engineSettingId = Long.parseLong(id);
@@ -38,32 +38,24 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return engineSettingDao.getEngineSettingById(engineSettingId);
 	}
 
-	public EngineSetting getEngineSettingByCode(String code) {
+	public EngineSetting getEngineSettingByCode(final String code) {
 		return engineSettingDao.getEngineSettingByCode(code);
-	}
-	
-	public EngineSetting getThemeResourcePrefixPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
-	}
-	
-	public EngineSetting getCatalogImageResourcePrefixPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH);
 	}
 	
 	public List<EngineSetting> findEngineSettings() {
 		return engineSettingDao.findEngineSettings();
 	}
 	
-	public void saveOrUpdateEngineSetting(EngineSetting engineSetting) {
+	public void saveOrUpdateEngineSetting(final EngineSetting engineSetting) {
 		engineSettingDao.saveEngineSetting(engineSetting);
 	}
 
-	public void deleteEngineSetting(EngineSetting engineSetting) {
+	public void deleteEngineSetting(final EngineSetting engineSetting) {
 		engineSettingDao.deleteEngineSetting(engineSetting);
 	}
 	
 	// Engine Setting Value
-	public EngineSettingValue getEngineSettingValueById(String id) {
+	public EngineSettingValue getEngineSettingValueById(final String id) {
 		long engineSettingValueId = -1;
 		try {
 			engineSettingValueId = Long.parseLong(id);
@@ -73,8 +65,40 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return engineSettingDao.getEngineSettingValueById(engineSettingValueId);
 	}
 	
-	public void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue) {
+	public void saveOrUpdateEngineSettingValue(final EngineSettingValue engineSettingValue) {
 		engineSettingDao.saveOrUpdateEngineSettingValue(engineSettingValue);
 	}
+	
+	public String getEngineSettingValueByCode(final String engineSettingCode, final String engineSettingValueCode) {
+		EngineSetting engineSetting = getEngineSettingByCode(engineSettingCode);
+		if(engineSetting != null){
+			EngineSettingValue engineSettingValue  = engineSetting.getEngineSettingValue(engineSettingValueCode);
+			if(engineSettingValue != null){
+				return engineSettingValue.getValue();
+			} else {
+				return engineSetting.getDefaultValue();
+			}
+		}
+		return null;
+	}
+	
+	public String getEngineSettingDefaultValueByCode(final String engineSettingCode) {
+		EngineSetting engineSetting = getEngineSettingByCode(engineSettingCode);
+		if(engineSetting != null){
+			return engineSetting.getDefaultValue();
+		}
+		return null;
+	}
+	
+	// Common Engine Setting Value
+	
+	public EngineSetting getThemeResourcePrefixPath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
+	}
+	
+	public EngineSetting getCatalogImageResourcePrefixPath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH);
+	}
+	
 
 }

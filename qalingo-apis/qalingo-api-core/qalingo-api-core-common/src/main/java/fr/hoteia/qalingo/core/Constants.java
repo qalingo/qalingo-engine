@@ -18,6 +18,10 @@ public final class Constants {
 		// GLOBAL
 		public static final String APP_NAME = "appName";
 		public static final String APP_NAME_HTML = "appNameHtml";
+		public static final String APP_NAME_BO_BUSINESS_CODE = "BO_BUSINESS";
+		public static final String APP_NAME_BO_REPORTING_CODE = "BO_REPORTING";
+		public static final String APP_NAME_BO_TECHNICAL_CODE = "BO_TECHNICAL";
+		public static final String APP_NAME_FO_MCOMMERCE_CODE = "FO_MCOMMERCE";
 		
 		public static final String UTF8 = "UTF-8";
 		public static final String ANSI = "ISO-8859-1";
@@ -123,7 +127,7 @@ public final class Constants {
 		public static final String PAGE_PARAMETER = "page";
 		public static final String PAGE_URL = "currentPageUrl";
 		public static final String PAGE_PAGED_LIST_HOLDER = "pagedListHolder";
-		public static final int PAGE_SIZE= 10;
+		public static final int DEFAULT_PAGE_SIZE= 10;
 		
 		// SECURITY
 		public static final String SECRET_VALUE = "5U%oP9$";
