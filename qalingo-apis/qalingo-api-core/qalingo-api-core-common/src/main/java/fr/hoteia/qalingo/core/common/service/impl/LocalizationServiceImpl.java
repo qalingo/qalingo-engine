@@ -40,8 +40,12 @@ public class LocalizationServiceImpl implements LocalizationService {
 		return localizationDao.getLocalizationByLocaleCode(localeCode);
 	}
 
-	public List<Localization> findLocalization(Localization criteria) {
-		return localizationDao.findByExample(criteria);
+//	public List<Localization> findLocalization(Localization criteria) {
+//		return localizationDao.findByExample(criteria);
+//	}
+	
+	public List<Localization> findLocalizations() {
+		return localizationDao.findLocalizations();
 	}
 
 	public void saveOrUpdateLocalization(Localization localization) {

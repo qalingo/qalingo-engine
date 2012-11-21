@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.LocalizationDao;
 import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.common.domain.Store;
 
 @Transactional
 @Repository("localizationDao")
@@ -40,10 +41,18 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 		return localization;
 	}
 	
-	public List<Localization> findByExample(Localization localizationExample) {
-		return super.findByExample(localizationExample);
-	}
+//	public List<Localization> findByExample(Localization localizationExample) {
+//		return super.findByExample(localizationExample);
+//	}
 
+	public List<Localization> findLocalizations() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Localization ORDER BY localeCode";
+		Query query = session.createQuery(sql);
+		List<Localization> localizations = (List<Localization>) query.list();
+		return localizations;
+	}
+	
 	public void saveOrUpdateLocalization(Localization localization) {
 		if(localization.getId() == null){
 			em.persist(localization);

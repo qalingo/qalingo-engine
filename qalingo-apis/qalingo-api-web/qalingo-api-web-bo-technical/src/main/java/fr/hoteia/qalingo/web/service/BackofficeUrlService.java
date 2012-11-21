@@ -31,6 +31,8 @@ public interface BackofficeUrlService {
 	
 	String buildUserListUrl(HttpServletRequest request);
 	
+	String buildReferenceDataListUrl(HttpServletRequest request);
+	
 	String buildEngineSettingListUrl(HttpServletRequest request);
 	
 	String buildEngineSettingValueEditUrl(HttpServletRequest request);

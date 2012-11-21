@@ -17,10 +17,8 @@ public interface PaymentGatewayService {
 
 	AbstractPaymentGateway getPaymentGatewayById(String paymentGatewayId);
 
-	AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String loginOrEmail);
+	List<AbstractPaymentGateway> findPaymentGateways();
 
-	List<AbstractPaymentGateway> findPaymentGateway(AbstractPaymentGateway criteria);
-	
 	void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
 	
 	void deletePaymentGateway(AbstractPaymentGateway paymentGateway);

@@ -54,6 +54,10 @@ public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 		return getContextPrefixUrl(request) + "sc/users.html";
 	}
 	
+	public String buildReferenceDataListUrl(final HttpServletRequest request) {
+		return getContextPrefixUrl(request) + "sc/reference-datas.html";
+	}
+	
 	public String buildEngineSettingListUrl(final HttpServletRequest request) {
 		return getContextPrefixUrl(request) + "sc/engine-settings.html";
 	}

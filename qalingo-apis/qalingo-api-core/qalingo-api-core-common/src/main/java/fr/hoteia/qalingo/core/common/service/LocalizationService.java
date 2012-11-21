@@ -19,7 +19,7 @@ public interface LocalizationService {
 	
 	Localization getLocalizationByLocaleCode(String localeCode);
 	
-	List<Localization> findLocalization(Localization criteria);
+	List<Localization> findLocalizations();
 	
 	void saveOrUpdateLocalization(Localization localization);
 	

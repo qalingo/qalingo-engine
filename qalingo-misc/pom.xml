@@ -17,7 +17,6 @@
 
 	<modules>
 		<module>qalingo-i18n</module>
-		<module>qalingo-export-import</module>
 		<module>qalingo-sql</module>
 		<module>qalingo-wurfl</module>
 	</modules>

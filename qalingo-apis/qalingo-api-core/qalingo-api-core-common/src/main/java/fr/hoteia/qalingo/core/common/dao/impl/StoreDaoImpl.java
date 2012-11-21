@@ -41,9 +41,9 @@ public class StoreDaoImpl extends AbstractGenericDaoImpl implements StoreDao {
 		return store;
 	}
 	
-	public List<Store> findByExample(Store storeExample) {
-		return super.findByExample(storeExample);
-	}
+//	public List<Store> findByExample(Store storeExample) {
+//		return super.findByExample(storeExample);
+//	}
 	
 	public List<Store> findStores() {
 		Session session = (Session) em.getDelegate();

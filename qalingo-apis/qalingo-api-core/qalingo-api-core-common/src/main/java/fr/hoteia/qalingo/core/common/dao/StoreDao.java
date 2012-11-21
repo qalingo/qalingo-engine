@@ -19,7 +19,7 @@ public interface StoreDao {
 
 	Store getStoreByCode(String storeCode);
 	 
-	List<Store> findByExample(Store storeExample);
+//	List<Store> findByExample(Store storeExample);
 
 	List<Store> findStores();
 	

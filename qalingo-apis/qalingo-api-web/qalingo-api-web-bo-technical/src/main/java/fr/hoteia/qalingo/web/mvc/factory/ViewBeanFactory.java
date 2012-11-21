@@ -13,13 +13,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.hoteia.qalingo.core.common.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.common.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.common.domain.CurrencyReferential;
 import fr.hoteia.qalingo.core.common.domain.EngineSetting;
 import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.common.domain.Localization;
 import fr.hoteia.qalingo.core.common.domain.User;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CurrencyReferentialViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingDetailsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingValueEditViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingViewBean;
@@ -27,10 +30,11 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 
 public interface ViewBeanFactory {
 
@@ -67,4 +71,12 @@ public interface ViewBeanFactory {
 	List<BatchViewBean> buildBatchViewBeans(HttpServletRequest request, Localization localization, List<BatchProcessObject> batchProcessObjects) throws Exception;
 	
 	BatchViewBean buildBatchViewBean(HttpServletRequest request, Localization localization, BatchProcessObject batchProcessObject) throws Exception;
+	
+	List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(HttpServletRequest request, List<CurrencyReferential> currencyReferentials) throws Exception;
+	
+	CurrencyReferentialViewBean buildCurrencyReferentialViewBean(HttpServletRequest request, CurrencyReferential currencyReferential) throws Exception;
+	
+	List<PaymentGatewayViewBean> buildPaymentGatewayViewBeans(HttpServletRequest request, List<AbstractPaymentGateway> paymentGateways) throws Exception;
+	
+	PaymentGatewayViewBean buildPaymentGatewayViewBean(HttpServletRequest request, AbstractPaymentGateway paymentGateway) throws Exception;
 }

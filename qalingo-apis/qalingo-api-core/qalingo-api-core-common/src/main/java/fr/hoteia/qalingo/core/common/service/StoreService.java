@@ -19,7 +19,7 @@ public interface StoreService {
 
 	Store getStoreByCode(String storeCode);
 
-	List<Store> findStore(Store criteria);
+//	List<Store> findStore(Store criteria);
 	
 	List<Store> findStores();
 	

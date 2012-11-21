@@ -19,8 +19,10 @@ public interface LocalizationDao {
 
 	Localization getLocalizationByLocaleCode(String localeCode);
 	
-	List<Localization> findByExample(Localization localizationExample);
+//	List<Localization> findByExample(Localization localizationExample);
 
+	List<Localization> findLocalizations();
+	
 	void saveOrUpdateLocalization(Localization localization);
 
 	void deleteLocalization(Localization localization);

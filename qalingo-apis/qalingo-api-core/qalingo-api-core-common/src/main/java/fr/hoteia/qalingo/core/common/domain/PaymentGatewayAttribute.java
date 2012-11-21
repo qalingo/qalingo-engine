@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_RULE_REPOSITORY_ATTRIBUTE")
+@Table(name="TECO_PAYMENT_GATEWAY_ATTRIBUTE")
 public class PaymentGatewayAttribute extends AbstractAttribute {
 
 	/**

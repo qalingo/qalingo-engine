@@ -40,9 +40,9 @@ public class StoreServiceImpl implements StoreService {
 		return storeDao.getStoreByCode(storeCode);
 	}
 
-	public List<Store> findStore(Store criteria) {
-		return storeDao.findByExample(criteria);
-	}
+//	public List<Store> findStore(Store criteria) {
+//		return storeDao.findByExample(criteria);
+//	}
 
 	public List<Store> findStores() {
 		return storeDao.findStores();

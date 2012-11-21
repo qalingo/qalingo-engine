@@ -36,13 +36,10 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
 		return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId);
 	}
 	
-	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String usernameOrEmail) {
-		return paymentGatewayDao.getPaymentGatewayByLoginOrEmail(usernameOrEmail);
+	public List<AbstractPaymentGateway> findPaymentGateways() {
+		return paymentGatewayDao.findPaymentGateways();
 	}
 
-	public List<AbstractPaymentGateway> findPaymentGateway(AbstractPaymentGateway criteria) {
-		return paymentGatewayDao.findByExample(criteria);
-	}
 
 	public void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
 		paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);

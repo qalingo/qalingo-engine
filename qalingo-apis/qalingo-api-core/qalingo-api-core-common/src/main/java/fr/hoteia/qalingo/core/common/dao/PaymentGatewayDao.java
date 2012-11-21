@@ -19,7 +19,7 @@ public interface PaymentGatewayDao {
 
 	AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String usernameOrEmail);
 	 
-	List<AbstractPaymentGateway> findByExample(AbstractPaymentGateway paymentGatewayExample);
+	List<AbstractPaymentGateway> findPaymentGateways();
 
 	void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
 

@@ -41,8 +41,12 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 		return paymentGateway;
 	}
 	
-	public List<AbstractPaymentGateway> findByExample(AbstractPaymentGateway paymentGatewayExample) {
-		return super.findByExample(paymentGatewayExample);
+	public List<AbstractPaymentGateway> findPaymentGateways() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM AbstractPaymentGateway ORDER BY name";
+		Query query = session.createQuery(sql);
+		List<AbstractPaymentGateway> paymentGateways = (List<AbstractPaymentGateway>) query.list();
+		return paymentGateways;
 	}
 
 	public void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {

@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.common.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.persistence.Column;
@@ -18,6 +19,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_LOCALIZATION")
@@ -33,8 +37,26 @@ public class Localization implements Serializable {
 	@Column(name="ID", nullable=false)
 	private Long id;
 	
+	@Version
+	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+	private int version;
+	
+	@Column(name="NAME")
+	private String name;
+
+	@Column(name="DESCRIPTION")
+	private String description;
+
 	@Column(name="LOCALE_CODE")
 	private String localeCode;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_CREATE")
+	private Date dateCreate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_UPDATE")
+	private Date dateUpdate;
 	
 	public Localization() {
 	}
@@ -46,15 +68,39 @@ public class Localization implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getLocaleCode() {
 		return localeCode;
 	}
-	
+
 	public void setLocaleCode(String localeCode) {
 		this.localeCode = localeCode;
 	}
-	
+
 	public Locale getLocale() {
 		return new Locale(localeCode);
 	}
@@ -66,14 +112,38 @@ public class Localization implements Serializable {
 	public String getLanguage() {
 		return getLocale().getLanguage();
 	}
+	
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
+
+	public Date getDateUpdate() {
+		return dateUpdate;
+	}
+
+	public void setDateUpdate(Date dateUpdate) {
+		this.dateUpdate = dateUpdate;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((dateCreate == null) ? 0 : dateCreate.hashCode());
+		result = prime * result
+				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((localeCode == null) ? 0 : localeCode.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + version;
 		return result;
 	}
 
@@ -86,6 +156,21 @@ public class Localization implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Localization other = (Localization) obj;
+		if (dateCreate == null) {
+			if (other.dateCreate != null)
+				return false;
+		} else if (!dateCreate.equals(other.dateCreate))
+			return false;
+		if (dateUpdate == null) {
+			if (other.dateUpdate != null)
+				return false;
+		} else if (!dateUpdate.equals(other.dateUpdate))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -96,12 +181,21 @@ public class Localization implements Serializable {
 				return false;
 		} else if (!localeCode.equals(other.localeCode))
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (version != other.version)
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Localization [id=" + id + ", localeCode=" + localeCode + "]";
+		return "Localization [id=" + id + ", version=" + version + ", name="
+				+ name + ", description=" + description + ", localeCode=" + localeCode + ", dateCreate=" + dateCreate
+				+ ", dateUpdate=" + dateUpdate + "]";
 	}
 	
 }

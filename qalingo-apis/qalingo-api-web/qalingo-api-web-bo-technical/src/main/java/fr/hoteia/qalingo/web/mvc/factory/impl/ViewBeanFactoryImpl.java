@@ -11,6 +11,7 @@ package fr.hoteia.qalingo.web.mvc.factory.impl;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -24,7 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.hoteia.qalingo.core.common.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.common.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.common.domain.CurrencyReferential;
 import fr.hoteia.qalingo.core.common.domain.EngineSetting;
 import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.common.domain.Localization;
@@ -39,6 +42,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CurrencyReferentialViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingDetailsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingValueEditViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingValueViewBean;
@@ -47,11 +51,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserConnectionLogValueBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserEditViewBean;
 import fr.hoteia.qalingo.web.service.BackofficeUrlService;
 
 /**
@@ -133,13 +138,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+		menu.setCssIcon("icon-book");
+		menu.setName("References Datas");
+		menu.setUrl(backofficeUrlService.buildReferenceDataListUrl(request));
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Monitoring");
 		menu.setUrl(backofficeUrlService.buildMonitoringUrl(request));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-group");
+		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
 		menu.setUrl(backofficeUrlService.buildFaqUrl(request));
 		menuViewBeans.add(menu);
@@ -191,6 +202,27 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation.toLowerCase(), null, locale));
 		} else {
 			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation, null, locale));
+		}
+
+		localizationViewBean.setDescription(localization.getDescription());
+		localizationViewBean.setCode(localization.getLocaleCode());
+		localizationViewBean.setCountry(localization.getCountry());
+		localizationViewBean.setLanguage(localization.getLanguage());
+		localizationViewBean.setImg(null);
+		
+		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+		Date dateCreate = localization.getDateCreate();
+		if(dateCreate != null){
+			localizationViewBean.setDateCreate(dateFormat.format(dateCreate));
+		} else {
+			localizationViewBean.setDateCreate("NA");
+		}
+		
+		Date dateUpdate = localization.getDateUpdate();
+		if(dateUpdate != null){
+			localizationViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+		} else {
+			localizationViewBean.setDateUpdate("NA");
 		}
 		
 		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(request, localization));
@@ -495,4 +527,91 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		return batchViewBean;
 	}
 
+	/**
+     * 
+     */
+	public List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(final HttpServletRequest request, final List<CurrencyReferential> currencyReferentials) throws Exception {
+		final List<CurrencyReferentialViewBean> currencyReferentialViewBeans = new ArrayList<CurrencyReferentialViewBean>();
+		if(currencyReferentials != null){
+			for (Iterator<CurrencyReferential> iterator = currencyReferentials.iterator(); iterator.hasNext();) {
+				CurrencyReferential currencyReferential = (CurrencyReferential) iterator.next();
+				currencyReferentialViewBeans.add(buildCurrencyReferentialViewBean(request, currencyReferential));
+			}
+		}
+		return currencyReferentialViewBeans;
+	}
+	
+	/**
+     * 
+     */
+	public CurrencyReferentialViewBean buildCurrencyReferentialViewBean(final HttpServletRequest request, final CurrencyReferential currencyReferential) throws Exception {
+		final CurrencyReferentialViewBean currencyReferentialViewBean = new CurrencyReferentialViewBean();
+		if(currencyReferential != null){
+			currencyReferentialViewBean.setName(currencyReferential.getName());
+			currencyReferentialViewBean.setDescription(currencyReferential.getDescription());
+			currencyReferentialViewBean.setCode(currencyReferential.getCode());
+			currencyReferentialViewBean.setSign(currencyReferential.getSign());
+			currencyReferentialViewBean.setAbbreviated(currencyReferential.getAbbreviated());
+			
+			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+			Date dateCreate = currencyReferential.getDateCreate();
+			if(dateCreate != null){
+				currencyReferentialViewBean.setDateCreate(dateFormat.format(dateCreate));
+			} else {
+				currencyReferentialViewBean.setDateCreate("NA");
+			}
+			
+			Date dateUpdate = currencyReferential.getDateUpdate();
+			if(dateUpdate != null){
+				currencyReferentialViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+			} else {
+				currencyReferentialViewBean.setDateUpdate("NA");
+			}
+			
+		}
+		return currencyReferentialViewBean;
+	}
+	
+	/**
+     * 
+     */
+	public List<PaymentGatewayViewBean> buildPaymentGatewayViewBeans(final HttpServletRequest request, final List<AbstractPaymentGateway> paymentGateways) throws Exception {
+		final List<PaymentGatewayViewBean> paymentGatewayViewBeans = new ArrayList<PaymentGatewayViewBean>();
+		if(paymentGateways != null){
+			for (Iterator<AbstractPaymentGateway> iterator = paymentGateways.iterator(); iterator.hasNext();) {
+				AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) iterator.next();
+				paymentGatewayViewBeans.add(buildPaymentGatewayViewBean(request, paymentGateway));
+			}
+		}
+		return paymentGatewayViewBeans;
+	}
+	
+	/**
+     * 
+     */
+	public PaymentGatewayViewBean buildPaymentGatewayViewBean(final HttpServletRequest request, final AbstractPaymentGateway paymentGateway) throws Exception {
+		final PaymentGatewayViewBean paymentGatewayViewBean = new PaymentGatewayViewBean();
+		if(paymentGateway != null){
+			paymentGatewayViewBean.setName(paymentGateway.getName());
+			paymentGatewayViewBean.setDescription(paymentGateway.getDescription());
+			paymentGatewayViewBean.setCode(paymentGateway.getCode());
+			
+			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+			Date dateCreate = paymentGateway.getDateCreate();
+			if(dateCreate != null){
+				paymentGatewayViewBean.setDateCreate(dateFormat.format(dateCreate));
+			} else {
+				paymentGatewayViewBean.setDateCreate("NA");
+			}
+			
+			Date dateUpdate = paymentGateway.getDateUpdate();
+			if(dateUpdate != null){
+				paymentGatewayViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+			} else {
+				paymentGatewayViewBean.setDateUpdate("NA");
+			}
+			
+		}
+		return paymentGatewayViewBean;
+	}
 }

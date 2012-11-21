@@ -53,8 +53,8 @@ VALUES
 (2, 'usd', 'USD', 'Dollar USA', 'Dollar USA', '$'),
 (3, 'gbp', 'GBP', 'Livre sterling', 'Livre sterling', '£'),
 (4, 'cad', 'CAD', 'Dollar Canada', 'Dollar Canada', '€'),
-(5, 'yuan ', 'CNY', 'yuan', 'yuan', 'Ұ'),
-(6, 'yen ', 'JPY', 'yen', 'yen', '¥');
+(5, 'yuan ', 'CNY', 'yuan', 'Yuan', 'Ұ'),
+(6, 'yen ', 'JPY', 'yen', 'Yen', '¥');
 
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
@@ -187,24 +187,24 @@ INSERT INTO teco_group_role_rel VALUES
 -- ECO CATALOGUE
 
 INSERT INTO teco_catalog_master 
-(id, description, code, is_default, business_name, version)
+(id, description, code, is_default, business_name)
  VALUES 
-(1, 'Default Master Catalog description', 'MASTER_CAT', 1, 'Master Catalog', 1);
+(1, 'Default Master Catalog description', 'MASTER_CAT', 1, 'Master Catalog');
 
 
--- RULE | PROMO
+-- ECO RULE | PROMO
 
 INSERT INTO teco_rule_referential   
-(id, version, name, description, rule_type) 
+(id, name, description, rule_type) 
  VALUES 
-(10, 1, 'PROMO SKU PROMOTION', 'DESCRIPTION SKU PROMOTION', 'productSkuPromotion'), 
-(20, 1, 'PROMO SHIPPING PROMOTION', 'DESCRIPTION SHIPPING PROMOTION', 'shippingPromotion');
+(10, 'PROMO SKU PROMOTION', 'DESCRIPTION SKU PROMOTION', 'productSkuPromotion'), 
+(20, 'PROMO SHIPPING PROMOTION', 'DESCRIPTION SHIPPING PROMOTION', 'shippingPromotion');
 
 INSERT INTO teco_rule_repository  
-(id, version, name, description, code, is_active, start_date, end_date) 
+(id, name, description, code, is_active, start_date, end_date) 
  VALUES 
-(10, 1, 'PROMO TEST 1', 'DESCRIPTION PROMO TEST 1', 'PROMO1', 1, '2012-09-05 15:43:09', '2013-10-05 15:43:09'), 
-(20, 1, 'PROMO TEST 2', 'DESCRIPTION PROMO TEST 2', 'PROMO2', 1, '2012-09-05 15:43:09', '2013-10-05 15:43:09');
+(10, 'PROMO TEST 1', 'DESCRIPTION PROMO TEST 1', 'PROMO1', 1, '2012-09-05 15:43:09', '2013-10-05 15:43:09'), 
+(20, 'PROMO TEST 2', 'DESCRIPTION PROMO TEST 2', 'PROMO2', 1, '2012-09-05 15:43:09', '2013-10-05 15:43:09');
 
 INSERT INTO teco_rule_repository_referential_rel 
 (rule_repository_id, rule_referential_id)
@@ -212,3 +212,10 @@ INSERT INTO teco_rule_repository_referential_rel
 (10, 10),
 (10, 20),
 (20, 20);
+
+-- ECO PAYMENT GATEWAY
+
+INSERT INTO teco_payment_gateway   
+(id, payment_gateway_type, code, name, description) 
+ VALUES 
+(10, 'paymentGatewayFake', 'PGF', 'Fake Payment Gateway', 'Payment Gateway with no provider, just for tests');

@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.common.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
@@ -51,6 +54,14 @@ public class CurrencyReferential implements Serializable {
 	
 	@Column(name="ABBREVIATED")
 	private String abbreviated;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_CREATE")
+	private Date dateCreate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_UPDATE")
+	private Date dateUpdate;
 	
 	public CurrencyReferential() {
 	}
@@ -111,5 +122,20 @@ public class CurrencyReferential implements Serializable {
 		this.abbreviated = abbreviated;
 	}
 	
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
+
+	public Date getDateUpdate() {
+		return dateUpdate;
+	}
+
+	public void setDateUpdate(Date dateUpdate) {
+		this.dateUpdate = dateUpdate;
+	}
 	
 }

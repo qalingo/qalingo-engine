@@ -11,27 +11,25 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class LocalizationViewBean extends AbstractViewBean implements Serializable {
+public class CurrencyReferentialViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -1578033330874108569L;
+	private static final long serialVersionUID = -6255298063899030646L;
 	
 	private String name;
 	private String description;
 	private String code;
-	private String country;
-	private String language;
-	protected String img;
-	protected String url;
+	private String sign;
+	private String abbreviated;
 	private String dateCreate;
 	private String dateUpdate;
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -52,36 +50,20 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 		this.code = code;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getSign() {
+		return sign;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setSign(String sign) {
+		this.sign = sign;
 	}
 
-	public String getLanguage() {
-		return language;
+	public String getAbbreviated() {
+		return abbreviated;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	public void setAbbreviated(String abbreviated) {
+		this.abbreviated = abbreviated;
 	}
 
 	public String getDateCreate() {
@@ -99,6 +81,5 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	public void setDateUpdate(String dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-
 	
 }
