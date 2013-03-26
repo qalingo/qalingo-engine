@@ -43,7 +43,7 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 		
 		final String titleKeyPrefixSufix = "forgotten.password";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
@@ -56,7 +56,7 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 
 		final String titleKeyPrefixSufix = "forgotten.password";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");

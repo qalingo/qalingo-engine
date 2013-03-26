@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
-import fr.hoteia.qalingo.core.common.service.UserService;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
+import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 import fr.hoteia.qalingo.web.service.WebBackofficeService;

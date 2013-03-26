@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.common.service;
 
 import java.util.List;
 
-import fr.hoteia.qalingo.core.common.domain.RuleRepository;
+import fr.hoteia.qalingo.core.domain.RuleRepository;
 
 public interface RuleRepositoryService {
 

@@ -32,7 +32,7 @@ public class LogoutController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "logout";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}

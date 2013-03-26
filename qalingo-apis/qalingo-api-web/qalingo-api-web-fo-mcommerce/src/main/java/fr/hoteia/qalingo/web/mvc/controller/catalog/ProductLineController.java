@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.service.ProductCategoryService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 
@@ -39,9 +39,9 @@ public class ProductLineController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/product-line");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_CATEGORY_CODE);
+		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
-		final ProductCategoryVirtual productCategory = productCategoryService.getProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
+		final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		
 		final String titleKeyPrefixSufix = "product.line.category";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);

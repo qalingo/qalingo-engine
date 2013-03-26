@@ -12,7 +12,7 @@ package fr.hoteia.qalingo.binding.jaxb.helper;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 
 public interface StoreUnmarshalXmlHelper {
 

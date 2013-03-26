@@ -15,8 +15,8 @@
         version="2.0">
 	<persistence-unit name="bq-persistence" >
 		<!--
-		<class>fr.hoteia.qalingo.core.common.domain.User</class>
-		<class>fr.hoteia.qalingo.core.common.domain.Customer</class>
+		<class>fr.hoteia.qalingo.core.domain.User</class>
+		<class>fr.hoteia.qalingo.core.domain.Customer</class>
 		-->
 	</persistence-unit>
 </persistence>

@@ -31,7 +31,7 @@ public class LoginController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/login");
 		
 		if(getUser() != null){
-			final String urlRedirect = backofficeUrlService.buildHomeUrl(request);
+			final String urlRedirect = backofficeUrlService.buildHomeUrl();
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
@@ -48,7 +48,7 @@ public class LoginController extends AbstractQalingoController {
 		ModelAndView modelAndView = new ModelAndView("security/login");
 		
 		if(getUser() != null){
-			final String urlRedirect = backofficeUrlService.buildHomeUrl(request);
+			final String urlRedirect = backofficeUrlService.buildHomeUrl();
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		

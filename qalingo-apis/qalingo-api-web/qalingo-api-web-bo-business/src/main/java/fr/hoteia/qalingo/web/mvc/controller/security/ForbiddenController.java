@@ -32,7 +32,7 @@ public class ForbiddenController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "forbidden";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}

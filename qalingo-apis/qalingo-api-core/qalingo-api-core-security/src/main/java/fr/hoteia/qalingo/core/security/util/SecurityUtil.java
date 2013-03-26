@@ -11,11 +11,14 @@ package fr.hoteia.qalingo.core.security.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.common.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.User;
 
 public interface SecurityUtil {
 
 	String generatePassword(String clearPassword);
 	
-	void authenticationCustomer(final HttpServletRequest request, final Customer customer);
+	void authenticationCustomer(HttpServletRequest request, Customer customer);
+	
+	void authenticationUser(HttpServletRequest request, User user);
 }

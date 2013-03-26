@@ -24,10 +24,12 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.EngineSession;
-import fr.hoteia.qalingo.core.common.service.EngineSessionService;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.EngineBoSession;
+import fr.hoteia.qalingo.core.domain.EngineEcoSession;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
+import fr.hoteia.qalingo.core.service.EngineSessionService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Service("securityUtil")
@@ -51,7 +53,7 @@ public class SecurityUtilImpl implements SecurityUtil {
 		return result;
 	}
 	
-	public void authenticationCustomer(final HttpServletRequest request, final Customer customer){
+	public void authenticationCustomer(final HttpServletRequest request, final Customer customer) {
 		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword());
 		token.setDetails(new WebAuthenticationDetails(request)); 
@@ -61,10 +63,30 @@ public class SecurityUtilImpl implements SecurityUtil {
 		request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext()); 
 		
 		try {
-			EngineSession engineSession = requestUtil.getCurrentSession(request);
-			engineSession.setCustomer(customer);
-			engineSession.getCart().setCustomerId(customer.getId());
-			engineSessionService.saveOrUpdateEngineSession(engineSession);
+			EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+			engineEcoSession.setCustomer(customer);
+			engineEcoSession.getCart().setCustomerId(customer.getId());
+			engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+			
+		} catch (Exception e) {
+			LOG.error("", e);
+		}
+		
+	}
+	
+	public void authenticationUser(final HttpServletRequest request, final User user) {
+		
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+		token.setDetails(new WebAuthenticationDetails(request)); 
+		Authentication authenticatedUser = authenticationManager.authenticate(token); 
+
+		SecurityContextHolder.getContext().setAuthentication(authenticatedUser); 
+		request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext()); 
+		
+		try {
+			EngineBoSession engineBoSession = requestUtil.getCurrentBoSession(request);
+			engineBoSession.setCurrentUser(user);
+			engineSessionService.saveOrUpdateEngineBoSession(engineBoSession);
 			
 		} catch (Exception e) {
 			LOG.error("", e);

@@ -9,41 +9,75 @@
  */
 package fr.hoteia.qalingo.web.service;
 
-import javax.servlet.http.HttpServletRequest;
-
-import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 
 public interface BackofficeUrlService {
 
-	String buildHomeUrl(HttpServletRequest request);
+	String buildHomeUrl();
 	
-	String buildLoginUrl(HttpServletRequest request);
+	String buildLoginUrl();
 	
-	String buildLogoutUrl(HttpServletRequest request);
+	String buildLogoutUrl();
 	
-	String buildUserDetailsUrl(HttpServletRequest request);
+	String buildUserDetailsUrl();
 	
-	String buildUserEditUrl(HttpServletRequest request);
+	String buildUserEditUrl();
 	
-	String buildCatalogUrl(HttpServletRequest request);
+	String buildManageMasterCatalogUrl();
 	
-	String buildPromotionUrl(HttpServletRequest request);
+	String buildManageVirtualCatalogUrl();
 	
-	String buildShippingUrl(HttpServletRequest request);
+	String buildProductMasterCategoryDetailsUrl(String productCategoryCode);
 
-	String buildOrderListUrl(HttpServletRequest request);
+	String buildProductVirtualCategoryDetailsUrl(String productCategoryCode);
 
-	String buildCustomerListUrl(HttpServletRequest request);
+	String buildAddMasterProductCategoryUrl(String productCategoryCode);
 
-	String buildFaqUrl(HttpServletRequest request);
+	String buildAddVirtualProductCategoryUrl(String productCategoryCode);
 	
-	String buildForbiddenUrl(HttpServletRequest request);
+	String buildMasterProductCategoryEditUrl(String productCategoryCode);
+
+	String buildVirtualProductCategoryEditUrl(String productCategoryCode);
+
+	String buildMasterProductCategoryFormPostUrl();
 	
-	String buildChangeLanguageUrl(HttpServletRequest request, Localization localization);
+	String buildVirtualProductCategoryFormPostUrl();
+
+	String buildProductMarketingDetailsUrl(String productMarketingCode);
 	
-	String buildSpringSecurityCheckUrl(HttpServletRequest request);
+	String buildProductMarketingEditUrl(String productMarketingCode);
+
+	String buildProductMarketingFormPostUrl();
+
+	String buildProductSkuDetailsUrl(String productSkuCode);
 	
-	String buildForgottenPasswordUrl(HttpServletRequest request);
+	String buildProductSkuEditUrl(String productSkuCode);
+
+	String buildProductSkuFormPostUrl();
+
+	String buildPromotionUrl();
 	
-	String buildSearchUrl(HttpServletRequest request);
+	String buildShippingUrl();
+
+	String buildOrderListUrl();
+
+	String buildCustomerListUrl();
+
+	String buildFaqUrl();
+	
+	String buildForbiddenUrl();
+	
+	String buildChangeLanguageUrl(Localization localization);
+	
+	String buildChangeContextUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+
+	String buildSpringSecurityCheckUrl();
+	
+	String buildForgottenPasswordUrl();
+	
+	String buildSearchUrl();
 }

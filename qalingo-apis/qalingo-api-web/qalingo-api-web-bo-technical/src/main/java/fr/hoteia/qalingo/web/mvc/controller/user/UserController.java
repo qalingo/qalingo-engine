@@ -30,10 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
-import fr.hoteia.qalingo.core.common.service.UserService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -173,7 +173,7 @@ public class UserController extends AbstractQalingoController {
 			return modelAndView;
 		}
 
-		final String urlRedirect = backofficeUrlService.buildUserListUrl(request);
+		final String urlRedirect = backofficeUrlService.buildUserListUrl();
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -225,7 +225,7 @@ public class UserController extends AbstractQalingoController {
 		// UPDATE USER
 		webBackofficeService.updateUser(user, userForm);
 		
-		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl(request, userId);
+		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl(userId);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -260,13 +260,13 @@ public class UserController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildUserListUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildUserListUrl());
 		customerLinks.add(linkMenuViewBean);
 
 		if(user != null){
 			linkMenuViewBean = new LinkMenuViewBean();
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.details", null, locale));
-			linkMenuViewBean.setUrl(backofficeUrlService.buildUserDetailsUrl(request, user.getId().toString()));
+			linkMenuViewBean.setUrl(backofficeUrlService.buildUserDetailsUrl(user.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}
 		

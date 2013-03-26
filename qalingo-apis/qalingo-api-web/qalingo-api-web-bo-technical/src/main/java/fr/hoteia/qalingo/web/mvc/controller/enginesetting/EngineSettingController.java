@@ -29,10 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.EngineSetting;
-import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
@@ -161,7 +161,7 @@ public class EngineSettingController extends AbstractQalingoController {
 			}
 		}
 
-		final String urlRedirect = backofficeUrlService.buildEngineSettingListUrl(request);
+		final String urlRedirect = backofficeUrlService.buildEngineSettingListUrl();
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -185,7 +185,7 @@ public class EngineSettingController extends AbstractQalingoController {
 		webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
 
 		final String engineSettingId = engineSettingValue.getEngineSetting().getId().toString();
-		final String urlRedirect = backofficeUrlService.buildEngineSettingDetailsUrl(request, engineSettingId);
+		final String urlRedirect = backofficeUrlService.buildEngineSettingDetailsUrl(engineSettingId);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -209,13 +209,13 @@ public class EngineSettingController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingListUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingListUrl());
 		customerLinks.add(linkMenuViewBean);
 
 		if(engineSetting != null){
 			linkMenuViewBean = new LinkMenuViewBean();
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.details", null, locale));
-			linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingDetailsUrl(request, engineSetting.getId().toString()));
+			linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingDetailsUrl(engineSetting.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}
 		

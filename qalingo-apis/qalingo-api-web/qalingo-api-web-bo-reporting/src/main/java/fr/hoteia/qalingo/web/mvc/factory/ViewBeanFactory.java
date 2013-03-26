@@ -13,8 +13,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;

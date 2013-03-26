@@ -9,17 +9,17 @@
 --
 
 INSERT INTO teco_localization
-(id, locale_code)
+(id, code, country, language)
  VALUES 
-(1, 'en'), 
-(2, 'fr'),
-(3, 'es'),
-(4, 'it'),
-(5, 'de'),
-(6, 'nl'),
-(7, 'zh'),
-(8, 'jp'),
-(9, 'pt');
+(1, 'en', 'en', 'en'), 
+(2, 'fr', 'fr', 'fr'), 
+(3, 'es', 'es', 'es'), 
+(4, 'it', 'it', 'it'), 
+(5, 'de', 'de', 'de'), 
+(6, 'nl', 'nl', 'nl'), 
+(7, 'zh', 'zh', 'zh'), 
+(8, 'jp', 'jp', 'jp'), 
+(9, 'pt', 'pt', 'pt');
 
 INSERT INTO tbo_group 
 (id, name, description, code, version)
@@ -60,11 +60,11 @@ INSERT INTO teco_attribute_definition
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
 VALUES 
 (10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
-(20, 'Product Category attribute name', 'Product Category attribute name description', 'PRODUCT_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 0, 0, 1),
+(20, 'Product Category attribute name', 'Product Category attribute name description', 'PRODUCT_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
 (21, 'Product Category attribute order', 'Product Category attribute order description', 'PRODUCT_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
-(30, 'Product Marketing attribute name', 'Product Marketing attribute name description', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 0, 0, 1),
+(30, 'Product Marketing attribute name', 'Product Marketing attribute name description', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
 (31, 'Product Marketing attribute order', 'Product Marketing attribute order description', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
-(40, 'Product Sku attribute name', 'Product Sku attribute name description', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 0, 0, 1),
+(40, 'Product Sku attribute name', 'Product Sku attribute name description', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
 (41, 'Product Sku attribute order', 'Product Sku attribute order description', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
 (50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
 (51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1);

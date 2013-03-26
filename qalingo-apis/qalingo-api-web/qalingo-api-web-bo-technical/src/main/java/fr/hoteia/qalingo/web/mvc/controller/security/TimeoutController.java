@@ -31,7 +31,7 @@ public class TimeoutController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/timeout");
 		
 		if(getUser() != null){
-			final String urlRedirect = backofficeUrlService.buildHomeUrl(request);
+			final String urlRedirect = backofficeUrlService.buildHomeUrl();
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		

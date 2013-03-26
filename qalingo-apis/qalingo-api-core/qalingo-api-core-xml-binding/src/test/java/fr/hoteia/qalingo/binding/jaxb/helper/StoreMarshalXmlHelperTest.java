@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:conf/spring/qalingo-core-xml-binding.xml" })

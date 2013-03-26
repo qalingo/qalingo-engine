@@ -13,11 +13,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.web.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.viewbean.LegacyViewBean;
 import fr.hoteia.qalingo.web.viewbean.LocalizationViewBean;

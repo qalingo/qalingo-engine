@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -67,10 +67,8 @@ public class UserController extends AbstractQalingoController {
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		
-		modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-
-		formFactory.buildUserForm(request, modelAndView, user);
+		modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
+		modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		return modelAndView;
 	}
@@ -86,8 +84,8 @@ public class UserController extends AbstractQalingoController {
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-			formFactory.buildUserForm(request, modelAndView, user);
+			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
+			modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
 			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
@@ -100,8 +98,8 @@ public class UserController extends AbstractQalingoController {
 
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-				formFactory.buildUserForm(request, modelAndView, user);
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
+				modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
 				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 				
@@ -114,8 +112,8 @@ public class UserController extends AbstractQalingoController {
 
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-				formFactory.buildUserForm(request, modelAndView, user);
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
+				modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
 				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 			}
@@ -124,7 +122,7 @@ public class UserController extends AbstractQalingoController {
 		// UPDATE USER
 		webBackofficeService.updateUser(user, userForm);
 		
-		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl(request);
+		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl();
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

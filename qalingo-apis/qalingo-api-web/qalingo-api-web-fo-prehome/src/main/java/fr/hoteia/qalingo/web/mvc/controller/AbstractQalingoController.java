@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;

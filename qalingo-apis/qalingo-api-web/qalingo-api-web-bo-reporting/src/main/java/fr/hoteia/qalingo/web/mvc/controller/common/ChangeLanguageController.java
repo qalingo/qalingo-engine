@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Company;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.LocalizationService;
+import fr.hoteia.qalingo.core.domain.Company;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 
 /**
@@ -36,13 +36,13 @@ public class ChangeLanguageController extends AbstractQalingoController {
 	@RequestMapping("/change-language.html*")
 	public ModelAndView clp(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final String localeCode = request.getParameter(Constants.REQUEST_PARAMETER_LOCALE_CODE);
-		final Company company = getRequestUtil().getCurrentCompany(request);
+		final Company company = requestUtil.getCurrentCompany(request);
 		final Localization localization = company.getLocalization(localeCode);
-		final String url = getRequestUtil().getLastRequestUrl(request);
+		final String url = requestUtil.getLastRequestUrl(request);
 		if(localization == null){
 	        return new ModelAndView(new RedirectView(url));
 		}
-		getRequestUtil().updateCurrentLocalization(request, localization);
+		requestUtil.updateCurrentLocalization(request, localization);
         return new ModelAndView(new RedirectView(url));
 	}
 	

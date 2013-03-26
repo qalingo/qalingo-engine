@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.domain.EngineSession;
-import fr.hoteia.qalingo.core.common.domain.RuleRepository;
 import fr.hoteia.qalingo.core.common.service.RuleRepositoryService;
 import fr.hoteia.qalingo.core.common.util.RuleUtil;
+import fr.hoteia.qalingo.core.domain.EngineEcoSession;
+import fr.hoteia.qalingo.core.domain.RuleRepository;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
@@ -91,8 +91,8 @@ public class RuleUtilImpl implements RuleUtil {
 			
     		Collection<KnowledgePackage> pkgs = kbuilder.getKnowledgePackages();
     		kbase.addKnowledgePackages(pkgs);
-    		EngineSession engineSession = requestUtil.getCurrentSession(request);
-    		ksession.insert(engineSession);
+    		EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+    		ksession.insert(engineEcoSession);
     		ksession.fireAllRules();
         		
 		} catch (Exception e) {

@@ -9,43 +9,41 @@
  */
 package fr.hoteia.qalingo.web.service;
 
-import javax.servlet.http.HttpServletRequest;
-
-import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Localization;
 
 public interface BackofficeUrlService {
 
-	String buildHomeUrl(HttpServletRequest request);
+	String buildHomeUrl();
 	
-	String buildLoginUrl(HttpServletRequest request);
+	String buildLoginUrl();
 	
-	String buildLogoutUrl(HttpServletRequest request);
+	String buildLogoutUrl();
 	
-	String buildUserDetailsUrl(HttpServletRequest request);
+	String buildUserDetailsUrl();
 	
-	String buildUserEditUrl(HttpServletRequest request);
+	String buildUserEditUrl();
 	
-	String buildCatalogStatsUrl(HttpServletRequest request);
+	String buildCatalogStatsUrl();
 	
-	String buildPromotionStatsUrl(HttpServletRequest request);
+	String buildPromotionStatsUrl();
 	
-	String buildShippingStatsUrl(HttpServletRequest request);
+	String buildShippingStatsUrl();
 	
-	String buildOrderStatsUrl(HttpServletRequest request);
+	String buildOrderStatsUrl();
 	
-	String buildCustomerStatsUrl(HttpServletRequest request);
+	String buildCustomerStatsUrl();
 	
-	String buildReportingUrl(HttpServletRequest request);
+	String buildReportingUrl();
 	
-	String buildFaqUrl(HttpServletRequest request);
+	String buildFaqUrl();
 	
-	String buildForbiddenUrl(HttpServletRequest request);
+	String buildForbiddenUrl();
 	
-	String buildChangeLanguageUrl(HttpServletRequest request, Localization localization);
+	String buildChangeLanguageUrl(Localization localization);
 	
-	String buildSpringSecurityCheckUrl(HttpServletRequest request);
+	String buildSpringSecurityCheckUrl();
 	
-	String buildForgottenPasswordUrl(HttpServletRequest request);
+	String buildForgottenPasswordUrl();
 	
-	String buildSearchUrl(HttpServletRequest request);
+	String buildSearchUrl();
 }

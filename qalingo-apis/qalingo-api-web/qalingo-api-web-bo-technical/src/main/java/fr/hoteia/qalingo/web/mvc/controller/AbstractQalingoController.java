@@ -25,12 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
-import fr.hoteia.qalingo.core.common.service.UrlService;
-import fr.hoteia.qalingo.core.common.service.UserService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;

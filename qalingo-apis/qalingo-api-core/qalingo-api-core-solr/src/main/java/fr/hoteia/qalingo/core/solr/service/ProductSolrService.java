@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 
-import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 
 public interface ProductSolrService {

@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-security</artifactId>
+			<artifactId>qalingo-api-core-common-web-bo</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>

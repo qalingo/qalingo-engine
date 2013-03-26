@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -124,7 +124,7 @@ public class UserController extends AbstractQalingoController {
 		// UPDATE USER
 		webBackofficeService.updateUser(user, userForm);
 		
-		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl(request);
+		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl();
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

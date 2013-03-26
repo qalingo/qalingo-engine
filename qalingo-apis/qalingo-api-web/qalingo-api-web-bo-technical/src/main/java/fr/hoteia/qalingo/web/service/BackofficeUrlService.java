@@ -9,71 +9,69 @@
  */
 package fr.hoteia.qalingo.web.service;
 
-import javax.servlet.http.HttpServletRequest;
-
-import fr.hoteia.qalingo.core.common.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Localization;
 
 public interface BackofficeUrlService {
 
-	String buildHomeUrl(HttpServletRequest request);
+	String buildHomeUrl();
 	
-	String buildLoginUrl(HttpServletRequest request);
+	String buildLoginUrl();
 	
-	String buildLogoutUrl(HttpServletRequest request);
+	String buildLogoutUrl();
 	
-	String buildUserDetailsUrl(HttpServletRequest request);
+	String buildUserDetailsUrl();
 
-	String buildUserDetailsUrl(HttpServletRequest request, String userId);
+	String buildUserDetailsUrl(String userId);
 
-	String buildUserEditUrl(HttpServletRequest request);
+	String buildUserEditUrl();
 	
-	String buildUserEditUrl(HttpServletRequest request, String userId);
+	String buildUserEditUrl(String userId);
 	
-	String buildUserListUrl(HttpServletRequest request);
+	String buildUserListUrl();
 	
-	String buildReferenceDataListUrl(HttpServletRequest request);
+	String buildReferenceDataListUrl();
 	
-	String buildEngineSettingListUrl(HttpServletRequest request);
+	String buildEngineSettingListUrl();
 	
-	String buildEngineSettingValueEditUrl(HttpServletRequest request);
+	String buildEngineSettingValueEditUrl();
 
-	String buildEngineSettingValueEditUrl(HttpServletRequest request, String engineSettingValueId);
+	String buildEngineSettingValueEditUrl(String engineSettingValueId);
 	
-	String buildCacheUrl(HttpServletRequest request);
+	String buildCacheUrl();
 	
-	String buildBatchUrl(HttpServletRequest request);
+	String buildBatchUrl();
 	
-	String buildBatchCustomerUrl(HttpServletRequest request);
+	String buildBatchCustomerUrl();
 	
-	String buildBatchOrderUrl(HttpServletRequest request);
+	String buildBatchOrderUrl();
 	
-	String buildBatchEmailUrl(HttpServletRequest request);
+	String buildBatchEmailUrl();
 	
-	String buildBatchCmsUrl(HttpServletRequest request);
+	String buildBatchCmsUrl();
 	
-	String buildBatchStockUrl(HttpServletRequest request);
+	String buildBatchStockUrl();
 	
-	String buildMonitoringUrl(HttpServletRequest request);
+	String buildMonitoringUrl();
 	
-	String buildFaqUrl(HttpServletRequest request);
+	String buildFaqUrl();
 	
-	String buildForbiddenUrl(HttpServletRequest request);
+	String buildForbiddenUrl();
 	
-	String buildChangeLanguageUrl(HttpServletRequest request, Localization localization);
+	String buildChangeLanguageUrl(Localization localization);
 	
-	String buildSpringSecurityCheckUrl(HttpServletRequest request);
+	String buildSpringSecurityCheckUrl();
 	
-	String buildForgottenPasswordUrl(HttpServletRequest request);
+	String buildForgottenPasswordUrl();
 	
-	String buildSearchConfigUrl(HttpServletRequest request);
+	String buildSearchConfigUrl();
 	
-	String buildSearchUrl(HttpServletRequest request);
+	String buildSearchUrl();
 	
-	String buildSearchEngineSettingUrl(HttpServletRequest request);
+	String buildSearchEngineSettingUrl();
 	
-	String buildSearchUserUrl(HttpServletRequest request);
+	String buildSearchUserUrl();
 	
-	String buildSearchBatchUrl(HttpServletRequest request);
+	String buildSearchBatchUrl();
 	
-	String buildEngineSettingDetailsUrl(HttpServletRequest request, String engineSettingId);
+	String buildEngineSettingDetailsUrl(String engineSettingId);
 }

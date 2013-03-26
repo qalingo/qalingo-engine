@@ -11,10 +11,10 @@ package fr.hoteia.qalingo.web.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.Order;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;

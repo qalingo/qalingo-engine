@@ -23,22 +23,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.common.domain.Cart;
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Order;
-import fr.hoteia.qalingo.core.common.domain.ProductBrand;
-import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.domain.Store;
-import fr.hoteia.qalingo.core.common.service.ProductMarketingService;
-import fr.hoteia.qalingo.core.common.service.StoreService;
-import fr.hoteia.qalingo.core.common.service.UrlService;
+import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Order;
+import fr.hoteia.qalingo.core.domain.ProductBrand;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.ProductMarketingService;
+import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
@@ -135,11 +135,11 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		
 		// MARKETS FOR THE CURRENT MARKETPLACE
 		Set<Market> marketList = currentMarketPlace.getMarkets();
-		modelAndView.addObject("markets", viewBeanFactory.buildMarketViewBeans(request, new ArrayList<Market>(marketList), currentLocalization));
+		modelAndView.addObject("markets", viewBeanFactory.buildMarketViewBeans(request, currentMarketPlace, new ArrayList<Market>(marketList), currentLocalization));
 		
 		// MARKET AREAS FOR THE CURRENT MARKET
 		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		modelAndView.addObject("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(marketAreaList), currentLocalization));
+		modelAndView.addObject("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, currentMarket, new ArrayList<MarketArea>(marketAreaList), currentLocalization));
 		
 		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
 		modelAndView.addObject("languages", viewBeanFactory.buildLocalizationViewBeans(request, currentMarketArea, currentLocalization));

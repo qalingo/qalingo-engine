@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.common.dao;
 
 import java.util.List;
 
-import fr.hoteia.qalingo.core.common.domain.AbstractRuleReferential;
+import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 
 public interface RuleReferentialDao {
 

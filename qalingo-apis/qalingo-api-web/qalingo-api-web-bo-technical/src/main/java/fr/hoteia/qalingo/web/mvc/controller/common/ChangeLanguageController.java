@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Company;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.LocalizationService;
+import fr.hoteia.qalingo.core.domain.Company;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 
 /**

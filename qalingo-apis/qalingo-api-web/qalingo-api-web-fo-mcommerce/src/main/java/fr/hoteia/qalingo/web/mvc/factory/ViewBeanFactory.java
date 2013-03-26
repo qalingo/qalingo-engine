@@ -15,22 +15,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.response.FacetField;
 
-import fr.hoteia.qalingo.core.common.domain.Cart;
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.common.domain.CustomerProductComment;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Order;
-import fr.hoteia.qalingo.core.common.domain.OrderItem;
-import fr.hoteia.qalingo.core.common.domain.ProductBrand;
-import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.common.domain.ProductSku;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerAddress;
+import fr.hoteia.qalingo.core.domain.CustomerProductComment;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Order;
+import fr.hoteia.qalingo.core.domain.OrderItem;
+import fr.hoteia.qalingo.core.domain.ProductBrand;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.ProductSku;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
@@ -85,9 +85,9 @@ public interface ViewBeanFactory {
 	
 	MarketPlaceViewBean buildMarketPlaceViewBean(HttpServletRequest request, MarketPlace marketPlace) throws Exception;
 	
-	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, List<Market> markets, Localization localization) throws Exception;
+	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, MarketPlace marketPlace, List<Market> markets, Localization localization) throws Exception;
 	
-	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, List<MarketArea> marketAreas, Localization localization) throws Exception;
+	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, Market market, List<MarketArea> marketAreas, Localization localization) throws Exception;
 	
 	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
 

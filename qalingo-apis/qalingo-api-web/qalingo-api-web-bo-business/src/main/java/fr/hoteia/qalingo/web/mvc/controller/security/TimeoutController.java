@@ -32,7 +32,7 @@ public class TimeoutController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "timeout";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}

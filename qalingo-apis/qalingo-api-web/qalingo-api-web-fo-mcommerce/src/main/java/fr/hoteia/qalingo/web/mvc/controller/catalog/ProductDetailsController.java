@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.service.ProductCategoryService;
-import fr.hoteia.qalingo.core.common.service.ProductMarketingService;
-import fr.hoteia.qalingo.core.common.service.ProductSkuService;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.ProductMarketingService;
+import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 
@@ -48,10 +48,10 @@ public class ProductDetailsController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/product-details");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_CATEGORY_CODE);
+		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final String productCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
 
-		ProductCategoryVirtual productCategory = productCategoryService.getProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
+		ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productCode);
 		
 		final String titleKeyPrefixSufix = "product";

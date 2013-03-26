@@ -19,20 +19,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.service.UrlService;
-import fr.hoteia.qalingo.core.common.service.UserService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.web.util.ServerUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
@@ -55,9 +53,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 
 	@Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
-    protected ServerUtil serverUtil;
 	
 	@Autowired
     protected ModelAndViewFactory modelAndViewFactory;
@@ -99,18 +94,43 @@ public abstract class AbstractQalingoController extends AbstractController {
 	 */
 	protected void initPage(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final String titleKeyPrefixSufix) throws Exception {
 		initPage(request, response);
+		initMessages(request, response, modelAndView);
 		initCommon(request, response, modelAndView, titleKeyPrefixSufix);
 		initBreadcrumb(request, modelAndView, titleKeyPrefixSufix);
 		initSeo(request, modelAndView, titleKeyPrefixSufix);
 		initUser(request, modelAndView);
     }
+
+	/**
+	 * 
+	 */
+	protected void initMessages(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView) throws Exception {
+		// WE USE SESSION FOR MESSAGES BECAUSE REDIRECT CLEAN REQUEST
+		// ERROR MESSAGE
+		String errorMessage = (String) request.getSession().getAttribute(Constants.ERROR_MESSAGE);
+		if(StringUtils.isNotEmpty(errorMessage)){
+			modelAndView.addObject(Constants.ERROR_MESSAGE, errorMessage);
+			request.getSession().removeAttribute(Constants.ERROR_MESSAGE);
+		}
+		// INFO MESSAGE
+		String infoMessage = (String) request.getSession().getAttribute(Constants.INFO_MESSAGE);
+		if(StringUtils.isNotEmpty(infoMessage)){
+			modelAndView.addObject(Constants.INFO_MESSAGE, infoMessage);
+			request.getSession().removeAttribute(Constants.INFO_MESSAGE);
+		}
+		// SUCCESS MESSAGE
+		String successMessage = (String) request.getSession().getAttribute(Constants.SUCCESS_MESSAGE);
+		if(StringUtils.isNotEmpty(successMessage)){
+			modelAndView.addObject(Constants.SUCCESS_MESSAGE, successMessage);
+			request.getSession().removeAttribute(Constants.SUCCESS_MESSAGE);
+		}
+	}
 	
 	/**
 	 * 
 	 */
 	protected void initCommon(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final String titleKeyPrefixSufix) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+		final Locale locale  = requestUtil.getCurrentLocale(request);
 		
 		// Velocity layout mandatory attributes
 		modelAndView.addObject(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
@@ -156,14 +176,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 		String appName = (String) modelAndView.getModelMap().get(Constants.APP_NAME);
 		String seoPageTitle = appName + " - " + coreMessageSource.getMessage(pageTitleKey, null, locale);
         modelAndView.addObject("seoPageTitle", seoPageTitle);
-
-//		String mainContentTitleKey = "main.content.title." + titleKeyPrefixSufix;
-//		try {
-//			String mainContentTitle = coreMessageSource.getMessage(mainContentTitleKey, null, locale);
-//	        modelAndView.addObject("mainContentTitle", mainContentTitle);
-//		} catch (Exception e) {
-//			// NOTHING
-//		}
 	}
 	
 	/**
@@ -255,52 +267,27 @@ public abstract class AbstractQalingoController extends AbstractController {
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	protected MessageSource getMessageSource() {
-		return coreMessageSource;
+	protected void addErrorMessage(HttpServletRequest request, String message) throws Exception {
+		request.getSession().setAttribute(Constants.ERROR_MESSAGE, message);
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	public ModelAndViewFactory getModelAndViewFactory() {
-		return modelAndViewFactory;
+	protected void addInfoMessage(HttpServletRequest request, String message) throws Exception {
+		request.getSession().setAttribute(Constants.INFO_MESSAGE, message);
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	protected ViewBeanFactory getViewBeanFactory() {
-		return viewBeanFactory;
-	}
-	
-	/**
-	 * 
-	 */
-	public FormFactory getFormFactory() {
-		return formFactory;
-	}
-	
-	/**
-	 * 
-	 */
-	protected RequestUtil getRequestUtil() {
-		return requestUtil;
-	}
-	
-	/**
-	 * 
-	 */
-	protected ServerUtil getServerUtil() {
-		return serverUtil;
-	}
-	
-	/**
-	 * 
-	 */
-	protected UrlService getUrlService() {
-		return urlService;
+	protected void addSuccessMessage(HttpServletRequest request, String message) throws Exception {
+		request.getSession().setAttribute(Constants.SUCCESS_MESSAGE, message);
 	}
 
 }

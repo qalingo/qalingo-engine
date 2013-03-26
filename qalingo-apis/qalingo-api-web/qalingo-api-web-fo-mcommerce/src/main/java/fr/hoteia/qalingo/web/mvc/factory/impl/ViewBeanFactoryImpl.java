@@ -30,43 +30,43 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Cart;
-import fr.hoteia.qalingo.core.common.domain.CartItem;
-import fr.hoteia.qalingo.core.common.domain.CatalogVirtual;
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.common.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.common.domain.CustomerProductComment;
-import fr.hoteia.qalingo.core.common.domain.CustomerWishlist;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Order;
-import fr.hoteia.qalingo.core.common.domain.OrderItem;
-import fr.hoteia.qalingo.core.common.domain.OrderShipment;
-import fr.hoteia.qalingo.core.common.domain.OrderTax;
-import fr.hoteia.qalingo.core.common.domain.ProductBrand;
-import fr.hoteia.qalingo.core.common.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.common.domain.ProductCrossLink;
-import fr.hoteia.qalingo.core.common.domain.ProductImage;
-import fr.hoteia.qalingo.core.common.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.common.domain.ProductSku;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.domain.Shipping;
-import fr.hoteia.qalingo.core.common.domain.Store;
-import fr.hoteia.qalingo.core.common.domain.Tax;
-import fr.hoteia.qalingo.core.common.domain.enumtype.ImageSize;
-import fr.hoteia.qalingo.core.common.service.CustomerProductCommentService;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
-import fr.hoteia.qalingo.core.common.service.MarketPlaceService;
-import fr.hoteia.qalingo.core.common.service.MarketService;
-import fr.hoteia.qalingo.core.common.service.ProductCatalogService;
-import fr.hoteia.qalingo.core.common.service.ProductCategoryService;
-import fr.hoteia.qalingo.core.common.service.ProductMarketingService;
-import fr.hoteia.qalingo.core.common.service.ProductSkuService;
-import fr.hoteia.qalingo.core.common.service.UrlService;
+import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.CartItem;
+import fr.hoteia.qalingo.core.domain.CatalogVirtual;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerAddress;
+import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
+import fr.hoteia.qalingo.core.domain.CustomerProductComment;
+import fr.hoteia.qalingo.core.domain.CustomerWishlist;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Order;
+import fr.hoteia.qalingo.core.domain.OrderItem;
+import fr.hoteia.qalingo.core.domain.OrderShipment;
+import fr.hoteia.qalingo.core.domain.OrderTax;
+import fr.hoteia.qalingo.core.domain.ProductBrand;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.ProductCrossLink;
+import fr.hoteia.qalingo.core.domain.ProductAsset;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.ProductSku;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.Shipping;
+import fr.hoteia.qalingo.core.domain.Store;
+import fr.hoteia.qalingo.core.domain.Tax;
+import fr.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.CustomerProductCommentService;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.MarketPlaceService;
+import fr.hoteia.qalingo.core.service.MarketService;
+import fr.hoteia.qalingo.core.service.ProductCatalogService;
+import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.ProductMarketingService;
+import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
@@ -243,8 +243,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
 		final WebCacheHelper.ElementType marketPlaceElementType = WebCacheHelper.ElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
-		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
-		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE";
+		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
+		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE_LIST";
 		List<MarketPlaceViewBean> marketPlaceViewBeans = (List<MarketPlaceViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketPlaceElementType, marketPlaceCacheKey);
 		if(marketPlaceViewBeans == null){
 			marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
@@ -271,7 +271,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		marketPlaceViewBean.setName(marketPlace.getName());
 		marketPlaceViewBean.setUrl(urlService.buildHomeUrl(request, marketPlace, defaultMarket, defaultMarketArea, defaultLocalization, defaultRetailer));
 		
-		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, new ArrayList<Market>(marketPlace.getMarkets()), defaultLocalization));
+		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, marketPlace, new ArrayList<Market>(marketPlace.getMarkets()), defaultLocalization));
 		
 		return marketPlaceViewBean;
 	}
@@ -279,10 +279,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final List<Market> markets, final Localization localization) throws Exception {
+	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final List<Market> markets, final Localization localization) throws Exception {
 		final WebCacheHelper.ElementType marketElementType = WebCacheHelper.ElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
-		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
-		final String marketCacheKey = marketPrefixCacheKey + "_MARKET";
+		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
+		final String marketCacheKey = marketPrefixCacheKey + "_" + marketPlace.getCode() + "_MARKET_LIST";
 		List<MarketViewBean> marketViewBeans = (List<MarketViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketElementType, marketCacheKey);
 		if(marketViewBeans == null){
 			marketViewBeans = new ArrayList<MarketViewBean>();
@@ -308,7 +308,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		marketViewBean.setName(market.getName());
 		marketViewBean.setUrl(urlService.buildHomeUrl(request, marketPlace, market, defaultMarketArea, defaultLocalization, defaultRetailer));
 		
-		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, new ArrayList<MarketArea>(market.getMarketAreas()), defaultLocalization));
+		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, market, new ArrayList<MarketArea>(market.getMarketAreas()), defaultLocalization));
 		
 		return marketViewBean;
 	}
@@ -316,10 +316,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final List<MarketArea> marketAreas, final Localization localization) throws Exception {
+	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final Market market, final List<MarketArea> marketAreas, final Localization localization) throws Exception {
 		final WebCacheHelper.ElementType marketAreaElementType = WebCacheHelper.ElementType.MARKET_AREA_VIEW_BEAN_LIST;
-		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
-		final String marketAreaCacheKey = marketAreaPrefixCacheKey + "_MARKET_AREA";
+		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
+		final String marketAreaCacheKey = marketAreaPrefixCacheKey + "_" +  market.getCode() + "_MARKET_AREA_LIST";
 		List<MarketAreaViewBean> marketAreaViewBeans = (List<MarketAreaViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketAreaElementType, marketAreaCacheKey);
 		if(marketAreaViewBeans == null){
 			marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
@@ -352,8 +352,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
 		final WebCacheHelper.ElementType localizationElementType = WebCacheHelper.ElementType.LOCALIZATION_VIEW_BEAN_LIST;
-		final String localizationPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
-		final String localizationCacheKey = localizationPrefixCacheKey + "_LOCALIZATION";
+		final String localizationPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
+		final String localizationCacheKey = localizationPrefixCacheKey + "_" + marketArea.getCode() + "_LOCALIZATION_LIST";
 		List<LocalizationViewBean> localizationViewBeans = (List<LocalizationViewBean>) menuMarketNavigationCacheHelper.getFromCache(localizationElementType, localizationCacheKey);
 		if(localizationViewBeans == null){
 			final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
@@ -374,7 +374,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Market market = marketArea.getMarket();
 		final MarketPlace marketPlace = market.getMarketPlace();
 		final Locale locale = localization.getLocale();
-		final String localeCodeNavigation = localization.getLocaleCode();
+		final String localeCodeNavigation = localization.getCode();
 		final Retailer retailer = requestUtil.getCurrentRetailer(request);
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
@@ -433,7 +433,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
 		if(menuViewBeans == null){
 			final Locale locale = localization.getLocale();
-			final String localeCode = localization.getLocaleCode();
+			final String localeCode = localization.getCode();
 
 			menuViewBeans = new ArrayList<MenuViewBean>();
 			
@@ -858,7 +858,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
 					final ProductSku productSku = productSkuService.getProductSkuByCode(customerMarketArea.getId(), retailer.getId(), customerWishlist.getProductSkuCode());
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
-					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerWishlistViewBean.getProductSkus().add(buildProductSkuViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku));
 				}
 			}
@@ -883,7 +883,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
 					final ProductSku productSku = productSkuService.getProductSkuByCode(customerMarketArea.getId(), retailer.getId(), customerProductComment.getProductSkuCode());
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
-					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(buildCustomerProductCommentViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku, customerProductComment));
 				}
 			}
@@ -1087,7 +1087,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(request, marketPlace, market, marketArea, localization, retailer, productBrand);
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
 			final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-			ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+			ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 			productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 		}
 		return productBrandViewBean;
@@ -1107,7 +1107,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public ProductCategoryViewBean buildProductCategoryViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 																final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory) throws Exception {
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		final ProductCategoryViewBean productCategoryViewBean = new ProductCategoryViewBean();
 		
 		productCategoryViewBean.setName(productCategory.getI18nName(localeCode));
@@ -1115,21 +1115,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productCategoryViewBean.setRoot(productCategory.isRoot());
 		
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductImage defaultBackgroundImage = productCategory.getDefaultBackgroundImage();
+		final ProductAsset defaultBackgroundImage = productCategory.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
 			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productCategoryViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productCategoryViewBean.setBackgroundImage("");
 		}
-		final ProductImage defaultPaskshotImage = productCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final ProductAsset defaultPaskshotImage = productCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
 			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productCategoryViewBean.setCarouselImage(carouselImage);
 		} else {
 			productCategoryViewBean.setCarouselImage("");
 		}
-		final ProductImage defaultIconImage = productCategory.getDefaultIconImage();
+		final ProductAsset defaultIconImage = productCategory.getDefaultIconImage();
 		if(defaultIconImage != null){
 			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productCategoryViewBean.setIconImage(iconImage);
@@ -1174,28 +1174,28 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public ProductMarketingViewBean buildProductMarketingViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 																   final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing) 
 																   throws Exception {
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
 		
 		productMarketingViewBean.setName(productMarketing.getI18nName(localeCode));
 		productMarketingViewBean.setDescription(productMarketing.getDescription());
 		
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductImage defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+		final ProductAsset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
 			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productMarketingViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productMarketingViewBean.setBackgroundImage("");
 		}
-		final ProductImage defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
 			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productMarketingViewBean.setCarouselImage(carouselImage);
 		} else {
 			productMarketingViewBean.setCarouselImage("");
 		}
-		final ProductImage defaultIconImage = productMarketing.getDefaultIconImage();
+		final ProductAsset defaultIconImage = productMarketing.getDefaultIconImage();
 		if(defaultIconImage != null){
 			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productMarketingViewBean.setIconImage(iconImage);
@@ -1366,7 +1366,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	private CartItemViewBean buildCartItemViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final CartItem cartItem) throws Exception {
 		final Locale locale = localization.getLocale();
-		final String localizationCode = localization.getLocaleCode();
+		final String localizationCode = localization.getCode();
 		
 		final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
@@ -1512,7 +1512,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public OrderItemViewBean buildOrderItemViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 													 final Localization localization, final Retailer retailer, final OrderItem orderItem) throws Exception {
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		
 		final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
 
@@ -1541,7 +1541,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public ProductCrossLinkViewBean buildProductCrossLinkViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 																   final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing) 
 																   throws Exception {
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		final ProductCrossLinkViewBean productCrossLinkViewBean = new ProductCrossLinkViewBean();
 
 		
@@ -1554,21 +1554,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productCrossLinkViewBean.setDescription(productMarketing.getDescription());
 		
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductImage defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+		final ProductAsset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
 			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productCrossLinkViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productCrossLinkViewBean.setBackgroundImage("");
 		}
-		final ProductImage defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
 			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productCrossLinkViewBean.setCrossLinkImage(carouselImage);
 		} else {
 			productCrossLinkViewBean.setCrossLinkImage("");
 		}
-		final ProductImage defaultIconImage = productMarketing.getDefaultIconImage();
+		final ProductAsset defaultIconImage = productMarketing.getDefaultIconImage();
 		if(defaultIconImage != null){
 			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productCrossLinkViewBean.setIconImage(iconImage);
@@ -1592,28 +1592,28 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 													   final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku) 
 													   throws Exception {
 		final Locale locale = localization.getLocale();
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
 		productSkuViewBean.setName(productSku.getI18nName(localeCode));
 		productSkuViewBean.setDescription(productSku.getDescription());
 		
 		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductImage defaultBackgroundImage = productSku.getDefaultBackgroundImage();
+		final ProductAsset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
 			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
 			productSkuViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productSkuViewBean.setBackgroundImage("");
 		}
-		final ProductImage defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
 			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
 			productSkuViewBean.setCarouselImage(carouselImage);
 		} else {
 			productSkuViewBean.setCarouselImage("");
 		}
-		final ProductImage defaultIconImage = productSku.getDefaultIconImage();
+		final ProductAsset defaultIconImage = productSku.getDefaultIconImage();
 		if(defaultIconImage != null){
 			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
 			productSkuViewBean.setIconImage(iconImage);
@@ -1691,13 +1691,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public SearchProductItemViewBean buildSearchProductItemViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			final Localization localization, final Retailer retailer, final ProductSolr productSolr) throws Exception {
-		final String localeCode = localization.getLocaleCode();
+		final String localeCode = localization.getCode();
 		
 		final String productCode = productSolr.getCode();
 		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productCode);
 		
 		final String productName = productMarketing.getCode();
-		final ProductCategoryVirtual productCategory = productCategoryService.getDefaultProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+		final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 		final String categoryName = productCategory.getI18nName(localeCode);
 		final String categoryCode = productCategory.getCode();
 		final String productSkuName = productMarketing.getDefaultProductSku().getI18nName(localeCode);

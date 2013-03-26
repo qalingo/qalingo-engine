@@ -49,7 +49,7 @@ public class UrlParamsFilter implements Filter {
     	RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
     	
     	try {
-			requestUtil.handleUrlParameters(httpServletRequest);
+			requestUtil.handleFrontofficeUrlParameters(httpServletRequest);
 		} catch (Exception e) {
 			LOG.error("UrlParams Filter & HandleUrlParameters failed, e");
 		}

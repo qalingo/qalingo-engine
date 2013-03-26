@@ -17,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.common.domain.EngineSetting;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 

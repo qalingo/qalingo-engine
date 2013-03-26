@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.solr.bean.StoreSolr;
 import fr.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import fr.hoteia.qalingo.core.solr.service.StoreSolrService;

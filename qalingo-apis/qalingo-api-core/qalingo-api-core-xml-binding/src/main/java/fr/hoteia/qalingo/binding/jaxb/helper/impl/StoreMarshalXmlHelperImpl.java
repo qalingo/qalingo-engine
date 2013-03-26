@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import fr.hoteia.qalingo.binding.common.store.ObjectFactory;
 import fr.hoteia.qalingo.binding.common.store.XmlStore;
 import fr.hoteia.qalingo.binding.jaxb.helper.StoreMarshalXmlHelper;
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreMarshalXmlHelperImpl implements StoreMarshalXmlHelper {
 

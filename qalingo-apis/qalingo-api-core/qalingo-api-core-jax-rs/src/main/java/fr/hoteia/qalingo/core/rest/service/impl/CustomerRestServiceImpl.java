@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.rest.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -26,10 +24,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.service.CustomerService;
+import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
+import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+import fr.hoteia.qalingo.core.service.CustomerService;
 
 @Service("customerRestService")
 @Path("/customer/")
@@ -40,17 +39,15 @@ public class CustomerRestServiceImpl implements CustomerRestService {
 	@Autowired
 	protected CustomerService customerService;
 	
+	@Autowired
+	protected JsonFactory jsonFactory;
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CustomerJsonPojo> getCustomers() {
 		List<Customer> customers = customerService.findCustomers();
-		List<CustomerJsonPojo> customerCustomerJsonBeans = new ArrayList<CustomerJsonPojo>();
-		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
-			Customer customer = (Customer) iterator.next();
-			CustomerJsonPojo customerJsonBean = buildCustomerJsonBean(customer);
-			customerCustomerJsonBeans.add(customerJsonBean);
-		}
-		return customerCustomerJsonBeans;
+		List<CustomerJsonPojo> customerCustomerJsonPojos = jsonFactory.buildJsonCustomers(customers);
+		return customerCustomerJsonPojos;
 	}
  
 	@GET
@@ -58,33 +55,15 @@ public class CustomerRestServiceImpl implements CustomerRestService {
 	@Path("{id}")
 	public CustomerJsonPojo getCustomer(@PathParam("id") String id) {
 		Customer customer = customerService.getCustomerById(id);
-		CustomerJsonPojo customerJsonBean = buildCustomerJsonBean(customer);
-		return customerJsonBean;
+		CustomerJsonPojo customerJsonPojo = jsonFactory.buildJsonCustomer(customer);
+		return customerJsonPojo;
 	}
  
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveSomeBean(CustomerJsonPojo customerJsonBean) {
-		Customer customer = buildCustomer(customerJsonBean);
+	public void saveSomeBean(CustomerJsonPojo customerJsonPojo) {
+		Customer customer = jsonFactory.buildCustomer(customerJsonPojo);
 		customerService.saveOrUpdateCustomer(customer);
-	}
-
-	protected CustomerJsonPojo buildCustomerJsonBean(Customer customer){
-		CustomerJsonPojo customerJsonBean = new CustomerJsonPojo();
-		customerJsonBean.setLastname(customer.getLastname());
-		
-		// TODO : ...
-		
-		return customerJsonBean;
-	}
-	
-	protected Customer buildCustomer(CustomerJsonPojo customerJsonBean){
-		Customer customer = new Customer();
-		customer.setLastname(customerJsonBean.getLastname());
-	
-		// TODO : ...
-	
-		return customer;
 	}
 	
 }

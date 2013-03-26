@@ -13,13 +13,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.common.domain.AbstractPaymentGateway;
-import fr.hoteia.qalingo.core.common.domain.BatchProcessObject;
-import fr.hoteia.qalingo.core.common.domain.CurrencyReferential;
-import fr.hoteia.qalingo.core.common.domain.EngineSetting;
-import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import fr.hoteia.qalingo.core.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.domain.CurrencyReferential;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CurrencyReferentialViewBean;

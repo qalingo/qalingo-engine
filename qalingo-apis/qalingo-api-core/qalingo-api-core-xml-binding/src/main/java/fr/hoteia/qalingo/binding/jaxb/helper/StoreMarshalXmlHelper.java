@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.xml.bind.JAXBException;
 
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 
 public interface StoreMarshalXmlHelper {
 

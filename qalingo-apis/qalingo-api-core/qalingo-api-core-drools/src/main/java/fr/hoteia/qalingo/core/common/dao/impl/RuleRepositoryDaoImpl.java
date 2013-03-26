@@ -20,7 +20,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.RuleRepositoryDao;
-import fr.hoteia.qalingo.core.common.domain.RuleRepository;
+import fr.hoteia.qalingo.core.dao.impl.AbstractGenericDaoImpl;
+import fr.hoteia.qalingo.core.domain.RuleRepository;
 
 @Transactional
 @Repository("ruleRepositoryDao")

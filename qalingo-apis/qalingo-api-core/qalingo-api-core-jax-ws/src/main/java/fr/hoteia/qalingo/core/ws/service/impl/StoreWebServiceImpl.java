@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.hoteia.qalingo.core.common.domain.Store;
-import fr.hoteia.qalingo.core.common.service.StoreService;
+import fr.hoteia.qalingo.core.domain.Store;
+import fr.hoteia.qalingo.core.service.StoreService;
 import fr.hoteia.qalingo.core.ws.pojo.StoreWsPojo;
 import fr.hoteia.qalingo.core.ws.service.StoreWebService;
 

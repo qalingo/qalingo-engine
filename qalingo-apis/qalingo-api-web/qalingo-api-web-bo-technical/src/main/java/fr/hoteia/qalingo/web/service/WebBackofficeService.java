@@ -9,8 +9,8 @@
  */
 package fr.hoteia.qalingo.web.service;
 
-import fr.hoteia.qalingo.core.common.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.common.domain.User;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 

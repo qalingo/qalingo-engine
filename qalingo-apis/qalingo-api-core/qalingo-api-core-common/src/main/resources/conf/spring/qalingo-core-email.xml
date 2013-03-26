@@ -67,7 +67,7 @@
 	    </property>
 	</bean>
 	
-	<bean id="mimeMessagePreparator" class="fr.hoteia.qalingo.core.common.util.impl.MimeMessagePreparatorImpl">
+	<bean id="mimeMessagePreparator" class="fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl">
 		<property name="from" value="" />
 		<property name="to" value="" />
 		<property name="subject" value="" />

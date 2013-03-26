@@ -19,20 +19,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.service.UrlService;
-import fr.hoteia.qalingo.core.common.service.UserService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.web.util.ServerUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
@@ -55,9 +53,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 
 	@Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
-    protected ServerUtil serverUtil;
 	
 	@Autowired
     protected ModelAndViewFactory modelAndViewFactory;
@@ -252,55 +247,6 @@ public abstract class AbstractQalingoController extends AbstractController {
 	 */
 	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
 		return requestUtil.getCurrentVelocityPrefix(request);
-	}
-	
-	/**
-	 * 
-	 */
-	protected MessageSource getMessageSource() {
-		return coreMessageSource;
-	}
-	
-	/**
-	 * 
-	 */
-	public ModelAndViewFactory getModelAndViewFactory() {
-		return modelAndViewFactory;
-	}
-	
-	/**
-	 * 
-	 */
-	protected ViewBeanFactory getViewBeanFactory() {
-		return viewBeanFactory;
-	}
-	
-	/**
-	 * 
-	 */
-	public FormFactory getFormFactory() {
-		return formFactory;
-	}
-	
-	/**
-	 * 
-	 */
-	protected RequestUtil getRequestUtil() {
-		return requestUtil;
-	}
-	
-	/**
-	 * 
-	 */
-	protected ServerUtil getServerUtil() {
-		return serverUtil;
-	}
-	
-	/**
-	 * 
-	 */
-	protected UrlService getUrlService() {
-		return urlService;
 	}
 
 }

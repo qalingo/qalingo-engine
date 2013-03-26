@@ -14,12 +14,12 @@ import net.sf.ehcache.Element;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.Market;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketPlace;
-import fr.hoteia.qalingo.core.common.domain.Retailer;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 
 /**
@@ -34,8 +34,15 @@ public class WebCacheHelperImpl implements WebCacheHelper {
 	/**
 	 * @return the prefix key value for a global element.
 	 */
+	public String buildGlobalPrefixKey() {
+		return "GLOBAL";
+	}
+	
+	/**
+	 * @return the prefix key value for a global element.
+	 */
 	public String buildGlobalPrefixKey(final Localization localization) {
-		return "GLOBAL_" + localization.getLocaleCode();
+		return buildGlobalPrefixKey() + "_" + localization.getCode();
 	}
 	
 	/**
@@ -43,7 +50,7 @@ public class WebCacheHelperImpl implements WebCacheHelper {
 	 */
 	public String buildPrefixKey(final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final ElementType elementType) {
-		String cacheKey = marketPlace.getCode() + "_" + market.getCode() + "_" + marketArea.getCode() + "_" + localization.getLocaleCode() + "_" + retailer.getCode() + "_" + elementType.getKey();
+		String cacheKey = marketPlace.getCode() + "_" + market.getCode() + "_" + marketArea.getCode() + "_" + localization.getCode() + "_" + retailer.getCode() + "_" + elementType.getKey();
 		return cacheKey;
 	}
 	

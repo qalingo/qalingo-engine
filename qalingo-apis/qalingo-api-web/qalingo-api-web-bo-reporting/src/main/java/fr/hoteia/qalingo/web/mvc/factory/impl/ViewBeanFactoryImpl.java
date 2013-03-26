@@ -24,14 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.User;
-import fr.hoteia.qalingo.core.common.domain.UserConnectionLog;
-import fr.hoteia.qalingo.core.common.domain.UserGroup;
-import fr.hoteia.qalingo.core.common.domain.UserPermission;
-import fr.hoteia.qalingo.core.common.domain.UserRole;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.UserConnectionLog;
+import fr.hoteia.qalingo.core.domain.UserGroup;
+import fr.hoteia.qalingo.core.domain.UserPermission;
+import fr.hoteia.qalingo.core.domain.UserRole;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
@@ -73,13 +73,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_REPORTING);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
-		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl(request));
-		commonViewBean.setLoginUrl(backofficeUrlService.buildLoginUrl(request));
+		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl());
+		commonViewBean.setLoginUrl(backofficeUrlService.buildLoginUrl());
 		commonViewBean.setLoginLabel(coreMessageSource.getMessage("header.link.login", null, locale));
 //		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request));
-		commonViewBean.setLogoutUrl(backofficeUrlService.buildLogoutUrl(request));
+		commonViewBean.setLogoutUrl(backofficeUrlService.buildLogoutUrl());
 		commonViewBean.setLogoutLabel(coreMessageSource.getMessage("header.link.logout", null, locale));
-		commonViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request));
+		commonViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl());
 		commonViewBean.setUserDetailsLabel(coreMessageSource.getMessage("header.link.my.account", null, locale));
 		
 		return commonViewBean;
@@ -97,49 +97,49 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
 		menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		menu.setUrl(backofficeUrlService.buildHomeUrl(request));
+		menu.setUrl(backofficeUrlService.buildHomeUrl());
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-sitemap");
 		menu.setName("Catalog stats");
-		menu.setUrl(backofficeUrlService.buildCatalogStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildCatalogStatsUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion stats");
-		menu.setUrl(backofficeUrlService.buildPromotionStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildPromotionStatsUrl());
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping stats");
-		menu.setUrl(backofficeUrlService.buildShippingStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildShippingStatsUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders stats");
-		menu.setUrl(backofficeUrlService.buildOrderStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildOrderStatsUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers stats");
-		menu.setUrl(backofficeUrlService.buildCustomerStatsUrl(request));
+		menu.setUrl(backofficeUrlService.buildCustomerStatsUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Reporting");
-		menu.setUrl(backofficeUrlService.buildReportingUrl(request));
+		menu.setUrl(backofficeUrlService.buildReportingUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(backofficeUrlService.buildFaqUrl(request));
+		menu.setUrl(backofficeUrlService.buildFaqUrl());
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
@@ -155,7 +155,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
 		footerMenuList.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
-		footerMenuList.setUrl(backofficeUrlService.buildHomeUrl(request));
+		footerMenuList.setUrl(backofficeUrlService.buildHomeUrl());
 		footerMenuViewBeans.add(footerMenuList);
 		
 		return footerMenuViewBeans;
@@ -180,7 +180,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public LocalizationViewBean buildLocalizationViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
-		final String localeCodeNavigation = localization.getLocaleCode();
+		final String localeCodeNavigation = localization.getCode();
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
 		
@@ -191,7 +191,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation, null, locale));
 		}
 		
-		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(request, localization));
+		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(localization));
 		return localizationViewBean;
 	}
 	
@@ -238,9 +238,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		security.setForgottenPasswordEmailSucces(coreMessageSource.getMessage("forgotten.password.email.success", null, locale));
 	    
 		security.setLoginFormTitle(coreMessageSource.getMessage("login.form.login.title", null, locale));
-		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(request));
+		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl());
 		security.setLoginLabel(coreMessageSource.getMessage("login.form.login.label", null, locale));
-		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl(request));
+		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl());
 		security.setForgottenPasswordLabel(coreMessageSource.getMessage("login.form.forgotten.password.label", null, locale));
 		security.setPasswordLabel(coreMessageSource.getMessage("login.form.password.label", null, locale));
 		security.setRememberLabel(coreMessageSource.getMessage("login.form.remember.label", null, locale));
@@ -256,7 +256,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		final QuickSearchViewBean quickSsearch = new QuickSearchViewBean();
 		quickSsearch.setTextLabel(coreMessageSource.getMessage("form.search.label.text", null, locale));
-		quickSsearch.setUrlFormSubmit(backofficeUrlService.buildSearchUrl(request));
+		quickSsearch.setUrlFormSubmit(backofficeUrlService.buildSearchUrl());
 		return quickSsearch;
 	}
 	
@@ -356,10 +356,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		userDetailsViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
 
 		userDetailsViewBean.setUserDetailsLabel(coreMessageSource.getMessage("user.details.label", null, locale));
-		userDetailsViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(request));
+		userDetailsViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl());
 
 		userDetailsViewBean.setUserEditLabel(coreMessageSource.getMessage("user.edit.label", null, locale));
-		userDetailsViewBean.setUserEditUrl(backofficeUrlService.buildUserEditUrl(request));
+		userDetailsViewBean.setUserEditUrl(backofficeUrlService.buildUserEditUrl());
 		
 		return userDetailsViewBean;
 	}
@@ -391,7 +391,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		userEditViewBean.setBackUrl(requestUtil.getLastRequestUrl(request));
 
 		userEditViewBean.setSubmitLabel(coreMessageSource.getMessage("user.edit.submit.label", null, locale));
-		userEditViewBean.setFormSubmitUrl(backofficeUrlService.buildUserEditUrl(request));
+		userEditViewBean.setFormSubmitUrl(backofficeUrlService.buildUserEditUrl());
 		
 		return userEditViewBean;
 	}

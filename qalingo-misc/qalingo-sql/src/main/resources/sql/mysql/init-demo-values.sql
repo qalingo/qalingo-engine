@@ -48,17 +48,17 @@ VALUES (1, 10);
 -- ECO CATALOGUE
 
 INSERT INTO teco_catalog_virtual 
-(id, description, code, is_default, business_name, version)
+(id, description, code, is_default, business_name, version, master_catalog_id)
  VALUES 
-(100, 'Virtual Catalog description', 'V_CAT_INT', 0, 'Virtuel Catalog International', 1),
-(101, 'Virtual Catalog description', 'V_CAT_FRA', 0, 'Virtuel Catalog France', 1),
-(102, 'Virtual Catalog description', 'V_CAT_ESP', 0, 'Virtuel Catalog Espagne', 1),
-(201, 'Virtual Catalog description', 'V_CAT_USA', 0, 'Virtuel Catalog United-States', 1),
-(202, 'Virtual Catalog description', 'V_CAT_CAN', 0, 'Virtuel Catalog', 1),
-(210, 'Virtual Catalog description', 'V_CAT_BRA', 0, 'Virtuel Catalog Brazil', 1),
-(211, 'Virtual Catalog description', 'V_CAT_ARG', 0, 'Virtuel Catalog Argentina', 1),
-(301, 'Virtual Catalog description', 'V_CAT_CHN', 0, 'Virtuel Catalog China', 1),
-(302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1);
+(100, 'Virtual Catalog description', 'V_CAT_INT', 0, 'Virtuel Catalog International', 1, 1),
+(101, 'Virtual Catalog description', 'V_CAT_FRA', 0, 'Virtuel Catalog France', 1, 1),
+(102, 'Virtual Catalog description', 'V_CAT_ESP', 0, 'Virtuel Catalog Espagne', 1, 1),
+(201, 'Virtual Catalog description', 'V_CAT_USA', 0, 'Virtuel Catalog United-States', 1, 1),
+(202, 'Virtual Catalog description', 'V_CAT_CAN', 0, 'Virtuel Catalog', 1, 1),
+(210, 'Virtual Catalog description', 'V_CAT_BRA', 0, 'Virtuel Catalog Brazil', 1, 1),
+(211, 'Virtual Catalog description', 'V_CAT_ARG', 0, 'Virtuel Catalog Argentina', 1, 1),
+(301, 'Virtual Catalog description', 'V_CAT_CHN', 0, 'Virtuel Catalog China', 1, 1),
+(302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1);
 
 INSERT INTO teco_retailer 
 (id, name, description, code, is_brand, is_default, is_official_retailer)
@@ -87,15 +87,15 @@ INSERT INTO teco_market
 INSERT INTO teco_market_area 
 (id, description, name, code, theme, is_default, version, domain_name, default_localization_id, market_id, virtual_catalog_id, currency_id)
  VALUES 
-(1, 'Market INT description', 'market area 1 : INT', 'INT', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 1, 1, 100, 2), 
-(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 2, 10, 101, 1),
-(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 3, 10, 102, 1),
-(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 1, 20, 201, 2),
-(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 1, 20, 202, 4),
-(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 9, 21, 210, 2),
-(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 3, 21, 211, 2),
-(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 7, 30, 301, 5),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 'fo-mcommerce.demo.qalingo-hoteia.com', 8, 30, 302, 6);
+(1, 'Market INT description', 'market area 1 : INT', 'INT', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 1, 1, 100, 2), 
+(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 2, 10, 101, 1),
+(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 3, 10, 102, 1),
+(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 1, 20, 201, 2),
+(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 'fo-mcommerce.demo.qalingo.com', 1, 20, 202, 4),
+(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 9, 21, 210, 2),
+(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 3, 21, 211, 2),
+(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 'fo-mcommerce.demo.qalingo.com', 7, 30, 301, 5),
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 'fo-mcommerce.demo.qalingo.com', 8, 30, 302, 6);
 
 INSERT INTO teco_market_area_localization_rel 
 (market_area_id, localization_id)
@@ -231,32 +231,32 @@ INSERT INTO teco_catalog_virtual_category_virtual_rel
 (302, 50);
 
 INSERT INTO teco_product_category_master 
-(id, description, code, is_default, business_name, version)
+(id, description, code, is_default, business_name, version, default_parent_category_id)
  VALUES 
-(101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1),
-(102, 'Category 1 sub category description', 'CATE102', 0, 'Nouveautés Café', 1),
-(201, 'Category 2 sub category description', 'CATE201', 0, 'Fêtes des pères', 1),
-(202, 'Category 2 sub category description', 'CATE202', 0, 'Fêtes des mères', 1),
-(301, 'Category 3 sub category description', 'CATE301', 0, 'Brésil', 1), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Colombie', 1),
-(401, 'Category 4 sub category description', 'CATE401', 0, 'Inde', 1), 
-(402, 'Category 4 sub category description', 'CATE402', 0, 'Anglais', 1),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1), 
-(502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1);
+(101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1, 10),
+(102, 'Category 1 sub category description', 'CATE102', 0, 'Nouveautés Café', 1, 10),
+(201, 'Category 2 sub category description', 'CATE201', 0, 'Fêtes des pères', 1, 20),
+(202, 'Category 2 sub category description', 'CATE202', 0, 'Fêtes des mères', 1, 20),
+(301, 'Category 3 sub category description', 'CATE301', 0, 'Brésil', 1, 30), 
+(302, 'Category 3 sub category description', 'CATE302', 0, 'Colombie', 1, 30),
+(401, 'Category 4 sub category description', 'CATE401', 0, 'Inde', 1, 40), 
+(402, 'Category 4 sub category description', 'CATE402', 0, 'Anglais', 1, 40),
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1, 50);
 
 INSERT INTO teco_product_category_virtual 
-(id, description, code, is_default, business_name, version, master_category_id)
+(id, description, code, is_default, business_name, version, master_category_id, default_parent_category_id)
  VALUES 
-(101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1, 101),
-(102, 'Category 1 sub category description', 'CATE102', 0, 'Nouveautés Café', 1, 102),
-(201, 'Category 2 sub category description', 'CATE201', 0, 'Fêtes des pères', 1, 201),
-(202, 'Category 2 sub category description', 'CATE202', 0, 'Fêtes des mères', 1, 202),
-(301, 'Category 3 sub category description', 'CATE301', 0, 'Brésil', 1, 301), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Colombie', 1, 302),
-(401, 'Category 4 sub category description', 'CATE401', 0, 'Inde', 1, 401), 
-(402, 'Category 4 sub category description', 'CATE402', 0, 'Anglais', 1, 402),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1, 501), 
-(502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1, 502);
+(101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1, 101, 10),
+(102, 'Category 1 sub category description', 'CATE102', 0, 'Nouveautés Café', 1, 102, 10),
+(201, 'Category 2 sub category description', 'CATE201', 0, 'Fêtes des pères', 1, 201, 20),
+(202, 'Category 2 sub category description', 'CATE202', 0, 'Fêtes des mères', 1, 202, 20),
+(301, 'Category 3 sub category description', 'CATE301', 0, 'Brésil', 1, 301, 30), 
+(302, 'Category 3 sub category description', 'CATE302', 0, 'Colombie', 1, 302, 30),
+(401, 'Category 4 sub category description', 'CATE401', 0, 'Inde', 1, 401, 40), 
+(402, 'Category 4 sub category description', 'CATE402', 0, 'Anglais', 1, 402, 40),
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1, 501, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1, 502, 50);
 
 INSERT INTO teco_product_category_virtual_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_category_id, attribute_definition_id, localization_code, market_area_id) 
@@ -364,7 +364,7 @@ VALUES
 (250, 102, 16.45, 1, 1, 3),
 (260, 102, 17.45, 1, 1, 4);
 
-INSERT INTO teco_product_image  
+INSERT INTO teco_product_asset  
 (id, description, code, path, is_default, name, version, type, size)
  VALUES 
 (1, 'image ...', 'IMG1', '/img/catalog/product-marketing/prod-1-img-1.png', 1, 'image l', 1, 'PACKSHOT', 'SMALL'), 
@@ -386,8 +386,8 @@ INSERT INTO teco_product_image
 (17, 'image ...', 'IMG8', '/img/catalog/product-marketing/prod-1-img-1.png', 0, 'image 8', 1, 'BACKGROUND', null);
 
 -- BACKGROUND FOR CATEGORY
-INSERT INTO teco_product_category_virtual_image_rel   
-(virtual_category_id, product_image_id) 
+INSERT INTO teco_product_category_virtual_asset_rel   
+(virtual_category_id, product_asset_id) 
 VALUES 
 (10, 5),
 (20, 6),
@@ -405,16 +405,16 @@ VALUES
 (501, 8),
 (502, 9);
 
-INSERT INTO teco_product_marketing_image_rel  
-(product_marketing_id, product_image_id) 
+INSERT INTO teco_product_marketing_asset_rel  
+(product_marketing_id, product_asset_id) 
 VALUES 
 (1, 1),
 (2, 2),
 (3, 3),
 (4, 4);
 
-INSERT INTO teco_product_sku_image_rel  
-(product_sku_id, product_image_id) 
+INSERT INTO teco_product_sku_asset_rel  
+(product_sku_id, product_asset_id) 
 VALUES 
 (1, 10),
 (2, 11),

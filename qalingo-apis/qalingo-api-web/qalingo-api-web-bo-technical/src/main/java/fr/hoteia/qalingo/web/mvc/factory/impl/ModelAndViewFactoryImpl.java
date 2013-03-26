@@ -21,12 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.common.domain.Company;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.ProductMarketingService;
-import fr.hoteia.qalingo.core.common.service.StoreService;
-import fr.hoteia.qalingo.core.common.service.UrlService;
+import fr.hoteia.qalingo.core.domain.Company;
+import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.ProductMarketingService;
+import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;

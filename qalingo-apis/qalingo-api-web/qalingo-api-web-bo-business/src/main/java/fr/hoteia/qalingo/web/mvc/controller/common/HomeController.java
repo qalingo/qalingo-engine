@@ -32,7 +32,7 @@ public class HomeController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "home";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		final String contentText = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
+		final String contentText = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
 		modelAndView.addObject("contentText", contentText);
 		
         return modelAndView;

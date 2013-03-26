@@ -19,12 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.common.domain.AbstractPaymentGateway;
-import fr.hoteia.qalingo.core.common.domain.CurrencyReferential;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.service.CurrencyReferentialService;
-import fr.hoteia.qalingo.core.common.service.LocalizationService;
-import fr.hoteia.qalingo.core.common.service.PaymentGatewayService;
+import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import fr.hoteia.qalingo.core.domain.CurrencyReferential;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.service.CurrencyReferentialService;
+import fr.hoteia.qalingo.core.service.LocalizationService;
+import fr.hoteia.qalingo.core.service.PaymentGatewayService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.viewbean.CurrencyReferentialViewBean;

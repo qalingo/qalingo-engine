@@ -100,19 +100,22 @@ public final class Constants {
 		
 		public static final String GOOGLE_OAUTH_SIGNATURE_METHOD = "RSA-SHA1";
 		
-		// ECO SESSION
-		public static final String ECO_SESSION_OBJECT = "ECO_SESSION_OBJECT";
+		// SESSION
+		public static final String ENGINE_ECO_SESSION_OBJECT = "ENGINE_ECO_SESSION_OBJECT";
+		public static final String ENGINE_BO_SESSION_OBJECT = "ENGINE_BO_SESSION_OBJECT";
 
 		// REQUEST PARAMETER
 		public static final String REQUEST_PARAMETER_MARKET_PLACE_CODE = "market-place-code";
 		public static final String REQUEST_PARAMETER_MARKET_CODE = "market-code";
 		public static final String REQUEST_PARAMETER_MARKET_AREA_CODE = "market-area-code";
-		public static final String REQUEST_PARAMETER_LOCALE_CODE = "locale-code";
+		public static final String REQUEST_PARAMETER_MARKET_LANGUAGE = "market-language-code";
 		public static final String REQUEST_PARAMETER_RETAILER_CODE = "retailer-code";
-		public static final String REQUEST_PARAM_PRODUCT_SKU_CODE = "product-sku-code";
+		public static final String REQUEST_PARAM_PRODUCT_CATALOG_CODE = "catalog-code";
+		public static final String REQUEST_PARAM_PRODUCT_CATEGORY_CODE = "category-code";
 		public static final String REQUEST_PARAM_PRODUCT_MARKETING_CODE = "product-code";
-		public static final String REQUEST_PARAM_CATEGORY_CODE = "category-code";
+		public static final String REQUEST_PARAM_PRODUCT_SKU_CODE = "product-sku-code";
 		public static final String REQUEST_PARAM_BRAND_CODE = "brand-code";
+		public static final String REQUEST_PARAMETER_LOCALE_CODE = "locale-code";
 
 		public static final String REQUEST_PARAM_CUSTOMER_ADDRESS_ID = "customer-address-id";
 		public static final String REQUEST_PARAM_CUSTOMER_ORDER_ID = "customer-order-id";
@@ -140,8 +143,28 @@ public final class Constants {
 		public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT = "head_content";
 		public static final String VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT = "footer_script_content";
 
-		// OTHERS
-		public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
-
+		// SPRING VIEW PAGINATION
+		public static final String COMMON_VIEW_BEAN = "common";
+		public static final String QUICK_SEARCH_VIEW_BEAN = "quickSearch";
+		public static final String MENUS_VIEW_BEAN = "menus";
+		public static final String MORE_PAGE_MENUS_VIEW_BEAN = "morePageMenus";
+		public static final String MARKET_PLACES_VIEW_BEAN = "marketPlaces";
+		public static final String MARKETS_VIEW_BEAN = "markets";
+		public static final String MARKET_AREAS_VIEW_BEAN = "marketAreas";
+		public static final String MARKET_LANGUAGES_VIEW_BEAN = "marketLanguages";
+		public static final String RETAILERS_VIEW_BEAN = "retailers";
+		public static final String LANGUAGE_VIEW_BEAN = "languages";
+		public static final String LEGACY_VIEW_BEAN = "legacy";
+		public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
+		public static final String SECURITY_VIEW_BEAN = "security";
+		
+		public static final String CATALOG_VIEW_BEAN = "catalog";
+		public static final String PRODUCT_CATEGORY_VIEW_BEAN = "productCategory";
+		public static final String PRODUCT_MARKETING_VIEW_BEAN = "productMarketing";
+		public static final String PRODUCT_SKU_VIEW_BEAN = "productSku";
+		
+		public static final String ERROR_MESSAGE = "errorMessage";
+		public static final String INFO_MESSAGE = "infoMessage";
+		public static final String SUCCESS_MESSAGE = "successMessage";
 
 }

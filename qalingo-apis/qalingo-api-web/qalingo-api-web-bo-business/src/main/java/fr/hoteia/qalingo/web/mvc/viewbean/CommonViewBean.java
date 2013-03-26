@@ -29,8 +29,12 @@ public class CommonViewBean implements Serializable {
 	protected String userDetailsUrl;
 	protected String userDetailsLabel;
 
-	protected String copyright;
-
+	protected MarketPlaceViewBean currentMarketPlace;
+	protected MarketViewBean currentMarket;
+	protected MarketAreaViewBean currentMarketArea;
+	protected LocalizationViewBean currentMarketLocalization;
+	protected RetailerViewBean currentRetailer;
+	
 	public String getThemeResourcePrefixPath() {
 		return themeResourcePrefixPath;
 	}
@@ -101,6 +105,46 @@ public class CommonViewBean implements Serializable {
 
 	public void setUserDetailsLabel(String userDetailsLabel) {
 		this.userDetailsLabel = userDetailsLabel;
+	}
+	
+	public MarketPlaceViewBean getCurrentMarketPlace() {
+		return currentMarketPlace;
+	}
+
+	public void setCurrentMarketPlace(MarketPlaceViewBean currentMarketPlace) {
+		this.currentMarketPlace = currentMarketPlace;
+	}
+
+	public MarketViewBean getCurrentMarket() {
+		return currentMarket;
+	}
+
+	public void setCurrentMarket(MarketViewBean currentMarket) {
+		this.currentMarket = currentMarket;
+	}
+
+	public MarketAreaViewBean getCurrentMarketArea() {
+		return currentMarketArea;
+	}
+
+	public void setCurrentMarketArea(MarketAreaViewBean currentMarketArea) {
+		this.currentMarketArea = currentMarketArea;
+	}
+
+	public LocalizationViewBean getCurrentMarketLocalization() {
+		return currentMarketLocalization;
+	}
+	
+	public void setCurrentMarketLocalization(LocalizationViewBean currentMarketLocalization) {
+		this.currentMarketLocalization = currentMarketLocalization;
+	}
+	
+	public RetailerViewBean getCurrentRetailer() {
+		return currentRetailer;
+	}
+	
+	public void setCurrentRetailer(RetailerViewBean currentRetailer) {
+		this.currentRetailer = currentRetailer;
 	}
 
 }

@@ -32,7 +32,7 @@ public class SearchController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "search";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		final String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
+		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
 		modelAndView.addObject("contentTest", contentTest);
 		
         return modelAndView;

@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.log4j.Logger;
 
 import fr.hoteia.qalingo.binding.jaxb.helper.StoreUnmarshalXmlHelper;
-import fr.hoteia.qalingo.core.common.domain.Store;
+import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreUnmarshalXmlHelperImpl implements StoreUnmarshalXmlHelper {
 	

@@ -12,7 +12,7 @@ package fr.hoteia.qalingo.web.servlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DispatcherServlet extends fr.hoteia.qalingo.core.web.servlet.fo.DispatcherServlet {
+public class DispatcherServlet extends fr.hoteia.qalingo.core.web.servlet.DispatcherServlet {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 

@@ -26,6 +26,10 @@
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>fr.hoteia.qalingo</groupId>
+			<artifactId>qalingo-api-core-common-web-fo</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>

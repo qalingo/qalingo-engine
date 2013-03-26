@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.common.dao.RuleRepositoryDao;
-import fr.hoteia.qalingo.core.common.domain.RuleRepository;
 import fr.hoteia.qalingo.core.common.service.RuleRepositoryService;
+import fr.hoteia.qalingo.core.domain.RuleRepository;
 
 @Service("ruleRepositoryService")
 @Transactional

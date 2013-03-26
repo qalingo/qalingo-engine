@@ -18,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.common.domain.Customer;
-import fr.hoteia.qalingo.core.common.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.common.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.common.domain.MarketArea;
-import fr.hoteia.qalingo.core.common.service.UrlService;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerAddress;
+import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
@@ -53,7 +53,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public void buildContactUsForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
 		final ContactUsForm contactUsForm = new ContactUsForm();
-		String languageCode = requestUtil.getCurrentLocalization(request).getLocaleCode();
+		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
 			contactUsForm.setCountry("US");
 		} else if(languageCode.equals("fr")) {
@@ -107,7 +107,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public void buildCustomerCreateAccountForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
 		final CreateAccountForm createAccountForm = new CreateAccountForm();
-		String languageCode = requestUtil.getCurrentLocalization(request).getLocaleCode();
+		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
 			createAccountForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {
@@ -129,7 +129,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public void buildCustomerAddressForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
-		String languageCode = requestUtil.getCurrentLocalization(request).getLocaleCode();
+		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
 			customerAddressForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {

@@ -28,7 +28,7 @@ public class MenuViewBean implements Serializable {
 	protected String cssIcon;
 	protected String url;
 	
-	List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
+	protected List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
 
 	public String getName() {
 		return name;
@@ -50,6 +50,9 @@ public class MenuViewBean implements Serializable {
 	}
 	
 	public String getCssClass() {
+		if(cssClass == null){
+			return "";
+		}
 		return cssClass;
 	}
 	
@@ -66,6 +69,9 @@ public class MenuViewBean implements Serializable {
 	}
 	
 	public String getUrl() {
+		if(url == null){
+			return "#";
+		}
 		return url;
 	}
 
@@ -75,6 +81,15 @@ public class MenuViewBean implements Serializable {
 	
 	public List<MenuViewBean> getSubMenus() {
 		return subMenus;
+	}
+	
+	public boolean hasSubMenu() {
+		if(subMenus != null
+				&& subMenus.size() > 0){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void setSubMenus(List<MenuViewBean> subMenus) {

@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.common.domain.BatchProcessObject;
-import fr.hoteia.qalingo.core.common.domain.EngineSetting;
-import fr.hoteia.qalingo.core.common.domain.Localization;
-import fr.hoteia.qalingo.core.common.domain.enumtype.BatchProcessObjectType;
-import fr.hoteia.qalingo.core.common.service.BatchProcessObjectService;
-import fr.hoteia.qalingo.core.common.service.EngineSettingService;
+import fr.hoteia.qalingo.core.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
+import fr.hoteia.qalingo.core.service.BatchProcessObjectService;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
@@ -51,9 +51,6 @@ public class BatchController extends AbstractQalingoController {
 
 		final String titleKeyPrefixSufix = "search";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
 		
 		formFactory.buildBatchQuickSearchForm(request, modelAndView);
 		
@@ -217,27 +214,27 @@ public class BatchController extends AbstractQalingoController {
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.customer.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCustomerUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCustomerUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.order.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchOrderUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchOrderUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.email.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchEmailUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchEmailUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.cms.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCmsUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCmsUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.stock.list", null, locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchStockUrl(request));
+		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchStockUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		modelAndView.addObject("links", batchLinks);

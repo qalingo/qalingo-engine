@@ -11,13 +11,35 @@ package fr.hoteia.qalingo.web.mvc.factory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.servlet.ModelAndView;
+import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
+import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.ProductSku;
+import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
+import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
+import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.UserForm;
 
-import fr.hoteia.qalingo.core.common.domain.User;
-
-
+/**
+ * 
+ */
 public interface FormFactory {
 
-	void buildUserForm(HttpServletRequest request, ModelAndView modelAndView, User user) throws Exception;
+	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request) throws Exception;
+
+	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, ProductCategoryMaster productCategory) throws Exception;
+
+	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, ProductCategoryMaster parentProductCategory, ProductCategoryMaster productCategory) throws Exception;
+
+	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, ProductCategoryVirtual productCategory) throws Exception;
+
+	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, ProductCategoryVirtual parentProductCategory, ProductCategoryVirtual productCategory) throws Exception;
+
+	ProductMarketingForm buildProductMarketingForm(HttpServletRequest request, ProductMarketing productMarketing) throws Exception;
+	
+	ProductSkuForm buildProductSkuForm(HttpServletRequest request, ProductSku productSku) throws Exception;
+	
+	UserForm buildUserForm(HttpServletRequest request, User user) throws Exception;
 
 }

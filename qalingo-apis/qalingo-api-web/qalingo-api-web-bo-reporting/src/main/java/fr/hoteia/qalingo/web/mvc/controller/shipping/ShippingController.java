@@ -33,7 +33,7 @@ public class ShippingController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "reporting.shipping.stats";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-        String contentTest = getMessageSource().getMessage("home.content.text", null, getCurrentLocale(request));
+        String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
 		modelAndView.addObject("contentTest", contentTest);
 		
         return modelAndView;

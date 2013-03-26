@@ -32,7 +32,7 @@ public class LoginController extends AbstractQalingoController {
 		final String titleKeyPrefixSufix = "login";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		getModelAndViewFactory().initLoginModelAndView(request, modelAndView);
+		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}
