@@ -72,6 +72,9 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isGlobal;
 	
+	@Column(name="ORDERING")
+	private Integer ordering;
+	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
@@ -174,13 +177,21 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
-//	public boolean isGlobal() {
-//		return isGlobal;
-//	}
-//
-//	public void setGlobal(boolean isGlobal) {
-//		this.isGlobal = isGlobal;
-//	}
+	public boolean isGlobal() {
+		return isGlobal;
+	}
+
+	public void setGlobal(boolean isGlobal) {
+		this.isGlobal = isGlobal;
+	}
+	
+	public Integer getOrdering() {
+		return ordering;
+	}
+	
+	public void setOrdering(Integer ordering) {
+		this.ordering = ordering;
+	}
 	
 	public Long getMarketAreaId() {
 		return marketAreaId;

@@ -52,8 +52,8 @@ import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
 @Table(name="TECO_CATALOG_CATEGORY_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @FilterDefs(
 	value = {
-		@FilterDef(name="filterVirtualAttributeIsGlobal"),
-		@FilterDef(name="filterVirtualAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+		@FilterDef(name="filterCatalogCategoryVirtualAttributeIsGlobal"),
+		@FilterDef(name="filterCatalogCategoryVirtualAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
 public class CatalogCategoryVirtual implements Serializable {
 
@@ -96,12 +96,12 @@ public class CatalogCategoryVirtual implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CATALOG_CATEGORY_ID")
-	@Filter(name="filterVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+	@Filter(name="filterCatalogCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CATALOG_CATEGORY_ID")
-	@Filter(name="filterVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
+	@Filter(name="filterCatalogCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(

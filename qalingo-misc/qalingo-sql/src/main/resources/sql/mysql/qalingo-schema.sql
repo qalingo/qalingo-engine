@@ -384,6 +384,7 @@ CREATE TABLE `teco_catalog_category_master_attribute` (
   `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
   `LOCALIZATION_CODE` varchar(255) DEFAULT NULL,
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `ORDERING` int(11) DEFAULT NULL,
   `START_DATE` datetime DEFAULT NULL,
   `STRING_VALUE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
@@ -498,6 +499,7 @@ CREATE TABLE `teco_catalog_category_virtual_attribute` (
   `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
   `LOCALIZATION_CODE` varchar(255) DEFAULT NULL,
   `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `ORDERING` int(11) DEFAULT NULL,
   `START_DATE` datetime DEFAULT NULL,
   `STRING_VALUE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
@@ -1997,4 +1999,4 @@ CREATE TABLE `teco_tax_county` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-28 22:33:09
+-- Dump completed on 2013-03-28 23:44:41
