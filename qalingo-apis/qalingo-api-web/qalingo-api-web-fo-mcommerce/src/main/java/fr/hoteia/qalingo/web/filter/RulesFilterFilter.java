@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import fr.hoteia.qalingo.core.common.util.RuleUtil;
+import fr.hoteia.qalingo.core.util.RuleUtil;
 
 public class RulesFilterFilter implements Filter {
 

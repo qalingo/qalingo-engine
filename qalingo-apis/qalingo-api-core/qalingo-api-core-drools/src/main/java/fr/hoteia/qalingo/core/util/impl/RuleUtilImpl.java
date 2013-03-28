@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.util.impl;
+package fr.hoteia.qalingo.core.util.impl;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.service.RuleRepositoryService;
-import fr.hoteia.qalingo.core.common.util.RuleUtil;
 import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 import fr.hoteia.qalingo.core.domain.RuleRepository;
+import fr.hoteia.qalingo.core.service.RuleRepositoryService;
+import fr.hoteia.qalingo.core.util.RuleUtil;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**

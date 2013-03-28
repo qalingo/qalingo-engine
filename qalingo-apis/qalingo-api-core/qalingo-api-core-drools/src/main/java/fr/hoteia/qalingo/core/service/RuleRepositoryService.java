@@ -7,22 +7,22 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.dao;
+package fr.hoteia.qalingo.core.service;
 
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.RuleRepository;
 
-public interface RuleRepositoryDao {
+public interface RuleRepositoryService {
 
-	RuleRepository getRuleRepositoryByCode(String ruleConditionRepositoryCode);
+	RuleRepository getRuleRepositoryByCode(String ruleRepositoryCode);
 
 	List<RuleRepository> findRuleRepositories();
 
 	List<RuleRepository> findActiveRuleRepositories();
 
-	void saveRuleRepository(RuleRepository ruleConditionRepository);
+	void saveRuleRepository(RuleRepository ruleRepository);
 	
-	void deleteRuleRepository(RuleRepository ruleConditionRepository);
+	void deleteRuleRepository(RuleRepository ruleCondruleRepositoryitionRepository);
 
 }

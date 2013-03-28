@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.service.impl;
+package fr.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.dao.RuleReferentialDao;
-import fr.hoteia.qalingo.core.common.service.RuleReferentialService;
+import fr.hoteia.qalingo.core.dao.RuleReferentialDao;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
+import fr.hoteia.qalingo.core.service.RuleReferentialService;
 
 @Service("ruleReferentialService")
 @Transactional

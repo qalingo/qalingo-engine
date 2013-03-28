@@ -7,13 +7,13 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.service;
+package fr.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 
-public interface RuleReferentialService {
+public interface RuleReferentialDao {
 
 	AbstractRuleReferential getRuleReferentialByRuleType(String ruleType);
 

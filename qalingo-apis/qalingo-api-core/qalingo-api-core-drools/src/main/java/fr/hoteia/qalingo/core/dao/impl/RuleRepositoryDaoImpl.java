@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.dao.impl;
+package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.common.dao.RuleRepositoryDao;
+import fr.hoteia.qalingo.core.dao.RuleRepositoryDao;
 import fr.hoteia.qalingo.core.dao.impl.AbstractGenericDaoImpl;
 import fr.hoteia.qalingo.core.domain.RuleRepository;
 

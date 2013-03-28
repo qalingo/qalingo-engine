@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.common.util;
+package fr.hoteia.qalingo.core.util;
 
 import javax.servlet.http.HttpServletRequest;
 
