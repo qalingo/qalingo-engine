@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.solr.bean.CategorySolr;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.CategoryResponseBean;
@@ -39,7 +39,7 @@ public class CategorySolrServiceImpl extends AbstractSolrService implements Cate
 	/**
      * 
      */
-	public void addOrUpdateCategory(ProductCategoryMaster productCategory) throws SolrServerException, IOException {
+	public void addOrUpdateCategory(CatalogCategoryMaster productCategory) throws SolrServerException, IOException {
 
 		ProductSolr productSolr = new ProductSolr();
 		productSolr.setId(productCategory.getId());

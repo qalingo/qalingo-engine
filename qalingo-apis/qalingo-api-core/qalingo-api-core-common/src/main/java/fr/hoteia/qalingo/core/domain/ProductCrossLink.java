@@ -56,7 +56,7 @@ public class ProductCrossLink implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_PRODUCT_CROSSLINK_MARKETING_REL",
+	        name="TECO_PRODUCT_MARKETING_CROSSLINK_REL",
 	        joinColumns=@JoinColumn(name="PRODUCT_MARKETIN_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PRODUCT_CROSSLINK_ID")
 	    )	

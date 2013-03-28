@@ -12,7 +12,7 @@ package fr.hoteia.qalingo.core.service;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 
-public interface ProductCatalogService {
+public interface CatalogService {
 
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	

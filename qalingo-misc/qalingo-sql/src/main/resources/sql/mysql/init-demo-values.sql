@@ -154,7 +154,7 @@ INSERT INTO teco_product_brand
 (50, 'brand  5 description', 'BR50', 'Brand 5', 1);
 
 
-INSERT INTO teco_product_category_master 
+INSERT INTO teco_catalog_category_master 
 (id, description, code, is_default, business_name, version)
  VALUES 
 (10, 'Category 1 description', 'CATE10', 0, 'Nouveautés', 1),
@@ -163,7 +163,7 @@ INSERT INTO teco_product_category_master
 (40, 'Category 4 description', 'CATE40', 0, 'Thé', 1),
 (50, 'Category 5 description', 'CATE50', 0, 'Commerce équitable', 1);
 
-INSERT INTO teco_product_category_virtual 
+INSERT INTO teco_catalog_category_virtual 
 (id, description, code, is_default, business_name, version)
  VALUES 
 (10, 'Category 1 description', 'CATE10', 0, 'Nouveautés', 1),
@@ -230,7 +230,7 @@ INSERT INTO teco_catalog_virtual_category_virtual_rel
 (302, 40),
 (302, 50);
 
-INSERT INTO teco_product_category_master 
+INSERT INTO teco_catalog_category_master 
 (id, description, code, is_default, business_name, version, default_parent_category_id)
  VALUES 
 (101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1, 10),
@@ -244,7 +244,7 @@ INSERT INTO teco_product_category_master
 (501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1, 50), 
 (502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1, 50);
 
-INSERT INTO teco_product_category_virtual 
+INSERT INTO teco_catalog_category_virtual 
 (id, description, code, is_default, business_name, version, master_category_id, default_parent_category_id)
  VALUES 
 (101, 'Category 1 sub category description', 'CATE101', 0, 'Nouveautés Thé', 1, 101, 10),
@@ -258,8 +258,8 @@ INSERT INTO teco_product_category_virtual
 (501, 'Category 5 sub category description', 'CATE501', 0, 'Max Havelaar', 1, 501, 50), 
 (502, 'Category 5 sub category description', 'CATE502', 0, 'Artisans du Monde', 1, 502, 50);
 
-INSERT INTO teco_product_category_virtual_attribute 
-(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_category_id, attribute_definition_id, localization_code, market_area_id) 
+INSERT INTO teco_catalog_category_virtual_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, catalog_category_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
 (1,  null, null, null, null, null, 'Nouveautés Thé i18n',  101, 20, null, 1),
 (2,  null, null, null, null, null, 'Nouveautés Café i18n',  102, 20, null, 1),
@@ -272,8 +272,8 @@ VALUES
 (9,  null, null, null, null, null, 'Max Havelaar i18n',  501, 20, null, 1),
 (10, null, null, null, null, null, 'Artisans du Monde i18n', 502, 20, null, 1);
 
-INSERT INTO teco_product_category_master_child_category_rel  
-(parent_master_product_category_id, child_master_product_category_id)
+INSERT INTO teco_catalog_category_master_child_category_rel  
+(parent_master_catalog_category_id, child_master_catalog_category_id)
  VALUES 
 (10, 101),
 (10, 102),
@@ -286,8 +286,8 @@ INSERT INTO teco_product_category_master_child_category_rel
 (50, 501),
 (50, 502);
 
-INSERT INTO teco_product_category_virtual_child_category_rel  
-(parent_virtual_product_category_id, child_virtual_product_category_id)
+INSERT INTO teco_catalog_category_virtual_child_category_rel  
+(parent_virtual_catalog_category_id, child_virtual_catalog_category_id)
  VALUES 
 (10, 101),
 (10, 102),
@@ -324,7 +324,7 @@ INSERT INTO teco_product_sku
 (3, 'prod 1 product sku 3', 'SKU13', 0, 'Sku 13', 1, 1),
 (4, 'prod 2 product sku 1', 'SKU21', 0, 'Sku 21', 1, 2);
 
-INSERT INTO teco_product_category_master_product_marketing_rel  
+INSERT INTO teco_catalog_category_master_product_marketing_rel  
 (master_category_id, product_marketing_id)
  VALUES 
 (302, 1), 
@@ -332,7 +332,7 @@ INSERT INTO teco_product_category_master_product_marketing_rel
 (302, 3),
 (401, 4);
 
-INSERT INTO teco_product_category_virtual_product_marketing_rel  
+INSERT INTO teco_catalog_category_virtual_product_marketing_rel  
 (virtual_category_id, product_marketing_id)
  VALUES 
 (302, 1), 
@@ -386,7 +386,7 @@ INSERT INTO teco_product_asset
 (17, 'image ...', 'IMG8', '/img/catalog/product-marketing/prod-1-img-1.png', 0, 'image 8', 1, 'BACKGROUND', null);
 
 -- BACKGROUND FOR CATEGORY
-INSERT INTO teco_product_category_virtual_asset_rel   
+INSERT INTO teco_catalog_category_virtual_asset_rel   
 (virtual_category_id, product_asset_id) 
 VALUES 
 (10, 5),

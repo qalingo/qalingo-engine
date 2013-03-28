@@ -47,7 +47,7 @@ import fr.hoteia.qalingo.core.domain.OrderItem;
 import fr.hoteia.qalingo.core.domain.OrderShipment;
 import fr.hoteia.qalingo.core.domain.OrderTax;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductCrossLink;
 import fr.hoteia.qalingo.core.domain.ProductAsset;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
@@ -62,8 +62,8 @@ import fr.hoteia.qalingo.core.service.CustomerProductCommentService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
-import fr.hoteia.qalingo.core.service.ProductCatalogService;
-import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogService;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.service.UrlService;
@@ -140,10 +140,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	protected MarketService marketService;
 	
 	@Autowired
-	protected ProductCatalogService ProductCatalogService;
+	protected CatalogService ProductCatalogService;
 	
 	@Autowired
-	protected ProductCategoryService productCategoryService;
+	protected CatalogCategoryService productCategoryService;
 	
 	@Autowired
 	protected ProductMarketingService productMarketingService;
@@ -444,21 +444,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 
 			CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
 			
-			final List<ProductCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
+			final List<CatalogCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
 			if(productCategoies != null) {
-				for (Iterator<ProductCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
-					final ProductCategoryVirtual productCategory = (ProductCategoryVirtual) iteratorProductCategory.next();
+				for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
+					final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
 					menu = new MenuViewBean();
 					final String seoProductCategoryName = productCategory.getI18nName(localeCode);
 					final String seoProductCategoryCode = productCategory.getCode();
 					menu.setName(seoProductCategoryName);
 					menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
 					
-					List<ProductCategoryVirtual> subProductCategories = productCategory.getProductCategories(marketArea.getId());
+					List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
 					if(subProductCategories != null) {
 						List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
-						for (Iterator<ProductCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-							final ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
+						for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
+							final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
 							final MenuViewBean subMenu = new MenuViewBean();
 							final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
 							final String seoSubProductCategoryCode = subProductCategory.getCode();
@@ -858,7 +858,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
 					final ProductSku productSku = productSkuService.getProductSkuByCode(customerMarketArea.getId(), retailer.getId(), customerWishlist.getProductSkuCode());
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
-					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+					final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerWishlistViewBean.getProductSkus().add(buildProductSkuViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku));
 				}
 			}
@@ -883,7 +883,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
 					final ProductSku productSku = productSkuService.getProductSkuByCode(customerMarketArea.getId(), retailer.getId(), customerProductComment.getProductSkuCode());
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
-					final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+					final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(buildCustomerProductCommentViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku, customerProductComment));
 				}
 			}
@@ -895,7 +895,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public CustomerProductCommentViewBean buildCustomerProductCommentViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-													   final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku, final CustomerProductComment customerProductComment) 
+													   final Retailer retailer, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku, final CustomerProductComment customerProductComment) 
 													   throws Exception {
 		final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
 		customerProductCommentViewBean.setProductSku(buildProductSkuViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing, productSku));
@@ -1087,7 +1087,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(request, marketPlace, market, marketArea, localization, retailer, productBrand);
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
 			final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-			ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+			CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 			productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 		}
 		return productBrandViewBean;
@@ -1097,7 +1097,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory) throws Exception {
+			 final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory) throws Exception {
 		final ProductCategoryViewBean productCategoryViewBean = buildProductCategoryViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory);
 		return productCategoryViewBean;
 	}
@@ -1106,7 +1106,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCategoryViewBean buildProductCategoryViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
-																final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory) throws Exception {
+																final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory) throws Exception {
 		final String localeCode = localization.getCode();
 		final ProductCategoryViewBean productCategoryViewBean = new ProductCategoryViewBean();
 		
@@ -1146,10 +1146,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 
 		List<ProductCategoryViewBean> subProductCategoryViewBeans = new ArrayList<ProductCategoryViewBean>();
-		Set<ProductCategoryVirtual> subCategories = productCategory.getProductCategories();
+		Set<CatalogCategoryVirtual> subCategories = productCategory.getCatalogCategories();
 		if(subCategories != null){
-			for (Iterator<ProductCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-				final ProductCategoryVirtual subProductCategory = (ProductCategoryVirtual) iteratorSubProductCategory.next();
+			for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
+				final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
 				subProductCategoryViewBeans.add(buildProductCategoryViewBean(request, marketPlace, market, marketArea, localization, retailer, subProductCategory));
 			}
 		}
@@ -1172,7 +1172,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductMarketingViewBean buildProductMarketingViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-																   final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing) 
+																   final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing) 
 																   throws Exception {
 		final String localeCode = localization.getCode();
 		final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
@@ -1539,7 +1539,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCrossLinkViewBean buildProductCrossLinkViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-																   final Localization localization, final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing) 
+																   final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing) 
 																   throws Exception {
 		final String localeCode = localization.getCode();
 		final ProductCrossLinkViewBean productCrossLinkViewBean = new ProductCrossLinkViewBean();
@@ -1589,7 +1589,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductSkuViewBean buildProductSkuViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-													   final Retailer retailer, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku) 
+													   final Retailer retailer, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku) 
 													   throws Exception {
 		final Locale locale = localization.getLocale();
 		final String localeCode = localization.getCode();
@@ -1697,7 +1697,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productCode);
 		
 		final String productName = productMarketing.getCode();
-		final ProductCategoryVirtual productCategory = productCategoryService.getDefaultVirtualProductCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+		final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 		final String categoryName = productCategory.getI18nName(localeCode);
 		final String categoryCode = productCategory.getCode();
 		final String productSkuName = productMarketing.getDefaultProductSku().getI18nName(localeCode);

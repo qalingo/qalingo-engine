@@ -60,8 +60,8 @@ INSERT INTO teco_attribute_definition
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
 VALUES 
 (10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
-(20, 'Product Category attribute name', 'Product Category attribute name description', 'PRODUCT_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
-(21, 'Product Category attribute order', 'Product Category attribute order description', 'PRODUCT_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
+(20, 'Product Category attribute name', 'Product Category attribute name description', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
+(21, 'Product Category attribute order', 'Product Category attribute order description', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
 (30, 'Product Marketing attribute name', 'Product Marketing attribute name description', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
 (31, 'Product Marketing attribute order', 'Product Marketing attribute order description', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
 (40, 'Product Sku attribute name', 'Product Sku attribute name description', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),

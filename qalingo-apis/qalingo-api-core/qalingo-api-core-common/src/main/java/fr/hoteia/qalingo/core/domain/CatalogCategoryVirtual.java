@@ -49,13 +49,13 @@ import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
 
 @Entity
-@Table(name="TECO_PRODUCT_CATEGORY_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_CATALOG_CATEGORY_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @FilterDefs(
 	value = {
-		@FilterDef(name="filterProductCategoryVirtualAttributeIsGlobal"),
-		@FilterDef(name="filterProductCategoryVirtualAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+		@FilterDef(name="filterVirtualAttributeIsGlobal"),
+		@FilterDef(name="filterVirtualAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
-public class ProductCategoryVirtual implements Serializable {
+public class CatalogCategoryVirtual implements Serializable {
 
 	/**
 	 * Generated UID
@@ -88,33 +88,33 @@ public class ProductCategoryVirtual implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="DEFAULT_PARENT_CATEGORY_ID")
-	private ProductCategoryVirtual defaultParentProductCategory;
+	private CatalogCategoryVirtual defaultParentCatalogCategory;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
-	private ProductCategoryMaster categoryMaster;
+	private CatalogCategoryMaster categoryMaster;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_CATEGORY_ID")
-	@Filter(name="filterProductCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
-	private Set<ProductCategoryVirtualAttribute> productCategoryGlobalAttributes = new HashSet<ProductCategoryVirtualAttribute>(); 
+    @JoinColumn(name="CATALOG_CATEGORY_ID")
+	@Filter(name="filterVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_CATEGORY_ID")
-	@Filter(name="filterProductCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
-	private Set<ProductCategoryVirtualAttribute> productCategoryMarketAreaAttributes = new HashSet<ProductCategoryVirtualAttribute>(); 
+    @JoinColumn(name="CATALOG_CATEGORY_ID")
+	@Filter(name="filterVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
+	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
 			fetch = FetchType.EAGER,
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductCategoryVirtual.class,
+	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_PRODUCT_CATEGORY_VIRTUAL_CHILD_CATEGORY_REL",
-	        joinColumns=@JoinColumn(name="PARENT_VIRTUAL_PRODUCT_CATEGORY_ID"),
-	        inverseJoinColumns=@JoinColumn(name="CHILD_VIRTUAL_PRODUCT_CATEGORY_ID")
+	        name="TECO_CATALOG_CATEGORY_VIRTUAL_CHILD_CATEGORY_REL",
+	        joinColumns=@JoinColumn(name="PARENT_VIRTUAL_CATALOG_CATEGORY_ID"),
+	        inverseJoinColumns=@JoinColumn(name="CHILD_VIRTUAL_CATALOG_CATEGORY_ID")
 	    )	
-	private Set<ProductCategoryVirtual> productCategories = new HashSet<ProductCategoryVirtual>();
+	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
 	
 	@ManyToMany(
 			fetch = FetchType.EAGER,
@@ -122,7 +122,7 @@ public class ProductCategoryVirtual implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_PRODUCT_CATEGORY_VIRTUAL_PRODUCT_MARKETING_REL",
+	        name="TECO_CATALOG_CATEGORY_VIRTUAL_PRODUCT_MARKETING_REL",
 	        joinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PRODUCT_MARKETING_ID")
 	    )	
@@ -134,7 +134,7 @@ public class ProductCategoryVirtual implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_PRODUCT_CATEGORY_VIRTUAL_ASSET_REL",
+	        name="TECO_CATALOG_CATEGORY_VIRTUAL_ASSET_REL",
 	        joinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PRODUCT_ASSET_ID")
 	    )	
@@ -148,7 +148,7 @@ public class ProductCategoryVirtual implements Serializable {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public ProductCategoryVirtual(){
+	public CatalogCategoryVirtual(){
 	}
 	
 	public Long getId() {
@@ -200,54 +200,53 @@ public class ProductCategoryVirtual implements Serializable {
 	}
 	
 	public boolean isRoot() {
-		if(getDefaultParentProductCategory() == null){
+		if(getDefaultParentCatalogCategory() == null){
 			return false;
 		}
 		return true;
 	}
 	
-	public ProductCategoryVirtual getDefaultParentProductCategory() {
-		return defaultParentProductCategory;
+	public CatalogCategoryVirtual getDefaultParentCatalogCategory() {
+		return defaultParentCatalogCategory;
 	}
 	
-	public void setDefaultParentProductCategory(
-			ProductCategoryVirtual defaultParentProductCategory) {
-		this.defaultParentProductCategory = defaultParentProductCategory;
+	public void setDefaultParentCatalogCategory(CatalogCategoryVirtual defaultParentCatalogCategory) {
+		this.defaultParentCatalogCategory = defaultParentCatalogCategory;
 	}
 	
-	public ProductCategoryMaster getCategoryMaster() {
+	public CatalogCategoryMaster getCategoryMaster() {
 		return categoryMaster;
 	}
 	
-	public void setCategoryMaster(ProductCategoryMaster categoryMaster) {
+	public void setCategoryMaster(CatalogCategoryMaster categoryMaster) {
 		this.categoryMaster = categoryMaster;
 	}
 	
-	public Set<ProductCategoryVirtualAttribute> getProductCategoryGlobalAttributes() {
-		return productCategoryGlobalAttributes;
+	public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryGlobalAttributes() {
+		return catalogCategoryGlobalAttributes;
 	}
 
-	public void setProductCategoryGlobalAttributes(Set<ProductCategoryVirtualAttribute> productCategoryGlobalAttributes) {
-		this.productCategoryGlobalAttributes = productCategoryGlobalAttributes;
+	public void setCatalogCategoryGlobalAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes) {
+		this.catalogCategoryGlobalAttributes = catalogCategoryGlobalAttributes;
 	}
 
-	public Set<ProductCategoryVirtualAttribute> getProductCategoryMarketAreaAttributes() {
-		return productCategoryMarketAreaAttributes;
+	public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryMarketAreaAttributes() {
+		return catalogCategoryMarketAreaAttributes;
 	}
 
-	public void setProductCategoryMarketAreaAttributes(Set<ProductCategoryVirtualAttribute> productCategoryMarketAreaAttributes) {
-		this.productCategoryMarketAreaAttributes = productCategoryMarketAreaAttributes;
+	public void setCatalogCategoryMarketAreaAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes) {
+		this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
 	}
 
-	public Set<ProductCategoryVirtual> getProductCategories() {
-		return productCategories;
+	public Set<CatalogCategoryVirtual> getCatalogCategories() {
+		return catalogCategories;
 	}
 	
-	public List<ProductCategoryVirtual> getProductCategories(final Long marketAreaId) {
-		List<ProductCategoryVirtual> sortedObjects = new LinkedList<ProductCategoryVirtual>(productCategories);
-		Collections.sort(sortedObjects, new Comparator<ProductCategoryVirtual>() {
+	public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
+		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+		Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
 			@Override
-			public int compare(ProductCategoryVirtual o1, ProductCategoryVirtual o2) {
+			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
 				if(o1 != null
 						&& o2 != null){
 					Integer order1 = o1.getOrder(marketAreaId);
@@ -265,8 +264,8 @@ public class ProductCategoryVirtual implements Serializable {
 		return sortedObjects;
 	}
 	
-	public void setProductCategories(Set<ProductCategoryVirtual> productCategories) {
-		this.productCategories = productCategories;
+	public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
+		this.catalogCategories = catalogCategories;
 	}
 	
 	public Set<ProductMarketing> getProductMarketings() {
@@ -366,114 +365,114 @@ public class ProductCategoryVirtual implements Serializable {
 
 	// Attributes
 	
-	public ProductCategoryVirtualAttribute getProductCategoryAttribute(String attributeCode) {
-		return getProductCategoryAttribute(attributeCode, null, null);
+	public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode) {
+		return getCatalogCategoryAttribute(attributeCode, null, null);
 	}
 	
-	public ProductCategoryVirtualAttribute getProductCategoryAttribute(String attributeCode, String localizationCode) {
-		return getProductCategoryAttribute(attributeCode, null, localizationCode);
+	public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, String localizationCode) {
+		return getCatalogCategoryAttribute(attributeCode, null, localizationCode);
 	}
 	
-	public ProductCategoryVirtualAttribute getProductCategoryAttribute(String attributeCode, Long marketAreaId) {
-		return getProductCategoryAttribute(attributeCode, marketAreaId, null);
+	public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId) {
+		return getCatalogCategoryAttribute(attributeCode, marketAreaId, null);
 	}
 	
-	public ProductCategoryVirtualAttribute getProductCategoryAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductCategoryVirtualAttribute productCategoryAttributeToReturn = null;
-		List<ProductCategoryVirtualAttribute> productCategoryAttributesFilter = new ArrayList<ProductCategoryVirtualAttribute>();
-		if(productCategoryMarketAreaAttributes != null) {
-			for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
-				ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = productCategoryAttribute.getAttributeDefinition();
+	public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
+		CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
+		List<CatalogCategoryVirtualAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryVirtualAttribute>();
+		if(catalogCategoryMarketAreaAttributes != null) {
+			for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+				CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
 						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					productCategoryAttributesFilter.add(productCategoryAttribute);
+					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
 				}
 			}
 			if(marketAreaId != null) {
-				for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-					ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productCategoryAttribute.getAttributeDefinition();
+				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
+					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						if(productCategoryAttribute.getMarketAreaId() != null
-								&& BooleanUtils.negate(productCategoryAttribute.getMarketAreaId().equals(marketAreaId))){
+						if(catalogCategoryAttribute.getMarketAreaId() != null
+								&& BooleanUtils.negate(catalogCategoryAttribute.getMarketAreaId().equals(marketAreaId))){
 							iterator.remove();
 						}
 					}
 				}
 			}
 			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-					ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productCategoryAttribute.getAttributeDefinition();
+				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
+					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = productCategoryAttribute.getLocalizationCode();
+						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
 						if(StringUtils.isNotEmpty(attributeLocalizationCode)
 								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
 							iterator.remove();
 						}
 					}
 				}
-				if(productCategoryAttributesFilter.size() == 0){
+				if(catalogCategoryAttributesFilter.size() == 0){
 					// TODO : throw error ?
 					
-					for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
-						ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
+					for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+						CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
 						
-						if(productCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
-							productCategoryAttributeToReturn = productCategoryAttribute;
+						if(catalogCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+							catalogCategoryAttributeToReturn = catalogCategoryAttribute;
 						}
 					}
 				}
 			}
 		}
 		
-		if(productCategoryGlobalAttributes != null) {
-			for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryGlobalAttributes.iterator(); iterator.hasNext();) {
-				ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = productCategoryAttribute.getAttributeDefinition();
+		if(catalogCategoryGlobalAttributes != null) {
+			for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryGlobalAttributes.iterator(); iterator.hasNext();) {
+				CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
 						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					productCategoryAttributesFilter.add(productCategoryAttribute);
+					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
 				}
 			}
 			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-					ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productCategoryAttribute.getAttributeDefinition();
+				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
+					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = productCategoryAttribute.getLocalizationCode();
+						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
 						if(StringUtils.isNotEmpty(attributeLocalizationCode)
 								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
 							iterator.remove();
 						}
 					}
 				}
-				if(productCategoryAttributesFilter.size() == 0){
+				if(catalogCategoryAttributesFilter.size() == 0){
 					// TODO : throw error ?
 					
-					for (Iterator<ProductCategoryVirtualAttribute> iterator = productCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
-						ProductCategoryVirtualAttribute productCategoryAttribute = (ProductCategoryVirtualAttribute) iterator.next();
+					for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+						CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
 						
-						if(productCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
-							productCategoryAttributeToReturn = productCategoryAttribute;
+						if(catalogCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+							catalogCategoryAttributeToReturn = catalogCategoryAttribute;
 						}
 					}
 				}
 			}
 		}
 		
-		if(productCategoryAttributesFilter.size() == 1){
-			productCategoryAttributeToReturn = productCategoryAttributesFilter.get(0);
+		if(catalogCategoryAttributesFilter.size() == 1){
+			catalogCategoryAttributeToReturn = catalogCategoryAttributesFilter.get(0);
 		} else {
 			// TODO : throw error ?
 		}
 		
-		return productCategoryAttributeToReturn;
+		return catalogCategoryAttributeToReturn;
 	}
 	
 	public Object getValue(String attributeCode) {
@@ -481,15 +480,15 @@ public class ProductCategoryVirtual implements Serializable {
 	}
 	
 	public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
-		ProductCategoryVirtualAttribute productCategoryAttribute = getProductCategoryAttribute(attributeCode, marketAreaId, localizationCode);
-		if(productCategoryAttribute != null) {
-			return productCategoryAttribute.getValue();
+		CatalogCategoryVirtualAttribute catalogCategoryAttribute = getCatalogCategoryAttribute(attributeCode, marketAreaId, localizationCode);
+		if(catalogCategoryAttribute != null) {
+			return catalogCategoryAttribute.getValue();
 		}
 		return null;
 	}
 	
 	public String getI18nName(String localizationCode) {
-		String i18nName = (String) getValue(ProductCategoryVirtualAttribute.PRODUCT_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
+		String i18nName = (String) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
 		if(StringUtils.isEmpty(i18nName)){
 			i18nName = getBusinessName();
 		}
@@ -497,7 +496,7 @@ public class ProductCategoryVirtual implements Serializable {
 	}
 	
 	public Integer getOrder(Long marketAreaId) {
-		return (Integer) getValue(ProductCategoryVirtualAttribute.PRODUCT_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
+		return (Integer) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
 	
 	@Override
@@ -513,8 +512,8 @@ public class ProductCategoryVirtual implements Serializable {
 				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
 		result = prime
 				* result
-				+ ((defaultParentProductCategory == null) ? 0
-						: defaultParentProductCategory.hashCode());
+				+ ((defaultParentCatalogCategory == null) ? 0
+						: defaultParentCatalogCategory.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -531,7 +530,7 @@ public class ProductCategoryVirtual implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductCategoryVirtual other = (ProductCategoryVirtual) obj;
+		CatalogCategoryVirtual other = (CatalogCategoryVirtual) obj;
 		if (businessName == null) {
 			if (other.businessName != null)
 				return false;
@@ -552,11 +551,11 @@ public class ProductCategoryVirtual implements Serializable {
 				return false;
 		} else if (!dateUpdate.equals(other.dateUpdate))
 			return false;
-		if (defaultParentProductCategory == null) {
-			if (other.defaultParentProductCategory != null)
+		if (defaultParentCatalogCategory == null) {
+			if (other.defaultParentCatalogCategory != null)
 				return false;
-		} else if (!defaultParentProductCategory
-				.equals(other.defaultParentProductCategory))
+		} else if (!defaultParentCatalogCategory
+				.equals(other.defaultParentCatalogCategory))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -581,12 +580,12 @@ public class ProductCategoryVirtual implements Serializable {
 				+ ", businessName=" + businessName + ", description="
 				+ description + ", code=" + code + ", isDefault=" + isDefault
 				+ ", defaultParentProductCategory="
-				+ defaultParentProductCategory
+				+ defaultParentCatalogCategory
 				+ ", productCategoryGlobalAttributes="
-				+ productCategoryGlobalAttributes
+				+ catalogCategoryGlobalAttributes
 				+ ", productCategoryMarketAreaAttributes="
-				+ productCategoryMarketAreaAttributes + ", productCategories="
-				+ productCategories + ", productMarketings="
+				+ catalogCategoryMarketAreaAttributes + ", productCategories="
+				+ catalogCategories + ", productMarketings="
 				+ productMarketings + ", dateCreate=" + dateCreate
 				+ ", dateUpdate=" + dateUpdate + "]";
 	}

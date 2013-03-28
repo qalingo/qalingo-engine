@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Store;
@@ -165,10 +165,10 @@ public class JsonFactoryImpl implements JsonFactory {
 		catalogJsonPojo.setDateCreate(catalogVirtual.getDateCreate());
 		catalogJsonPojo.setDateUpdate(catalogVirtual.getDateUpdate());
 		
-		final List<ProductCategoryVirtual> productCategories = catalogVirtual.getProductCategories(marketAreaId);
+		final List<CatalogCategoryVirtual> productCategories = catalogVirtual.getProductCategories(marketAreaId);
 		if(productCategories != null) {
-			for (Iterator<ProductCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
-				ProductCategoryVirtual productCategory = (ProductCategoryVirtual) iterator.next();
+			for (Iterator<CatalogCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
+				CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iterator.next();
 				ProductCategoryJsonPojo productCategoryJsonPojo = buildJsonProductCategory(productCategory, marketAreaId);
 				catalogJsonPojo.getProductCategories().add(productCategoryJsonPojo);
 			}
@@ -187,10 +187,10 @@ public class JsonFactoryImpl implements JsonFactory {
 		catalogJsonPojo.setDateCreate(catalogMaster.getDateCreate());
 		catalogJsonPojo.setDateUpdate(catalogMaster.getDateUpdate());
 		
-		final Set<ProductCategoryMaster> productCategories = catalogMaster.getProductCategories();
+		final Set<CatalogCategoryMaster> productCategories = catalogMaster.getProductCategories();
 		if(productCategories != null) {
-			for (Iterator<ProductCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
-				ProductCategoryMaster productCategory = (ProductCategoryMaster) iterator.next();
+			for (Iterator<CatalogCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
+				CatalogCategoryMaster productCategory = (CatalogCategoryMaster) iterator.next();
 				ProductCategoryJsonPojo productCategoryJsonPojo = buildJsonProductCategory(productCategory);
 				catalogJsonPojo.getProductCategories().add(productCategoryJsonPojo);
 			}
@@ -198,11 +198,11 @@ public class JsonFactoryImpl implements JsonFactory {
 		return catalogJsonPojo;
 	}
 	
-	public List<ProductCategoryJsonPojo> buildJsonProductCategories(List<ProductCategoryMaster> productCategories) {
+	public List<ProductCategoryJsonPojo> buildJsonProductCategories(List<CatalogCategoryMaster> productCategories) {
 		final List<ProductCategoryJsonPojo> productCategoryJsonPojos = new ArrayList<ProductCategoryJsonPojo>();
 		if(productCategories != null) {
-			for (Iterator<ProductCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
-				ProductCategoryMaster productCategory = (ProductCategoryMaster) iterator.next();
+			for (Iterator<CatalogCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
+				CatalogCategoryMaster productCategory = (CatalogCategoryMaster) iterator.next();
 				ProductCategoryJsonPojo productCategoryJsonPojo = buildJsonProductCategory(productCategory);
 				productCategoryJsonPojos.add(productCategoryJsonPojo);
 			}
@@ -210,7 +210,7 @@ public class JsonFactoryImpl implements JsonFactory {
 		return productCategoryJsonPojos;
 	}
 	
-	public ProductCategoryJsonPojo buildJsonProductCategory(ProductCategoryMaster productCategory) {
+	public ProductCategoryJsonPojo buildJsonProductCategory(CatalogCategoryMaster productCategory) {
 		final ProductCategoryJsonPojo productCategoryJsonPojo = new ProductCategoryJsonPojo();
 		
 		productCategoryJsonPojo.setId(productCategory.getId());
@@ -224,8 +224,8 @@ public class JsonFactoryImpl implements JsonFactory {
 //		productCategoryJsonPojo.setProductCategoryVirtualAttribute(productCategoryVirtualAttribute);
 //		productCategoryJsonPojo.setProductCategoryMarketAreaAttributes(productCategoryMarketAreaAttributes);
 
-		Set<ProductCategoryMaster> productCategories = productCategory.getProductCategories();
-		productCategoryJsonPojo.setProductCategories(buildJsonProductCategories(new ArrayList<ProductCategoryMaster>(productCategories)));
+		Set<CatalogCategoryMaster> productCategories = productCategory.getCatalogCategories();
+		productCategoryJsonPojo.setProductCategories(buildJsonProductCategories(new ArrayList<CatalogCategoryMaster>(productCategories)));
 
 		List<ProductMarketing> productMarketings = new ArrayList<ProductMarketing>(productCategory.getProductMarketings());
 		productCategoryJsonPojo.setProductMarketings(buildJsonProductMarketings(productMarketings));
@@ -240,11 +240,11 @@ public class JsonFactoryImpl implements JsonFactory {
 		return productCategoryJsonPojo;
 	}
 	
-	public List<ProductCategoryJsonPojo> buildJsonProductCategories(List<ProductCategoryVirtual> productCategories, Long marketAreaId) {
+	public List<ProductCategoryJsonPojo> buildJsonProductCategories(List<CatalogCategoryVirtual> productCategories, Long marketAreaId) {
 		final List<ProductCategoryJsonPojo> productCategoryJsonPojos = new ArrayList<ProductCategoryJsonPojo>();
 		if(productCategories != null) {
-			for (Iterator<ProductCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
-				ProductCategoryVirtual productCategory = (ProductCategoryVirtual) iterator.next();
+			for (Iterator<CatalogCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
+				CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iterator.next();
 				ProductCategoryJsonPojo productCategoryJsonPojo = buildJsonProductCategory(productCategory, marketAreaId);
 				productCategoryJsonPojos.add(productCategoryJsonPojo);
 			}
@@ -252,7 +252,7 @@ public class JsonFactoryImpl implements JsonFactory {
 		return productCategoryJsonPojos;
 	}
 	
-	public ProductCategoryJsonPojo buildJsonProductCategory(ProductCategoryVirtual productCategory, Long marketAreaId) {
+	public ProductCategoryJsonPojo buildJsonProductCategory(CatalogCategoryVirtual productCategory, Long marketAreaId) {
 		final ProductCategoryJsonPojo productCategoryJsonPojo = new ProductCategoryJsonPojo();
 		
 		productCategoryJsonPojo.setId(productCategory.getId());
@@ -266,7 +266,7 @@ public class JsonFactoryImpl implements JsonFactory {
 //		productCategoryJsonPojo.setProductCategoryVirtualAttribute(productCategoryVirtualAttribute);
 //		productCategoryJsonPojo.setProductCategoryMarketAreaAttributes(productCategoryMarketAreaAttributes);
 
-		List<ProductCategoryVirtual> productCategories = productCategory.getProductCategories(marketAreaId);
+		List<CatalogCategoryVirtual> productCategories = productCategory.getCatalogCategories(marketAreaId);
 		productCategoryJsonPojo.setProductCategories(buildJsonProductCategories(productCategories, marketAreaId));
 
 		List<ProductMarketing> productMarketings = new ArrayList<ProductMarketing>(productCategory.getProductMarketings());

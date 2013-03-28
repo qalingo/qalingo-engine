@@ -16,8 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 
@@ -31,9 +31,9 @@ public interface ModelAndViewFactory {
 
 	void initCatalogModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogVirtual catalogVirtual) throws Exception;
 	
-	void initProductMasterCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, ProductCategoryMaster productCategory) throws Exception;
+	void initProductMasterCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogCategoryMaster productCategory) throws Exception;
 
-	void initProductVirtualCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, ProductCategoryVirtual productCategory) throws Exception;
+	void initProductVirtualCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	void initProductMarketingModelAndView(HttpServletRequest request, ModelAndView modelAndView, ProductMarketing productMarketing) throws Exception;
 	

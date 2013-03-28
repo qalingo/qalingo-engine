@@ -64,15 +64,15 @@ public abstract class AbstractGenericDaoImpl {
 	void initCategoryVirtualFilter(Session session, Long marketAreaId, Long retailerId){
 		initProductMarketingFilter(session, marketAreaId, retailerId);
 		
-		session.enableFilter("filterProductCategoryVirtualAttributeIsGlobal");
-		session.enableFilter("filterProductCategoryVirtualAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		session.enableFilter("filterCatalogCategoryVirtualAttributeIsGlobal");
+		session.enableFilter("filterCatalogCategoryVirtualAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
 	void initCategoryMasterFilter(Session session, Long marketAreaId, Long retailerId){
 		initProductMarketingFilter(session, marketAreaId, retailerId);
 		
-		session.enableFilter("filterProductCategoryMasterAttributeIsGlobal");
-		session.enableFilter("filterProductCategoryMasterAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		session.enableFilter("filterCatalogCategoryMasterAttributeIsGlobal");
+		session.enableFilter("filterCatalogCategoryMasterAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
 	void initCatalogVirtual(Session session, Long marketAreaId, Long retailerId){

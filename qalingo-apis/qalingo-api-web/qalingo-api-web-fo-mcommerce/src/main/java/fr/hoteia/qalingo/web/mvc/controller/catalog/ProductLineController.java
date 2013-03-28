@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 
@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 public class ProductLineController extends AbstractQalingoController {
 
 	@Autowired
-	protected ProductCategoryService productCategoryService;
+	protected CatalogCategoryService productCategoryService;
 	
 	@RequestMapping("/product-line.html*")
 	public ModelAndView productLine(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -41,7 +41,7 @@ public class ProductLineController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
-		final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
+		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		
 		final String titleKeyPrefixSufix = "product.line.category";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);

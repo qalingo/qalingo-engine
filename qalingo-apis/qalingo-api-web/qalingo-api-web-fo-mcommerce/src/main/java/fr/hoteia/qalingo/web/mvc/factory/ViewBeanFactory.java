@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.OrderItem;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
@@ -136,7 +136,7 @@ public interface ViewBeanFactory {
 			Localization localization, Retailer retailer, Customer customer) throws Exception;
 	
 	CustomerProductCommentViewBean buildCustomerProductCommentViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-			   Retailer retailer, ProductCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku, CustomerProductComment customerProductComment) 
+			   Retailer retailer, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku, CustomerProductComment customerProductComment) 
 			   throws Exception;
 	
 	CustomerCreateAccountViewBean buildCustomerCreateAccountViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
@@ -161,13 +161,13 @@ public interface ViewBeanFactory {
 			 Localization localization, Retailer retailer, ProductBrand productBrand, List<ProductMarketing> productMarketings) throws Exception;
 
 	ProductCategoryViewBean buildMasterProductCategoryViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			 Localization localization, Retailer retailer, ProductCategoryVirtual productCategory) throws Exception;
+			 Localization localization, Retailer retailer, CatalogCategoryVirtual productCategory) throws Exception;
 
 	ProductCategoryViewBean buildProductCategoryViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer, ProductCategoryVirtual productCategory) throws Exception;
+			Localization localization, Retailer retailer, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	ProductMarketingViewBean buildProductMarketingViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer, ProductCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
+			Localization localization, Retailer retailer, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 
 	CartViewBean buildCartViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer, Cart cart) throws Exception;
@@ -183,11 +183,11 @@ public interface ViewBeanFactory {
 													 Localization localization, Retailer retailer, OrderItem orderItem) throws Exception;
 	
 	ProductCrossLinkViewBean buildProductCrossLinkViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-																   Localization localization, Retailer retailer, ProductCategoryVirtual productCategory, ProductMarketing productMarketing) 
+																   Localization localization, Retailer retailer, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) 
 																   throws Exception;
 	
 	ProductSkuViewBean buildProductSkuViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-													   Retailer retailer, ProductCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku) 
+													   Retailer retailer, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku) 
 													   throws Exception;
 	
 	// SEARCH

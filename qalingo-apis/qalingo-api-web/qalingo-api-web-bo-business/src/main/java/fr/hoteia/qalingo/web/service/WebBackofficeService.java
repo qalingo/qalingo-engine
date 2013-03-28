@@ -11,8 +11,8 @@ package fr.hoteia.qalingo.web.service;
 
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
@@ -27,13 +27,13 @@ public interface WebBackofficeService {
 
 	void updateUser(User user, UserForm userForm);
 	
-	void createProductCategory(MarketArea currentMarketArea, Localization currentLocalization, ProductCategoryMaster parentProductCategory, ProductCategoryMaster productCategory, ProductCategoryForm productCategoryForm) throws UniqueConstraintCodeCategoryException;
+	void createProductCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryMaster parentProductCategory, CatalogCategoryMaster productCategory, ProductCategoryForm productCategoryForm) throws UniqueConstraintCodeCategoryException;
 
-	void updateProductCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, ProductCategoryMaster productCategory, ProductCategoryForm productCategoryForm) throws UniqueConstraintCodeCategoryException;
+	void updateProductCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster productCategory, ProductCategoryForm productCategoryForm) throws UniqueConstraintCodeCategoryException;
 	
-	void createProductCategory(MarketArea currentMarketArea, Localization currentLocalization, ProductCategoryVirtual productCategory, ProductCategoryForm productCategoryForm);
+	void createProductCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryVirtual productCategory, ProductCategoryForm productCategoryForm);
 
-	void updateProductCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, ProductCategoryVirtual productCategory, ProductCategoryForm productCategoryForm);
+	void updateProductCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual productCategory, ProductCategoryForm productCategoryForm);
 	
 	void updateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
 	

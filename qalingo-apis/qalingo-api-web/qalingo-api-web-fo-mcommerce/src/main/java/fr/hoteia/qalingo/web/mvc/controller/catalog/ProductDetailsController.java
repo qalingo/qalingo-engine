@@ -19,10 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 public class ProductDetailsController extends AbstractQalingoController {
 
 	@Autowired
-	protected ProductCategoryService productCategoryService;
+	protected CatalogCategoryService productCategoryService;
 	
 	@Autowired
 	protected ProductMarketingService productMarketingService;
@@ -51,7 +51,7 @@ public class ProductDetailsController extends AbstractQalingoController {
 		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final String productCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
 
-		ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
+		CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productCode);
 		
 		final String titleKeyPrefixSufix = "product";

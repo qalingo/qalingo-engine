@@ -26,8 +26,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_CATEGORY_VIRTUAL_ATTRIBUTE")
-public class ProductCategoryVirtualAttribute extends AbstractAttribute {
+@Table(name="TECO_CATALOG_CATEGORY_VIRTUAL_ATTRIBUTE")
+public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 
 	/**
 	 * Generated UID
@@ -69,8 +69,8 @@ public class ProductCategoryVirtualAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
-//	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-//	private boolean isGlobal;
+	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean isGlobal;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -91,7 +91,7 @@ public class ProductCategoryVirtualAttribute extends AbstractAttribute {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public ProductCategoryVirtualAttribute() {
+	public CatalogCategoryVirtualAttribute() {
 	}
 	
 	public Long getId() {
@@ -291,7 +291,7 @@ public class ProductCategoryVirtualAttribute extends AbstractAttribute {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductCategoryVirtualAttribute other = (ProductCategoryVirtualAttribute) obj;
+		CatalogCategoryVirtualAttribute other = (CatalogCategoryVirtualAttribute) obj;
 		if (!Arrays.equals(blobValue, other.blobValue))
 			return false;
 		if (booleanValue == null) {

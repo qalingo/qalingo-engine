@@ -31,7 +31,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
@@ -363,7 +363,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
 	 * 
 	 */
-	public void initPageProductCategory(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final ProductCategoryVirtual productCategory, final String titleKeyPrefixSufix) throws Exception {
+	public void initPageProductCategory(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final CatalogCategoryVirtual productCategory, final String titleKeyPrefixSufix) throws Exception {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
@@ -383,7 +383,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
 	 * 
 	 */
-	public void initPageProductMarketing(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing, final String titleKeyPrefixSufix) throws Exception {
+	public void initPageProductMarketing(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing, final String titleKeyPrefixSufix) throws Exception {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
@@ -403,7 +403,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
      * 
      */
-	public void initMasterProductCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductCategoryVirtual productCategory) throws Exception {
+	public void initMasterProductCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual productCategory) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -416,7 +416,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
      * 
      */
-	public void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductCategoryVirtual productCategory, final ProductMarketing productMarketing) throws Exception {
+	public void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);

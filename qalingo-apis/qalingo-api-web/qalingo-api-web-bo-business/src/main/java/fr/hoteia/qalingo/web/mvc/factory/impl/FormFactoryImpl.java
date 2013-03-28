@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMasterAttribute;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
@@ -61,12 +61,12 @@ public class FormFactoryImpl implements FormFactory {
 		return productCategoryForm;
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final ProductCategoryMaster productCategory) throws Exception {
-		ProductCategoryMaster parentProductCategory = productCategory.getDefaultParentProductCategory();
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster productCategory) throws Exception {
+		CatalogCategoryMaster parentProductCategory = productCategory.getDefaultParentCatalogCategory();
 		return buildProductCategoryForm(request, parentProductCategory, productCategory);
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final ProductCategoryMaster parentProductCategory, final ProductCategoryMaster productCategory) throws Exception {
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster productCategory) throws Exception {
 		final ProductCategoryForm productCategoryForm = buildProductCategoryForm(request);
 		if(parentProductCategory != null){
 			productCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
@@ -78,27 +78,27 @@ public class FormFactoryImpl implements FormFactory {
 			productCategoryForm.setCode(productCategory.getCode());
 			productCategoryForm.setDescription(productCategory.getDescription());
 			
-			Set<ProductCategoryMasterAttribute> globalAttributes = productCategory.getProductCategoryGlobalAttributes();
-			for (Iterator<ProductCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-				ProductCategoryMasterAttribute productCategoryMasterAttribute = (ProductCategoryMasterAttribute) iterator.next();
+			Set<CatalogCategoryMasterAttribute> globalAttributes = productCategory.getCatalogCategoryGlobalAttributes();
+			for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+				CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 				productCategoryForm.getGlobalAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
 			}
 			
-			Set<ProductCategoryMasterAttribute> marketAreaAttributes = productCategory.getProductCategoryMarketAreaAttributes();
-			for (Iterator<ProductCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-				ProductCategoryMasterAttribute productCategoryMasterAttribute = (ProductCategoryMasterAttribute) iterator.next();
+			Set<CatalogCategoryMasterAttribute> marketAreaAttributes = productCategory.getCatalogCategoryMarketAreaAttributes();
+			for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+				CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 				productCategoryForm.getMarketAreaAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
 			}
 		}
 		return productCategoryForm;
 	}
 	
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final ProductCategoryVirtual productCategory) throws Exception {
-		ProductCategoryVirtual parentProductCategory = productCategory.getDefaultParentProductCategory();
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual productCategory) throws Exception {
+		CatalogCategoryVirtual parentProductCategory = productCategory.getDefaultParentCatalogCategory();
 		return buildProductCategoryForm(request, parentProductCategory, parentProductCategory);
 	}
 	
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final ProductCategoryVirtual parentProductCategory, final ProductCategoryVirtual productCategory) throws Exception {
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual productCategory) throws Exception {
 		final ProductCategoryForm productCategoryForm = buildProductCategoryForm(request);
 		if(parentProductCategory != null){
 			productCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());

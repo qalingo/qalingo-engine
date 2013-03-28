@@ -5,7 +5,7 @@ import java.util.List;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Store;
@@ -34,9 +34,9 @@ public interface JsonFactory {
 
 	CatalogJsonPojo buildJsonCatalog(CatalogVirtual catalogVirtual, Long marketAreaId);
 	
-	List<ProductCategoryJsonPojo> buildJsonProductCategories(List<ProductCategoryVirtual> productCategories, Long marketAreaId);
+	List<ProductCategoryJsonPojo> buildJsonProductCategories(List<CatalogCategoryVirtual> productCategories, Long marketAreaId);
 	
-	ProductCategoryJsonPojo buildJsonProductCategory(ProductCategoryVirtual productCategory, Long marketAreaId);
+	ProductCategoryJsonPojo buildJsonProductCategory(CatalogCategoryVirtual productCategory, Long marketAreaId);
 	
 	List<ProductMarketingJsonPojo> buildJsonProductMarketings(List<ProductMarketing> productMarketings);
 	

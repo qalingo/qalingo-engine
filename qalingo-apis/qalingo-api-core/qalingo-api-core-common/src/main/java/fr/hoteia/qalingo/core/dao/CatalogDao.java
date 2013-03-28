@@ -14,7 +14,7 @@ import java.util.List;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 
-public interface ProductCatalogDao {
+public interface CatalogDao {
 
 	CatalogMaster getProductCatalogById(Long productCatalogId);
 

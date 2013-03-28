@@ -30,14 +30,14 @@ import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.LocalizationService;
-import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.StoreService;
 import fr.hoteia.qalingo.core.service.UrlService;
@@ -82,7 +82,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	protected LocalizationService localizationService;
 	
 	@Autowired
-	protected ProductCategoryService productCategoryService;
+	protected CatalogCategoryService productCategoryService;
 	
 	@Autowired
     protected ViewBeanFactory viewBeanFactory;
@@ -166,7 +166,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
 		
-		List<ProductCategoryMaster> productCategories = productCategoryService.findRootProductCategories();
+		List<CatalogCategoryMaster> productCategories = productCategoryService.findRootCatalogCategories();
 
 		CatalogViewBean catalogViewBean = viewBeanFactory.buildMasterCatalogViewBean(request, currentMarketArea, currentLocalization, catalogMaster, productCategories);
 		
@@ -181,7 +181,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		List<ProductCategoryVirtual> productCategories = productCategoryService.findRootProductCategories(currentMarketArea.getId(), currentRetailer.getId());
+		List<CatalogCategoryVirtual> productCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId(), currentRetailer.getId());
 
 		CatalogViewBean catalogViewBean = viewBeanFactory.buildVirtualCatalogViewBean(request, currentMarketArea, currentLocalization, catalogVirtual, productCategories);
 		
@@ -191,7 +191,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
      * 
      */
-	public void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductCategoryMaster productCategory) throws Exception {
+	public void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster productCategory) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
 		
@@ -203,7 +203,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
      * 
      */
-	public void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductCategoryVirtual productCategory) throws Exception {
+	public void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual productCategory) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
 		

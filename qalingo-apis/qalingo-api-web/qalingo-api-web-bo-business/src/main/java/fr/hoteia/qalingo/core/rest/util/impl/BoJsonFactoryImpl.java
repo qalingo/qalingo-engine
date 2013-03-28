@@ -2,8 +2,8 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 
 import org.springframework.beans.BeanUtils;
 
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.rest.pojo.BoProductCategoryJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.BoProductMarketingJsonPojo;
@@ -17,7 +17,7 @@ public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
     protected BackofficeUrlService backofficeUrlService;
 	
     @Override
-	public ProductCategoryJsonPojo buildJsonProductCategory(ProductCategoryMaster productCategory) {
+	public ProductCategoryJsonPojo buildJsonProductCategory(CatalogCategoryMaster productCategory) {
 		final ProductCategoryJsonPojo productCategoryJsonPojo = super.buildJsonProductCategory(productCategory);
 		
 		// TODO : denis : refactoring
@@ -31,7 +31,7 @@ public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 	}
     
     @Override
-	public ProductCategoryJsonPojo buildJsonProductCategory(ProductCategoryVirtual productCategory, Long marketAreaId) {
+	public ProductCategoryJsonPojo buildJsonProductCategory(CatalogCategoryVirtual productCategory, Long marketAreaId) {
 		final ProductCategoryJsonPojo productCategoryJsonPojo = super.buildJsonProductCategory(productCategory, marketAreaId);
 		
 		// TODO : denis : refactoring

@@ -16,7 +16,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtualAttribute;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import fr.hoteia.qalingo.core.domain.ProductAsset;
 
 /**
@@ -39,9 +39,9 @@ public class ProductCategoryJsonPojo extends AbstractJsonPojo {
 	private boolean isDefault;
 	private boolean isRoot;
 	
-	private List<ProductCategoryVirtualAttribute>  productCategoryVirtualAttribute = new ArrayList<ProductCategoryVirtualAttribute>();
+	private List<CatalogCategoryVirtualAttribute>  productCategoryVirtualAttribute = new ArrayList<CatalogCategoryVirtualAttribute>();
 	
-	private List<ProductCategoryVirtualAttribute>  productCategoryMarketAreaAttributes = new ArrayList<ProductCategoryVirtualAttribute>();
+	private List<CatalogCategoryVirtualAttribute>  productCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
 	
 	private List<ProductCategoryJsonPojo>  productCategories = new ArrayList<ProductCategoryJsonPojo>();
 
@@ -108,19 +108,19 @@ public class ProductCategoryJsonPojo extends AbstractJsonPojo {
 		this.isRoot = isRoot;
 	}
 
-	public List<ProductCategoryVirtualAttribute> getProductCategoryVirtualAttribute() {
+	public List<CatalogCategoryVirtualAttribute> getProductCategoryVirtualAttribute() {
 		return productCategoryVirtualAttribute;
 	}
 
-	public void setProductCategoryVirtualAttribute(List<ProductCategoryVirtualAttribute> productCategoryVirtualAttribute) {
+	public void setProductCategoryVirtualAttribute(List<CatalogCategoryVirtualAttribute> productCategoryVirtualAttribute) {
 		this.productCategoryVirtualAttribute = productCategoryVirtualAttribute;
 	}
 
-	public List<ProductCategoryVirtualAttribute> getProductCategoryMarketAreaAttributes() {
+	public List<CatalogCategoryVirtualAttribute> getProductCategoryMarketAreaAttributes() {
 		return productCategoryMarketAreaAttributes;
 	}
 
-	public void setProductCategoryMarketAreaAttributes(List<ProductCategoryVirtualAttribute> productCategoryMarketAreaAttributes) {
+	public void setProductCategoryMarketAreaAttributes(List<CatalogCategoryVirtualAttribute> productCategoryMarketAreaAttributes) {
 		this.productCategoryMarketAreaAttributes = productCategoryMarketAreaAttributes;
 	}
 

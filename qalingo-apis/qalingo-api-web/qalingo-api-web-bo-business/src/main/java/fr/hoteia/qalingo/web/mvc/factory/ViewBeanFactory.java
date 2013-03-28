@@ -19,8 +19,8 @@ import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
@@ -67,17 +67,17 @@ public interface ViewBeanFactory {
 
 	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
 	
-	CatalogViewBean buildMasterCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogMaster catalogVirtual, List<ProductCategoryMaster> productCategories) throws Exception;
+	CatalogViewBean buildMasterCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> productCategories) throws Exception;
 
-	CatalogViewBean buildVirtualCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogVirtual catalogVirtual, List<ProductCategoryVirtual> productCategories) throws Exception;
+	CatalogViewBean buildVirtualCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogVirtual catalogVirtual, List<CatalogCategoryVirtual> productCategories) throws Exception;
 
-	List<ProductCategoryViewBean> buildMasterProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<ProductCategoryMaster> productCategories, boolean fullPopulate) throws Exception;
+	List<ProductCategoryViewBean> buildMasterProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception;
 
-	List<ProductCategoryViewBean> buildVirtualProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<ProductCategoryVirtual> productCategories, boolean fullPopulate) throws Exception;
+	List<ProductCategoryViewBean> buildVirtualProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception;
 	
-	ProductCategoryViewBean buildMasterProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, ProductCategoryMaster productCategory, boolean fullPopulate) throws Exception;
+	ProductCategoryViewBean buildMasterProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogCategoryMaster productCategory, boolean fullPopulate) throws Exception;
 
-	ProductCategoryViewBean buildVirtualProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, ProductCategoryVirtual productCategory, boolean fullPopulate) throws Exception;
+	ProductCategoryViewBean buildVirtualProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogCategoryVirtual productCategory, boolean fullPopulate) throws Exception;
 
 	List<ProductMarketingViewBean> buildProductMarketingViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<ProductMarketing> productMarketings, boolean withDependency) throws Exception;
 	

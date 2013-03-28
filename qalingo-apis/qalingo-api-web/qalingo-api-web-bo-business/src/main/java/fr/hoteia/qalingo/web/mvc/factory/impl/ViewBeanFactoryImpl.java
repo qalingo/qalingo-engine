@@ -33,10 +33,10 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMasterAttribute;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtualAttribute;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
@@ -445,7 +445,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public CatalogViewBean buildMasterCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final CatalogMaster catalogMaster, final List<ProductCategoryMaster> productCategories) throws Exception {
+	public CatalogViewBean buildMasterCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> productCategories) throws Exception {
 		final Locale locale = localization.getLocale();
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogMaster.getBusinessName());
@@ -464,7 +464,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public CatalogViewBean buildVirtualCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final CatalogVirtual catalogVirtual, final List<ProductCategoryVirtual> productCategories) throws Exception {
+	public CatalogViewBean buildVirtualCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> productCategories) throws Exception {
 		final Locale locale = localization.getLocale();
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogVirtual.getBusinessName());
@@ -484,10 +484,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<ProductCategoryViewBean> buildMasterProductCategoryViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, 
-																			 final List<ProductCategoryMaster> productCategories, boolean fullPopulate) throws Exception {
+																			 final List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception {
 		List<ProductCategoryViewBean> categoryViewBeans = new ArrayList<ProductCategoryViewBean>();
-		for (Iterator<ProductCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
-			final ProductCategoryMaster category = (ProductCategoryMaster) iterator.next();
+		for (Iterator<CatalogCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
+			final CatalogCategoryMaster category = (CatalogCategoryMaster) iterator.next();
 			categoryViewBeans.add(buildMasterProductCategoryViewBean(request, marketArea, localization, category, fullPopulate));
 		}
 		return categoryViewBeans;
@@ -497,10 +497,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<ProductCategoryViewBean> buildVirtualProductCategoryViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, 
-																			  final List<ProductCategoryVirtual> productCategories, boolean fullPopulate) throws Exception {
+																			  final List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception {
 		List<ProductCategoryViewBean> categoryViewBeans = new ArrayList<ProductCategoryViewBean>();
-		for (Iterator<ProductCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
-			final ProductCategoryVirtual category = (ProductCategoryVirtual) iterator.next();
+		for (Iterator<CatalogCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
+			final CatalogCategoryVirtual category = (CatalogCategoryVirtual) iterator.next();
 			categoryViewBeans.add(buildVirtualProductCategoryViewBean(request, marketArea, localization, category, fullPopulate));
 		}
 		return categoryViewBeans;
@@ -510,7 +510,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final MarketArea marketArea, 
-																	  final Localization localization, final ProductCategoryMaster category, boolean fullPopulate) throws Exception {
+																	  final Localization localization, final CatalogCategoryMaster category, boolean fullPopulate) throws Exception {
 		final Locale locale = localization.getLocale();
 		final String localCode = localization.getCode();
 		
@@ -539,8 +539,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			productCategoryViewBean.setCode(categoryCode);
 			productCategoryViewBean.setDescription(category.getDescription());
 			
-			if(category.getDefaultParentProductCategory() != null){
-				productCategoryViewBean.setDefaultParentCategory(buildMasterProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentProductCategory(), false));
+			if(category.getDefaultParentCatalogCategory() != null){
+				productCategoryViewBean.setDefaultParentCategory(buildMasterProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -558,19 +558,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			}
 
 			if(fullPopulate){
-				if(category.getProductCategories() != null){
-					productCategoryViewBean.setSubCategories(buildMasterProductCategoryViewBeans(request, marketArea, localization, new ArrayList<ProductCategoryMaster>(category.getProductCategories()), fullPopulate));
+				if(category.getCatalogCategories() != null){
+					productCategoryViewBean.setSubCategories(buildMasterProductCategoryViewBeans(request, marketArea, localization, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
 				}
 				
-				Set<ProductCategoryMasterAttribute> globalAttributes = category.getProductCategoryGlobalAttributes();
-				for (Iterator<ProductCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-					ProductCategoryMasterAttribute productCategoryMasterAttribute = (ProductCategoryMasterAttribute) iterator.next();
+				Set<CatalogCategoryMasterAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
+				for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 					productCategoryViewBean.getGlobalAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
 				}
 				
-				Set<ProductCategoryMasterAttribute> marketAreaAttributes = category.getProductCategoryMarketAreaAttributes();
-				for (Iterator<ProductCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-					ProductCategoryMasterAttribute productCategoryMasterAttribute = (ProductCategoryMasterAttribute) iterator.next();
+				Set<CatalogCategoryMasterAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes();
+				for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 					productCategoryViewBean.getMarketAreaAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
 				}
 				
@@ -607,7 +607,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCategoryViewBean buildVirtualProductCategoryViewBean(final HttpServletRequest request, final MarketArea marketArea, 
-																	   final Localization localization, final ProductCategoryVirtual category, boolean fullPopulate) throws Exception {
+																	   final Localization localization, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
 		final Locale locale = localization.getLocale();
 		final String localCode = localization.getCode();
 		
@@ -636,8 +636,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			productCategoryViewBean.setCode(categoryCode);
 			productCategoryViewBean.setDescriptionInformation(category.getDescription());
 
-			if(category.getDefaultParentProductCategory() != null){
-				productCategoryViewBean.setDefaultParentCategory(buildVirtualProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentProductCategory(), false));
+			if(category.getDefaultParentCatalogCategory() != null){
+				productCategoryViewBean.setDefaultParentCategory(buildVirtualProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -655,19 +655,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			}
 
 			if(fullPopulate){
-				if(category.getProductCategories() != null){
-					productCategoryViewBean.setSubCategories(buildVirtualProductCategoryViewBeans(request, marketArea, localization, new ArrayList<ProductCategoryVirtual>(category.getProductCategories()), fullPopulate));
+				if(category.getCatalogCategories() != null){
+					productCategoryViewBean.setSubCategories(buildVirtualProductCategoryViewBeans(request, marketArea, localization, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
 				}
 
-				Set<ProductCategoryVirtualAttribute> globalAttributes = category.getProductCategoryGlobalAttributes();
-				for (Iterator<ProductCategoryVirtualAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-					ProductCategoryVirtualAttribute productCategoryVirtualAttribute = (ProductCategoryVirtualAttribute) iterator.next();
+				Set<CatalogCategoryVirtualAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
+				for (Iterator<CatalogCategoryVirtualAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 					productCategoryViewBean.getGlobalAttributes().put(productCategoryVirtualAttribute.getAttributeDefinition().getCode(), productCategoryVirtualAttribute.getValueAsString());
 				}
 				
-				Set<ProductCategoryVirtualAttribute> marketAreaAttributes = category.getProductCategoryMarketAreaAttributes();
-				for (Iterator<ProductCategoryVirtualAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-					ProductCategoryVirtualAttribute productCategoryVirtualAttribute = (ProductCategoryVirtualAttribute) iterator.next();
+				Set<CatalogCategoryVirtualAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes();
+				for (Iterator<CatalogCategoryVirtualAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 					productCategoryViewBean.getMarketAreaAttributes().put(productCategoryVirtualAttribute.getAttributeDefinition().getCode(), productCategoryVirtualAttribute.getValueAsString());
 				}
 	

@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 
 public interface ModelAndViewFactory {
@@ -56,13 +56,13 @@ public interface ModelAndViewFactory {
 
 	void initPageBrandDetails(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ProductBrand productBrand, String titleKeyPrefixSufix) throws Exception;
 
-	void initPageProductCategory(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ProductCategoryVirtual productCategory, String titleKeyPrefixSufix) throws Exception;
+	void initPageProductCategory(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, CatalogCategoryVirtual productCategory, String titleKeyPrefixSufix) throws Exception;
 	
-	void initPageProductMarketing(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ProductCategoryVirtual productCategory, ProductMarketing productMarketing, String titleKeyPrefixSufix) throws Exception;
+	void initPageProductMarketing(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing, String titleKeyPrefixSufix) throws Exception;
 
-	void initMasterProductCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, ProductCategoryVirtual productCategory) throws Exception;
+	void initMasterProductCategoryModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogCategoryVirtual productCategory) throws Exception;
 	
-	void initProductMarketingModelAndView(HttpServletRequest request, ModelAndView modelAndView, ProductCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
+	void initProductMarketingModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 	
 	 void initCartModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
 	 

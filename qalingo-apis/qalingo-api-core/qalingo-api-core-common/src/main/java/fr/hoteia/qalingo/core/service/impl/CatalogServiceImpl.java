@@ -13,17 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.dao.ProductCatalogDao;
+import fr.hoteia.qalingo.core.dao.CatalogDao;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
-import fr.hoteia.qalingo.core.service.ProductCatalogService;
+import fr.hoteia.qalingo.core.service.CatalogService;
 
 @Service("catalogMasterService")
 @Transactional
-public class ProductCatalogServiceImpl implements ProductCatalogService {
+public class CatalogServiceImpl implements CatalogService {
 
 	@Autowired
-	private ProductCatalogDao catalogMasterDao;
+	private CatalogDao catalogMasterDao;
 
 	public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
 		long catalogMasterId = -1;

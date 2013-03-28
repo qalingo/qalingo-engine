@@ -40,14 +40,14 @@ import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.ProductCategoryMaster;
-import fr.hoteia.qalingo.core.domain.ProductCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
 import fr.hoteia.qalingo.core.rest.util.JsonFactory;
-import fr.hoteia.qalingo.core.service.ProductCatalogService;
-import fr.hoteia.qalingo.core.service.ProductCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogService;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
@@ -65,10 +65,10 @@ public class CatalogController extends AbstractQalingoController {
 	protected JsonFactory jsonFactory;
 
 	@Autowired
-	protected ProductCatalogService productCatalogService;
+	protected CatalogService productCatalogService;
 	
 	@Autowired
-	protected ProductCategoryService productCategoryService;
+	protected CatalogCategoryService productCategoryService;
 	
 	@Autowired
 	protected WebBackofficeService webBackofficeService;
@@ -135,7 +135,7 @@ public class CatalogController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
-		final ProductCategoryMaster productCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+		final CatalogCategoryMaster productCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
 		final String titleKeyPrefixSufix = "business.product.category.details";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
@@ -153,18 +153,18 @@ public class CatalogController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
-		final ProductCategoryMaster productCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+		final CatalogCategoryMaster productCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
-		List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-		for (Iterator<ProductCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
-			ProductCategoryMaster productCategoryMaster = (ProductCategoryMaster) iterator.next();
+		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+		for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
+			CatalogCategoryMaster productCategoryMaster = (CatalogCategoryMaster) iterator.next();
 			if(productCategoryMaster.getCode().equalsIgnoreCase(productCategoryCode)){
 				iterator.remove();
 			}
 		}
-		Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 			@Override
-			public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -191,10 +191,10 @@ public class CatalogController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final String parentProductCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		
-		List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-		Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 			@Override
-			public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -204,7 +204,7 @@ public class CatalogController extends AbstractQalingoController {
 		modelAndView.addObject("categories", categories);
 		
 		if(StringUtils.isNotEmpty(parentProductCategoryCode)){
-			final ProductCategoryMaster parentProductCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
+			final CatalogCategoryMaster parentProductCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
 			if(parentProductCategory != null){
 				// Child category: We have parent informations - we prepare the child category IHM
 				final String titleKeyPrefixSufix = "business.product.category.add";
@@ -244,18 +244,18 @@ public class CatalogController extends AbstractQalingoController {
 
 		if(StringUtils.isNotEmpty(productCategoryId)){
 			final String productCategoryCode = productCategoryForm.getCode();
-			final ProductCategoryMaster productCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+			final CatalogCategoryMaster productCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
-			List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-			for (Iterator<ProductCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
-				ProductCategoryMaster productCategoryMaster = (ProductCategoryMaster) iterator.next();
+			List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+			for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
+				CatalogCategoryMaster productCategoryMaster = (CatalogCategoryMaster) iterator.next();
 				if(productCategoryMaster.getCode().equalsIgnoreCase(productCategoryCode)){
 					iterator.remove();
 				}
 			}
-			Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+			Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 				@Override
-				public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+				public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 					if(o1 != null && o2 != null){
 						return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 					}
@@ -269,7 +269,7 @@ public class CatalogController extends AbstractQalingoController {
 				final String titleKeyPrefixSufix = "business.product.category.edit";
 				if(StringUtils.isNotEmpty(parentProductCategoryCode)){
 					// CHIELD CATEGORY
-					final ProductCategoryMaster parentProductCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
+					final CatalogCategoryMaster parentProductCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
 					initPage(request, response, modelAndView, titleKeyPrefixSufix);
 					modelAndViewFactory.initProductMasterCategoryModelAndView(request, modelAndView, productCategory);
 					overrideSpecificSeo(request, modelAndView, titleKeyPrefixSufix, parentProductCategory.getBusinessName());
@@ -299,7 +299,7 @@ public class CatalogController extends AbstractQalingoController {
 				final String titleKeyPrefixSufix = "business.product.category.add";
 				if(StringUtils.isNotEmpty(parentProductCategoryCode)){
 					// CHIELD CATEGORY
-					final ProductCategoryMaster parentProductCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
+					final CatalogCategoryMaster parentProductCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
 					initPage(request, response, modelAndView, titleKeyPrefixSufix);
 					modelAndViewFactory.initProductMasterCategoryModelAndView(request, modelAndView, productCategory);
 					overrideSpecificSeo(request, modelAndView, titleKeyPrefixSufix, parentProductCategory.getBusinessName());
@@ -316,12 +316,12 @@ public class CatalogController extends AbstractQalingoController {
 			}
 
 		} else {
-			final ProductCategoryMaster parentProductCategory = productCategoryService.getMasterProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
+			final CatalogCategoryMaster parentProductCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
 
-			List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-			Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+			List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+			Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 				@Override
-				public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+				public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 					if(o1 != null && o2 != null){
 						return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 					}
@@ -351,7 +351,7 @@ public class CatalogController extends AbstractQalingoController {
 			
 			// SAVE CATEGORY
 			try {
-				ProductCategoryMaster productCategoryMaster = new ProductCategoryMaster();
+				CatalogCategoryMaster productCategoryMaster = new CatalogCategoryMaster();
 				webBackofficeService.createProductCategory(currentMarketArea, currentLocalization, parentProductCategory, productCategoryMaster, productCategoryForm);
 				addSuccessMessage(request, coreMessageSource.getMessage("business.product.category.add.success.message", null, locale));
 				
@@ -390,7 +390,7 @@ public class CatalogController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
-		final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
 		final String titleKeyPrefixSufix = "business.product.category.details";
 		initPage(request, response, modelAndView, titleKeyPrefixSufix);
@@ -408,18 +408,18 @@ public class CatalogController extends AbstractQalingoController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
-		final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
-		List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-		for (Iterator<ProductCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
-			ProductCategoryMaster productCategoryMaster = (ProductCategoryMaster) iterator.next();
+		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+		for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
+			CatalogCategoryMaster productCategoryMaster = (CatalogCategoryMaster) iterator.next();
 			if(productCategoryMaster.getCode().equalsIgnoreCase(productCategoryCode)){
 				iterator.remove();
 			}
 		}
-		Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 			@Override
-			public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -446,10 +446,10 @@ public class CatalogController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final String parentProductCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		
-		List<ProductCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
-		Collections.sort(categories, new Comparator<ProductCategoryMaster>() {
+		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
+		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 			@Override
-			public int compare(ProductCategoryMaster o1, ProductCategoryMaster o2) {
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -459,7 +459,7 @@ public class CatalogController extends AbstractQalingoController {
 		modelAndView.addObject("categories", categories);
 		
 		if(StringUtils.isNotEmpty(parentProductCategoryCode)){
-			final ProductCategoryVirtual parentProductCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
+			final CatalogCategoryVirtual parentProductCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), parentProductCategoryCode);
 			if(parentProductCategory != null){
 				final String titleKeyPrefixSufix = "business.product.category.add";
 				initPage(request, response, modelAndView, titleKeyPrefixSufix);
@@ -493,7 +493,7 @@ public class CatalogController extends AbstractQalingoController {
 		if(StringUtils.isNotEmpty(productCategoryCode)){
 			if (result.hasErrors()) {
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/product-category-form");
-				final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+				final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				modelAndViewFactory.initProductVirtualCategoryModelAndView(request, modelAndView, productCategory);
 				modelAndView.addObject("productCategoryForm", formFactory.buildProductCategoryForm(request, null, productCategory));
@@ -502,7 +502,7 @@ public class CatalogController extends AbstractQalingoController {
 			}
 
 			// SANITY CHECK
-			final ProductCategoryVirtual productCategory = productCategoryService.getVirtualProductCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
+			final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 			if(productCategory != null){
 				// UPDATE PRODUCT MARKETING
 				webBackofficeService.updateProductCategory(currentMarketArea, currentRetailer, currentLocalization, productCategory, productCategoryForm);

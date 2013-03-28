@@ -61,7 +61,7 @@ public class CatalogMaster implements Serializable {
 	private String code;
 	
 	@OneToMany(
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductCategoryMaster.class,
+	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
        		fetch = FetchType.EAGER,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -70,7 +70,7 @@ public class CatalogMaster implements Serializable {
 	        joinColumns=@JoinColumn(name="MASTER_CATALOG_ID"),
 	        inverseJoinColumns=@JoinColumn(name="MASTER_CATEGORY_ID")
 	    )
-	private Set<ProductCategoryMaster> productCategories = new HashSet<ProductCategoryMaster>(); 
+	private Set<CatalogCategoryMaster> productCategories = new HashSet<CatalogCategoryMaster>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -131,11 +131,11 @@ public class CatalogMaster implements Serializable {
 		this.code = code;
 	}
 	
-	public Set<ProductCategoryMaster> getProductCategories() {
+	public Set<CatalogCategoryMaster> getProductCategories() {
 		return productCategories;
 	}
 	
-	public void setProductCategories(Set<ProductCategoryMaster> productCategories) {
+	public void setProductCategories(Set<CatalogCategoryMaster> productCategories) {
 		this.productCategories = productCategories;
 	}
 	

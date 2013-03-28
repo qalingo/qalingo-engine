@@ -19,13 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.dao.ProductCatalogDao;
+import fr.hoteia.qalingo.core.dao.CatalogDao;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 
 @Transactional
 @Repository("productCatalogDao")
-public class ProductCatalogDaoImpl extends AbstractGenericDaoImpl implements ProductCatalogDao {
+public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 

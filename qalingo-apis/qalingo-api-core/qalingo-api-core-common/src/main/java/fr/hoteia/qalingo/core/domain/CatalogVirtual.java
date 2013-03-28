@@ -74,7 +74,7 @@ public class CatalogVirtual implements Serializable {
 	private CatalogMaster catalogMaster;
 	
 	@ManyToMany(
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductCategoryVirtual.class,
+	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
        		fetch = FetchType.EAGER,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -83,7 +83,7 @@ public class CatalogVirtual implements Serializable {
 	        joinColumns=@JoinColumn(name="VIRTUAL_CATALOG_ID"),
 	        inverseJoinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	    )	
-	private Set<ProductCategoryVirtual> productCategories = new HashSet<ProductCategoryVirtual>(); 
+	private Set<CatalogCategoryVirtual> productCategories = new HashSet<CatalogCategoryVirtual>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -160,15 +160,15 @@ public class CatalogVirtual implements Serializable {
 		this.catalogMaster = catalogMaster;
 	}
 	
-	public Set<ProductCategoryVirtual> getProductCategories() {
+	public Set<CatalogCategoryVirtual> getProductCategories() {
 		return productCategories;
 	}
 	
-	public List<ProductCategoryVirtual> getProductCategories(final Long marketAreaId) {
-		List<ProductCategoryVirtual> sortedObjects = new LinkedList<ProductCategoryVirtual>(productCategories);
-		Collections.sort(sortedObjects, new Comparator<ProductCategoryVirtual>() {
+	public List<CatalogCategoryVirtual> getProductCategories(final Long marketAreaId) {
+		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(productCategories);
+		Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
 			@Override
-			public int compare(ProductCategoryVirtual o1, ProductCategoryVirtual o2) {
+			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
 				if(o1 != null
 						&& o2 != null){
 					Integer order1 = o1.getOrder(marketAreaId);
@@ -185,7 +185,7 @@ public class CatalogVirtual implements Serializable {
 		});
 		return sortedObjects;
 	}
-	public void setProductCategories(Set<ProductCategoryVirtual> productCategories) {
+	public void setProductCategories(Set<CatalogCategoryVirtual> productCategories) {
 		this.productCategories = productCategories;
 	}
 	
