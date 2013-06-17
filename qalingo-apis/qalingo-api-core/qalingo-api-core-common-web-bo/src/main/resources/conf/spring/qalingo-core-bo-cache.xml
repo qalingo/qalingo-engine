@@ -29,7 +29,7 @@
 
 	<bean id="menuMarketNavigationCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
 		<property name="cache" ref="menuMarketNavigationCache" />
-		<property name="engineSettingService" ref=engineSettingService" />
+		<property name="engineSettingService" ref="engineSettingService" />
 	</bean>
 	
 </beans>
