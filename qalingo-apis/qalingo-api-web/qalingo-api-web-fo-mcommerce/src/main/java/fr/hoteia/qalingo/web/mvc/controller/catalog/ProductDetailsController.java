@@ -18,21 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class ProductDetailsController extends AbstractQalingoController {
+public class ProductDetailsController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
@@ -54,9 +54,8 @@ public class ProductDetailsController extends AbstractQalingoController {
 		CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productCode);
 		
-		final String titleKeyPrefixSufix = "product";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initPageProductMarketing(request, response, modelAndView, productCategory, productMarketing, titleKeyPrefixSufix);
+		// "product";
+		modelAndViewFactory.initPageProductMarketing(request, response, modelAndView, productCategory, productMarketing, "");
 		
         return modelAndView;
 	}

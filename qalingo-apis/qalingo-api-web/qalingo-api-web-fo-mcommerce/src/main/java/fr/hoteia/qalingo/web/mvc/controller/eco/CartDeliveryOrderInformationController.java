@@ -40,7 +40,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 
@@ -48,7 +48,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
  * 
  */
 @Controller
-public class CartDeliveryOrderInformationController extends AbstractQalingoController {
+public class CartDeliveryOrderInformationController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -68,8 +68,7 @@ public class CartDeliveryOrderInformationController extends AbstractQalingoContr
 			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
 		}
 		
-		final String titleKeyPrefixSufix = "shoppingcart.order.informations";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "shoppingcart.order.informations";
 		modelAndViewFactory.initCartModelAndView(request, modelAndView);
 		formFactory.buildCartForm(request, modelAndView);
 		
@@ -87,8 +86,7 @@ public class CartDeliveryOrderInformationController extends AbstractQalingoContr
 		
 		if (result.hasErrors()) {
 			ModelAndView modelAndView = new ModelAndView("cart/cart-delivery-order-information");
-			final String pageTitle = "shoppingcart.order.informations";
-			initPage(request, response, modelAndView, pageTitle);
+			// "shoppingcart.order.informations";
 			modelAndViewFactory.initCartModelAndView(request, modelAndView);
 			return modelAndView;
 		}

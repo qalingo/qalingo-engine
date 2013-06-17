@@ -9,10 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.factory.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -31,7 +30,6 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
@@ -44,8 +42,6 @@ import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
@@ -55,15 +51,11 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.OurCompanyViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductBrandViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
@@ -96,63 +88,6 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	
 	@Autowired
     protected FormFactory formFactory;
-	
-	/**
-     * 
-     */
-	public void initCommonModelAndView(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView, final String customerId) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
-		// COMMON
-		CommonViewBean commonViewBean = viewBeanFactory.buildCommonViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("common", commonViewBean);
-
-		// QUICK SEARCH
-		QuickSearchViewBean quickSearchViewBean = viewBeanFactory.buildQuickSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("quickSearch", quickSearchViewBean);
-		
-		formFactory.buildQuickSearchForm(request, modelAndView);
-		
-		// LEGACY
-		LegacyViewBean legacyViewBean = viewBeanFactory.buildLegacyViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("legacy", legacyViewBean);
-		
-		// CONDITIONS OF USE
-		ConditionsViewBean conditionsViewBean = viewBeanFactory.buildConditionsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("conditions", conditionsViewBean);
-		
-		// CART
-		HeaderCartViewBean headerCartViewBean = viewBeanFactory.buildHeaderCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("headerCart", headerCartViewBean);
-		
-		// ALL MARKETPLACES
-		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(request, currentLocalization);
-		modelAndView.addObject("marketPlaces", marketPlaceViewBeans);
-		
-		// MARKETS FOR THE CURRENT MARKETPLACE
-		Set<Market> marketList = currentMarketPlace.getMarkets();
-		modelAndView.addObject("markets", viewBeanFactory.buildMarketViewBeans(request, currentMarketPlace, new ArrayList<Market>(marketList), currentLocalization));
-		
-		// MARKET AREAS FOR THE CURRENT MARKET
-		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		modelAndView.addObject("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, currentMarket, new ArrayList<MarketArea>(marketAreaList), currentLocalization));
-		
-		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
-		modelAndView.addObject("languages", viewBeanFactory.buildLocalizationViewBeans(request, currentMarketArea, currentLocalization));
-
-		// RETAILERS FOR THE CURRENT MARKET AREA
-		modelAndView.addObject("retailers", viewBeanFactory.buildRetailerViewBeans(request, currentMarketArea, currentLocalization));
-
-		// HEADER
-		modelAndView.addObject("menus", viewBeanFactory.buildMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-		
-		// FOOTER
-		modelAndView.addObject("footerMenus", viewBeanFactory.buildFooterMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
-	}
 	
 	/**
      * 
@@ -367,14 +302,14 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
-		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", null, locale);
+		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         modelAndView.addObject("seoPageMetaKeywords", seoPageMetaKeywords);
 
-		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", null, locale);
+		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
         modelAndView.addObject("seoPageMetaDescription", seoPageMetaDescription);
 
 		String pageTitleKey = "header.title." + titleKeyPrefixSufix;
-		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", null, locale) + " - " + coreMessageSource.getMessage(pageTitleKey, null, locale);
+		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         modelAndView.addObject("seoPageTitle", seoPageTitle);
         
         initMasterProductCategoryModelAndView(request, modelAndView, productCategory);
@@ -387,14 +322,14 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
-		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", null, locale);
+		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         modelAndView.addObject("seoPageMetaKeywords", seoPageMetaKeywords);
 
-		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", null, locale);
+		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
         modelAndView.addObject("seoPageMetaDescription", seoPageMetaDescription);
 
 		String pageTitleKey = "header.title." + titleKeyPrefixSufix;
-		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", null, locale) + " - " + coreMessageSource.getMessage(pageTitleKey, null, locale);
+		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         modelAndView.addObject("seoPageTitle", seoPageTitle);
         
         initProductMarketingModelAndView(request, modelAndView, productCategory, productMarketing);

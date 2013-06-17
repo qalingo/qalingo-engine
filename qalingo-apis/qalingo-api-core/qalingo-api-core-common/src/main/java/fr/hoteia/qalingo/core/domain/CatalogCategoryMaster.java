@@ -40,14 +40,19 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 
+import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
+
 @Entity
-@Table(name="TECO_CATALOG_CATEGORY_MASTER", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @FilterDefs(
-	value = {
-			@FilterDef(name="filterCatalogCategoryMasterAttributeIsGlobal"),
-			@FilterDef(name="filterCatalogCategoryMasterAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+	value = {                
+			@FilterDef(name="filterCatalogMasterCategoryAttributeIsGlobal"),
+			@FilterDef(name="filterCatalogMasterCategoryAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
+			@FilterDef(name="filterCatalogMasterCategoryAssetIsGlobal"),
+			@FilterDef(name="filterCatalogMasterCategoryAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
 public class CatalogCategoryMaster implements Serializable {
 
@@ -74,6 +79,10 @@ public class CatalogCategoryMaster implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="CATALOG_CATEGORY_TYPE_ID", insertable=false, updatable=false)
+	private CatalogCategoryType catalogCategoryType;
+	
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
 
@@ -85,13 +94,15 @@ public class CatalogCategoryMaster implements Serializable {
 	private CatalogCategoryMaster defaultParentCatalogCategory;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="CATALOG_CATEGORY_ID")
-	@Filter(name="filterCatalogCategoryMasterAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+    @JoinColumn(name="MASTER_CATEGORY_ID")
+	@Filter(name="filterCatalogMasterCategoryAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryMasterAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="CATALOG_CATEGORY_ID")
-	@Filter(name="filterCatalogCategoryMasterAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
+    @JoinColumn(name="MASTER_CATEGORY_ID")
+	@Filter(name="filterCatalogMasterCategoryAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
+	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryMasterAttribute>(); 
 	
 	@ManyToMany(
@@ -100,7 +111,7 @@ public class CatalogCategoryMaster implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_CATALOG_CATEGORY_MASTER_CHILD_CATEGORY_REL",
+	        name="TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL",
 	        joinColumns=@JoinColumn(name="PARENT_MASTER_CATALOG_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="CHILD_MASTER_CATALOG_CATEGORY_ID")
 	    )	
@@ -112,11 +123,23 @@ public class CatalogCategoryMaster implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_CATALOG_CATEGORY_MASTER_PRODUCT_MARKETING_REL",
+	        name="TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL",
 	        joinColumns=@JoinColumn(name="MASTER_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PRODUCT_MARKETING_ID")
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="MASTER_CATEGORY_ID")
+	@Filter(name="filterCatalogMasterCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'MASTER_CATEGORY'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="MASTER_CATEGORY_ID")
+	@Filter(name="filterCatalogMasterCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'MASTER_CATEGORY'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -200,6 +223,14 @@ public class CatalogCategoryMaster implements Serializable {
 		this.code = code;
 	}
 	
+	public CatalogCategoryType getCatalogCategoryType() {
+		return catalogCategoryType;
+	}
+	
+	public void setCatalogCategoryType(CatalogCategoryType catalogCategoryType) {
+		this.catalogCategoryType = catalogCategoryType;
+	}
+	
 	public Set<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
 		return catalogCategoryGlobalAttributes;
 	}
@@ -232,6 +263,22 @@ public class CatalogCategoryMaster implements Serializable {
 		this.productMarketings = productMarketings;
 	}
 
+	public Set<Asset> getAssetsIsGlobal() {
+		return assetsIsGlobal;
+	}
+	
+	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
+		this.assetsIsGlobal = assetsIsGlobal;
+	}
+	
+	public Set<Asset> getAssetsByMarketArea() {
+		return assetsByMarketArea;
+	}
+	
+	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
+		this.assetsByMarketArea = assetsByMarketArea;
+	}
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -353,6 +400,70 @@ public class CatalogCategoryMaster implements Serializable {
 		return (Integer) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, null);
 	}
 
+	// ASSET
+	public Asset getDefaultPaskshotImage(String size) {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null
+				&& StringUtils.isNotEmpty(size)){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productAsset = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productAsset.getType())
+						&& size.equals(productAsset.getSize())
+						&& productAsset.isDefault()){
+					defaultProductImage = productAsset;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productImage.getType())
+						&& size.equals(productImage.getSize())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultBackgroundImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultIconImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

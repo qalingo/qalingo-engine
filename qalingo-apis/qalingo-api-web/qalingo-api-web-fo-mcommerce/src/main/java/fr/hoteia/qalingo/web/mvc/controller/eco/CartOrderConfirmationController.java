@@ -24,13 +24,13 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class CartOrderConfirmationController extends AbstractQalingoController {
+public class CartOrderConfirmationController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/cart-order-confirmation.html*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -47,8 +47,7 @@ public class CartOrderConfirmationController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
 		}
 		
-		final String titleKeyPrefixSufix = "shoppingcart.confirmation";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "shoppingcart.confirmation";
 		
 		modelAndViewFactory.initOrderModelAndView(request, modelAndView, lastOrder);
 		

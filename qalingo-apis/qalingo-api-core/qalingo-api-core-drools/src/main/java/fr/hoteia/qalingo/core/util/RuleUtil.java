@@ -9,10 +9,10 @@
  */
 package fr.hoteia.qalingo.core.util;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public interface RuleUtil {
 
-	void handleRuleSession(final HttpServletRequest request);
+	void handleRuleSession(List<Object> objects);
 	
 }

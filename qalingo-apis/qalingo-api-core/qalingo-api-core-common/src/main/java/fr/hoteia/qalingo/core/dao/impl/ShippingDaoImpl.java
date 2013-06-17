@@ -11,6 +11,8 @@ package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -29,8 +31,21 @@ public class ShippingDaoImpl extends AbstractGenericDaoImpl implements ShippingD
 		return em.find(Shipping.class, shippingId);
 	}
 
-	public List<Shipping> findByExample(Shipping shippingExample) {
-		return super.findByExample(shippingExample);
+	public Shipping getShippingByCode(String code) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Shipping WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", code);
+		Shipping shipping = (Shipping) query.uniqueResult();
+		return shipping;
+	}
+	
+	public List<Shipping> findShippings() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Shipping";
+		Query query = session.createQuery(sql);
+		List<Shipping> shippings = (List<Shipping>) query.list();
+		return shippings;
 	}
 
 	public void saveOrUpdateShipping(Shipping shipping) {

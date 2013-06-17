@@ -22,13 +22,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
@@ -38,6 +39,7 @@ import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.service.UserService;
+import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
@@ -385,6 +387,30 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		productSku.setCode(productSkuForm.getCode());
 		productSku.setDescription(productSkuForm.getDescription());
 		productSkuService.saveOrUpdateProductSku(productSku);
+	}
+	
+	public void updateProductMarketingAsset(final Asset asset, final AssetForm assetForm){
+		asset.setName(assetForm.getName());
+		asset.setCode(assetForm.getCode());
+		asset.setDescription(assetForm.getDescription());
+
+//		asset.setType(assetForm.getType);
+//		private boolean isDefault;
+//		private boolean isGlobal;
+//		private Integer ordering;
+//		private Long marketAreaId;
+		
+		productMarketingService.saveOrUpdateProductMarketingAsset(asset);
+	}
+	
+	public void createProductMarketingAsset(final Asset asset, final AssetForm assetForm){
+		asset.setName(assetForm.getName());
+		asset.setCode(assetForm.getCode());
+		asset.setDescription(assetForm.getDescription());
+		
+		// ...
+		
+		productMarketingService.saveOrUpdateProductMarketingAsset(asset);
 	}
 	
 }

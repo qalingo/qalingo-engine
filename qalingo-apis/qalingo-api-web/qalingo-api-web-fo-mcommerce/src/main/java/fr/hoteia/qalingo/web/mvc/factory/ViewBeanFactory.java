@@ -50,7 +50,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
@@ -108,8 +108,7 @@ public interface ViewBeanFactory {
 	FollowUsViewBean buildFollowUsViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
-	LegacyViewBean buildLegacyViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer) throws Exception;
+	LegalTermsViewBean buildLegalTermsViewBean(HttpServletRequest request, Localization localization) throws Exception;
 
 	OurCompanyViewBean buildOurCompanyViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;

@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class ProductAxeController extends AbstractQalingoController {
+public class ProductAxeController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
@@ -42,9 +42,8 @@ public class ProductAxeController extends AbstractQalingoController {
 		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		
-		final String titleKeyPrefixSufix = "product.axe.category";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initPageProductCategory(request, response, modelAndView, productCategory, titleKeyPrefixSufix);
+		// "product.axe.category";
+		modelAndViewFactory.initPageProductCategory(request, response, modelAndView, productCategory, "");
 		
         return modelAndView;
 	}

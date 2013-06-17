@@ -17,6 +17,8 @@ public interface CustomerService {
 
 	Customer getCustomerById(String customerId);
 
+	Customer getCustomerByCode(String code);
+
 	Customer getCustomerByLoginOrEmail(String loginOrEmail);
 
 	List<Customer> findCustomers();

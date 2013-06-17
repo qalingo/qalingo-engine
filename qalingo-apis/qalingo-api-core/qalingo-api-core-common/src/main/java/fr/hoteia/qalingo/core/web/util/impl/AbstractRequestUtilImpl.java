@@ -24,6 +24,7 @@ import com.opensymphony.clickstream.ClickstreamListener;
 import com.opensymphony.clickstream.ClickstreamRequest;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -34,10 +35,13 @@ public abstract class AbstractRequestUtilImpl {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected EngineSettingService engineSettingService;
+    protected EngineSettingService engineSettingService;
 	
 	@Value("${env.name}")  
 	protected String environmentName;
+	
+	@Value("${app.name}")  
+	protected String applicationName;
 	
 	/**
 	 *
@@ -62,6 +66,13 @@ public abstract class AbstractRequestUtilImpl {
 	 */
 	public String getEnvironmentName() throws Exception {
 		return environmentName;
+	}
+	
+	/**
+	 *
+	 */
+	public String getApplicationName() throws Exception {
+		return applicationName;
 	}
 	
 	/**
@@ -238,21 +249,79 @@ public abstract class AbstractRequestUtilImpl {
 	/**
      * 
      */
-	public String getCurrentCatalogImageResourcePrefixPath(final HttpServletRequest request, final String context) throws Exception {
-		EngineSetting engineSetting = engineSettingService.getCatalogImageResourcePrefixPath();
+	public String getRootAssetFilePath(final HttpServletRequest request) throws Exception {
+		EngineSetting engineSetting = engineSettingService.getAssetFileRootPath();
 		String prefixPath  = "";
 		if(engineSetting != null){
-			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
 			prefixPath  = engineSetting.getDefaultValue();
-			if(engineSettingValue != null){
-				prefixPath = engineSettingValue.getValue();
-			} else {
-				prefixPath = engineSetting.getDefaultValue();
-				LOG.warn("EngineSetting default value selected. Specific Engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + context);
-			}
 		}
-		String currenTheme = prefixPath + getCurrentTheme(request);
-		return currenTheme;
+		if(prefixPath.endsWith("/")){
+			prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+		}
+		return prefixPath;
+	}
+	
+	/**
+     * 
+     */
+	public String getRootAssetWebPath(final HttpServletRequest request) throws Exception {
+		EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
+		String prefixPath  = "";
+		if(engineSetting != null){
+			prefixPath  = engineSetting.getDefaultValue();
+		}
+		if(prefixPath.endsWith("/")){
+			prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+		}
+		return prefixPath;
+	}
+	
+	/**
+     * 
+     */
+	public String getCatalogImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+		EngineSetting engineSetting = engineSettingService.getAssetCatalogFilePath();
+		String prefixPath  = "";
+		if(engineSetting != null){
+			prefixPath  = engineSetting.getDefaultValue();
+		}
+		String catalogImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+		if(catalogImageWebPath.endsWith("/")){
+			catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
+		}
+		return catalogImageWebPath;
+	}
+	
+	/**
+     * 
+     */
+	public String getProductMarketingImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+		EngineSetting engineSetting = engineSettingService.getAssetProductMarketingFilePath();
+		String prefixPath  = "";
+		if(engineSetting != null){
+			prefixPath  = engineSetting.getDefaultValue();
+		}
+		String productMarketingImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+		if(productMarketingImageWebPath.endsWith("/")){
+			productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
+		}
+		return productMarketingImageWebPath;
+	}
+	
+	/**
+     * 
+     */
+	public String getProductSkuImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+		EngineSetting engineSetting = engineSettingService.getAssetPoductSkuFilePath();
+		String prefixPath  = "";
+		if(engineSetting != null){
+			prefixPath  = engineSetting.getDefaultValue();
+		}
+		String productSkuImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+		if(productSkuImageWebPath.endsWith("/")){
+			productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
+		}
+		return productSkuImageWebPath;
 	}
 	
 	/**
@@ -267,8 +336,11 @@ public abstract class AbstractRequestUtilImpl {
 		} else {
 			LOG.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + context);
 		}
-		String currenTheme = prefixPath + getCurrentTheme(request);
-		return currenTheme;
+		String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(request);
+		if(currentThemeResourcePrefixPath.endsWith("/")){
+			currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
+		}
+		return currentThemeResourcePrefixPath;
 	}
 	
 	/**
@@ -310,6 +382,5 @@ public abstract class AbstractRequestUtilImpl {
 	protected String handleUrl(String url) {
 		return url;
 	}
-	
 	
 }

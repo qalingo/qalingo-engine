@@ -16,24 +16,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class MonitoringController extends AbstractQalingoController {
+public class MonitoringController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping("/monitoring.html*")
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "monitoring/monitoring");
 
-		final String titleKeyPrefixSufix = "technical.monitoring";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.MONITORING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}

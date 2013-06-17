@@ -28,6 +28,7 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	private EngineSettingDao engineSettingDao;
 
 	// Engine Setting
+	
 	public EngineSetting getEngineSettingById(final String id) {
 		long engineSettingId = -1;
 		try {
@@ -55,6 +56,7 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	}
 	
 	// Engine Setting Value
+	
 	public EngineSettingValue getEngineSettingValueById(final String id) {
 		long engineSettingValueId = -1;
 		try {
@@ -92,6 +94,26 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	
 	// Common Engine Setting Value
 	
+	public EngineSetting getAssetFileRootPath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH);
+	}
+	
+	public EngineSetting getAssetWebRootPath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH);
+	}
+	
+	public EngineSetting getAssetCatalogFilePath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH);
+	}
+	
+	public EngineSetting getAssetProductMarketingFilePath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH);
+	}
+	
+	public EngineSetting getAssetPoductSkuFilePath() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH);
+	}
+	
 	public EngineSetting getThemeResourcePrefixPath() {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
 	}
@@ -100,5 +122,9 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH);
 	}
 	
+	public EngineSetting withEscapeAccent() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
+	}
+
 
 }

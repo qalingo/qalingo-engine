@@ -14,23 +14,27 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.CustomerDao;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
 
 @Transactional
 @Repository("customerDao")
 public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-
 	public Customer getCustomerById(final Long customerId) {
 		return em.find(Customer.class, customerId);
+	}
+	
+	public Customer getCustomerByCode(final String code) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Customer WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", code);
+		Customer customer = (Customer) query.uniqueResult();
+		return customer;
 	}
 
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {

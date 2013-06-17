@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,12 +27,13 @@ import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.Cart;
 import fr.hoteia.qalingo.core.domain.CartItem;
+import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
@@ -46,10 +48,8 @@ import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.OrderItem;
 import fr.hoteia.qalingo.core.domain.OrderShipment;
 import fr.hoteia.qalingo.core.domain.OrderTax;
+import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import fr.hoteia.qalingo.core.domain.ProductCrossLink;
-import fr.hoteia.qalingo.core.domain.ProductAsset;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
@@ -57,19 +57,24 @@ import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.domain.Tax;
 import fr.hoteia.qalingo.core.domain.enumtype.ImageSize;
-import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.service.CatalogCategoryService;
+import fr.hoteia.qalingo.core.service.CatalogService;
 import fr.hoteia.qalingo.core.service.CustomerProductCommentService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
-import fr.hoteia.qalingo.core.service.CatalogService;
-import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
+import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
+import fr.hoteia.qalingo.core.web.factory.AbstractFrontofficeViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartItemViewBean;
@@ -93,7 +98,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.LegacyViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
@@ -123,13 +128,10 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
  * 
  */
 @Service("viewBeanFactory")
-public class ViewBeanFactoryImpl implements ViewBeanFactory {
+public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory implements ViewBeanFactory {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	protected CoreMessageSource coreMessageSource;
-	
 	@Autowired
     protected RequestUtil requestUtil;
 	
@@ -157,24 +159,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	@Autowired
     protected UrlService urlService;
 	
-	@Autowired
-	@Qualifier("menuMarketNavigationCacheHelper")
+	@Resource(name="menuMarketNavigationCacheHelper")
     protected WebCacheHelper menuMarketNavigationCacheHelper;
 	
-	@Autowired
-	@Qualifier("menuTopCacheHelper")
+	@Resource(name="menuTopCacheHelper")
     protected WebCacheHelper menuTopCacheHelper;
 	
-	@Autowired
-	@Qualifier("menuFooterCacheHelper")
+	@Resource(name="menuFooterCacheHelper")
     protected WebCacheHelper menuFooterCacheHelper;
 	
-	@Autowired
-	@Qualifier("menuCustomerCacheHelper")
+	@Resource(name="menuCustomerCacheHelper")
     protected WebCacheHelper menuCustomerCacheHelper;
 	
-	@Autowired
-	@Qualifier("storeLocatorCacheHelper")
+	@Resource(name="storeLocatorCacheHelper")
     protected WebCacheHelper storeLocatorCacheHelper;
 	
 	/**
@@ -192,18 +189,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 
 		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLoginUrl(urlService.buildLoginUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setLoginLabel(coreMessageSource.getMessage("header.link.login", null, locale));
+		commonViewBean.setLoginLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.login", locale));
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setLogoutLabel(coreMessageSource.getMessage("header.link.logout", null, locale));
+		commonViewBean.setLogoutLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.logout", locale));
 		
-		commonViewBean.setCreateAccountSectionTitle(coreMessageSource.getMessage("login.main.create.account.title", null, locale));
-		commonViewBean.setCreateAccountSectionText(coreMessageSource.getMessage("login.main.create.account.text", null, locale));
+		commonViewBean.setCreateAccountSectionTitle(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.title", locale));
+		commonViewBean.setCreateAccountSectionText(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.text", locale));
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setCreateAccountLabel(coreMessageSource.getMessage("header.link.create.account", null, locale));
+		commonViewBean.setCreateAccountLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.create.account", locale));
 		
 		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setCustomerDetailsLabel(coreMessageSource.getMessage("header.link.my.account", null, locale));
+		commonViewBean.setCustomerDetailsLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.my.account", locale));
 		
 		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
 		commonViewBean.setCurrentMarket(buildMarketViewBean(request, market));
@@ -227,12 +224,12 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 		headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
 		if(currentCart.getCartItems().size() == 1) {
-			headerCartViewBean.setCartTotalSummaryLabel(coreMessageSource.getMessage("cart.total.summary.label.one.item", null, locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.one.item", locale));
 		} else if(currentCart.getCartItems().size() > 1) {
 			Object[] cartTotalSummaryLabelParams = {currentCart.getCartItems().size()};
-			headerCartViewBean.setCartTotalSummaryLabel(coreMessageSource.getMessage("cart.total.summary.label.many.items", cartTotalSummaryLabelParams, locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.many.items", cartTotalSummaryLabelParams, locale));
 		} else {
-			headerCartViewBean.setCartTotalSummaryLabel(coreMessageSource.getMessage("cart.total.summary.label.no.item", null, locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.no.item", locale));
 		}
 		
 		return headerCartViewBean;
@@ -242,7 +239,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
-		final WebCacheHelper.ElementType marketPlaceElementType = WebCacheHelper.ElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
+		final WebElementType marketPlaceElementType = WebElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE_LIST";
 		List<MarketPlaceViewBean> marketPlaceViewBeans = (List<MarketPlaceViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketPlaceElementType, marketPlaceCacheKey);
@@ -280,7 +277,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final List<Market> markets, final Localization localization) throws Exception {
-		final WebCacheHelper.ElementType marketElementType = WebCacheHelper.ElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
+		final WebElementType marketElementType = WebElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketCacheKey = marketPrefixCacheKey + "_" + marketPlace.getCode() + "_MARKET_LIST";
 		List<MarketViewBean> marketViewBeans = (List<MarketViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketElementType, marketCacheKey);
@@ -317,7 +314,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final Market market, final List<MarketArea> marketAreas, final Localization localization) throws Exception {
-		final WebCacheHelper.ElementType marketAreaElementType = WebCacheHelper.ElementType.MARKET_AREA_VIEW_BEAN_LIST;
+		final WebElementType marketAreaElementType = WebElementType.MARKET_AREA_VIEW_BEAN_LIST;
 		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketAreaCacheKey = marketAreaPrefixCacheKey + "_" +  market.getCode() + "_MARKET_AREA_LIST";
 		List<MarketAreaViewBean> marketAreaViewBeans = (List<MarketAreaViewBean>) menuMarketNavigationCacheHelper.getFromCache(marketAreaElementType, marketAreaCacheKey);
@@ -351,7 +348,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
-		final WebCacheHelper.ElementType localizationElementType = WebCacheHelper.ElementType.LOCALIZATION_VIEW_BEAN_LIST;
+		final WebElementType localizationElementType = WebElementType.LOCALIZATION_VIEW_BEAN_LIST;
 		final String localizationPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String localizationCacheKey = localizationPrefixCacheKey + "_" + marketArea.getCode() + "_LOCALIZATION_LIST";
 		List<LocalizationViewBean> localizationViewBeans = (List<LocalizationViewBean>) menuMarketNavigationCacheHelper.getFromCache(localizationElementType, localizationCacheKey);
@@ -381,9 +378,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		if(StringUtils.isNotEmpty(localeCodeNavigation)
 				&& localeCodeNavigation.length() == 2) {
-			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation.toLowerCase(), null, locale));
+			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation.toLowerCase(), locale));
 		} else {
-			localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCodeNavigation, null, locale));
+			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 		
 		localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -394,7 +391,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
-		final WebCacheHelper.ElementType retailerElementType = WebCacheHelper.ElementType.RETAILER_VIEW_BEAN_LIST;
+		final WebElementType retailerElementType = WebElementType.RETAILER_VIEW_BEAN_LIST;
 		final String retailerPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
 		final String retailerCacheKey = retailerPrefixCacheKey + "_RETAILER";
 		List<RetailerViewBean> retailerViewBeans = (List<RetailerViewBean>) menuMarketNavigationCacheHelper.getFromCache(retailerElementType, retailerCacheKey);
@@ -427,7 +424,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final WebCacheHelper.ElementType menuTopElementType = WebCacheHelper.ElementType.TOP_MENU_VIEW_BEAN_LIST;
+		final WebElementType menuTopElementType = WebElementType.TOP_MENU_VIEW_BEAN_LIST;
 		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
 		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
 		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
@@ -438,7 +435,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			menuViewBeans = new ArrayList<MenuViewBean>();
 			
 			MenuViewBean menu = new MenuViewBean();
-			menu.setName(coreMessageSource.getMessage("header.menu.home", null, locale));
+			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 			menuViewBeans.add(menu);
 
@@ -473,7 +470,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			}
 			
 			menu = new MenuViewBean();
-			menu.setName(coreMessageSource.getMessage("header.menu.our.company", null, locale));
+			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our.company", locale));
 			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
 			menuViewBeans.add(menu);
 			
@@ -488,7 +485,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final WebCacheHelper.ElementType customerMenuElementType = WebCacheHelper.ElementType.CUSTOMER_MENU_VIEW_BEAN_LIST;
+		final WebElementType customerMenuElementType = WebElementType.CUSTOMER_MENU_VIEW_BEAN_LIST;
 		final String customerMenuPrefixCacheKey = menuCustomerCacheHelper.buildGlobalPrefixKey(localization);
 		final String customerMenuCacheKey = customerMenuPrefixCacheKey + "_CUSTOMER_MENU";
 		List<CutomerMenuViewBean> customerLinks = (List<CutomerMenuViewBean>) menuCustomerCacheHelper.getFromCache(customerMenuElementType, customerMenuCacheKey);
@@ -497,32 +494,32 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 
 			customerLinks = new ArrayList<CutomerMenuViewBean>();
 			CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.details.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.details.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.address.list.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 			
 			cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.add.address.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.add.address.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 			
 			cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.order.list.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.order.list.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 			
 			cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.wishlist.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.wishlist.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 			
 			cutomerMenuViewBean = new CutomerMenuViewBean();
-			cutomerMenuViewBean.setName(coreMessageSource.getMessage("customer.product.comment.label", null, locale));
+			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.COMMON, "customer.product.comment.label", locale));
 			cutomerMenuViewBean.setUrl(urlService.buildCustomerProductCommentUrl(request, marketPlace, market, marketArea, localization, retailer));
 			customerLinks.add(cutomerMenuViewBean);
 			
@@ -536,7 +533,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final WebCacheHelper.ElementType footerMenuElementType = WebCacheHelper.ElementType.FOOTER_MENU_VIEW_BEAN_LIST;
+		final WebElementType footerMenuElementType = WebElementType.FOOTER_MENU_VIEW_BEAN_LIST;
 		final String footerMenuPrefixCacheKey = menuFooterCacheHelper.buildGlobalPrefixKey(localization);
 		final String footerMenuCacheKey = footerMenuPrefixCacheKey + "_FOOTER_MENU";
 		List<FooterMenuViewBean> footerMenuViewBeans = (List<FooterMenuViewBean>) menuFooterCacheHelper.getFromCache(footerMenuElementType, footerMenuCacheKey);
@@ -545,32 +542,32 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 			
 			FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.conditionsofuse", null, locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "conditionsofuse", locale));
 			footerMenuList.setUrl(urlService.buildConditionOfUseUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.legacy", null, locale));
-			footerMenuList.setUrl(urlService.buildLegacyUrl(request, marketPlace, market, marketArea, localization, retailer));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal.terms", locale));
+			footerMenuList.setUrl(urlService.buildLegalTermsUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.faq", null, locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
 			footerMenuList.setUrl(urlService.buildFaqUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 	
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.store.location", null, locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store.location", locale));
 			footerMenuList.setUrl(urlService.buildStoreLocationUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.contactus", null, locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "contactus", locale));
 			footerMenuList.setUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(coreMessageSource.getMessage("header.menu.followus", null, locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "followus", locale));
 			footerMenuList.setUrl(urlService.buildFollowUsUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
@@ -587,22 +584,22 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final ContactUsViewBean contactUs = new ContactUsViewBean();
-		contactUs.setLastnameLabel(coreMessageSource.getMessage("form.contact.us.label.lastname", null, locale));
-		contactUs.setFirstnameLabel(coreMessageSource.getMessage("form.contact.us.label.firstname", null, locale));
-		contactUs.setCountryLabel(coreMessageSource.getMessage("form.contact.us.label.country", null, locale));
-		contactUs.setEmailLabel(coreMessageSource.getMessage("form.contact.us.label.email", null, locale));
-		contactUs.setPhoneLabel(coreMessageSource.getMessage("form.contact.us.label.phone", null, locale));
-		contactUs.setFaxLabel(coreMessageSource.getMessage("form.contact.us.label.fax", null, locale));
-		contactUs.setMobileLabel(coreMessageSource.getMessage("form.contact.us.label.mobile", null, locale));
-		contactUs.setWebsiteLabel(coreMessageSource.getMessage("form.contact.us.label.website", null, locale));
-		contactUs.setSubjectLabel(coreMessageSource.getMessage("form.contact.us.label.subject", null, locale));
-		contactUs.setMessageLabel(coreMessageSource.getMessage("form.contact.us.label.message", null, locale));
+		contactUs.setLastnameLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.lastname", locale));
+		contactUs.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.firstname", locale));
+		contactUs.setCountryLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.country", locale));
+		contactUs.setEmailLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.email", locale));
+		contactUs.setPhoneLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.phone", locale));
+		contactUs.setFaxLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.fax", locale));
+		contactUs.setMobileLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.mobile", locale));
+		contactUs.setWebsiteLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.website", locale));
+		contactUs.setSubjectLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.subject", locale));
+		contactUs.setMessageLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.message", locale));
 
-		contactUs.setSuccessMessage(coreMessageSource.getMessage("form.contact.us.success.message", null, locale));
-		contactUs.setFailMessage(coreMessageSource.getMessage("form.contact.us.fail.message", null, locale));
+		contactUs.setSuccessMessage(getSpecificMessage(ScopeWebMessage.CONTACT, "form.success.message", locale));
+		contactUs.setFailMessage(getSpecificMessage(ScopeWebMessage.CONTACT, "form.fail.message", locale));
 
-		contactUs.setSubmitLabel(coreMessageSource.getMessage("form.contact.us.label.submit", null, locale));
-		contactUs.setCancelLabel(coreMessageSource.getMessage("form.contact.us.label.cancel", null, locale));
+		contactUs.setSubmitLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.submit", locale));
+		contactUs.setCancelLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.cancel", locale));
 		contactUs.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		return contactUs;
@@ -616,52 +613,52 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final FollowUsViewBean followUs = new FollowUsViewBean();
-		followUs.setEmailLabel(coreMessageSource.getMessage("form.follow.us.label.email", null, locale));
-		followUs.setSubmitLabel(coreMessageSource.getMessage("form.follow.us.label.submit", null, locale));
-		followUs.setCancelLabel(coreMessageSource.getMessage("form.follow.us.label.cancel", null, locale));
+		followUs.setEmailLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.email", locale));
+		followUs.setSubmitLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.submit", locale));
+		followUs.setCancelLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.cancel", locale));
 		
 		followUs.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
-		followUs.setSuccessMessage(coreMessageSource.getMessage("form.follow.us.success.message", null, locale));
-		followUs.setFailMessage(coreMessageSource.getMessage("form.follow.us.fail.message", null, locale));
+		followUs.setSuccessMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.success.message", locale));
+		followUs.setFailMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.fail.message", locale));
 
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_MCOMMERCE);
 
 		String followType = "facebook";
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
-		followOption.setUrl(coreMessageSource.getMessage("follow.us." + followType + ".url", null, locale));
-		followOption.setUrlLabel(coreMessageSource.getMessage("follow.us." + followType + ".url.label", null, locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + coreMessageSource.getMessage("follow.us." + followType + ".url.img", null, locale));
-		followOption.setTitle(coreMessageSource.getMessage("follow.us." + followType + ".title", null, locale));
-		followOption.setText(coreMessageSource.getMessage("follow.us." + followType + ".text", null, locale));
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
+		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
 		followType = "twitter";
 		followOption = new FollowUsOptionViewBean();
-		followOption.setUrl(coreMessageSource.getMessage("follow.us." + followType + ".url", null, locale));
-		followOption.setUrlLabel(coreMessageSource.getMessage("follow.us." + followType + ".url.label", null, locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + coreMessageSource.getMessage("follow.us." + followType + ".url.img", null, locale));
-		followOption.setTitle(coreMessageSource.getMessage("follow.us." + followType + ".title", null, locale));
-		followOption.setText(coreMessageSource.getMessage("follow.us." + followType + ".text", null, locale));
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
+		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
 		followType = "google.plus";
 		followOption = new FollowUsOptionViewBean();
-		followOption.setUrl(coreMessageSource.getMessage("follow.us." + followType + ".url", null, locale));
-		followOption.setUrlLabel(coreMessageSource.getMessage("follow.us." + followType + ".url.label", null, locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + coreMessageSource.getMessage("follow.us." + followType + ".url.img", null, locale));
-		followOption.setTitle(coreMessageSource.getMessage("follow.us." + followType + ".title", null, locale));
-		followOption.setText(coreMessageSource.getMessage("follow.us." + followType + ".text", null, locale));
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
+		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
 		followType = "blog";
 		followOption = new FollowUsOptionViewBean();
-		followOption.setUrl(coreMessageSource.getMessage("follow.us." + followType + ".url", null, locale));
-		followOption.setUrlLabel(coreMessageSource.getMessage("follow.us." + followType + ".url.label", null, locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + coreMessageSource.getMessage("follow.us." + followType + ".url.img", null, locale));
-		followOption.setTitle(coreMessageSource.getMessage("follow.us." + followType + ".title", null, locale));
-		followOption.setText(coreMessageSource.getMessage("follow.us." + followType + ".text", null, locale));
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
+		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
 		followUs.setFollowOptions(followOptions);
@@ -672,19 +669,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public LegacyViewBean buildLegacyViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
+	public LegalTermsViewBean buildLegalTermsViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
 		
-		final LegacyViewBean legacy = new LegacyViewBean();
+		final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 		
-		legacy.setPageTitle(coreMessageSource.getMessage("header.title.legacy", null, locale));
-		legacy.setTextHtml(coreMessageSource.getMessage("legacy.content.text", null, locale));
+		legalTerms.setPageTitle(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "header.title", locale));
+		legalTerms.setTextHtml(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "content.text", locale));
 
-		legacy.setWarning(coreMessageSource.getMessage("legacy.warning", null, locale));
-		legacy.setCopyright(coreMessageSource.getMessage("footer.copyright", null, locale));
+		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
+		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
 		
-		return legacy;
+		return legalTerms;
 	}
 	
 	/**
@@ -695,8 +691,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final OurCompanyViewBean ourCompany = new OurCompanyViewBean();
-		ourCompany.setPageTitle(coreMessageSource.getMessage("header.title.our.company", null, locale));
-		ourCompany.setTextHtml(coreMessageSource.getMessage("our.company.content.text", null, locale));
+		ourCompany.setPageTitle(getSpecificMessage(ScopeWebMessage.OUR_COMPANY, "header.title", locale));
+		ourCompany.setTextHtml(getSpecificMessage(ScopeWebMessage.OUR_COMPANY, "content.text", locale));
 		return ourCompany;
 	}
 	
@@ -708,8 +704,8 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final FaqViewBean faq = new FaqViewBean();
-		faq.setPageTitle(coreMessageSource.getMessage("header.title.faq", null, locale));
-		faq.setTextHtml(coreMessageSource.getMessage("faq.content.text", null, locale));
+		faq.setPageTitle(getSpecificMessage(ScopeWebMessage.FAQ, "header.title", locale));
+		faq.setTextHtml(getSpecificMessage(ScopeWebMessage.FAQ, "content.text", locale));
 		return faq;
 	}
 	
@@ -718,35 +714,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      */
 	public SecurityViewBean buildSecurityViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		
 		final SecurityViewBean security = new SecurityViewBean();
 		
-		security.setLoginPageTitle(coreMessageSource.getMessage("header.title.login", null, locale));
-		security.setLoginPageText(coreMessageSource.getMessage("login.content.text", null, locale));
-
-		security.setLogoutPageTitle(coreMessageSource.getMessage("header.title.logout", null, locale));
-		security.setLogoutPageText(coreMessageSource.getMessage("main.content.title.logout", null, locale));
-
-		security.setForbiddenPageTitle(coreMessageSource.getMessage("header.title.forbidden", null, locale));
-		security.setForbiddenPageText(coreMessageSource.getMessage("forbidden.content.text", null, locale));
-
-		security.setTimeoutPageTitle(coreMessageSource.getMessage("header.title.timeout", null, locale));
-		security.setTimeoutPageText(coreMessageSource.getMessage("timeout.content.text", null, locale));
-
-		security.setForgottenPasswordPageTitle(coreMessageSource.getMessage("header.title.forgotten.password", null, locale));
-		security.setForgottenPasswordPageText(coreMessageSource.getMessage("forgotten.password.content.text", null, locale));
-		security.setEmailOrLoginLabel(coreMessageSource.getMessage("forgotten.password.email.or.login", null, locale));
-		security.setForgottenPasswordEmailSucces(coreMessageSource.getMessage("forgotten.password.email.success", null, locale));
-	    
-		security.setLoginFormTitle(coreMessageSource.getMessage("login.form.login.title", null, locale));
 		security.setLoginUrl(urlService.buildSpringSecurityCheckUrl(request, marketPlace, market, marketArea, localization, retailer));
-		security.setLoginLabel(coreMessageSource.getMessage("login.form.login.label", null, locale));
 		security.setForgottenPasswordUrl(urlService.buildForgottenPasswordUrl(request, marketPlace, market, marketArea, localization, retailer));
-		security.setForgottenPasswordLabel(coreMessageSource.getMessage("login.form.forgotten.password.label", null, locale));
-		security.setPasswordLabel(coreMessageSource.getMessage("login.form.password.label", null, locale));
-		security.setRememberLabel(coreMessageSource.getMessage("login.form.remember.label", null, locale));
-		security.setSubmitLabel(coreMessageSource.getMessage("login.form.login.submit", null, locale));
 		
 		return security;
 	}
@@ -757,15 +728,15 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	public StoreLocatorViewBean buildStoreLocatorViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final List<Store> stores) throws Exception {
 		
-		final WebCacheHelper.ElementType storeLocatorElementType = WebCacheHelper.ElementType.STORE_VIEW_BEAN_LIST;
+		final WebElementType storeLocatorElementType = WebElementType.STORE_VIEW_BEAN_LIST;
 		final String storeLocatorPrefixCacheKey = storeLocatorCacheHelper.buildGlobalPrefixKey(localization);
 		final String storeLocatorCacheKey = storeLocatorPrefixCacheKey + "_STORE_LOCATOR";
 		StoreLocatorViewBean storeLocator = (StoreLocatorViewBean) storeLocatorCacheHelper.getFromCache(storeLocatorElementType, storeLocatorCacheKey);
 		if(storeLocator == null){
 			final Locale locale = localization.getLocale();
 			storeLocator = new StoreLocatorViewBean();
-			storeLocator.setPageTitle(coreMessageSource.getMessage("header.title.store.location", null, locale));
-			storeLocator.setTextHtml(coreMessageSource.getMessage("store.location.content.text", null, locale));
+			storeLocator.setPageTitle(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "header.title", locale));
+			storeLocator.setTextHtml(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "content.text", locale));
 			for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
 				final Store store = (Store) iterator.next();
 				storeLocator.getStores().add(buildStoreViewBean(request, marketPlace, market, marketArea, localization, retailer, store));
@@ -810,16 +781,16 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
-		customerViewBean.setFirstnameLabel(coreMessageSource.getMessage("customer.details.firstname.label", null, locale));
+		customerViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "firstname.label", locale));
 		customerViewBean.setFirstnameValue(customer.getFirstname());
 
-		customerViewBean.setLastnameLabel(coreMessageSource.getMessage("customer.details.lastname.label", null, locale));
+		customerViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "lastname.label", locale));
 		customerViewBean.setLastnameValue(customer.getLastname());
 
-		customerViewBean.setEmailLabel(coreMessageSource.getMessage("customer.details.email.label", null, locale));
+		customerViewBean.setEmailLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "email.label", locale));
 		customerViewBean.setEmailValue(customer.getEmail());
 
-		customerViewBean.setDateCreateLabel(coreMessageSource.getMessage("customer.details.datecreate.label", null, locale));
+		customerViewBean.setDateCreateLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "datecreate.label", locale));
 		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 		if(customer.getDateCreate() != null) {
 			customerViewBean.setDateCreateValue(dateFormat.format(customer.getDateCreate()));
@@ -827,7 +798,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			customerViewBean.setDateCreateValue(Constants.NOT_AVAILABLE);
 		}
 		
-		customerViewBean.setDateUpdateLabel(coreMessageSource.getMessage("customer.details.dateupdate.label", null, locale));
+		customerViewBean.setDateUpdateLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "dateupdate.label", locale));
 		if(customer.getDateUpdate() != null) {
 			customerViewBean.setDateUpdateValue(dateFormat.format(customer.getDateUpdate()));
 		} else {
@@ -835,7 +806,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		
 		final ValueBean customerScreenNameValueBean = new ValueBean();
-		customerScreenNameValueBean.setKey(coreMessageSource.getMessage("customer.details.screenname.label", null, locale));
+		customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
 		customerScreenNameValueBean.setValue(customer.getScreenName());
 		customerViewBean.getCustomerAttributes().put("screenName", customerScreenNameValueBean);
 		
@@ -911,32 +882,32 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final CustomerCreateAccountViewBean customerCreateAccountViewBean = new CustomerCreateAccountViewBean();
-		customerCreateAccountViewBean.setTitleLabel(coreMessageSource.getMessage("form.customer.create.account.label.title", null, locale));
-		customerCreateAccountViewBean.setLastnameLabel(coreMessageSource.getMessage("form.customer.create.account.label.lastname", null, locale));
-		customerCreateAccountViewBean.setFirstnameLabel(coreMessageSource.getMessage("form.customer.create.account.label.firstname", null, locale));
+		customerCreateAccountViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.title", locale));
+		customerCreateAccountViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.lastname", locale));
+		customerCreateAccountViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.firstname", locale));
 		
-		customerCreateAccountViewBean.setAddress1Label(coreMessageSource.getMessage("form.customer.create.account.label.address1", null, locale));
-		customerCreateAccountViewBean.setAddress2Label(coreMessageSource.getMessage("form.customer.create.account.label.address2", null, locale));
-		customerCreateAccountViewBean.setAddressAdditionalInformationLabel(coreMessageSource.getMessage("form.customer.create.account.label.address.additional.information", null, locale));
-		customerCreateAccountViewBean.setPostalCodeLabel(coreMessageSource.getMessage("form.customer.create.account.label.postal.code", null, locale));
-		customerCreateAccountViewBean.setCityLabel(coreMessageSource.getMessage("form.customer.create.account.label.city", null, locale));
-		customerCreateAccountViewBean.setCountyCodeLabel(coreMessageSource.getMessage("form.customer.create.account.label.county.code", null, locale));
-		customerCreateAccountViewBean.setCountryCodeLabel(coreMessageSource.getMessage("form.customer.create.account.label.country.code", null, locale));
+		customerCreateAccountViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address1", locale));
+		customerCreateAccountViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address2", locale));
+		customerCreateAccountViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address.additional.information", locale));
+		customerCreateAccountViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.postal.code", locale));
+		customerCreateAccountViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.city", locale));
+		customerCreateAccountViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.county.code", locale));
+		customerCreateAccountViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.country.code", locale));
 		
-		customerCreateAccountViewBean.setEmailLabel(coreMessageSource.getMessage("form.customer.create.account.label.email", null, locale));
-		customerCreateAccountViewBean.setPasswordLabel(coreMessageSource.getMessage("form.customer.create.account.label.password", null, locale));
+		customerCreateAccountViewBean.setEmailLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.email", locale));
+		customerCreateAccountViewBean.setPasswordLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.password", locale));
 		
-		customerCreateAccountViewBean.setPhoneLabel(coreMessageSource.getMessage("form.customer.create.account.label.phone", null, locale));
-		customerCreateAccountViewBean.setFaxLabel(coreMessageSource.getMessage("form.customer.create.account.label.fax", null, locale));
-		customerCreateAccountViewBean.setMobileLabel(coreMessageSource.getMessage("form.customer.create.account.label.mobile", null, locale));
+		customerCreateAccountViewBean.setPhoneLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.phone", locale));
+		customerCreateAccountViewBean.setFaxLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.fax", locale));
+		customerCreateAccountViewBean.setMobileLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.mobile", locale));
 
-		customerCreateAccountViewBean.setOptinLabel(coreMessageSource.getMessage("form.customer.create.account.label.optin", null, locale));
+		customerCreateAccountViewBean.setOptinLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.optin", locale));
 
-		customerCreateAccountViewBean.setSuccessMessage(coreMessageSource.getMessage("form.customer.create.account.success.message", null, locale));
-		customerCreateAccountViewBean.setFailMessage(coreMessageSource.getMessage("form.customer.create.account.fail.message", null, locale));
+		customerCreateAccountViewBean.setSuccessMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.success.message", locale));
+		customerCreateAccountViewBean.setFailMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.fail.message", locale));
 
-		customerCreateAccountViewBean.setSubmitLabel(coreMessageSource.getMessage("form.customer.create.account.label.submit", null, locale));
-		customerCreateAccountViewBean.setCancelLabel(coreMessageSource.getMessage("form.customer.create.account.label.cancel", null, locale));
+		customerCreateAccountViewBean.setSubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.submit", locale));
+		customerCreateAccountViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.cancel", locale));
 		customerCreateAccountViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		return customerCreateAccountViewBean;
@@ -950,25 +921,25 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final CustomerAddressFormViewBean customerAddAddressViewBean = new CustomerAddressFormViewBean();
-		customerAddAddressViewBean.setAddressNameLabel(coreMessageSource.getMessage("form.customer.address.label.address.name", null, locale));
-		customerAddAddressViewBean.setTitleLabel(coreMessageSource.getMessage("form.customer.address.label.title", null, locale));
-		customerAddAddressViewBean.setLastnameLabel(coreMessageSource.getMessage("form.customer.address.label.lastname", null, locale));
-		customerAddAddressViewBean.setFirstnameLabel(coreMessageSource.getMessage("form.customer.address.label.firstname", null, locale));
+		customerAddAddressViewBean.setAddressNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address.name", locale));
+		customerAddAddressViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.title", locale));
+		customerAddAddressViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.lastname", locale));
+		customerAddAddressViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.firstname", locale));
 		
-		customerAddAddressViewBean.setAddress1Label(coreMessageSource.getMessage("form.customer.address.label.address1", null, locale));
-		customerAddAddressViewBean.setAddress2Label(coreMessageSource.getMessage("form.customer.address.label.address2", null, locale));
-		customerAddAddressViewBean.setAddressAdditionalInformationLabel(coreMessageSource.getMessage("form.customer.address.label.address.additional.information", null, locale));
-		customerAddAddressViewBean.setPostalCodeLabel(coreMessageSource.getMessage("form.customer.address.label.postal.code", null, locale));
-		customerAddAddressViewBean.setCityLabel(coreMessageSource.getMessage("form.customer.address.label.city", null, locale));
-		customerAddAddressViewBean.setCountyCodeLabel(coreMessageSource.getMessage("form.customer.address.label.county.code", null, locale));
-		customerAddAddressViewBean.setCountryCodeLabel(coreMessageSource.getMessage("form.customer.address.label.country.code", null, locale));
+		customerAddAddressViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address1", locale));
+		customerAddAddressViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address2", locale));
+		customerAddAddressViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address.additional.information", locale));
+		customerAddAddressViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.postal.code", locale));
+		customerAddAddressViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.city", locale));
+		customerAddAddressViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.county.code", locale));
+		customerAddAddressViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.country.code", locale));
 		
-		customerAddAddressViewBean.setSuccessMessage(coreMessageSource.getMessage("form.customer.address.success.message", null, locale));
-		customerAddAddressViewBean.setFailMessage(coreMessageSource.getMessage("form.customer.address.fail.message", null, locale));
+		customerAddAddressViewBean.setSuccessMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.success.message", locale));
+		customerAddAddressViewBean.setFailMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.fail.message", locale));
 
-		customerAddAddressViewBean.setCreateLabel(coreMessageSource.getMessage("form.customer.address.label.create", null, locale));
-		customerAddAddressViewBean.setUpdateLabel(coreMessageSource.getMessage("form.customer.address.label.update", null, locale));
-		customerAddAddressViewBean.setCancelLabel(coreMessageSource.getMessage("form.customer.address.label.cancel", null, locale));
+		customerAddAddressViewBean.setCreateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.create", locale));
+		customerAddAddressViewBean.setUpdateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.update", locale));
+		customerAddAddressViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.cancel", locale));
 		customerAddAddressViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		return customerAddAddressViewBean;
@@ -982,21 +953,21 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
-		customerAddressListViewBean.setAddressNameLabel(coreMessageSource.getMessage("customer.address.list.label.address.name", null, locale));
-		customerAddressListViewBean.setTitleLabel(coreMessageSource.getMessage("customer.address.list.label.title", null, locale));
-		customerAddressListViewBean.setLastnameLabel(coreMessageSource.getMessage("customer.address.list.label.lastname", null, locale));
-		customerAddressListViewBean.setFirstnameLabel(coreMessageSource.getMessage("customer.address.list.label.firstname", null, locale));
+		customerAddressListViewBean.setAddressNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address.name", locale));
+		customerAddressListViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.title", locale));
+		customerAddressListViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.lastname", locale));
+		customerAddressListViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.firstname", locale));
 		
-		customerAddressListViewBean.setAddress1Label(coreMessageSource.getMessage("customer.address.list.label.address1", null, locale));
-		customerAddressListViewBean.setAddress2Label(coreMessageSource.getMessage("customer.address.list.label.address2", null, locale));
-		customerAddressListViewBean.setAddressAdditionalInformationLabel(coreMessageSource.getMessage("customer.address.list.label.address.additional.information", null, locale));
-		customerAddressListViewBean.setPostalCodeLabel(coreMessageSource.getMessage("customer.address.list.label.postal.code", null, locale));
-		customerAddressListViewBean.setCityLabel(coreMessageSource.getMessage("customer.address.list.label.city", null, locale));
-		customerAddressListViewBean.setCountyCodeLabel(coreMessageSource.getMessage("customer.address.list.label.county.code", null, locale));
-		customerAddressListViewBean.setCountryCodeLabel(coreMessageSource.getMessage("customer.address.list.label.country.code", null, locale));
+		customerAddressListViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address1", locale));
+		customerAddressListViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address2", locale));
+		customerAddressListViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address.additional.information", locale));
+		customerAddressListViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.postal.code", locale));
+		customerAddressListViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.city", locale));
+		customerAddressListViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.county.code", locale));
+		customerAddressListViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.country.code", locale));
 
-		customerAddressListViewBean.setDefaultShippingAddressLabel(coreMessageSource.getMessage("customer.address.list.label.default.shipping.address", null, locale));
-		customerAddressListViewBean.setDefaultBillingAddressLabel(coreMessageSource.getMessage("customer.address.list.label.default.billing.address", null, locale));
+		customerAddressListViewBean.setDefaultShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.default.shipping.address", locale));
+		customerAddressListViewBean.setDefaultBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.default.billing.address", locale));
 
 		customerAddressListViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
@@ -1044,10 +1015,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		Long customerAddressId = customerAddress.getId();
 		
-		customerAddressViewBean.setEditLabel(coreMessageSource.getMessage("form.customer.address.label.edit", null, locale));
+		customerAddressViewBean.setEditLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.edit", locale));
 		customerAddressViewBean.setEditUrl(urlService.buildCustomerEditAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
 
-		customerAddressViewBean.setDeleteLabel(coreMessageSource.getMessage("form.customer.address.label.delete", null, locale));
+		customerAddressViewBean.setDeleteLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.delete", locale));
 		customerAddressViewBean.setDeleteUrl(urlService.buildCustomerDeleteAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
 		
 		return customerAddressViewBean;
@@ -1057,13 +1028,13 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ConditionsViewBean buildConditionsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
+			 										  final Localization localization, final Retailer retailer) throws Exception {
 		final Locale locale = localization.getLocale();
 		
 		final ConditionsViewBean conditions = new ConditionsViewBean();
 		
-		conditions.setPageTitle(coreMessageSource.getMessage("header.title.conditionsofuse", null, locale));
-		conditions.setTextHtml(coreMessageSource.getMessage("conditionsofuse.content.text", null, locale));
+		conditions.setPageTitle(getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, "header.title", locale));
+		conditions.setTextHtml(getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, "content.text", locale));
 		
 		return conditions;
 	}
@@ -1072,7 +1043,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductBrandViewBean buildProductBrandViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer, final ProductBrand productBrand) throws Exception {
+			 											  final Localization localization, final Retailer retailer, final ProductBrand productBrand) throws Exception {
 		final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
 		productBrandViewBean.setName(productBrand.getName());
 		productBrandViewBean.setDescription(productBrand.getDescription());
@@ -1083,7 +1054,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductBrandViewBean buildProductBrandViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
+			 											  final Localization localization, final Retailer retailer, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
 		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(request, marketPlace, market, marketArea, localization, retailer, productBrand);
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
 			final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
@@ -1097,7 +1068,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
      * 
      */
 	public ProductCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory) throws Exception {
+			 														  final Localization localization, final Retailer retailer, final CatalogCategoryVirtual productCategory) throws Exception {
 		final ProductCategoryViewBean productCategoryViewBean = buildProductCategoryViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory);
 		return productCategoryViewBean;
 	}
@@ -1114,24 +1085,23 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productCategoryViewBean.setDescription(productCategory.getDescription());
 		productCategoryViewBean.setRoot(productCategory.isRoot());
 		
-		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductAsset defaultBackgroundImage = productCategory.getDefaultBackgroundImage();
+		final Asset defaultBackgroundImage = productCategory.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			final String backgroundImage = requestUtil.getCatalogImageWebPath(request, defaultBackgroundImage);
 			productCategoryViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productCategoryViewBean.setBackgroundImage("");
 		}
-		final ProductAsset defaultPaskshotImage = productCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final Asset defaultPaskshotImage = productCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
 		if(defaultPaskshotImage != null){
-			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			final String carouselImage =requestUtil.getCatalogImageWebPath(request, defaultPaskshotImage);
 			productCategoryViewBean.setCarouselImage(carouselImage);
 		} else {
 			productCategoryViewBean.setCarouselImage("");
 		}
-		final ProductAsset defaultIconImage = productCategory.getDefaultIconImage();
+		final Asset defaultIconImage = productCategory.getDefaultIconImage();
 		if(defaultIconImage != null){
-			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			final String iconImage = requestUtil.getCatalogImageWebPath(request, defaultIconImage);
 			productCategoryViewBean.setIconImage(iconImage);
 		} else {
 			productCategoryViewBean.setIconImage("");
@@ -1180,24 +1150,23 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productMarketingViewBean.setName(productMarketing.getI18nName(localeCode));
 		productMarketingViewBean.setDescription(productMarketing.getDescription());
 		
-		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductAsset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+		final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			final String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			final String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
 			productMarketingViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productMarketingViewBean.setBackgroundImage("");
 		}
-		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
 		if(defaultPaskshotImage != null){
-			final String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			final String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
 			productMarketingViewBean.setCarouselImage(carouselImage);
 		} else {
 			productMarketingViewBean.setCarouselImage("");
 		}
-		final ProductAsset defaultIconImage = productMarketing.getDefaultIconImage();
+		final Asset defaultIconImage = productMarketing.getDefaultIconImage();
 		if(defaultIconImage != null){
-			final String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			final String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
 			productMarketingViewBean.setIconImage(iconImage);
 		} else {
 			productMarketingViewBean.setIconImage("");
@@ -1225,11 +1194,11 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			}
 		}
 
-		Set<ProductCrossLink> productCrossLinks = productMarketing.getProductCrossLinks();
+		Set<ProductAssociationLink> productCrossLinks = productMarketing.getProductAssociationLinks();
 		if(productCrossLinks != null) {
-			for (Iterator<ProductCrossLink> iterator = productCrossLinks.iterator(); iterator.hasNext();) {
-				final ProductCrossLink productCrossLink = (ProductCrossLink) iterator.next();
-				if(productCrossLink.getType().equals("CROSSSELL")) {
+			for (Iterator<ProductAssociationLink> iterator = productCrossLinks.iterator(); iterator.hasNext();) {
+				final ProductAssociationLink productCrossLink = (ProductAssociationLink) iterator.next();
+				if(productCrossLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
 					productMarketingViewBean.getProductCrossLinks().add(buildProductCrossLinkViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing));
 				}
 			}
@@ -1258,17 +1227,17 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		
 		final CartViewBean cartViewBean = new CartViewBean();
 
-		cartViewBean.setOrderItemNameLabel(coreMessageSource.getMessage("shoppingcart.item.sku.label", null, locale));
-		cartViewBean.setOrderItemQuantityLabel(coreMessageSource.getMessage("shoppingcart.item.quantity.label", null, locale));
-		cartViewBean.setOrderItemDeleteActionLabel(coreMessageSource.getMessage("shoppingcart.item.remove.label", null, locale));
-		cartViewBean.setOrderItemPriceLabel(coreMessageSource.getMessage("shoppingcart.item.price", null, locale));
-		cartViewBean.setOrderItemSubTotalLabel(coreMessageSource.getMessage("shoppingcart.item.subtotal", null, locale));
+		cartViewBean.setOrderItemNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.sku.label", locale));
+		cartViewBean.setOrderItemQuantityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.quantity.label", locale));
+		cartViewBean.setOrderItemDeleteActionLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.remove.label", locale));
+		cartViewBean.setOrderItemPriceLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.price", locale));
+		cartViewBean.setOrderItemSubTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.subtotal", locale));
 		
-		cartViewBean.setCartItemsTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.without.shippings", null, locale));
-		cartViewBean.setCartTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.total", null, locale));
+		cartViewBean.setCartItemsTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.without.shippings", locale));
+		cartViewBean.setCartTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.total", locale));
 
-		cartViewBean.setShippingAddressLabel(coreMessageSource.getMessage("shoppingcart.shipping.address", null, locale));
-		cartViewBean.setBillingAddressLabel(coreMessageSource.getMessage("shoppingcart.billing.address", null, locale));
+		cartViewBean.setShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.shipping.address", locale));
+		cartViewBean.setBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.billing.address", locale));
 
 		cartViewBean.setCartDetailsUrl(urlService.buildCartDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 		cartViewBean.setCartAuthUrl(urlService.buildCartAuthUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -1277,14 +1246,14 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		cartViewBean.setAddNewAddressUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
-		cartViewBean.setAddNewAddressLabel(coreMessageSource.getMessage("shoppingcart.add.new.address", null, locale));
+		cartViewBean.setAddNewAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.add.new.address", locale));
 
-		cartViewBean.setCardHolderLabel(coreMessageSource.getMessage("shoppingcart.payment.card.holder", null, locale));
-		cartViewBean.setCardNumberLabel(coreMessageSource.getMessage("shoppingcart.payment.card.number", null, locale));
-		cartViewBean.setCardCryptoLabel(coreMessageSource.getMessage("shoppingcart.payment.card.crypto", null, locale));
-		cartViewBean.setCardExpirationDateLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.date", null, locale));
-		cartViewBean.setCardExpirationMonthLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.month", null, locale));
-		cartViewBean.setCardExpirationYearLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.year", null, locale));
+		cartViewBean.setCardHolderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.holder", locale));
+		cartViewBean.setCardNumberLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.number", locale));
+		cartViewBean.setCardCryptoLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.crypto", locale));
+		cartViewBean.setCardExpirationDateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.date", locale));
+		cartViewBean.setCardExpirationMonthLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.month", locale));
+		cartViewBean.setCardExpirationYearLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.year", locale));
 
 		// ITEMS PART
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
@@ -1321,7 +1290,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
 				}
 				Object[] params = {shipping.getName()};
-				cartShippingViewBean.setCartShippingTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.shippings", params, locale));
+				cartShippingViewBean.setCartShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
 				cartShippingViewBeans.add(cartShippingViewBean);
 			}
 			cartViewBean.setCartShippings(cartShippingViewBeans);
@@ -1340,7 +1309,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 				cartFeesTotal = cartFeesTotal.add(taxesCalc);
 				Object[] params = {tax.getName()};
 				cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
-				cartTaxViewBean.setCartTaxTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.taxes", params, locale));
+				cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
 				cartTaxViewBeans.add(cartTaxViewBean);
 			}
 			cartViewBean.setCartTaxes(cartTaxViewBeans);
@@ -1353,9 +1322,9 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		cartViewBean.setCartFeesTotal(formatter.format(cartFeesTotal));
 		cartViewBean.setCartTotal(formatter.format(carTotal));
 		
-		cartViewBean.setStep1SubmitLabel(coreMessageSource.getMessage("shoppingcart.step1.submit.label", null, locale));
-		cartViewBean.setStep2SubmitLabel(coreMessageSource.getMessage("shoppingcart.step2.submit.label", null, locale));
-		cartViewBean.setStep3SubmitLabel(coreMessageSource.getMessage("shoppingcart.step3.submit.label", null, locale));
+		cartViewBean.setStep1SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step1.submit.label", locale));
+		cartViewBean.setStep2SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step2.submit.label", locale));
+		cartViewBean.setStep3SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step3.submit.label", locale));
 		
 		return cartViewBean;
 	}
@@ -1386,7 +1355,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		
 		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, cartItem.getProductSkuCode()));
-		cartItemViewBean.setDeleteLabel(coreMessageSource.getMessage("shoppingcart.delete.from.cart", null, locale));
+		cartItemViewBean.setDeleteLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.delete.from.cart", locale));
 		
 		return cartItemViewBean;
 	}
@@ -1413,24 +1382,24 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String orderId = order.getId().toString();
 		final OrderViewBean orderViewBean = new OrderViewBean();
 
-		orderViewBean.setOrderItemNameLabel(coreMessageSource.getMessage("shoppingcart.item.sku.label", null, locale));
-		orderViewBean.setOrderItemQuantityLabel(coreMessageSource.getMessage("shoppingcart.item.quantity.label", null, locale));
-		orderViewBean.setOrderItemDeleteActionLabel(coreMessageSource.getMessage("shoppingcart.item.remove.label", null, locale));
-		orderViewBean.setOrderItemPriceLabel(coreMessageSource.getMessage("shoppingcart.item.price", null, locale));
-		orderViewBean.setOrderItemSubTotalLabel(coreMessageSource.getMessage("shoppingcart.item.subtotal", null, locale));
+		orderViewBean.setOrderItemNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.sku.label", locale));
+		orderViewBean.setOrderItemQuantityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.quantity.label", locale));
+		orderViewBean.setOrderItemDeleteActionLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.remove.label", locale));
+		orderViewBean.setOrderItemPriceLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.price", locale));
+		orderViewBean.setOrderItemSubTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.subtotal", locale));
 		
-		orderViewBean.setOrderItemsTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.without.shippings", null, locale));
-		orderViewBean.setOrderTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.total", null, locale));
+		orderViewBean.setOrderItemsTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.without.shippings", locale));
+		orderViewBean.setOrderTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.total", locale));
 
-		orderViewBean.setShippingAddressLabel(coreMessageSource.getMessage("shoppingcart.shipping.address", null, locale));
-		orderViewBean.setBillingAddressLabel(coreMessageSource.getMessage("shoppingcart.billing.address", null, locale));
+		orderViewBean.setShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.shipping.address", locale));
+		orderViewBean.setBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.billing.address", locale));
 
-		orderViewBean.setCardHolderLabel(coreMessageSource.getMessage("shoppingcart.payment.card.holder", null, locale));
-		orderViewBean.setCardNumberLabel(coreMessageSource.getMessage("shoppingcart.payment.card.number", null, locale));
-		orderViewBean.setCardCryptoLabel(coreMessageSource.getMessage("shoppingcart.payment.card.crypto", null, locale));
-		orderViewBean.setCardExpirationDateLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.date", null, locale));
-		orderViewBean.setCardExpirationMonthLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.month", null, locale));
-		orderViewBean.setCardExpirationYearLabel(coreMessageSource.getMessage("shoppingcart.payment.card.expiration.year", null, locale));
+		orderViewBean.setCardHolderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.holder", locale));
+		orderViewBean.setCardNumberLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.number", locale));
+		orderViewBean.setCardCryptoLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.crypto", locale));
+		orderViewBean.setCardExpirationDateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.date", locale));
+		orderViewBean.setCardExpirationMonthLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.month", locale));
+		orderViewBean.setCardExpirationYearLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.year", locale));
 
 		// ITEMS PART
 		final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
@@ -1467,7 +1436,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 					orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
 				}
 				Object[] params = {orderShipment.getName()};
-				orderShippingViewBean.setOrderShippingTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.shippings", params, locale));
+				orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
 				orderShippingViewBeans.add(orderShippingViewBean);
 			}
 			orderViewBean.setOrderShippings(orderShippingViewBeans);
@@ -1486,7 +1455,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 				orderFeesTotal = orderFeesTotal.add(taxesCalc);
 				Object[] params = {orderTax.getName()};
 				orderTaxViewBean.setOrderTaxTotal(formatter.format(taxesCalc));
-				orderTaxViewBean.setOrderTaxTotalLabel(coreMessageSource.getMessage("shoppingcart.amount.taxes", params, locale));
+				orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
 				orderTaxViewBeans.add(orderTaxViewBean);
 			}
 			orderViewBean.setOrderTaxes(orderTaxViewBeans);
@@ -1500,7 +1469,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		orderViewBean.setOrderTotal(formatter.format(orderTotal));
 
 		final Object[] params = {order.getOrderNum()};
-		orderViewBean.setConfirmationMessage(coreMessageSource.getMessage("order.confirmation.message", params, locale));
+		orderViewBean.setConfirmationMessage(getSpecificMessage(ScopeWebMessage.COMMON, "order.confirmation.message", params, locale));
 
 		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId));
 		
@@ -1553,24 +1522,23 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productCrossLinkViewBean.setName(productMarketing.getI18nName(localeCode));
 		productCrossLinkViewBean.setDescription(productMarketing.getDescription());
 		
-		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductAsset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+		final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
 			productCrossLinkViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productCrossLinkViewBean.setBackgroundImage("");
 		}
-		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
 		if(defaultPaskshotImage != null){
-			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
 			productCrossLinkViewBean.setCrossLinkImage(carouselImage);
 		} else {
 			productCrossLinkViewBean.setCrossLinkImage("");
 		}
-		final ProductAsset defaultIconImage = productMarketing.getDefaultIconImage();
+		final Asset defaultIconImage = productMarketing.getDefaultIconImage();
 		if(defaultIconImage != null){
-			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
 			productCrossLinkViewBean.setIconImage(iconImage);
 		} else {
 			productCrossLinkViewBean.setIconImage("");
@@ -1598,24 +1566,23 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		productSkuViewBean.setName(productSku.getI18nName(localeCode));
 		productSkuViewBean.setDescription(productSku.getDescription());
 		
-		final String currentCatalogResourcePrefixPath = requestUtil.getCurrentCatalogImageResourcePrefixPath(request, marketArea.getCode());
-		final ProductAsset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
+		final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
 		if(defaultBackgroundImage != null){
-			String backgroundImage = currentCatalogResourcePrefixPath + defaultBackgroundImage.getPath();
+			String backgroundImage = requestUtil.getProductSkuImageWebPath(request, defaultBackgroundImage);
 			productSkuViewBean.setBackgroundImage(backgroundImage);
 		} else {
 			productSkuViewBean.setBackgroundImage("");
 		}
-		final ProductAsset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
+		final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
 		if(defaultPaskshotImage != null){
-			String carouselImage = currentCatalogResourcePrefixPath + defaultPaskshotImage.getPath();
+			String carouselImage = requestUtil.getProductSkuImageWebPath(request, defaultPaskshotImage);
 			productSkuViewBean.setCarouselImage(carouselImage);
 		} else {
 			productSkuViewBean.setCarouselImage("");
 		}
-		final ProductAsset defaultIconImage = productSku.getDefaultIconImage();
+		final Asset defaultIconImage = productSku.getDefaultIconImage();
 		if(defaultIconImage != null){
-			String iconImage = currentCatalogResourcePrefixPath + defaultIconImage.getPath();
+			String iconImage = requestUtil.getProductSkuImageWebPath(request, defaultIconImage);
 			productSkuViewBean.setIconImage(iconImage);
 		} else {
 			productSkuViewBean.setIconImage("");
@@ -1628,19 +1595,19 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final String productSkuName = productSku.getI18nName(localeCode);
 		final String productSkuCode = productSku.getCode();
 		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
-		productSkuViewBean.setProductDetailsLabel(coreMessageSource.getMessage("product.details", null, locale));
+		productSkuViewBean.setProductDetailsLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.details", locale));
 
 		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
-		productSkuViewBean.setAddToCartLabel(coreMessageSource.getMessage("product.add.to.cart", null, locale));
+		productSkuViewBean.setAddToCartLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.add.to.cart", locale));
 
 		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
-		productSkuViewBean.setRemoveFromCartLabel(coreMessageSource.getMessage("product.remove.from.cart", null, locale));
+		productSkuViewBean.setRemoveFromCartLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.remove.from.cart", locale));
 		
 		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
-		productSkuViewBean.setAddToWishlistLabel(coreMessageSource.getMessage("product.add.to.wishlist", null, locale));
+		productSkuViewBean.setAddToWishlistLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.add.to.wishlist", locale));
 
 		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
-		productSkuViewBean.setRemoveFromWishlistLabel(coreMessageSource.getMessage("product.remove.from.wishlist", null, locale));
+		productSkuViewBean.setRemoveFromWishlistLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.remove.from.wishlist", locale));
 
 		return productSkuViewBean;
 	}
@@ -1655,7 +1622,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		final Locale locale = localization.getLocale();
 		
 		final SearchViewBean search = new SearchViewBean();
-		search.setTextLabel(coreMessageSource.getMessage("form.search.label.text", null, locale));
+		search.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
 
 		return search;
 	}
@@ -1667,7 +1634,7 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			final Localization localization, final Retailer retailer) throws Exception {
 		final Locale locale = localization.getLocale();
 		final QuickSearchViewBean quickSsearch = new QuickSearchViewBean();
-		quickSsearch.setTextLabel(coreMessageSource.getMessage("form.search.label.text", null, locale));
+		quickSsearch.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
 		quickSsearch.setUrlFormSubmit(urlService.buildSearchUrl(request, marketPlace, market, marketArea, localization, retailer));
 		return quickSsearch;
 	}

@@ -29,6 +29,10 @@ public class RuleReferentialServiceImpl implements RuleReferentialService {
 	public AbstractRuleReferential getRuleReferentialByRuleType(String ruleType) {
 		return ruleReferentialDao.getRuleReferentialByRuleType(ruleType);
 	}
+	
+	public AbstractRuleReferential getRuleReferentialByCode(String code) {
+		return ruleReferentialDao.getRuleReferentialByCode(code);
+	}
 
 	public List<AbstractRuleReferential> findRuleReferentials() {
 		return ruleReferentialDao.findRuleReferentials();

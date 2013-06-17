@@ -20,167 +20,200 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 public interface UrlService {
 
 	// COMMON
-	
-	String buildRootUrl(HttpServletRequest request);
-	
-	String buildHomeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 
-	String buildHomeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildOurCompanyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildRootUrl(HttpServletRequest request) throws Exception;
 
-	String buildOurCompanyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildHomeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildClpUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildHomeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildClpUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildOurCompanyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildFollowUsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildOurCompanyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildFollowUsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildClpUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildClpUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildFollowUsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildLegacyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildFollowUsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildLegacyUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildFaqUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildFaqUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildLegalTermsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildStoreLocationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildLegalTermsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildStoreLocationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildFaqUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildFaqUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildSearchUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildStoreLocationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildSearchUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildStoreLocationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildChangeLanguageUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildChangeLanguageUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
+
+	String buildSearchUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildSearchUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
+
+	String buildChangeLanguageUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildChangeLanguageUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
+
+	String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception;
 
 	// CATALOG
-	
-	String buildProductBrandLineUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String brandName, String brandCode);
-	
-	String buildProductBrandLineUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String brandName, String brandCode, boolean keepCurrentDomainName);
 
-	String buildProductBrandDetailsUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String brandName, String brandCode);
-	
-	String buildProductBrandDetailsUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String brandName, String brandCode, boolean keepCurrentDomainName);
-	
-	String buildProductCategoryUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode);
+	String buildProductBrandLineUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String brandName, String brandCode) throws Exception;
 
-	String buildProductCategoryUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, boolean keepCurrentDomainName);
-	
-	String buildProductCategoryUrlAsProductLineUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode);
+	String buildProductBrandLineUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String brandName, String brandCode, boolean keepCurrentDomainName) throws Exception;
 
-	String buildProductCategoryUrlAsProductLineUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, boolean keepCurrentDomainName);
-	
-	String buildProductUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode);
+	String buildProductBrandDetailsUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String brandName, String brandCode) throws Exception;
 
-	String buildProductUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode, boolean keepCurrentDomainName);
+	String buildProductBrandDetailsUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String brandName, String brandCode, boolean keepCurrentDomainName) throws Exception;
 
-	String buildProductAddToCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode);
+	String buildProductCategoryUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String categoryName, String categoryCode) throws Exception;
 
-	String buildProductAddToCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode, boolean keepCurrentDomainName);
+	String buildProductCategoryUrlAsProductAxeUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String categoryName, String categoryCode, boolean keepCurrentDomainName) throws Exception;
 
-	String buildProductRemoveFromCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode);
+	String buildProductCategoryUrlAsProductLineUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String categoryName, String categoryCode) throws Exception;
 
-	String buildProductRemoveFromCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode, boolean keepCurrentDomainName);
+	String buildProductCategoryUrlAsProductLineUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String categoryName, String categoryCode, boolean keepCurrentDomainName) throws Exception;
 
-	String buildProductAddToWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode);
+	String buildProductUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode) throws Exception;
 
-	String buildProductAddToWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName, String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode, boolean keepCurrentDomainName);
+	String buildProductUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode, boolean keepCurrentDomainName) throws Exception;
 
-	String buildProductRemoveFromWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode);
+	String buildProductAddToCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode) throws Exception;
 
-	String buildProductRemoveFromWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode, boolean keepCurrentDomainName);
+	String buildProductAddToCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode, boolean keepCurrentDomainName) throws Exception;
+
+	String buildProductRemoveFromCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode)
+	        throws Exception;
+
+	String buildProductRemoveFromCartUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildProductAddToWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode) throws Exception;
+
+	String buildProductAddToWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode, boolean keepCurrentDomainName) throws Exception;
+
+	String buildProductRemoveFromWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode)
+	        throws Exception;
+
+	String buildProductRemoveFromWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode,
+	        boolean keepCurrentDomainName) throws Exception;
 
 	// CART
-	
-	String buildCartDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 
-	String buildCartDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCartDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCartDetailsUpdateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCartDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildCartDetailsUpdateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCartDetailsUpdateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCartAuthUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCartDetailsUpdateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCartAuthUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCartAuthUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCartDeliveryAndOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildCartDeliveryAndOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCartAuthUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
-	String buildCartOrderPaymentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCartDeliveryAndOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCartOrderPaymentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildCartOrderConfirmationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCartDeliveryAndOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCartOrderConfirmationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
+	String buildCartOrderPaymentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCartOrderPaymentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCartOrderConfirmationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCartOrderConfirmationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
 	// CUSTOMER
-	
-	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 
-	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId);
-	
-	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId, boolean keepCurrentDomainName);
-	
-	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
+	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId) throws Exception;
 
-	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName);
-	
-	String buildCustomerEditAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String customerAddressId);
+	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId,
+	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCustomerDeleteAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String customerAddressId);
+	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        boolean keepCurrentDomainName) throws Exception;
+
+	String buildCustomerEditAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String customerAddressId) throws Exception;
+
+	String buildCustomerDeleteAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	        String customerAddressId) throws Exception;
 
 	// SECURITY
-	
-	String buildLoginUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildLogoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildForbiddenUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
 
-	String buildTimeoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildLoginUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
-	String buildForgottenPasswordUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
-	String buildSpringSecurityCheckUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-	
+	String buildLogoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildForbiddenUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildTimeoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildForgottenPasswordUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
+	String buildSpringSecurityCheckUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+
 }

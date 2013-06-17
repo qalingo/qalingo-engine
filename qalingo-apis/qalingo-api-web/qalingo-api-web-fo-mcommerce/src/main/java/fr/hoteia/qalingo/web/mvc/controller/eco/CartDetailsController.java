@@ -27,13 +27,13 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class CartDetailsController extends AbstractQalingoController {
+public class CartDetailsController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -87,8 +87,7 @@ public class CartDetailsController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
 		}
 		
-		final String titleKeyPrefixSufix = "shoppingcart.details";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "shoppingcart.details";
 		modelAndViewFactory.initCartModelAndView(request, modelAndView);
 		formFactory.buildCartForm(request, modelAndView);
 

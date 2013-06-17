@@ -25,8 +25,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,17 +38,21 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
+import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
+import fr.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @FilterDefs(
 	value = {
 		@FilterDef(name="filterProductMarketingAttributeIsGlobal"),
-		@FilterDef(name="filterProductMarketingAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+		@FilterDef(name="filterProductMarketingAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
+		@FilterDef(name="filterProductMarketingAssetIsGlobal"),
+		@FilterDef(name="filterProductMarketingAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
 public class ProductMarketing implements Serializable {
 
@@ -83,7 +85,11 @@ public class ProductMarketing implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="BRAND_ID", insertable=false, updatable=false)
 	private ProductBrand productBrand;
-	
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETING_TYPE_ID", insertable=false, updatable=false)
+	private ProductMarketingType productMargetingType;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETTING_ID")
 	@Filter(name="filterProductMarketingAttributeIsGlobal", condition="IS_GLOBAL = '1'")
@@ -100,20 +106,20 @@ public class ProductMarketing implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
-	private Set<ProductCrossLink> productCrossLinks = new HashSet<ProductCrossLink>();
+	private Set<ProductAssociationLink> productAssociationLinks = new HashSet<ProductAssociationLink>();
 	
-	@ManyToMany(
-			fetch = FetchType.EAGER,
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductAsset.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_PRODUCT_MARKETING_ASSET_REL",
-	        joinColumns=@JoinColumn(name="PRODUCT_MARKETING_ID"),
-	        inverseJoinColumns=@JoinColumn(name="PRODUCT_ASSET_ID")
-	    )	
-	private Set<ProductAsset> assets = new HashSet<ProductAsset>(); 
-	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
+	@Filter(name="filterProductMarketingAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_MARKETING'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
+	@Filter(name="filterProductMarketingAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_MARKETING'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsByMarketArea = new HashSet<Asset>();  
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -181,6 +187,14 @@ public class ProductMarketing implements Serializable {
 		this.productBrand = productBrand;
 	}
 	
+	public ProductMarketingType getProductMargetingType() {
+		return productMargetingType;
+	}
+	
+	public void setProductMargetingType(ProductMarketingType productMargetingType) {
+		this.productMargetingType = productMargetingType;
+	}
+	
 	public Set<ProductMarketingAttribute> getProductMarketingGlobalAttributes() {
 		return productMarketingGlobalAttributes;
 	}
@@ -225,85 +239,30 @@ public class ProductMarketing implements Serializable {
 		this.productSkus = productSkus;
 	}
 	
-	public Set<ProductCrossLink> getProductCrossLinks() {
-		return productCrossLinks;
+	public Set<ProductAssociationLink> getProductAssociationLinks() {
+		return productAssociationLinks;
 	}
 	
-	public void setProductCrossLinks(Set<ProductCrossLink> productCrossLinks) {
-		this.productCrossLinks = productCrossLinks;
+	public void setProductAssociationLinks(Set<ProductAssociationLink> productAssociationLinks) {
+		this.productAssociationLinks = productAssociationLinks;
 	}
 	
-	public Set<ProductAsset> getAssets() {
-		return assets;
+	public Set<Asset> getAssetsIsGlobal() {
+		return assetsIsGlobal;
 	}
 	
-	public void setAssets(Set<ProductAsset> assets) {
-		this.assets = assets;
+	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
+		this.assetsIsGlobal = assetsIsGlobal;
 	}
 	
-	public ProductAsset getDefaultPaskshotImage(String size) {
-		ProductAsset defaultProductImage = null;
-		if(assets != null
-				&& StringUtils.isNotEmpty(size)){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productImage.getType())
-						&& size.equals(productImage.getSize())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productImage.getType())
-						&& size.equals(productImage.getSize())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public Set<Asset> getAssetsByMarketArea() {
+		return assetsByMarketArea;
 	}
 	
-	public ProductAsset getDefaultBackgroundImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
+		this.assetsByMarketArea = assetsByMarketArea;
 	}
 	
-	public ProductAsset getDefaultIconImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
-
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -417,4 +376,67 @@ public class ProductMarketing implements Serializable {
 		return (Integer) getValue(ProductSkuAttribute.PRODUCT_MARKETING_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
 
+	// ASSET
+	public Asset getDefaultPaskshotImage(ImageSize size) {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null
+				&& size != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productAsset = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productAsset.getType())
+						&& size.equals(productAsset.getSize())
+						&& productAsset.isDefault()){
+					defaultProductImage = productAsset;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productImage.getType())
+						&& size.equals(productImage.getSize())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultBackgroundImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultIconImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
 }

@@ -17,6 +17,8 @@ public interface RuleReferentialDao {
 
 	AbstractRuleReferential getRuleReferentialByRuleType(String ruleType);
 
+	AbstractRuleReferential getRuleReferentialByCode(String code);
+
 	List<AbstractRuleReferential> findRuleReferentials();
 	
 	void saveRuleReferential(AbstractRuleReferential ruleReferential);

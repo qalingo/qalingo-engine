@@ -36,8 +36,16 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.getOrderById(orderId);
 	}
 
+	public Order getOrderByCode(String code) {
+		return orderDao.getOrderByCode(code);
+	}
+	
 	public List<Order> findOrdersByCustomerId(String customerId) {
 		return orderDao.findOrdersByCustomerId(Long.parseLong(customerId));
+	}
+	
+	public List<Order> findOrders() {
+		return orderDao.findOrders();
 	}
 
 	public Order createNewOrder(Order order) {

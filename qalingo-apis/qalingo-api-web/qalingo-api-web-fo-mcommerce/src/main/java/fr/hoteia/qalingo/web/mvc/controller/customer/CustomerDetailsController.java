@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -37,7 +37,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CustomerDetailsController extends AbstractQalingoController {
+public class CustomerDetailsController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
     protected WebCommerceService webCommerceService;
@@ -46,8 +46,7 @@ public class CustomerDetailsController extends AbstractQalingoController {
 	public ModelAndView customerDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
-		final String titleKeyPrefixSufix = "customer.details";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
 
@@ -59,8 +58,7 @@ public class CustomerDetailsController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String titleKeyPrefixSufix = "customer.details";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.details";
 		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
 		formFactory.buildCustomerEditAccountForm(request, customer, modelAndView);
 
@@ -71,8 +69,7 @@ public class CustomerDetailsController extends AbstractQalingoController {
 	public ModelAndView customerEdit(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
-		final String titleKeyPrefixSufix = "customer.details";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
 
@@ -88,12 +85,11 @@ public class CustomerDetailsController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String titleKeyPrefixSufix = "customer.details";
+		// "customer.details";
 
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
 			modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 		

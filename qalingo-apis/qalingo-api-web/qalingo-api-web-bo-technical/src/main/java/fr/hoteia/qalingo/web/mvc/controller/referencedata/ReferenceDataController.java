@@ -23,10 +23,9 @@ import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.CurrencyReferential;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.service.CurrencyReferentialService;
-import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.service.PaymentGatewayService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.viewbean.CurrencyReferentialViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
@@ -35,11 +34,8 @@ import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
  * 
  */
 @Controller
-public class ReferenceDataController extends AbstractQalingoController {
+public class ReferenceDataController extends AbstractTechnicalBackofficeController {
 
-	@Autowired
-	protected LocalizationService localizationService;
-	
 	@Autowired
 	protected CurrencyReferentialService currencyReferentialService;
 
@@ -51,7 +47,6 @@ public class ReferenceDataController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "reference-data/reference-data");
 
 		final String titleKeyPrefixSufix = "technical.reference.datas";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();
 		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(request, currencyReferentials);

@@ -22,13 +22,13 @@ import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.service.LocalizationService;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * Change language
  */
 @Controller
-public class ChangeLanguageController extends AbstractQalingoController {
+public class ChangeLanguageController extends AbstractTechnicalBackofficeController {
 
 	@Autowired
 	protected LocalizationService localizationService;

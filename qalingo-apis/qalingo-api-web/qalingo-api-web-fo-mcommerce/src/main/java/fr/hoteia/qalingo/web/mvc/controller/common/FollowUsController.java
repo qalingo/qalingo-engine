@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.service.EmailService;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class FollowUsController extends AbstractQalingoController {
+public class FollowUsController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
     protected WebCommerceService webCommerceService;
@@ -42,13 +42,12 @@ public class FollowUsController extends AbstractQalingoController {
 	public ModelAndView followUsForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
 		
-		final String titleKeyPrefixSufix = "followus";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "followus";
 		formFactory.buildFollowUsForm(request, modelAndView);
 		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
 		
-		final String contentTest = coreMessageSource.getMessage("followus.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.FOLLOW_US, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}
@@ -57,8 +56,7 @@ public class FollowUsController extends AbstractQalingoController {
 	public ModelAndView followUs(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
 		
-		final String titleKeyPrefixSufix = "followus";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "followus";
 		formFactory.buildFollowUsForm(request, modelAndView);
 		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
 		
@@ -70,19 +68,16 @@ public class FollowUsController extends AbstractQalingoController {
 								BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
 
-		final String titleKeyPrefixSufix = "followus";
+		// "followus";
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
 			return modelAndView;
 		}
 
-		final Locale locale = getCurrentLocale(request);
 		webCommerceService.saveAndBuildNewsletterRegistrationConfirmationMail(request, followUsForm);
 		
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
 
         return modelAndView;

@@ -27,15 +27,18 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.web.factory.AbstractFrontofficeViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.viewbean.CommonViewBean;
-import fr.hoteia.qalingo.web.viewbean.LegacyViewBean;
+import fr.hoteia.qalingo.web.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketPlaceViewBean;
@@ -45,13 +48,10 @@ import fr.hoteia.qalingo.web.viewbean.MarketViewBean;
  * 
  */
 @Service("viewBeanFactory")
-public class ViewBeanFactoryImpl implements ViewBeanFactory {
+public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory implements ViewBeanFactory {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	protected CoreMessageSource coreMessageSource;
-	
 	@Autowired
     protected RequestUtil requestUtil;
 	
@@ -63,7 +63,6 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	
 	@Autowired
     protected UrlService urlService;
-	
 	
 	/**
      * 
@@ -84,19 +83,18 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 	/**
      * 
      */
-	public LegacyViewBean buildLegacyViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
+	public LegalTermsViewBean buildLegalTermsViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
 		
-		final LegacyViewBean legacy = new LegacyViewBean();
+		final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 		
-		legacy.setPageTitle(coreMessageSource.getMessage("header.title.legacy", null, locale));
-		legacy.setTextHtml(coreMessageSource.getMessage("legacy.content.text", null, locale));
+		legalTerms.setPageTitle(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "header.title", locale));
+		legalTerms.setTextHtml(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "content.text", locale));
 
-		legacy.setWarning(coreMessageSource.getMessage("legacy.warning", null, locale));
-		legacy.setCopyright(coreMessageSource.getMessage("footer.copyright", null, locale));
+		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
+		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
 		
-		return legacy;
+		return legalTerms;
 	}
 	
 	/**
@@ -204,10 +202,10 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 			LocalizationViewBean localizationViewBean = new LocalizationViewBean();
 			
 			if(StringUtils.isNotEmpty(localeCode)
-					&& localeCode.length() == 2){
-				localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCode.toLowerCase(), null, locale));
+					&& localeCode.length() == 2) {
+				localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCode.toLowerCase(), locale));
 			} else {
-				localizationViewBean.setName(coreMessageSource.getMessage("languages." + localeCode, null, locale));
+				localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCode, locale));
 			}
 			
 			localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer, false));
@@ -215,4 +213,5 @@ public class ViewBeanFactoryImpl implements ViewBeanFactory {
 		}
 		return localizationViewBeans;
 	}
+	
 }

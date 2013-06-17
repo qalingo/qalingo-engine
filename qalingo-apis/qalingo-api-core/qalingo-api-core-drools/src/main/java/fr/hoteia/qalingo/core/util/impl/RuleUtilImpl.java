@@ -15,8 +15,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderError;
@@ -33,11 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 import fr.hoteia.qalingo.core.domain.RuleRepository;
 import fr.hoteia.qalingo.core.service.RuleRepositoryService;
 import fr.hoteia.qalingo.core.util.RuleUtil;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
  * <p>
@@ -57,12 +53,9 @@ public class RuleUtilImpl implements RuleUtil {
 	protected RuleRepositoryService ruleRepositoryService;
 
 	@Autowired
-	protected RequestUtil requestUtil;
-	
-	@Autowired
 	protected StatefulKnowledgeSession ksession;
 
-	public void handleRuleSession(final HttpServletRequest request){
+	public void handleRuleSession(List<Object> objects){
     	try {
 //    		StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) ctx.getBean("ksessionQalingo");
 
@@ -91,8 +84,10 @@ public class RuleUtilImpl implements RuleUtil {
 			
     		Collection<KnowledgePackage> pkgs = kbuilder.getKnowledgePackages();
     		kbase.addKnowledgePackages(pkgs);
-    		EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
-    		ksession.insert(engineEcoSession);
+    		for (Iterator<Object> iterator = objects.iterator(); iterator.hasNext();) {
+    			Object object = (Object) iterator.next();
+	    		ksession.insert(object);
+			}
     		ksession.fireAllRules();
         		
 		} catch (Exception e) {

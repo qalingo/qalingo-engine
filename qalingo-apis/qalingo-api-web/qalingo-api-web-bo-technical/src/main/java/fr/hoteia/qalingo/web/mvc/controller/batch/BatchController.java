@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 import fr.hoteia.qalingo.core.service.BatchProcessObjectService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
 
@@ -40,17 +40,19 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
  * 
  */
 @Controller
-public class BatchController extends AbstractQalingoController {
+public class BatchController extends AbstractTechnicalBackofficeController {
 
 	@Autowired
 	protected BatchProcessObjectService batchProcessObjectService;
+	
+	@Autowired
+	protected EngineSettingService engineSettingService;
 	
 	@RequestMapping("/search-batch.html*")
 	public ModelAndView searchBatch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
 
 		final String titleKeyPrefixSufix = "search";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
 		formFactory.buildBatchQuickSearchForm(request, modelAndView);
 		
@@ -69,9 +71,8 @@ public class BatchController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "batch.customer.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer.getPropertyKey());
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
@@ -89,9 +90,8 @@ public class BatchController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "batch.order.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Order.getPropertyKey());
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Order);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
@@ -109,9 +109,8 @@ public class BatchController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "batch.email.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Email.getPropertyKey());
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Email);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
@@ -129,9 +128,8 @@ public class BatchController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "batch.cms.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Cms.getPropertyKey());
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Cms);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
@@ -149,9 +147,8 @@ public class BatchController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "batch.stock.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Stock.getPropertyKey());
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Stock);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
@@ -213,27 +210,27 @@ public class BatchController extends AbstractQalingoController {
 		List<LinkMenuViewBean> batchLinks = new ArrayList<LinkMenuViewBean>();
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.customer.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.customer.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCustomerUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.order.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.order.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchOrderUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.email.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.email.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchEmailUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.cms.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.cms.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCmsUrl());
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.stock.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.stock.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchStockUrl());
 		batchLinks.add(linkMenuViewBean);
 		

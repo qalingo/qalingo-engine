@@ -23,13 +23,13 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class TimeoutController extends AbstractQalingoController {
+public class TimeoutController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/timeout.html*")
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -45,8 +45,7 @@ public class TimeoutController extends AbstractQalingoController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
-		final String titleKeyPrefixSufix = "timeout";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "timeout";
 		
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		

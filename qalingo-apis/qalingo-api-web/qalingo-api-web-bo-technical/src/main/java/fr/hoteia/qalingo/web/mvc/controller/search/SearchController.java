@@ -17,16 +17,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class SearchController extends AbstractQalingoController {
+public class SearchController extends AbstractTechnicalBackofficeController {
 
 	@Autowired
 	protected EngineSettingService engineSettingService;
@@ -36,7 +39,6 @@ public class SearchController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-config");
 
 		final String titleKeyPrefixSufix = "solr";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SOLR);
 		String solrUrl = springBatchUrlEngineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_CONTEXT_MASTER).getValue();
@@ -49,11 +51,8 @@ public class SearchController extends AbstractQalingoController {
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search");
 
-		final String titleKeyPrefixSufix = "search";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}

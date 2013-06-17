@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class ReportingController extends AbstractQalingoController {
+public class ReportingController extends AbstractReportingBackofficeController {
 
 	@RequestMapping(value = "/reporting.html*", method = RequestMethod.GET)
 	public ModelAndView reporting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "reporting/reporting");
 		
-		final String titleKeyPrefixSufix = "reporting.reporting";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-        String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.REPORTING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}

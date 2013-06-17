@@ -22,8 +22,6 @@ import fr.hoteia.qalingo.core.domain.ProductMarketing;
 
 public interface ModelAndViewFactory {
 
-	void initCommonModelAndView(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, String customerId) throws Exception;
-
 	void initContactUsModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
 
 	void initSearchModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;

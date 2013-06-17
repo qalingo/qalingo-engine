@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.ProductMarketingDao;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 
 @Service("productMarketingService")
@@ -39,27 +40,21 @@ public class ProductMarketingServiceImpl implements ProductMarketingService {
 		return productMarketingDao.getProductMarketingById(productMarketingId);
 	}
 
-//	public ProductMarketing getProductMarketingByCode(String productMarketingCode) {
-//		return productMarketingDao.getProductMarketingByCode(productMarketingCode);
-//	}
-	
 	public ProductMarketing getProductMarketingByCode(final Long marketAreaId, final Long retailerId, final String productMarketingCode) {
 		return productMarketingDao.getProductMarketingByCode(marketAreaId, retailerId, productMarketingCode);
 	}
-	
-//	public List<ProductMarketing> findProductMarketing(ProductMarketing criteria) {
-//		return productMarketingDao.findByExample(criteria);
-//	}
 	
 	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId) {
 		List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketings(marketAreaId, retailerId);
 		return orderList(marketAreaId, productMarketings);
 	}
 	
+	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId, final String text) {
+		List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketings(marketAreaId, retailerId, text);
+		return orderList(marketAreaId, productMarketings);
+	}
+	
 	public List<ProductMarketing> findProductMarketingsByBrandId(final Long marketAreaId, final Long retailerId, final Long brandId) {
-		
-		// TODO 
-		
 		List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketings(marketAreaId, retailerId);
 		return orderList(marketAreaId, productMarketings);
 	}
@@ -97,4 +92,26 @@ public class ProductMarketingServiceImpl implements ProductMarketingService {
 		return null;
 	}
 
+	// ASSET
+	public Asset getProductMarketingAssetById(final String rawProductMarketingAssetId) {
+		long productMarketingId = -1;
+		try {
+			productMarketingId = Long.parseLong(rawProductMarketingAssetId);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException(e);
+		}
+		return productMarketingDao.getProductMarketingAssetById(productMarketingId);
+	}
+
+	public Asset getProductMarketingAssetByCode(String assetCode) {
+		return productMarketingDao.getProductMarketingAssetByCode(assetCode);
+	}
+	
+	public void saveOrUpdateProductMarketingAsset(Asset productMarketingAsset) {
+		productMarketingDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
+	}
+
+	public void deleteProductMarketingAsset(Asset productMarketingAsset) {
+		productMarketingDao.deleteProductMarketingAsset(productMarketingAsset);
+	}
 }

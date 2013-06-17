@@ -29,35 +29,31 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
-import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 
  */
 @Controller
-public class EngineSettingController extends AbstractQalingoController {
+public class EngineSettingController extends AbstractTechnicalBackofficeController {
 
-	@Autowired
-	protected WebBackofficeService webBackofficeService;
-	
 	@RequestMapping("/search-engine-setting.html*")
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-list");
 
-		final String titleKeyPrefixSufix = "search";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		formFactory.buildEngineSettingQuickSearchForm(request, modelAndView);
 		
@@ -71,7 +67,6 @@ public class EngineSettingController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "engine.setting.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		initLinks(request, modelAndView, locale, null);
 		
 		List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
@@ -121,7 +116,6 @@ public class EngineSettingController extends AbstractQalingoController {
 				final Locale locale = currentLocalization.getLocale();
 				final String titleKeyPrefixSufix = "engine.setting.details";
 
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				initLinks(request, modelAndView, locale, engineSetting);
 				
 				modelAndView.addObject("engineSettingDetails", viewBeanFactory.buildEngineSettingDetailsViewBean(request, currentLocalization));
@@ -156,7 +150,6 @@ public class EngineSettingController extends AbstractQalingoController {
 				modelAndView.addObject("engineSettingValueEdit", viewBeanFactory.buildEngineSettingValueEditViewBean(request, currentLocalization, engineSettingValue));
 
 				formFactory.buildEngineSettingValueEditForm(request, modelAndView, engineSettingValue);
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 			}
 		}
@@ -177,7 +170,6 @@ public class EngineSettingController extends AbstractQalingoController {
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 			modelAndView.addObject("engineSettingValueEdit", viewBeanFactory.buildEngineSettingValueEditViewBean(request, currentLocalization, engineSettingValue));
 			formFactory.buildEngineSettingValueEditForm(request, modelAndView, engineSettingValue);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 		
@@ -208,13 +200,13 @@ public class EngineSettingController extends AbstractQalingoController {
 		List<LinkMenuViewBean> customerLinks = new ArrayList<LinkMenuViewBean>();
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingListUrl());
 		customerLinks.add(linkMenuViewBean);
 
 		if(engineSetting != null){
 			linkMenuViewBean = new LinkMenuViewBean();
-			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.details", null, locale));
+			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.details", locale));
 			linkMenuViewBean.setUrl(backofficeUrlService.buildEngineSettingDetailsUrl(engineSetting.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}

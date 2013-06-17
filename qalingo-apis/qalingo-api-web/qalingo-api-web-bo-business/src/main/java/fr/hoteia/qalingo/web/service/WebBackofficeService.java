@@ -9,15 +9,17 @@
  */
 package fr.hoteia.qalingo.web.service;
 
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
+import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
@@ -42,4 +44,8 @@ public interface WebBackofficeService {
 	void updateProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
 	
 	void createProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
+	
+	void updateProductMarketingAsset(Asset asset, AssetForm assetForm);
+	
+	void createProductMarketingAsset(Asset asset, AssetForm assetForm);
 }

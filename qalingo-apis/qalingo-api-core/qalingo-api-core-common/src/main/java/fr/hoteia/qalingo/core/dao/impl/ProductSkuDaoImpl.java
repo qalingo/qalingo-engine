@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.ProductSkuDao;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 
 @Transactional
@@ -65,6 +66,16 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 		String sql = "FROM ProductSku WHERE productMarketing.id = :productMarkettingId";
 		Query query = session.createQuery(sql);
 		query.setLong("productMarkettingId", productMarkettingId);
+		List<ProductSku> productSkus = (List<ProductSku>) query.list();
+		return productSkus;
+	}
+	
+	public List<ProductSku> findProductSkus(final Long marketAreaId, final Long retailerId, final String text) {
+		Session session = (Session) em.getDelegate();
+		initProductMarketingFilter(session, marketAreaId, retailerId);
+		String sql = "FROM ProductSku WHERE code like :text OR businessName like :text OR description like :text";
+		Query query = session.createQuery(sql);
+		query.setString("text", "%" + text + "%");
 		List<ProductSku> productSkus = (List<ProductSku>) query.list();
 		return productSkus;
 	}

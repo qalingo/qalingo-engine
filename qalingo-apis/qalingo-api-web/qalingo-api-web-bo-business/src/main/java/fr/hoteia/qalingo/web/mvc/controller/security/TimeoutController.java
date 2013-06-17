@@ -17,21 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class TimeoutController extends AbstractQalingoController {
+public class TimeoutController extends AbstractBusinessBackofficeController {
 
 	@RequestMapping("/timeout.html*")
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/timeout");
 		
-		final String titleKeyPrefixSufix = "timeout";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
+		// "timeout";
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;

@@ -36,8 +36,12 @@ public class ShippingServiceImpl implements ShippingService {
 		return shippingDao.getShippingById(shippingId);
 	}
 
-	public List<Shipping> findShipping(Shipping criteria) {
-		return shippingDao.findByExample(criteria);
+	public Shipping getShippingByCode(String code) {
+		return shippingDao.getShippingByCode(code);
+	}
+	
+	public List<Shipping> findShippings() {
+		return shippingDao.findShippings();
 	}
 
 	public void saveOrUpdateShipping(Shipping shipping) {

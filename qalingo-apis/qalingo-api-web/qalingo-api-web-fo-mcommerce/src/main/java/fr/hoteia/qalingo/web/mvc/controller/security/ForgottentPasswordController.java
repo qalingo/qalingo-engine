@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -30,7 +30,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class ForgottentPasswordController extends AbstractQalingoController {
+public class ForgottentPasswordController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
     protected WebCommerceService webCommerceService;
@@ -39,8 +39,7 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
-		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "forgotten.password";
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
@@ -52,8 +51,7 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-success");
 
-		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "forgotten.password";
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 
 		if (result.hasErrors()) {

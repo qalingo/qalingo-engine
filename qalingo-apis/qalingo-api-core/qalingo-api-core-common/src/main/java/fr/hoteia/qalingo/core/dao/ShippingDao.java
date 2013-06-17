@@ -17,7 +17,9 @@ public interface ShippingDao {
 
 	Shipping getShippingById(Long stockId);
 
-	List<Shipping> findByExample(Shipping stockExample);
+	Shipping getShippingByCode(String code);
+	
+	List<Shipping> findShippings();
 
 	void saveOrUpdateShipping(Shipping stock);
 

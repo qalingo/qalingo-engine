@@ -10,7 +10,7 @@ import fr.hoteia.qalingo.core.rest.pojo.BoProductMarketingJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductCategoryJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductMarketingJsonPojo;
 import fr.hoteia.qalingo.core.rest.util.JsonFactory;
-import fr.hoteia.qalingo.web.service.BackofficeUrlService;
+import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 
 public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 	

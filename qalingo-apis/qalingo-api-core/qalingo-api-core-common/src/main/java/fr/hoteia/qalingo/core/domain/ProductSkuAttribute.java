@@ -72,6 +72,9 @@ public class ProductSkuAttribute extends AbstractAttribute {
 	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isGlobal;
 	
+	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+	private Integer ordering;
+	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
 	
@@ -182,6 +185,14 @@ public class ProductSkuAttribute extends AbstractAttribute {
 		this.isGlobal = isGlobal;
 	}
 
+	public Integer getOrdering() {
+		return ordering;
+	}
+	
+	public void setOrdering(Integer ordering) {
+		this.ordering = ordering;
+	}
+	
 	public Long getMarketAreaId() {
 		return marketAreaId;
 	}

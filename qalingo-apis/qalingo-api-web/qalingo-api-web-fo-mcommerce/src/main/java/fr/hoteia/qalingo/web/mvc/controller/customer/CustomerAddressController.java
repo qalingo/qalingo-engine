@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -53,7 +53,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CustomerAddressController extends AbstractQalingoController {
+public class CustomerAddressController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -68,8 +68,7 @@ public class CustomerAddressController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-address-list");
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String titleKeyPrefixSufix = "customer.address.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.address.list";
 		modelAndViewFactory.initCustomerAddressListModelAndView(request, modelAndView, customer);
 
         return modelAndView;
@@ -100,8 +99,7 @@ public class CustomerAddressController extends AbstractQalingoController {
 	public ModelAndView customerAddAddressForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 		
-		final String titleKeyPrefixSufix = "customer.add.address";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.add.address";
 		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
 		formFactory.buildCustomerAddressForm(request, modelAndView);
 
@@ -112,8 +110,7 @@ public class CustomerAddressController extends AbstractQalingoController {
 	public ModelAndView customerAddAddress(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 		
-		final String titleKeyPrefixSufix = "customer.add.address";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.add.address";
 		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
 		formFactory.buildCustomerAddressForm(request, modelAndView);
 
@@ -129,12 +126,11 @@ public class CustomerAddressController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
-		String titleKeyPrefixSufix = "customer.add.address";
+		// "customer.add.address";
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 			modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 		
@@ -155,8 +151,7 @@ public class CustomerAddressController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String titleKeyPrefixSufix = "customer.edit.address";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.edit.address";
 		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
 		
 		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
@@ -194,8 +189,7 @@ public class CustomerAddressController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String titleKeyPrefixSufix = "customer.edit.address";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.edit.address";
 		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
 
 		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
@@ -232,12 +226,11 @@ public class CustomerAddressController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
-		String titleKeyPrefixSufix = "customer.edit.address";
+		// "customer.edit.address";
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
 			modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 		

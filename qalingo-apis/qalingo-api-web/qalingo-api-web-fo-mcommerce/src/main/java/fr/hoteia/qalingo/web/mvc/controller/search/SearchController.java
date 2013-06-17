@@ -26,20 +26,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.SearchForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
 
@@ -47,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
  * 
  */
 @Controller
-public class SearchController extends AbstractQalingoController {
+public class SearchController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -61,8 +59,7 @@ public class SearchController extends AbstractQalingoController {
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 		
-		final String titleKeyPrefixSufix = "search";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "search";
 		modelAndViewFactory.initSearchModelAndView(request, modelAndView);
 		formFactory.buildSearchForm(request, modelAndView);
 
@@ -75,16 +72,14 @@ public class SearchController extends AbstractQalingoController {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 
-		final String titleKeyPrefixSufix = "search";
+		// "search";
 		
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			modelAndViewFactory.initSearchModelAndView(request, modelAndView);
 			return modelAndView;
 		}
 
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		modelAndViewFactory.initSearchModelAndView(request, modelAndView);
 		
 		try {

@@ -16,7 +16,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.ProductAsset;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSkuPrice;
@@ -47,7 +47,7 @@ public class ProductSkuJsonPojo extends AbstractJsonPojo {
 	
 	private ProductMarketing productMarketing;
 	
-	private List<ProductAsset> assets = new ArrayList<ProductAsset>(); 
+	private List<Asset> assets = new ArrayList<Asset>(); 
 	private List<ProductSkuPrice> prices = new ArrayList<ProductSkuPrice>(); 
 	private List<ProductSkuStock> stocks = new ArrayList<ProductSkuStock>(); 
 	private List<Retailer> retailers = new ArrayList<Retailer>();
@@ -132,11 +132,11 @@ public class ProductSkuJsonPojo extends AbstractJsonPojo {
 		this.productMarketing = productMarketing;
 	}
 
-	public List<ProductAsset> getAssets() {
+	public List<Asset> getAssets() {
 		return assets;
 	}
 
-	public void setImages(List<ProductAsset> assets) {
+	public void setImages(List<Asset> assets) {
 		this.assets = assets;
 	}
 

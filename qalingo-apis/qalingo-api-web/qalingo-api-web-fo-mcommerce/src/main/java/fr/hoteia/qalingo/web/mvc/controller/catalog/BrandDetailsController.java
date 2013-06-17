@@ -22,13 +22,13 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.service.ProductBrandService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class BrandDetailsController extends AbstractQalingoController {
+public class BrandDetailsController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
 	protected ProductBrandService productBrandService;
@@ -41,9 +41,8 @@ public class BrandDetailsController extends AbstractQalingoController {
 		final String brandCode = request.getParameter(Constants.REQUEST_PARAM_BRAND_CODE);
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		final String titleKeyPrefixSufix = "brand.details";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initPageBrandDetails(request, response, modelAndView, productBrand, titleKeyPrefixSufix);
+		// "brand.details";
+		modelAndViewFactory.initPageBrandDetails(request, response, modelAndView, productBrand, "");
 		
         return modelAndView;
 	}

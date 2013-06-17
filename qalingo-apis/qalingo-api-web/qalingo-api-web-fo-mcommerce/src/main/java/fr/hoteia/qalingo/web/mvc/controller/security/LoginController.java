@@ -23,13 +23,13 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class LoginController extends AbstractQalingoController {
+public class LoginController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/login.html*")
 	public ModelAndView login(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -45,8 +45,7 @@ public class LoginController extends AbstractQalingoController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
-		final String titleKeyPrefixSufix = "login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		//  "login";
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
@@ -66,8 +65,7 @@ public class LoginController extends AbstractQalingoController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
-		final String titleKeyPrefixSufix = "header.title.login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "header.title.login";
 		
         return modelAndView;
 	}

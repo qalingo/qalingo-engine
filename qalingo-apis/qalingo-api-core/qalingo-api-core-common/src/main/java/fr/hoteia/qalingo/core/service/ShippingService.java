@@ -16,8 +16,10 @@ import fr.hoteia.qalingo.core.domain.Shipping;
 public interface ShippingService {
 
 	Shipping getShippingById(String shippingId);
-	
-	List<Shipping> findShipping(Shipping criteria);
+
+	Shipping getShippingByCode(String code);
+
+	List<Shipping> findShippings();
 	
 	void saveOrUpdateShipping(Shipping shipping);
 	

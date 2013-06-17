@@ -33,6 +33,23 @@ public class OrderDaoImpl extends AbstractGenericDaoImpl implements OrderDao {
 		return em.find(Order.class, orderId);
 	}
 
+	public Order getOrderByCode(String code) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Order WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", code);
+		Order order = (Order) query.uniqueResult();
+		return order;
+	}
+	
+	public List<Order> findOrders() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Order";
+		Query query = session.createQuery(sql);
+		List<Order> orders = (List<Order>) query.list();
+		return orders;
+	}
+	
 	public List<Order> findOrdersByCustomerId(Long customerId) {
 		Session session = (Session) em.getDelegate();
 		String sql = "FROM Order WHERE customerId = :customerId";

@@ -16,6 +16,10 @@ import fr.hoteia.qalingo.core.domain.Order;
 public interface OrderService {
 
 	Order getOrderById(String orderId);
+
+	Order getOrderByCode(String code);
+
+	List<Order> findOrders();
 	
 	List<Order> findOrdersByCustomerId(String customerId);
 	

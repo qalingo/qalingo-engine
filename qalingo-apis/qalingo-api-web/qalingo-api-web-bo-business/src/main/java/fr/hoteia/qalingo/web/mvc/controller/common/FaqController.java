@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,24 +18,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.BoPageConstants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class FaqController extends AbstractQalingoController {
+public class FaqController extends AbstractBusinessBackofficeController {
 
-	@RequestMapping("/faq.html*")
+	@RequestMapping(BoPageConstants.FAQ_URL + "*")
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "faq/faq");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.FAQ_VELOCITY_PAGE);
+		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String titleKeyPrefixSufix = "faq";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		final String pageKey = BoPageConstants.FAQ_KEY;
+		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+		overrideSeoTitle(request, modelAndView, title);
 		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.FAQ, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}

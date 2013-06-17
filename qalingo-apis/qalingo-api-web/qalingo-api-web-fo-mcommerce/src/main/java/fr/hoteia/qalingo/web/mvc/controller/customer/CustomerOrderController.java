@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.web.mvc.controller.customer;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,10 +32,9 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.service.OrderService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -44,7 +42,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CustomerOrderController extends AbstractQalingoController {
+public class CustomerOrderController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -58,8 +56,7 @@ public class CustomerOrderController extends AbstractQalingoController {
 	public ModelAndView customerWishList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-list");
 		
-		final String titleKeyPrefixSufix = "customer.order.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.order.list";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
 		modelAndViewFactory.initCustomerOrderListModelAndView(request, modelAndView, customer);
@@ -109,8 +106,7 @@ public class CustomerOrderController extends AbstractQalingoController {
 				final Customer customer = requestUtil.getCurrentCustomer(request);
 				List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
 				if(orders.contains(order)){
-					final String titleKeyPrefixSufix = "customer.order.details";
-					initPage(request, response, modelAndView, titleKeyPrefixSufix);
+					// "customer.order.details";
 					modelAndViewFactory.initCustomerOrderDetailsModelAndView(request, modelAndView, customer);
 			        return modelAndView;
 				} else {

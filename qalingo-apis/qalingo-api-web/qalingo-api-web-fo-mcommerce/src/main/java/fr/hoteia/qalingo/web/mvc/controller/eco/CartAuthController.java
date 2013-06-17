@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class CartAuthController extends AbstractQalingoController {
+public class CartAuthController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/cart-auth.html*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-auth");
 
-		final String titleKeyPrefixSufix = "shoppingcart.create.account";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "shoppingcart.create.account";
 		modelAndViewFactory.initCartModelAndView(request, modelAndView);
 		
         return modelAndView;

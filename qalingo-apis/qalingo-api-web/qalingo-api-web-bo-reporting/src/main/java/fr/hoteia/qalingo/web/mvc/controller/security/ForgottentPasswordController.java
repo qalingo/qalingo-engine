@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
  * 
  */
 @Controller
-public class ForgottentPasswordController extends AbstractQalingoController {
+public class ForgottentPasswordController extends AbstractReportingBackofficeController {
 
 	@Autowired
     protected WebBackofficeService webCommerceService;
@@ -42,8 +42,6 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
 		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
@@ -55,8 +53,6 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-success");
 
 		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");

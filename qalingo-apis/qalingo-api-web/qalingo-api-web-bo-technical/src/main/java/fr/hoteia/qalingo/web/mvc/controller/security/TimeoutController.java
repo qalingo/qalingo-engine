@@ -18,13 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class TimeoutController extends AbstractQalingoController {
+public class TimeoutController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping("/timeout.html*")
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -36,9 +36,6 @@ public class TimeoutController extends AbstractQalingoController {
 		}
 		
 		final String titleKeyPrefixSufix = "timeout";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}

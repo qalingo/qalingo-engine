@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
  * Change context
  */
 @Controller
-public class ChangeContextController extends AbstractQalingoController {
+public class ChangeContextController extends AbstractBusinessBackofficeController {
 
 	@RequestMapping("/change-language.html*")
 	public ModelAndView changeLanguage(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

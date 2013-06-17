@@ -30,38 +30,34 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.UserDetailsViewBean;
-import fr.hoteia.qalingo.web.service.WebBackofficeService;
+import fr.hoteia.qalingo.web.mvc.viewbean.UserViewBean;
 
 /**
  * 
  */
 @Controller
-public class UserController extends AbstractQalingoController {
+public class UserController extends AbstractTechnicalBackofficeController {
 
 	@Autowired
 	protected UserService userService;
-	
-	@Autowired
-	protected WebBackofficeService webBackofficeService;
 	
 	@RequestMapping("/search-user.html*")
 	public ModelAndView searchUser(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request),  "user/user-list");
 
-		final String titleKeyPrefixSufix = "search";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String contentText = getSpecificMessage(ScopeWebMessage.USER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		formFactory.buildUserQuickSearchForm(request, modelAndView);
 		
@@ -75,7 +71,6 @@ public class UserController extends AbstractQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "user.list";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		initLinks(request, modelAndView, locale, null);
 		
 		List<User> users = userService.findUsers();
@@ -84,10 +79,10 @@ public class UserController extends AbstractQalingoController {
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
         String page = request.getParameter(Constants.PAGE_PARAMETER);
-		PagedListHolder<UserDetailsViewBean> userViewBeanPagedListHolder;
+		PagedListHolder<UserViewBean> userViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
-        	userViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, users, new PagedListHolder<UserDetailsViewBean>());
+        	userViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, users, new PagedListHolder<UserViewBean>());
         } else {
 	        userViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 	        if (userViewBeanPagedListHolder == null) { 
@@ -155,10 +150,9 @@ public class UserController extends AbstractQalingoController {
 			if(user != null){
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 				
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 
 				formFactory.buildUserForm(request, modelAndView, user);
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 			}
 		} else {
@@ -166,10 +160,9 @@ public class UserController extends AbstractQalingoController {
 			final User user = userService.getUserById(currentUserId.toString());
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 			
-			modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
+			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 
 			formFactory.buildUserForm(request, modelAndView, user);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 
@@ -187,9 +180,8 @@ public class UserController extends AbstractQalingoController {
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
+			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 			formFactory.buildUserForm(request, modelAndView, user);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			return modelAndView;
 		}
 		
@@ -201,9 +193,8 @@ public class UserController extends AbstractQalingoController {
 
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 				formFactory.buildUserForm(request, modelAndView, user);
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 				
 			}
@@ -215,9 +206,8 @@ public class UserController extends AbstractQalingoController {
 
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 				formFactory.buildUserForm(request, modelAndView, user);
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
 				return modelAndView;
 			}
 		}
@@ -234,16 +224,15 @@ public class UserController extends AbstractQalingoController {
 		final Locale locale = currentLocalization.getLocale();
 		final String titleKeyPrefixSufix = "user.details";
 
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		initLinks(request, modelAndView, locale, user);
 		
 		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 	}
 	
-	protected PagedListHolder<UserDetailsViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, final List<User> users,
-			PagedListHolder<UserDetailsViewBean> userViewBeanPagedListHolder) throws Exception {
-		List<UserDetailsViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(request, currentLocalization, users);
-		userViewBeanPagedListHolder = new PagedListHolder<UserDetailsViewBean>(userViewBeans);
+	protected PagedListHolder<UserViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, final List<User> users,
+			PagedListHolder<UserViewBean> userViewBeanPagedListHolder) throws Exception {
+		List<UserViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(request, currentLocalization, users);
+		userViewBeanPagedListHolder = new PagedListHolder<UserViewBean>(userViewBeans);
 
 		userViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
 		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
@@ -259,13 +248,13 @@ public class UserController extends AbstractQalingoController {
 		List<LinkMenuViewBean> customerLinks = new ArrayList<LinkMenuViewBean>();
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.list", null, locale));
+		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.list", locale));
 		linkMenuViewBean.setUrl(backofficeUrlService.buildUserListUrl());
 		customerLinks.add(linkMenuViewBean);
 
 		if(user != null){
 			linkMenuViewBean = new LinkMenuViewBean();
-			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.details", null, locale));
+			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.details", locale));
 			linkMenuViewBean.setUrl(backofficeUrlService.buildUserDetailsUrl(user.getId().toString()));
 			customerLinks.add(linkMenuViewBean);
 		}

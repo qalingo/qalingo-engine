@@ -41,9 +41,10 @@ public abstract class AbstractGenericDaoImpl {
 	
 	void initProductSkuFilter(Session session, Long marketAreaId, Long retailerId){
 		session.enableFilter("filterProductSkuAttributeIsGlobal");
-		
-		session.enableFilter("filterProductSkuAttributeByMarketArea");
-		session.getEnabledFilter("filterProductSkuAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		session.enableFilter("filterProductSkuAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+
+		session.enableFilter("filterProductSkuAssetIsGlobal");
+		session.enableFilter("filterProductSkuAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
 
 		session.enableFilter("filterProductSkuPriceByMarketAreaAndRetailer");
 		session.getEnabledFilter("filterProductSkuPriceByMarketAreaAndRetailer").setParameter("marketAreaId", marketAreaId);
@@ -59,20 +60,29 @@ public abstract class AbstractGenericDaoImpl {
 		
 		session.enableFilter("filterProductMarketingAttributeIsGlobal");
 		session.enableFilter("filterProductMarketingAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		
+		session.enableFilter("filterProductMarketingAssetIsGlobal");
+		session.enableFilter("filterProductMarketingAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
 	void initCategoryVirtualFilter(Session session, Long marketAreaId, Long retailerId){
 		initProductMarketingFilter(session, marketAreaId, retailerId);
 		
-		session.enableFilter("filterCatalogCategoryVirtualAttributeIsGlobal");
-		session.enableFilter("filterCatalogCategoryVirtualAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		session.enableFilter("filterCatalogVirtualCategoryAttributeIsGlobal");
+		session.enableFilter("filterCatalogVirtualCategoryAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		
+		session.enableFilter("filterCatalogVirtualCategoryAssetIsGlobal");
+		session.enableFilter("filterCatalogVirtualCategoryAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
 	void initCategoryMasterFilter(Session session, Long marketAreaId, Long retailerId){
 		initProductMarketingFilter(session, marketAreaId, retailerId);
 		
-		session.enableFilter("filterCatalogCategoryMasterAttributeIsGlobal");
-		session.enableFilter("filterCatalogCategoryMasterAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		session.enableFilter("filterCatalogMasterCategoryAttributeIsGlobal");
+		session.enableFilter("filterCatalogMasterCategoryAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		
+		session.enableFilter("filterCatalogMasterCategoryAssetIsGlobal");
+		session.enableFilter("filterCatalogMasterCategoryAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
 	void initCatalogVirtual(Session session, Long marketAreaId, Long retailerId){

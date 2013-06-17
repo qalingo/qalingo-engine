@@ -27,10 +27,9 @@ import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.PaymentForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -38,7 +37,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CartOrderPaymentController extends AbstractQalingoController {
+public class CartOrderPaymentController extends AbstractMCommerceFrontofficeController {
 
 	@Autowired
     protected WebCommerceService webCommerceService;
@@ -59,8 +58,7 @@ public class CartOrderPaymentController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
 		}
 		
-		final String titleKeyPrefixSufix = "shoppingcart.payment";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "shoppingcart.payment";
 		modelAndViewFactory.initCartModelAndView(request, modelAndView);
 		formFactory.buildPaymentForm(request, modelAndView);
 
@@ -78,8 +76,7 @@ public class CartOrderPaymentController extends AbstractQalingoController {
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-order-payment");
-			final String pageTitle = "shoppingcart.payment";
-			initPage(request, response, modelAndView, pageTitle);
+			// "shoppingcart.payment";
 			modelAndViewFactory.initCartModelAndView(request, modelAndView);
 			return modelAndView;
 		}

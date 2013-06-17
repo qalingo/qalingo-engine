@@ -20,6 +20,8 @@
 					   	   http://www.springframework.org/schema/context 
 						   http://www.springframework.org/schema/context/spring-context.xsd">
 						   	
+	<import resource="classpath:conf/spring/qalingo-core-cache.xml" />
+
 	<bean id="menuMarketNavigationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="overflowToDisk" value="false" />
 		<property name="maxElementsInMemory" value="500" />
@@ -27,7 +29,7 @@
 
 	<bean id="menuMarketNavigationCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
 		<property name="cache" ref="menuMarketNavigationCache" />
-		<property name="engineSettingService" ref="engineSettingService" />
+		<property name="engineSettingService" ref=engineSettingService" />
 	</bean>
 	
 </beans>

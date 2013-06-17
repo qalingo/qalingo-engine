@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,26 +18,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.FoPageConstants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class HomeController extends AbstractQalingoController {
+public class HomeController extends AbstractMCommerceFrontofficeController {
 
-	@RequestMapping("/home.html*")
+	@RequestMapping(FoPageConstants.HOME_URL + "*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "home");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.HOME_VELOCITY_PAGE);
 
-		final String titleKeyPrefixSufix = "home";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		final Locale locale = requestUtil.getCurrentLocale(request);
 		
-		final String contentTest = coreMessageSource.getMessage("home.content.text", null, getCurrentLocale(request));
-		modelAndView.addObject("contentTest", contentTest);
+		final String pageKey = FoPageConstants.HOME_KEY;
+		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+		overrideSeoTitle(request, modelAndView, title);
+
+		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
+	}
+	
+	@RequestMapping(FoPageConstants.INDEX_URL + "*")
+	public ModelAndView index(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        return home(request, response);
 	}
     
 }

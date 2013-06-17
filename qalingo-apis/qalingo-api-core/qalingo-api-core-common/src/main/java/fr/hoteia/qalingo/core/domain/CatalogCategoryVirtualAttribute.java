@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CATALOG_CATEGORY_VIRTUAL_ATTRIBUTE")
+@Table(name="TECO_CATALOG_VIRTUAL_CATEGORY_ATTRIBUTE")
 public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 
 	/**
@@ -72,7 +72,7 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isGlobal;
 	
-	@Column(name="ORDERING")
+	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
 	private Integer ordering;
 	
 	@Column(name="MARKET_AREA_ID")

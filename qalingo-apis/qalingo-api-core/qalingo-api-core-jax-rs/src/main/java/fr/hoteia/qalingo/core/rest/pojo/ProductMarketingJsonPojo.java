@@ -17,8 +17,8 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductCrossLink;
-import fr.hoteia.qalingo.core.domain.ProductAsset;
+import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 
 /**
@@ -47,9 +47,9 @@ public class ProductMarketingJsonPojo extends AbstractJsonPojo {
 	
 	private List<ProductSkuJsonPojo> productSkus = new ArrayList<ProductSkuJsonPojo>();
 	
-	private List<ProductCrossLink> productCrossLinks = new ArrayList<ProductCrossLink>();
+	private List<ProductAssociationLink> productCrossLinks = new ArrayList<ProductAssociationLink>();
 	
-	private List<ProductAsset> assets = new ArrayList<ProductAsset>(); 
+	private List<Asset> assets = new ArrayList<Asset>(); 
 	
 	private Date dateCreate;
 	private Date dateUpdate;
@@ -139,19 +139,19 @@ public class ProductMarketingJsonPojo extends AbstractJsonPojo {
 		this.productSkus = productSkus;
 	}
 
-	public List<ProductCrossLink> getProductCrossLinks() {
+	public List<ProductAssociationLink> getProductCrossLinks() {
 		return productCrossLinks;
 	}
 
-	public void setProductCrossLinks(List<ProductCrossLink> productCrossLinks) {
+	public void setProductCrossLinks(List<ProductAssociationLink> productCrossLinks) {
 		this.productCrossLinks = productCrossLinks;
 	}
 
-	public List<ProductAsset> getAssets() {
+	public List<Asset> getAssets() {
 		return assets;
 	}
 
-	public void setImages(List<ProductAsset> assets) {
+	public void setImages(List<Asset> assets) {
 		this.assets = assets;
 	}
 

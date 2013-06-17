@@ -18,20 +18,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class CacheController extends AbstractQalingoController {
+public class CacheController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping(value = "/cache.html*", method = RequestMethod.GET)
 	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cache/cache");
 		
 		final String titleKeyPrefixSufix = "cache";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 
         return modelAndView;
 	}

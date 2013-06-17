@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.web.util.impl;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -249,6 +250,21 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 		return localization;
 	}
 
+	/**
+     * 
+     */
+	public Locale getCurrentLocale(final HttpServletRequest request) throws Exception {
+		Localization localization = getCurrentLocalization(request);
+		if(localization != null){
+			return localization.getLocale();
+		} else {
+			LOG.warn("Current Locale is null and it is not possible. Need to reset session.");
+			initDefaultEcoMarketPlace(request);
+			localization = getCurrentLocalization(request);
+			return localization.getLocale();
+		}
+	}
+	
 	/**
      * 
      */

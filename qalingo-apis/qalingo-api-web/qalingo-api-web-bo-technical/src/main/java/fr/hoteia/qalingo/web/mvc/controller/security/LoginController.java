@@ -18,13 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class LoginController extends AbstractQalingoController {
+public class LoginController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping("/login.html*")
 	public ModelAndView login(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -36,9 +36,6 @@ public class LoginController extends AbstractQalingoController {
 		}
 		
 		final String titleKeyPrefixSufix = "login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}
@@ -53,7 +50,6 @@ public class LoginController extends AbstractQalingoController {
 		}
 		
 		final String titleKeyPrefixSufix = "header.title.login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
         return modelAndView;
 	}

@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class StoreLocationController extends AbstractQalingoController {
+public class StoreLocationController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/store-location.html*")
 	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "store-location/store-location");
 		
-		final String titleKeyPrefixSufix = "store.location";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "store.location";
 		
 		modelAndViewFactory.initStoreLocatorModelAndView(request, modelAndView);
 		

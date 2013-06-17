@@ -17,10 +17,18 @@ import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 public interface EngineSettingService {
 
 	// TODO : enum or not ?
-	public final static String ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH = "THEME_RESOURCE_PREFIX_PATH";
-	public final static String ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH = "CATALOG_RESOURCE_PREFIX_PATH";
-	public final static String WEB_CACHE_ELEMENT_TIME_TO_LIVE = "WEB_CACHE_ELEMENT_TIME_TO_LIVE";
-		
+	public final static String ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH					= "ASSET_FILE_ROOT_PATH";
+	public final static String ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH					= "ASSET_WEB_ROOT_PATH";
+	public final static String ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH				= "ASSET_CATALOG_FILE_PATH";
+	public final static String ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH	= "ASSET_PRODUCT_MARKETING_FILE_PATH";
+	public final static String ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH			= "ASSET_PROPDUCT_SKU_FILE_PATH";
+
+	public final static String ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH	= "THEME_RESOURCE_PREFIX_PATH";
+	public final static String ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH	= "CATALOG_RESOURCE_PREFIX_PATH";
+	public final static String WEB_CACHE_ELEMENT_TIME_TO_LIVE					= "WEB_CACHE_ELEMENT_TIME_TO_LIVE";
+
+	public final static String ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL	= "ESCAPE_ACCENT_FROM_URL";
+
 	public final static String ENGINE_SETTING_CONTEXT_BO_BUSINESS  = "BO_BUSINESS";
 	public final static String ENGINE_SETTING_CONTEXT_BO_REPORTING = "BO_REPORTING";
 	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL = "BO_TECHNICAL";
@@ -37,15 +45,15 @@ public interface EngineSettingService {
 	public final static String ENGINE_SETTING_CONTEXT_MASTER	= "MASTER";
 	
 	// COUNT ITEM BY PAGE - PAGE SIZE
-	public final static String ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE = "COUNT_ITEM_BY_PAGE";
-	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST = "BO_TECHNICAL_ENGINE_SETTING_LIST";
-	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_USER_LIST = "BO_TECHNICAL_USER_LIST";
-	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST = "BO_TECHNICAL_CACHE_LIST";
-	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST = "BO_TECHNICAL_BATCH_LIST";
+	public final static String ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE					= "COUNT_ITEM_BY_PAGE";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST	= "BO_TECHNICAL_ENGINE_SETTING_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_USER_LIST			= "BO_TECHNICAL_USER_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST			= "BO_TECHNICAL_CACHE_LIST";
+	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST			= "BO_TECHNICAL_BATCH_LIST";
 
 	// MAX USER LOGIN SUCCES TO LOG
-	public final static String ENGINE_SETTING_MAX_USER_CONNECTION_LOG = "MAX_USER_CONNECTION_LOG";
-	public final static String ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG = "MAX_CUSTOMER_CONNECTION_LOG";
+	public final static String ENGINE_SETTING_MAX_USER_CONNECTION_LOG		= "MAX_USER_CONNECTION_LOG";
+	public final static String ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG	= "MAX_CUSTOMER_CONNECTION_LOG";
 
 	// Engine Setting
 	
@@ -53,10 +61,6 @@ public interface EngineSettingService {
 
 	EngineSetting getEngineSettingByCode(String code);
 
-	EngineSetting getThemeResourcePrefixPath();
-
-	EngineSetting getCatalogImageResourcePrefixPath();
-	
 	List<EngineSetting> findEngineSettings();
 
 	void saveOrUpdateEngineSetting(EngineSetting engineSetting);
@@ -73,4 +77,19 @@ public interface EngineSettingService {
 	
 	String getEngineSettingDefaultValueByCode(String engineSettingCode);
 
+	// Common Engine Setting Value
+	
+	EngineSetting getAssetFileRootPath();
+
+	EngineSetting getAssetWebRootPath();
+
+	EngineSetting getAssetCatalogFilePath();
+
+	EngineSetting getAssetProductMarketingFilePath();
+	
+	EngineSetting getAssetPoductSkuFilePath();
+	
+	EngineSetting getThemeResourcePrefixPath();
+
+	EngineSetting withEscapeAccent();
 }

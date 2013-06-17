@@ -17,7 +17,6 @@ public abstract class AbstractAttribute implements Serializable {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = 2397084953607874647L;
-
 	
 	// TODO : clean this : ENUM ?
 	protected static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_ATTRIBUTE_SCREENNAME";

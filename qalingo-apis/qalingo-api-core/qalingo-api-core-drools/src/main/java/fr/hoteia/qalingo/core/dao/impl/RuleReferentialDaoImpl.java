@@ -20,9 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.RuleReferentialDao;
-import fr.hoteia.qalingo.core.dao.impl.AbstractGenericDaoImpl;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
-import fr.hoteia.qalingo.core.domain.RuleReferentialProductSkuPromotion;
 
 @Transactional
 @Repository("ruleReferentialDao")
@@ -39,9 +37,18 @@ public class RuleReferentialDaoImpl extends AbstractGenericDaoImpl implements Ru
 		return ruleReferential;
 	}
 	
+	public AbstractRuleReferential getRuleReferentialByCode(String code) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM AbstractRuleReferential WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", code);
+		AbstractRuleReferential ruleReferential = (AbstractRuleReferential) query.uniqueResult();
+		return ruleReferential;
+	}
+	
 	public List<AbstractRuleReferential> findRuleReferentials() {
 		Session session = (Session) em.getDelegate();
-		String sql = "FROM RuleReferential";
+		String sql = "FROM AbstractRuleReferential";
 		Query query = session.createQuery(sql);
 		List<AbstractRuleReferential> ruleReferentials = (List<AbstractRuleReferential>) query.list();
 		return ruleReferentials;

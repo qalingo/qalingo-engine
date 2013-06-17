@@ -17,6 +17,8 @@ public interface RuleReferentialService {
 
 	AbstractRuleReferential getRuleReferentialByRuleType(String ruleType);
 
+	AbstractRuleReferential getRuleReferentialByCode(String code);
+
 	List<AbstractRuleReferential> findRuleReferentials();
 	
 	void saveRuleReferential(AbstractRuleReferential ruleReferential);

@@ -40,10 +40,11 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
+import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
@@ -51,6 +52,8 @@ import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
 	value = {
 		@FilterDef(name="filterProductSkuAttributeIsGlobal"),
 		@FilterDef(name="filterProductSkuAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
+		@FilterDef(name="filterProductSkuAssetIsGlobal"),
+		@FilterDef(name="filterProductSkuAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
 		@FilterDef(name="filterProductSkuPriceByMarketAreaAndRetailer", parameters= { @ParamDef(name="marketAreaId", type="long"),  @ParamDef(name="retailerId", type="long") }),
 		@FilterDef(name="filterProductSkuStockByMarketAreaAndRetailer", parameters= { @ParamDef(name="marketAreaId", type="long"),  @ParamDef(name="retailerId", type="long") })
 	}
@@ -82,7 +85,7 @@ public class ProductSku implements Serializable {
 	
 	@Column(name="CODE", nullable=false)
 	private String code;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeIsGlobal", condition="IS_GLOBAL = '1'")
@@ -97,17 +100,17 @@ public class ProductSku implements Serializable {
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
 	private ProductMarketing productMarketing;
 	
-	@ManyToMany(
-			fetch = FetchType.EAGER,
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductAsset.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_PRODUCT_SKU_ASSET_REL",
-	        joinColumns=@JoinColumn(name="PRODUCT_SKU_ID"),
-	        inverseJoinColumns=@JoinColumn(name="PRODUCT_ASSET_ID")
-	    )	
-	private Set<ProductAsset> assets = new HashSet<ProductAsset>(); 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_SKU_ID")
+	@Filter(name="filterAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_SKU'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_SKU_ID")
+	@Filter(name="filterAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_SKU'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
@@ -216,75 +219,20 @@ public class ProductSku implements Serializable {
 		this.productMarketing = productMarketing;
 	}
 	
-	public Set<ProductAsset> getAssets() {
-		return assets;
+	public Set<Asset> getAssetsIsGlobal() {
+		return assetsIsGlobal;
 	}
 	
-	public void setAssets(Set<ProductAsset> assets) {
-		this.assets = assets;
+	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
+		this.assetsIsGlobal = assetsIsGlobal;
 	}
 	
-	public ProductAsset getDefaultPaskshotImage(String size) {
-		ProductAsset defaultProductImage = null;
-		if(assets != null
-				&& StringUtils.isNotEmpty(size)){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productImage.getType())
-						&& size.equals(productImage.getSize())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productImage.getType())
-						&& size.equals(productImage.getSize())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public Set<Asset> getAssetsByMarketArea() {
+		return assetsByMarketArea;
 	}
 	
-	public ProductAsset getDefaultBackgroundImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
-	
-	public ProductAsset getDefaultIconImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
+		this.assetsByMarketArea = assetsByMarketArea;
 	}
 	
 	public Set<ProductSkuPrice> getPrices() {
@@ -424,6 +372,70 @@ public class ProductSku implements Serializable {
 		return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
 
+	// ASSET
+	public Asset getDefaultPaskshotImage(String size) {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null
+				&& StringUtils.isNotEmpty(size)){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productAsset = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productAsset.getType())
+						&& size.equals(productAsset.getSize())
+						&& productAsset.isDefault()){
+					defaultProductImage = productAsset;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productImage.getType())
+						&& size.equals(productImage.getSize())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultBackgroundImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultIconImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

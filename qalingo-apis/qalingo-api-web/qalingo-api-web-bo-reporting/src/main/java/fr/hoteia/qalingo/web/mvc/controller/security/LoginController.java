@@ -17,22 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class LoginController extends AbstractQalingoController {
+public class LoginController extends AbstractReportingBackofficeController {
 
 	@RequestMapping("/login.html*")
 	public ModelAndView login(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/login");
 		
 		final String titleKeyPrefixSufix = "login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		
         return modelAndView;
 	}
@@ -42,7 +39,6 @@ public class LoginController extends AbstractQalingoController {
 		ModelAndView modelAndView = new ModelAndView("security/login");
 		
 		final String titleKeyPrefixSufix = "header.title.login";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
 		
         return modelAndView;
 	}

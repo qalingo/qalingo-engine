@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.FoPageConstants;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -26,7 +29,7 @@ import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
  * 
  */
 @Controller
-public class HomeController extends AbstractQalingoController {
+public class HomeController extends AbstractPrehomeFrontofficeController {
 
 	@Autowired
 	protected MarketPlaceService marketPlaceService;
@@ -37,17 +40,27 @@ public class HomeController extends AbstractQalingoController {
 	@Autowired
     protected UrlService urlService;
 	
-	@RequestMapping("/home*")
+	@RequestMapping(FoPageConstants.PRE_HOME_URL + "*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "prehome");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.PRE_HOME_VELOCITY_PAGE);
 		
-		final String titleKeyPrefixSufix = "prehome";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// FoPageConstants.PRE_HOME_KEY
 
-		// Markets
-		modelAndView.addObject("marketPlaces", viewBeanFactory.buildMarketPlaceViewBeans(request));
-		
         return modelAndView;
+	}
+	
+	@RequestMapping(FoPageConstants.INDEX_URL + "*")
+	public ModelAndView index(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        return home(request, response);
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initMarketPlaces(final HttpServletRequest request, final Model model) throws Exception {
+		// Markets
+		model.addAttribute("marketPlaces", viewBeanFactory.buildMarketPlaceViewBeans(request));
 	}
     
 }

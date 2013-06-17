@@ -12,6 +12,7 @@ package fr.hoteia.qalingo.core.service;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 public interface BatchProcessObjectService {
 
@@ -21,7 +22,7 @@ public interface BatchProcessObjectService {
 	
 	List<BatchProcessObject> findBatchProcessObjects();
 
-	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(String typeObject);
+	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject);
 	
 	void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
 	

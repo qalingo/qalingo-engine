@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class ForbiddenController extends AbstractQalingoController {
+public class ForbiddenController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/forbidden.html*")
 	public ModelAndView forbidden(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forbidden");
 		
-		final String titleKeyPrefixSufix = "forbidden";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "forbidden";
 		
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		

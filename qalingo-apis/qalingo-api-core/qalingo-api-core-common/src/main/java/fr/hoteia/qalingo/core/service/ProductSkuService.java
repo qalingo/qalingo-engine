@@ -27,6 +27,8 @@ public interface ProductSkuService {
 	
 	List<ProductSku> findProductSkus(Long marketAreaId, Long retailerId, Long productMarkettingId);
 	
+	List<ProductSku> findProductSkus(Long marketAreaId, Long retailerId, String text);
+
 	void saveOrUpdateProductSku(ProductSku productSku);
 	
 	void deleteProductSku(ProductSku productSku);

@@ -57,6 +57,16 @@ public class Store implements Serializable {
 	@Column(name="CODE")
 	private String code;
 	
+//	@ElementCollection(targetClass = StoreType.class)
+//	@Enumerated(EnumType.STRING)
+//	@Fetch(value = FetchMode.JOIN)
+//	@CollectionTable(name = "TECO_STORE_TYPE_REL", joinColumns = @JoinColumn(name = "STORE_ID"))
+//	@Column(name = "TYPE")
+//	private Set<StoreType> types = new HashSet<StoreType>(); 
+
+	@Column(name="TYPE")
+	private String type;
+
 	@Column(name="BUSINESS_NAME")
 	private String businessName;
 	
@@ -124,6 +134,14 @@ public class Store implements Serializable {
 	
 	public void setCode(String code) {
 		this.code = code;
+	}
+		
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public String getBusinessName() {

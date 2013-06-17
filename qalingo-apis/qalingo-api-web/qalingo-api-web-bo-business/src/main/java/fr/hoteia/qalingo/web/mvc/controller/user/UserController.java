@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.user;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,10 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
@@ -36,14 +35,14 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
  * 
  */
 @Controller
-public class UserController extends AbstractQalingoController {
+public class UserController extends AbstractBusinessBackofficeController {
 
 	@Autowired
 	protected WebBackofficeService webBackofficeService;
 	
 	@RequestMapping(value = "/user-details.html*", method = RequestMethod.GET)
 	public ModelAndView userDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.USER_DETAILS_VELOCITY_PAGE);
 
 		User user = requestUtil.getCurrentUser(request);
 		// Refresh Data cause CurrentUser is from Session or Spring Security
@@ -60,33 +59,30 @@ public class UserController extends AbstractQalingoController {
 	
 	@RequestMapping(value = "/user-edit.html*", method = RequestMethod.GET)
 	public ModelAndView userEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.USER_FORM_VELOCITY_PAGE);
 		
-		final String titleKeyPrefixSufix = "user.edit";
-
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 		modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// BoPageConstants.USER_KEY
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/user-edit.html*", method = RequestMethod.POST)
+	@RequestMapping(value = "/user-form.html*", method = RequestMethod.POST)
 	public ModelAndView userEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid UserForm userForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
-		final String titleKeyPrefixSufix = "user.edit";
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
+			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.USER_FORM_VELOCITY_PAGE);
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 			modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
+			// BoPageConstants.USER_KEY
 			return modelAndView;
 		}
 		
@@ -96,11 +92,11 @@ public class UserController extends AbstractQalingoController {
 			if(userCheck != null){
 				result.rejectValue("login", "error.form.user.update.login.already.exist", null,"This email customer account already exist!.");
 
-				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
+				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.USER_FORM_VELOCITY_PAGE);
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 				modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
+				// BoPageConstants.USER_KEY
 				return modelAndView;
 				
 			}
@@ -110,11 +106,11 @@ public class UserController extends AbstractQalingoController {
 			if(userCheck != null){
 				result.rejectValue("email", "error.form.user.update.email.already.exist", null,"This email customer account already exist!.");
 
-				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
+				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.USER_FORM_VELOCITY_PAGE);
 				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 				modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
-				initPage(request, response, modelAndView, titleKeyPrefixSufix);
+				// BoPageConstants.USER_KEY
 				return modelAndView;
 			}
 		}
@@ -128,10 +124,7 @@ public class UserController extends AbstractQalingoController {
 	
 	protected void initUserDetailsPage(final HttpServletRequest request, final HttpServletResponse response, final ModelAndViewThemeDevice modelAndView, final User user) throws Exception{
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "user.details";
-
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// BoPageConstants.USER_KEY
 		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
 	}
     

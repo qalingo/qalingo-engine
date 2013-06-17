@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class LogoutController extends AbstractQalingoController {
+public class LogoutController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/logout.html*")
 	public ModelAndView logout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/logout");
 		
-		final String titleKeyPrefixSufix = "logout";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "logout";
 		
 		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		

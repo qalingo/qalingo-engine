@@ -27,6 +27,11 @@ public class UserForm {
 	private boolean active;
 	private Date dateCreate;
 	private Date dateUpdate;
+	
+	private String backUrl;
+	private String userDetailsUrl;
+	private String userEditUrl;
+	private String formSubmitUrl;
     
 	@NotEmpty(message = "error.form.user.id.is.empty")
     public String getId() {
@@ -96,6 +101,37 @@ public class UserForm {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-	
 
+	public String getBackUrl() {
+		return backUrl;
+	}
+
+	public void setBackUrl(String backUrl) {
+		this.backUrl = backUrl;
+	}
+
+	public String getUserDetailsUrl() {
+		return userDetailsUrl;
+	}
+
+	public void setUserDetailsUrl(String userDetailsUrl) {
+		this.userDetailsUrl = userDetailsUrl;
+	}
+
+	public String getUserEditUrl() {
+		return userEditUrl;
+	}
+
+	public void setUserEditUrl(String userEditUrl) {
+		this.userEditUrl = userEditUrl;
+	}
+
+	public String getFormSubmitUrl() {
+		return formSubmitUrl;
+	}
+
+	public void setFormSubmitUrl(String formSubmitUrl) {
+		this.formSubmitUrl = formSubmitUrl;
+	}
+	
 }

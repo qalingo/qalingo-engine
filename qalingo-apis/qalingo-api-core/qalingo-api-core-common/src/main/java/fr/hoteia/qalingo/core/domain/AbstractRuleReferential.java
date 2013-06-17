@@ -58,7 +58,10 @@ public abstract class AbstractRuleReferential implements Serializable {
 	@Version
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
-	
+
+	@Column(name="CODE")
+	private String code;
+
 	@Column(name="NAME")
 	private String name;
 
@@ -115,6 +118,14 @@ public abstract class AbstractRuleReferential implements Serializable {
 		this.name = name;
 	}
 
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	public String getDescription() {
 		return description;
 	}

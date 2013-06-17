@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class ContactUsController extends AbstractQalingoController {
+public class ContactUsController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -55,8 +55,7 @@ public class ContactUsController extends AbstractQalingoController {
 	public ModelAndView contactForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
 		
-		final String titleKeyPrefixSufix = "contactus";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "contactus";
 		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
 		formFactory.buildContactUsForm(request, modelAndView);
 
@@ -67,8 +66,7 @@ public class ContactUsController extends AbstractQalingoController {
 	public ModelAndView contact(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
 		
-		final String titleKeyPrefixSufix = "contactus";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "contactus";
 		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
 		formFactory.buildContactUsForm(request, modelAndView);
 
@@ -81,16 +79,14 @@ public class ContactUsController extends AbstractQalingoController {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-success");
 
-		final String titleKeyPrefixSufix = "contactus";
+		// "contactus";
 		
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
 			return modelAndView;
 		}
-
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		
 		formFactory.buildContactUsForm(request, modelAndView);
 		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
 

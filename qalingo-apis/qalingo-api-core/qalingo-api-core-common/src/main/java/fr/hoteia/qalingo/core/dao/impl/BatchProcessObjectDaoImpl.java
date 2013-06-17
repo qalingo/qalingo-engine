@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.BatchProcessObjectDao;
 import fr.hoteia.qalingo.core.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 @Transactional
 @Repository("batchProcessObjectDao")
@@ -44,11 +45,11 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 		return batchProcessObjects;
 	}
 	
-	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(String typeObject) {
+	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
 		Session session = (Session) em.getDelegate();
-		String sql = "FROM BatchProcessObject WHERE upper(typeObject) = upper(:typeObject)";
+		String sql = "FROM BatchProcessObject WHERE typeObject = :typeObject";
 		Query query = session.createQuery(sql);
-		query.setString("typeObject", typeObject);
+		query.setParameter("typeObject", typeObject);
 		List<BatchProcessObject> batchProcessObjects = (List<BatchProcessObject>) query.list();
 		return batchProcessObjects;
 	}

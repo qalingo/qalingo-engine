@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,26 +23,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
-import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 
  */
 @Controller
-public class ForgottentPasswordController extends AbstractQalingoController {
+public class ForgottentPasswordController extends AbstractTechnicalBackofficeController {
 
-	@Autowired
-    protected WebBackofficeService webCommerceService;
-	
 	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.GET)
 	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
 		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
@@ -55,8 +48,6 @@ public class ForgottentPasswordController extends AbstractQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-success");
 
 		final String titleKeyPrefixSufix = "forgotten.password";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");

@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -53,7 +53,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CustomerCreateAccountController extends AbstractQalingoController {
+public class CustomerCreateAccountController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -82,8 +82,7 @@ public class CustomerCreateAccountController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		final String titleKeyPrefixSufix = "customer.create.account";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.create.account";
 		modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
 		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
@@ -106,8 +105,7 @@ public class CustomerCreateAccountController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		final String titleKeyPrefixSufix = "customer.create.account";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.create.account";
 		modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
 		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
@@ -130,12 +128,11 @@ public class CustomerCreateAccountController extends AbstractQalingoController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		final String titleKeyPrefixSufix = "customer.create.account";
+		// "customer.create.account";
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
 			modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
-			initPage(request, response, modelAndView, titleKeyPrefixSufix);
 			modelAndView.addObject("createAccountForm", createAccountForm);
 			return modelAndView;
 		}
@@ -152,7 +149,6 @@ public class CustomerCreateAccountController extends AbstractQalingoController {
 		final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, currentMarket, currentMarketArea, createAccountForm);
 
 		// Save the email confirmation
-		final Locale locale = getCurrentLocale(request);
 		webCommerceService.buildAndSaveCustomerNewAccountMail(request, createAccountForm);
 
 		// Login the new customer

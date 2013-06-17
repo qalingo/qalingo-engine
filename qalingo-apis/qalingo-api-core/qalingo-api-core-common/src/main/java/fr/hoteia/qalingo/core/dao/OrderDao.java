@@ -17,6 +17,10 @@ public interface OrderDao {
 
 	Order getOrderById(Long orderId);
 
+	Order getOrderByCode(String code);
+	
+	List<Order> findOrders();
+	
 	List<Order> findOrdersByCustomerId(Long customerId);
 	
 	Order createNewOrder(Order order);

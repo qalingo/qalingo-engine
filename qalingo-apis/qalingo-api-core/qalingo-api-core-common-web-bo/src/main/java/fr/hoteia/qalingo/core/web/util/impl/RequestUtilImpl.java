@@ -88,7 +88,6 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 		request.getSession().setAttribute(Constants.ENGINE_BO_SESSION_OBJECT, engineBoSession);
 	}
 	
-	
 	/**
      * 
      */
@@ -533,5 +532,4 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 		updateCurrentBoSession(request, engineBoSession);
 	}
 
-	
 }

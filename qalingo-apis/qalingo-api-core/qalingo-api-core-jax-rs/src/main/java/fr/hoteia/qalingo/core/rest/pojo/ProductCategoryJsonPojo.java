@@ -17,7 +17,7 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
-import fr.hoteia.qalingo.core.domain.ProductAsset;
+import fr.hoteia.qalingo.core.domain.Asset;
 
 /**
  *
@@ -47,7 +47,7 @@ public class ProductCategoryJsonPojo extends AbstractJsonPojo {
 
 	private List<ProductMarketingJsonPojo>  productMarketings = new ArrayList<ProductMarketingJsonPojo>();
 	
-	private List<ProductAsset> assets = new ArrayList<ProductAsset>();
+	private List<Asset> assets = new ArrayList<Asset>();
 	
 	private Date dateCreate;
 	private Date dateUpdate;
@@ -140,11 +140,11 @@ public class ProductCategoryJsonPojo extends AbstractJsonPojo {
 		this.productMarketings = productMarketings;
 	}
 
-	public List<ProductAsset> getAssets() {
+	public List<Asset> getAssets() {
 		return assets;
 	}
 
-	public void setImages(List<ProductAsset> assets) {
+	public void setImages(List<Asset> assets) {
 		this.assets = assets;
 	}
 

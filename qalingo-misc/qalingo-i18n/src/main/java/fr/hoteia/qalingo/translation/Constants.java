@@ -29,12 +29,13 @@ public class Constants {
 
 	public static final String PROPERTIES_PATH = "/properties/";
 
+	public static final String SHEET_COMMON_MESSAGES_RESSOURCES = "Common-Messages";
 	public static final String SHEET_FRONTOFFICE_MESSAGES_RESSOURCES = "FO-Messages";
 	public static final String SHEET_BACKOFFICE_MESSAGES_RESSOURCES = "BO-Messages";
 	public static final String SHEET_EMAIL_MESSAGES_RESSOURCES = "Email-Messages";
-	public static final String SHEET_COUNTRIES_RESSOURCES = "Countries";
-	public static final String SHEET_LANGUAGES_RESSOURCES = "Languages";
-	public static final String SHEET_TITLES_RESSOURCES = "Titles";
+	public static final String SHEET_COUNTRY_RESSOURCES = "Country";
+	public static final String SHEET_LANGUAGE_RESSOURCES = "Language";
+	public static final String SHEET_TITLE_RESSOURCES = "Title";
 	public static final String FORMATTER_FULL_DATE = "dd/MM/yy HH:mm:ss";
 	public static final String FORMATTER_DATE_TO_FOLDER = "yyyyMMdd_HHmmss";
 

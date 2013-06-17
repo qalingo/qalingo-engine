@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.BatchProcessObjectDao;
 import fr.hoteia.qalingo.core.domain.BatchProcessObject;
+import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 import fr.hoteia.qalingo.core.service.BatchProcessObjectService;
 
 @Service("batchProcessObjectService")
@@ -44,7 +45,7 @@ public class BatchProcessObjectServiceImpl implements BatchProcessObjectService 
 		return batchProcessObjectDao.findBatchProcessObjects();
 	}
 	
-	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(String typeObject) {
+	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
 		return batchProcessObjectDao.findBatchProcessObjectsByTypeObject(typeObject);
 	}
 	

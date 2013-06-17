@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.ProductMarketingDao;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Asset;
 
 @Transactional
 @Repository("productMarketingDao")
@@ -32,15 +33,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 		return em.find(ProductMarketing.class, productMarketingId);
 	}
 
-//	public ProductMarketing getProductMarketingByCode(String productMarketingCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM ProductMarketing WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", productMarketingCode);
-//		ProductMarketing productMarketing = (ProductMarketing) query.uniqueResult();
-//		return productMarketing;
-//	}
-	
 	public ProductMarketing getProductMarketingByCode(final Long marketAreaId, final Long retailerId, final String productMarketingCode) {
 		Session session = (Session) em.getDelegate();
 		initProductMarketingFilter(session, marketAreaId, retailerId);
@@ -51,15 +43,21 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 		return productMarketing;
 	}
 	
-//	public List<ProductMarketing> findByExample(ProductMarketing productMarketingExample) {
-//		return super.findByExample(productMarketingExample);
-//	}
-	
 	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId) {
 		Session session = (Session) em.getDelegate();
 		initProductMarketingFilter(session, marketAreaId, retailerId);
 		String sql = "FROM ProductMarketing";
 		Query query = session.createQuery(sql);
+		List<ProductMarketing> productMarketings = (List<ProductMarketing>) query.list();
+		return productMarketings;
+	}
+	
+	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId, final String text) {
+		Session session = (Session) em.getDelegate();
+		initProductMarketingFilter(session, marketAreaId, retailerId);
+		String sql = "FROM ProductMarketing WHERE code like :text OR businessName like :text OR description like :text";
+		Query query = session.createQuery(sql);
+		query.setString("text", "%" + text + "%");
 		List<ProductMarketing> productMarketings = (List<ProductMarketing>) query.list();
 		return productMarketings;
 	}
@@ -80,4 +78,33 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 		em.remove(productMarketing);
 	}
 
+	// ASSET
+	public Asset getProductMarketingAssetById(final Long productMarketingAssetId) {
+		return em.find(Asset.class, productMarketingAssetId);
+	}
+
+	public Asset getProductMarketingAssetByCode(final String assetCode) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Asset WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", assetCode);
+		Asset productMarketingAsset = (Asset) query.uniqueResult();
+		return productMarketingAsset;
+	}
+	
+	public void saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
+		if(productMarketingAsset.getDateCreate() == null){
+			productMarketingAsset.setDateCreate(new Date());
+		}
+		productMarketingAsset.setDateUpdate(new Date());
+		if(productMarketingAsset.getId() == null){
+			em.persist(productMarketingAsset);
+		} else {
+			em.merge(productMarketingAsset);
+		}
+	}
+
+	public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
+		em.remove(productMarketingAsset);
+	}
 }

@@ -19,7 +19,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.web.viewbean.CommonViewBean;
-import fr.hoteia.qalingo.web.viewbean.LegacyViewBean;
+import fr.hoteia.qalingo.web.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.viewbean.LocalizationViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.viewbean.MarketPlaceViewBean;
@@ -30,8 +30,7 @@ public interface ViewBeanFactory {
 	CommonViewBean buildCommonViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer) throws Exception;
 	
-	LegacyViewBean buildLegacyViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			 Localization localization, Retailer retailer) throws Exception;
+	LegalTermsViewBean buildLegalTermsViewBean(HttpServletRequest request, Localization localization) throws Exception;
 	
 	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request) throws Exception;
 	

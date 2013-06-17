@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.EngineBoSession;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -46,6 +47,11 @@ public interface RequestUtil {
 	 *
 	 */
 	String getEnvironmentName() throws Exception;
+	
+	/**
+	 *
+	 */
+	String getApplicationName() throws Exception;
 	
 	/**
 	 *
@@ -195,12 +201,32 @@ public interface RequestUtil {
 	/**
      * 
      */
-	String getCurrentThemeResourcePrefixPath(HttpServletRequest request, String context) throws Exception;
+	String getRootAssetFilePath(HttpServletRequest request) throws Exception;
 	
 	/**
      * 
      */
-	String getCurrentCatalogImageResourcePrefixPath(HttpServletRequest request, String context) throws Exception;
+	String getRootAssetWebPath(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	String getCatalogImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+	
+	/**
+     * 
+     */
+	String getProductMarketingImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+	
+	/**
+     * 
+     */
+	String getProductSkuImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+	
+	/**
+     * 
+     */
+	String getCurrentThemeResourcePrefixPath(HttpServletRequest request, String context) throws Exception;
 	
 	/**
      * 

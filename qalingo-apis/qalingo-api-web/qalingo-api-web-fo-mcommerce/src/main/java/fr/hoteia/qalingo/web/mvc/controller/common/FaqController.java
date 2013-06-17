@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class FaqController extends AbstractQalingoController {
+public class FaqController extends AbstractMCommerceFrontofficeController {
 
 	@RequestMapping("/faq.html*")
 	public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "faq/faq");
 		
-		final String titleKeyPrefixSufix = "faq";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "faq";
 		
 		modelAndViewFactory.initFaqModelAndView(request, modelAndView);
 		

@@ -24,7 +24,7 @@ public class LoaderTranslation {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LoaderTranslationUtil.class);
 
-	public static final String ENCODAGE =  Constants.ANSI;
+	public static final String ENCODAGE =  Constants.UTF8;
 	
     /**
 	 *
@@ -58,6 +58,7 @@ public class LoaderTranslation {
 		InputStream myxls = new FileInputStream(currentPath + "/src/main/resources/input/" + Constants.QALINGO_TRANSLATION_XLS_FILE);
 		HSSFWorkbook wb = new HSSFWorkbook(myxls);
 		
+		LoaderTranslationUtil.buildMessagesCommonProperties(folderOutputPath, project, wb);
 		LoaderTranslationUtil.buildMessagesFrontOfficeProperties(folderOutputPath, project, wb);
 		LoaderTranslationUtil.buildMessagesBackOfficeProperties(folderOutputPath, project, wb);
 		LoaderTranslationUtil.buildMessagesEmailProperties(folderOutputPath, project, wb);

@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.web.mvc.factory.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,21 +19,32 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
+import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
-import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.AttributeService;
+import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
+import fr.hoteia.qalingo.web.mvc.form.AssetForm;
+import fr.hoteia.qalingo.web.mvc.form.CustomerForm;
+import fr.hoteia.qalingo.web.mvc.form.OrderForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.RuleForm;
+import fr.hoteia.qalingo.web.mvc.form.ShippingForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 
 /**
@@ -42,75 +54,78 @@ import fr.hoteia.qalingo.web.mvc.form.UserForm;
 public class FormFactoryImpl implements FormFactory {
 
 	@Autowired
-	protected CoreMessageSource coreMessageSource;
-
+    protected RequestUtil requestUtil;
+	
+	@Autowired
+    protected BackofficeUrlService backofficeUrlService;
+	
 	@Autowired
 	protected AttributeService attributeService;
 	
 	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request) throws Exception {
-		final ProductCategoryForm productCategoryForm = new ProductCategoryForm();
+		final ProductCategoryForm catalogCategoryForm = new ProductCategoryForm();
 		List<AttributeDefinition> attributeDefinitions = attributeService.findCatalogCategoryAttributeDefinitions();
 		for (Iterator<AttributeDefinition> iterator = attributeDefinitions.iterator(); iterator.hasNext();) {
 			AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
 			if(attributeDefinition.isGlobal()){
-				productCategoryForm.getGlobalAttributes().put(attributeDefinition.getCode(), "");
+				catalogCategoryForm.getGlobalAttributes().put(attributeDefinition.getCode(), "");
 			} else {
-				productCategoryForm.getMarketAreaAttributes().put(attributeDefinition.getCode(), "");
+				catalogCategoryForm.getMarketAreaAttributes().put(attributeDefinition.getCode(), "");
 			}
 		}
-		return productCategoryForm;
+		return catalogCategoryForm;
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster productCategory) throws Exception {
-		CatalogCategoryMaster parentProductCategory = productCategory.getDefaultParentCatalogCategory();
-		return buildProductCategoryForm(request, parentProductCategory, productCategory);
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster catalogCategory) throws Exception {
+		CatalogCategoryMaster parentProductCategory = catalogCategory.getDefaultParentCatalogCategory();
+		return buildProductCategoryForm(request, parentProductCategory, catalogCategory);
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster productCategory) throws Exception {
-		final ProductCategoryForm productCategoryForm = buildProductCategoryForm(request);
+	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
+		final ProductCategoryForm catalogCategoryForm = buildProductCategoryForm(request);
 		if(parentProductCategory != null){
-			productCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
+			catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
 		}
-		if(productCategory != null){
-			productCategoryForm.setId(productCategory.getId().toString());
-			productCategoryForm.setCatalogCode(productCategory.getBusinessName());
-			productCategoryForm.setName(productCategory.getBusinessName());
-			productCategoryForm.setCode(productCategory.getCode());
-			productCategoryForm.setDescription(productCategory.getDescription());
+		if(catalogCategory != null){
+			catalogCategoryForm.setId(catalogCategory.getId().toString());
+			catalogCategoryForm.setCatalogCode(catalogCategory.getBusinessName());
+			catalogCategoryForm.setName(catalogCategory.getBusinessName());
+			catalogCategoryForm.setCode(catalogCategory.getCode());
+			catalogCategoryForm.setDescription(catalogCategory.getDescription());
 			
-			Set<CatalogCategoryMasterAttribute> globalAttributes = productCategory.getCatalogCategoryGlobalAttributes();
+			Set<CatalogCategoryMasterAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
 			for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-				CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-				productCategoryForm.getGlobalAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
+				CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
+				catalogCategoryForm.getGlobalAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
 			}
 			
-			Set<CatalogCategoryMasterAttribute> marketAreaAttributes = productCategory.getCatalogCategoryMarketAreaAttributes();
+			Set<CatalogCategoryMasterAttribute> marketAreaAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes();
 			for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-				CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-				productCategoryForm.getMarketAreaAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
+				CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
+				catalogCategoryForm.getMarketAreaAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
 			}
 		}
-		return productCategoryForm;
+		return catalogCategoryForm;
 	}
 	
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual productCategory) throws Exception {
-		CatalogCategoryVirtual parentProductCategory = productCategory.getDefaultParentCatalogCategory();
-		return buildProductCategoryForm(request, parentProductCategory, parentProductCategory);
+	public ProductCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual catalogCategory) throws Exception {
+		CatalogCategoryVirtual parentProductCategory = catalogCategory.getDefaultParentCatalogCategory();
+		return buildCatalogCategoryForm(request, parentProductCategory, parentProductCategory);
 	}
 	
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual productCategory) throws Exception {
-		final ProductCategoryForm productCategoryForm = buildProductCategoryForm(request);
+	public ProductCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
+		final ProductCategoryForm catalogCategoryForm = buildProductCategoryForm(request);
 		if(parentProductCategory != null){
-			productCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
+			catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
 		}
-		if(productCategory != null){
-			productCategoryForm.setId(productCategory.getId().toString());
-			productCategoryForm.setCatalogCode(productCategory.getBusinessName());
-			productCategoryForm.setName(productCategory.getBusinessName());
-			productCategoryForm.setCode(productCategory.getCode());
-			productCategoryForm.setDescription(productCategory.getDescription());
+		if(catalogCategory != null){
+			catalogCategoryForm.setId(catalogCategory.getId().toString());
+			catalogCategoryForm.setCatalogCode(catalogCategory.getBusinessName());
+			catalogCategoryForm.setName(catalogCategory.getBusinessName());
+			catalogCategoryForm.setCode(catalogCategory.getCode());
+			catalogCategoryForm.setDescription(catalogCategory.getDescription());
 		}
-		return productCategoryForm;
+		return catalogCategoryForm;
 	}
 	
 	public ProductMarketingForm buildProductMarketingForm(final HttpServletRequest request, final ProductMarketing productMarketing) throws Exception {
@@ -133,8 +148,22 @@ public class FormFactoryImpl implements FormFactory {
 				productMarketingForm.getMarketAreaAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
 			}
 		}
-		
 		return productMarketingForm;
+	}
+	
+	public AssetForm buildProductMarketingAssetForm(final HttpServletRequest request, final Asset productMarketingAsset) throws Exception {
+		final AssetForm assetForm = new AssetForm();
+		if(productMarketingAsset != null){
+			assetForm.setId(productMarketingAsset.getId().toString());
+			assetForm.setName(productMarketingAsset.getName());
+			assetForm.setCode(productMarketingAsset.getCode());
+			assetForm.setDescription(productMarketingAsset.getDescription());
+			assetForm.setDefault(productMarketingAsset.isDefault());
+			assetForm.setPath(productMarketingAsset.getPath());
+			assetForm.setType(productMarketingAsset.getType().getPropertyKey());
+			assetForm.setSize(productMarketingAsset.getSize().getPropertyKey());
+		}
+		return assetForm;
 	}
 	
 	public ProductSkuForm buildProductSkuForm(final HttpServletRequest request, final ProductSku productSku) throws Exception {
@@ -162,6 +191,63 @@ public class FormFactoryImpl implements FormFactory {
 		return productSkuForm;
 	}
 	
+	public CustomerForm buildCustomerForm(final HttpServletRequest request, final Customer customer) throws Exception {
+		final CustomerForm customerForm = new CustomerForm();
+		if(customer != null){
+			customerForm.setId(customer.getId());
+			customerForm.setVersion(customer.getVersion());
+			customerForm.setLogin(customer.getLogin());
+			customerForm.setTitle(customer.getTitle());
+			customerForm.setFirstname(customer.getFirstname());
+			customerForm.setLastname(customer.getLastname());
+			customerForm.setEmail(customer.getEmail());
+			customerForm.setPassword(customer.getPassword());
+			customerForm.setDefaultLocale(customer.getDefaultLocale());
+			customerForm.setActive(customer.isActive());
+		}
+		return customerForm;
+	}
+	
+	public OrderForm buildOrderForm(final HttpServletRequest request, final Order order) throws Exception {
+		final OrderForm orderForm = new OrderForm();
+		if(order != null){
+			orderForm.setId(order.getId());
+			orderForm.setVersion(order.getVersion());
+			orderForm.setStatus(order.getStatus());
+			orderForm.setOrderNum(order.getOrderNum());
+			orderForm.setCustomerId(order.getCustomerId());
+			orderForm.setBillingAddressId(order.getBillingAddressId());
+			orderForm.setShippingAddressId(order.getShippingAddressId());
+		}
+		return orderForm;
+	}
+	
+	public RuleForm buildRuleForm(final HttpServletRequest request, final AbstractRuleReferential rule) throws Exception {
+		final RuleForm ruleForm = new RuleForm();
+		if(rule != null){
+			ruleForm.setId(rule.getId());
+			ruleForm.setVersion(rule.getVersion());
+			ruleForm.setName(rule.getName());
+			ruleForm.setDescription(rule.getDescription());
+			ruleForm.setSalience(rule.getSalience());
+		}
+		return ruleForm;
+	}
+	
+	public ShippingForm buildShippingForm(final HttpServletRequest request, final Shipping shipping) throws Exception {
+		final ShippingForm shippingForm = new ShippingForm();
+		if(shipping != null){
+			shippingForm.setId(shipping.getId());
+			shippingForm.setVersion(shipping.getVersion());
+			shippingForm.setName(shipping.getName());
+			shippingForm.setDescription(shipping.getDescription());
+			shippingForm.setCode(shipping.getCode());
+			shippingForm.setPrice(shipping.getPrice());
+			shippingForm.setMarketAreaId(shipping.getMarketAreaId());
+		}
+		return shippingForm;
+	}
+	
 	public UserForm buildUserForm(final HttpServletRequest request, final User user) throws Exception {
 		final UserForm userForm = new UserForm();
 		if(user != null){
@@ -172,6 +258,14 @@ public class FormFactoryImpl implements FormFactory {
 			userForm.setEmail(user.getEmail());
 			userForm.setActive(user.isActive());
 		}
+		
+		final List<String> excludedPatterns = new ArrayList<String>();
+		excludedPatterns.add("form");
+		userForm.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
+		userForm.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl());
+		userForm.setUserEditUrl(backofficeUrlService.buildUserEditUrl());
+		userForm.setFormSubmitUrl(backofficeUrlService.buildUserFormPostUrl());
+		
 		return userForm;
 	}
 	

@@ -77,11 +77,23 @@ INSERT INTO teco_engine_setting
 VALUES 
 (1000, 'Cache TTL settings', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
 
+-- SEO settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1005, 'Escape accent URL settings', 'Escape accent URL settings', 'ESCAPE_ACCENT_FROM_URL', 'true', 1);
+
+
 -- Theme settings
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(1010, 'Setting resource theme path', 'Setting resource theme path', 'THEME_RESOURCE_PREFIX_PATH', '', 1);
+(1010, 'Setting resource theme path', 'Setting resource theme path', 'THEME_RESOURCE_PREFIX_PATH', '', 1),
+(1011, 'Setting resource assets root file path', 'Setting resource assets catalog root path', 'ASSET_FILE_ROOT_PATH', '/datas/assets', 1),
+(1012, 'Setting resource assets root web path', 'Setting resource assets root web path', 'ASSET_WEB_ROOT_PATH', '/assets', 1),
+(1013, 'Setting resource assets catalog file path', 'Setting resource assets catalog file path', 'ASSET_CATALOG_FILE_PATH', '/images/catalog/category', 1),
+(1014, 'Setting resource assets product marketing file path', 'Setting resource assets product marketing file path', 'ASSET_PRODUCT_MARKETING_FILE_PATH', '/images/catalog/product-marketing', 1),
+(1015, 'Setting resource assets product sku file path', 'Setting resource assets product sku file path', 'ASSET_PROPDUCT_SKU_FILE_PATH', '/images/catalog/product-sku', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
@@ -126,7 +138,7 @@ VALUES
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(1040, 'INT', '/fo-mcommerce-resources/', 1040);
+(1040, 'INT', '/catalog-resources/', 1040);
 
 -- Page size settings
 INSERT INTO teco_engine_setting 

@@ -101,10 +101,17 @@
 	</build>
 
 	<dependencies>
+		<!-- Commons libs -->
 		<dependency>
-			<groupId>poi</groupId>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		
+		<!-- POI libs -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.1-FINAL</version>
+			<version>3.9</version>
 		</dependency>
 		
 		<!-- LOGS -->

@@ -43,17 +43,20 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.enumtype.ImageType;
+import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name="TECO_CATALOG_CATEGORY_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_CATALOG_VIRTUAL_CATEGORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @FilterDefs(
 	value = {
-		@FilterDef(name="filterCatalogCategoryVirtualAttributeIsGlobal"),
-		@FilterDef(name="filterCatalogCategoryVirtualAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+			@FilterDef(name="filterCatalogVirtualCategoryAttributeIsGlobal"),
+			@FilterDef(name="filterCatalogVirtualCategoryAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
+			@FilterDef(name="filterCatalogVirtualCategoryAssetIsGlobal"),
+			@FilterDef(name="filterCatalogVirtualCategoryAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
 public class CatalogCategoryVirtual implements Serializable {
 
@@ -95,13 +98,15 @@ public class CatalogCategoryVirtual implements Serializable {
 	private CatalogCategoryMaster categoryMaster;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="CATALOG_CATEGORY_ID")
+    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="CATALOG_CATEGORY_ID")
+    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
+	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
@@ -110,7 +115,7 @@ public class CatalogCategoryVirtual implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_CATALOG_CATEGORY_VIRTUAL_CHILD_CATEGORY_REL",
+	        name="TECO_CATALOG_VIRTUAL_CATEGORY_CHILD_CATEGORY_REL",
 	        joinColumns=@JoinColumn(name="PARENT_VIRTUAL_CATALOG_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="CHILD_VIRTUAL_CATALOG_CATEGORY_ID")
 	    )	
@@ -122,23 +127,23 @@ public class CatalogCategoryVirtual implements Serializable {
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
-	        name="TECO_CATALOG_CATEGORY_VIRTUAL_PRODUCT_MARKETING_REL",
+	        name="TECO_CATALOG_VIRTUAL_CATEGORY_PRODUCT_MARKETING_REL",
 	        joinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PRODUCT_MARKETING_ID")
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 	
-	@ManyToMany(
-			fetch = FetchType.EAGER,
-	        targetEntity=fr.hoteia.qalingo.core.domain.ProductAsset.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_CATALOG_CATEGORY_VIRTUAL_ASSET_REL",
-	        joinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID"),
-	        inverseJoinColumns=@JoinColumn(name="PRODUCT_ASSET_ID")
-	    )	
-	private Set<ProductAsset> assets = new HashSet<ProductAsset>(); 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
+	@Filter(name="filterCatalogVirtualCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'VIRTUAL_CATEGORY'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
+	@Filter(name="filterCatalogVirtualCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'VIRTUAL_CATEGORY'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -189,6 +194,10 @@ public class CatalogCategoryVirtual implements Serializable {
 	
 	public void setCode(String code) {
 		this.code = code;
+	}
+	
+	public CatalogCategoryType getCatalogCategoryType() {
+		return getCategoryMaster().getCatalogCategoryType();
 	}
 	
 	public boolean isDefault() {
@@ -276,75 +285,20 @@ public class CatalogCategoryVirtual implements Serializable {
 		this.productMarketings = productMarketings;
 	}
 
-	public Set<ProductAsset> getAssets() {
-		return assets;
+	public Set<Asset> getAssetsIsGlobal() {
+		return assetsIsGlobal;
 	}
 	
-	public void setAssets(Set<ProductAsset> assets) {
-		this.assets = assets;
+	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
+		this.assetsIsGlobal = assetsIsGlobal;
 	}
 	
-	public ProductAsset getDefaultPaskshotImage(String size) {
-		ProductAsset defaultProductImage = null;
-		if(assets != null
-				&& StringUtils.isNotEmpty(size)){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productAsset = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productAsset.getType())
-						&& size.equals(productAsset.getSize())
-						&& productAsset.isDefault()){
-					defaultProductImage = productAsset;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.PACKSHOT.getPropertyKey().equals(productImage.getType())
-						&& size.equals(productImage.getSize())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public Set<Asset> getAssetsByMarketArea() {
+		return assetsByMarketArea;
 	}
 	
-	public ProductAsset getDefaultBackgroundImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.BACKGROUND.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
-	
-	public ProductAsset getDefaultIconImage() {
-		ProductAsset defaultProductImage = null;
-		if(assets != null){
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<ProductAsset> iterator = assets.iterator(); iterator.hasNext();) {
-				ProductAsset productImage = (ProductAsset) iterator.next();
-				if(ImageType.ICON.getPropertyKey().equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
+	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
+		this.assetsByMarketArea = assetsByMarketArea;
 	}
 	
 	public Date getDateCreate() {
@@ -497,6 +451,70 @@ public class CatalogCategoryVirtual implements Serializable {
 	
 	public Integer getOrder(Long marketAreaId) {
 		return (Integer) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
+	}
+	
+	// ASSET
+	public Asset getDefaultPaskshotImage(String size) {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null
+				&& StringUtils.isNotEmpty(size)){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productAsset = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productAsset.getType())
+						&& size.equals(productAsset.getSize())
+						&& productAsset.isDefault()){
+					defaultProductImage = productAsset;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.PACKSHOT.equals(productImage.getType())
+						&& size.equals(productImage.getSize())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultBackgroundImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.BACKGROUND.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
+	}
+	
+	public Asset getDefaultIconImage() {
+		Asset defaultProductImage = null;
+		if(getAssetsIsGlobal() != null){
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())
+						&& productImage.isDefault()){
+					defaultProductImage = productImage;
+				}
+			}
+			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+				Asset productImage = (Asset) iterator.next();
+				if(AssetType.ICON.equals(productImage.getType())){
+					defaultProductImage = productImage;
+				}
+			}
+		}
+		return defaultProductImage;
 	}
 	
 	@Override

@@ -27,14 +27,14 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
  */
 @Controller
-public class CustomerProductCommentController extends AbstractQalingoController {
+public class CustomerProductCommentController extends AbstractMCommerceFrontofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -45,8 +45,7 @@ public class CustomerProductCommentController extends AbstractQalingoController 
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-product-comment-list");
 		
-		final String titleKeyPrefixSufix = "customer.product.comment";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "customer.product.comment";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
 		modelAndViewFactory.initCustomerProductCommentModelAndView(request, modelAndView, customer);

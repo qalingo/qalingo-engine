@@ -56,9 +56,10 @@ public class ProductSkuServiceImpl implements ProductSkuService {
 		return orderList(marketAreaId, skus);
 	}
 	
-//	public List<ProductSku> findProductSku(ProductSku criteria) {
-//		return productSkuDao.findByExample(criteria);
-//	}
+	public List<ProductSku> findProductSkus(final Long marketAreaId, final Long retailerId, final String text) {
+		List<ProductSku> skus = productSkuDao.findProductSkus(marketAreaId, retailerId, text);
+		return orderList(marketAreaId, skus);
+	}
 
 	public void saveOrUpdateProductSku(ProductSku productSku) {
 		productSkuDao.saveOrUpdateProductSku(productSku);

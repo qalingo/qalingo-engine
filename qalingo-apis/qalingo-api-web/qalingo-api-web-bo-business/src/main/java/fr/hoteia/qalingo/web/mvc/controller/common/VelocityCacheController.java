@@ -17,25 +17,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
  * 
  */
 @Controller
-public class VelocityCacheController extends AbstractQalingoController {
+public class VelocityCacheController extends AbstractBusinessBackofficeController {
 
 	@Resource(name="viewResolver")
 	protected VelocityLayoutViewResolver viewResolver;
 	
 	@RequestMapping("/flush-cache-ihm.html*")
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "webapp/flush-cache-ihm");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.VELOCITY_CACHE_VELOCITY_PAGE);
 
-		final String titleKeyPrefixSufix = "flush.cache.ihm";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		// "flush.cache.ihm";
 
 		viewResolver.clearCache();
 		

@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,21 +18,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.FoPageConstants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 
 /**
  * 
  */
 @Controller
-public class ConditionsOfUseController extends AbstractQalingoController {
+public class ConditionsOfUseController extends AbstractMCommerceFrontofficeController {
 
-	@RequestMapping("/conditions-of-use.html*")
+	@RequestMapping(FoPageConstants.CONDITIONS_OF_USE_URL + "*")
 	public ModelAndView conditionsOfUse(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "conditions-of-use/conditions-of-use");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.CONDITIONS_OF_USE_VELOCITY_PAGE);
 
-		final String titleKeyPrefixSufix = "conditionsofuse";
-		initPage(request, response, modelAndView, titleKeyPrefixSufix);
+		final Locale locale = requestUtil.getCurrentLocale(request);
+		
+		final String pageKey = FoPageConstants.CONDITIONS_OF_USE_KEY;
+		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+		overrideSeoTitle(request, modelAndView, title);
+
+		final String contentText = getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}

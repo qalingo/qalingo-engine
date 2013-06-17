@@ -10,20 +10,17 @@
 package fr.hoteia.qalingo.web.mvc.factory;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.domain.CatalogMaster;
-import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.CatalogMaster;
+import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 
 public interface ModelAndViewFactory {
-
-	void initCommonModelAndView(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) throws Exception;
 
 	void initLoginModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
 	

@@ -30,101 +30,101 @@ import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 
 	@Autowired
-	private CatalogCategoryDao productCategoryDao;
+	private CatalogCategoryDao catalogCategoryDao;
 
 	// MASTER
-	public CatalogCategoryMaster getMasterCatalogCategoryById(final String rawProductCategoryId) {
-		long productCategoryId = -1;
+	public CatalogCategoryMaster getMasterCatalogCategoryById(final String rawCatalogCategoryId) {
+		long catalogCategoryId = -1;
 		try {
-			productCategoryId = Long.parseLong(rawProductCategoryId);
+			catalogCategoryId = Long.parseLong(rawCatalogCategoryId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return productCategoryDao.getMasterCatalogCategoryById(productCategoryId);
+		return catalogCategoryDao.getMasterCatalogCategoryById(catalogCategoryId);
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String productCategoryCode) {
-		return productCategoryDao.getMasterCatalogCategoryByCode(productCategoryCode);
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String catalogCategoryCode) {
+		return catalogCategoryDao.getMasterCatalogCategoryByCode(catalogCategoryCode);
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String productCategoryCode) {
-		return productCategoryDao.getMasterCatalogCategoryByCode(marketAreaId, retailerId, productCategoryCode);
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
+		return catalogCategoryDao.getMasterCatalogCategoryByCode(marketAreaId, retailerId, catalogCategoryCode);
 	}
 	
 	public List<CatalogCategoryMaster> findRootCatalogCategories() {
-		List<CatalogCategoryMaster> categories = productCategoryDao.findRootCatalogCategories();
+		List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootCatalogCategories();
 		return orderList(categories);
 	}
 	
 	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId) {
-		return productCategoryDao.findMasterCategoriesByMarketIdAndRetailerId(marketAreaId, retailerId);
+		return catalogCategoryDao.findMasterCategoriesByMarketIdAndRetailerId(marketAreaId, retailerId);
 	}
 	
-	public void saveOrUpdateCatalogCategory(CatalogCategoryMaster productCategory) {
-		productCategoryDao.saveOrUpdateCatalogCategory(productCategory);
+	public void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
+		catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
-	public void deleteCatalogCategory(CatalogCategoryMaster productCategory) {
-		productCategoryDao.deleteCatalogCategory(productCategory);
+	public void deleteCatalogCategory(CatalogCategoryMaster catalogCategory) {
+		catalogCategoryDao.deleteCatalogCategory(catalogCategory);
 	}
 	
 	// VIRTUAL
-	public CatalogCategoryVirtual getVirtualCatalogCategoryById(final String rawProductCategoryId) {
-		long productCategoryId = -1;
+	public CatalogCategoryVirtual getVirtualCatalogCategoryById(final String rawCatalogCategoryId) {
+		long catalogCategoryId = -1;
 		try {
-			productCategoryId = Long.parseLong(rawProductCategoryId);
+			catalogCategoryId = Long.parseLong(rawCatalogCategoryId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return productCategoryDao.getVirtualCatalogCategoryById(productCategoryId);
+		return catalogCategoryDao.getVirtualCatalogCategoryById(catalogCategoryId);
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String productCategoryCode) {
-		return productCategoryDao.getVirtualCatalogCategoryByCode(productCategoryCode);
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode) {
+		return catalogCategoryDao.getVirtualCatalogCategoryByCode(catalogCategoryCode);
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String productCategoryCode) {
-		return productCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, retailerId, productCategoryCode);
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
+		return catalogCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, retailerId, catalogCategoryCode);
 	}
 
 	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final Long retailerId, final ProductMarketing productMarketing) {
-		List<CatalogCategoryVirtual> categories = productCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketing.getId());
-		CatalogCategoryVirtual productCategoryVirtual = null;
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketing.getId());
+		CatalogCategoryVirtual catalogCategoryVirtual = null;
 		if(categories != null){
 			for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {
-				CatalogCategoryVirtual productCategoryVirtualIterator = (CatalogCategoryVirtual) iterator.next();
-				if(productCategoryVirtualIterator.isDefault()){
-					productCategoryVirtual = productCategoryVirtualIterator;
+				CatalogCategoryVirtual catalogCategoryVirtualIterator = (CatalogCategoryVirtual) iterator.next();
+				if(catalogCategoryVirtualIterator.isDefault()){
+					catalogCategoryVirtual = catalogCategoryVirtualIterator;
 				}
 			}
 			if(categories.size() > 0
-					&& productCategoryVirtual == null){
-				productCategoryVirtual = categories.iterator().next();
+					&& catalogCategoryVirtual == null){
+				catalogCategoryVirtual = categories.iterator().next();
 			}
 		}
-		return productCategoryVirtual;
+		return catalogCategoryVirtual;
 	}
 	
 	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, final Long retailerId) {
-		List<CatalogCategoryVirtual> categories = productCategoryDao.findRootCatalogCategories(marketAreaId, retailerId);
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootCatalogCategories(marketAreaId, retailerId);
 		return orderList(marketAreaId, categories);
 	}
 	
 	public List<CatalogCategoryVirtual> findVirtualCategories(final Long marketAreaId, final Long retailerId) {
-		List<CatalogCategoryVirtual> categories = productCategoryDao.findCatalogCategories(marketAreaId, retailerId);
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategories(marketAreaId, retailerId);
 		return orderList(marketAreaId, categories);
 	}
 
 	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final Long retailerId, final Long productMarketingId) {
-		return productCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketingId);
+		return catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketingId);
 	}
 	
-	public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual productCategory) {
-		productCategoryDao.saveOrUpdateCatalogCategory(productCategory);
+	public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+		catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
-	public void deleteCatalogCategory(CatalogCategoryVirtual productCategory) {
-		productCategoryDao.deleteCatalogCategory(productCategory);
+	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+		catalogCategoryDao.deleteCatalogCategory(catalogCategory);
 	}
 
 	protected List<CatalogCategoryVirtual> orderList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories){

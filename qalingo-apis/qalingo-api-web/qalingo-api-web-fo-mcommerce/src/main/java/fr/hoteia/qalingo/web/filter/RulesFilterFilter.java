@@ -10,6 +10,8 @@
 package fr.hoteia.qalingo.web.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,7 +27,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 import fr.hoteia.qalingo.core.util.RuleUtil;
+import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class RulesFilterFilter implements Filter {
 
@@ -47,7 +51,16 @@ public class RulesFilterFilter implements Filter {
     	final HttpServletRequest  httpServletRequest = (HttpServletRequest) servletRequest;
 		
     	RuleUtil ruleUtil = (RuleUtil) ctx.getBean("ruleUtil");
-    	ruleUtil.handleRuleSession(httpServletRequest);
+    	RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
+    	
+		List<Object> objects = new ArrayList<Object>();
+		try {
+			EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(httpServletRequest);
+			objects.add(engineEcoSession);
+		} catch (Exception e) {
+			LOG.error("Failed to load EngineEcoSession from Request", e);
+		}
+    	ruleUtil.handleRuleSession(objects);
 		
         // pass the servletRequest on
         chain.doFilter(servletRequest, servletResponse);

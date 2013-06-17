@@ -55,7 +55,10 @@ public class Customer implements Serializable {
 	@Version
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
-	
+
+	@Column(name="CODE")
+	private String code;
+
 	@Column(name="LOGIN")
 	private String login;
 	
@@ -142,6 +145,14 @@ public class Customer implements Serializable {
 		this.login = login;
 	}
 
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
     public String getTitle() {
 		return title;
 	}

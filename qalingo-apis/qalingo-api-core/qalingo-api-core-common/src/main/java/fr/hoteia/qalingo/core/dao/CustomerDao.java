@@ -17,6 +17,8 @@ public interface CustomerDao {
 
 	Customer getCustomerById(Long customerId);
 
+	Customer getCustomerByCode(String code);
+
 	Customer getCustomerByLoginOrEmail(String usernameOrEmail);
 	 
 	List<Customer> findCustomers();
