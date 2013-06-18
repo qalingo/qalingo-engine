@@ -41,6 +41,40 @@ public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 		return buildPrefix() + BoPageConstants.LOGOUT_SESSION_URL;
 	}
 	
+	public String buildFaqUrl() {
+		return buildPrefix() + BoPageConstants.FAQ_URL;
+	}
+	
+	public String buildChangeLanguageUrl(final Localization localization) {
+		return buildPrefix() + BoPageConstants.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
+	}
+	
+	public String buildChangeContextUrl(final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer) {
+		String url = buildPrefix() + "/change-context.html?";
+		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + marketPlace.getCode();
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + market.getCode();
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + marketArea.getCode();
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + localization.getCode();
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + retailer.getCode();
+		return url;
+	}
+	
+	public String buildSpringSecurityCheckUrl() {
+		return BoPageConstants.SPRING_SECURITY;
+	}
+	
+	public String buildForbiddenUrl() {
+		return buildPrefix() + BoPageConstants.FORBIDDEN_URL;
+	}
+	
+	public String buildForgottenPasswordUrl() {
+		return buildPrefix() + BoPageConstants.FORGOTTEN_PASSWORD_URL;
+	}
+	
+	public String buildGlobalSearchUrl() {
+		return buildPrefix() + BoPageConstants.GLOBAL_SEARCH_URL;
+	}
+	
 	public String buildUserDetailsUrl() {
 		return buildUserDetailsUrl(null);
 	}
@@ -232,73 +266,79 @@ public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 	public String buildCustomerEditUrl(String customerCode) {
 		return buildPrefix() + "/customer-edit.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_CODE + "=" + handleString(customerCode);
 	}
-	
-	public String buildFaqUrl() {
-		return buildPrefix() + BoPageConstants.FAQ_URL;
-	}
-	
-	public String buildChangeLanguageUrl(final Localization localization) {
-		return buildPrefix() + BoPageConstants.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
-	}
-	
-	public String buildChangeContextUrl(final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization, final Retailer retailer) {
-		String url = buildPrefix() + "/change-context.html?";
-		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + marketPlace.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + market.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + marketArea.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + localization.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + retailer.getCode();
-		return url;
-	}
-	
-	public String buildSpringSecurityCheckUrl() {
-		return BoPageConstants.SPRING_SECURITY;
-	}
-	
-	public String buildForbiddenUrl() {
-		return buildPrefix() + BoPageConstants.FORBIDDEN_URL;
-	}
-	
-	public String buildForgottenPasswordUrl() {
-		return buildPrefix() + BoPageConstants.FORGOTTEN_PASSWORD_URL;
-	}
-	
-	public String buildGlobalSearchUrl() {
-		return buildPrefix() + BoPageConstants.GLOBAL_SEARCH_URL;
-	}
 
 	// TECHNICAL
 	
-	public String buildEngineSettingDetailsUrl(String engineSettingId) {
-		return buildPrefix() + "/engine-setting-details.html?" + RequestConstants.REQUEST_PARAM_ENGINE_SETTING_CODE + "=" + handleString(engineSettingId);
-	}
-	
-	public String buildEngineSettingValueEditUrl(String engineSettingId) {
-		return buildPrefix() + "/engine-setting-value-edit.html?" + RequestConstants.REQUEST_PARAM_ENGINE_SETTING_CODE + "=" + handleString(engineSettingId);
+	public String buildReferenceDataListUrl() {
+		return "/sc/reference-datas.html";
 	}
 	
 	public String buildEngineSettingListUrl() {
-		return buildPrefix() + "/engine-settings.html";
+		return "/sc/engine-settings.html";
+	}
+	
+	public String buildCacheUrl() {
+		return "/sc/cache.html";
+	}
+	
+	public String buildBatchUrl() {
+		return "/sc/batch.html";
 	}
 	
 	public String buildBatchCustomerUrl() {
-		return buildPrefix() + "/batch-customer.html";
+		return "/sc/batch-customer.html";
 	}
 	
 	public String buildBatchOrderUrl() {
-		return buildPrefix() + "/batch-order.html";
+		return "/sc/batch-order.html";
 	}
 	
 	public String buildBatchEmailUrl() {
-		return buildPrefix() + "/batch-email.html";
+		return "/sc/batch-email.html";
 	}
 	
 	public String buildBatchCmsUrl() {
-		return buildPrefix() + "/batch-cms.html";
+		return "/sc/batch-cms.html";
 	}
 	
 	public String buildBatchStockUrl() {
-		return buildPrefix() + "/batch-stock.html";
+		return "/sc/batch-stock.html";
+	}
+
+	public String buildMonitoringUrl() {
+		return "/sc/monitoring.html";
+	}
+	
+	public String buildSearchConfigUrl() {
+		return "/sc/search-config.html";
+	}
+	
+	public String buildSearchUrl() {
+		return "/sc/search.html";
+	}
+	
+	public String buildSearchEngineSettingUrl() {
+		return "/sc/search-engine-setting.html";
+	}
+	
+	public String buildSearchUserUrl() {
+		return "/sc/search-user.html";
+	}
+	
+	public String buildSearchBatchUrl() {
+		return "/sc/search-batch.html";
+	}
+	
+	public String buildEngineSettingDetailsUrl(final String engineSettingId) {
+		return "/sc/engine-setting-details.html?" + Constants.REQUEST_PARAM_ENGINE_SETTING_ID + "=" + engineSettingId;
+	}
+	
+	public String buildEngineSettingValueEditUrl() {
+		return "/sc/engine-setting-value-edit.html";
+	}
+
+	public String buildEngineSettingValueEditUrl(final String engineSettingValueId) {
+		return "/sc/engine-setting-value-edit.html?" + Constants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID + "=" + engineSettingValueId;
 	}
 	
 	// --

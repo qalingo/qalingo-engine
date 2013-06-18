@@ -37,6 +37,10 @@ public interface BackofficeUrlService {
 	
 	String buildUserListUrl();
 	
+	String buildFaqUrl();
+	
+	String buildForbiddenUrl();
+	
 	// REPORTING
 	
 	String buildCatalogStatsUrl();
@@ -50,6 +54,16 @@ public interface BackofficeUrlService {
 	String buildCustomerStatsUrl();
 	
 	String buildReportingUrl();
+	
+	String buildChangeLanguageUrl(Localization localization);
+	
+	String buildChangeContextUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+
+	String buildSpringSecurityCheckUrl();
+	
+	String buildForgottenPasswordUrl();
+	
+	String buildGlobalSearchUrl();
 	
 	// BUSINESS
 	
@@ -115,27 +129,19 @@ public interface BackofficeUrlService {
 	
 	String buildCustomerEditUrl(String customerCode);
 
-	String buildFaqUrl();
-	
-	String buildForbiddenUrl();
-	
-	String buildChangeLanguageUrl(Localization localization);
-	
-	String buildChangeContextUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
-
-	String buildSpringSecurityCheckUrl();
-	
-	String buildForgottenPasswordUrl();
-	
-	String buildGlobalSearchUrl();
-	
 	// TECHNICAL
 	
-	String buildEngineSettingDetailsUrl(String engineSettingId);
-	
-	String buildEngineSettingValueEditUrl(String engineSettingId);
+	String buildReferenceDataListUrl();
 	
 	String buildEngineSettingListUrl();
+	
+	String buildEngineSettingValueEditUrl();
+
+	String buildEngineSettingValueEditUrl(String engineSettingValueId);
+	
+	String buildCacheUrl();
+	
+	String buildBatchUrl();
 	
 	String buildBatchCustomerUrl();
 	
@@ -146,4 +152,18 @@ public interface BackofficeUrlService {
 	String buildBatchCmsUrl();
 	
 	String buildBatchStockUrl();
+	
+	String buildMonitoringUrl();
+	
+	String buildSearchConfigUrl();
+	
+	String buildSearchUrl();
+	
+	String buildSearchEngineSettingUrl();
+	
+	String buildSearchUserUrl();
+	
+	String buildSearchBatchUrl();
+	
+	String buildEngineSettingDetailsUrl(String engineSettingId);
 }

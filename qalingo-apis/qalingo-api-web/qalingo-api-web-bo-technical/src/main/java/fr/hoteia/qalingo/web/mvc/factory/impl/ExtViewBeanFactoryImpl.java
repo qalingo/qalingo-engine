@@ -26,67 +26,61 @@ import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 
 	/**
-	 * @throws Exception 
-	 * 
-	 */
+     * 
+     */
 	@Override
 	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
-		final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		MenuViewBean menu = new MenuViewBean();
-		if(currentUrl.contains("home")){
-			menu.setCssClass("active");
-		}
+		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.buildHomeUrl());
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		if(currentUrl.contains("catalog")){
-			menu.setCssClass("dropdown active");
-		} else {
-			menu.setCssClass("dropdown");
-		}
-		menu.setCssIcon("icon-sitemap");
-		menu.setName("Catalog");
+		menu.setCssIcon("icon-cogs");
+		menu.setName("Engine Setting");
+		menu.setUrl(backofficeUrlService.buildEngineSettingListUrl());
 		menuViewBeans.add(menu);
 		
-		MenuViewBean subMenu = new MenuViewBean();
-		subMenu.setName("Manage Master Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageMasterCatalogUrl());
-		menu.getSubMenus().add(subMenu);
-		
-		subMenu = new MenuViewBean();
-		subMenu.setName("Manage Virtual Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageVirtualCatalogUrl());
-		menu.getSubMenus().add(subMenu);
-		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-money");
-		menu.setName("Promotion");
-		menu.setUrl(backofficeUrlService.buildRuleListUrl());
+		menu.setCssIcon("icon-reorder");
+		menu.setName("Cache");
+		menu.setUrl(backofficeUrlService.buildCacheUrl());
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-truck");
-		menu.setName("Shipping");
-		menu.setUrl(backofficeUrlService.buildShippingListUrl());
-		menuViewBeans.add(menu);
-		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-shopping-cart");
-		menu.setName("Orders");
-		menu.setUrl(backofficeUrlService.buildOrderListUrl());
+		menu.setCssIcon("icon-random");
+		menu.setName("Batch");
+		menu.setUrl(backofficeUrlService.buildBatchUrl());
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
-		menu.setName("Customers");
-		menu.setUrl(backofficeUrlService.buildCustomerListUrl());
+		menu.setName("Users");
+		menu.setUrl(backofficeUrlService.buildUserListUrl());
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
+		menu.setCssIcon("icon-book");
+		menu.setName("References Datas");
+		menu.setUrl(backofficeUrlService.buildReferenceDataListUrl());
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
+		menu.setCssIcon("icon-bar-chart");
+		menu.setName("Monitoring");
+		menu.setUrl(backofficeUrlService.buildMonitoringUrl());
+		menuViewBeans.add(menu);
+		
+		menu = new MenuViewBean();
+		menu.setCssIcon("icon-paper-clip");
+		menu.setName("FAQ");
+		menu.setUrl(backofficeUrlService.buildFaqUrl());
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

@@ -29,12 +29,6 @@ public interface EngineSettingService {
 
 	public final static String ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL	= "ESCAPE_ACCENT_FROM_URL";
 
-	public final static String ENGINE_SETTING_CONTEXT_BO_BUSINESS  = "BO_BUSINESS";
-	public final static String ENGINE_SETTING_CONTEXT_BO_REPORTING = "BO_REPORTING";
-	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL = "BO_TECHNICAL";
-	public final static String ENGINE_SETTING_CONTEXT_FO_MCOMMERCE = "FO_MCOMMERCE";
-	public final static String ENGINE_SETTING_CONTEXT_FO_PREHOME   = "FO_PREHOME";
-
 	public final static String ENGINE_SETTING_CODE_SPRING_BATCH_URL = "SPRING_BATCH_URL";
 	public final static String ENGINE_SETTING_CONTEXT_CMS			= "CMS";
 	public final static String ENGINE_SETTING_CONTEXT_CRM			= "CRM";

@@ -30,7 +30,6 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.UrlService;
@@ -73,7 +72,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		// NO CACHE FOR THIS PART
 		
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_PREHOME);
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 		

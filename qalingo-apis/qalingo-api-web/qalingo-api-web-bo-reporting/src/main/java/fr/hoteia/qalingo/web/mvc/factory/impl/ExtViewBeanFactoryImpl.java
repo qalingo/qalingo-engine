@@ -37,7 +37,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		MenuViewBean menu = new MenuViewBean();
 		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
-		menu.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header.menu.home", locale));
+		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.buildHomeUrl());
 		menuViewBeans.add(menu);
 

@@ -61,7 +61,6 @@ import fr.hoteia.qalingo.core.domain.UserRole;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
@@ -138,7 +137,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 											  final Localization localization, final Retailer retailer) throws Exception {
 		
 		final CommonViewBean commonViewBean = new CommonViewBean();
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_BUSINESS);
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
 		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl());
@@ -159,65 +158,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * 
 	 */
 	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
-		final Locale locale = localization.getLocale();
-		final String currentUrl = requestUtil.getCurrentRequestUrl(request);
-		
-		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-		
-		MenuViewBean menu = new MenuViewBean();
-		if(currentUrl.contains("home")){
-			menu.setCssClass("active");
-		}
-		menu.setCssIcon("icon-home");
-		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-		menu.setUrl(backofficeUrlService.buildHomeUrl());
-		menuViewBeans.add(menu);
-
-		menu = new MenuViewBean();
-		if(currentUrl.contains("catalog")){
-			menu.setCssClass("dropdown active");
-		} else {
-			menu.setCssClass("dropdown");
-		}
-		menu.setCssIcon("icon-sitemap");
-		menu.setName("Catalog");
-		menuViewBeans.add(menu);
-		
-		MenuViewBean subMenu = new MenuViewBean();
-		subMenu.setName("Manage Master Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageMasterCatalogUrl());
-		menu.getSubMenus().add(subMenu);
-		
-		subMenu = new MenuViewBean();
-		subMenu.setName("Manage Virtual Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageVirtualCatalogUrl());
-		menu.getSubMenus().add(subMenu);
-		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-money");
-		menu.setName("Promotion");
-		menu.setUrl(backofficeUrlService.buildRuleListUrl());
-		menuViewBeans.add(menu);
-
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-truck");
-		menu.setName("Shipping");
-		menu.setUrl(backofficeUrlService.buildShippingListUrl());
-		menuViewBeans.add(menu);
-		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-shopping-cart");
-		menu.setName("Orders");
-		menu.setUrl(backofficeUrlService.buildOrderListUrl());
-		menuViewBeans.add(menu);
-		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-group");
-		menu.setName("Customers");
-		menu.setUrl(backofficeUrlService.buildCustomerListUrl());
-		menuViewBeans.add(menu);
-		
-		return menuViewBeans;
+		return new ArrayList<MenuViewBean>();
 	}
 	
 	/**

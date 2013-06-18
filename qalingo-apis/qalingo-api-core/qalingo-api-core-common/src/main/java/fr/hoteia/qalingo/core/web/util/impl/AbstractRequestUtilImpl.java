@@ -28,6 +28,7 @@ import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 
 public abstract class AbstractRequestUtilImpl {
@@ -42,6 +43,9 @@ public abstract class AbstractRequestUtilImpl {
 	
 	@Value("${app.name}")  
 	protected String applicationName;
+	
+	@Value("${context.name}")  
+	protected String contextName;
 	
 	/**
 	 *
@@ -73,6 +77,13 @@ public abstract class AbstractRequestUtilImpl {
 	 */
 	public String getApplicationName() throws Exception {
 		return applicationName;
+	}
+	
+	/**
+	 *
+	 */
+	public String getContextName() throws Exception {
+		return contextName;
 	}
 	
 	/**
@@ -327,20 +338,28 @@ public abstract class AbstractRequestUtilImpl {
 	/**
      * 
      */
-	public String getCurrentThemeResourcePrefixPath(final HttpServletRequest request, final String context) throws Exception {
+	public String getCurrentThemeResourcePrefixPath(final HttpServletRequest request) throws Exception {
 		EngineSetting engineSetting = engineSettingService.getThemeResourcePrefixPath();
-		EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
-		String prefixPath  = engineSetting.getDefaultValue();
-		if(engineSettingValue != null){
-			prefixPath  = engineSettingValue.getValue();
-		} else {
-			LOG.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + context);
-		}
-		String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(request);
-		if(currentThemeResourcePrefixPath.endsWith("/")){
-			currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
-		}
-		return currentThemeResourcePrefixPath;
+		String contextName = getContextName();
+		try {
+			String contextValue = EngineSettingWebAppContext.valueOf(contextName).getPropertyKey();
+			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(contextValue);
+			String prefixPath  = engineSetting.getDefaultValue();
+			if(engineSettingValue != null){
+				prefixPath  = engineSettingValue.getValue();
+			} else {
+				LOG.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + contextValue);
+			}
+			String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(request);
+			if(currentThemeResourcePrefixPath.endsWith("/")){
+				currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
+			}
+			return currentThemeResourcePrefixPath;
+	        
+        } catch (Exception e) {
+        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        }
+		return null;
 	}
 	
 	/**

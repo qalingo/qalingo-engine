@@ -184,7 +184,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		// NO CACHE FOR THIS PART
 		
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_MCOMMERCE);
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
 		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -623,7 +623,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		followUs.setFailMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.fail.message", locale));
 
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request, EngineSettingService.ENGINE_SETTING_CONTEXT_FO_MCOMMERCE);
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 
 		String followType = "facebook";
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();

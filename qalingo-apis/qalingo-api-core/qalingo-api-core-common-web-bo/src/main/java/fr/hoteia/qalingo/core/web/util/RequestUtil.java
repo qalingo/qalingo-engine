@@ -226,7 +226,7 @@ public interface RequestUtil {
 	/**
      * 
      */
-	String getCurrentThemeResourcePrefixPath(HttpServletRequest request, String context) throws Exception;
+	String getCurrentThemeResourcePrefixPath(HttpServletRequest request) throws Exception;
 	
 	/**
      * 
