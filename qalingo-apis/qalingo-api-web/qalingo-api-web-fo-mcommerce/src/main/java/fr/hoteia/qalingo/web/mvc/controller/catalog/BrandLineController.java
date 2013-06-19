@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,11 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
+import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.ProductBrandService;
+import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.ProductBrandViewBean;
 
 /**
  * 
@@ -30,6 +39,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeControll
 @Controller
 public class BrandLineController extends AbstractMCommerceFrontofficeController {
 
+	@Autowired
+	protected ProductMarketingService productMarketingService;
+	
 	@Autowired
 	protected ProductBrandService productBrandService;
 	
@@ -42,7 +54,14 @@ public class BrandLineController extends AbstractMCommerceFrontofficeController 
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
 		// "brand.line";
-		modelAndViewFactory.initPageBrandLine(request, response, modelAndView, productBrand, "");
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		List<ProductMarketing>  productMarketings = productMarketingService.findProductMarketingsByBrandId(currentMarketArea.getId(), currentRetailer.getId(), productBrand.getId());
+		final ProductBrandViewBean productBrandViewBean = viewBeanFactory.buildProductBrandViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, productBrand, productMarketings);
+		modelAndView.addObject("productBrand", productBrandViewBean);
 		
         return modelAndView;
 	}

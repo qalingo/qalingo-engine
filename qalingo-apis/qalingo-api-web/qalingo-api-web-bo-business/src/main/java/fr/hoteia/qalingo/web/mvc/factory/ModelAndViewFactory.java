@@ -22,8 +22,6 @@ import fr.hoteia.qalingo.core.domain.ProductSku;
 
 public interface ModelAndViewFactory {
 
-	void initLoginModelAndView(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
-	
 	void initCatalogModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogMaster catalogMaster) throws Exception;
 
 	void initCatalogModelAndView(HttpServletRequest request, ModelAndView modelAndView, CatalogVirtual catalogVirtual) throws Exception;

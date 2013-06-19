@@ -34,9 +34,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -56,7 +62,15 @@ public class ContactUsController extends AbstractMCommerceFrontofficeController 
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
 		
 		// "contactus";
-		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("contactUs", contactUs);
+		
 		formFactory.buildContactUsForm(request, modelAndView);
 
         return modelAndView;
@@ -67,7 +81,15 @@ public class ContactUsController extends AbstractMCommerceFrontofficeController 
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
 		
 		// "contactus";
-		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("contactUs", contactUs);
+		
 		formFactory.buildContactUsForm(request, modelAndView);
 
         return modelAndView;
@@ -83,12 +105,27 @@ public class ContactUsController extends AbstractMCommerceFrontofficeController 
 		
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
-			modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
+
+			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+			final Market currentMarket = requestUtil.getCurrentMarket(request);
+			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+			final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			modelAndView.addObject("contactUs", contactUs);
+			
 			return modelAndView;
 		}
 		
 		formFactory.buildContactUsForm(request, modelAndView);
-		modelAndViewFactory.initContactUsModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("contactUs", contactUs);
 
 		webCommerceService.buildAndSaveContactUsMail(request, contactUsForm);
 		

@@ -23,13 +23,13 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nBasename;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeEmailMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.i18n.enumtype.WebappUniverse;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.i18n.message.ExtReloadableResourceBundleMessageSource;
 
@@ -81,8 +81,8 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 	 * (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(fr.hoteia.qalingo.core.domain.enumtype.WebappUniverse, java.lang.String, java.util.Locale)
 	 */
-	public Map<String, String> loadWording(WebappUniverse webappUniverse, String group, Locale locale) {
-		final Map<String, String> wordingKeyValues = loadWording(webappUniverse, locale);
+	public Map<String, String> loadWording(EngineSettingWebAppContext context, String group, Locale locale) {
+		final Map<String, String> wordingKeyValues = loadWording(context, locale);
 		final Map<String, String> wordingFilteredKeyValues = new HashMap<String, String>();
 		for (Iterator<String> iterator = wordingKeyValues.keySet().iterator(); iterator.hasNext();) {
 			final String key = (String) iterator.next();
@@ -97,10 +97,10 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 	 * (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(fr.hoteia.qalingo.core.domain.enumtype.WebappUniverse, java.util.Locale)
 	 */
-	public Map<String, String> loadWording(WebappUniverse webappUniverse, Locale locale) {
+	public Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale) {
 		final Map<String, String> wordingKeyValues = new HashMap<String, String>();
 		wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
-		wordingKeyValues.putAll(messageSource.getWordingProperties(WebappUniverse.getI18nBasenameAssociated(webappUniverse), locale));
+		wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
 		return wordingKeyValues;
 	}
 	

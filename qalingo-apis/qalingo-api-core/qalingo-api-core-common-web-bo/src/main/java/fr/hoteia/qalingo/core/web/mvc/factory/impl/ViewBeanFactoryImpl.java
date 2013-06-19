@@ -66,7 +66,6 @@ import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
-import fr.hoteia.qalingo.core.web.mvc.factory.AbstractBackofficeViewBeanFactory;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
@@ -1027,35 +1026,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 */
 	public SecurityViewBean buildSecurityViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
-		
 		final SecurityViewBean security = new SecurityViewBean();
-		
 		security.setLoginPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.login", locale));
 		security.setLoginPageText(getSpecificMessage(ScopeWebMessage.AUTH, "login.content.text", locale));
-
-//		security.setLogoutPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.logout", locale));
-//		security.setLogoutPageText(getSpecificMessage(ScopeWebMessage.AUTH, "main.content.title.logout", locale));
-
-//		security.setForbiddenPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.forbidden", locale));
-//		security.setForbiddenPageText(getSpecificMessage(ScopeWebMessage.AUTH, "forbidden.content.text", locale));
-
-//		security.setTimeoutPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.timeout", locale));
-//		security.setTimeoutPageText(getSpecificMessage(ScopeWebMessage.AUTH, "timeout.content.text", locale));
-
-//		security.setForgottenPasswordPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.forgotten.password", locale));
 		security.setForgottenPasswordPageText(getSpecificMessage(ScopeWebMessage.AUTH, "forgotten.password.content.text", locale));
-//		security.setEmailOrLoginLabel(getSpecificMessage("forgotten.password.email.or.login", locale));
-//		security.setForgottenPasswordEmailSucces(getSpecificMessage(ScopeWebMessage.AUTH, "forgotten.password.email.success", locale));
-	    
-//		security.setLoginFormTitle(getSpecificMessage(ScopeWebMessage.AUTH, "login.form.login.title", locale));
 		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl());
-//		security.setLoginLabel(getSpecificMessage("login.form.login.label", locale));
 		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl());
-//		security.setForgottenPasswordLabel(getSpecificMessage("login.form.forgotten.password.label", locale));
-//		security.setPasswordLabel(getSpecificMessage("login.form.password.label", locale));
-//		security.setRememberLabel(getSpecificMessage("login.form.remember.label", locale));
-//		security.setSubmitLabel(getSpecificMessage(ScopeWebMessage.AUTH, "login.form.login.submit", locale));
-		
 		return security;
 	}
 	

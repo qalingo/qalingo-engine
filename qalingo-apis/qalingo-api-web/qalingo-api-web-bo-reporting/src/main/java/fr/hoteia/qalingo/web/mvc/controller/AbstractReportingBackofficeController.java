@@ -11,7 +11,6 @@ package fr.hoteia.qalingo.web.mvc.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,20 +22,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import fr.hoteia.qalingo.core.ModelConstants;
-import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.i18n.enumtype.WebappUniverse;
-import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
-import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 
 /**
  * 
@@ -54,46 +46,6 @@ public abstract class AbstractReportingBackofficeController extends AbstractBack
 	@Autowired
     protected FormFactory formFactory;
 
-	@Autowired
-	protected LocalizationService localizationService;
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		// COMMON
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		CommonViewBean commonViewBean = viewBeanFactory.buildCommonViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, commonViewBean);
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
-		// QUICK SEARCH
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		QuickSearchViewBean quickSearchViewBean = viewBeanFactory.buildQuickSearchViewBean(request, currentLocalization);
-		model.addAttribute(ModelConstants.QUICK_SEARCH_VIEW_BEAN, quickSearchViewBean);
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
-		// HEADER
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(request, currentLocalization));
-		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(request, currentLocalization));
-	}
-	
 	/**
 	 * 
 	 */
@@ -149,55 +101,6 @@ public abstract class AbstractReportingBackofficeController extends AbstractBack
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
 		model.addAttribute(ModelConstants.RETAILERS_VIEW_BEAN, viewBeanFactory.buildRetailerViewBeans(request, currentMarketArea, currentLocalization));
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initLocalizations(final HttpServletRequest request, final Model model) throws Exception {
-		// LOCALIZATIONS
-		Company company = requestUtil.getCurrentCompany(request);
-		if(company != null){
-			Set<Localization> localizations = company.getLocalizations();
-			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, new ArrayList<Localization>(localizations)));
-		} else {
-			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
-			List<Localization> defaultLocalizations = new ArrayList<Localization>();
-			defaultLocalizations.add(defaultLocalization);
-			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, defaultLocalizations));
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		// LEGAL-TERMS
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, currentLocalization);
-		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initFooter(final HttpServletRequest request, final Model model) throws Exception {
-		// FOOTER
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		model.addAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN, viewBeanFactory.buildFooterMenuViewBeans(request, currentLocalization));
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	public void initWording(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
-		model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(WebappUniverse.BACKOFFICE_BUSINESS, locale));
 	}
 	
 }

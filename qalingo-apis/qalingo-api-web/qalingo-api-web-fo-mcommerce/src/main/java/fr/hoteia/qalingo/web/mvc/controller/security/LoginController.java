@@ -24,6 +24,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 
 /**
  * 
@@ -46,7 +47,14 @@ public class LoginController extends AbstractMCommerceFrontofficeController {
 		}
 		
 		//  "login";
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("security", security);
 		
         return modelAndView;
 	}

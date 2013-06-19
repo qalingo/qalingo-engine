@@ -16,7 +16,6 @@
 	</organization>
 
 	<modules>
-		<module>qalingo-i18n</module>
 		<module>qalingo-sql</module>
 		<module>qalingo-wurfl</module>
 	</modules>

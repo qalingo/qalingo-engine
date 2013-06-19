@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.FoPageConstants;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 
 /**
  * 

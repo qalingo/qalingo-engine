@@ -21,9 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -40,7 +46,15 @@ public class ForgottentPasswordController extends AbstractMCommerceFrontofficeCo
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
 		// "forgotten.password";
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("security", security);
+		
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
@@ -52,7 +66,14 @@ public class ForgottentPasswordController extends AbstractMCommerceFrontofficeCo
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-success");
 
 		// "forgotten.password";
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("security", security);
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");

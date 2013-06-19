@@ -46,6 +46,7 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -83,7 +84,15 @@ public class CustomerCreateAccountController extends AbstractMCommerceFrontoffic
 		}
 		
 		// "customer.create.account";
-		modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("customerCreateAccount", customerCreateAccount);
+		
 		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
         return modelAndView;
@@ -106,7 +115,15 @@ public class CustomerCreateAccountController extends AbstractMCommerceFrontoffic
 		}
 		
 		// "customer.create.account";
-		modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("customerCreateAccount", customerCreateAccount);
+		
 		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
         return modelAndView;
@@ -132,7 +149,10 @@ public class CustomerCreateAccountController extends AbstractMCommerceFrontoffic
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
-			modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
+
+			final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			modelAndView.addObject("customerCreateAccount", customerCreateAccount);
+			
 			modelAndView.addObject("createAccountForm", createAccountForm);
 			return modelAndView;
 		}

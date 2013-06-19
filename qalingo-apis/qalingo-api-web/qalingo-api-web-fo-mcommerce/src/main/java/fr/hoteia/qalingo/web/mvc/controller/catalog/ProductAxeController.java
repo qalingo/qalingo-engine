@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,11 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 
 /**
  * 
@@ -43,7 +49,24 @@ public class ProductAxeController extends AbstractMCommerceFrontofficeController
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		
 		// "product.axe.category";
-		modelAndViewFactory.initPageProductCategory(request, response, modelAndView, productCategory, "");
+
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+		
+		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
+        modelAndView.addObject("seoPageMetaKeywords", seoPageMetaKeywords);
+
+		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
+        modelAndView.addObject("seoPageMetaDescription", seoPageMetaDescription);
+
+		String pageTitleKey = "header.title." + "";
+		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
+        modelAndView.addObject("seoPageTitle", seoPageTitle);
+        
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, productCategory);
+		modelAndView.addObject("productCategory", productCategoryViewBean);
 		
         return modelAndView;
 	}

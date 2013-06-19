@@ -34,10 +34,6 @@
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-drools</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-solr</artifactId>
-		</dependency>
 		
 		<!-- SOLR -->
 		<dependency>

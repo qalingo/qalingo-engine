@@ -83,15 +83,6 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
 	/**
      * 
      */
-	public void initLoginModelAndView(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentLocalization);
-		modelAndView.addObject(Constants.SECURITY_VIEW_BEAN, security);
-	}
-	
-	/**
-     * 
-     */
 	public void initCatalogModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogMaster catalogMaster) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);

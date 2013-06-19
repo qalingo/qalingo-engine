@@ -46,6 +46,7 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -69,7 +70,14 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		// "customer.address.list";
-		modelAndViewFactory.initCustomerAddressListModelAndView(request, modelAndView, customer);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
 
         return modelAndView;
 	}
@@ -100,7 +108,17 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 		
 		// "customer.add.address";
-		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
+		
 		formFactory.buildCustomerAddressForm(request, modelAndView);
 
         return modelAndView;
@@ -111,7 +129,17 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 		
 		// "customer.add.address";
-		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
+		
 		formFactory.buildCustomerAddressForm(request, modelAndView);
 
         return modelAndView;
@@ -125,12 +153,16 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
 		// "customer.add.address";
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
-			modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+			final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+			modelAndView.addObject("customerAdresses", customerAdressesViewBean);
+			
 			return modelAndView;
 		}
 		
@@ -150,9 +182,12 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+
 		// "customer.edit.address";
-		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
 		
 		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		CustomerAddress customerAddress = null;
@@ -188,9 +223,13 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+
 		// "customer.edit.address";
-		modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
+		
 
 		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		CustomerAddress customerAddress = null;
@@ -225,12 +264,16 @@ public class CustomerAddressController extends AbstractMCommerceFrontofficeContr
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
 		// "customer.edit.address";
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
-			modelAndViewFactory.initCustomerAddAddressModelAndView(request, modelAndView);
+
+			final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+			modelAndView.addObject("customerAdresses", customerAdressesViewBean);
+			
 			return modelAndView;
 		}
 		

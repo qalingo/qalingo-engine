@@ -1,6 +1,9 @@
 package fr.hoteia.qalingo.core.web.mvc.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,16 +18,27 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 
 /**
  * 
@@ -46,6 +60,12 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	protected UserService userService;
 	
 	@Autowired
+	protected LocalizationService localizationService;
+	
+	@Autowired
+	protected EngineSettingService engineSettingService;
+	
+	@Autowired
     protected ViewBeanFactory viewBeanFactory;
 
 	@Autowired
@@ -59,7 +79,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		final Locale locale  = requestUtil.getCurrentLocale(request);
 		// APP NAME
 		model.addAttribute(Constants.APP_NAME, getAppName(request));
-		Object[] params = {requestUtil.getApplicationName()};
+		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
 		model.addAttribute(Constants.APP_NAME_HTML, getCommonMessage(ScopeCommonMessage.APP, "name_html", params, locale));
 	}
 	
@@ -101,6 +121,82 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	/**
 	 * 
 	 */
+	@ModelAttribute
+	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
+		// COMMON
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		CommonViewBean commonViewBean = viewBeanFactory.buildCommonViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, commonViewBean);
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
+		// QUICK SEARCH
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		QuickSearchViewBean quickSearchViewBean = viewBeanFactory.buildQuickSearchViewBean(request, currentLocalization);
+		model.addAttribute(ModelConstants.QUICK_SEARCH_VIEW_BEAN, quickSearchViewBean);
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
+		// HEADER
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(request, currentLocalization));
+		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(request, currentLocalization));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initLocalizations(final HttpServletRequest request, final Model model) throws Exception {
+		// LOCALIZATIONS
+		Company company = requestUtil.getCurrentCompany(request);
+		if(company != null){
+			Set<Localization> localizations = company.getLocalizations();
+			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, new ArrayList<Localization>(localizations)));
+		} else {
+			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
+			List<Localization> defaultLocalizations = new ArrayList<Localization>();
+			defaultLocalizations.add(defaultLocalization);
+			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, defaultLocalizations));
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
+		// LEGAL-TERMS
+		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
+		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, currentLocalization);
+		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initFooter(final HttpServletRequest request, final Model model) throws Exception {
+		// FOOTER
+		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
+		model.addAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN, viewBeanFactory.buildFooterMenuViewBeans(request, currentLocalization));
+	}
+	
+	/**
+	 * 
+	 */
 	protected void overrideMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
 //		final Locale locale  = requestUtil.getCurrentLocale(request);
 //		String mainContentTitleKey = BoMessageKey.MAIN_CONTENT_TITLE_PREFIX + pageKey;
@@ -114,6 +210,23 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		if(StringUtils.isNotEmpty(title)){
 			 modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, title);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	public void initWording(final HttpServletRequest request, final Model model) throws Exception {
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+		String contextName = requestUtil.getContextName();
+		try {
+			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
+			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(contextValue, locale));
+	        
+        } catch (Exception e) {
+        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        }
 	}
 	
 	/**
@@ -186,7 +299,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 * @throws Exception 
 	 * 
 	 */
-	protected String getAppName(HttpServletRequest request) throws Exception{
+	protected String getAppName(HttpServletRequest request) throws Exception {
 		final Locale locale  = requestUtil.getCurrentLocale(request);
 		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
 		String appName = getCommonMessage(ScopeCommonMessage.APP, "name_text", params, locale);

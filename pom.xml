@@ -140,7 +140,7 @@
 			</dependency>
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
-				<artifactId>qalingo-i18n</artifactId>
+				<artifactId>qalingo-i18n-properties</artifactId>
 				<version>${project.version}</version>
 				<exclusions>
 					<exclusion>

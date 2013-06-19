@@ -23,6 +23,7 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
+import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
@@ -39,10 +40,13 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-    protected RequestUtil requestUtil;
+	protected CustomerService customerService;
+
+	@Autowired
+    protected ViewBeanFactory viewBeanFactory;
 	
 	@Autowired
-	protected CustomerService customerService;
+    protected RequestUtil requestUtil;
 	
 	/**
 	 * 

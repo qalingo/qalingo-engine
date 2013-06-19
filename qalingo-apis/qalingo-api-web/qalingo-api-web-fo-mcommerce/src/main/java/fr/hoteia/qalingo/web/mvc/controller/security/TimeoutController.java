@@ -24,6 +24,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 
 /**
  * 
@@ -34,20 +35,21 @@ public class TimeoutController extends AbstractMCommerceFrontofficeController {
 	@RequestMapping("/timeout.html*")
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/timeout");
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		if(getCustomer() != null){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 			final String urlRedirect = urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
 		// "timeout";
-		
-		modelAndViewFactory.initLoginModelAndView(request, modelAndView);
+
+		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("security", security);
 		
         return modelAndView;
 	}

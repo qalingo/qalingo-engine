@@ -7,12 +7,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 
+import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeEmailMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.i18n.enumtype.WebappUniverse;
 
 public interface CoreMessageSource extends MessageSource {
 
@@ -39,12 +39,12 @@ public interface CoreMessageSource extends MessageSource {
 	/**
 	 * Load all worgind key/value by webappUnivers and univers/group
 	 */
-	Map<String, String> loadWording(WebappUniverse webappUnivers, String group, Locale locale);
+	Map<String, String> loadWording(EngineSettingWebAppContext context, String group, Locale locale);
 	
 	/**
 	 * Load all worgind key/value by webappUnivers
 	 */
-	Map<String, String> loadWording(WebappUniverse webappUnivers, Locale locale);
+	Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale);
 	
 	String getMessage(String code, String defaultMessage, Locale locale);
 	

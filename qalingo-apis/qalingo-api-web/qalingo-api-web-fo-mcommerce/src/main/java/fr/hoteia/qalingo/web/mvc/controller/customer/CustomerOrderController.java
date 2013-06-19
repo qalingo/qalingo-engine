@@ -59,8 +59,6 @@ public class CustomerOrderController extends AbstractMCommerceFrontofficeControl
 		// "customer.order.list";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
-		modelAndViewFactory.initCustomerOrderListModelAndView(request, modelAndView, customer);
-
 		List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
@@ -106,8 +104,13 @@ public class CustomerOrderController extends AbstractMCommerceFrontofficeControl
 				final Customer customer = requestUtil.getCurrentCustomer(request);
 				List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
 				if(orders.contains(order)){
+					
+					
 					// "customer.order.details";
-					modelAndViewFactory.initCustomerOrderDetailsModelAndView(request, modelAndView, customer);
+					
+					
+					
+					
 			        return modelAndView;
 				} else {
 					LOG.warn("Customer, " + customer.getId() + "/" + customer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");

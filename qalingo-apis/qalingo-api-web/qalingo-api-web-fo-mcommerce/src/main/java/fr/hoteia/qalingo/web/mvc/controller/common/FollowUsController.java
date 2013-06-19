@@ -22,11 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -43,8 +49,16 @@ public class FollowUsController extends AbstractMCommerceFrontofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
 		
 		// "followus";
+		
 		formFactory.buildFollowUsForm(request, modelAndView);
-		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("followUs", followUs);
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.FOLLOW_US, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -58,7 +72,14 @@ public class FollowUsController extends AbstractMCommerceFrontofficeController {
 		
 		// "followus";
 		formFactory.buildFollowUsForm(request, modelAndView);
-		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("followUs", followUs);
 		
         return modelAndView;
 	}
@@ -72,13 +93,27 @@ public class FollowUsController extends AbstractMCommerceFrontofficeController {
 
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
-			modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
+
+			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+			final Market currentMarket = requestUtil.getCurrentMarket(request);
+			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+			final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			modelAndView.addObject("followUs", followUs);
+			
 			return modelAndView;
 		}
 
 		webCommerceService.saveAndBuildNewsletterRegistrationConfirmationMail(request, followUsForm);
 		
-		modelAndViewFactory.initFollowUsModelAndView(request, modelAndView);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("followUs", followUs);
 
         return modelAndView;
 	}

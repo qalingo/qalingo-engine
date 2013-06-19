@@ -25,6 +25,7 @@ import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 
 /**
  * 
@@ -49,7 +50,13 @@ public class CartOrderConfirmationController extends AbstractMCommerceFrontoffic
 		
 		// "shoppingcart.confirmation";
 		
-		modelAndViewFactory.initOrderModelAndView(request, modelAndView, lastOrder);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, lastOrder);
+		modelAndView.addObject("order", orderViewBean);
 		
         return modelAndView;
 	}

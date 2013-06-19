@@ -31,6 +31,7 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -48,7 +49,14 @@ public class CustomerDetailsController extends AbstractMCommerceFrontofficeContr
 		
 		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerDetails", customerViewBean);
 
         return modelAndView;
 	}
@@ -59,7 +67,15 @@ public class CustomerDetailsController extends AbstractMCommerceFrontofficeContr
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		// "customer.details";
-		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerDetails", customerViewBean);
+		
 		formFactory.buildCustomerEditAccountForm(request, customer, modelAndView);
 
         return modelAndView;
@@ -71,7 +87,14 @@ public class CustomerDetailsController extends AbstractMCommerceFrontofficeContr
 		
 		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		modelAndViewFactory.initCustomerDetailsAccountModelAndView(request, modelAndView, customer);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerDetails", customerViewBean);
 
         return modelAndView;
 	}
@@ -87,15 +110,19 @@ public class CustomerDetailsController extends AbstractMCommerceFrontofficeContr
 		
 		// "customer.details";
 
-		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
-			modelAndViewFactory.initCustomerCreateAccountModelAndView(request, modelAndView);
-			return modelAndView;
-		}
-		
 		final String newEmail = customerEditForm.getEmail();
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		final Customer checkCustomer = customerService.getCustomerByLoginOrEmail(newEmail);
+
+		if (result.hasErrors()) {
+			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
+
+			final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
+			modelAndView.addObject("customerDetails", customerViewBean);
+			
+			return modelAndView;
+		}
+		
 		if(checkCustomer != null
 				&& !currentCustomer.getEmail().equalsIgnoreCase(newEmail)) {
 			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);

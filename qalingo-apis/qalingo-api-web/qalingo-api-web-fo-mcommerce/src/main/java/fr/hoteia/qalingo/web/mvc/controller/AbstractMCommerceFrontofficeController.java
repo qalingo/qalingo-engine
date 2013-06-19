@@ -33,8 +33,6 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
-import fr.hoteia.qalingo.web.mvc.factory.ModelAndViewFactory;
-import fr.hoteia.qalingo.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
@@ -57,12 +55,6 @@ public abstract class AbstractMCommerceFrontofficeController extends AbstractFro
 
 	@Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
-    protected ModelAndViewFactory modelAndViewFactory;
-	
-	@Autowired
-    protected ViewBeanFactory viewBeanFactory;
 	
 	@Autowired
     protected FormFactory formFactory;
@@ -161,8 +153,7 @@ public abstract class AbstractMCommerceFrontofficeController extends AbstractFro
 	@ModelAttribute
 	protected void initAllMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// ALL MARKETPLACES
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(request, currentLocalization);
+		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(request);
 		model.addAttribute("marketPlaces", marketPlaceViewBeans);
 	}
 

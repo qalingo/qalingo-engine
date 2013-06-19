@@ -40,6 +40,7 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.SearchForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
 
 /**
  * 
@@ -60,7 +61,15 @@ public class SearchController extends AbstractMCommerceFrontofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 		
 		// "search";
-		modelAndViewFactory.initSearchModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("search", search);
+		
 		formFactory.buildSearchForm(request, modelAndView);
 
         return modelAndView;
@@ -76,11 +85,25 @@ public class SearchController extends AbstractMCommerceFrontofficeController {
 		
 		if (result.hasErrors()) {
 			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
-			modelAndViewFactory.initSearchModelAndView(request, modelAndView);
+
+			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+			final Market currentMarket = requestUtil.getCurrentMarket(request);
+			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+			final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			modelAndView.addObject("search", search);
+			
 			return modelAndView;
 		}
 
-		modelAndViewFactory.initSearchModelAndView(request, modelAndView);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		modelAndView.addObject("search", search);
 		
 		try {
 			ProductResponseBean productResponseBean = productSolrService.searchProduct();

@@ -28,6 +28,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -48,7 +49,13 @@ public class CustomerProductCommentController extends AbstractMCommerceFrontoffi
 		// "customer.product.comment";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
-		modelAndViewFactory.initCustomerProductCommentModelAndView(request, modelAndView, customer);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		modelAndView.addObject("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;
 	}

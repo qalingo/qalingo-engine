@@ -42,6 +42,7 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 
 /**
@@ -69,7 +70,15 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceFro
 		}
 		
 		// "shoppingcart.order.informations";
-		modelAndViewFactory.initCartModelAndView(request, modelAndView);
+
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
+		modelAndView.addObject("cart", cartViewBean);
+		
 		formFactory.buildCartForm(request, modelAndView);
 		
         return modelAndView;
@@ -87,7 +96,11 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceFro
 		if (result.hasErrors()) {
 			ModelAndView modelAndView = new ModelAndView("cart/cart-delivery-order-information");
 			// "shoppingcart.order.informations";
-			modelAndViewFactory.initCartModelAndView(request, modelAndView);
+
+			final Cart currentCart = requestUtil.getCurrentCart(request);
+			final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
+			modelAndView.addObject("cart", cartViewBean);
+			
 			return modelAndView;
 		}
 		
