@@ -138,17 +138,6 @@
 				<artifactId>qalingo-api-web-remote-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
-				<artifactId>qalingo-i18n-properties</artifactId>
-				<version>${project.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>poi</artifactId>
-						<groupId>org.apache.poi</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
 			
 			<!-- Commons libs -->
 			<dependency>
