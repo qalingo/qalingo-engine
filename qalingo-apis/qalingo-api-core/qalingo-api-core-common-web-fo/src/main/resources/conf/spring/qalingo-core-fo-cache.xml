@@ -19,8 +19,57 @@
 						   http://www.springframework.org/schema/tx/spring-tx.xsd
 					   	   http://www.springframework.org/schema/context 
 						   http://www.springframework.org/schema/context/spring-context.xsd">
-						   	
+					
 	<import resource="classpath:conf/spring/qalingo-core-cache.xml" />
+						   
+	<bean id="menuTopCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
 
+	<bean id="menuTopCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
+		<property name="cache" ref="menuTopCache" />
+		<property name="engineSettingService" ref="engineSettingService" />
+	</bean>
 	
+	<bean id="menuFooterCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
+
+	<bean id="menuFooterCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
+		<property name="cache" ref="menuFooterCache" />
+		<property name="engineSettingService" ref="engineSettingService" />
+	</bean>
+	
+	<bean id="menuMarketNavigationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
+
+	<bean id="menuMarketNavigationCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
+		<property name="cache" ref="menuMarketNavigationCache" />
+		<property name="engineSettingService" ref="engineSettingService" />
+	</bean>
+	
+	<bean id="menuCustomerCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
+
+	<bean id="menuCustomerCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
+		<property name="cache" ref="menuCustomerCache" />
+		<property name="engineSettingService" ref="engineSettingService" />
+	</bean>
+	
+	<bean id="storeLocatorCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
+
+	<bean id="storeLocatorCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
+		<property name="cache" ref="storeLocatorCache" />
+		<property name="engineSettingService" ref="engineSettingService" />
+	</bean>
+
 </beans>
