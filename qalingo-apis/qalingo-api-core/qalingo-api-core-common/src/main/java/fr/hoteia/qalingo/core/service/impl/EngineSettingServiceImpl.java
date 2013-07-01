@@ -118,13 +118,8 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
 	}
 	
-	public EngineSetting getCatalogImageResourcePrefixPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH);
-	}
-	
 	public EngineSetting withEscapeAccent() {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
 	}
-
 
 }

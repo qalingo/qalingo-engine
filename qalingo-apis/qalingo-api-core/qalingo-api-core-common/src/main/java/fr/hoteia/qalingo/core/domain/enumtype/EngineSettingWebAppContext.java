@@ -34,6 +34,16 @@ public enum EngineSettingWebAppContext {
 	/**
 	 * 
 	 */
+	FO_MARKETPLACE("FO_MARKETPLACE"),
+	
+	/**
+	 * 
+	 */
+	FO_SHOWROOM("FO_SHOWROOM"),
+	
+	/**
+	 * 
+	 */
 	FO_MCOMMERCE("FO_MCOMMERCE"),
 	
 	/**
@@ -73,6 +83,10 @@ public enum EngineSettingWebAppContext {
 			return I18nBasename.BO_TECHNICAL_BASENAME;
 		} else if(context.equals(EngineSettingWebAppContext.BO_REPORTING)){
 			return I18nBasename.BO_REPORTING_BASENAME;
+		} else if(context.equals(EngineSettingWebAppContext.FO_MARKETPLACE)){
+			return I18nBasename.FO_MARKETPLACE_BASENAME;
+		} else if(context.equals(EngineSettingWebAppContext.FO_SHOWROOM)){
+			return I18nBasename.FO_SHOWROOM_BASENAME;
 		} else if(context.equals(EngineSettingWebAppContext.FO_MCOMMERCE)){
 			return I18nBasename.FO_MCOMMERCE_BASENAME;
 		} else if(context.equals(EngineSettingWebAppContext.FO_PREHOME)){

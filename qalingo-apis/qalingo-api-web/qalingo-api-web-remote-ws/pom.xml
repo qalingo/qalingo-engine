@@ -30,7 +30,6 @@
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-jax-ws</artifactId>
 		</dependency>
-		
 
 	</dependencies>
 </project>

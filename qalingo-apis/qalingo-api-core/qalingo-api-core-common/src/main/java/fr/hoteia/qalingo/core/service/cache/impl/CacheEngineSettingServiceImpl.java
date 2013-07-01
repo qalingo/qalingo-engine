@@ -83,18 +83,6 @@ public class CacheEngineSettingServiceImpl extends EngineSettingServiceImpl {
 	}
 
 	@Override
-	public EngineSetting getCatalogImageResourcePrefixPath() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_CATALOG_RESOURCE_PREFIX_PATH;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getCatalogImageResourcePrefixPath();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
-	@Override
 	public EngineSetting withEscapeAccent() {
 		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
 		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL;

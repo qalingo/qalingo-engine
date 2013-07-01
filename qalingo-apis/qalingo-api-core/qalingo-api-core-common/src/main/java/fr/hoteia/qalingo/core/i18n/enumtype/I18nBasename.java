@@ -42,6 +42,16 @@ public enum I18nBasename {
 	/**
 	 * 
 	 */
+	FO_MARKETPLACE_BASENAME("qalingo-fo-wording"),
+	
+	/**
+	 * 
+	 */
+	FO_SHOWROOM_BASENAME("qalingo-fo-wording"),
+	
+	/**
+	 * 
+	 */
 	FO_MCOMMERCE_BASENAME("qalingo-fo-wording"),
 	
 	/**
