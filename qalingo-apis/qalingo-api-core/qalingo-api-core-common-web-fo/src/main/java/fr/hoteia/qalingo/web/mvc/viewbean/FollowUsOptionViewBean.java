@@ -18,12 +18,21 @@ public class FollowUsOptionViewBean extends AbstractViewBean implements Serializ
 	 */
 	private static final long serialVersionUID = 2810057750199820656L;
 	
+	protected String code;
 	protected String url;
 	protected String urlLabel;
 	protected String urlImg;
 	protected String title;
 	protected String text;
 	
+	public String getCode() {
+    	return code;
+    }
+
+	public void setCode(String code) {
+    	this.code = code;
+    }
+
 	public String getUrl() {
 		return url;
 	}

@@ -236,6 +236,67 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
+	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
+			 final Localization localization, final Retailer retailer) throws Exception {
+		final WebElementType menuTopElementType = WebElementType.TOP_MENU_VIEW_BEAN_LIST;
+		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
+		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
+		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
+		if(menuViewBeans == null){
+			final Locale locale = localization.getLocale();
+			final String localeCode = localization.getCode();
+
+			menuViewBeans = new ArrayList<MenuViewBean>();
+			
+			MenuViewBean menu = new MenuViewBean();
+			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
+			menuViewBeans.add(menu);
+
+			CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
+			
+			final List<CatalogCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
+			if(productCategoies != null) {
+				for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
+					final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
+					menu = new MenuViewBean();
+					final String seoProductCategoryName = productCategory.getI18nName(localeCode);
+					final String seoProductCategoryCode = productCategory.getCode();
+					menu.setName(seoProductCategoryName);
+					menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
+					
+					List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
+					if(subProductCategories != null) {
+						List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
+						for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
+							final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
+							final MenuViewBean subMenu = new MenuViewBean();
+							final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
+							final String seoSubProductCategoryCode = subProductCategory.getCode();
+							subMenu.setName(seoSubProductCategoryName);
+							subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName, seoSubProductCategoryCode));
+							subMenus.add(subMenu);
+						}
+						menu.setSubMenus(subMenus);
+					}
+					menuViewBeans.add(menu);
+				}
+			}
+			
+			menu = new MenuViewBean();
+			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our.company", locale));
+			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
+			menuViewBeans.add(menu);
+			
+			menuTopCacheHelper.addToCache(menuTopElementType, menuTopCacheKey, menuViewBeans);
+		}
+		
+		return menuViewBeans;
+	}
+	
+	/**
+     * 
+     */
 	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
 		final WebElementType footerMenuElementType = WebElementType.FOOTER_MENU_VIEW_BEAN_LIST;
@@ -332,6 +393,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		String followType = "facebook";
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
+		followOption.setCode(followType);
 		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
 		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
 		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
@@ -341,6 +403,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		followType = "twitter";
 		followOption = new FollowUsOptionViewBean();
+		followOption.setCode(followType);
 		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
 		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
 		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
@@ -348,8 +411,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
-		followType = "google.plus";
+		followType = "googleplus";
 		followOption = new FollowUsOptionViewBean();
+		followOption.setCode(followType);
 		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
 		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
 		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
@@ -357,8 +421,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
 		followOptions.add(followOption);
 		
-		followType = "blog";
+		followType = "feed";
 		followOption = new FollowUsOptionViewBean();
+		followOption.setCode(followType);
 		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
 		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
 		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
@@ -384,6 +449,17 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
 		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
+		
+		legalTerms.setCompanyName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.name", locale));
+		legalTerms.setCompanyAddress(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.address", locale));
+		legalTerms.setCompanyAddressAdditionalInfo(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.address.additional.info", locale));
+		legalTerms.setCompanyZipOrPostalCode(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.zip.or.postal.code", locale));
+		legalTerms.setCompanyCity(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.city", locale));
+		legalTerms.setCompanyState(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.state", locale));
+		legalTerms.setCompanyCountry(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.country", locale));
+		legalTerms.setCompanyPhone(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.phone", locale));
+		legalTerms.setCompanyFax(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.fax", locale));
+		legalTerms.setCompanyEmail(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.email", locale));
 		
 		return legalTerms;
 	}
@@ -457,67 +533,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		retailerViewBean.setName(retailer.getName());
 		retailerViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer));
 		return retailerViewBean;
-	}
-	
-	/**
-     * 
-     */
-	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
-		final WebElementType menuTopElementType = WebElementType.TOP_MENU_VIEW_BEAN_LIST;
-		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
-		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
-		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
-		if(menuViewBeans == null){
-			final Locale locale = localization.getLocale();
-			final String localeCode = localization.getCode();
-
-			menuViewBeans = new ArrayList<MenuViewBean>();
-			
-			MenuViewBean menu = new MenuViewBean();
-			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-			menuViewBeans.add(menu);
-
-			CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
-			
-			final List<CatalogCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
-			if(productCategoies != null) {
-				for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
-					final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
-					menu = new MenuViewBean();
-					final String seoProductCategoryName = productCategory.getI18nName(localeCode);
-					final String seoProductCategoryCode = productCategory.getCode();
-					menu.setName(seoProductCategoryName);
-					menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
-					
-					List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
-					if(subProductCategories != null) {
-						List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
-						for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-							final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
-							final MenuViewBean subMenu = new MenuViewBean();
-							final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
-							final String seoSubProductCategoryCode = subProductCategory.getCode();
-							subMenu.setName(seoSubProductCategoryName);
-							subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName, seoSubProductCategoryCode));
-							subMenus.add(subMenu);
-						}
-						menu.setSubMenus(subMenus);
-					}
-					menuViewBeans.add(menu);
-				}
-			}
-			
-			menu = new MenuViewBean();
-			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our.company", locale));
-			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
-			menuViewBeans.add(menu);
-			
-			menuTopCacheHelper.addToCache(menuTopElementType, menuTopCacheKey, menuViewBeans);
-		}
-		
-		return menuViewBeans;
 	}
 	
 	/**
@@ -721,6 +736,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		final String localeCodeNavigation = localization.getCode();
 		final Retailer retailer = requestUtil.getCurrentRetailer(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
 		
@@ -732,6 +748,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		}
 		
 		localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer));
+		if(localization.getCode().equals(currentLocalization.getCode())){
+			localizationViewBean.setActive(true);
+		}
 		return localizationViewBean;
 	}
 	

@@ -21,6 +21,7 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	protected String name;
 	protected String img;
 	protected String url;
+	protected boolean active = false;
 
 	public String getName() {
 		return name;
@@ -45,5 +46,13 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+	public boolean isActive() {
+    	return active;
+    }
+
+	public void setActive(boolean active) {
+    	this.active = active;
+    }
 	
 }

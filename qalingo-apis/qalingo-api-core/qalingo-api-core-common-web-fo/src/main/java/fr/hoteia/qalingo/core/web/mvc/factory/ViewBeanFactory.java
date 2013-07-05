@@ -81,6 +81,9 @@ public interface ViewBeanFactory {
 	HeaderCartViewBean buildHeaderCartViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
+	List<MenuViewBean> buildMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+			Localization localization, Retailer retailer) throws Exception;
+
 	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
@@ -105,9 +108,6 @@ public interface ViewBeanFactory {
 			 Localization localization, Retailer retailer) throws Exception;
 	
 	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
-	
-	List<MenuViewBean> buildMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer) throws Exception;
 	
 	List<CutomerMenuViewBean> buildCutomerMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer) throws Exception;
