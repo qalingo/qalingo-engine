@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -36,7 +36,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class ForgottentPasswordController extends AbstractMCommerceFrontofficeController {
+public class ForgottentPasswordController extends AbstractMCommerceController {
 
 	@Autowired
     protected WebCommerceService webCommerceService;

@@ -74,7 +74,7 @@ public abstract class AbstractQalingoController {
 			request.getSession().removeAttribute(Constants.SUCCESS_MESSAGE);
 		}
 	}
-	
+
 	/**
 	 * @throws Exception 
 	 * 

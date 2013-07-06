@@ -34,10 +34,7 @@ public class CustomerAddressViewBean extends AbstractViewBean implements Seriali
 	private boolean isDefaultBilling;
 	private boolean isDefaultShipping;
 
-    private String editLabel;
     private String editUrl;
-
-    private String deleteLabel;
     private String deleteUrl;
     
 	public Long getId() {
@@ -160,28 +157,12 @@ public class CustomerAddressViewBean extends AbstractViewBean implements Seriali
 		this.isDefaultShipping = isDefaultShipping;
 	}
 	
-	public String getEditLabel() {
-		return editLabel;
-	}
-	
-	public void setEditLabel(String editLabel) {
-		this.editLabel = editLabel;
-	}
-	
 	public String getEditUrl() {
 		return editUrl;
 	}
 	
 	public void setEditUrl(String editUrl) {
 		this.editUrl = editUrl;
-	}
-	
-	public String getDeleteLabel() {
-		return deleteLabel;
-	}
-	
-	public void setDeleteLabel(String deleteLabel) {
-		this.deleteLabel = deleteLabel;
 	}
 	
 	public String getDeleteUrl() {
@@ -191,6 +172,5 @@ public class CustomerAddressViewBean extends AbstractViewBean implements Seriali
 	public void setDeleteUrl(String deleteUrl) {
 		this.deleteUrl = deleteUrl;
 	}
-	
 	
 }

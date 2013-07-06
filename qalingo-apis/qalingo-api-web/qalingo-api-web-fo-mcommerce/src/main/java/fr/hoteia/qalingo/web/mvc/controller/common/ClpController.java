@@ -20,13 +20,13 @@ import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * CLP Customer Loyalty Program
  */
 @Controller
-public class ClpController extends AbstractMCommerceFrontofficeController {
+public class ClpController extends AbstractMCommerceController {
 
 	@RequestMapping("/clp.html*")
 	public ModelAndView clp(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

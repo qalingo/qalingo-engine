@@ -24,7 +24,6 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	protected String price;
 	protected String amount;
 	protected String deleteUrl;
-	protected String deleteLabel;
 
 	public String getSkuCode() {
 		return skuCode;
@@ -72,14 +71,6 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setDeleteUrl(String deleteUrl) {
 		this.deleteUrl = deleteUrl;
-	}
-	
-	public String getDeleteLabel() {
-		return deleteLabel;
-	}
-	
-	public void setDeleteLabel(String deleteLabel) {
-		this.deleteLabel = deleteLabel;
 	}
 	
 }

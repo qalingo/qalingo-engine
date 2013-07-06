@@ -27,14 +27,14 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.service.StoreService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 
 /**
  * 
  */
 @Controller
-public class StoreLocationController extends AbstractMCommerceFrontofficeController {
+public class StoreLocationController extends AbstractMCommerceController {
 
 	@Autowired
     protected StoreService storeService;

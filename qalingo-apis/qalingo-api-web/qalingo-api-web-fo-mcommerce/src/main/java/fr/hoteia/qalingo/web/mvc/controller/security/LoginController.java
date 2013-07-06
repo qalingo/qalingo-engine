@@ -23,14 +23,14 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 
 /**
  * 
  */
 @Controller
-public class LoginController extends AbstractMCommerceFrontofficeController {
+public class LoginController extends AbstractMCommerceController {
 
 	@RequestMapping("/login.html*")
 	public ModelAndView login(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

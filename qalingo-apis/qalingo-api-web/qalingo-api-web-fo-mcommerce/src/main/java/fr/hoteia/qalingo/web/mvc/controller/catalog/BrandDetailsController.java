@@ -26,14 +26,14 @@ import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.ProductBrandService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductBrandViewBean;
 
 /**
  * 
  */
 @Controller
-public class BrandDetailsController extends AbstractMCommerceFrontofficeController {
+public class BrandDetailsController extends AbstractMCommerceController {
 
 	@Autowired
 	protected ProductBrandService productBrandService;

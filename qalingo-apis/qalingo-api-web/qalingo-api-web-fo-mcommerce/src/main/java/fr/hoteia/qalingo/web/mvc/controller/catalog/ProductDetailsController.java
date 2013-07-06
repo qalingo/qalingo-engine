@@ -31,14 +31,14 @@ import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 
 /**
  * 
  */
 @Controller
-public class ProductDetailsController extends AbstractMCommerceFrontofficeController {
+public class ProductDetailsController extends AbstractMCommerceController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;

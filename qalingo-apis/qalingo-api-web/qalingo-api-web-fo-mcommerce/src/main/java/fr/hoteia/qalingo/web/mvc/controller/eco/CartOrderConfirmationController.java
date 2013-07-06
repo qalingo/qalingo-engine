@@ -24,14 +24,14 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 
 /**
  * 
  */
 @Controller
-public class CartOrderConfirmationController extends AbstractMCommerceFrontofficeController {
+public class CartOrderConfirmationController extends AbstractMCommerceController {
 
 	@RequestMapping("/cart-order-confirmation.html*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

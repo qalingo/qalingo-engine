@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * 
  */
 @Controller
-public class LegalTermsController extends AbstractMCommerceFrontofficeController {
+public class LegalTermsController extends AbstractMCommerceController {
 
 	@RequestMapping("/legal-terms.html*")
 	public ModelAndView legacy(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

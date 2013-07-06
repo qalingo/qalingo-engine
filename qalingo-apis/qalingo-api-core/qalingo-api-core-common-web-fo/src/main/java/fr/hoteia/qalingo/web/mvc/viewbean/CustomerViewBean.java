@@ -20,33 +20,15 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 6264101125517957897L;
 	
-	private String firstnameLabel;
 	private String firstnameValue;
-
-	private String lastnameLabel;
 	private String lastnameValue;
-
-	private String emailLabel;
 	private String emailValue;
-
-	private String dateCreateLabel;
 	private String dateCreateValue;
-
-	private String dateUpdateLabel;
 	private String dateUpdateValue;
 
 	private Map<String, ValueBean> customerAttributes = new HashMap<String, ValueBean>();
 	
-	private String editLabel;
 	private String editUrl;
-
-	public String getFirstnameLabel() {
-		return firstnameLabel;
-	}
-	
-	public void setFirstnameLabel(String firstnameLabel) {
-		this.firstnameLabel = firstnameLabel;
-	}
 
 	public String getFirstnameValue() {
 		return firstnameValue;
@@ -54,14 +36,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
 	public void setFirstnameValue(String firstnameValue) {
 		this.firstnameValue = firstnameValue;
-	}
-
-	public String getLastnameLabel() {
-		return lastnameLabel;
-	}
-
-	public void setLastnameLabel(String lastnameLabel) {
-		this.lastnameLabel = lastnameLabel;
 	}
 
 	public String getLastnameValue() {
@@ -72,14 +46,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 		this.lastnameValue = lastnameValue;
 	}
 
-	public String getEmailLabel() {
-		return emailLabel;
-	}
-
-	public void setEmailLabel(String emailLabel) {
-		this.emailLabel = emailLabel;
-	}
-
 	public String getEmailValue() {
 		return emailValue;
 	}
@@ -88,28 +54,12 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 		this.emailValue = emailValue;
 	}
 
-	public String getDateCreateLabel() {
-		return dateCreateLabel;
-	}
-
-	public void setDateCreateLabel(String dateCreateLabel) {
-		this.dateCreateLabel = dateCreateLabel;
-	}
-
 	public String getDateCreateValue() {
 		return dateCreateValue;
 	}
 
 	public void setDateCreateValue(String dateCreateValue) {
 		this.dateCreateValue = dateCreateValue;
-	}
-
-	public String getDateUpdateLabel() {
-		return dateUpdateLabel;
-	}
-
-	public void setDateUpdateLabel(String dateUpdateLabel) {
-		this.dateUpdateLabel = dateUpdateLabel;
 	}
 
 	public String getDateUpdateValue() {
@@ -126,14 +76,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setCustomerAttributes(Map<String, ValueBean> customerAttributes) {
 		this.customerAttributes = customerAttributes;
-	}
-	
-	public String getEditLabel() {
-		return editLabel;
-	}
-	
-	public void setEditLabel(String editLabel) {
-		this.editLabel = editLabel;
 	}
 	
 	public String getEditUrl() {

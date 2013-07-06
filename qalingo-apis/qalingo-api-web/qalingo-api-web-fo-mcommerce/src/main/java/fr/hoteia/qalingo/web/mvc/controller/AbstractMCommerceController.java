@@ -49,7 +49,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-public abstract class AbstractMCommerceFrontofficeController extends AbstractFrontofficeQalingoController {
+public abstract class AbstractMCommerceController extends AbstractFrontofficeQalingoController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 

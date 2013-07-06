@@ -23,14 +23,14 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 
 /**
  * 
  */
 @Controller
-public class TimeoutController extends AbstractMCommerceFrontofficeController {
+public class TimeoutController extends AbstractMCommerceController {
 
 	@RequestMapping("/timeout.html*")
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

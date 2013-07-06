@@ -40,7 +40,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
@@ -50,7 +50,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class ContactUsController extends AbstractMCommerceFrontofficeController {
+public class ContactUsController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	

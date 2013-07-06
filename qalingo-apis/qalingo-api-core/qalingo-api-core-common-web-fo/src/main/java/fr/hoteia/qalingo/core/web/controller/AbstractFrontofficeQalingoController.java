@@ -17,6 +17,7 @@ import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.FoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -108,6 +109,23 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
 		Object[] params = {StringUtils.capitalize(requestUtil.getEnvironmentName())};
 		model.addAttribute(ModelConstants.ENV_NAME, getSpecificMessage(ScopeWebMessage.COMMON, "header.env.name", params, locale));
+	}
+
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	public void initWording(final HttpServletRequest request, final Model model) throws Exception {
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+		String contextName = requestUtil.getContextName();
+		try {
+			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
+			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(contextValue, locale));
+	        
+        } catch (Exception e) {
+        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        }
 	}
 	
 	/**

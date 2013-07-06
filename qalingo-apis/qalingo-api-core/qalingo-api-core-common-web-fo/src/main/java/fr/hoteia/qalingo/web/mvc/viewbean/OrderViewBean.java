@@ -25,31 +25,10 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	private String dateCreate;
 	private String dateUpdate;
 	
-	private String orderItemNameLabel;
-	private String orderItemQuantityLabel;
-	private String orderItemDeleteActionLabel;
-	private String orderItemPriceLabel;
-	private String orderItemSubTotalLabel;
-
-	private String billingAddressLabel;
-	private String shippingAddressLabel;
-	
-	private String orderItemsTotalLabel;
-	private String orderShippingTotalLabel;
-	private String orderTaxesTotalLabel;
-	private String orderTotalLabel;
-	
 	private String orderItemsTotal;
 	private String orderShippingTotal;
 	private String orderFeesTotal;
 	private String orderTotal;
-	
-	private String cardHolderLabel;
-	private String cardNumberLabel;
-	private String cardCryptoLabel;
-	private String cardExpirationDateLabel;
-	private String cardExpirationMonthLabel;
-	private String cardExpirationYearLabel;
 	
 	private String cardHolder;
 	private String cardNumber;
@@ -59,8 +38,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	private String cardExpirationYear;
 	
 	private String orderDetailsUrl;
-
-	private String confirmationMessage;
 
 	private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
 	private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
@@ -101,94 +78,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.dateUpdate = dateUpdate;
 	}
 	
-	public String getOrderItemNameLabel() {
-		return orderItemNameLabel;
-	}
-	
-	public void setOrderItemNameLabel(String orderItemNameLabel) {
-		this.orderItemNameLabel = orderItemNameLabel;
-	}
-
-	public String getOrderItemQuantityLabel() {
-		return orderItemQuantityLabel;
-	}
-
-	public void setOrderItemQuantityLabel(String orderItemQuantityLabel) {
-		this.orderItemQuantityLabel = orderItemQuantityLabel;
-	}
-
-	public String getOrderItemDeleteActionLabel() {
-		return orderItemDeleteActionLabel;
-	}
-
-	public void setOrderItemDeleteActionLabel(String orderItemDeleteActionLabel) {
-		this.orderItemDeleteActionLabel = orderItemDeleteActionLabel;
-	}
-
-	public String getOrderItemPriceLabel() {
-		return orderItemPriceLabel;
-	}
-
-	public void setOrderItemPriceLabel(String orderItemPriceLabel) {
-		this.orderItemPriceLabel = orderItemPriceLabel;
-	}
-
-	public String getOrderItemSubTotalLabel() {
-		return orderItemSubTotalLabel;
-	}
-
-	public void setOrderItemSubTotalLabel(String orderItemSubTotalLabel) {
-		this.orderItemSubTotalLabel = orderItemSubTotalLabel;
-	}
-
-	public String getBillingAddressLabel() {
-		return billingAddressLabel;
-	}
-
-	public void setBillingAddressLabel(String billingAddressLabel) {
-		this.billingAddressLabel = billingAddressLabel;
-	}
-
-	public String getShippingAddressLabel() {
-		return shippingAddressLabel;
-	}
-
-	public void setShippingAddressLabel(String shippingAddressLabel) {
-		this.shippingAddressLabel = shippingAddressLabel;
-	}
-
-	public String getOrderItemsTotalLabel() {
-		return orderItemsTotalLabel;
-	}
-
-	public void setOrderItemsTotalLabel(String orderItemsTotalLabel) {
-		this.orderItemsTotalLabel = orderItemsTotalLabel;
-	}
-
-	public String getOrderShippingTotalLabel() {
-		return orderShippingTotalLabel;
-	}
-
-	public void setOrderShippingTotalLabel(String orderShippingTotalLabel) {
-		this.orderShippingTotalLabel = orderShippingTotalLabel;
-	}
-
-	public String getOrderTaxesTotalLabel() {
-		return orderTaxesTotalLabel;
-	}
-
-	public void setOrderTaxesTotalLabel(String orderTaxesTotalLabel) {
-		this.orderTaxesTotalLabel = orderTaxesTotalLabel;
-	}
-
-	public String getOrderTotalLabel() {
-		return orderTotalLabel;
-	}
-
-	public void setOrderTotalLabel(String orderTotalLabel) {
-		this.orderTotalLabel = orderTotalLabel;
-	}
-
 	public String getOrderItemsTotal() {
 		return orderItemsTotal;
 	}
@@ -219,54 +108,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 
 	public void setOrderTotal(String orderTotal) {
 		this.orderTotal = orderTotal;
-	}
-
-	public String getCardHolderLabel() {
-		return cardHolderLabel;
-	}
-
-	public void setCardHolderLabel(String cardHolderLabel) {
-		this.cardHolderLabel = cardHolderLabel;
-	}
-
-	public String getCardNumberLabel() {
-		return cardNumberLabel;
-	}
-
-	public void setCardNumberLabel(String cardNumberLabel) {
-		this.cardNumberLabel = cardNumberLabel;
-	}
-
-	public String getCardCryptoLabel() {
-		return cardCryptoLabel;
-	}
-
-	public void setCardCryptoLabel(String cardCryptoLabel) {
-		this.cardCryptoLabel = cardCryptoLabel;
-	}
-
-	public String getCardExpirationDateLabel() {
-		return cardExpirationDateLabel;
-	}
-
-	public void setCardExpirationDateLabel(String cardExpirationDateLabel) {
-		this.cardExpirationDateLabel = cardExpirationDateLabel;
-	}
-
-	public String getCardExpirationMonthLabel() {
-		return cardExpirationMonthLabel;
-	}
-
-	public void setCardExpirationMonthLabel(String cardExpirationMonthLabel) {
-		this.cardExpirationMonthLabel = cardExpirationMonthLabel;
-	}
-
-	public String getCardExpirationYearLabel() {
-		return cardExpirationYearLabel;
-	}
-
-	public void setCardExpirationYearLabel(String cardExpirationYearLabel) {
-		this.cardExpirationYearLabel = cardExpirationYearLabel;
 	}
 
 	public String getCardHolder() {
@@ -325,14 +166,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.orderDetailsUrl = orderDetailsUrl;
 	}
 
-	public String getConfirmationMessage() {
-		return confirmationMessage;
-	}
-
-	public void setConfirmationMessage(String confirmationMessage) {
-		this.confirmationMessage = confirmationMessage;
-	}
-
 	public List<OrderItemViewBean> getOrderItems() {
 		return orderItems;
 	}
@@ -356,6 +189,5 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	public void setOrderTaxes(List<OrderTaxViewBean> orderTaxes) {
 		this.orderTaxes = orderTaxes;
 	}
-
 	
 }

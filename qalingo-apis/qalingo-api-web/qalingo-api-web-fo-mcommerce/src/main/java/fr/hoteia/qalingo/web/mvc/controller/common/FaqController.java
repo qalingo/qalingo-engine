@@ -22,14 +22,14 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 
 /**
  * 
  */
 @Controller
-public class FaqController extends AbstractMCommerceFrontofficeController {
+public class FaqController extends AbstractMCommerceController {
 
 	@RequestMapping("/faq.html*")
 	public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

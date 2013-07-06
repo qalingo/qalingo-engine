@@ -52,6 +52,11 @@ public interface RequestUtil {
 	/**
 	 *
 	 */
+	String getContextName() throws Exception;
+	
+	/**
+	 *
+	 */
 	DateFormat getFormatDate(HttpServletRequest request, int dateStyle, int timeStyle) throws Exception;
 	
 	/**

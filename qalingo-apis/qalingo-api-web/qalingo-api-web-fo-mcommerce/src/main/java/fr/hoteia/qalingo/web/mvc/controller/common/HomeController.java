@@ -23,13 +23,13 @@ import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * 
  */
 @Controller
-public class HomeController extends AbstractMCommerceFrontofficeController {
+public class HomeController extends AbstractMCommerceController {
 
 	@RequestMapping(FoPageConstants.HOME_URL + "*")
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

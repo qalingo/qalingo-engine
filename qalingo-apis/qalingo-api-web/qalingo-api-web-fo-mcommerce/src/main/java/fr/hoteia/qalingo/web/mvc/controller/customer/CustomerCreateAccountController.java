@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
@@ -54,7 +54,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class CustomerCreateAccountController extends AbstractMCommerceFrontofficeController {
+public class CustomerCreateAccountController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	

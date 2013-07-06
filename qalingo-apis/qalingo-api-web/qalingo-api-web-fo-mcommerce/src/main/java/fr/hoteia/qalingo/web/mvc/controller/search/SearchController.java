@@ -37,7 +37,7 @@ import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceFrontofficeController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.SearchForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
@@ -46,7 +46,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
  * 
  */
 @Controller
-public class SearchController extends AbstractMCommerceFrontofficeController {
+public class SearchController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	

@@ -22,16 +22,9 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	
 	protected String homeUrl;
 	protected String loginUrl;
-	protected String loginLabel;
 	protected String forgottenPasswordUrl;
 	protected String logoutUrl;
-	protected String logoutLabel;
-
-	protected String createAccountSectionTitle;
-	protected String createAccountSectionText;
 	protected String createAccountUrl;
-	protected String createAccountLabel;
-	
 	protected String customerDetailsUrl;
 	protected String customerDetailsLabel;
 
@@ -64,14 +57,6 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 		this.loginUrl = loginUrl;
 	}
 
-	public String getLoginLabel() {
-		return loginLabel;
-	}
-
-	public void setLoginLabel(String loginLabel) {
-		this.loginLabel = loginLabel;
-	}
-
 	public String getForgottenPasswordUrl() {
 		return forgottenPasswordUrl;
 	}
@@ -88,44 +73,12 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 		this.logoutUrl = logoutUrl;
 	}
 
-	public String getLogoutLabel() {
-		return logoutLabel;
-	}
-
-	public void setLogoutLabel(String logoutLabel) {
-		this.logoutLabel = logoutLabel;
-	}
-
-	public String getCreateAccountSectionTitle() {
-		return createAccountSectionTitle;
-	}
-	
-	public void setCreateAccountSectionTitle(String createAccountSectionTitle) {
-		this.createAccountSectionTitle = createAccountSectionTitle;
-	}
-	
-	public String getCreateAccountSectionText() {
-		return createAccountSectionText;
-	}
-	
-	public void setCreateAccountSectionText(String createAccountSectionText) {
-		this.createAccountSectionText = createAccountSectionText;
-	}
-	
 	public String getCreateAccountUrl() {
 		return createAccountUrl;
 	}
 
 	public void setCreateAccountUrl(String createAccountUrl) {
 		this.createAccountUrl = createAccountUrl;
-	}
-
-	public String getCreateAccountLabel() {
-		return createAccountLabel;
-	}
-
-	public void setCreateAccountLabel(String createAccountLabel) {
-		this.createAccountLabel = createAccountLabel;
 	}
 
 	public String getCustomerDetailsUrl() {
