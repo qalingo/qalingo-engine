@@ -1010,11 +1010,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		
 		final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 		
-		legalTerms.setPageTitle(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "header.title", locale));
-		legalTerms.setTextHtml(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "content.text", locale));
-
 		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
-		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
+		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "copyright", locale));
 		
 		return legalTerms;
 	}

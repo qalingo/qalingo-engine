@@ -13,11 +13,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.FoPageConstants;
+import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
@@ -30,14 +32,17 @@ public class VelocityCacheController extends AbstractFrontofficeQalingoControlle
 
 	@Resource(name="viewResolver")
 	protected VelocityLayoutViewResolver viewResolver;
-	
+
+	@Autowired
+	protected CoreMessageSource coreMessageSource;
+
 	@RequestMapping("/flush-cache-ihm.html*")
 	public ModelAndView flushCache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.VELOCITY_CACHE_VELOCITY_PAGE);
 
-		// "flush.cache.ihm";
-
 		viewResolver.clearCache();
+		
+		coreMessageSource.clearCache();
 		
         return modelAndView;
 	}

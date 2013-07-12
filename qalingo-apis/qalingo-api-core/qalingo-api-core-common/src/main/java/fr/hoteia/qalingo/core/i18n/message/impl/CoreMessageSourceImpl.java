@@ -11,6 +11,7 @@ package fr.hoteia.qalingo.core.i18n.message.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -99,8 +100,14 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 	 */
 	public Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale) {
 		final Map<String, String> wordingKeyValues = new HashMap<String, String>();
-		wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
-		wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
+		
+		List<String> allFileNames = messageSource.getFileBasenames();
+		for (Iterator<String> iterator = allFileNames.iterator(); iterator.hasNext();) {
+	        String fileName = (String) iterator.next();
+			wordingKeyValues.putAll(messageSource.getWordingProperties(fileName, locale));
+        }
+//		wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
+//		wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
 		return wordingKeyValues;
 	}
 	
@@ -168,6 +175,10 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 			}
 		}
 		return null;
+	}
+	
+	public void clearCache() {
+		messageSource.clearCache();
 	}
 	
 	private String buildCommonFullKey(ScopeCommonMessage scope, String key){

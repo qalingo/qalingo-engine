@@ -1,22 +1,32 @@
 package fr.hoteia.qalingo.core.i18n.message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-
-import fr.hoteia.qalingo.core.i18n.enumtype.I18nBasename;
+import org.springframework.util.Assert;
 
 public class ExtReloadableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
 
-	public Map<String, String> getWordingProperties(I18nBasename i18nBasename, Locale locale) {
+	private String[] fileBasenames = new String[0];
+	
+	public List<String> getFileBasenames() {
+		List<String> basenameList = new ArrayList<String>();
+		CollectionUtils.addAll(basenameList, fileBasenames);
+		return basenameList;
+	}
+	
+	public Map<String, String> getWordingProperties(String fileName, Locale locale) {
 		final Map<String, String> wording = new HashMap<String, String>();
-		final PropertiesHolder propertiesHolder = getSpecificProperties(i18nBasename.getPropertyKey(), locale);
+		final PropertiesHolder propertiesHolder = getSpecificProperties(fileName, locale);
 		final Properties properties = propertiesHolder.getProperties();
 		if(properties != null){
 			final Set<Object> keys = properties.keySet();
@@ -38,5 +48,18 @@ public class ExtReloadableResourceBundleMessageSource extends ReloadableResource
 			propertiesHolder =  getProperties(fileName);
 		}
 		return propertiesHolder;
+	}
+	
+	@Override
+	public void setBasenames(String... basenames) {
+		if (basenames != null) {
+			this.fileBasenames = new String[basenames.length];
+			for (int i = 0; i < basenames.length; i++) {
+				String basename = basenames[i];
+				Assert.hasText(basename, "Basename must not be empty");
+				this.fileBasenames[i] = basename.trim();
+			}
+		}
+		super.setBasenames(basenames);
 	}
 }

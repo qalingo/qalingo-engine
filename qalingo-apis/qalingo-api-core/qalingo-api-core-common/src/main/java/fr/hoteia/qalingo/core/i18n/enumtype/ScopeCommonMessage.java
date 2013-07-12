@@ -27,7 +27,7 @@ public enum ScopeCommonMessage {
 	/**
 	 * 
 	 */
-	LEGAL_TERMS("legals_terms"),
+	LEGAL_TERMS("legal_terms"),
 	
 	/**
 	 * 

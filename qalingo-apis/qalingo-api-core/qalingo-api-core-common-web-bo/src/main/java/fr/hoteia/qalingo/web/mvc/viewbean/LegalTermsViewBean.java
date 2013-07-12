@@ -18,27 +18,8 @@ public class LegalTermsViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 4770655450241546076L;
 	
-	protected String pageTitle;
-	protected String textHtml;
-
 	protected String warning;
 	protected String copyright;
-	
-	public String getPageTitle() {
-		return pageTitle;
-	}
-	
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
-	}
-	
-	public String getTextHtml() {
-		return textHtml;
-	}
-	
-	public void setTextHtml(String textHtml) {
-		this.textHtml = textHtml;
-	}
 	
 	public String getWarning() {
 		return warning;

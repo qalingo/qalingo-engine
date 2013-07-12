@@ -55,4 +55,6 @@ public interface CoreMessageSource extends MessageSource {
 	String getMessage(String code, Object args[], Locale locale) throws NoSuchMessageException;
 
 	String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException;
+	
+	void clearCache();
 }
