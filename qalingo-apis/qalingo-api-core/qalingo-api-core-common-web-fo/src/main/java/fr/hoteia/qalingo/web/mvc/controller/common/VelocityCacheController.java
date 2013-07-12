@@ -32,7 +32,7 @@ public class VelocityCacheController extends AbstractFrontofficeQalingoControlle
 	protected VelocityLayoutViewResolver viewResolver;
 	
 	@RequestMapping("/flush-cache-ihm.html*")
-	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView flushCache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.VELOCITY_CACHE_VELOCITY_PAGE);
 
 		// "flush.cache.ihm";

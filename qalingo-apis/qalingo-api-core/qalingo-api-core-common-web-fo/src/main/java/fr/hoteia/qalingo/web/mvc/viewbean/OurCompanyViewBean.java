@@ -18,26 +18,8 @@ public class OurCompanyViewBean extends AbstractViewBean implements Serializable
 	 */
 	private static final long serialVersionUID = -2683788708377450252L;
 	
-	protected String pageTitle;
-	protected String textHtml;
 
 	protected String warning;
-	
-	public String getPageTitle() {
-		return pageTitle;
-	}
-	
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
-	}
-	
-	public String getTextHtml() {
-		return textHtml;
-	}
-	
-	public void setTextHtml(String textHtml) {
-		this.textHtml = textHtml;
-	}
 	
 	public String getWarning() {
 		return warning;

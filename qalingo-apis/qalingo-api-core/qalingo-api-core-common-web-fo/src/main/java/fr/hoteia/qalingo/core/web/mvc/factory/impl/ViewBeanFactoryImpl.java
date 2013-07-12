@@ -185,8 +185,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
 		
-//		commonViewBean.setCreateAccountSectionTitle(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.title", locale));
-//		commonViewBean.setCreateAccountSectionText(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.text", locale));
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
 		
 		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -213,12 +211,12 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 		headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
 		if(currentCart.getCartItems().size() == 1) {
-			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.one.item", locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
 		} else if(currentCart.getCartItems().size() > 1) {
 			Object[] cartTotalSummaryLabelParams = {currentCart.getCartItems().size()};
-			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.many.items", cartTotalSummaryLabelParams, locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
 		} else {
-			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart.total.summary.label.no.item", locale));
+			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
 		}
 		
 		return headerCartViewBean;
@@ -275,7 +273,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 			
 			menu = new MenuViewBean();
-			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our.company", locale));
+			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
 			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
 			menuViewBeans.add(menu);
 			
@@ -304,7 +302,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			footerMenuViewBeans.add(footerMenuList);
 			
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal.terms", locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "legal_terms", locale));
 			footerMenuList.setUrl(urlService.buildLegalTermsUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
@@ -314,7 +312,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			footerMenuViewBeans.add(footerMenuList);
 	
 			footerMenuList = new FooterMenuViewBean();
-			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store.location", locale));
+			footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
 			footerMenuList.setUrl(urlService.buildStoreLocationUrl(request, marketPlace, market, marketArea, localization, retailer));
 			footerMenuViewBeans.add(footerMenuList);
 			
@@ -341,59 +339,26 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		
 		final FollowUsViewBean followUs = new FollowUsViewBean();
-//		followUs.setEmailLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.email", locale));
-//		followUs.setSubmitLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.submit", locale));
-//		followUs.setCancelLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.cancel", locale));
-		
-//		followUs.setSuccessMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.success.message", locale));
-//		followUs.setFailMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.fail.message", locale));
-
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
-
-		String followType = "facebook";
-		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
-		followOption.setCode(followType);
-		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
-		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
-		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
-		followOptions.add(followOption);
-		
-		followType = "twitter";
-		followOption = new FollowUsOptionViewBean();
-		followOption.setCode(followType);
-		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
-		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
-		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
-		followOptions.add(followOption);
-		
-		followType = "googleplus";
-		followOption = new FollowUsOptionViewBean();
-		followOption.setCode(followType);
-		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
-		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
-		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
-		followOptions.add(followOption);
-		
-		followType = "feed";
-		followOption = new FollowUsOptionViewBean();
-		followOption.setCode(followType);
-		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.label", locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".url.img", locale));
-		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".title", locale));
-		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + ".text", locale));
-		followOptions.add(followOption);
-		
+		followOptions.add(buildFollowOption(request, locale, "facebook"));
+		followOptions.add(buildFollowOption(request, locale, "twitter"));
+		followOptions.add(buildFollowOption(request, locale, "googleplus"));
+		followOptions.add(buildFollowOption(request, locale, "feed"));
 		followUs.setFollowOptions(followOptions);
 		
 		return followUs;
+	}
+	
+	private FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, final String followType) throws Exception{
+		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
+		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
+		followOption.setCode(followType);
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url.label", locale));
+		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url_img", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_text", locale));
+		return followOption;
 	}
 	
 	/**
@@ -404,22 +369,19 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 		
-//		legalTerms.setPageTitle(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "header.title", locale));
-//		legalTerms.setTextHtml(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "content.text", locale));
-//
 		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
 		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
 		
-		legalTerms.setCompanyName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.name", locale));
-		legalTerms.setCompanyAddress(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.address", locale));
-		legalTerms.setCompanyAddressAdditionalInfo(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.address.additional.info", locale));
-		legalTerms.setCompanyZipOrPostalCode(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.zip.or.postal.code", locale));
-		legalTerms.setCompanyCity(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.city", locale));
-		legalTerms.setCompanyState(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.state", locale));
-		legalTerms.setCompanyCountry(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.country", locale));
-		legalTerms.setCompanyPhone(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.phone", locale));
-		legalTerms.setCompanyFax(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.fax", locale));
-		legalTerms.setCompanyEmail(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.email", locale));
+		legalTerms.setCompanyName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_name", locale));
+		legalTerms.setCompanyAddress(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_address", locale));
+		legalTerms.setCompanyAddressAdditionalInfo(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_address_additional_info", locale));
+		legalTerms.setCompanyZipOrPostalCode(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_zip_or_postal_code", locale));
+		legalTerms.setCompanyCity(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_city", locale));
+		legalTerms.setCompanyState(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_state", locale));
+		legalTerms.setCompanyCountry(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_country", locale));
+		legalTerms.setCompanyPhone(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_phone", locale));
+		legalTerms.setCompanyFax(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_fax", locale));
+		legalTerms.setCompanyEmail(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_email", locale));
 		
 		return legalTerms;
 	}
@@ -432,8 +394,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		
 		final OurCompanyViewBean ourCompany = new OurCompanyViewBean();
-		ourCompany.setPageTitle(getSpecificMessage(ScopeWebMessage.OUR_COMPANY, "header.title", locale));
-		ourCompany.setTextHtml(getSpecificMessage(ScopeWebMessage.OUR_COMPANY, "content.text", locale));
 		return ourCompany;
 	}
 	
