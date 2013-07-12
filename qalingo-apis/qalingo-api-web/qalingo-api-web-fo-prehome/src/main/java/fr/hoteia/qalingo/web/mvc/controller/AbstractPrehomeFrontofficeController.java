@@ -23,9 +23,9 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.web.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 
 /**

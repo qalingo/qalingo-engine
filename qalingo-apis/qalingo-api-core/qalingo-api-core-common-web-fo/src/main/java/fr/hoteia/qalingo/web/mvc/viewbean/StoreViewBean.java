@@ -19,29 +19,17 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = 2538607600492625532L;
 
 	private String code;
-	
 	private String businessName;
-	
     private String address1;
-	
     private String address2;
-	
     private String addressAdditionalInformation;
-	
     private String postalCode;
-	
     private String city;
-
-    private String countyCode;
-	
-    private String county;
-    
+    private String stateCode;
+    private String areaCode;
     private String countryCode;
-
     private String country;
-
 	private String longitude;
-	
 	private String latitude;
 
 	public String getCode() {
@@ -100,22 +88,22 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 		this.city = city;
 	}
 
-	public String getCountyCode() {
-		return countyCode;
-	}
+	public String getStateCode() {
+	    return stateCode;
+    }
+	
+	public void setStateCode(String stateCode) {
+	    this.stateCode = stateCode;
+    }
 
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
-	}
-
-	public String getCounty() {
-		return county;
-	}
-
-	public void setCounty(String county) {
-		this.county = county;
-	}
-
+	public String getAreaCode() {
+	    return areaCode;
+    }
+	
+	public void setAreaCode(String areaCode) {
+	    this.areaCode = areaCode;
+    }
+	
 	public String getCountryCode() {
 		return countryCode;
 	}

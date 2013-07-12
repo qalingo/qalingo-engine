@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -46,7 +47,6 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -67,39 +67,8 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 	@Autowired
     protected SecurityUtil securityUtil;
 	
-	@RequestMapping(value = "/customer-create-account-form.html*")
-	public ModelAndView createAccountForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
-		
-		// SANITY CHECK: Customer logged
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		if(currentCustomer != null){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-			return new ModelAndView(new RedirectView(url));
-		}
-		
-		// "customer.create.account";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("customerCreateAccount", customerCreateAccount);
-		
-		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
-
-        return modelAndView;
-	}
-
 	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.GET)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
 		
 		// SANITY CHECK: Customer logged
@@ -121,8 +90,8 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("customerCreateAccount", customerCreateAccount);
+
+		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 		
 		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
@@ -148,13 +117,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		// "customer.create.account";
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
-
-			final CustomerCreateAccountViewBean customerCreateAccount = viewBeanFactory.buildCustomerCreateAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-			modelAndView.addObject("customerCreateAccount", customerCreateAccount);
-			
-			modelAndView.addObject("createAccountForm", createAccountForm);
-			return modelAndView;
+			return displayCustomerCreateAccount(request, response, modelMap);
 		}
 		
 		final String email = createAccountForm.getEmail();
@@ -162,7 +125,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		if(customer != null){
 			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 			final Object[] objects = {forgottenPasswordUrl};
-			result.rejectValue("email", "error.form.customer.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
+			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}
 
 		// Save the new customer

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 
 /**
  * Change context

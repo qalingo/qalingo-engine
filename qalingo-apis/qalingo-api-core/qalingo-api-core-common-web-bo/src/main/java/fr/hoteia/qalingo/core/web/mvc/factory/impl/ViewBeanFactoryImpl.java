@@ -94,7 +94,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RuleViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
@@ -1256,17 +1255,6 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		customerViewBean.setEditUrl(backofficeUrlService.buildCustomerEditUrl(customer.getCode()));
 
 		return customerViewBean;
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	public QuickSearchViewBean buildQuickSearchViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
-		final QuickSearchViewBean quickSearch = new QuickSearchViewBean();
-//		quickSearch.setTextLabel(getSpecificMessage("form.search.label.text", locale));
-		quickSearch.setUrlFormSubmit(backofficeUrlService.buildGlobalSearchUrl());
-		return quickSearch;
 	}
 	
 	/**

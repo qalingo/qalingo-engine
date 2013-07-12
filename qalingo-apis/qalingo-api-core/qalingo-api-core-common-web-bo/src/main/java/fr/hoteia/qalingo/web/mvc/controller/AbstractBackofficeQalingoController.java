@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.web.mvc.controller;
+package fr.hoteia.qalingo.web.mvc.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +33,12 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.service.UserService;
+import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 
 /**
  * 
@@ -139,9 +139,12 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute
 	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		QuickSearchViewBean quickSearchViewBean = viewBeanFactory.buildQuickSearchViewBean(request, currentLocalization);
-		model.addAttribute(ModelConstants.QUICK_SEARCH_VIEW_BEAN, quickSearchViewBean);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		model.addAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH, urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 	}
 	
 	/**

@@ -127,7 +127,7 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 				&& !currentCustomer.getEmail().equalsIgnoreCase(newEmail)) {
 			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 			final Object[] objects = {forgottenPasswordUrl};
-			result.rejectValue("email", "error.form.customer.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
+			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}
 
 		// Update the customer

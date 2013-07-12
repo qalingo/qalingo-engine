@@ -64,9 +64,12 @@ public class CustomerAddress implements Serializable {
 	@Column(name="CITY")
     private String city;
 
-	@Column(name="COUNTY_CODE")
-    private String countyCode;
-	
+	@Column(name="STATE_CODE")
+    private String stateCode;
+
+	@Column(name="AREA_CODE")
+    private String areaCode;
+
 	@Column(name="COUNTRY_CODE")
     private String countryCode;
     
@@ -170,14 +173,22 @@ public class CustomerAddress implements Serializable {
 		this.city = city;
 	}
 	
-	public String getCountyCode() {
-		return countyCode;
-	}
+	public String getStateCode() {
+	    return stateCode;
+    }
+	
+	public void setStateCode(String stateCode) {
+	    this.stateCode = stateCode;
+    }
 
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
-	}
-
+	public String getAreaCode() {
+	    return areaCode;
+    }
+	
+	public void setAreaCode(String areaCode) {
+	    this.areaCode = areaCode;
+    }
+	
 	public String getCountryCode() {
 		return countryCode;
 	}

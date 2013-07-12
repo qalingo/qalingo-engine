@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 

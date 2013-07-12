@@ -81,11 +81,8 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CartTaxViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
@@ -112,7 +109,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductCrossLinkViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchFacetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
@@ -186,18 +182,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLoginUrl(urlService.buildLoginUrl(request, marketPlace, market, marketArea, localization, retailer));
-//		commonViewBean.setLoginLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.login", locale));
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
-//		commonViewBean.setLogoutLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.logout", locale));
 		
 //		commonViewBean.setCreateAccountSectionTitle(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.title", locale));
 //		commonViewBean.setCreateAccountSectionText(getSpecificMessage(ScopeWebMessage.COMMON, "login.main.create.account.text", locale));
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
-//		commonViewBean.setCreateAccountLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.create.account", locale));
 		
 		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
-//		commonViewBean.setCustomerDetailsLabel(getSpecificMessage(ScopeWebMessage.COMMON, "header.link.my.account", locale));
 		
 		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
 		commonViewBean.setCurrentMarket(buildMarketViewBean(request, market));
@@ -344,35 +336,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ContactUsViewBean buildContactUsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		
-		final ContactUsViewBean contactUs = new ContactUsViewBean();
-//		contactUs.setLastnameLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.lastname", locale));
-//		contactUs.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.firstname", locale));
-//		contactUs.setCountryLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.country", locale));
-//		contactUs.setEmailLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.email", locale));
-//		contactUs.setPhoneLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.phone", locale));
-//		contactUs.setFaxLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.fax", locale));
-//		contactUs.setMobileLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.mobile", locale));
-//		contactUs.setWebsiteLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.website", locale));
-//		contactUs.setSubjectLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.subject", locale));
-//		contactUs.setMessageLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.message", locale));
-//
-//		contactUs.setSuccessMessage(getSpecificMessage(ScopeWebMessage.CONTACT, "form.success.message", locale));
-//		contactUs.setFailMessage(getSpecificMessage(ScopeWebMessage.CONTACT, "form.fail.message", locale));
-
-//		contactUs.setSubmitLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.submit", locale));
-//		contactUs.setCancelLabel(getSpecificMessage(ScopeWebMessage.CONTACT, "form.label.cancel", locale));
-		contactUs.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-
-		return contactUs;
-	}
-	
-	/**
-     * 
-     */
 	public FollowUsViewBean buildFollowUsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
 		final Locale locale = localization.getLocale();
@@ -382,8 +345,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 //		followUs.setSubmitLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.submit", locale));
 //		followUs.setCancelLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.label.cancel", locale));
 		
-		followUs.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-
 //		followUs.setSuccessMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.success.message", locale));
 //		followUs.setFailMessage(getSpecificMessage(ScopeWebMessage.FOLLOW_US, "form.fail.message", locale));
 
@@ -446,8 +407,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 //		legalTerms.setPageTitle(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "header.title", locale));
 //		legalTerms.setTextHtml(getSpecificMessage(ScopeWebMessage.LEGAL_TERMS, "content.text", locale));
 //
-//		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
-//		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
+		legalTerms.setWarning(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "warning", locale));
+		legalTerms.setCopyright(getCommonMessage(ScopeCommonMessage.FOOTER, "copyright", locale));
 		
 		legalTerms.setCompanyName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.name", locale));
 		legalTerms.setCompanyAddress(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company.address", locale));
@@ -481,11 +442,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
 	public FaqViewBean buildFaqViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		
 		final FaqViewBean faq = new FaqViewBean();
-		faq.setPageTitle(getSpecificMessage(ScopeWebMessage.FAQ, "header.title", locale));
-		faq.setTextHtml(getSpecificMessage(ScopeWebMessage.FAQ, "content.text", locale));
 		return faq;
 	}
 	
@@ -587,12 +544,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
 	public ConditionsViewBean buildConditionsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 										  final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		
 		final ConditionsViewBean conditions = new ConditionsViewBean();
-		
-		conditions.setPageTitle(getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, "header.title", locale));
-		conditions.setTextHtml(getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, "content.text", locale));
 		
 		return conditions;
 	}
@@ -795,8 +747,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		// I18n values
 		storeLocator.setCity(store.getI18nCity(localization));
 
-		storeLocator.setCountyCode(store.getCountyCode());
-		storeLocator.setCounty(store.getCountyCode());
+		storeLocator.setStateCode(store.getStateCode());
 		storeLocator.setCountry(store.getCountryCode());
 		storeLocator.setCountryCode(store.getCountryCode());
 		storeLocator.setLongitude(store.getLongitude());
@@ -909,74 +860,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerCreateAccountViewBean buildCustomerCreateAccountViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
-		
-		final CustomerCreateAccountViewBean customerCreateAccountViewBean = new CustomerCreateAccountViewBean();
-//		customerCreateAccountViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.title", locale));
-//		customerCreateAccountViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.lastname", locale));
-//		customerCreateAccountViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.firstname", locale));
-//		customerCreateAccountViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address1", locale));
-//		customerCreateAccountViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address2", locale));
-//		customerCreateAccountViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.address.additional.information", locale));
-//		customerCreateAccountViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.postal.code", locale));
-//		customerCreateAccountViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.city", locale));
-//		customerCreateAccountViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.county.code", locale));
-//		customerCreateAccountViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.country.code", locale));
-//		
-//		customerCreateAccountViewBean.setEmailLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.email", locale));
-//		customerCreateAccountViewBean.setPasswordLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.password", locale));
-//		
-//		customerCreateAccountViewBean.setPhoneLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.phone", locale));
-//		customerCreateAccountViewBean.setFaxLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.fax", locale));
-//		customerCreateAccountViewBean.setMobileLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.mobile", locale));
-//
-//		customerCreateAccountViewBean.setOptinLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.optin", locale));
-
-//		customerCreateAccountViewBean.setSuccessMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.success.message", locale));
-//		customerCreateAccountViewBean.setFailMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.fail.message", locale));
-
-//		customerCreateAccountViewBean.setSubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.submit", locale));
-//		customerCreateAccountViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.create.account.label.cancel", locale));
-		customerCreateAccountViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-
-		return customerCreateAccountViewBean;
-	}
-	
-	/**
-     * 
-     */
-	public CustomerAddressFormViewBean buildCustomerAddressFormViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			 final Localization localization, final Retailer retailer) throws Exception {
-		
-		final CustomerAddressFormViewBean customerAddAddressViewBean = new CustomerAddressFormViewBean();
-//		customerAddAddressViewBean.setAddressNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address.name", locale));
-//		customerAddAddressViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.title", locale));
-//		customerAddAddressViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.lastname", locale));
-//		customerAddAddressViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.firstname", locale));
-//		
-//		customerAddAddressViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address1", locale));
-//		customerAddAddressViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address2", locale));
-//		customerAddAddressViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.address.additional.information", locale));
-//		customerAddAddressViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.postal.code", locale));
-//		customerAddAddressViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.city", locale));
-//		customerAddAddressViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.county.code", locale));
-//		customerAddAddressViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.country.code", locale));
-		
-//		customerAddAddressViewBean.setSuccessMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.success.message", locale));
-//		customerAddAddressViewBean.setFailMessage(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.fail.message", locale));
-
-//		customerAddAddressViewBean.setCreateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.create", locale));
-//		customerAddAddressViewBean.setUpdateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.update", locale));
-//		customerAddAddressViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.cancel", locale));
-		customerAddAddressViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-
-		return customerAddAddressViewBean;
-	}
-	
-	/**
-     * 
-     */
 	public CustomerAddressListViewBean buildCustomerAddressListViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
 		
@@ -991,7 +874,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 //		customerAddressListViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address.additional.information", locale));
 //		customerAddressListViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.postal.code", locale));
 //		customerAddressListViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.city", locale));
-//		customerAddressListViewBean.setCountyCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.county.code", locale));
+//		customerAddressListViewBean.setStateCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.county.code", locale));
 //		customerAddressListViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.country.code", locale));
 
 //		customerAddressListViewBean.setDefaultShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.default.shipping.address", locale));
@@ -1034,7 +917,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		customerAddressViewBean.setAddressAdditionalInformation(customerAddress.getAddressAdditionalInformation());
 		customerAddressViewBean.setPostalCode(customerAddress.getPostalCode());
 		customerAddressViewBean.setCity(customerAddress.getCity());
-		customerAddressViewBean.setCountyCode(customerAddress.getCountyCode());
+		customerAddressViewBean.setStateCode(customerAddress.getStateCode());
+		customerAddressViewBean.setAreaCode(customerAddress.getAreaCode());
 		customerAddressViewBean.setCountryCode(customerAddress.getCountryCode());
 		
 		customerAddressViewBean.setDefaultBilling(customerAddress.isDefaultBilling());
@@ -1634,18 +1518,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		search.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
 
 		return search;
-	}
-	
-	/**
-     * 
-     */
-	public QuickSearchViewBean buildQuickSearchViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-			final Localization localization, final Retailer retailer) throws Exception {
-		final Locale locale = localization.getLocale();
-		final QuickSearchViewBean quickSsearch = new QuickSearchViewBean();
-//		quickSsearch.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
-		quickSsearch.setUrlFormSubmit(urlService.buildSearchUrl(request, marketPlace, market, marketArea, localization, retailer));
-		return quickSsearch;
 	}
 	
 	/**

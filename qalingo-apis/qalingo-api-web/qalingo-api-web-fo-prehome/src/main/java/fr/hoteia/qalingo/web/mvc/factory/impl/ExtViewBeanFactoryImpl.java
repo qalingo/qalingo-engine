@@ -7,17 +7,14 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.web.mvc.viewbean;
+package fr.hoteia.qalingo.web.mvc.factory.impl;
 
-import java.io.Serializable;
+import fr.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
 
-public class ConditionsViewBean extends AbstractViewBean implements Serializable {
-
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 7011813781824428408L;
-
+/**
+ * 
+ */
+public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 
 	
 }

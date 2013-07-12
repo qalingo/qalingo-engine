@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 public class LegalTermsController extends AbstractMCommerceController {
 
 	@RequestMapping("/legal-terms.html*")
-	public ModelAndView legacy(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "legal-terms/legal-terms");
 		
 		// "legal.terms";

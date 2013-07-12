@@ -39,7 +39,8 @@ public class StoreJsonPojo extends AbstractJsonPojo {
     private String addressAdditionalInformation;
     private String postalCode;
     private String city;
-    private String countyCode;
+    private String stateCode;
+    private String areaCode;
     private String countryCode;
 	
     private Set<StoreAttribute> storeAttributes = new HashSet<StoreAttribute>(); 
@@ -125,14 +126,22 @@ public class StoreJsonPojo extends AbstractJsonPojo {
 		this.city = city;
 	}
 
-	public String getCountyCode() {
-		return countyCode;
-	}
+	public String getStateCode() {
+	    return stateCode;
+    }
+	
+	public void setStateCode(String stateCode) {
+	    this.stateCode = stateCode;
+    }
 
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
-	}
-
+	public String getAreaCode() {
+	    return areaCode;
+    }
+	
+	public void setAreaCode(String areaCode) {
+	    this.areaCode = areaCode;
+    }
+	
 	public String getCountryCode() {
 		return countryCode;
 	}

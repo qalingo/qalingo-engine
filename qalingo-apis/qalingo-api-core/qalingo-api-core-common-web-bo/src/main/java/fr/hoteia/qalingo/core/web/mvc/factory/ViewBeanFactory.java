@@ -13,9 +13,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.BatchProcessObject;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -57,7 +57,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RuleViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
@@ -126,8 +125,6 @@ public interface ViewBeanFactory {
 	RuleViewBean buildRuleViewBean(HttpServletRequest request, Localization localization, AbstractRuleReferential rule) throws Exception;
 	
 	CustomerViewBean buildCustomerViewBean(HttpServletRequest request, Localization localization, Customer customer) throws Exception;
-	
-	QuickSearchViewBean buildQuickSearchViewBean(HttpServletRequest request, Localization localization) throws Exception;
 	
 	List<GlobalSearchViewBean> buildGlobalSearchViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, Retailer retailer, String searchText) throws Exception;
 

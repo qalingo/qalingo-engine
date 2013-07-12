@@ -18,23 +18,6 @@ public class FaqViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -6549054968245197081L;
 	
-	protected String pageTitle;
-	protected String textHtml;
-
-	public String getPageTitle() {
-		return pageTitle;
-	}
-	
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
-	}
-	
-	public String getTextHtml() {
-		return textHtml;
-	}
-	
-	public void setTextHtml(String textHtml) {
-		this.textHtml = textHtml;
-	}
+	// TODO question list from DB and admin from BO
 	
 }

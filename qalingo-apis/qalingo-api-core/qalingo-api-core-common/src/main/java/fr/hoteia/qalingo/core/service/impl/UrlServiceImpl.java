@@ -99,7 +99,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildContactUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.contact.us") + "/" + "contact-us.html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.contact") + "/" + "contact.html";
 	}
 
 	public String buildLegalTermsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,

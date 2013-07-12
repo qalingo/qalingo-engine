@@ -26,4 +26,7 @@ public final class FoPageConstants {
 	public static final String CONDITIONS_OF_USE_KEY = "conditionsofuse";
 	public static final String CONDITIONS_OF_USE_URL = "/conditions-of-use.html";
 	public static final String CONDITIONS_OF_USE_VELOCITY_PAGE = "conditions-of-use/conditions-of-use";
+	
+	// TOOLS
+	public static final String VELOCITY_CACHE_VELOCITY_PAGE = "tools/flush-cache-ihm";
 }

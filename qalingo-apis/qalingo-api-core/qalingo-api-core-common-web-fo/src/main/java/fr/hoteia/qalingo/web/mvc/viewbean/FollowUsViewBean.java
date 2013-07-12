@@ -25,11 +25,6 @@ public class FollowUsViewBean extends AbstractViewBean implements Serializable {
     private String submitLabel;
     private String cancelLabel;
     
-    private String backUrl;
-
-    private String successMessage;
-    private String failMessage;
-    
 	List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
 
 	public String getEmailLabel() {
@@ -56,30 +51,6 @@ public class FollowUsViewBean extends AbstractViewBean implements Serializable {
 		this.cancelLabel = cancelLabel;
 	}
 
-	public String getBackUrl() {
-		return backUrl;
-	}
-
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
-
-	public String getSuccessMessage() {
-		return successMessage;
-	}
-	
-	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
-	}
-	
-	public String getFailMessage() {
-		return failMessage;
-	}
-	
-	public void setFailMessage(String failMessage) {
-		this.failMessage = failMessage;
-	}
-	
 	public List<FollowUsOptionViewBean> getFollowOptions() {
 		return followOptions;
 	}

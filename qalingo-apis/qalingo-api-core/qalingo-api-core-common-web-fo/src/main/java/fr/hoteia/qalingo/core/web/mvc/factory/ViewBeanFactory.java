@@ -36,11 +36,8 @@ import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressFormViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerCreateAccountViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
@@ -64,7 +61,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductCrossLinkViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchFacetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
@@ -87,9 +83,6 @@ public interface ViewBeanFactory {
 	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
-	ContactUsViewBean buildContactUsViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer) throws Exception;
-
 	FollowUsViewBean buildFollowUsViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 	
@@ -141,12 +134,6 @@ public interface ViewBeanFactory {
 			   Retailer retailer, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing, ProductSku productSku, CustomerProductComment customerProductComment) 
 			   throws Exception;
 	
-	CustomerCreateAccountViewBean buildCustomerCreateAccountViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			 Localization localization, Retailer retailer) throws Exception;
-
-	CustomerAddressFormViewBean buildCustomerAddressFormViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			 Localization localization, Retailer retailer) throws Exception;
-
 	CustomerAddressListViewBean buildCustomerAddressListViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer, Customer customer) throws Exception;
 	
@@ -192,9 +179,6 @@ public interface ViewBeanFactory {
 	// SEARCH
 	
 	SearchViewBean buildSearchViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			Localization localization, Retailer retailer) throws Exception;
-
-	QuickSearchViewBean buildQuickSearchViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer) throws Exception;
 
 	List<SearchProductItemViewBean> buildSearchProductItemViewBeans(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 

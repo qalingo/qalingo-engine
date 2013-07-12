@@ -27,7 +27,8 @@ public class CustomerAddressForm {
     private String addressAdditionalInformation;
     private String postalCode;
     private String city;
-    private String countyCode;
+    private String stateCode;
+    private String areaCode;
     private String countryCode;
     
     public String getAddressName() {
@@ -38,7 +39,7 @@ public class CustomerAddressForm {
 		this.addressName = addressName;
 	}
     
-	@NotEmpty(message = "error.form.customer.create.account.title.empty")
+	@NotEmpty(message = "error.form.create.account.title.empty")
     public String getTitle() {
 		return title;
 	}
@@ -47,7 +48,7 @@ public class CustomerAddressForm {
 		this.title = title;
 	}
     
-	@NotEmpty(message = "error.form.customer.create.account.lastname.empty")
+	@NotEmpty(message = "error.form.create.account.lastname.empty")
 	public String getLastname() {
 		return lastname;
 	}
@@ -56,7 +57,7 @@ public class CustomerAddressForm {
 		this.lastname = lastname;
 	}
 
-	@NotEmpty(message = "error.form.customer.create.account.firstname.empty")
+	@NotEmpty(message = "error.form.create.account.firstname.empty")
 	public String getFirstname() {
 		return firstname;
 	}
@@ -65,7 +66,7 @@ public class CustomerAddressForm {
 		this.firstname = firstname;
 	}
 
-	@NotEmpty(message = "error.form.customer.create.account.address1.empty")
+	@NotEmpty(message = "error.form.create.account.address1.empty")
 	public String getAddress1() {
 		return address1;
 	}
@@ -90,7 +91,7 @@ public class CustomerAddressForm {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
-	@NotEmpty(message = "error.form.customer.create.account.postal.code.empty")
+	@NotEmpty(message = "error.form.create.account.postal.code.empty")
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -98,8 +99,8 @@ public class CustomerAddressForm {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-
-	@NotEmpty(message = "error.form.customer.create.account.city.empty")
+	
+	@NotEmpty(message = "error.form.create.account.city.empty")
 	public String getCity() {
 		return city;
 	}
@@ -108,15 +109,23 @@ public class CustomerAddressForm {
 		this.city = city;
 	}
 	
-	public String getCountyCode() {
-		return countyCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
+	
+	public String getAreaCode() {
+	    return areaCode;
+    }
+	
+	public void setAreaCode(String areaCode) {
+	    this.areaCode = areaCode;
+    }
 
-	@NotEmpty(message = "error.form.customer.create.account.country.code.empty")
+	@NotEmpty(message = "error.form.create.account.country.code.empty")
 	public String getCountryCode() {
 		return countryCode;
 	}

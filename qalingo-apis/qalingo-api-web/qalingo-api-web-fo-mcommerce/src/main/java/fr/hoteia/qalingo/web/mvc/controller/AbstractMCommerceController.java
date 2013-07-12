@@ -30,15 +30,14 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.web.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.QuickSearchViewBean;
 
 /**
  * 
@@ -88,22 +87,6 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		
 		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 		modelAndView.addObject("customerLinks", customerLinks);
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
-		// QUICK SEARCH
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		QuickSearchViewBean quickSearchViewBean = viewBeanFactory.buildQuickSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		model.addAttribute("quickSearch", quickSearchViewBean);
-//		formFactory.buildQuickSearchForm(request, model);
 	}
 	
 	/**

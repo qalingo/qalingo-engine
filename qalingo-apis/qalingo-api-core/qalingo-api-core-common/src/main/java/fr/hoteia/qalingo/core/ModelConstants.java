@@ -40,9 +40,12 @@ public final class ModelConstants {
 	// WORDING
 	public static final String WORDING = "wording";
 
+	// URL
+	public static final String URL_BACK = "urlBack";
+	public static final String URL_SUBMIT_QUICK_SEARCH = "urlSubmitQuickSearch";
+
 	// VIEW BEAN
 	public static final String COMMON_VIEW_BEAN = "common";
-	public static final String QUICK_SEARCH_VIEW_BEAN = "quickSearch";
 	public static final String MENUS_VIEW_BEAN = "menus";
 	public static final String MORE_PAGE_MENUS_VIEW_BEAN = "morePageMenus";
 	public static final String MARKET_PLACES_VIEW_BEAN = "marketPlaces";

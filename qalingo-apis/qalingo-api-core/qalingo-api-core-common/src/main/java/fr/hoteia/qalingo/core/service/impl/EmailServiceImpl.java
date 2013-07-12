@@ -100,8 +100,8 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {contactUsEmailBean.getLastname(), contactUsEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("contact.us.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email/contact-us-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email/contact-us-text-content.vm", model));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email/contact-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email/contact-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_CONTACT_US);

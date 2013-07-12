@@ -22,8 +22,8 @@ import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 
 /**
  * 
@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 public class LegalTermsController extends AbstractBackofficeQalingoController {
 
 	@RequestMapping(BoPageConstants.LEGAL_TERMS_URL + "*")
-	public ModelAndView legacy(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.LEGAL_TERMS_VELOCITY_PAGE);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 		

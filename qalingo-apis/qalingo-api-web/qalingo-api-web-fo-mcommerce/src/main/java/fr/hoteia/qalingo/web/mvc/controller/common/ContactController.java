@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -42,7 +43,6 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
-import fr.hoteia.qalingo.web.mvc.viewbean.ContactUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -50,16 +50,16 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller
-public class ContactUsController extends AbstractMCommerceController {
+public class ContactController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping(value = "/contact-us-form.html*")
-	public ModelAndView contactForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
+	@RequestMapping(value = "/contact.html*", method = RequestMethod.GET)
+	public ModelAndView displayContactForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-form");
 		
 		// "contactus";
 
@@ -68,53 +68,24 @@ public class ContactUsController extends AbstractMCommerceController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("contactUs", contactUs);
+
+		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 		
 		formFactory.buildContactUsForm(request, modelAndView);
 
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/contact-us.html*", method = RequestMethod.GET)
-	public ModelAndView contact(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
-		
-		// "contactus";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("contactUs", contactUs);
-		
-		formFactory.buildContactUsForm(request, modelAndView);
-
-        return modelAndView;
-	}
-
-	@RequestMapping(value = "/contact-us.html*", method = RequestMethod.POST)
+	@RequestMapping(value = "/contact.html*", method = RequestMethod.POST)
 	public ModelAndView contact(final HttpServletRequest request, final HttpServletResponse response, @Valid ContactUsForm contactUsForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");
 
 		// "contactus";
 		
 		if (result.hasErrors()) {
-			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact-us/contact-us-form");
-
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-			modelAndView.addObject("contactUs", contactUs);
-			
-			return modelAndView;
+			return displayContactForm(request, response, modelMap);
 		}
 		
 		formFactory.buildContactUsForm(request, modelAndView);
@@ -124,11 +95,11 @@ public class ContactUsController extends AbstractMCommerceController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final ContactUsViewBean contactUs = viewBeanFactory.buildContactUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("contactUs", contactUs);
+
+		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 
 		webCommerceService.buildAndSaveContactUsMail(request, contactUsForm);
-		
+
         return modelAndView;
 	}
 	

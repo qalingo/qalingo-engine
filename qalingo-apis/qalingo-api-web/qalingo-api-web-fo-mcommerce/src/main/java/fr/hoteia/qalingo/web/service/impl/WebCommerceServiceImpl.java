@@ -106,7 +106,8 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		defaultAddress.setAddressAdditionalInformation(createAccountForm.getAddressAdditionalInformation());
 		defaultAddress.setPostalCode(createAccountForm.getPostalCode());
 		defaultAddress.setCity(createAccountForm.getCity());
-		defaultAddress.setCountyCode(createAccountForm.getCountyCode());
+		defaultAddress.setStateCode(createAccountForm.getStateCode());
+		defaultAddress.setAreaCode(createAccountForm.getAreaCode());
 		defaultAddress.setCountryCode(createAccountForm.getCountryCode());
 		defaultAddress.setDefaultBilling(true);
 		defaultAddress.setDefaultShipping(true);
@@ -166,7 +167,8 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		defaultAddress.setAddressAdditionalInformation(customerAddressForm.getAddressAdditionalInformation());
 		defaultAddress.setPostalCode(customerAddressForm.getPostalCode());
 		defaultAddress.setCity(customerAddressForm.getCity());
-		defaultAddress.setCountyCode(customerAddressForm.getCountyCode());
+		defaultAddress.setStateCode(customerAddressForm.getStateCode());
+		defaultAddress.setAreaCode(customerAddressForm.getAreaCode());
 		defaultAddress.setCountryCode(customerAddressForm.getCountryCode());
 		defaultAddress.setDefaultBilling(true);
 		defaultAddress.setDefaultShipping(true);

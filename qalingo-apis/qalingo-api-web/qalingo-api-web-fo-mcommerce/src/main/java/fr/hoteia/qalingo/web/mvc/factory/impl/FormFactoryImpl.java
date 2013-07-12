@@ -162,7 +162,8 @@ public class FormFactoryImpl implements FormFactory {
 		customerAddressForm.setAddressAdditionalInformation(customerAddress.getAddressAdditionalInformation());
 		customerAddressForm.setPostalCode(customerAddress.getPostalCode());
 		customerAddressForm.setCity(customerAddress.getCity());
-		customerAddressForm.setCountyCode(customerAddress.getCountyCode());
+		customerAddressForm.setStateCode(customerAddress.getStateCode());
+		customerAddressForm.setAreaCode(customerAddress.getAreaCode());
 		customerAddressForm.setCountryCode(customerAddress.getCountryCode());
 	    
 		modelAndView.addObject("customerAddressForm", customerAddressForm);

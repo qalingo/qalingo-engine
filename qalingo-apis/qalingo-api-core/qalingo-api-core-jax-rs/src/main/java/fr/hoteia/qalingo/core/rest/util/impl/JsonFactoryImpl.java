@@ -102,7 +102,7 @@ public class JsonFactoryImpl implements JsonFactory {
 		store.setAddressAdditionalInformation(storeJsonPojo.getAddressAdditionalInformation());
 		store.setPostalCode(storeJsonPojo.getPostalCode());
 		store.setCity(storeJsonPojo.getCity());
-		store.setCountyCode(storeJsonPojo.getCountyCode());
+		store.setStateCode(storeJsonPojo.getStateCode());
 		store.setCountryCode(storeJsonPojo.getCountryCode());
 		
 //		store.setStoreAttributes(storeJsonPojo.getStoreAttributes()); 
@@ -140,7 +140,7 @@ public class JsonFactoryImpl implements JsonFactory {
 		storeJsonBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
 		storeJsonBean.setPostalCode(store.getPostalCode());
 		storeJsonBean.setCity(store.getCity());
-		storeJsonBean.setCountyCode(store.getCountyCode());
+		storeJsonBean.setStateCode(store.getStateCode());
 		storeJsonBean.setCountryCode(store.getCountryCode());
 		
 //		storeJsonBean.setStoreAttributes(store.getStoreAttributes()); 
