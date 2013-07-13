@@ -161,8 +161,8 @@ public class UrlServiceImpl implements UrlService {
 	public String buildChangeLanguageUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
 		return getContextPrefixUrl(request, marketArea, keepCurrentDomainName) + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
-		        + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer) + getSiteDefaultPrefixUrl(localization) + "/" + getMessage(localization, "seo.url.welcome") + "/"
-		        + "welcome.html";
+		        + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer) + getSiteDefaultPrefixUrl(localization) + "/" + getMessage(localization, "seo.url.home") + "/"
+		        + "home.html";
 	}
 
 	public String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception {

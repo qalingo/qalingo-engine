@@ -349,7 +349,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		return followUs;
 	}
 	
-	private FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, final String followType) throws Exception{
+	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, final String followType) throws Exception{
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
 		followOption.setCode(followType);
