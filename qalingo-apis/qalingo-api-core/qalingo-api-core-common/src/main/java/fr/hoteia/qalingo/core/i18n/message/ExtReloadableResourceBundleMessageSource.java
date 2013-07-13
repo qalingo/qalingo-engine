@@ -20,6 +20,8 @@ public class ExtReloadableResourceBundleMessageSource extends ReloadableResource
 	
 	public List<String> getFileBasenames() {
 		List<String> basenameList = new ArrayList<String>();
+		// REVERSE ARRAY TO KEEP THE FILEPATH ORDER LIKE SPRING
+		CollectionUtils.reverseArray(fileBasenames);
 		CollectionUtils.addAll(basenameList, fileBasenames);
 		return basenameList;
 	}

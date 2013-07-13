@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
-import fr.hoteia.qalingo.core.i18n.enumtype.I18nBasename;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeEmailMessage;
@@ -100,14 +99,21 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 	 */
 	public Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale) {
 		final Map<String, String> wordingKeyValues = new HashMap<String, String>();
-		
-		List<String> allFileNames = messageSource.getFileBasenames();
-		for (Iterator<String> iterator = allFileNames.iterator(); iterator.hasNext();) {
-	        String fileName = (String) iterator.next();
-			wordingKeyValues.putAll(messageSource.getWordingProperties(fileName, locale));
-        }
-//		wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
-//		wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
+		if(context != null){
+			List<String> allFileNames = messageSource.getFileBasenames();
+			String[] contextSplit = context.getPropertyKey().split("_");
+			String prefix = contextSplit[0].toLowerCase() + "-";
+			for (Iterator<String> iterator = allFileNames.iterator(); iterator.hasNext();) {
+		        String fileName = (String) iterator.next();
+		        if(fileName.contains("wording")
+		        		&& (fileName.contains("common-")
+		        				|| fileName.contains(prefix))){
+					wordingKeyValues.putAll(messageSource.getWordingProperties(fileName, locale));
+		        }
+	        }
+//			wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
+//			wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
+		}
 		return wordingKeyValues;
 	}
 	
