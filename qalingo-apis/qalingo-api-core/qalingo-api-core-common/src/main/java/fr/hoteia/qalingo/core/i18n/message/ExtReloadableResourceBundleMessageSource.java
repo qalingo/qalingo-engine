@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.i18n.message;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +22,15 @@ public class ExtReloadableResourceBundleMessageSource extends ReloadableResource
 	public List<String> getFileBasenames() {
 		List<String> basenameList = new ArrayList<String>();
 		// REVERSE ARRAY TO KEEP THE FILEPATH ORDER LIKE SPRING
-		CollectionUtils.reverseArray(fileBasenames);
-		CollectionUtils.addAll(basenameList, fileBasenames);
+		for (int i = 0; i < fileBasenames.length; i++) {
+			String fileBasename = fileBasenames[i];
+			if(fileBasename.contains("classpath")){
+				fileBasename = fileBasename.replace("classpath:*", "");
+				fileBasename = fileBasename.replace("classpath:", "");
+			}
+			basenameList.add(fileBasename);
+        }
+		Collections.reverse(basenameList);
 		return basenameList;
 	}
 	
