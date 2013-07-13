@@ -18,11 +18,20 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	 */
 	private static final long serialVersionUID = -1578033330874108569L;
 	
+	protected String code;
 	protected String name;
 	protected String img;
 	protected String url;
 	protected boolean active = false;
 
+	public String getCode() {
+	    return code;
+    }
+	
+	public void setCode(String code) {
+	    this.code = code;
+    }
+	
 	public String getName() {
 		return name;
 	}

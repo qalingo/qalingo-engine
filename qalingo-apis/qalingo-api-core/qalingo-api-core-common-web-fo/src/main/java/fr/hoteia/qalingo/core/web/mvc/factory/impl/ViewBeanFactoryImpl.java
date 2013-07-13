@@ -634,6 +634,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 			menuMarketNavigationCacheHelper.addToCache(localizationElementType, localizationCacheKey, localizationViewBeans);
 		}
+		for (Iterator<LocalizationViewBean> iterator = localizationViewBeans.iterator(); iterator.hasNext();) {
+			final LocalizationViewBean localizationViewBean = (LocalizationViewBean) iterator.next();
+			localizationViewBean.setActive(false);
+			if(localizationViewBean.getCode().equals(currentLocalization.getCode())){
+				localizationViewBean.setActive(true);
+			}
+		}
 		return localizationViewBeans;
 	}
 	
@@ -649,6 +656,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
+		localizationViewBean.setCode(localeCodeNavigation);
 		
 		if(StringUtils.isNotEmpty(localeCodeNavigation)
 				&& localeCodeNavigation.length() == 2) {
