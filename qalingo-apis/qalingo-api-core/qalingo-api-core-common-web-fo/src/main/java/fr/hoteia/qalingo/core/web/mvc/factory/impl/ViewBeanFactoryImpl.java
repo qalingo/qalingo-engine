@@ -184,10 +184,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		commonViewBean.setLoginUrl(urlService.buildLoginUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
-		
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
-		
 		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
+		commonViewBean.setContactUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		
 		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
 		commonViewBean.setCurrentMarket(buildMarketViewBean(request, market));

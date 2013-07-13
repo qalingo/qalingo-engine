@@ -26,7 +26,7 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	protected String logoutUrl;
 	protected String createAccountUrl;
 	protected String customerDetailsUrl;
-	protected String customerDetailsLabel;
+	protected String contactUrl;
 
 	protected MarketPlaceViewBean currentMarketPlace;
 	protected MarketViewBean currentMarket;
@@ -89,12 +89,12 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 		this.customerDetailsUrl = customerDetailsUrl;
 	}
 
-	public String getCustomerDetailsLabel() {
-		return customerDetailsLabel;
+	public String getContactUrl() {
+		return contactUrl;
 	}
-
-	public void setCustomerDetailsLabel(String customerDetailsLabel) {
-		this.customerDetailsLabel = customerDetailsLabel;
+	
+	public void setContactUrl(String contactUrl) {
+		this.contactUrl = contactUrl;
 	}
 
 	public MarketPlaceViewBean getCurrentMarketPlace() {
