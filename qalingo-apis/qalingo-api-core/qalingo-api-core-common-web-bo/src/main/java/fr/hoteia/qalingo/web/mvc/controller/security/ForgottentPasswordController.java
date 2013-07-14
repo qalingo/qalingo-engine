@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 public class ForgottentPasswordController extends AbstractBackofficeQalingoController {
 
 	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.GET)
-	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayForgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
 		// "forgotten.password";
@@ -58,9 +58,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
 		modelAndView.addObject(Constants.SECURITY_VIEW_BEAN, security);
 
 		if (result.hasErrors()) {
-			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
-			modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
-			return modelAndView;
+			return displayForgottenPassword(request, response, modelMap);
 		}
 		
 //		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(request, forgottenPasswordForm);

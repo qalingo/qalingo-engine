@@ -17,6 +17,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,8 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Transactional
 public class WebCommerceServiceImpl implements WebCommerceService {
 
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
     protected EmailService emailService;
 	
@@ -312,8 +316,11 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final ContactUsEmailBean contactUsEmailBean = new ContactUsEmailBean();
 		BeanUtils.copyProperties(contactUsForm, contactUsEmailBean);
-		
-		emailService.buildAndSaveContactUsMail(localization, customer, VelocityPath, contactUsEmailBean);
+		if(customer != null){
+			emailService.buildAndSaveContactUsMail(localization, customer, VelocityPath, contactUsEmailBean);
+		} else {
+			LOG.error("Can't send email contact us, customer is null.");
+		}
 	}
 	
     /**
@@ -325,8 +332,11 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean = new NewsletterRegistrationConfirmationEmailBean();
 		BeanUtils.copyProperties(followUsForm, newsletterRegistrationConfirmationEmailBean);
-		
-		emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, customer, VelocityPath, newsletterRegistrationConfirmationEmailBean);
+		if(customer != null){
+			emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, customer, VelocityPath, newsletterRegistrationConfirmationEmailBean);
+		} else {
+			LOG.error("Can't send email newsletter registration, customer is null.");
+		}
 	}
 	
     /**
@@ -338,8 +348,11 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
 		BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
-		
-		emailService.buildAndSaveCustomerForgottenPasswordMail(localization, customer, VelocityPath, customerForgottenPasswordEmailBean);
+		if(customer != null){
+			emailService.buildAndSaveCustomerForgottenPasswordMail(localization, customer, VelocityPath, customerForgottenPasswordEmailBean);
+		} else {
+			LOG.error("Can't send email forgotten password, customer is null.");
+		}
 	}
 	
     /**
@@ -351,9 +364,11 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
 		BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
-		
-		emailService.buildAndSaveCustomerNewAccountMail(localization, customer, VelocityPath, customerNewAccountConfirmationEmailBean);
+		if(customer != null){
+			emailService.buildAndSaveCustomerNewAccountMail(localization, customer, VelocityPath, customerNewAccountConfirmationEmailBean);
+		} else {
+			LOG.error("Can't send new account customer email, customer is null.");
+		}
 	}
 
-	
 }

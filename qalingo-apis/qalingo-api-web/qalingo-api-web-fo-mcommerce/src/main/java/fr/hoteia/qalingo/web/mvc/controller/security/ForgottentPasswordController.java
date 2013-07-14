@@ -42,7 +42,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.GET)
-	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayForgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
 		
 		// "forgotten.password";
@@ -76,9 +76,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		modelAndView.addObject("security", security);
 
 		if (result.hasErrors()) {
-			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
-			modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
-			return modelAndView;
+			return displayForgottenPassword(request, response, modelMap);
 		}
 		
 		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(request, forgottenPasswordForm);

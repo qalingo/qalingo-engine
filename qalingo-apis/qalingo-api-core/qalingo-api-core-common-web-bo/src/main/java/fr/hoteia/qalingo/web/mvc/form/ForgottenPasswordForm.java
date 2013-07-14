@@ -9,12 +9,17 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * 
  * 
  */
 public class ForgottenPasswordForm {
 	
+	@NotEmpty(message = "error.form.forgotten.password.email.empty")
+	@Email(message = "error.form.forgotten.password.email.is.not.valid")
     private String emailOrLogin;
     
 	public String getEmailOrLogin() {

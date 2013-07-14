@@ -111,8 +111,6 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 					wordingKeyValues.putAll(messageSource.getWordingProperties(fileName, locale));
 		        }
 	        }
-//			wordingKeyValues.putAll(messageSource.getWordingProperties(I18nBasename.COMMON_BASENAME, locale));
-//			wordingKeyValues.putAll(messageSource.getWordingProperties(EngineSettingWebAppContext.getI18nBasenameAssociated(context), locale));
 		}
 		return wordingKeyValues;
 	}
