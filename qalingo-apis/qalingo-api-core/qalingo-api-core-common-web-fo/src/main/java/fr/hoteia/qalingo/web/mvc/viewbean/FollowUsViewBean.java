@@ -20,36 +20,26 @@ public class FollowUsViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -7433453971883109184L;
 
-	private String emailLabel;
-
-    private String submitLabel;
-    private String cancelLabel;
+	private String submitUrlShortForm;
+	private String submitUrlFullForm;
     
 	List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
 
-	public String getEmailLabel() {
-		return emailLabel;
-	}
+	public String getSubmitUrlShortForm() {
+    	return submitUrlShortForm;
+    }
 
-	public void setEmailLabel(String emailLabel) {
-		this.emailLabel = emailLabel;
-	}
+	public void setSubmitUrlShortForm(String submitUrlShortForm) {
+    	this.submitUrlShortForm = submitUrlShortForm;
+    }
 
-	public String getSubmitLabel() {
-		return submitLabel;
-	}
+	public String getSubmitUrlFullForm() {
+    	return submitUrlFullForm;
+    }
 
-	public void setSubmitLabel(String submitLabel) {
-		this.submitLabel = submitLabel;
-	}
-
-	public String getCancelLabel() {
-		return cancelLabel;
-	}
-
-	public void setCancelLabel(String cancelLabel) {
-		this.cancelLabel = cancelLabel;
-	}
+	public void setSubmitUrlFullForm(String submitUrlFullForm) {
+    	this.submitUrlFullForm = submitUrlFullForm;
+    }
 
 	public List<FollowUsOptionViewBean> getFollowOptions() {
 		return followOptions;

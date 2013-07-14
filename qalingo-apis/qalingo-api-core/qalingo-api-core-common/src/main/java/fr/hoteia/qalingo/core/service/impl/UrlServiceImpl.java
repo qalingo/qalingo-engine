@@ -91,6 +91,10 @@ public class UrlServiceImpl implements UrlService {
 	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
 		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.follow.us") + "/" + "follow-us.html";
 	}
+	
+	public String buildNewsletterRegisterUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/newsletter-register.html";
+	}
 
 	public String buildContactUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer) throws Exception {

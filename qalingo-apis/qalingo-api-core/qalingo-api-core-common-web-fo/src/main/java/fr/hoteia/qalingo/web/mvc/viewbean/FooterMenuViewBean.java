@@ -21,6 +21,7 @@ public class FooterMenuViewBean extends AbstractViewBean implements Serializable
 	protected String name;
 	protected String img;
 	protected String url;
+	protected boolean isExternal = false;
 
 	public String getName() {
 		return name;
@@ -45,5 +46,13 @@ public class FooterMenuViewBean extends AbstractViewBean implements Serializable
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+	public boolean isExternal() {
+    	return isExternal;
+    }
+
+	public void setExternal(boolean isExternal) {
+    	this.isExternal = isExternal;
+    }
 	
 }

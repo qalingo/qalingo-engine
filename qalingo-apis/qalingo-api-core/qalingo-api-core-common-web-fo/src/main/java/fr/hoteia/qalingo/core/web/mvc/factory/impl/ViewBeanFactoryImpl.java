@@ -338,11 +338,15 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		
 		final FollowUsViewBean followUs = new FollowUsViewBean();
+		
+		followUs.setSubmitUrlShortForm(urlService.buildNewsletterRegisterUrl(request, marketArea));
+		followUs.setSubmitUrlFullForm(urlService.buildFollowUsUrl(request, marketPlace, market, marketArea, localization, retailer));
+		
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
 		followOptions.add(buildFollowOption(request, locale, "facebook"));
 		followOptions.add(buildFollowOption(request, locale, "twitter"));
 		followOptions.add(buildFollowOption(request, locale, "googleplus"));
-		followOptions.add(buildFollowOption(request, locale, "feed"));
+		followOptions.add(buildFollowOption(request, locale, "rss"));
 		followUs.setFollowOptions(followOptions);
 		
 		return followUs;

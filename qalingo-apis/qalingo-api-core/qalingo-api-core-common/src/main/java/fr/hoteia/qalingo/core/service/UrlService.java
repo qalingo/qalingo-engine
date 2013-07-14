@@ -39,6 +39,8 @@ public interface UrlService {
 
 	String buildFollowUsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
+	String buildNewsletterRegisterUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+	
 	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
 	String buildContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
