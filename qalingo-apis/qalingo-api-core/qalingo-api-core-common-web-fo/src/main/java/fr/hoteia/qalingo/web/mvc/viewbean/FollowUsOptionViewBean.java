@@ -21,7 +21,6 @@ public class FollowUsOptionViewBean extends AbstractViewBean implements Serializ
 	protected String code;
 	protected String url;
 	protected String urlLabel;
-	protected String urlImg;
 	protected String title;
 	protected String text;
 	
@@ -47,14 +46,6 @@ public class FollowUsOptionViewBean extends AbstractViewBean implements Serializ
 	
 	public void setUrlLabel(String urlLabel) {
 		this.urlLabel = urlLabel;
-	}
-	
-	public String getUrlImg() {
-		return urlImg;
-	}
-	
-	public void setUrlImg(String urlImg) {
-		this.urlImg = urlImg;
 	}
 	
 	public String getTitle() {

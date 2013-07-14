@@ -345,20 +345,22 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
 		followOptions.add(buildFollowOption(request, locale, "facebook"));
 		followOptions.add(buildFollowOption(request, locale, "twitter"));
-		followOptions.add(buildFollowOption(request, locale, "googleplus"));
+		followOptions.add(buildFollowOption(request, locale, "google-plus"));
 		followOptions.add(buildFollowOption(request, locale, "rss"));
 		followUs.setFollowOptions(followOptions);
 		
 		return followUs;
 	}
 	
-	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, final String followType) throws Exception{
-		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
+	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, String followType) throws Exception{
+		if(followType.contains("-")){
+			// REPLACE DASH BY DOT - DOT WILL BE REPLACE LATER TO GET MESSAGE (google-plus -> google.plus)
+			followType = followType.replaceAll("-", ".");
+		}
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
 		followOption.setCode(followType);
 		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url.label", locale));
-		followOption.setUrlImg(currentThemeResourcePrefixPath + getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url_img", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url_label", locale));
 		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_title", locale));
 		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_text", locale));
 		return followOption;
