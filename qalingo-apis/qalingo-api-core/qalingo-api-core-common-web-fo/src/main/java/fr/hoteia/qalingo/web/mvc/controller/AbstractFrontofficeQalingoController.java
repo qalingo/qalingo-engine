@@ -29,6 +29,7 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 
 /**
  * 
@@ -85,6 +86,21 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		model.addAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH, urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute
+	protected void initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
+		// QUICK SEARCH
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		model.addAttribute("followUs", followUs);
 	}
 	
 	/**
