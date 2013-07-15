@@ -73,7 +73,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping("/cart-details.html*")
-	public ModelAndView cartDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayCartDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-details");
 
 		// SANITY CHECK: Empty cart
@@ -98,7 +98,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
-		formFactory.buildCartForm(request, modelAndView);
+		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
 
         return modelAndView;
 	}

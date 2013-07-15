@@ -22,6 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -53,7 +54,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			String url = urlService.buildLoginUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)  + "?error=true";
+			String url = urlService.buildLoginUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)  + "?" + RequestConstants.REQUEST_PARAM_AUTH_ERROR + "=true";
 			setDefaultFailureUrl(url);
 	        saveException(request, exception);
 	        redirectStrategy.sendRedirect(request, response, url);

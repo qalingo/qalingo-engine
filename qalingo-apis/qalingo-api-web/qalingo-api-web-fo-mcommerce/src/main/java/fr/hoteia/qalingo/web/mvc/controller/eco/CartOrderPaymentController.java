@@ -44,7 +44,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping("/cart-order-payment.html*")
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayOrderPayment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-order-payment");
 
 		// SANITY CHECK
@@ -69,13 +69,13 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
-		formFactory.buildPaymentForm(request, modelAndView);
-
+		modelAndView.addObject("paymentForm", formFactory.buildPaymentForm(request));
+		
         return modelAndView;
 	}
 	
 	@RequestMapping(value = "/cart-order-payment.html*", method = RequestMethod.POST)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
+	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -84,14 +84,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-order-payment");
-			// "shoppingcart.payment";
-
-			final Cart currentCart = requestUtil.getCurrentCart(request);
-			final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
-			modelAndView.addObject("cart", cartViewBean);
-			
-			return modelAndView;
+			return displayOrderPayment(request, response);
 		}
 		
 		// Create and Save a new order

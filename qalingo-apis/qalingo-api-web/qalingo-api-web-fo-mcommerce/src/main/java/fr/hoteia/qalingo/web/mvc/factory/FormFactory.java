@@ -11,31 +11,38 @@ package fr.hoteia.qalingo.web.mvc.factory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.servlet.ModelAndView;
-
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
+import fr.hoteia.qalingo.web.mvc.form.CartForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
+import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
+import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
+import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
+import fr.hoteia.qalingo.web.mvc.form.PaymentForm;
+import fr.hoteia.qalingo.web.mvc.form.QuickSearchForm;
+import fr.hoteia.qalingo.web.mvc.form.SearchForm;
 
 public interface FormFactory {
 
-	 void buildContactUsForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	ContactUsForm buildContactUsForm(HttpServletRequest request) throws Exception;
 
-	 void buildSearchForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	SearchForm buildSearchForm(HttpServletRequest request) throws Exception;
 
-	 void buildQuickSearchForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	QuickSearchForm buildQuickSearchForm(HttpServletRequest request) throws Exception;
 
-	 void buildFollowUsForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	FollowUsForm buildFollowUsForm(HttpServletRequest request) throws Exception;
 	 
-	 void buildCustomerCreateAccountForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	CreateAccountForm buildCreateAccountForm(HttpServletRequest request) throws Exception;
 	 
-	 void buildCustomerEditAccountForm(HttpServletRequest request, Customer customer, ModelAndView modelAndView) throws Exception;
+	CustomerEditForm buildCustomerEditForm(HttpServletRequest request, Customer customer) throws Exception;
 	 
-	 void buildCustomerAddressForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	CustomerAddressForm buildCustomerAddressForm(HttpServletRequest request) throws Exception;
 
-	 void buildCustomerAddressForm(HttpServletRequest request, ModelAndView modelAndView, CustomerAddress customerAddress) throws Exception;
+	CustomerAddressForm buildCustomerAddressForm(HttpServletRequest request, CustomerAddress customerAddress) throws Exception;
 
-	 void buildCartForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	CartForm buildCartForm(HttpServletRequest request) throws Exception;
 	 
-	 void buildPaymentForm(HttpServletRequest request, ModelAndView modelAndView) throws Exception;
+	PaymentForm buildPaymentForm(HttpServletRequest request) throws Exception;
 
 }

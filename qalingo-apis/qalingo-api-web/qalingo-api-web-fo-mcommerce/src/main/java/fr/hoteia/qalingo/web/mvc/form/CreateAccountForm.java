@@ -52,7 +52,7 @@ public class CreateAccountForm {
 		this.addressName = addressName;
 	}
     
-	@NotEmpty(message = "error.form.create.account.title.empty")
+	@NotEmpty(message = "fo.customer.error_form_create_account_title_empty")
     public String getTitle() {
 		return title;
 	}
@@ -61,7 +61,7 @@ public class CreateAccountForm {
 		this.title = title;
 	}
     
-	@NotEmpty(message = "error.form.create.account.lastname.empty")
+	@NotEmpty(message = "fo.customer.error_form_create_account_lastname_empty")
 	public String getLastname() {
 		return lastname;
 	}
@@ -70,7 +70,7 @@ public class CreateAccountForm {
 		this.lastname = lastname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.firstname.empty")
+	@NotEmpty(message = "fo.customer.error_form_create_account_firstname_empty")
 	public String getFirstname() {
 		return firstname;
 	}
@@ -79,7 +79,7 @@ public class CreateAccountForm {
 		this.firstname = firstname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.address1.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_address1_empty")
 	public String getAddress1() {
 		return address1;
 	}
@@ -104,7 +104,7 @@ public class CreateAccountForm {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
-	@NotEmpty(message = "error.form.create.account.postal.code.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_zip_or_postal_code_empty")
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -113,7 +113,7 @@ public class CreateAccountForm {
 		this.postalCode = postalCode;
 	}
 
-	@NotEmpty(message = "error.form.create.account.city.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_city_empty")
 	public String getCity() {
 		return city;
 	}
@@ -130,7 +130,7 @@ public class CreateAccountForm {
 		this.stateCode = stateCode;
 	}
 
-	@NotEmpty(message = "error.form.create.account.country.code.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_country_code_empty")
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -147,8 +147,8 @@ public class CreateAccountForm {
 	    this.areaCode = areaCode;
     }
 
-	@NotEmpty(message = "error.form.create.account.email.empty")
-	@Email(message = "error.form.create.account.email.is.not.valid")
+	@NotEmpty(message = "fo.customer.error_form_create_account_email_empty")
+	@Email(message = "fo.customer.error_form_create_account_email_is_not_valid")
 	public String getEmail() {
 		return email;
 	}

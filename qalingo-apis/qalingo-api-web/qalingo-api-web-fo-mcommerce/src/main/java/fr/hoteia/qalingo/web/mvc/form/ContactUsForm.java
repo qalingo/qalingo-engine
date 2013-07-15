@@ -53,8 +53,8 @@ public class ContactUsForm {
 		this.country = country;
 	}
 
-	@NotEmpty(message = "error.form.contact.us.email.empty")
-	@Email(message = "error.form.contact.us.email.is.not.valid")
+	@NotEmpty(message = "fo.contact.error_form_email_empty")
+	@Email(message = "fo.contact.error_form_email_is_not_valid")
 	public String getEmail() {
 		return email;
 	}
@@ -95,7 +95,7 @@ public class ContactUsForm {
 		this.website = website;
 	}
 
-	@NotEmpty(message = "error.form.contact.us.subject.empty")
+	@NotEmpty(message = "fo.contact.error_form_subject_empty")
     public String getSubject() {
         return subject;
     }
@@ -104,7 +104,7 @@ public class ContactUsForm {
         this.subject = subject;
     }
 
-	@NotEmpty(message = "error.form.contact.us.message.empty")
+	@NotEmpty(message = "fo.contact.error_form_message_empty")
     public String getMessage() {
         return message;
     }

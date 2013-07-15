@@ -80,6 +80,10 @@ public final class ModelConstants {
 	public static final String CUSTOMER_FORM = "customerForm";
 	public static final String USER_FORM = "userForm";
 
+	// AUTH
+	public static final String AUTH_HAS_FAIL = "authHasFail";
+	public static final String AUTH_ERROR_MESSAGE = "authErrorMessage";
+
 	// OTHERS
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String INFO_MESSAGE = "infoMessage";

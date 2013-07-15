@@ -103,29 +103,8 @@ public class CustomerAddressController extends AbstractMCommerceController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/customer-add-address-form.html*")
-	public ModelAndView customerAddAddressForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
-		
-		// "customer.add.address";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
-		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
-		
-		formFactory.buildCustomerAddressForm(request, modelAndView);
-
-        return modelAndView;
-	}
-
 	@RequestMapping(value = "/customer-add-address.html*", method = RequestMethod.GET)
-	public ModelAndView customerAddAddress(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
 		
 		// "customer.add.address";
@@ -140,13 +119,13 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
 		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
 		
-		formFactory.buildCustomerAddressForm(request, modelAndView);
-
+		modelAndView.addObject("customerAddressForm", formFactory.buildCustomerAddressForm(request));
+		
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/customer-add-address.html*", method = RequestMethod.POST)
-	public ModelAndView customerAddAddress(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerAddressForm customerAddressForm,
+	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerAddressForm customerAddressForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -158,12 +137,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		// "customer.add.address";
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
-
-			final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
-			modelAndView.addObject("customerAdresses", customerAdressesViewBean);
-			
-			return modelAndView;
+			return displayCustomerAddAddress(request, response, modelMap);
 		}
 		
 		// Save the new address customer
@@ -173,49 +147,8 @@ public class CustomerAddressController extends AbstractMCommerceController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/customer-edit-address-form.html*")
-	public ModelAndView customerEditAddressForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
-		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-
-		// "customer.edit.address";
-
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
-		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
-		
-		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
-		CustomerAddress customerAddress = null;
-		
-		try {
-			final Customer customer = requestUtil.getCurrentCustomer(request);
-			customerAddress = customer.getAddress(new Long(customerAddressId));
-			
-		} catch (Exception e) {
-			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
-			
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-	        return new ModelAndView(new RedirectView(urlRedirect));
-		}
-
-		// SANITY CHECK : wrong address id for this customer
-		if(customerAddress == null){
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-	        return new ModelAndView(new RedirectView(urlRedirect));
-		}
-
-		formFactory.buildCustomerAddressForm(request, modelAndView, customerAddress);
-
-        return modelAndView;
-	}
-	
 	@RequestMapping(value = "/customer-edit-address.html*", method = RequestMethod.GET)
-	public ModelAndView customerEditAddress(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
 		
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
@@ -251,13 +184,13 @@ public class CustomerAddressController extends AbstractMCommerceController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 
-		formFactory.buildCustomerAddressForm(request, modelAndView, customerAddress);
+		modelAndView.addObject("customerAddressForm", formFactory.buildCustomerAddressForm(request));
 
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/customer-edit-address.html*", method = RequestMethod.POST)
-	public ModelAndView customerEditAddress(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerAddressForm customerAddressForm,
+	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerAddressForm customerAddressForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -269,12 +202,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		// "customer.edit.address";
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
-
-			final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
-			modelAndView.addObject("customerAdresses", customerAdressesViewBean);
-			
-			return modelAndView;
+			return displayCustomerEditAddress(request, response, modelMap);
 		}
 		
 		// Save the new address customer

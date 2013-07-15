@@ -22,6 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
@@ -43,7 +44,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
 		try {
-			String url = backofficeUrlService.buildLoginUrl() + "?error=true";
+			String url = backofficeUrlService.buildLoginUrl() + "?" + RequestConstants.REQUEST_PARAM_AUTH_ERROR + "=true";
 			setDefaultFailureUrl(url);
 	        saveException(request, exception);
 	        redirectStrategy.sendRedirect(request, response, url);

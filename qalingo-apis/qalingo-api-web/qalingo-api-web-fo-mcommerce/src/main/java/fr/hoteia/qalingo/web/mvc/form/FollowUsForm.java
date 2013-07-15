@@ -20,8 +20,8 @@ public class FollowUsForm {
 	
     private String email;
     
-	@NotEmpty(message = "error.form.follow.us.email.empty")
-	@Email(message = "error.form.follow.us.email.is.not.valid")
+	@NotEmpty(message = "fo.follow_us.error_form_email_empty")
+	@Email(message = "fo.follow_us.error_form_email_is_not_valid")
 	public String getEmail() {
 		return email;
 	}

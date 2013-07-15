@@ -54,7 +54,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(value = "/cart-delivery-order-information.html*", method = RequestMethod.GET)
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayOrderDelivery(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-delivery-order-information");
 
 		// SANITY CHECK
@@ -79,13 +79,13 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
-		formFactory.buildCartForm(request, modelAndView);
+		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
 		
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/cart-delivery-order-information.html*", method = RequestMethod.POST)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm,
+	public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -94,14 +94,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		if (result.hasErrors()) {
-			ModelAndView modelAndView = new ModelAndView("cart/cart-delivery-order-information");
-			// "shoppingcart.order.informations";
-
-			final Cart currentCart = requestUtil.getCurrentCart(request);
-			final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
-			modelAndView.addObject("cart", cartViewBean);
-			
-			return modelAndView;
+			return displayOrderDelivery(request, response);
 		}
 		
 		requestUtil.updateCurrentCart(request, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));

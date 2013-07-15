@@ -50,6 +50,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAM_USER_ID = "user-id";
 	public static final String REQUEST_PARAM_PAGE_ID = "page-id";
 
+	public static final String REQUEST_PARAM_AUTH_ERROR = "auth-error";
+
 	// SEARCH PAGINATION
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
 

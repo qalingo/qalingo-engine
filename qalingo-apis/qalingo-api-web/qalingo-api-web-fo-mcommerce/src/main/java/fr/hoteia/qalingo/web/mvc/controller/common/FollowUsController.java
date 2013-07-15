@@ -10,13 +10,13 @@
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,29 +36,36 @@ public class FollowUsController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/follow-us.html*", method = RequestMethod.GET)
-	public ModelAndView displayFollowUs(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception{
+	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
 		
 		// "followus";
-		formFactory.buildFollowUsForm(request, modelAndView);
 		
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/follow-us.html*", method = RequestMethod.POST)
-	public ModelAndView followUs(final HttpServletRequest request, final HttpServletResponse response, @Valid FollowUsForm followUsForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+	public ModelAndView followUs(final HttpServletRequest request, @Valid @ModelAttribute("followUsForm") FollowUsForm followUsForm,
+								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
 
 		// "followus";
 
 		if (result.hasErrors()) {
-			return displayFollowUs(request, response, modelMap);
+			return displayFollowUs(request, model, followUsForm);
 		}
 
 		webCommerceService.saveAndBuildNewsletterRegistrationConfirmationMail(request, followUsForm);
 		
         return modelAndView;
+	}
+	
+	/**
+	 * 
+	 */
+    @ModelAttribute("followUsForm")
+	protected FollowUsForm getFollowUsForm(final HttpServletRequest request, final Model model) throws Exception {
+    	return formFactory.buildFollowUsForm(request);
 	}
 	
 }

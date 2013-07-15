@@ -57,7 +57,7 @@ public class SearchController extends AbstractMCommerceController {
 	public ProductSolrService productSolrService;
 
 	@RequestMapping(value = "/search.html*", method = RequestMethod.GET)
-	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 		
 		// "search";
@@ -70,7 +70,7 @@ public class SearchController extends AbstractMCommerceController {
 		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 		modelAndView.addObject("search", search);
 		
-		formFactory.buildSearchForm(request, modelAndView);
+		modelAndView.addObject("searchForm", formFactory.buildSearchForm(request));
 
         return modelAndView;
 	}
@@ -84,17 +84,7 @@ public class SearchController extends AbstractMCommerceController {
 		// "search";
 		
 		if (result.hasErrors()) {
-			modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
-
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-			modelAndView.addObject("search", search);
-			
-			return modelAndView;
+			return displaySearch(request, response, modelMap);
 		}
 
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);

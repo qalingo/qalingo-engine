@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
@@ -51,7 +50,7 @@ public class FormFactoryImpl implements FormFactory {
 	@Autowired
     protected UrlService urlService;
 	
-	public void buildContactUsForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public ContactUsForm buildContactUsForm(final HttpServletRequest request) throws Exception {
 		final ContactUsForm contactUsForm = new ContactUsForm();
 		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
@@ -70,42 +69,25 @@ public class FormFactoryImpl implements FormFactory {
 			contactUsForm.setCountry("PT");
 		} 
 		
-		modelAndView.addObject("contactUsForm", contactUsForm);
+		return contactUsForm;
 	}
 	
-	public void buildSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public SearchForm buildSearchForm(final HttpServletRequest request) throws Exception {
 		final SearchForm searchForm = new SearchForm();
-		modelAndView.addObject("searchForm", searchForm);
+		return searchForm;
 	}
 	
-	public void buildQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public QuickSearchForm buildQuickSearchForm(final HttpServletRequest request) throws Exception {
 		final QuickSearchForm quickSearchForm = new QuickSearchForm();
-		modelAndView.addObject("quickSearchForm", quickSearchForm);
+		return quickSearchForm;
 	}
 	
-	public void buildFollowUsForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public FollowUsForm buildFollowUsForm(final HttpServletRequest request) throws Exception {
 		final FollowUsForm followUsForm = new FollowUsForm();
-		modelAndView.addObject("followUsForm", followUsForm);
+		return followUsForm;
 	}
 	
-	public void buildCustomerEditAccountForm(final HttpServletRequest request, final Customer customer, final ModelAndView modelAndView) throws Exception {
-		final MarketArea marketMode = requestUtil.getCurrentMarketArea(request);
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketMode.getCode());
-		CustomerEditForm customerEditForm = new CustomerEditForm();
-		customerEditForm.setTitle(customer.getTitle());
-		customerEditForm.setLastname(customer.getLastname());
-		customerEditForm.setFirstname(customer.getFirstname());
-		customerEditForm.setEmail(customer.getEmail());
-
-		customerEditForm.setMobile(customerMarketContext.getMobile());
-		customerEditForm.setPhone(customerMarketContext.getPhone());
-		customerEditForm.setFax(customerMarketContext.getFax());
-		customerEditForm.setOptin(customerMarketContext.isOptin());
-		
-		modelAndView.addObject("customerEditForm", customerEditForm);
-	}
-	
-	public void buildCustomerCreateAccountForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public CreateAccountForm buildCreateAccountForm(final HttpServletRequest request) throws Exception {
 		final CreateAccountForm createAccountForm = new CreateAccountForm();
 		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
@@ -124,10 +106,27 @@ public class FormFactoryImpl implements FormFactory {
 			createAccountForm.setCountryCode("PT");
 		} 
 		
-		modelAndView.addObject("createAccountForm", createAccountForm);
+		return createAccountForm;
 	}
 	
-	public void buildCustomerAddressForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public CustomerEditForm buildCustomerEditForm(final HttpServletRequest request, final Customer customer) throws Exception {
+		final MarketArea marketMode = requestUtil.getCurrentMarketArea(request);
+		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketMode.getCode());
+		CustomerEditForm customerEditForm = new CustomerEditForm();
+		customerEditForm.setTitle(customer.getTitle());
+		customerEditForm.setLastname(customer.getLastname());
+		customerEditForm.setFirstname(customer.getFirstname());
+		customerEditForm.setEmail(customer.getEmail());
+
+		customerEditForm.setMobile(customerMarketContext.getMobile());
+		customerEditForm.setPhone(customerMarketContext.getPhone());
+		customerEditForm.setFax(customerMarketContext.getFax());
+		customerEditForm.setOptin(customerMarketContext.isOptin());
+		
+		return customerEditForm;
+	}
+	
+	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
 		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
@@ -146,10 +145,10 @@ public class FormFactoryImpl implements FormFactory {
 			customerAddressForm.setCountryCode("PT");
 		} 
 		
-		modelAndView.addObject("customerAddressForm", customerAddressForm);
+		return customerAddressForm;
 	}
 	
-	public void buildCustomerAddressForm(final HttpServletRequest request, final ModelAndView modelAndView, final CustomerAddress customerAddress) throws Exception {
+	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request, final CustomerAddress customerAddress) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
 		
 		customerAddressForm.setAddressName(customerAddress.getAddressName());
@@ -166,10 +165,10 @@ public class FormFactoryImpl implements FormFactory {
 		customerAddressForm.setAreaCode(customerAddress.getAreaCode());
 		customerAddressForm.setCountryCode(customerAddress.getCountryCode());
 	    
-		modelAndView.addObject("customerAddressForm", customerAddressForm);
+		return customerAddressForm;
 	}
 	
-	public void buildCartForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public CartForm buildCartForm(final HttpServletRequest request) throws Exception {
 		final CartForm cartForm = new CartForm();
 		Customer customer = requestUtil.getCurrentCustomer(request);
 		if(customer != null) {
@@ -184,12 +183,11 @@ public class FormFactoryImpl implements FormFactory {
 				}
 			}
 		}
-		
-		modelAndView.addObject("cartForm", cartForm);
+		return cartForm;
 	}
 	
-	public void buildPaymentForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+	public PaymentForm buildPaymentForm(final HttpServletRequest request) throws Exception {
 		final PaymentForm paymentForm = new PaymentForm();
-		modelAndView.addObject("paymentForm", paymentForm);
+		return paymentForm;
 	}
 }

@@ -61,28 +61,8 @@ public class CustomerDetailsController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-edit-form.html*")
-	public ModelAndView customerEditForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
-		
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-		// "customer.details";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
-		modelAndView.addObject("customerDetails", customerViewBean);
-		
-		formFactory.buildCustomerEditAccountForm(request, customer, modelAndView);
-
-        return modelAndView;
-	}
-	
 	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.GET)
-	public ModelAndView customerEdit(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayCustomerEdit(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
 		// "customer.details";
@@ -96,11 +76,13 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
 		modelAndView.addObject("customerDetails", customerViewBean);
 
+		modelAndView.addObject("customerEditForm", formFactory.buildCustomerEditForm(request, customer));
+		
         return modelAndView;
 	}
 	
 	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.POST)
-	public ModelAndView customerEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerEditForm customerEditForm,
+	public ModelAndView submitCustomerEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerEditForm customerEditForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -115,12 +97,7 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 		final Customer checkCustomer = customerService.getCustomerByLoginOrEmail(newEmail);
 
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details-form");
-
-			final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
-			modelAndView.addObject("customerDetails", customerViewBean);
-			
-			return modelAndView;
+			return displayCustomerEdit(request, response);
 		}
 		
 		if(checkCustomer != null

@@ -19,14 +19,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,39 +67,34 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
     protected SecurityUtil securityUtil;
 	
 	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.GET)
-	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
+		
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
 		// "customer.create.account";
 
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 		
-		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
+//		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.POST)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final HttpServletResponse response, @Valid CreateAccountForm createAccountForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm,
+								BindingResult result) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -117,7 +111,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		// "customer.create.account";
 		
 		if (result.hasErrors()) {
-			return displayCustomerCreateAccount(request, response, modelMap);
+			return displayCustomerCreateAccount(request, model, createAccountForm);
 		}
 		
 		final String email = createAccountForm.getEmail();
@@ -141,8 +135,16 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
+	/**
+	 * 
+	 */
+    @ModelAttribute("createAccountForm")
+	protected CreateAccountForm getCreateAccountForm(final HttpServletRequest request, final Model model) throws Exception {
+    	return formFactory.buildCreateAccountForm(request);
+	}
+    
     @ModelAttribute("titles")
-    public List<ValueBean> getTitles(HttpServletRequest request) throws Exception {
+    public List<ValueBean> getTitles(final HttpServletRequest request) throws Exception {
 		List<ValueBean> titlesValues = new ArrayList<ValueBean>();
 		try {
 			final Locale locale = getCurrentLocale(request);
@@ -166,7 +168,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
     }
     
     @ModelAttribute("countries")
-    public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
+    public List<ValueBean> getCountries(final HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
 			final Locale locale = getCurrentLocale(request);

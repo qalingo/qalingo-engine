@@ -9,15 +9,21 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.BooleanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
@@ -29,11 +35,19 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 public class LoginController extends AbstractBackofficeQalingoController {
 
 	@RequestMapping("/login.html*")
-	public ModelAndView login(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/login");
 		
-		// "login";
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+		
+		// SANITY CHECK : Param from spring-security
+		String error = request.getParameter(RequestConstants.REQUEST_PARAM_AUTH_ERROR);
+		if(BooleanUtils.toBoolean(error)){
+			model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
+			model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
+		}
+		
 		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentLocalization);
 		modelAndView.addObject(Constants.SECURITY_VIEW_BEAN, security);
 		
@@ -41,7 +55,7 @@ public class LoginController extends AbstractBackofficeQalingoController {
 	}
 	
 	@RequestMapping("/login-check.html*")
-	public ModelAndView loginCheck(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("security/login");
 		
 		// "header.title.login";

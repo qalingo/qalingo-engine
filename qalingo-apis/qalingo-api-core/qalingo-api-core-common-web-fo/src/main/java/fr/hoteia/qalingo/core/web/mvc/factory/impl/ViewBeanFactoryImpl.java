@@ -353,16 +353,17 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	}
 	
 	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, String followType) throws Exception{
-		if(followType.contains("-")){
+		String followTypeMessageKey = followType;
+		if(followTypeMessageKey.contains("-")){
 			// REPLACE DASH BY DOT - DOT WILL BE REPLACE LATER TO GET MESSAGE (google-plus -> google.plus)
-			followType = followType.replaceAll("-", ".");
+			followTypeMessageKey = followTypeMessageKey.replaceAll("-", ".");
 		}
 		FollowUsOptionViewBean followOption = new FollowUsOptionViewBean();
 		followOption.setCode(followType);
-		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url", locale));
-		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_url_label", locale));
-		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_title", locale));
-		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followType + "_text", locale));
+		followOption.setUrl(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followTypeMessageKey + "_url", locale));
+		followOption.setUrlLabel(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followTypeMessageKey + "_url_label", locale));
+		followOption.setTitle(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followTypeMessageKey + "_title", locale));
+		followOption.setText(getSpecificMessage(ScopeWebMessage.FOLLOW_US, followTypeMessageKey + "_text", locale));
 		return followOption;
 	}
 	

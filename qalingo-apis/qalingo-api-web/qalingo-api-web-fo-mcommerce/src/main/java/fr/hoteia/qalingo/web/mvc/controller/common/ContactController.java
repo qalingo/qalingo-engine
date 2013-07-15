@@ -19,14 +19,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +57,7 @@ public class ContactController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/contact.html*", method = RequestMethod.GET)
-	public ModelAndView displayContactForm(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView displayContactForm(final HttpServletRequest request, Model model,  @ModelAttribute("contactUsForm") ContactUsForm contactUsForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-form");
 		
 		// "contactus";
@@ -71,25 +70,21 @@ public class ContactController extends AbstractMCommerceController {
 
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 		
-		formFactory.buildContactUsForm(request, modelAndView);
-
         return modelAndView;
 	}
 
 	@RequestMapping(value = "/contact.html*", method = RequestMethod.POST)
-	public ModelAndView contact(final HttpServletRequest request, final HttpServletResponse response, @Valid ContactUsForm contactUsForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+	public ModelAndView submitContact(final HttpServletRequest request, @Valid  @ModelAttribute("contactUsForm") ContactUsForm contactUsForm,
+								BindingResult result, Model model) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");
 
 		// "contactus";
 		
 		if (result.hasErrors()) {
-			return displayContactForm(request, response, modelMap);
+			return displayContactForm(request, model, contactUsForm);
 		}
 		
-		formFactory.buildContactUsForm(request, modelAndView);
-
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -103,6 +98,14 @@ public class ContactController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
+	/**
+	 * 
+	 */
+    @ModelAttribute("contactUsForm")
+	protected ContactUsForm getContactUsForm(final HttpServletRequest request, final Model model) throws Exception {
+    	return formFactory.buildContactUsForm(request);
+	}
+    
     @ModelAttribute("countries")
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
