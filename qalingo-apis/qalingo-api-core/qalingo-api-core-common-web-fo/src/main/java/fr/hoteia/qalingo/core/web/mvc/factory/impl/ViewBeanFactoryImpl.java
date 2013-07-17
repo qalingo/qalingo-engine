@@ -388,7 +388,12 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		legalTerms.setCompanyPhone(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_phone", locale));
 		legalTerms.setCompanyFax(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_fax", locale));
 		legalTerms.setCompanyEmail(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_email", locale));
-		legalTerms.setCompanyWebsiteUrl(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_website_url", locale));
+		String websiteUrl = getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_website_url", locale);
+		if(StringUtils.isNotEmpty(websiteUrl)
+				&& !websiteUrl.contains("http")){
+			websiteUrl = "http://" + websiteUrl;
+		}
+		legalTerms.setCompanyWebsiteUrl(websiteUrl);
 		legalTerms.setCompanyWebsiteName(getCommonMessage(ScopeCommonMessage.LEGAL_TERMS, "company_website_name", locale));
 		
 		return legalTerms;

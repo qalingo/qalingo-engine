@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
+import fr.hoteia.qalingo.web.mvc.form.NewsletterQuickRegistrationForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -56,6 +57,16 @@ public class FollowUsController extends AbstractMCommerceController {
 		}
 
 		webCommerceService.saveAndBuildNewsletterRegistrationConfirmationMail(request, followUsForm);
+		
+        return modelAndView;
+	}
+
+	@RequestMapping(value = "/newsletter-register.html*", method = RequestMethod.POST)
+	public ModelAndView newsletterRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
+								BindingResult result, Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
+
+		
 		
         return modelAndView;
 	}
