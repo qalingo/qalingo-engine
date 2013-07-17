@@ -32,7 +32,7 @@ public class LegalTermsViewBean extends AbstractViewBean implements Serializable
 	protected String companyFax;
 	protected String companyEmail;
 	protected String companyWebsiteUrl;
-	protected String companyWebsiteLabel;
+	protected String companyWebsiteName;
 
 	public String getWarning() {
 		return warning;
@@ -138,11 +138,12 @@ public class LegalTermsViewBean extends AbstractViewBean implements Serializable
 	    this.companyWebsiteUrl = companyWebsiteUrl;
     }
 	
-	public String getCompanyWebsiteLabel() {
-	    return companyWebsiteLabel;
+	public String getCompanyWebsiteName() {
+	    return companyWebsiteName;
     }
 	
-	public void setCompanyWebsiteLabel(String companyWebsiteLabel) {
-	    this.companyWebsiteLabel = companyWebsiteLabel;
+	public void setCompanyWebsiteName(String companyWebsiteName) {
+	    this.companyWebsiteName = companyWebsiteName;
     }
+	
 }
