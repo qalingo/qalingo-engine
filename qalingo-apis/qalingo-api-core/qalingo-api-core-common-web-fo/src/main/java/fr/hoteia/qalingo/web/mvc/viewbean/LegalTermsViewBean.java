@@ -31,6 +31,8 @@ public class LegalTermsViewBean extends AbstractViewBean implements Serializable
 	protected String companyPhone;
 	protected String companyFax;
 	protected String companyEmail;
+	protected String companyWebsiteUrl;
+	protected String companyWebsiteLabel;
 
 	public String getWarning() {
 		return warning;
@@ -128,4 +130,19 @@ public class LegalTermsViewBean extends AbstractViewBean implements Serializable
     	this.companyEmail = companyEmail;
     }
 	
+	public String getCompanyWebsiteUrl() {
+	    return companyWebsiteUrl;
+    }
+	
+	public void setCompanyWebsiteUrl(String companyWebsiteUrl) {
+	    this.companyWebsiteUrl = companyWebsiteUrl;
+    }
+	
+	public String getCompanyWebsiteLabel() {
+	    return companyWebsiteLabel;
+    }
+	
+	public void setCompanyWebsiteLabel(String companyWebsiteLabel) {
+	    this.companyWebsiteLabel = companyWebsiteLabel;
+    }
 }
