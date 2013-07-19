@@ -29,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
@@ -65,7 +66,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productMarketingCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
+		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
 		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
 		
 		// "business.product.marketing.details";
@@ -82,7 +83,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String productMarketingCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
+		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
 		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
 
 		// "business.product.marketing.edit";
@@ -141,7 +142,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productSkuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 
 		// "business.product.sku.details";
@@ -158,7 +159,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productSkuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 		
 		// "business.product.sku.edit";

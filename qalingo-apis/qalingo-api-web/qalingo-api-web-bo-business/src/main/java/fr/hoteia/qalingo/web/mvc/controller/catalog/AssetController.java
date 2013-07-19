@@ -34,6 +34,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -57,7 +58,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	public ModelAndView assetDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ASSET_DETAILS_VELOCITY_PAGE);
 
-		final String currentAssetCode = request.getParameter(Constants.REQUEST_PARAM_ASSET_CODE);
+		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAM_ASSET_CODE);
 		final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 		
 		if(asset != null){
@@ -77,7 +78,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 
 		// "asset.edit";
 
-		final String currentAssetCode = request.getParameter(Constants.REQUEST_PARAM_ASSET_CODE);
+		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAM_ASSET_CODE);
 		if(StringUtils.isNotEmpty(currentAssetCode)){
 			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 

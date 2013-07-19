@@ -745,16 +745,12 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
-//		customerViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "firstname.label", locale));
 		customerViewBean.setFirstnameValue(customer.getFirstname());
 
-//		customerViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "lastname.label", locale));
 		customerViewBean.setLastnameValue(customer.getLastname());
 
-//		customerViewBean.setEmailLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "email.label", locale));
 		customerViewBean.setEmailValue(customer.getEmail());
 
-//		customerViewBean.setDateCreateLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "datecreate.label", locale));
 		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 		if(customer.getDateCreate() != null) {
 			customerViewBean.setDateCreateValue(dateFormat.format(customer.getDateCreate()));
@@ -762,7 +758,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerViewBean.setDateCreateValue(Constants.NOT_AVAILABLE);
 		}
 		
-//		customerViewBean.setDateUpdateLabel(getSpecificMessage(ScopeWebMessage.CUSTOMER, "dateupdate.label", locale));
 		if(customer.getDateUpdate() != null) {
 			customerViewBean.setDateUpdateValue(dateFormat.format(customer.getDateUpdate()));
 		} else {
@@ -845,22 +840,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			 final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
 		
 		final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
-//		customerAddressListViewBean.setAddressNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address.name", locale));
-//		customerAddressListViewBean.setTitleLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.title", locale));
-//		customerAddressListViewBean.setLastnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.lastname", locale));
-//		customerAddressListViewBean.setFirstnameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.firstname", locale));
-		
-//		customerAddressListViewBean.setAddress1Label(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address1", locale));
-//		customerAddressListViewBean.setAddress2Label(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address2", locale));
-//		customerAddressListViewBean.setAddressAdditionalInformationLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.address.additional.information", locale));
-//		customerAddressListViewBean.setPostalCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.postal.code", locale));
-//		customerAddressListViewBean.setCityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.city", locale));
-//		customerAddressListViewBean.setStateCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.county.code", locale));
-//		customerAddressListViewBean.setCountryCodeLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.country.code", locale));
-
-//		customerAddressListViewBean.setDefaultShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.default.shipping.address", locale));
-//		customerAddressListViewBean.setDefaultBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "customer.address.list.label.default.billing.address", locale));
-
 		customerAddressListViewBean.setBackUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		Set<CustomerAddress> addresses = customer.getAddresses();
@@ -907,10 +886,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		Long customerAddressId = customerAddress.getId();
 		
-//		customerAddressViewBean.setEditLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.edit", locale));
 		customerAddressViewBean.setEditUrl(urlService.buildCustomerEditAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
-
-//		customerAddressViewBean.setDeleteLabel(getSpecificMessage(ScopeWebMessage.COMMON, "form.customer.address.label.delete", locale));
 		customerAddressViewBean.setDeleteUrl(urlService.buildCustomerDeleteAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
 		
 		return customerAddressViewBean;
@@ -1084,16 +1060,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		return productMarketingViewBean;
 	}
 	
-//
-//	/**
-//     * 
-//     */
-//	public ProductMarketingViewBean buildProductMarketingViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-//			 final Localization localization, final Retailer retailer, final ProductCategory productCategory, final ProductMarketing productMarketing) throws Exception {
-//		final ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(request, marketPlace, market, marketArea, localization, retailer, productCategory, productMarketing);
-//		return productMarketingViewBean;
-//	}
-	
 	/**
 	 * @throws Exception 
      * 
@@ -1104,18 +1070,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		
 		final CartViewBean cartViewBean = new CartViewBean();
 
-//		cartViewBean.setOrderItemNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.sku.label", locale));
-//		cartViewBean.setOrderItemQuantityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.quantity.label", locale));
-//		cartViewBean.setOrderItemDeleteActionLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.remove.label", locale));
-//		cartViewBean.setOrderItemPriceLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.price", locale));
-//		cartViewBean.setOrderItemSubTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.subtotal", locale));
-//		
-//		cartViewBean.setCartItemsTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.without.shippings", locale));
-//		cartViewBean.setCartTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.total", locale));
-//
-//		cartViewBean.setShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.shipping.address", locale));
-//		cartViewBean.setBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.billing.address", locale));
-
 		cartViewBean.setCartDetailsUrl(urlService.buildCartDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
 		cartViewBean.setCartAuthUrl(urlService.buildCartAuthUrl(request, marketPlace, market, marketArea, localization, retailer));
 		cartViewBean.setCartDeliveryAndOrderDetailsUrl(urlService.buildCartDeliveryAndOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -1123,14 +1077,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		cartViewBean.setAddNewAddressUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
-//		cartViewBean.setAddNewAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.add.new.address", locale));
-
-//		cartViewBean.setCardHolderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.holder", locale));
-//		cartViewBean.setCardNumberLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.number", locale));
-//		cartViewBean.setCardCryptoLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.crypto", locale));
-//		cartViewBean.setCardExpirationDateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.date", locale));
-//		cartViewBean.setCardExpirationMonthLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.month", locale));
-//		cartViewBean.setCardExpirationYearLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.year", locale));
 
 		// ITEMS PART
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
@@ -1199,10 +1145,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		cartViewBean.setCartFeesTotal(formatter.format(cartFeesTotal));
 		cartViewBean.setCartTotal(formatter.format(carTotal));
 		
-//		cartViewBean.setStep1SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step1.submit.label", locale));
-//		cartViewBean.setStep2SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step2.submit.label", locale));
-//		cartViewBean.setStep3SubmitLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.step3.submit.label", locale));
-		
 		return cartViewBean;
 	}
 	
@@ -1231,7 +1173,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		}
 		
 		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, cartItem.getProductSkuCode()));
-//		cartItemViewBean.setDeleteLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.delete.from.cart", locale));
 		
 		return cartItemViewBean;
 	}
@@ -1257,25 +1198,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		final String orderId = order.getId().toString();
 		final OrderViewBean orderViewBean = new OrderViewBean();
-
-//		orderViewBean.setOrderItemNameLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.sku.label", locale));
-//		orderViewBean.setOrderItemQuantityLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.quantity.label", locale));
-//		orderViewBean.setOrderItemDeleteActionLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.remove.label", locale));
-//		orderViewBean.setOrderItemPriceLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.price", locale));
-//		orderViewBean.setOrderItemSubTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.item.subtotal", locale));
-//		
-//		orderViewBean.setOrderItemsTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.without.shippings", locale));
-//		orderViewBean.setOrderTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.total", locale));
-//
-//		orderViewBean.setShippingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.shipping.address", locale));
-//		orderViewBean.setBillingAddressLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.billing.address", locale));
-//
-//		orderViewBean.setCardHolderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.holder", locale));
-//		orderViewBean.setCardNumberLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.number", locale));
-//		orderViewBean.setCardCryptoLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.crypto", locale));
-//		orderViewBean.setCardExpirationDateLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.date", locale));
-//		orderViewBean.setCardExpirationMonthLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.month", locale));
-//		orderViewBean.setCardExpirationYearLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.payment.card.expiration.year", locale));
 
 		// ITEMS PART
 		final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
@@ -1344,7 +1266,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
 		orderViewBean.setOrderTotal(formatter.format(orderTotal));
 
-		final Object[] params = {order.getOrderNum()};
+//		final Object[] params = {order.getOrderNum()};
 //		orderViewBean.setConfirmationMessage(getSpecificMessage(ScopeWebMessage.COMMON, "order.confirmation.message", params, locale));
 
 		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId));
@@ -1388,8 +1310,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 																   throws Exception {
 		final String localeCode = localization.getCode();
 		final ProductCrossLinkViewBean productCrossLinkViewBean = new ProductCrossLinkViewBean();
-
-		
 		
 		// TODO : WRONG : CROSS IS SKU not marketing
 		
@@ -1469,19 +1389,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String productSkuName = productSku.getI18nName(localeCode);
 		final String productSkuCode = productSku.getCode();
 		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
-//		productSkuViewBean.setProductDetailsLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.details", locale));
 
 		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
-//		productSkuViewBean.setAddToCartLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.add.to.cart", locale));
-
 		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
-//		productSkuViewBean.setRemoveFromCartLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.remove.from.cart", locale));
-		
 		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode, productSkuName, productSkuCode));
-//		productSkuViewBean.setAddToWishlistLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.add.to.wishlist", locale));
-
 		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, productSkuCode));
-//		productSkuViewBean.setRemoveFromWishlistLabel(getSpecificMessage(ScopeWebMessage.COMMON, "product.remove.from.wishlist", locale));
 
 		return productSkuViewBean;
 	}

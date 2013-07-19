@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -90,7 +91,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
-		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		
 		try {
 			webCommerceService.deleteAddressCustomer(request, customerAddressId);
@@ -164,7 +165,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		modelAndView.addObject("customerAdresses", customerAdressesViewBean);
 		
 
-		final String customerAddressId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		CustomerAddress customerAddress = null;
 		
 		try {

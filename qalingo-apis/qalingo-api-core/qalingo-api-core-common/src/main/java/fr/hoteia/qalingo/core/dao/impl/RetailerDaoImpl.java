@@ -19,15 +19,57 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.dao.StoreDao;
+import fr.hoteia.qalingo.core.dao.RetailerDao;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
 
 @Transactional
-@Repository("storeDao")
-public class StoreDaoImpl extends AbstractGenericDaoImpl implements StoreDao {
+@Repository("retailerDao")
+public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerDao {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
+	// RETAILER
+	
+	public Retailer getRetailerById(Long retailerId) {
+		return em.find(Retailer.class, retailerId);
+	}
+
+	public Retailer getRetailerByCode(String retailerCode) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Retailer WHERE code = :retailerCode";
+		Query query = session.createQuery(sql);
+		query.setString("retailerCode", retailerCode);
+		Retailer retailer = (Retailer) query.uniqueResult();
+		return retailer;
+	}
+	
+	public List<Retailer> findRetailers() {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Retailer ORDER BY code";
+		Query query = session.createQuery(sql);
+		List<Retailer> retailers = (List<Retailer>) query.list();
+		return retailers;
+	}
+
+	public void saveOrUpdateRetailer(Retailer retailer) {
+		if(retailer.getDateCreate() == null){
+			retailer.setDateCreate(new Date());
+		}
+		retailer.setDateUpdate(new Date());
+		if(retailer.getId() == null){
+			em.persist(retailer);
+		} else {
+			em.merge(retailer);
+		}
+	}
+
+	public void deleteRetailer(Retailer retailer) {
+		em.remove(retailer);
+	}
+	
+	// STORE
+	
 	public Store getStoreById(Long storeId) {
 		return em.find(Store.class, storeId);
 	}
@@ -40,10 +82,6 @@ public class StoreDaoImpl extends AbstractGenericDaoImpl implements StoreDao {
 		Store store = (Store) query.uniqueResult();
 		return store;
 	}
-	
-//	public List<Store> findByExample(Store storeExample) {
-//		return super.findByExample(storeExample);
-//	}
 	
 	public List<Store> findStores() {
 		Session session = (Session) em.getDelegate();

@@ -11,16 +11,29 @@ package fr.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
 
-public interface StoreDao {
+public interface RetailerDao {
 
+	// RETAILER
+	
+	Retailer getRetailerById(Long retailerId);
+
+	Retailer getRetailerByCode(String retailerCode);
+	 
+	List<Retailer> findRetailers();
+	
+	void saveOrUpdateRetailer(Retailer retailer);
+
+	void deleteRetailer(Retailer retailer);
+	
+	// STORE
+	
 	Store getStoreById(Long storeId);
 
 	Store getStoreByCode(String storeCode);
 	 
-//	List<Store> findByExample(Store storeExample);
-
 	List<Store> findStores();
 	
 	void saveOrUpdateStore(Store store);

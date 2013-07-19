@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
 import fr.hoteia.qalingo.core.rest.service.StoreRestService;
 import fr.hoteia.qalingo.core.rest.util.JsonFactory;
-import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 
 @Service("storeRestService")
 @Path("/store/")
@@ -37,7 +37,7 @@ public class StoreRestServiceImpl implements StoreRestService {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected StoreService storeService;
+	protected RetailerService storeService;
 	
 	@Autowired
 	protected JsonFactory jsonFactory;

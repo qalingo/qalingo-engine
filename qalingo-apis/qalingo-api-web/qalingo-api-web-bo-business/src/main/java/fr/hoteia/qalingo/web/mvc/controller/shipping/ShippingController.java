@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
@@ -93,7 +94,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	public ModelAndView shippingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SHIPPING_DETAILS_VELOCITY_PAGE);
 
-		final String currentShippingCode = request.getParameter(Constants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingCode = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingById(currentShippingCode);
 		
 		if(shipping != null){
@@ -112,7 +113,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		
 		// "shipping.edit";
 
-		final String currentShippingId = request.getParameter(Constants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
@@ -127,7 +128,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 
 		// "shipping.edit";
 		
-		final String currentShippingId = request.getParameter(Constants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
 		if (result.hasErrors()) {

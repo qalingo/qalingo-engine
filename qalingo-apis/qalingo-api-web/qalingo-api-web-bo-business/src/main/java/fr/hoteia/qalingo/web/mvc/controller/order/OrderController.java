@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
@@ -93,7 +94,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	public ModelAndView orderDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ORDER_DETAILS_VELOCITY_PAGE);
 
-		final String currentOrderCode = request.getParameter(Constants.REQUEST_PARAM_ORDER_CODE);
+		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
 		final Order order = orderService.getOrderById(currentOrderCode);
 		
 		if(order != null){
@@ -112,7 +113,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
 		// "order.edit";
 
-		final String currentOrderCode = request.getParameter(Constants.REQUEST_PARAM_ORDER_CODE);
+		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
 		final Order order = orderService.getOrderByCode(currentOrderCode);
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
@@ -127,7 +128,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 
 		// "order.edit";
 		
-		final String currentOrderCode = request.getParameter(Constants.REQUEST_PARAM_ORDER_CODE);
+		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
 		final Order order = orderService.getOrderByCode(currentOrderCode);
 		
 		if (result.hasErrors()) {

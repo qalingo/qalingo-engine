@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -45,7 +45,7 @@ public class ProductAxeController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/product-axe");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String categoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
 		
 		// "product.axe.category";

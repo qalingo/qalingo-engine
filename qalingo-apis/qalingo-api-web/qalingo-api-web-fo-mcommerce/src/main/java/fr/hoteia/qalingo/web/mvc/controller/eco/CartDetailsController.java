@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Cart;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -40,7 +40,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 	
 	@RequestMapping("/add-to-cart.html*")
 	public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final String skuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		try {
 			requestUtil.updateCurrentCart(request, skuCode, 1);
 			
@@ -66,7 +66,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String skuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		requestUtil.removeCartItemFromCurrentCart(request, skuCode);
 
 		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));

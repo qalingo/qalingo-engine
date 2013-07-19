@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
@@ -37,7 +37,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 public class StoreLocationController extends AbstractMCommerceController {
 
 	@Autowired
-    protected StoreService storeService;
+    protected RetailerService storeService;
 	
 	@RequestMapping("/store-location.html*")
 	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

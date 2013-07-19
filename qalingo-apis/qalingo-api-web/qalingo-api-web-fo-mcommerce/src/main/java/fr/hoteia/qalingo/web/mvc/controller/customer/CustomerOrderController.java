@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -95,7 +96,7 @@ public class CustomerOrderController extends AbstractMCommerceController {
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-details");
 		
-		final String orderId = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_ORDER_ID);
+		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID);
 		if(StringUtils.isNotEmpty(orderId)){
 			final Order order = orderService.getOrderById(orderId);
 			if(order != null){

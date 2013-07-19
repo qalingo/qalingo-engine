@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -69,7 +69,7 @@ public class CustomerWishListController extends AbstractMCommerceController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String skuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
 
 		final String url = urlService.buildCustomerWishlistUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
@@ -84,7 +84,7 @@ public class CustomerWishListController extends AbstractMCommerceController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String skuCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		
 		try {
 			webCommerceService.addProductSkuToWishlist(request, skuCode);

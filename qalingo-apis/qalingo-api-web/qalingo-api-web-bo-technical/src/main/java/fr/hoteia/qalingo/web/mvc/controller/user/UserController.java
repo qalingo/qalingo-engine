@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
@@ -112,7 +113,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 	public ModelAndView userDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-details");
 
-		final String userId = request.getParameter(Constants.REQUEST_PARAM_USER_ID);
+		final String userId = request.getParameter(RequestConstants.REQUEST_PARAM_USER_ID);
 		if(StringUtils.isNotEmpty(userId)){
 			final User user = userService.getUserById(userId);
 			if(user != null){
@@ -144,7 +145,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 		
 		final String titleKeyPrefixSufix = "user.edit";
 
-		final String userId = request.getParameter(Constants.REQUEST_PARAM_USER_ID);
+		final String userId = request.getParameter(RequestConstants.REQUEST_PARAM_USER_ID);
 		if(StringUtils.isNotEmpty(userId)){
 			final User user = userService.getUserById(userId);
 			if(user != null){

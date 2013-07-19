@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.FoPageConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -134,6 +135,16 @@ public class UrlServiceImpl implements UrlService {
 	public String buildStoreLocationUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
 		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "/" + "store-location.html";
+	}
+	
+	public String buildRetailerDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+	        final Retailer retailer, final String retailerName, final String retailerCode) throws Exception {
+		return buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, retailerName, retailerCode, true);
+	}
+
+	public String buildRetailerDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store")+ handleString(retailerName) + "/" + "retailer-" + retailerCode + ".html";
 	}
 
 	public String buildConditionOfUseUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
@@ -259,7 +270,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildProductRemoveFromCartUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String skuCode, final boolean keepCurrentDomainName) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/remove-from-cart.html" + "?" + Constants.REQUEST_PARAM_PRODUCT_SKU_CODE + "=" + skuCode.toLowerCase();
+		return getContextPrefixUrl(request, marketArea) + "sc/remove-from-cart.html" + "?" + RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE + "=" + skuCode.toLowerCase();
 	}
 
 	public String buildProductAddToWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
@@ -283,7 +294,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildProductRemoveFromWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String skuCode, final boolean keepCurrentDomainName) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/remove-from-wishlist.html" + "?" + Constants.REQUEST_PARAM_PRODUCT_SKU_CODE + "=" + skuCode.toLowerCase();
+		return getContextPrefixUrl(request, marketArea) + "sc/remove-from-wishlist.html" + "?" + RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE + "=" + skuCode.toLowerCase();
 	}
 
 	// CART
@@ -382,7 +393,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildCustomerOrderDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String orderId, final boolean keepCurrentDomainName) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-details.html?" + Constants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-details.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
 	}
 
 	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
@@ -442,12 +453,12 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildCustomerEditAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String customerAddressId) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 	}
 
 	public String buildCustomerDeleteAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String customerAddressId) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-delete-address.html?" + Constants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-delete-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 	}
 
 	// SECURITY

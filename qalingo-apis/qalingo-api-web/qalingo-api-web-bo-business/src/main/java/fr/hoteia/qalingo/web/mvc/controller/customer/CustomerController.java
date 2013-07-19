@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
@@ -93,7 +94,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	public ModelAndView customerDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_DETAILS_VELOCITY_PAGE);
 
-		final String currentCustomerCode = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerByCode(currentCustomerCode);
 		
 		if(customer != null){
@@ -112,7 +113,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		
 		// "customer.edit";
 
-		final String currentCustomerCode = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(request, currentLocalization, customer));
@@ -125,7 +126,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 								BindingResult result, ModelMap modelMap) throws Exception {
 
 		// "customer.edit";
-		final String currentCustomerCode = request.getParameter(Constants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
 		
 		if (result.hasErrors()) {

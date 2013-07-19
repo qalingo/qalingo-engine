@@ -36,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.BoPageConstants;
-import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
@@ -141,7 +141,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
-		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String productCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
 		final CatalogCategoryMaster productCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
@@ -162,7 +162,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
-		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String productCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final CatalogCategoryMaster productCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
 		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
@@ -202,7 +202,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String parentProductCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String parentProductCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		
 		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
 		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
@@ -402,7 +402,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String productCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
@@ -424,7 +424,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String productCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String productCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryCode);
 
 		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
@@ -464,7 +464,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String parentProductCategoryCode = request.getParameter(Constants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
+		final String parentProductCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_CATEGORY_CODE);
 		
 		List<CatalogCategoryMaster> categories = productCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId(), currentRetailer.getId());
 		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {

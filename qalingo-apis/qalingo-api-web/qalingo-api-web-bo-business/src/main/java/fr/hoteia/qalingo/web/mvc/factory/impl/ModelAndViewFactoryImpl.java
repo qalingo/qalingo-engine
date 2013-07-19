@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
-import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
@@ -63,7 +63,7 @@ public class ModelAndViewFactoryImpl implements ModelAndViewFactory {
     protected UrlService urlService;
 	
 	@Autowired
-    protected StoreService storeService;
+    protected RetailerService storeService;
 	
 	@Autowired
     protected ProductMarketingService productMarketingService;

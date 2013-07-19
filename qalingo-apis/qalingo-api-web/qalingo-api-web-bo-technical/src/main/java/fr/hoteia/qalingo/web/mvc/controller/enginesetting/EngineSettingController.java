@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -108,7 +108,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-details");
 
-		final String engineSettingId = request.getParameter(Constants.REQUEST_PARAM_ENGINE_SETTING_ID);
+		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_ID);
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
@@ -141,7 +141,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		
 		final String titleKeyPrefixSufix = "engine.setting.value.edit";
 
-		final String engineSettingValueId = request.getParameter(Constants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID);
+		final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID);
 		if(StringUtils.isNotEmpty(engineSettingValueId)){
 			final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
 			if(engineSettingValue != null){

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -50,7 +50,7 @@ public class BrandLineController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/brand-line");
 
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String brandCode = request.getParameter(Constants.REQUEST_PARAM_BRAND_CODE);
+		final String brandCode = request.getParameter(RequestConstants.REQUEST_PARAM_BRAND_CODE);
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
 		// "brand.line";

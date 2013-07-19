@@ -11,16 +11,29 @@ package fr.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
 
-public interface StoreService {
+public interface RetailerService {
 
+	// RETAILER
+	
+	Retailer getRetailerById(String retailerId);
+
+	Retailer getRetailerByCode(String retailerCode);
+
+	List<Retailer> findRetailers();
+	
+	void saveOrUpdateRetailer(Retailer retailer);
+	
+	void deleteRetailer(Retailer retailer);
+	
+	// STORE
+	
 	Store getStoreById(String storeId);
 
 	Store getStoreByCode(String storeCode);
 
-//	List<Store> findStore(Store criteria);
-	
 	List<Store> findStores();
 	
 	void saveOrUpdateStore(Store store);

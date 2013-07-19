@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.EngineBoSession;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -241,11 +242,11 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	  * 
 	  */
     public void handleBackofficeUrlParameters(final HttpServletRequest request) throws Exception {
-    	String marketPlaceCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-    	String marketCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_CODE);
-    	String marketAreaCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-    	String marketLanguageCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_LANGUAGE);
-    	String retailerCode = request.getParameter(Constants.REQUEST_PARAMETER_RETAILER_CODE);
+    	String marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+    	String marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+    	String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+    	String marketLanguageCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
+    	String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 
     	EngineBoSession engineBoSession = getCurrentBoSession(request);
  
@@ -409,7 +410,7 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 		}
     	
     	// CHECK BACKOFFICE LANGUAGES
-    	String localeCode = request.getParameter(Constants.REQUEST_PARAMETER_LOCALE_CODE);
+    	String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
 		// LOCALIZATIONS
 		Company company = getCurrentCompany(request);
 		if(company != null){

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.service.StoreService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.ws.pojo.StoreWsPojo;
 import fr.hoteia.qalingo.core.ws.service.StoreWebService;
 
@@ -28,7 +28,7 @@ public class StoreWebServiceImpl implements StoreWebService {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected StoreService storeService;
+	protected RetailerService storeService;
 	
 	public StoreWsPojo getStoreById(String storeId){
 		Store store = storeService.getStoreById(storeId);

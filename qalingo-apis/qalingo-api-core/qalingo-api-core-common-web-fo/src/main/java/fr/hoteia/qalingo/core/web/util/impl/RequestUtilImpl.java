@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Cart;
 import fr.hoteia.qalingo.core.domain.CartItem;
 import fr.hoteia.qalingo.core.domain.Customer;
@@ -38,7 +39,6 @@ import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.web.util.impl.AbstractRequestUtilImpl;
 
 /**
  * <p>
@@ -335,11 +335,11 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	  * 
 	  */
    public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
-   	String marketPlaceCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-   	String marketCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_CODE);
-   	String marketAreaCode = request.getParameter(Constants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-   	String localeCode = request.getParameter(Constants.REQUEST_PARAMETER_LOCALE_CODE);
-   	String retailerCode = request.getParameter(Constants.REQUEST_PARAMETER_RETAILER_CODE);
+   	String marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+   	String marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+   	String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+   	String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
+   	String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
    	EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 
    	MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();

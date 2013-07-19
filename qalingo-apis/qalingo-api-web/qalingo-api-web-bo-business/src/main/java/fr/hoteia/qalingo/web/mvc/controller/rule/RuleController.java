@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
@@ -93,7 +94,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	public ModelAndView ruleDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.RULE_DETAILS_VELOCITY_PAGE);
 
-		final String currentRuleCode = request.getParameter(Constants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if(rule != null){
@@ -112,7 +113,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		
 		// "rule.edit";
 
-		final String currentRuleCode = request.getParameter(Constants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
@@ -126,7 +127,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 								BindingResult result, ModelMap modelMap) throws Exception {
 
 		// "rule.edit";
-		final String currentRuleCode = request.getParameter(Constants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if (result.hasErrors()) {

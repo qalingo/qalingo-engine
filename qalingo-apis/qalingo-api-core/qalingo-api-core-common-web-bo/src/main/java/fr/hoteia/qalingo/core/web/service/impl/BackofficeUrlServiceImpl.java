@@ -330,7 +330,7 @@ public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 	}
 	
 	public String buildEngineSettingDetailsUrl(final String engineSettingId) {
-		return "/sc/engine-setting-details.html?" + Constants.REQUEST_PARAM_ENGINE_SETTING_ID + "=" + engineSettingId;
+		return "/sc/engine-setting-details.html?" + RequestConstants.REQUEST_PARAM_ENGINE_SETTING_ID + "=" + engineSettingId;
 	}
 	
 	public String buildEngineSettingValueEditUrl() {
@@ -338,7 +338,7 @@ public class BackofficeUrlServiceImpl implements BackofficeUrlService {
 	}
 
 	public String buildEngineSettingValueEditUrl(final String engineSettingValueId) {
-		return "/sc/engine-setting-value-edit.html?" + Constants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID + "=" + engineSettingValueId;
+		return "/sc/engine-setting-value-edit.html?" + RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID + "=" + engineSettingValueId;
 	}
 	
 	// --

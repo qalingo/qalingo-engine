@@ -57,6 +57,12 @@ public interface UrlService {
 
 	String buildStoreLocationUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
 
+	String buildRetailerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	
+	String buildRetailerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode, boolean keepCurrentDomainName) throws Exception;
+	        
 	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
 	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
