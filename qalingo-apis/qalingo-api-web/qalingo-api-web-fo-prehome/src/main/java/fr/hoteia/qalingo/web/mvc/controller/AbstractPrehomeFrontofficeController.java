@@ -39,7 +39,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
  */
 public abstract class AbstractPrehomeFrontofficeController extends AbstractFrontofficeQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected RequestUtil requestUtil;

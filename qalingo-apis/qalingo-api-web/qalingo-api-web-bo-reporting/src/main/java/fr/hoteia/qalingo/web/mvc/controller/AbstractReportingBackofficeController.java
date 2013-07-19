@@ -40,7 +40,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
  */
 public abstract class AbstractReportingBackofficeController extends AbstractBackofficeQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected FormFactory formFactory;

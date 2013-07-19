@@ -41,7 +41,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
  */
 public abstract class AbstractTechnicalBackofficeController extends AbstractBackofficeQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected FormFactory formFactory;

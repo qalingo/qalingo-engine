@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.service.UrlService;
  */
 public abstract class AbstractQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	private static ApplicationContext ctx = null;
 

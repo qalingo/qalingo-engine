@@ -435,18 +435,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
 		final WebElementType retailerElementType = WebElementType.RETAILER_VIEW_BEAN_LIST;
 		final String retailerPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
 		final String retailerCacheKey = retailerPrefixCacheKey + "_RETAILER";
 		List<RetailerViewBean> retailerViewBeans = (List<RetailerViewBean>) menuMarketNavigationCacheHelper.getFromCache(retailerElementType, retailerCacheKey);
 		if(retailerViewBeans == null){
 			final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-			retailerViewBeans = new ArrayList<RetailerViewBean>();
-			for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-				final Retailer retailer = (Retailer) iterator.next();
-				retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer));
-			}
+			retailerViewBeans = buildRetailerViewBeans(request, marketArea, localization, null, retailers);
 			menuMarketNavigationCacheHelper.addToCache(retailerElementType, retailerCacheKey, retailerViewBeans);
 		}
 		return retailerViewBeans;
@@ -455,12 +451,25 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final Retailer retailer) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final Retailer retailer, final List<Retailer> retailers) throws Exception {
+		List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
+		retailerViewBeans = new ArrayList<RetailerViewBean>();
+		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
+			final Retailer retailerTmp = (Retailer) iterator.next();
+			retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer, retailerTmp));
+		}
+		return retailerViewBeans;
+	}
+	
+	/**
+     * 
+     */
+	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final Retailer retailer, final Retailer currentRetailer) throws Exception {
 		final Market market = marketArea.getMarket();
 		final MarketPlace marketPlace = market.getMarketPlace();
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
-		retailerViewBean.setName(retailer.getName());
-		retailerViewBean.setUrl(urlService.buildChangeLanguageUrl(request, marketPlace, market, marketArea, localization, retailer));
+		retailerViewBean.setName(currentRetailer.getName());
+		retailerViewBean.setUrl(urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, currentRetailer.getName(), currentRetailer.getCode()));
 		return retailerViewBean;
 	}
 	

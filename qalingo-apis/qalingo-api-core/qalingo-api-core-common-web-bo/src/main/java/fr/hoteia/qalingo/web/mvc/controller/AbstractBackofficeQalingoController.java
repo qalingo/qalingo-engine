@@ -51,7 +51,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
  */
 public abstract class AbstractBackofficeQalingoController extends AbstractQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected BackofficeUrlService backofficeUrlService;

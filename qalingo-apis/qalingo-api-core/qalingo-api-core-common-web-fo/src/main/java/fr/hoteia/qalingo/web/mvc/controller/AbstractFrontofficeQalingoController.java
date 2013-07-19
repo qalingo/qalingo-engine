@@ -42,7 +42,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
  */
 public abstract class AbstractFrontofficeQalingoController extends AbstractQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	protected CustomerService customerService;

@@ -50,7 +50,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
  */
 public abstract class AbstractMCommerceController extends AbstractFrontofficeQalingoController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected RequestUtil requestUtil;
@@ -183,7 +183,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		// RETAILERS FOR THE CURRENT MARKET AREA
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeans(request, currentMarketArea, currentLocalization));
+		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(request, currentMarketArea, currentLocalization));
 	}
 	
 	/**
