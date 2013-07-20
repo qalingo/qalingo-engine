@@ -31,7 +31,9 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected String img;
 	protected String url;
 	
-	protected int score = 0;
+	protected int qualityOfService = 0;
+	protected int priceScore = 0;
+	protected int ratioQualityPrice = 0;
 
 	protected RetailerAddressViewBean address = new RetailerAddressViewBean();
 	
@@ -107,14 +109,30 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
     	this.url = url;
     }
 
-	public int getScore() {
-    	return score;
+	public int getQualityOfService() {
+    	return qualityOfService;
     }
 
-	public void setScore(int score) {
-    	this.score = score;
+	public void setQualityOfService(int qualityOfService) {
+    	this.qualityOfService = qualityOfService;
     }
-	
+
+	public int getPriceScore() {
+    	return priceScore;
+    }
+
+	public void setPriceScore(int priceScore) {
+    	this.priceScore = priceScore;
+    }
+
+	public int getRatioQualityPrice() {
+    	return ratioQualityPrice;
+    }
+
+	public void setRatioQualityPrice(int ratioQualityPrice) {
+    	this.ratioQualityPrice = ratioQualityPrice;
+    }
+
 	public RetailerAddressViewBean getAddress() {
 	    return address;
     }

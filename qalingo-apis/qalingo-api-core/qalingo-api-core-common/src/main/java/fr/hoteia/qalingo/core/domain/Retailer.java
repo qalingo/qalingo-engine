@@ -80,9 +80,19 @@ public class Retailer implements Serializable {
 	@Column(name="CODE")
 	private String code;
 
-	@Column(name="SCORE", nullable=false, columnDefinition="tinyint(1) default 0")
-	private int score;
+	@Column(name="QUALITY_OF_SERVICE", nullable=false, columnDefinition="tinyint(1) default 0")
+	private int qualityOfService;
+	
+	@Column(name="PRICE_SCORE", nullable=false, columnDefinition="tinyint(1) default 0")
+	private int priceScore;
 
+	@Column(name="RATIO_QUALITY_PRICE", nullable=false, columnDefinition="tinyint(1) default 0")
+	private int ratioQualityPrice;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="RETAILER_ID")
+	private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>(); 
+	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<Store> stores = new HashSet<Store>(); 
@@ -192,14 +202,38 @@ public class Retailer implements Serializable {
 		this.code = code;
 	}
 	
-	public int getScore() {
-	    return score;
-    }
-	
-	public void setScore(int score) {
-	    this.score = score;
+	public int getQualityOfService() {
+    	return qualityOfService;
     }
 
+	public void setQualityOfService(int qualityOfService) {
+    	this.qualityOfService = qualityOfService;
+    }
+
+	public int getPriceScore() {
+    	return priceScore;
+    }
+
+	public void setPriceScore(int priceScore) {
+    	this.priceScore = priceScore;
+    }
+
+	public int getRatioQualityPrice() {
+    	return ratioQualityPrice;
+    }
+
+	public void setRatioQualityPrice(int ratioQualityPrice) {
+    	this.ratioQualityPrice = ratioQualityPrice;
+    }
+
+	public Set<RetailerAddress> getAddresses() {
+	    return addresses;
+    }
+	
+	public void setAddresses(Set<RetailerAddress> addresses) {
+	    this.addresses = addresses;
+    }
+	
 	public Set<Store> getStores() {
 		return stores;
 	}

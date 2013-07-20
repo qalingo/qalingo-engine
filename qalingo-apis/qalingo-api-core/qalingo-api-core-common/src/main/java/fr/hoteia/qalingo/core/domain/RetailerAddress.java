@@ -20,8 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CUSTOMER_ADDRESS")
-public class CustomerAddress extends AbstractAddress implements Serializable {
+@Table(name="TECO_RETAILER_ADDRESS")
+public class RetailerAddress extends AbstractAddress implements Serializable {
 
 	/**
 	 * Generated UID
@@ -33,18 +33,6 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	@Column(name="ID", nullable=false)
 	private Long id;
 	
-	@Column(name="ADDRESS_NAME")
-    private String addressName;
-	
-	@Column(name="TITLE")
-    private String title;
-	
-	@Column(name="LASTNAME")
-    private String lastname;
-	
-	@Column(name="FIRSTNAME")
-    private String firstname;
-    
 
 	@Version
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
@@ -77,18 +65,12 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
 	
-	@Column(name="CUSTOMER_ID")
-	private Long customerId;
+	@Column(name="RETAILER_ID")
+	private Long retailerId;
 	
-	@Column(name="IS_DEFAULT_BILLING", nullable=false, columnDefinition="tinyint(1) default 1")
-	private boolean isDefaultBilling;
-	
-	@Column(name="IS_DEFAULT_SHIPPING", nullable=false, columnDefinition="tinyint(1) default 1")
-	private boolean isDefaultShipping;
-	
-	public CustomerAddress() {
+	public RetailerAddress() {
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -97,38 +79,6 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 		this.id = id;
 	}
 	
-	public String getAddressName() {
-		return addressName;
-	}
-	
-	public void setAddressName(String addressName) {
-		this.addressName = addressName;
-	}
-	
-    public String getTitle() {
-		return title;
-	}
-    
-    public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
 	public int getVersion() {
     	return version;
     }
@@ -209,28 +159,11 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
     	this.isDefault = isDefault;
     }
 	
-	public Long getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
-
-	public boolean isDefaultBilling() {
-		return isDefaultBilling;
-	}
-
-	public void setDefaultBilling(boolean isDefaultBilling) {
-		this.isDefaultBilling = isDefaultBilling;
-	}
-
-	public boolean isDefaultShipping() {
-		return isDefaultShipping;
-	}
-
-	public void setDefaultShipping(boolean isDefaultShipping) {
-		this.isDefaultShipping = isDefaultShipping;
-	}
-
+	public Long getRetailerId() {
+	    return retailerId;
+    }
+	
+	public void setRetailerId(Long retailerId) {
+	    this.retailerId = retailerId;
+    }
 }
