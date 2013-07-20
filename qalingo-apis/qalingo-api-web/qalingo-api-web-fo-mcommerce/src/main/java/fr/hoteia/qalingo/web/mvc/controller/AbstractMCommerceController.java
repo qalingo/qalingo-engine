@@ -183,7 +183,8 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		// RETAILERS FOR THE CURRENT MARKET AREA
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(request, currentMarketArea, currentLocalization));
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(request, currentMarketArea, currentLocalization, currentRetailer));
 	}
 	
 	/**

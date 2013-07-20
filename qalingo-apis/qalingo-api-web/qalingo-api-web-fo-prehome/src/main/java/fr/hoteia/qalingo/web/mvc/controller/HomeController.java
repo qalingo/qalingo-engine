@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
  * 
  */
 @Controller
-public class HomeController extends AbstractPrehomeFrontofficeController {
+public class HomeController extends AbstractPrehomeController {
 
 	@Autowired
 	protected MarketPlaceService marketPlaceService;

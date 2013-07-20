@@ -37,7 +37,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-public abstract class AbstractPrehomeFrontofficeController extends AbstractFrontofficeQalingoController {
+public abstract class AbstractPrehomeController extends AbstractFrontofficeQalingoController {
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
