@@ -100,7 +100,7 @@ public interface ViewBeanFactory {
 	ConditionsViewBean buildConditionsViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer) throws Exception;
 	
-	List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
+	List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(HttpServletRequest request, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 	
 	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, Retailer retailer, List<Retailer> retailers) throws Exception;
 

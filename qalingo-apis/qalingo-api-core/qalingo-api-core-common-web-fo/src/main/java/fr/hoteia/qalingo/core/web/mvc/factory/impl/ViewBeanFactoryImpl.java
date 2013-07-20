@@ -435,14 +435,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final Retailer retailer) throws Exception {
 		final WebElementType retailerElementType = WebElementType.RETAILER_VIEW_BEAN_LIST;
 		final String retailerPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
 		final String retailerCacheKey = retailerPrefixCacheKey + "_RETAILER";
 		List<RetailerViewBean> retailerViewBeans = (List<RetailerViewBean>) menuMarketNavigationCacheHelper.getFromCache(retailerElementType, retailerCacheKey);
 		if(retailerViewBeans == null){
 			final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-			retailerViewBeans = buildRetailerViewBeans(request, marketArea, localization, null, retailers);
+			retailerViewBeans = buildRetailerViewBeans(request, marketArea, localization, retailer, retailers);
 			menuMarketNavigationCacheHelper.addToCache(retailerElementType, retailerCacheKey, retailerViewBeans);
 		}
 		return retailerViewBeans;
