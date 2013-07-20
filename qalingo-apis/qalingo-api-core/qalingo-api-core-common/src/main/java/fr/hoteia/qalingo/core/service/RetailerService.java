@@ -20,9 +20,9 @@ public interface RetailerService {
 	
 	Retailer getRetailerById(String retailerId);
 
-	Retailer getRetailerByCode(String retailerCode);
+	Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
 
-	List<Retailer> findRetailers();
+	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
 	
 	void saveOrUpdateRetailer(Retailer retailer);
 	

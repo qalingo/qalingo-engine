@@ -31,12 +31,13 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
 	// RETAILER
 	
-	public Retailer getRetailerById(Long retailerId) {
+	public Retailer getRetailerById(final Long retailerId) {
 		return em.find(Retailer.class, retailerId);
 	}
 
-	public Retailer getRetailerByCode(String retailerCode) {
+	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
 		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
 		String sql = "FROM Retailer WHERE code = :retailerCode";
 		Query query = session.createQuery(sql);
 		query.setString("retailerCode", retailerCode);
@@ -44,15 +45,16 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailer;
 	}
 	
-	public List<Retailer> findRetailers() {
+	public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
 		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
 		String sql = "FROM Retailer ORDER BY code";
 		Query query = session.createQuery(sql);
 		List<Retailer> retailers = (List<Retailer>) query.list();
 		return retailers;
 	}
 
-	public void saveOrUpdateRetailer(Retailer retailer) {
+	public void saveOrUpdateRetailer(final Retailer retailer) {
 		if(retailer.getDateCreate() == null){
 			retailer.setDateCreate(new Date());
 		}
@@ -64,17 +66,17 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		}
 	}
 
-	public void deleteRetailer(Retailer retailer) {
+	public void deleteRetailer(final Retailer retailer) {
 		em.remove(retailer);
 	}
 	
 	// STORE
 	
-	public Store getStoreById(Long storeId) {
+	public Store getStoreById(final Long storeId) {
 		return em.find(Store.class, storeId);
 	}
 
-	public Store getStoreByCode(String storeCode) {
+	public Store getStoreByCode(final String storeCode) {
 		Session session = (Session) em.getDelegate();
 		String sql = "FROM Store WHERE code = :storeCode";
 		Query query = session.createQuery(sql);
@@ -91,7 +93,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return stores;
 	}
 
-	public void saveOrUpdateStore(Store store) {
+	public void saveOrUpdateStore(final Store store) {
 		if(store.getDateCreate() == null){
 			store.setDateCreate(new Date());
 		}
@@ -103,7 +105,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		}
 	}
 
-	public void deleteStore(Store store) {
+	public void deleteStore(final Store store) {
 		em.remove(store);
 	}
 

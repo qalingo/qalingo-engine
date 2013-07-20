@@ -28,7 +28,7 @@ public class RetailerServiceImpl implements RetailerService {
 	private RetailerDao retailerDao;
 
 	// RETAILER
-	public Retailer getRetailerById(String rawRetailerId) {
+	public Retailer getRetailerById(final String rawRetailerId) {
 		long retailerId = -1;
 		try {
 			retailerId = Long.parseLong(rawRetailerId);
@@ -38,25 +38,25 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.getRetailerById(retailerId);
 	}
 	
-	public Retailer getRetailerByCode(String retailerCode) {
-		return retailerDao.getRetailerByCode(retailerCode);
+	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
+		return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
 	}
 
-	public List<Retailer> findRetailers() {
-		return retailerDao.findRetailers();
+	public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
+		return retailerDao.findRetailers(marketAreaId, retailerId);
 	}
 	
-	public void saveOrUpdateRetailer(Retailer retailer) {
+	public void saveOrUpdateRetailer(final Retailer retailer) {
 		retailerDao.saveOrUpdateRetailer(retailer);
 	}
 
-	public void deleteRetailer(Retailer retailer) {
+	public void deleteRetailer(final Retailer retailer) {
 		retailerDao.deleteRetailer(retailer);
 	}
 	
 	// STORE
 	
-	public Store getStoreById(String rawStoreId) {
+	public Store getStoreById(final String rawStoreId) {
 		long storeId = -1;
 		try {
 			storeId = Long.parseLong(rawStoreId);
@@ -66,7 +66,7 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.getStoreById(storeId);
 	}
 	
-	public Store getStoreByCode(String storeCode) {
+	public Store getStoreByCode(final String storeCode) {
 		return retailerDao.getStoreByCode(storeCode);
 	}
 
@@ -74,11 +74,11 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findStores();
 	}
 	
-	public void saveOrUpdateStore(Store store) {
+	public void saveOrUpdateStore(final Store store) {
 		retailerDao.saveOrUpdateStore(store);
 	}
 
-	public void deleteStore(Store store) {
+	public void deleteStore(final Store store) {
 		retailerDao.deleteStore(store);
 	}
 

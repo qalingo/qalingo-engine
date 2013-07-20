@@ -28,8 +28,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.OrderBy;
+import org.hibernate.annotations.ParamDef;
+
 @Entity
 @Table(name="TECO_RETAILER")
+@FilterDefs(
+		value = {
+			@FilterDef(name="filterRetailerAttributeIsGlobal"),
+			@FilterDef(name="filterRetailerAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
+			@FilterDef(name="filterRetailerAssetIsGlobal"),
+			@FilterDef(name="filterRetailerAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
+		})
 public class Retailer implements Serializable {
 
 	/**
@@ -66,11 +79,36 @@ public class Retailer implements Serializable {
 	
 	@Column(name="CODE")
 	private String code;
-	
+
+	@Column(name="SCORE")
+	private int score;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<Store> stores = new HashSet<Store>(); 
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
+	@Filter(name="filterRetailerAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'RETAILER'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
+	@Filter(name="filterRetailerAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'RETAILER'")
+	@OrderBy(clause = "ordering asc")
+	private Set<Asset> assetsByMarketArea = new HashSet<Asset>();  
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+	@Filter(name="filterRetailerAttributeIsGlobal", condition="IS_GLOBAL = '1'")
+	private Set<RetailerAttribute> retailerGlobalAttributes = new HashSet<RetailerAttribute>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+	@Filter(name="filterRetailerAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
+	private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>(); 
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -153,6 +191,14 @@ public class Retailer implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	public int getScore() {
+	    return score;
+    }
+	
+	public void setScore(int score) {
+	    this.score = score;
+    }
 
 	public Set<Store> getStores() {
 		return stores;
@@ -162,6 +208,38 @@ public class Retailer implements Serializable {
 		this.stores = stores;
 	}
 	
+	public Set<Asset> getAssetsIsGlobal() {
+    	return assetsIsGlobal;
+    }
+
+	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
+    	this.assetsIsGlobal = assetsIsGlobal;
+    }
+
+	public Set<Asset> getAssetsByMarketArea() {
+    	return assetsByMarketArea;
+    }
+
+	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
+    	this.assetsByMarketArea = assetsByMarketArea;
+    }
+
+	public Set<RetailerAttribute> getRetailerGlobalAttributes() {
+    	return retailerGlobalAttributes;
+    }
+
+	public void setRetailerGlobalAttributes(Set<RetailerAttribute> retailerGlobalAttributes) {
+    	this.retailerGlobalAttributes = retailerGlobalAttributes;
+    }
+
+	public Set<RetailerAttribute> getRetailerMarketAreaAttributes() {
+    	return retailerMarketAreaAttributes;
+    }
+
+	public void setRetailerMarketAreaAttributes(Set<RetailerAttribute> retailerMarketAreaAttributes) {
+    	this.retailerMarketAreaAttributes = retailerMarketAreaAttributes;
+    }
+
 	public Date getDateCreate() {
 		return dateCreate;
 	}

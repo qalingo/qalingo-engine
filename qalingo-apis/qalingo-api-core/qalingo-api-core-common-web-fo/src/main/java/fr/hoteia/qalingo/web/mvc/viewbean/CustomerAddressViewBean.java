@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class CustomerAddressViewBean extends AbstractViewBean implements Serializable {
+public class CustomerAddressViewBean extends AbstractAddressViewBean implements Serializable {
 
 	/**
 	 * Generated UID
@@ -23,14 +23,6 @@ public class CustomerAddressViewBean extends AbstractViewBean implements Seriali
     private String title;
     private String lastname;
     private String firstname;
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
 	private Long customerId;
 	private boolean isDefaultBilling;
 	private boolean isDefaultShipping;
@@ -76,70 +68,6 @@ public class CustomerAddressViewBean extends AbstractViewBean implements Seriali
 
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
-	}
-
-	public String getAddress1() {
-		return address1;
-	}
-
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-
-	public String getAddress2() {
-		return address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public String getAddressAdditionalInformation() {
-		return addressAdditionalInformation;
-	}
-
-	public void setAddressAdditionalInformation(String addressAdditionalInformation) {
-		this.addressAdditionalInformation = addressAdditionalInformation;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	public String getCity() {
-		return city;
-	}
-	
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	public String getStateCode() {
-	    return stateCode;
-    }
-	
-	public void setStateCode(String stateCode) {
-	    this.stateCode = stateCode;
-    }
-
-	public String getAreaCode() {
-	    return areaCode;
-    }
-	
-	public void setAreaCode(String areaCode) {
-	    this.areaCode = areaCode;
-    }
-	
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
 	}
 
 	public Long getCustomerId() {

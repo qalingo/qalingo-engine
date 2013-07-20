@@ -85,6 +85,16 @@ public abstract class AbstractGenericDaoImpl {
 		session.enableFilter("filterCatalogMasterCategoryAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
 	}
 	
+	void initRetailerFilter(Session session, Long marketAreaId, Long retailerId){
+		initProductSkuFilter(session, marketAreaId, retailerId);
+		
+		session.enableFilter("filterRetailerAttributeIsGlobal");
+		session.enableFilter("filterRetailerAttributeByMarketArea").setParameter("marketAreaId", marketAreaId);
+		
+		session.enableFilter("filterRetailerAssetIsGlobal");
+		session.enableFilter("filterRetailerAssetByMarketArea").setParameter("marketAreaId", marketAreaId);
+	}
+	
 	void initCatalogVirtual(Session session, Long marketAreaId, Long retailerId){
 		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 	}
