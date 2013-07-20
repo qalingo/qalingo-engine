@@ -24,8 +24,11 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean implement
     private String postalCode;
     private String city;
     private String stateCode;
+    private String stateLabel;
     private String areaCode;
+    private String areaLabel;
     private String countryCode;
+    private String countryLabel;
     
 	public String getAddress1() {
 		return address1;
@@ -66,29 +69,53 @@ public abstract class AbstractAddressViewBean extends AbstractViewBean implement
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public String getStateCode() {
-	    return stateCode;
+    	return stateCode;
     }
-	
+
 	public void setStateCode(String stateCode) {
-	    this.stateCode = stateCode;
+    	this.stateCode = stateCode;
+    }
+
+	public String getStateLabel() {
+    	return stateLabel;
+    }
+
+	public void setStateLabel(String stateLabel) {
+    	this.stateLabel = stateLabel;
     }
 
 	public String getAreaCode() {
-	    return areaCode;
+    	return areaCode;
     }
-	
+
 	public void setAreaCode(String areaCode) {
-	    this.areaCode = areaCode;
+    	this.areaCode = areaCode;
     }
-	
+
+	public String getAreaLabel() {
+    	return areaLabel;
+    }
+
+	public void setAreaLabel(String areaLabel) {
+    	this.areaLabel = areaLabel;
+    }
+
 	public String getCountryCode() {
-		return countryCode;
-	}
+    	return countryCode;
+    }
 
 	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+    	this.countryCode = countryCode;
+    }
 
+	public String getCountryLabel() {
+    	return countryLabel;
+    }
+
+	public void setCountryLabel(String countryLabel) {
+    	this.countryLabel = countryLabel;
+    }
+	
 }
