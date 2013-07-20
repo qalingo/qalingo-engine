@@ -80,7 +80,7 @@ public class Retailer implements Serializable {
 	@Column(name="CODE")
 	private String code;
 
-	@Column(name="SCORE")
+	@Column(name="SCORE", nullable=false, columnDefinition="tinyint(1) default 0")
 	private int score;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
