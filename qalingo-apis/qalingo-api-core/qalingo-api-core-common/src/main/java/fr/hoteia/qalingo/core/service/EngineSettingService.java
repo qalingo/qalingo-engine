@@ -48,6 +48,10 @@ public interface EngineSettingService {
 	public final static String ENGINE_SETTING_MAX_USER_CONNECTION_LOG		= "MAX_USER_CONNECTION_LOG";
 	public final static String ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG	= "MAX_CUSTOMER_CONNECTION_LOG";
 
+	// SCORE
+	public final static String ENGINE_SETTING_CONTEXT_STAR_SCORE_MAX		= "STAR_SCORE_MAX";
+	public final static String ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX	= "RETAILER_QUALITY_OF_SERVICE";
+
 	// Engine Setting
 	
 	EngineSetting getEngineSettingById(String id);
@@ -85,4 +89,6 @@ public interface EngineSettingService {
 	EngineSetting getThemeResourcePrefixPath();
 
 	EngineSetting withEscapeAccent();
+	
+	EngineSetting getRetailerMaxScoreValue();
 }

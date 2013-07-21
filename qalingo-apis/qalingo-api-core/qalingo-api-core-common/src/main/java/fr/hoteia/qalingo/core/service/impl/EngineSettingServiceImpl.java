@@ -121,5 +121,9 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	public EngineSetting withEscapeAccent() {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
 	}
+	
+	public EngineSetting getRetailerMaxScoreValue() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
+	}
 
 }

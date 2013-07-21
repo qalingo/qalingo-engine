@@ -85,6 +85,9 @@ public final class ModelConstants {
 	public static final String AUTH_HAS_FAIL = "authHasFail";
 	public static final String AUTH_ERROR_MESSAGE = "authErrorMessage";
 
+	// RETAILER
+	public static final String QUALITY_OF_SERVICE_SCORE_MAX = "qualityOfServiceMax";
+	
 	// OTHERS
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String INFO_MESSAGE = "infoMessage";
