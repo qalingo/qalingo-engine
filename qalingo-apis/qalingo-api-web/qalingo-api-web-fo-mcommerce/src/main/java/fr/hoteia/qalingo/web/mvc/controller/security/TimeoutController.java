@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("timeoutController")
 public class TimeoutController extends AbstractMCommerceController {
 
 	@RequestMapping("/timeout.html*")

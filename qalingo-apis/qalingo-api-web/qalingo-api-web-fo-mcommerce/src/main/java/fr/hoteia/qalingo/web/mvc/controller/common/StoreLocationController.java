@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 /**
  * 
  */
-@Controller
+@Controller("storeLocationController")
 public class StoreLocationController extends AbstractMCommerceController {
 
 	@Autowired

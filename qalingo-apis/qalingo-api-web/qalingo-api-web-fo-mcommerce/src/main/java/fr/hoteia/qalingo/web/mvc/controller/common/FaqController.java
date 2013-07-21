@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 /**
  * 
  */
-@Controller
+@Controller("faqController")
 public class FaqController extends AbstractMCommerceController {
 
 	@RequestMapping("/faq.html*")

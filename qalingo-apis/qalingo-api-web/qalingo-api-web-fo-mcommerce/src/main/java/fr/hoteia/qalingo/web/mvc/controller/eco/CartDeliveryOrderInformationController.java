@@ -48,7 +48,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 /**
  * 
  */
-@Controller
+@Controller("cartDeliveryOrderInformationController")
 public class CartDeliveryOrderInformationController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

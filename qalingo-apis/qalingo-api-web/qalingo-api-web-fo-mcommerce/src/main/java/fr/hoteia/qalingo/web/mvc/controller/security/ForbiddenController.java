@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("forbiddenController")
 public class ForbiddenController extends AbstractMCommerceController {
 
 	@RequestMapping("/forbidden.html*")

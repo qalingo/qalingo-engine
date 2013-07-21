@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 /**
  * 
  */
-@Controller
+@Controller("customerController")
 public class CustomerController extends AbstractBusinessBackofficeController {
 
 	@Autowired

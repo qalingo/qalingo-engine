@@ -58,7 +58,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
 /**
  * 
  */
-@Controller
+@Controller("catalogController")
 public class CatalogController extends AbstractBusinessBackofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

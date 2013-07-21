@@ -47,7 +47,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.UserViewBean;
 /**
  * 
  */
-@Controller
+@Controller("userController")
 public class UserController extends AbstractTechnicalBackofficeController {
 
 	@Autowired

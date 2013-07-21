@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 /**
  * 
  */
-@Controller
+@Controller("conditionsOfUseController")
 public class ConditionsOfUseController extends AbstractMCommerceController {
 
 	@RequestMapping(FoPageConstants.CONDITIONS_OF_USE_URL + "*")

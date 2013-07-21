@@ -23,7 +23,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 /**
  * 
  */
-@Controller
+@Controller("cacheController")
 public class CacheController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping(value = "/cache.html*", method = RequestMethod.GET)

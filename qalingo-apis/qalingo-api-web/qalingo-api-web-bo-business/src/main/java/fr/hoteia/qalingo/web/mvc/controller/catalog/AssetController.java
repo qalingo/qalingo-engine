@@ -46,7 +46,7 @@ import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 /**
  * 
  */
-@Controller
+@Controller("assetController")
 public class AssetController extends AbstractBusinessBackofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

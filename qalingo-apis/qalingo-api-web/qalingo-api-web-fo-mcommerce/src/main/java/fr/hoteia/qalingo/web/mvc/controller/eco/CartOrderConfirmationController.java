@@ -30,7 +30,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 /**
  * 
  */
-@Controller
+@Controller("cartOrderConfirmationController")
 public class CartOrderConfirmationController extends AbstractMCommerceController {
 
 	@RequestMapping("/cart-order-confirmation.html*")

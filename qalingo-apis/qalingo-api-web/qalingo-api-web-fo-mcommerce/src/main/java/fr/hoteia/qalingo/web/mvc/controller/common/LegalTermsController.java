@@ -22,7 +22,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 /**
  * 
  */
-@Controller
+@Controller("legalTermsController")
 public class LegalTermsController extends AbstractMCommerceController {
 
 	@RequestMapping("/legal-terms.html*")

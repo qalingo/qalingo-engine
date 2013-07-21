@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
 /**
  * 
  */
-@Controller
+@Controller("userController")
 public class UserController extends AbstractBusinessBackofficeController {
 
 	@Autowired

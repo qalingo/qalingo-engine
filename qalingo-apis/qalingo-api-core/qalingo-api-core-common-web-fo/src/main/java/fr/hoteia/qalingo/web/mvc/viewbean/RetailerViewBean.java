@@ -35,6 +35,9 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected int priceScore = 0;
 	protected int ratioQualityPrice = 0;
 
+	protected int reviewCount = 0;
+	protected String reviewCountLabel;
+
 	protected RetailerAddressViewBean address = new RetailerAddressViewBean();
 	
 	public String getCode() {
@@ -132,6 +135,22 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	public void setRatioQualityPrice(int ratioQualityPrice) {
     	this.ratioQualityPrice = ratioQualityPrice;
     }
+
+	public int getReviewCount() {
+	    return reviewCount;
+    }
+	
+	public void setReviewCount(int reviewCount) {
+	    this.reviewCount = reviewCount;
+    }
+	
+	public String getReviewCountLabel() {
+	    return reviewCountLabel;
+    }
+	
+	public void setReviewCountLabel(String reviewCountLabel) {
+		this.reviewCountLabel = reviewCountLabel;
+	}
 
 	public RetailerAddressViewBean getAddress() {
 	    return address;

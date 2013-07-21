@@ -473,6 +473,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Market market = marketArea.getMarket();
 		final MarketPlace marketPlace = market.getMarketPlace();
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
+		final Locale locale = localization.getLocale();
+		
 		retailerViewBean.setName(currentRetailer.getName());
 		retailerViewBean.setDescription(currentRetailer.getDescription());
 
@@ -505,6 +507,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		retailerViewBean.setQualityOfService(currentRetailer.getQualityOfService());
 		retailerViewBean.setPriceScore(currentRetailer.getPriceScore());
 		retailerViewBean.setRatioQualityPrice(currentRetailer.getRatioQualityPrice());
+
+		retailerViewBean.setReviewCount(5);
+		Object[] reviewCountLabelParams = { 5 };
+		retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
 		return retailerViewBean;
 	}

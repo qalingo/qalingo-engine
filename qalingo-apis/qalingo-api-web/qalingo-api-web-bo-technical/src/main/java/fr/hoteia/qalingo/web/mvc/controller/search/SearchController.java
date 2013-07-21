@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 /**
  * 
  */
-@Controller
+@Controller("searchController")
 public class SearchController extends AbstractTechnicalBackofficeController {
 
 	@Autowired

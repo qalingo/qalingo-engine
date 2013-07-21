@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 /**
  * 
  */
-@Controller
+@Controller("catalogController")
 public class CatalogController extends AbstractReportingBackofficeController {
 
 	@RequestMapping(value = "/catalog-stats.html*", method = RequestMethod.GET)

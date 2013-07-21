@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.RuleViewBean;
 /**
  * 
  */
-@Controller
+@Controller("ruleController")
 public class RuleController extends AbstractBusinessBackofficeController {
 
 	@Autowired

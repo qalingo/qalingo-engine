@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("loginController")
 public class LoginController extends AbstractMCommerceController {
 
 	@RequestMapping("/login.html*")

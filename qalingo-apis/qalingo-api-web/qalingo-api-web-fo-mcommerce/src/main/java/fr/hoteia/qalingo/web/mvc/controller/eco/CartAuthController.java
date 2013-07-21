@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 /**
  * 
  */
-@Controller
+@Controller("cartAuthController")
 public class CartAuthController extends AbstractMCommerceController {
 
 	@RequestMapping("/cart-auth.html*")

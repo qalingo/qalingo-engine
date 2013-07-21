@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 /**
  * 
  */
-@Controller
+@Controller("customerWishListController")
 public class CustomerWishListController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

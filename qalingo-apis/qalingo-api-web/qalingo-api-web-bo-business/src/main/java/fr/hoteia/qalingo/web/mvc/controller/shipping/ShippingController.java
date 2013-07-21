@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ShippingViewBean;
 /**
  * 
  */
-@Controller
+@Controller("shippingController")
 public class ShippingController extends AbstractBusinessBackofficeController {
 
 	@Autowired

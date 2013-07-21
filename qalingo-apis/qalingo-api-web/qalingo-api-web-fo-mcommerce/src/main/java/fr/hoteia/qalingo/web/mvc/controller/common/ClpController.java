@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 /**
  * CLP Customer Loyalty Program
  */
-@Controller
+@Controller("clpController")
 public class ClpController extends AbstractMCommerceController {
 
 	@RequestMapping("/clp.html*")

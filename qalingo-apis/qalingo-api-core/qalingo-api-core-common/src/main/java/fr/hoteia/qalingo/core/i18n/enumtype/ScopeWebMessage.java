@@ -107,6 +107,11 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
+	SOCIAL("social"),
+	
+	/**
+	 * 
+	 */
 	ENGINE_SETTING("engine_setting"),
 	
 	/**

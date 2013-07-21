@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 /**
  * 
  */
-@Controller
+@Controller("homeController")
 public class HomeController extends AbstractMCommerceController {
 
 	@RequestMapping(FoPageConstants.HOME_URL + "*")

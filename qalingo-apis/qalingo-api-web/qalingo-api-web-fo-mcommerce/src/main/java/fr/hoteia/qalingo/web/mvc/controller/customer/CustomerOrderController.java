@@ -42,7 +42,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 /**
  * 
  */
-@Controller
+@Controller("customerOrderController")
 public class CustomerOrderController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

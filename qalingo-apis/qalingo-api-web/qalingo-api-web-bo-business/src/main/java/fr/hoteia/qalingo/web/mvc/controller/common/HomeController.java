@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController
 /**
  * 
  */
-@Controller
+@Controller("homeController")
 public class HomeController extends AbstractBusinessBackofficeController {
 
 	@RequestMapping(BoPageConstants.HOME_URL + "*")

@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.PaymentGatewayViewBean;
 /**
  * 
  */
-@Controller
+@Controller("referenceDataController")
 public class ReferenceDataController extends AbstractTechnicalBackofficeController {
 
 	@Autowired

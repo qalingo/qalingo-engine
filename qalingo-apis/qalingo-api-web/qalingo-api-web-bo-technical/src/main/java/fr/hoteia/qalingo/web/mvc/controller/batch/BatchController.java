@@ -39,7 +39,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
 /**
  * 
  */
-@Controller
+@Controller("batchController")
 public class BatchController extends AbstractTechnicalBackofficeController {
 
 	@Autowired

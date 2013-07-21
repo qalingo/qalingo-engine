@@ -42,7 +42,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAM_RULE_CODE = "rule-code";
 	public static final String REQUEST_PARAM_SHIPPING_CODE = "shipping-code";
 	public static final String REQUEST_PARAM_ENGINE_SETTING_CODE = "engine-setting-code";
-	
+	public static final String REQUEST_PARAMETER_RETAILER_DETAILS_CODE = "retailer-details-code";
+
 	public static final String REQUEST_PARAM_CUSTOMER_ADDRESS_ID = "customer-address-id";
 	public static final String REQUEST_PARAM_CUSTOMER_ORDER_ID = "customer-order-id";
 	public static final String REQUEST_PARAM_ENGINE_SETTING_ID = "engine-setting-id";

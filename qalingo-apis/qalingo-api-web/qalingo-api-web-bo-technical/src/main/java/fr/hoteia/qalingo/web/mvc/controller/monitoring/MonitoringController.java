@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 /**
  * 
  */
-@Controller
+@Controller("monitoringController")
 public class MonitoringController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping("/monitoring.html*")

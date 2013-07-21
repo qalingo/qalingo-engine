@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 /**
  * 
  */
-@Controller
+@Controller("productLineController")
 public class ProductLineController extends AbstractMCommerceController {
 
 	@Autowired

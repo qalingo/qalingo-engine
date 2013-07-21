@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("logoutController")
 public class LogoutController extends AbstractMCommerceController {
 
 	@RequestMapping("/logout.html*")

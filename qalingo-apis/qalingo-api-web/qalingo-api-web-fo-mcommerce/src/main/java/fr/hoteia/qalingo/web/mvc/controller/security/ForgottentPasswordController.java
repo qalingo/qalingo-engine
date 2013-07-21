@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 /**
  * 
  */
-@Controller
+@Controller("forgottenPasswordController")
 public class ForgottentPasswordController extends AbstractMCommerceController {
 
 	@Autowired

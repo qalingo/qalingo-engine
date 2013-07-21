@@ -36,7 +36,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ProductBrandViewBean;
 /**
  * 
  */
-@Controller
+@Controller("brandLineController")
 public class BrandLineController extends AbstractMCommerceController {
 
 	@Autowired

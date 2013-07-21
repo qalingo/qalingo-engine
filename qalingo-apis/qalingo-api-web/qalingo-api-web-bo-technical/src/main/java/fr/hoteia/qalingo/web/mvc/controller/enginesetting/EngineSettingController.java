@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
 /**
  * 
  */
-@Controller
+@Controller("engineSettingController")
 public class EngineSettingController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping("/search-engine-setting.html*")

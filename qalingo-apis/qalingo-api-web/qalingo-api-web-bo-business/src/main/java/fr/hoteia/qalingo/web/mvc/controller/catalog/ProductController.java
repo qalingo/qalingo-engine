@@ -46,7 +46,7 @@ import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
 /**
  * 
  */
-@Controller
+@Controller("productController")
 public class ProductController extends AbstractBusinessBackofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

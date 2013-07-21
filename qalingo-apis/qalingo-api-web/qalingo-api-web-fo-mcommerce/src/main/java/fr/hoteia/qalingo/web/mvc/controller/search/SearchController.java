@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
 /**
  * 
  */
-@Controller
+@Controller("searchController")
 public class SearchController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

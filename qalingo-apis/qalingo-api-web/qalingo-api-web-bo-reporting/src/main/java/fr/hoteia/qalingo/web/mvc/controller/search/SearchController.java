@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 /**
  * 
  */
-@Controller
+@Controller("searchController")
 public class SearchController extends AbstractReportingBackofficeController {
 
 	@RequestMapping("/search.html*")

@@ -36,7 +36,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.GlobalSearchViewBean;
 /**
  * 
  */
-@Controller
+@Controller("searchController")
 public class SearchController extends AbstractBusinessBackofficeController {
 
 	@RequestMapping(value = "/global-search.html*", method = RequestMethod.POST)

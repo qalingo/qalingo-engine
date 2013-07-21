@@ -37,7 +37,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 /**
  * 
  */
-@Controller
+@Controller("cartOrderPaymentController")
 public class CartOrderPaymentController extends AbstractMCommerceController {
 
 	@Autowired

@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OurCompanyViewBean;
 /**
  * 
  */
-@Controller
+@Controller("ourCompanyController")
 public class OurCompanyController extends AbstractMCommerceController {
 
 	@RequestMapping("/our-company.html*")

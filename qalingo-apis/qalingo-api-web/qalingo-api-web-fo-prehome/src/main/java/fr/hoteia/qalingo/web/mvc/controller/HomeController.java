@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 /**
  * 
  */
-@Controller
+@Controller("homeController")
 public class HomeController extends AbstractPrehomeController {
 
 	@Autowired

@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 /**
  * 
  */
-@Controller
+@Controller("cartDetailsController")
 public class CartDetailsController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
