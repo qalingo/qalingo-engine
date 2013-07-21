@@ -53,6 +53,7 @@ public final class ModelConstants {
 	public static final String MARKET_AREAS_VIEW_BEAN = "marketAreas";
 	public static final String MARKET_LANGUAGES_VIEW_BEAN = "marketLanguages";
 	public static final String RETAILERS_VIEW_BEAN = "retailers";
+	public static final String RETAILER_VIEW_BEAN = "retailer";
 	public static final String LANGUAGE_VIEW_BEAN = "languages";
 	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
 	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
