@@ -10,6 +10,8 @@
 package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
@@ -39,7 +41,10 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected String reviewCountLabel;
 
 	protected RetailerAddressViewBean address = new RetailerAddressViewBean();
-	
+
+	protected List<RetailerCustomerCommentViewBean> comments = new ArrayList<RetailerCustomerCommentViewBean>();
+	protected List<RetailerTagViewBean> tags = new ArrayList<RetailerTagViewBean>();
+
 	public String getCode() {
     	return code;
     }
@@ -158,6 +163,22 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setAddress(RetailerAddressViewBean address) {
 	    this.address = address;
+    }
+
+	public List<RetailerCustomerCommentViewBean> getComments() {
+    	return comments;
+    }
+
+	public void setComments(List<RetailerCustomerCommentViewBean> comments) {
+    	this.comments = comments;
+    }
+
+	public List<RetailerTagViewBean> getTags() {
+    	return tags;
+    }
+
+	public void setTags(List<RetailerTagViewBean> tags) {
+    	this.tags = tags;
     }
 	
 }

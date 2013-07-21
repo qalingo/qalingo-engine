@@ -22,6 +22,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -118,6 +120,26 @@ public class Retailer implements Serializable {
     @JoinColumn(name="PRODUCT_MARKETTING_ID")
 	@Filter(name="filterRetailerAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="RETAILER_ID")
+	private Set<RetailerCustomerRate> customerRates = new HashSet<RetailerCustomerRate>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="RETAILER_ID")
+	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
+	
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+	        targetEntity=fr.hoteia.qalingo.core.domain.RetailerTag.class,
+	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
+	    )
+    @JoinTable(
+	        name="TECO_RETAILER_RETAILER_TAG_REL",
+	        joinColumns=@JoinColumn(name="RETAILER_ID"),
+	        inverseJoinColumns=@JoinColumn(name="RETAILER_TAG_ID")
+	    )
+	private Set<RetailerTag> retailerTags;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -274,6 +296,30 @@ public class Retailer implements Serializable {
     	this.retailerMarketAreaAttributes = retailerMarketAreaAttributes;
     }
 
+	public Set<RetailerCustomerRate> getCustomerRates() {
+    	return customerRates;
+    }
+
+	public void setCustomerRates(Set<RetailerCustomerRate> customerRates) {
+    	this.customerRates = customerRates;
+    }
+
+	public Set<RetailerCustomerComment> getCustomerComments() {
+    	return customerComments;
+    }
+
+	public void setCustomerComments(Set<RetailerCustomerComment> customerComments) {
+    	this.customerComments = customerComments;
+    }
+
+	public Set<RetailerTag> getRetailerTags() {
+    	return retailerTags;
+    }
+
+	public void setRetailerTags(Set<RetailerTag> retailerTags) {
+    	this.retailerTags = retailerTags;
+    }
+
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -291,82 +337,91 @@ public class Retailer implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result
-				+ ((dateCreate == null) ? 0 : dateCreate.hashCode());
-		result = prime * result
-				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isBrand ? 1231 : 1237);
-		result = prime * result + (isDefault ? 1231 : 1237);
-		result = prime * result + (isOfficialRetailer ? 1231 : 1237);
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + version;
-		return result;
-	}
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((code == null) ? 0 : code.hashCode());
+	    result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+	    result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+	    result = prime * result + ((description == null) ? 0 : description.hashCode());
+	    result = prime * result + ((id == null) ? 0 : id.hashCode());
+	    result = prime * result + (isBrand ? 1231 : 1237);
+	    result = prime * result + (isDefault ? 1231 : 1237);
+	    result = prime * result + (isEcommerce ? 1231 : 1237);
+	    result = prime * result + (isOfficialRetailer ? 1231 : 1237);
+	    result = prime * result + ((name == null) ? 0 : name.hashCode());
+	    result = prime * result + priceScore;
+	    result = prime * result + qualityOfService;
+	    result = prime * result + ratioQualityPrice;
+	    result = prime * result + version;
+	    return result;
+    }
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Retailer other = (Retailer) obj;
-		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
-			return false;
-		if (dateCreate == null) {
-			if (other.dateCreate != null)
-				return false;
-		} else if (!dateCreate.equals(other.dateCreate))
-			return false;
-		if (dateUpdate == null) {
-			if (other.dateUpdate != null)
-				return false;
-		} else if (!dateUpdate.equals(other.dateUpdate))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (isBrand != other.isBrand)
-			return false;
-		if (isDefault != other.isDefault)
-			return false;
-		if (isOfficialRetailer != other.isOfficialRetailer)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (version != other.version)
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    Retailer other = (Retailer) obj;
+	    if (code == null) {
+		    if (other.code != null)
+			    return false;
+	    } else if (!code.equals(other.code))
+		    return false;
+	    if (dateCreate == null) {
+		    if (other.dateCreate != null)
+			    return false;
+	    } else if (!dateCreate.equals(other.dateCreate))
+		    return false;
+	    if (dateUpdate == null) {
+		    if (other.dateUpdate != null)
+			    return false;
+	    } else if (!dateUpdate.equals(other.dateUpdate))
+		    return false;
+	    if (description == null) {
+		    if (other.description != null)
+			    return false;
+	    } else if (!description.equals(other.description))
+		    return false;
+	    if (id == null) {
+		    if (other.id != null)
+			    return false;
+	    } else if (!id.equals(other.id))
+		    return false;
+	    if (isBrand != other.isBrand)
+		    return false;
+	    if (isDefault != other.isDefault)
+		    return false;
+	    if (isEcommerce != other.isEcommerce)
+		    return false;
+	    if (isOfficialRetailer != other.isOfficialRetailer)
+		    return false;
+	    if (name == null) {
+		    if (other.name != null)
+			    return false;
+	    } else if (!name.equals(other.name))
+		    return false;
+	    if (priceScore != other.priceScore)
+		    return false;
+	    if (qualityOfService != other.qualityOfService)
+		    return false;
+	    if (ratioQualityPrice != other.ratioQualityPrice)
+		    return false;
+	    if (version != other.version)
+		    return false;
+	    return true;
+    }
 
 	@Override
-	public String toString() {
-		return "Retailer [id=" + id + ", version=" + version + ", name=" + name
-				+ ", description=" + description + ", isDefault=" + isDefault
-				+ ", isOfficialRetailer=" + isOfficialRetailer + ", isBrand="
-				+ isBrand + ", code=" + code + ", dateCreate=" + dateCreate
-				+ ", dateUpdate=" + dateUpdate + "]";
-	}
-	
+    public String toString() {
+	    return "Retailer [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", isOfficialRetailer=" + isOfficialRetailer
+	            + ", isBrand=" + isBrand + ", isEcommerce=" + isEcommerce + ", code=" + code + ", qualityOfService=" + qualityOfService + ", priceScore=" + priceScore + ", ratioQualityPrice="
+	            + ratioQualityPrice + ", addresses=" + addresses + ", stores=" + stores + ", assetsIsGlobal=" + assetsIsGlobal + ", assetsByMarketArea=" + assetsByMarketArea
+	            + ", retailerGlobalAttributes=" + retailerGlobalAttributes + ", retailerMarketAreaAttributes=" + retailerMarketAreaAttributes + ", customerRates=" + customerRates
+	            + ", customerComments=" + customerComments + ", retailerTags=" + retailerTags + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

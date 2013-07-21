@@ -54,6 +54,8 @@ import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.RetailerAddress;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import fr.hoteia.qalingo.core.domain.RetailerTag;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.domain.Tax;
@@ -110,6 +112,8 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ProductCategoryViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductCrossLinkViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.RetailerCustomerCommentViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.RetailerTagViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchFacetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
@@ -512,6 +516,35 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		Object[] reviewCountLabelParams = { 5 };
 		retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
+		Set<RetailerCustomerComment> customerComments = currentRetailer.getCustomerComments();
+		for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+			RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
+			RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
+			
+			retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
+			retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer));
+			
+			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+			if (retailerCustomerComment.getDateCreate() != null) {
+				retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
+			} else {
+				retailerCustomerCommentViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+			}
+			
+			retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
+	        retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
+        }
+
+		Set<RetailerTag> tags = currentRetailer.getRetailerTags();
+		for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
+	        RetailerTag retailerTag = (RetailerTag) iterator.next();
+	        RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
+	        retailerTagViewBean.setCode(retailerTag.getCode());
+	        retailerTagViewBean.setName(retailerTag.getName());
+	        retailerTagViewBean.setDescription(retailerTag.getDescription());
+	        retailerViewBean.getTags().add(retailerTagViewBean);
+        }
+		
 		return retailerViewBean;
 	}
 
