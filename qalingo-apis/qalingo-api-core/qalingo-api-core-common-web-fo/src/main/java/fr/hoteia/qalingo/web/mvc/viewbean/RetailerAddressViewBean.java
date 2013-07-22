@@ -16,8 +16,52 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean implements 
 	/**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = -359258454575030384L;
+    private static final long serialVersionUID = -359258454675030384L;
 
+    private String phone;
+    private String mobile;
+    private String fax;
+    private String email;
+    private String website;
+    
+    public String getPhone() {
+	    return phone;
+    }
+    
+    public void setPhone(String phone) {
+	    this.phone = phone;
+    }
 
+	public String getMobile() {
+    	return mobile;
+    }
+
+	public void setMobile(String mobile) {
+    	this.mobile = mobile;
+    }
+
+	public String getFax() {
+    	return fax;
+    }
+
+	public void setFax(String fax) {
+    	this.fax = fax;
+    }
+
+	public String getEmail() {
+    	return email;
+    }
+
+	public void setEmail(String email) {
+    	this.email = email;
+    }
 	
+	public String getWebsite() {
+	    return website;
+    }
+	
+	public void setWebsite(String website) {
+	    this.website = website;
+    }
+    
 }

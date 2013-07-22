@@ -503,6 +503,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				retailerViewBean.getAddress().setAreaLabel(defaultAddress.getAreaCode());
 				retailerViewBean.getAddress().setCountryCode(defaultAddress.getCountryCode());
 				retailerViewBean.getAddress().setCountryLabel(defaultAddress.getCountryCode());
+				
+				retailerViewBean.getAddress().setPhone(defaultAddress.getPhone());
+				retailerViewBean.getAddress().setMobile(defaultAddress.getMobile());
+				retailerViewBean.getAddress().setFax(defaultAddress.getFax());
+				retailerViewBean.getAddress().setEmail(defaultAddress.getEmail());
+				String websiteUrl = defaultAddress.getWebsite();
+				if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
+					websiteUrl = "http://" + websiteUrl;
+				}
+				retailerViewBean.getAddress().setWebsite(websiteUrl);
 			}
 		}
 
@@ -512,8 +522,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		retailerViewBean.setPriceScore(currentRetailer.getPriceScore());
 		retailerViewBean.setRatioQualityPrice(currentRetailer.getRatioQualityPrice());
 
-		retailerViewBean.setReviewCount(5);
-		Object[] reviewCountLabelParams = { 5 };
+		int reviewCount = retailerViewBean.getComments().size();
+		retailerViewBean.setReviewCount(reviewCount);
+		Object[] reviewCountLabelParams = {reviewCount};
 		retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
 		Set<RetailerCustomerComment> customerComments = currentRetailer.getCustomerComments();

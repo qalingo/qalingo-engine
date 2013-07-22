@@ -67,6 +67,13 @@ INSERT INTO teco_retailer
 (2, 'Default Retailer', 'Brand Retailer', 'BRE', 1, 0, 0), 
 (3, 'Default Retailer', 'Official Retailer', 'ORE', 0, 0, 1);
 
+INSERT INTO teco_retailer_address 
+(id, version, address1, address2, additional_information, postal_code, city, country_code, email, fax, mobile, phone, retailer_id, is_default)
+ VALUES 
+(1, 1, 'address r1', '', '', '92300', 'Levallois-Perret', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 1, 1), 
+(2, 1, 'address r2', '', '', '75000', 'Paris', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 2, 1), 
+(3, 1, 'address r3', '', '', '75000', 'Paris', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 3, 1);
+
 INSERT INTO teco_marketplace 
 (id, description, code, theme, is_default, name, version, master_catalog_id)
  VALUES 

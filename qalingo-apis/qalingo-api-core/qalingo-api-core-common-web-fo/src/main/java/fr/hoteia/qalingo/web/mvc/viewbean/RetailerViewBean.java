@@ -11,7 +11,9 @@ package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
@@ -45,6 +47,8 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected List<RetailerCustomerCommentViewBean> comments = new ArrayList<RetailerCustomerCommentViewBean>();
 	protected List<RetailerTagViewBean> tags = new ArrayList<RetailerTagViewBean>();
 
+	protected Map<String, List<SocialNetworkFeedItemViewBean>> socialNetworkFeed = new HashMap<String, List<SocialNetworkFeedItemViewBean>>();
+	
 	public String getCode() {
     	return code;
     }
@@ -179,6 +183,14 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	public void setTags(List<RetailerTagViewBean> tags) {
     	this.tags = tags;
+    }
+	
+	public Map<String, List<SocialNetworkFeedItemViewBean>> getSocialNetworkFeed() {
+	    return socialNetworkFeed;
+    }
+	
+	public void setSocialNetworkFeed(Map<String, List<SocialNetworkFeedItemViewBean>> socialNetworkFeed) {
+	    this.socialNetworkFeed = socialNetworkFeed;
     }
 	
 }
