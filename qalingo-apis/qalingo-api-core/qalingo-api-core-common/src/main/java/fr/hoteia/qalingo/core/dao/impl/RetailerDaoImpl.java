@@ -57,7 +57,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
 		Session session = (Session) em.getDelegate();
 		initRetailerFilter(session, marketAreaId, retailerId);
-		String sql = "SELECT DISTINCT r from  Retailer r JOIN r.retailerTags t WHERE t.code in (:tags) ORDER BY code";
+		String sql = "SELECT DISTINCT r from  Retailer r JOIN r.retailerTags t WHERE t.code in (:tags) ORDER BY r.name";
 		Query query = session.createQuery(sql);
 		query.setParameterList("tags", tags);
 		List<Retailer> retailers = (List<Retailer>) query.list();
