@@ -46,6 +46,10 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findRetailers(marketAreaId, retailerId);
 	}
 	
+	public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
+		return retailerDao.findRetailersByTag(marketAreaId, retailerId, tag);
+	}
+	
 	public void saveOrUpdateRetailer(final Retailer retailer) {
 		retailerDao.saveOrUpdateRetailer(retailer);
 	}
