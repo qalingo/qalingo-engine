@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,13 @@ public class RetailerServiceImpl implements RetailerService {
 	}
 	
 	public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
-		return retailerDao.findRetailersByTag(marketAreaId, retailerId, tag);
+		List<String> tags = new ArrayList<String>();
+		tags.add(tag);
+		return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
+	}
+	
+	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
+		return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
 	}
 	
 	public void saveOrUpdateRetailer(final Retailer retailer) {

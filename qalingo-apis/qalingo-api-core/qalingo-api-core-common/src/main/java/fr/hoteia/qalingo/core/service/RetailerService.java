@@ -26,6 +26,8 @@ public interface RetailerService {
 
 	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag);
 
+	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
+
 	void saveOrUpdateRetailer(Retailer retailer);
 	
 	void deleteRetailer(Retailer retailer);

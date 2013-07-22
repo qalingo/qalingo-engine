@@ -24,7 +24,7 @@ public interface RetailerDao {
 	 
 	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
 
-	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag);
+	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
 
 	void saveOrUpdateRetailer(Retailer retailer);
 
