@@ -59,7 +59,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String url = request.getRequestURI();
-		String page = request.getParameter(Constants.PAGE_PARAMETER);
+		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		String sessionKey = "PagedListHolder_Orders";
 		
 		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>();
@@ -84,8 +84,8 @@ public class OrderController extends AbstractBusinessBackofficeController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
 		
         return modelAndView;
 	}

@@ -48,7 +48,7 @@ public class SearchController extends AbstractBusinessBackofficeController {
 		
 		String searchText = request.getParameter("search-text");
 		String url = request.getRequestURI();
-		String page = request.getParameter(Constants.PAGE_PARAMETER);
+		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		String sessionKey = "PagedListHolder_Shippings";
 		
 		PagedListHolder<GlobalSearchViewBean> globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>();
@@ -73,8 +73,8 @@ public class SearchController extends AbstractBusinessBackofficeController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, globalSearchViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, globalSearchViewBeanPagedListHolder);
 		
         return modelAndView;
 	}

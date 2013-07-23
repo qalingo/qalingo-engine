@@ -167,6 +167,11 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
+	RETAILER("retailer"),
+	
+	/**
+	 * 
+	 */
 	STORE_LOCATOR("store_locator"),
 
 	/**

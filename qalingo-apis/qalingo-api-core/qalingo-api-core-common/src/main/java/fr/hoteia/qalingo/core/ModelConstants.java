@@ -86,6 +86,7 @@ public final class ModelConstants {
 	public static final String AUTH_ERROR_MESSAGE = "authErrorMessage";
 
 	// RETAILER
+	public static final String MESSAGE_NR_OF_ELEMENTS = "nrOfElementsInformationMessage";
 	public static final String QUALITY_OF_SERVICE_SCORE_MAX = "qualityOfServiceMax";
 	
 	// OTHERS

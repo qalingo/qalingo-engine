@@ -102,7 +102,7 @@ public class SearchController extends AbstractMCommerceController {
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
 			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-	        String page = request.getParameter(Constants.PAGE_PARAMETER);
+	        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder;
 
 	        if(StringUtils.isEmpty(page)){
@@ -125,8 +125,8 @@ public class SearchController extends AbstractMCommerceController {
 					}
 		        } 
 	        }
-			modelAndView.addObject(Constants.PAGE_URL, url);
-			modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, accountsViewBeanPagedListHolder);
+			modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, accountsViewBeanPagedListHolder);
 			
 		} catch (Exception e) {
 			LOG.error("SOLR Error", e);
@@ -146,7 +146,7 @@ public class SearchController extends AbstractMCommerceController {
 		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, 
 				currentLocalization, currentRetailer, productResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
-		accountsViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);
         return accountsViewBeanPagedListHolder;
 	}

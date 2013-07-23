@@ -163,7 +163,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-        String page = request.getParameter(Constants.PAGE_PARAMETER);
+        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
@@ -185,8 +185,8 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, batchViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, batchViewBeanPagedListHolder);
 		
 		formFactory.buildBatchQuickSearchForm(request, modelAndView);	
 	}
@@ -196,7 +196,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 		List<BatchViewBean> batchViewBeans = viewBeanFactory.buildBatchViewBeans(request, currentLocalization, batchProcessObjects);
 		batchViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
 
-		batchViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		batchViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
 		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
 		if(StringUtils.isNotEmpty(pageSize)){
 			batchViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 

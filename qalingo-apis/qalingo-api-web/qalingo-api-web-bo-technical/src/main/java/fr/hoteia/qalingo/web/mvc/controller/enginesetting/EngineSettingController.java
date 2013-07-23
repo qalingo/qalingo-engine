@@ -74,7 +74,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-        String page = request.getParameter(Constants.PAGE_PARAMETER);
+        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
@@ -96,8 +96,8 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 				}
 	        }
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, engineSettingViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, engineSettingViewBeanPagedListHolder);
 		
 		formFactory.buildEngineSettingQuickSearchForm(request, modelAndView);
 		
@@ -186,7 +186,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		List<EngineSettingViewBean> engineSettingViewBeans = viewBeanFactory.buildEngineSettingViewBeans(request, engineSettings);
 		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
 		
-		engineSettingViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
 		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
 		if(StringUtils.isNotEmpty(pageSize)){
 			engineSettingViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 

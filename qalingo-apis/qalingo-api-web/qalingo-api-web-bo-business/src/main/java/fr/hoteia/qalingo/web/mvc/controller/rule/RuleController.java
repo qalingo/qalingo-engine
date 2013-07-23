@@ -59,7 +59,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String url = request.getRequestURI();
-		String page = request.getParameter(Constants.PAGE_PARAMETER);
+		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		String sessionKey = "PagedListHolder_Rules";
 		
 		PagedListHolder<RuleViewBean> ruleViewBeanPagedListHolder = new PagedListHolder<RuleViewBean>();
@@ -84,8 +84,8 @@ public class RuleController extends AbstractBusinessBackofficeController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, ruleViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, ruleViewBeanPagedListHolder);
 		
         return modelAndView;
 	}

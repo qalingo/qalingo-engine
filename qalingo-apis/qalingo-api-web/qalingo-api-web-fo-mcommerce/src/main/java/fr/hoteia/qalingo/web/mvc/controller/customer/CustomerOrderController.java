@@ -64,7 +64,7 @@ public class CustomerOrderController extends AbstractMCommerceController {
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-        String page = request.getParameter(Constants.PAGE_PARAMETER);
+        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
@@ -86,8 +86,8 @@ public class CustomerOrderController extends AbstractMCommerceController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
+		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
 		
         return modelAndView;
 	}
@@ -131,7 +131,7 @@ public class CustomerOrderController extends AbstractMCommerceController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		List<OrderViewBean> orderViewBeans = viewBeanFactory.buildOrderViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, orders);
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
-		orderViewBeanPagedListHolder.setPageSize(Constants.DEFAULT_PAGE_SIZE); 
+		orderViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, orderViewBeanPagedListHolder);
         return orderViewBeanPagedListHolder;
 	}

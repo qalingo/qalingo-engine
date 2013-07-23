@@ -112,10 +112,11 @@ public final class Constants {
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
 
 	// SPRING VIEW PAGINATION
-	public static final String PAGE_PARAMETER = "page";
-	public static final String PAGE_URL = "currentPageUrl";
-	public static final String PAGE_PAGED_LIST_HOLDER = "pagedListHolder";
-	public static final int DEFAULT_PAGE_SIZE = 10;
+	public static final String PAGINATION_PAGE_PARAMETER = "page";
+	public static final String PAGINATION_PAGE_URL = "currentPageUrl";
+	public static final String PAGINATION_PAGE_PAGED_LIST_HOLDER = "pagedListHolder";
+	public static final String PAGINATION_PAGE_SIZE = "pageSize";
+	public static final int PAGINATION_DEFAULT_PAGE_SIZE = 10;
 
 	// SECURITY
 	public static final String SECRET_VALUE = "5U%oP9$";
