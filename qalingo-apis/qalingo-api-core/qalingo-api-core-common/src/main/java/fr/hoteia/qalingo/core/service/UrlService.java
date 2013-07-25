@@ -62,7 +62,25 @@ public interface UrlService {
 	
 	String buildRetailerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
 	        Retailer retailer, String retailerName, String retailerCode, boolean keepCurrentDomainName) throws Exception;
-	        
+	
+	String buildRetailerCreateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer) throws Exception;
+	
+	String buildRetailerCreateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, boolean keepCurrentDomainName) throws Exception;
+	
+	String buildRetailerVoteUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	
+	String buildRetailerVoteUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode, boolean keepCurrentDomainName) throws Exception;
+	
+	String buildRetailerCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	
+	String buildRetailerCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode, boolean keepCurrentDomainName) throws Exception;
+	
 	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
 	String buildConditionOfUseUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, boolean keepCurrentDomainName) throws Exception;
