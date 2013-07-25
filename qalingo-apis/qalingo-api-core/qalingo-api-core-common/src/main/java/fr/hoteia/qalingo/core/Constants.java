@@ -157,6 +157,8 @@ public final class Constants {
 	public static final String CUSTOMER_VIEW_BEAN = "customer";
 	public static final String USER_VIEW_BEAN = "user";
 
+	public static final int SHARE_META_DESCRIPTION_MAX_LENGTH = 150;
+	
 	// SPRING FORM
 	public static final String ASSET_FORM = "assetForm";
 

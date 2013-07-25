@@ -26,4 +26,28 @@ public abstract class AbstractViewBean implements Serializable {
 		}
 		return string;
 	}
+	
+	/**
+	 * 
+	 */
+	protected String removeHtml(String value){
+		if(StringUtils.isNotEmpty(value)){
+			value = value.replaceAll("<[^>]*>", "");
+			value = value.replaceAll("  ", " ");
+			value = value.trim();
+		}
+		return value;
+	}
+	
+	/**
+	 * 
+	 */
+	protected String encodeQuote(String value){
+		if(StringUtils.isNotEmpty(value)){
+			value = value.replace("\"", "&quot;");
+		}
+		return value;
+	}
+	
+	
 }

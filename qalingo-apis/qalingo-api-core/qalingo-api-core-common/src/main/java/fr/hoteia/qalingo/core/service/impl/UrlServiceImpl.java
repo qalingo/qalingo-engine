@@ -144,7 +144,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildRetailerDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "-" + handleString(retailerName) + "/" + "retailer-" + retailerCode.toLowerCase() + ".html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "-" + handleString(retailerName) + "/" + "retailer-details-" + retailerCode.toLowerCase() + ".html";
 	}
 	
 	public String buildRetailerCreateUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
@@ -174,7 +174,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildRetailerCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store")+ "-" +handleString(retailerName) + "/" + "retailer-create-" + retailerCode.toLowerCase() + ".html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store")+ "-" +handleString(retailerName) + "/" + "retailer-comment-" + retailerCode.toLowerCase() + ".html";
 	}
 
 	public String buildConditionOfUseUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,

@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import fr.hoteia.qalingo.core.Constants;
+
 public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	/**
@@ -191,6 +195,29 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setSocialNetworkFeed(Map<String, List<SocialNetworkFeedItemViewBean>> socialNetworkFeed) {
 	    this.socialNetworkFeed = socialNetworkFeed;
+    }
+	
+	public String getMetaShareTitle() {
+		String metaShareTitle = getName();
+		metaShareTitle = encodeQuote(metaShareTitle);
+	    return metaShareTitle;
+    }
+	
+	public String getMetaShareDescription() {
+		String metaShareDescription = getDescription();
+		metaShareDescription = encodeQuote(metaShareDescription);
+		if(StringUtils.isNotEmpty(metaShareDescription)){
+			metaShareDescription = removeHtml(metaShareDescription);
+			metaShareDescription = encodeQuote(metaShareDescription);
+			if(metaShareDescription.length() > Constants.SHARE_META_DESCRIPTION_MAX_LENGTH){
+				metaShareDescription = metaShareDescription.substring(0, Constants.SHARE_META_DESCRIPTION_MAX_LENGTH) + "...";
+			}
+		}
+	    return metaShareDescription;
+    }
+	
+	public String getMetaShareImage() {
+		return getImg();
     }
 	
 }
