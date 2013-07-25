@@ -49,6 +49,7 @@ public abstract class AbstractQalingoController {
 	@ModelAttribute
 	protected void initVelocityLayout(final HttpServletRequest request, final Model model) throws Exception {
 		// Velocity layout mandatory attributes
+		model.addAttribute(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_META, "../_include/head-common-empty-content.vm");
 		model.addAttribute(Constants.VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT, "../_include/head-common-empty-content.vm");
 		model.addAttribute(Constants.VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT, "../_include/body-footer-empty-script-content.vm");
 	}

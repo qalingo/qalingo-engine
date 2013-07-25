@@ -126,6 +126,7 @@ public final class Constants {
 	public static final String COUNTRIES_RESOURCE_BUNDLE = "qalingo-countries";
 
 	// VELOCITY LAYOUT ATTRIBUTES
+	public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_META = "head_meta";
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT = "head_content";
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT = "footer_script_content";
 
