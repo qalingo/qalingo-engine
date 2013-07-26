@@ -75,6 +75,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	/**
 	 * 
 	 */
+	@ModelAttribute
 	protected void initCustomer(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
 		final Customer customer = getCustomer();
 		modelAndView.addObject("customer", customer);
