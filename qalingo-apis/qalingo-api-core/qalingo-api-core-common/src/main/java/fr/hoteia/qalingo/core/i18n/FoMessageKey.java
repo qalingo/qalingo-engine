@@ -16,6 +16,7 @@ public final class FoMessageKey {
 	public static final String SEO_META_KEYWORDS = "meta.keywords";
 	public static final String SEO_META_DESCRIPTION = "meta.description";
 	public static final String SEO_PAGE_TITLE_PREFIX = "page.title.";
+	public static final String SEO_PAGE_TITLE_SITE_NAME = "page.title.site.name";
 
 	public static final String MAIN_CONTENT_TITLE_PREFIX = "main.content.title.";
 

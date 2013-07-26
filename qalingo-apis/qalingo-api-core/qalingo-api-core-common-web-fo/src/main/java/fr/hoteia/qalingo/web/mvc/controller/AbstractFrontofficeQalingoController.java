@@ -70,8 +70,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		String seoPageMetaDescription = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_DESCRIPTION, locale);
         model.addAttribute(ModelConstants.SEO_PAGE_META_DESCIPRTION, seoPageMetaDescription);
 
-        // DEFAULT VALUE
-        model.addAttribute(ModelConstants.SEO_PAGE_META_TITLE, "");
+		String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        model.addAttribute(ModelConstants.SEO_PAGE_META_TITLE, seoPageTitle);
 	}
 	
 	/**
