@@ -34,6 +34,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
@@ -76,18 +77,19 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	 * 
 	 */
 	@ModelAttribute
-	protected void initCustomer(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
-		final Customer customer = getCustomer();
-		modelAndView.addObject("customer", customer);
-		
+	protected void initCustomer(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+
+		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		model.addAttribute("customer", customerView);
 		
 		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("customerLinks", customerLinks);
+		model.addAttribute("customerLinks", customerLinks);
 	}
 	
 	/**

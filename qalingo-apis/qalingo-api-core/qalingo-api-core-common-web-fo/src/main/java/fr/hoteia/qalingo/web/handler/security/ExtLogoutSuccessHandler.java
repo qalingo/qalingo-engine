@@ -58,6 +58,9 @@ public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+			
+			requestUtil.updateCurrentCustomer(request, null);
+			
 	        String url = urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 	        setDefaultTargetUrl(url);
 		} catch (Exception e) {

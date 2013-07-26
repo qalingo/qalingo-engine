@@ -18,10 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
+import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -40,6 +42,13 @@ public class LoginController extends AbstractBackofficeQalingoController {
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
+		
+		// SANITY CHECK: Customer logged
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		if(currentCustomer != null){
+			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			return new ModelAndView(new RedirectView(url));
+		}
 		
 		// SANITY CHECK : Param from spring-security
 		String error = request.getParameter(RequestConstants.REQUEST_PARAM_AUTH_ERROR);
