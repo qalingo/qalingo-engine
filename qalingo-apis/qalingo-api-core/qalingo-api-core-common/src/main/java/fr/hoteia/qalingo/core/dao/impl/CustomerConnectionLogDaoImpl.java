@@ -46,7 +46,7 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 	
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode) {
 		Session session = (Session) em.getDelegate();
-		String sql = "FROM CustomerConnectionLog WHERE userId = :customerId AND app = :appCode ORDER BY loginDate";
+		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId AND app = :appCode ORDER BY loginDate";
 		Query query = session.createQuery(sql);
 		query.setLong("customerId", customerId);
 		query.setString("appCode", appCode);
