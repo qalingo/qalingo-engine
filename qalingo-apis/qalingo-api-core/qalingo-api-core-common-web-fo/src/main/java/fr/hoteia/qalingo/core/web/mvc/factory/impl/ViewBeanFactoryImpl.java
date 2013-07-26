@@ -837,32 +837,33 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	public CustomerViewBean buildCustomerDetailsAccountViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 	        final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
 		final Locale locale = localization.getLocale();
-
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
-		customerViewBean.setFirstname(customer.getFirstname());
+		if(customer != null){
+			customerViewBean.setFirstname(customer.getFirstname());
 
-		customerViewBean.setLastname(customer.getLastname());
+			customerViewBean.setLastname(customer.getLastname());
 
-		customerViewBean.setEmail(customer.getEmail());
+			customerViewBean.setEmail(customer.getEmail());
 
-		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
-		if (customer.getDateCreate() != null) {
-			customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
-		} else {
-			customerViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+			if (customer.getDateCreate() != null) {
+				customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
+			} else {
+				customerViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+			}
+
+			if (customer.getDateUpdate() != null) {
+				customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
+			} else {
+				customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
+			}
+
+			final ValueBean customerScreenNameValueBean = new ValueBean();
+			customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
+			customerScreenNameValueBean.setValue(customer.getScreenName());
+			customerViewBean.getCustomerAttributes().put("screenName", customerScreenNameValueBean);
+			
 		}
-
-		if (customer.getDateUpdate() != null) {
-			customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
-		} else {
-			customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
-		}
-
-		final ValueBean customerScreenNameValueBean = new ValueBean();
-		customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
-		customerScreenNameValueBean.setValue(customer.getScreenName());
-		customerViewBean.getCustomerAttributes().put("screenName", customerScreenNameValueBean);
-
 		return customerViewBean;
 	}
 
