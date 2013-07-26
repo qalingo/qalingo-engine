@@ -37,8 +37,6 @@ public interface FormFactory {
 	 
 	CustomerEditForm buildCustomerEditForm(HttpServletRequest request, Customer customer) throws Exception;
 	 
-	CustomerAddressForm buildCustomerAddressForm(HttpServletRequest request) throws Exception;
-
 	CustomerAddressForm buildCustomerAddressForm(HttpServletRequest request, CustomerAddress customerAddress) throws Exception;
 
 	CartForm buildCartForm(HttpServletRequest request) throws Exception;

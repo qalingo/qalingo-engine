@@ -126,8 +126,9 @@ public class FormFactoryImpl implements FormFactory {
 		return customerEditForm;
 	}
 	
-	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request) throws Exception {
+	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request, final CustomerAddress customerAddress) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
+		
 		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
 			customerAddressForm.setCountryCode("US");
@@ -145,25 +146,21 @@ public class FormFactoryImpl implements FormFactory {
 			customerAddressForm.setCountryCode("PT");
 		} 
 		
-		return customerAddressForm;
-	}
-	
-	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request, final CustomerAddress customerAddress) throws Exception {
-		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
-		
-		customerAddressForm.setAddressName(customerAddress.getAddressName());
-		customerAddressForm.setTitle(customerAddress.getTitle());
-		customerAddressForm.setLastname(customerAddress.getLastname());
-		customerAddressForm.setFirstname(customerAddress.getFirstname());
-	    
-		customerAddressForm.setAddress1(customerAddress.getAddress1());
-		customerAddressForm.setAddress2(customerAddress.getAddress2());
-		customerAddressForm.setAddressAdditionalInformation(customerAddress.getAddressAdditionalInformation());
-		customerAddressForm.setPostalCode(customerAddress.getPostalCode());
-		customerAddressForm.setCity(customerAddress.getCity());
-		customerAddressForm.setStateCode(customerAddress.getStateCode());
-		customerAddressForm.setAreaCode(customerAddress.getAreaCode());
-		customerAddressForm.setCountryCode(customerAddress.getCountryCode());
+		if(customerAddress != null){
+			customerAddressForm.setAddressName(customerAddress.getAddressName());
+			customerAddressForm.setTitle(customerAddress.getTitle());
+			customerAddressForm.setLastname(customerAddress.getLastname());
+			customerAddressForm.setFirstname(customerAddress.getFirstname());
+		    
+			customerAddressForm.setAddress1(customerAddress.getAddress1());
+			customerAddressForm.setAddress2(customerAddress.getAddress2());
+			customerAddressForm.setAddressAdditionalInformation(customerAddress.getAddressAdditionalInformation());
+			customerAddressForm.setPostalCode(customerAddress.getPostalCode());
+			customerAddressForm.setCity(customerAddress.getCity());
+			customerAddressForm.setStateCode(customerAddress.getStateCode());
+			customerAddressForm.setAreaCode(customerAddress.getAreaCode());
+			customerAddressForm.setCountryCode(customerAddress.getCountryCode());
+		}
 	    
 		return customerAddressForm;
 	}
