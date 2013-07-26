@@ -162,36 +162,6 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	}
 	
 	/**
-	 * 
-	 */
-	protected Customer getCustomer(){
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Customer customer = null;
-		if(StringUtils.isNotEmpty(username)
-				&& !username.equalsIgnoreCase("anonymousUser")){
-			customer = customerService.getCustomerByLoginOrEmail(username);
-		}
-		return customer;
-	}
-	
-	/**
-	 * 
-	 */
-	protected String getCustomerId(){
-		Customer customer = getCustomer();
-		if(customer != null){
-			Long customerId = customer.getId();
-			if(customerId != null){
-				return customerId.toString();
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
-	
-	/**
 	 * @throws Exception 
 	 * 
 	 */

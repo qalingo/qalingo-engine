@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
@@ -62,6 +64,9 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	
 	@Autowired
 	protected ProductSkuService productSkuService;
+
+	@Autowired
+	protected CustomerService customerService;
 	
 	/**
      * 
@@ -294,7 +299,17 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
      */
 	public Customer getCurrentCustomer(final HttpServletRequest request) throws Exception {
 		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		return engineEcoSession.getCustomer();
+		Customer customer = engineEcoSession.getCurrentCustomer();
+		if(customer == null){
+			// CHECK
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			if(StringUtils.isNotEmpty(username)
+					&& !username.equalsIgnoreCase("anonymousUser")){
+				customer = customerService.getCustomerByLoginOrEmail(username);
+				engineEcoSession.setCurrentCustomer(customer);
+			}
+		}
+		return customer;
 	}
 	
 	/**
@@ -313,7 +328,7 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
      */
 	public String getCurrentCustomerLogin(final HttpServletRequest request) throws Exception {
 		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		Customer customer = engineEcoSession.getCustomer();
+		Customer customer = engineEcoSession.getCurrentCustomer();
 		if(customer == null){
 			return null;
 		}
@@ -326,7 +341,7 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	public void updateCurrentCustomer(final HttpServletRequest request, final Customer customer) throws Exception {
 		if(customer != null){
 			final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-			engineEcoSession.setCustomer(customer);
+			engineEcoSession.setCurrentCustomer(customer);
 			updateCurrentEcoSession(request, engineEcoSession);
 		}
 	}

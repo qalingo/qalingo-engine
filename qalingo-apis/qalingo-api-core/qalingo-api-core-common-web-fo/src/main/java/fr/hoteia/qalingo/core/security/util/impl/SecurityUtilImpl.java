@@ -62,7 +62,7 @@ public class SecurityUtilImpl implements SecurityUtil {
 		
 		try {
 			EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
-			engineEcoSession.setCustomer(customer);
+			engineEcoSession.setCurrentCustomer(customer);
 			engineEcoSession.getCart().setCustomerId(customer.getId());
 			engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
 			

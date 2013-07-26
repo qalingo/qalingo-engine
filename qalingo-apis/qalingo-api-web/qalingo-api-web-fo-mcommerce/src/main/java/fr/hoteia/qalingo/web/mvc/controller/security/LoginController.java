@@ -76,7 +76,8 @@ public class LoginController extends AbstractMCommerceController {
 	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("security/login");
 		
-		if(getCustomer() != null){
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		if(currentCustomer != null){
 			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 			final Market currentMarket = requestUtil.getCurrentMarket(request);
 			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);

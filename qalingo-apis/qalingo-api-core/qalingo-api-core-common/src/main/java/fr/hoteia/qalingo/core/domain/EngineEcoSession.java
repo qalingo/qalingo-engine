@@ -53,7 +53,7 @@ public class EngineEcoSession implements Serializable {
 	private Cart cart;
 
 	@Transient 
-	private Customer customer;
+	private Customer currentCustomer;
 
 	@Transient 
 	private MarketPlace currentMarketPlace;
@@ -125,12 +125,12 @@ public class EngineEcoSession implements Serializable {
 		this.cart = cart;
 	}
 	
-	public Customer getCustomer() {
-		return customer;
+	public Customer getCurrentCustomer() {
+		return currentCustomer;
 	}
 	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCurrentCustomer(Customer currentCustomer) {
+		this.currentCustomer = currentCustomer;
 	}
 	
 	public MarketPlace getCurrentMarketPlace() {
