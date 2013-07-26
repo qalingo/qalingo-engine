@@ -347,6 +347,15 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	}
 	
 	/**
+     * 
+     */
+	public void cleanCurrentCustomer(final HttpServletRequest request) throws Exception {
+		final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+		engineEcoSession.setCurrentCustomer(null);
+		updateCurrentEcoSession(request, engineEcoSession);
+	}
+	
+	/**
 	  * 
 	  */
    public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {

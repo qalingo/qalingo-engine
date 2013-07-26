@@ -217,6 +217,11 @@ public interface RequestUtil {
 	/**
      * 
      */	
+	void cleanCurrentCustomer(final HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */	
 	String getCurrentCustomerLogin(HttpServletRequest request) throws Exception;
 	
 	/**
