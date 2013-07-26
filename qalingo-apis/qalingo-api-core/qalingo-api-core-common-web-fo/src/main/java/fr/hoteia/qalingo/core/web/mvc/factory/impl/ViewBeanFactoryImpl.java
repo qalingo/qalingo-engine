@@ -839,23 +839,23 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
-		customerViewBean.setFirstnameValue(customer.getFirstname());
+		customerViewBean.setFirstname(customer.getFirstname());
 
-		customerViewBean.setLastnameValue(customer.getLastname());
+		customerViewBean.setLastname(customer.getLastname());
 
-		customerViewBean.setEmailValue(customer.getEmail());
+		customerViewBean.setEmail(customer.getEmail());
 
 		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 		if (customer.getDateCreate() != null) {
-			customerViewBean.setDateCreateValue(dateFormat.format(customer.getDateCreate()));
+			customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
 		} else {
-			customerViewBean.setDateCreateValue(Constants.NOT_AVAILABLE);
+			customerViewBean.setDateCreate(Constants.NOT_AVAILABLE);
 		}
 
 		if (customer.getDateUpdate() != null) {
-			customerViewBean.setDateUpdateValue(dateFormat.format(customer.getDateUpdate()));
+			customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
 		} else {
-			customerViewBean.setDateUpdateValue(Constants.NOT_AVAILABLE);
+			customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
 		}
 
 		final ValueBean customerScreenNameValueBean = new ValueBean();

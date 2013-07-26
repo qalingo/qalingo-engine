@@ -23,8 +23,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
-import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
@@ -43,10 +47,10 @@ public class LoginController extends AbstractBackofficeQalingoController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
-		// SANITY CHECK: Customer logged
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		// SANITY CHECK: User logged
+		final User currentUser = requestUtil.getCurrentUser(request);
+		if(currentUser != null){
+			final String url = backofficeUrlService.buildUserDetailsUrl();
 			return new ModelAndView(new RedirectView(url));
 		}
 		
