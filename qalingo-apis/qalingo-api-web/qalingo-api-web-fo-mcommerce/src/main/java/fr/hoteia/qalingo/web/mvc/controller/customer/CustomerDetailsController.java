@@ -10,11 +10,11 @@
 package fr.hoteia.qalingo.web.mvc.controller.customer;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +44,7 @@ public class CustomerDetailsController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/customer-details.html*", method = RequestMethod.GET)
-	public ModelAndView customerDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
 		// "customer.details";
@@ -62,7 +62,7 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.GET)
-	public ModelAndView displayCustomerEdit(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayCustomerEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
 		// "customer.details";
@@ -82,8 +82,8 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.POST)
-	public ModelAndView submitCustomerEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid CustomerEditForm customerEditForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+	public ModelAndView submitCustomerEdit(final HttpServletRequest request, @Valid CustomerEditForm customerEditForm,
+								BindingResult result, final Model model) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -97,7 +97,7 @@ public class CustomerDetailsController extends AbstractMCommerceController {
 		final Customer checkCustomer = customerService.getCustomerByLoginOrEmail(newEmail);
 
 		if (result.hasErrors()) {
-			return displayCustomerEdit(request, response);
+			return displayCustomerEdit(request, model);
 		}
 		
 		if(checkCustomer != null

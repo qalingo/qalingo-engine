@@ -10,12 +10,12 @@
 package fr.hoteia.qalingo.web.mvc.controller.customer;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -43,7 +43,7 @@ public class CustomerProductCommentController extends AbstractMCommerceControlle
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping("/customer-product-comment-list.html*")
-	public ModelAndView customerPRoductComments(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-product-comment-list");
 		
 		// "customer.product.comment";
@@ -55,13 +55,13 @@ public class CustomerProductCommentController extends AbstractMCommerceControlle
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
-		modelAndView.addObject("customerProductComments", customerProductCommentsViewBean);
+		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;
 	}
 
 	@RequestMapping("/remove-customer-product-comment.html*")
-	public ModelAndView removeProductComment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView removeProductComment(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -75,7 +75,7 @@ public class CustomerProductCommentController extends AbstractMCommerceControlle
 	}
 	
 	@RequestMapping("/add-customer-product-comment.html*")
-	public ModelAndView addProductComment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView addProductComment(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);

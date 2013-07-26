@@ -12,7 +12,6 @@ package fr.hoteia.qalingo.web.mvc.controller.customer;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -54,7 +54,7 @@ public class CustomerOrderController extends AbstractMCommerceController {
     protected OrderService orderService;
 	
 	@RequestMapping("/customer-order-list.html*")
-	public ModelAndView customerWishList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-list");
 		
 		// "customer.order.list";
@@ -86,14 +86,14 @@ public class CustomerOrderController extends AbstractMCommerceController {
 				}
 	        } 
         }
-		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+		model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
+		model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
 		
         return modelAndView;
 	}
 
 	@RequestMapping("/customer-order-details.html*")
-	public ModelAndView removeFromWishlist(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-details");
 		
 		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID);
@@ -108,8 +108,6 @@ public class CustomerOrderController extends AbstractMCommerceController {
 					
 					
 					// "customer.order.details";
-					
-					
 					
 					
 			        return modelAndView;
@@ -135,4 +133,5 @@ public class CustomerOrderController extends AbstractMCommerceController {
         request.getSession().setAttribute(sessionKey, orderViewBeanPagedListHolder);
         return orderViewBeanPagedListHolder;
 	}
+
 }
