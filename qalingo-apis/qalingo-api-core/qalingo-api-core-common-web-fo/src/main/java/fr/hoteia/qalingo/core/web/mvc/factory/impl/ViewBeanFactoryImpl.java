@@ -733,7 +733,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		final MarketAreaViewBean marketAreaViewBean = new MarketAreaViewBean();
 		marketAreaViewBean.setName(marketArea.getName());
+		marketAreaViewBean.setDescription(marketArea.getDescription());
+		marketAreaViewBean.setCode(marketArea.getCode());
 		marketAreaViewBean.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, defaultLocalization, defaultRetailer));
+		marketAreaViewBean.setLatitude(marketArea.getLatitude());
+		marketAreaViewBean.setLongitude(marketArea.getLongitude());
 		return marketAreaViewBean;
 	}
 
