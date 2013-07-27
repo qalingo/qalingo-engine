@@ -32,7 +32,6 @@ public class RetailerAddress extends AbstractAddress implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)
 	private Long id;
-	
 
 	@Version
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")

@@ -116,7 +116,9 @@ public interface ViewBeanFactory {
 	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, MarketPlace marketPlace, List<Market> markets, Localization localization) throws Exception;
 	
 	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, Market market, List<MarketArea> marketAreas, Localization localization) throws Exception;
-	
+
+	MarketAreaViewBean buildMarketAreaViewBean(final HttpServletRequest request, final MarketArea marketArea) throws Exception;
+
 	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
 	
 	StoreLocatorViewBean buildStoreLocatorViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 

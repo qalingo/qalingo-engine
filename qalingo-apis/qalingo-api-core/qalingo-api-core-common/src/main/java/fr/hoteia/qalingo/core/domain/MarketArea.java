@@ -111,6 +111,12 @@ public class MarketArea implements Serializable {
 	    )
 	private Set<Retailer> retailers = new HashSet<Retailer>(); 
 	
+	@Column(name="LONGITUDE")
+	private String longitude;
+	
+	@Column(name="LATITUDE")
+	private String latitude;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -289,6 +295,22 @@ public class MarketArea implements Serializable {
 	
 	public void setRetailers(Set<Retailer> retailers) {
 		this.retailers = retailers;
+	}
+	
+	public String getLongitude() {
+		return longitude;
+	}
+	
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
+	public String getLatitude() {
+		return latitude;
+	}
+	
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	
 	public Date getDateCreate() {
