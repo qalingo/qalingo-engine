@@ -100,24 +100,24 @@ public class Retailer implements Serializable {
 	private Set<Store> stores = new HashSet<Store>(); 
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
+    @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'RETAILER'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
+    @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'RETAILER'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsByMarketArea = new HashSet<Asset>();  
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+    @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<RetailerAttribute> retailerGlobalAttributes = new HashSet<RetailerAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+    @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>(); 
 	

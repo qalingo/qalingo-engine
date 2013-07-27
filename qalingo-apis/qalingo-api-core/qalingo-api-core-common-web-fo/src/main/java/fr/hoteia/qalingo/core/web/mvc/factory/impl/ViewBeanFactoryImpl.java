@@ -492,27 +492,27 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				}
 			}
 			if (defaultAddress != null) {
-				retailerViewBean.getAddress().setAddress1(defaultAddress.getAddress1());
-				retailerViewBean.getAddress().setAddress2(defaultAddress.getAddress2());
-				retailerViewBean.getAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
-				retailerViewBean.getAddress().setPostalCode(defaultAddress.getPostalCode());
-				retailerViewBean.getAddress().setCity(defaultAddress.getCity());
-				retailerViewBean.getAddress().setStateCode(defaultAddress.getStateCode());
-				retailerViewBean.getAddress().setStateLabel(defaultAddress.getStateCode());
-				retailerViewBean.getAddress().setAreaCode(defaultAddress.getAreaCode());
-				retailerViewBean.getAddress().setAreaLabel(defaultAddress.getAreaCode());
-				retailerViewBean.getAddress().setCountryCode(defaultAddress.getCountryCode());
-				retailerViewBean.getAddress().setCountryLabel(defaultAddress.getCountryCode());
+				retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
+				retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
+				retailerViewBean.getDefaultAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
+				retailerViewBean.getDefaultAddress().setPostalCode(defaultAddress.getPostalCode());
+				retailerViewBean.getDefaultAddress().setCity(defaultAddress.getCity());
+				retailerViewBean.getDefaultAddress().setStateCode(defaultAddress.getStateCode());
+				retailerViewBean.getDefaultAddress().setStateLabel(defaultAddress.getStateCode());
+				retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
+				retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
+				retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
+				retailerViewBean.getDefaultAddress().setCountryLabel(defaultAddress.getCountryCode());
 				
-				retailerViewBean.getAddress().setPhone(defaultAddress.getPhone());
-				retailerViewBean.getAddress().setMobile(defaultAddress.getMobile());
-				retailerViewBean.getAddress().setFax(defaultAddress.getFax());
-				retailerViewBean.getAddress().setEmail(defaultAddress.getEmail());
+				retailerViewBean.getDefaultAddress().setPhone(defaultAddress.getPhone());
+				retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
+				retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
+				retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
 				String websiteUrl = defaultAddress.getWebsite();
 				if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
 					websiteUrl = "http://" + websiteUrl;
 				}
-				retailerViewBean.getAddress().setWebsite(websiteUrl);
+				retailerViewBean.getDefaultAddress().setWebsite(websiteUrl);
 			}
 		}
 
@@ -554,6 +554,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        retailerTagViewBean.setName(retailerTag.getName());
 	        retailerTagViewBean.setDescription(retailerTag.getDescription());
 	        retailerViewBean.getTags().add(retailerTagViewBean);
+        }
+		
+		Set<Store> stores = currentRetailer.getStores();
+		for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
+			Store store = (Store) iterator.next();
+			StoreViewBean storeViewBean = buildStoreViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, store);
+			retailerViewBean.getStores().add(storeViewBean);
         }
 		
 		return retailerViewBean;

@@ -45,7 +45,6 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	@Column(name="FIRSTNAME")
     private String firstname;
     
-
 	@Version
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
@@ -85,6 +84,12 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	
 	@Column(name="IS_DEFAULT_SHIPPING", nullable=false, columnDefinition="tinyint(1) default 1")
 	private boolean isDefaultShipping;
+	
+	@Column(name="LONGITUDE")
+	private String longitude;
+	
+	@Column(name="LATITUDE")
+	private String latitude;
 	
 	public CustomerAddress() {
 	}
@@ -231,6 +236,22 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 
 	public void setDefaultShipping(boolean isDefaultShipping) {
 		this.isDefaultShipping = isDefaultShipping;
+	}
+	
+	public String getLongitude() {
+		return longitude;
+	}
+	
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
+	public String getLatitude() {
+		return latitude;
+	}
+	
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 
 }

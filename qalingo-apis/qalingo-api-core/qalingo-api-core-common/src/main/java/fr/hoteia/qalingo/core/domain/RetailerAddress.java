@@ -80,6 +80,12 @@ public class RetailerAddress extends AbstractAddress implements Serializable {
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
 	
+	@Column(name="LONGITUDE")
+	private String longitude;
+	
+	@Column(name="LATITUDE")
+	private String latitude;
+	
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 	
@@ -213,6 +219,22 @@ public class RetailerAddress extends AbstractAddress implements Serializable {
 	public void setDefault(boolean isDefault) {
     	this.isDefault = isDefault;
     }
+	
+	public String getLongitude() {
+		return longitude;
+	}
+	
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
+	public String getLatitude() {
+		return latitude;
+	}
+	
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 	
 	public Long getRetailerId() {
 	    return retailerId;

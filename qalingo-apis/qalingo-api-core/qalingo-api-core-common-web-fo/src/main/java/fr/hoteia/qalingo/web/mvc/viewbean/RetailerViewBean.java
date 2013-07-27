@@ -46,13 +46,15 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected int reviewCount = 0;
 	protected String reviewCountLabel;
 
-	protected RetailerAddressViewBean address = new RetailerAddressViewBean();
+	protected RetailerAddressViewBean defaultAddress = new RetailerAddressViewBean();
 
 	protected List<RetailerCustomerCommentViewBean> comments = new ArrayList<RetailerCustomerCommentViewBean>();
 	protected List<RetailerTagViewBean> tags = new ArrayList<RetailerTagViewBean>();
 
 	protected Map<String, List<SocialNetworkFeedItemViewBean>> socialNetworkFeed = new HashMap<String, List<SocialNetworkFeedItemViewBean>>();
-	
+
+	protected List<StoreViewBean> stores = new ArrayList<StoreViewBean>();
+
 	public String getCode() {
     	return code;
     }
@@ -165,12 +167,12 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 		this.reviewCountLabel = reviewCountLabel;
 	}
 
-	public RetailerAddressViewBean getAddress() {
-	    return address;
+	public RetailerAddressViewBean getDefaultAddress() {
+	    return defaultAddress;
     }
 	
-	public void setAddress(RetailerAddressViewBean address) {
-	    this.address = address;
+	public void setDefaultAddress(RetailerAddressViewBean defaultAddress) {
+	    this.defaultAddress = defaultAddress;
     }
 
 	public List<RetailerCustomerCommentViewBean> getComments() {
@@ -195,6 +197,14 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setSocialNetworkFeed(Map<String, List<SocialNetworkFeedItemViewBean>> socialNetworkFeed) {
 	    this.socialNetworkFeed = socialNetworkFeed;
+    }
+	
+	public List<StoreViewBean> getStores() {
+	    return stores;
+    }
+	
+	public void setStores(List<StoreViewBean> stores) {
+	    this.stores = stores;
     }
 	
 	public String getMetaShareTitle() {
