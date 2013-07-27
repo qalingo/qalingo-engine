@@ -12,10 +12,10 @@ package fr.hoteia.qalingo.web.mvc.controller.catalog;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,7 +50,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	protected ProductSkuService productSkuService;
 	
 	@RequestMapping("/product-details.html*")
-	public ModelAndView productDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView productDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/product-details");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
@@ -66,19 +66,19 @@ public class ProductDetailsController extends AbstractMCommerceController {
 		final Locale locale = currentLocalization.getLocale();
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
-        modelAndView.addObject("seoPageMetaKeywords", seoPageMetaKeywords);
+        model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
 
 		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
-        modelAndView.addObject("seoPageMetaDescription", seoPageMetaDescription);
+        model.addAttribute("seoPageMetaDescription", seoPageMetaDescription);
 
 		String pageTitleKey = "header.title." + "";
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
-        modelAndView.addObject("seoPageTitle", seoPageTitle);
+        model.addAttribute("seoPageTitle", seoPageTitle);
         
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, productCategory);
-		modelAndView.addObject("productCategory", productCategoryViewBean);
+		model.addAttribute("productCategory", productCategoryViewBean);
 		
         return modelAndView;
 	}

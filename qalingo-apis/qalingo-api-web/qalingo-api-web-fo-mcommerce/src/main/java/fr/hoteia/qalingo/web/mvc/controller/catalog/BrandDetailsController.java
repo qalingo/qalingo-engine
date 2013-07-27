@@ -10,10 +10,10 @@
 package fr.hoteia.qalingo.web.mvc.controller.catalog;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,7 +39,7 @@ public class BrandDetailsController extends AbstractMCommerceController {
 	protected ProductBrandService productBrandService;
 	
 	@RequestMapping("/brand-details.html*")
-	public ModelAndView brandDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView brandDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/brand-details");
 
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -53,7 +53,7 @@ public class BrandDetailsController extends AbstractMCommerceController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final ProductBrandViewBean productBrandViewBean = viewBeanFactory.buildProductBrandViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, productBrand);
-		modelAndView.addObject("productBrand", productBrandViewBean);
+		model.addAttribute("productBrand", productBrandViewBean);
 		
         return modelAndView;
 	}
