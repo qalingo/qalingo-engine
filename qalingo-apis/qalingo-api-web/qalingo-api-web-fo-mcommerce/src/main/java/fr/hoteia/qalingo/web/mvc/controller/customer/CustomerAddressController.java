@@ -214,6 +214,8 @@ public class CustomerAddressController extends AbstractMCommerceController {
     public void commonValues(HttpServletRequest request, Model model) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
     	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(request, currentMarketArea));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_ADD, urlService.buildCustomerAddAddressUrl(request, currentMarketArea));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_EDIT, urlService.buildCustomerEditAddressUrl(request, currentMarketArea, null));
     }
 
     @ModelAttribute("titles")

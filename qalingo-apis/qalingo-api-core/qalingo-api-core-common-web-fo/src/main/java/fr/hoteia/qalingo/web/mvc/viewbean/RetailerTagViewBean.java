@@ -21,6 +21,7 @@ public class RetailerTagViewBean extends AbstractViewBean implements Serializabl
 	protected String code;
 	protected String name;
 	protected String description;
+	protected String url;
 	
 	public String getCode() {
     	return code;
@@ -44,6 +45,14 @@ public class RetailerTagViewBean extends AbstractViewBean implements Serializabl
 
 	public void setDescription(String description) {
     	this.description = description;
+    }
+	
+	public String getUrl() {
+	    return url;
+    }
+	
+	public void setUrl(String url) {
+	    this.url = url;
     }
 
 }

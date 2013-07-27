@@ -438,7 +438,11 @@ public class UrlServiceImpl implements UrlService {
 	}
 
 	public String buildCustomerEditAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+		if(StringUtils.isNotEmpty(customerAddressId)){
+			return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+		} else {
+			return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html";
+		}
 	}
 
 	public String buildCustomerDeleteAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
