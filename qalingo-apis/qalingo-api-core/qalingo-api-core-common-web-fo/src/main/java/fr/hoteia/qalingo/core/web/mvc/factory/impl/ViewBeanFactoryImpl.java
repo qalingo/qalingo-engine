@@ -503,7 +503,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
 				retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
 				retailerViewBean.getDefaultAddress().setCountryLabel(defaultAddress.getCountryCode());
-				
+
+				retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
+				retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
+
 				retailerViewBean.getDefaultAddress().setPhone(defaultAddress.getPhone());
 				retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
 				retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());

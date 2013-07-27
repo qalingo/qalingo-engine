@@ -23,7 +23,7 @@ public class RetailerAddressViewBean extends AbstractAddressViewBean implements 
     private String fax;
     private String email;
     private String website;
-    
+
     public String getPhone() {
 	    return phone;
     }
