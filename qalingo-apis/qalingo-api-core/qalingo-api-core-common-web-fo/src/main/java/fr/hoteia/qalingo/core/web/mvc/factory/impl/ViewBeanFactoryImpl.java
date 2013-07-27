@@ -190,7 +190,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
+		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
 		commonViewBean.setContactUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
 
 		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
@@ -533,7 +533,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
 			
 			retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-			retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer));
+			retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 			if (retailerCustomerComment.getDateCreate() != null) {
@@ -574,32 +574,32 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerLinks = new ArrayList<CutomerMenuViewBean>();
 			CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerProductCommentUrl(request, marketPlace, market, marketArea, localization, retailer));
+			cutomerMenuViewBean.setUrl(urlService.buildCustomerProductCommentUrl(request, marketArea));
 			customerLinks.add(cutomerMenuViewBean);
 
 			menuCustomerCacheHelper.addToCache(customerMenuElementType, customerMenuCacheKey, customerLinks);
@@ -984,8 +984,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		Long customerAddressId = customerAddress.getId();
 
-		customerAddressViewBean.setEditUrl(urlService.buildCustomerEditAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
-		customerAddressViewBean.setDeleteUrl(urlService.buildCustomerDeleteAddressUrl(request, marketPlace, market, marketArea, localization, retailer, customerAddressId.toString()));
+		customerAddressViewBean.setEditUrl(urlService.buildCustomerEditAddressUrl(request, marketArea, customerAddressId.toString()));
+		customerAddressViewBean.setDeleteUrl(urlService.buildCustomerDeleteAddressUrl(request, marketArea, customerAddressId.toString()));
 
 		return customerAddressViewBean;
 	}
@@ -1175,7 +1175,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		cartViewBean.setCartOrderPaymentUrl(urlService.buildCartOrderPaymentUrl(request, marketPlace, market, marketArea, localization, retailer));
 		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(request, marketPlace, market, marketArea, localization, retailer));
 
-		cartViewBean.setAddNewAddressUrl(urlService.buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer));
+		cartViewBean.setAddNewAddressUrl(urlService.buildCustomerAddAddressUrl(request, marketArea));
 
 		// ITEMS PART
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
@@ -1369,7 +1369,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		// orderViewBean.setConfirmationMessage(getSpecificMessage(ScopeWebMessage.COMMON,
 		// "order.confirmation.message", params, locale));
 
-		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId));
+		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(request, marketArea, orderId));
 
 		return orderViewBean;
 	}

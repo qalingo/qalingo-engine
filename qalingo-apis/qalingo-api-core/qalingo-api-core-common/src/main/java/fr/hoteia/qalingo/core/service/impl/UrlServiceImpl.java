@@ -395,59 +395,6 @@ public class UrlServiceImpl implements UrlService {
 
 	// CUSTOMER
 
-	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, true);
-	}
-
-	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/" + "customer-details.html";
-	}
-
-	public String buildCustomerOrderListUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerOrderListUrl(request, marketPlace, market, marketArea, localization, retailer, true);
-	}
-
-	public String buildCustomerOrderListUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-order-list.html";
-	}
-
-	public String buildCustomerOrderDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final String orderId) throws Exception {
-		return buildCustomerOrderDetailsUrl(request, marketPlace, market, marketArea, localization, retailer, orderId, true);
-	}
-
-	public String buildCustomerOrderDetailsUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final String orderId, final boolean keepCurrentDomainName) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-details.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
-	}
-
-	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerWishlistUrl(request, marketPlace, market, marketArea, localization, retailer, true);
-	}
-
-	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-wishlist.html";
-	}
-
-	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerProductCommentUrl(request, marketPlace, market, marketArea, localization, retailer, true);
-	}
-
-	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-product-comment-list.html";
-	}
-
 	public String buildCustomerCreateAccountUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer) throws Exception {
 		return buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer, true);
@@ -455,39 +402,46 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildCustomerCreateAccountUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-create-account.html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/customer-create-account.html";
+	}
+	
+	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-details.html";
+	}
+	
+	public String buildCustomerEditUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit.html";
 	}
 
-	public String buildCustomerAddressListUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerAddressListUrl(request, marketPlace, market, marketArea, localization, retailer, true);
+	public String buildCustomerOrderListUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-list.html";
 	}
 
-	public String buildCustomerAddressListUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-address-list.html";
+	public String buildCustomerOrderDetailsUrl(final HttpServletRequest request, final MarketArea marketArea, final String orderId) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-details.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
 	}
 
-	public String buildCustomerAddAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildCustomerAddAddressUrl(request, marketPlace, market, marketArea, localization, retailer, true);
+	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-wishlist.html";
 	}
 
-	public String buildCustomerAddAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/"
-		        + "customer-add-address.html";
+	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-product-comment-list.html";
 	}
 
-	public String buildCustomerEditAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final String customerAddressId) throws Exception {
+	public String buildCustomerAddressListUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-address-list.html";
+	}
+
+	public String buildCustomerAddAddressUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/customer-add-address.html";
+	}
+
+	public String buildCustomerEditAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 	}
 
-	public String buildCustomerDeleteAddressUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer, final String customerAddressId) throws Exception {
+	public String buildCustomerDeleteAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/customer-delete-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 	}
 

@@ -33,5 +33,41 @@ public class CartForm {
 	public void setShippingAddressId(String shippingAddressId) {
 		this.shippingAddressId = shippingAddressId;
 	}
+
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((billingAddressId == null) ? 0 : billingAddressId.hashCode());
+	    result = prime * result + ((shippingAddressId == null) ? 0 : shippingAddressId.hashCode());
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    CartForm other = (CartForm) obj;
+	    if (billingAddressId == null) {
+		    if (other.billingAddressId != null)
+			    return false;
+	    } else if (!billingAddressId.equals(other.billingAddressId))
+		    return false;
+	    if (shippingAddressId == null) {
+		    if (other.shippingAddressId != null)
+			    return false;
+	    } else if (!shippingAddressId.equals(other.shippingAddressId))
+		    return false;
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    return "CartForm [billingAddressId=" + billingAddressId + ", shippingAddressId=" + shippingAddressId + "]";
+    }
     
 }

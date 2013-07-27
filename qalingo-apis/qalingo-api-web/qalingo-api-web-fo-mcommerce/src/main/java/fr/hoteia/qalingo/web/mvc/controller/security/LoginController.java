@@ -53,7 +53,7 @@ public class LoginController extends AbstractMCommerceController {
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		

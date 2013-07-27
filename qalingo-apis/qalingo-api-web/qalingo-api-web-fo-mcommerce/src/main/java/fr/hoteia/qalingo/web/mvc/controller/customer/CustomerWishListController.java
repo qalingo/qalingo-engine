@@ -72,7 +72,7 @@ public class CustomerWishListController extends AbstractMCommerceController {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
 
-		final String url = urlService.buildCustomerWishlistUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCustomerWishlistUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -93,7 +93,7 @@ public class CustomerWishListController extends AbstractMCommerceController {
 			LOG.error("Error with the wishlist, skuCode:" + skuCode, e);
 		}
 		
-		final String url = urlService.buildCustomerWishlistUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCustomerWishlistUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 

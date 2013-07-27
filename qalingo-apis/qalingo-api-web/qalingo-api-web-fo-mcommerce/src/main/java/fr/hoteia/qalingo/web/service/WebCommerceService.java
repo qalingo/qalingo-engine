@@ -28,7 +28,7 @@ public interface WebCommerceService {
 	
 	Customer updateCurrentCustomer(HttpServletRequest request, Market market, MarketArea marketMode, CustomerEditForm customerEditForm) throws Exception;
 	
-	Customer buildAndSaveNewAddressCustomer(HttpServletRequest request, Market market, MarketArea marketMode, CustomerAddressForm customerAddressForm) throws Exception;
+	Customer updateOrSaveAddressCustomer(HttpServletRequest request, Market market, MarketArea marketMode, CustomerAddressForm customerAddressForm) throws Exception;
 	
 	Customer deleteAddressCustomer(HttpServletRequest request, String customerAddressId) throws Exception;
 	

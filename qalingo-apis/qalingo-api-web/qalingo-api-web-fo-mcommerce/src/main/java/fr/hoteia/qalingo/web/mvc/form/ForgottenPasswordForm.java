@@ -30,4 +30,34 @@ public class ForgottenPasswordForm {
 		this.emailOrLogin = emailOrLogin;
 	}
 
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((emailOrLogin == null) ? 0 : emailOrLogin.hashCode());
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    ForgottenPasswordForm other = (ForgottenPasswordForm) obj;
+	    if (emailOrLogin == null) {
+		    if (other.emailOrLogin != null)
+			    return false;
+	    } else if (!emailOrLogin.equals(other.emailOrLogin))
+		    return false;
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    return "ForgottenPasswordForm [emailOrLogin=" + emailOrLogin + "]";
+    }
+
 }

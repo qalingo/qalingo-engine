@@ -42,6 +42,7 @@ public final class ModelConstants {
 
 	// URL
 	public static final String URL_BACK = "urlBack";
+	public static final String URL_CUSTOMER_EDIT = "urlCustomerEdit";
 	public static final String URL_SUBMIT_QUICK_SEARCH = "urlSubmitQuickSearch";
 
 	// VIEW BEAN

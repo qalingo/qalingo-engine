@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
@@ -84,11 +86,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = "/customer-delete-address.html*")
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		
@@ -99,7 +97,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
 		}
 
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -125,11 +123,8 @@ public class CustomerAddressController extends AbstractMCommerceController {
 	@RequestMapping(value = "/customer-add-address.html*", method = RequestMethod.POST)
 	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 								BindingResult result, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		// "customer.add.address";
 		
@@ -138,9 +133,9 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.buildAndSaveNewAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
+		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
@@ -159,26 +154,34 @@ public class CustomerAddressController extends AbstractMCommerceController {
 
 		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
+		
 
-		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		if(StringUtils.isEmpty(customerAddressId)){
+			customerAddressId = customerAddressForm.getIdOrGuid();
+		}
 		
 		CustomerAddress customerAddress = null;
-		
 		try {
 			final Customer customer = requestUtil.getCurrentCustomer(request);
 			customerAddress = customer.getAddress(new Long(customerAddressId));
 			
 		} catch (Exception e) {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
-			
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketArea);
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 
 		// SANITY CHECK : wrong address id for this customer
 		if(customerAddress == null){
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketArea);
 	        return new ModelAndView(new RedirectView(urlRedirect));
+		}
+		
+		if(customerAddressForm == null 
+        		|| customerAddressForm.equals(new CustomerAddressForm())){
+			customerAddressForm = formFactory.buildCustomerAddressForm(request, customerAddress);
+			model.addAttribute("customerAddressForm", customerAddressForm);
 		}
 
         return modelAndView;
@@ -192,6 +195,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
 		// "customer.edit.address";
 		
@@ -200,23 +204,18 @@ public class CustomerAddressController extends AbstractMCommerceController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.buildAndSaveNewAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
+		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCustomerAddressListUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
-	
-	/**
-	 * 
-	 */
-    @ModelAttribute("customerAddressForm")
-	protected CustomerAddressForm getCustomerAddressForm(final HttpServletRequest request, final Model model) throws Exception {
-    	final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
-		CustomerAddress customerAddress = currentCustomer.getAddress(new Long(customerAddressId));
-    	return formFactory.buildCustomerAddressForm(request, customerAddress);
-	}
-    
+
+    @ModelAttribute
+    public void commonValues(HttpServletRequest request, Model model) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+    	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(request, currentMarketArea));
+    }
+
     @ModelAttribute("titles")
     public List<ValueBean> getTitles(HttpServletRequest request) throws Exception {
 		List<ValueBean> titlesValues = new ArrayList<ValueBean>();
@@ -226,7 +225,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 			Set<String> titlesKey = titlesResourceBundle.keySet();
 			for (Iterator<String> iterator = titlesKey.iterator(); iterator.hasNext();) {
 				final String titleKey = (String) iterator.next();
-				titlesValues.add(new ValueBean(titleKey.replace("titles.", ""), (String)titlesResourceBundle.getObject(titleKey)));
+				titlesValues.add(new ValueBean(titleKey.replace("title.", ""), (String)titlesResourceBundle.getObject(titleKey)));
 			}
 			
 			Collections.sort(titlesValues, new Comparator<ValueBean>() {
@@ -251,7 +250,7 @@ public class CustomerAddressController extends AbstractMCommerceController {
 			
 			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
 				final String countryKey = (String) iterator.next();
-				countriesValues.add(new ValueBean(countryKey.replace("countries.", ""), (String)countriesResourceBundle.getObject(countryKey)));
+				countriesValues.add(new ValueBean(countryKey.replace("country.", ""), (String)countriesResourceBundle.getObject(countryKey)));
 			}
 			
 			Collections.sort(countriesValues, new Comparator<ValueBean>() {

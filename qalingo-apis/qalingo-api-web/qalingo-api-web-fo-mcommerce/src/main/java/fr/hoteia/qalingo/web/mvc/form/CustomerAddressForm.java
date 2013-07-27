@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class CustomerAddressForm {
 	
+    private String idOrGuid;
     private String addressName;
     private String title;
     private String lastname;
@@ -31,6 +32,14 @@ public class CustomerAddressForm {
     private String areaCode;
     private String countryCode;
     
+    public String getIdOrGuid() {
+	    return idOrGuid;
+    }
+    
+    public void setIdOrGuid(String idOrGuid) {
+	    this.idOrGuid = idOrGuid;
+    }
+    
     public String getAddressName() {
 		return addressName;
 	}
@@ -39,7 +48,7 @@ public class CustomerAddressForm {
 		this.addressName = addressName;
 	}
     
-	@NotEmpty(message = "error.form.create.account.title.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_title_empty")
     public String getTitle() {
 		return title;
 	}
@@ -48,7 +57,7 @@ public class CustomerAddressForm {
 		this.title = title;
 	}
     
-	@NotEmpty(message = "error.form.create.account.lastname.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_lastname_empty")
 	public String getLastname() {
 		return lastname;
 	}
@@ -57,7 +66,7 @@ public class CustomerAddressForm {
 		this.lastname = lastname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.firstname.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_firstname_empty")
 	public String getFirstname() {
 		return firstname;
 	}
@@ -66,7 +75,7 @@ public class CustomerAddressForm {
 		this.firstname = firstname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.address1.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_address1_empty")
 	public String getAddress1() {
 		return address1;
 	}
@@ -91,7 +100,7 @@ public class CustomerAddressForm {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
-	@NotEmpty(message = "error.form.create.account.postal.code.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_zip_or_postal_code_empty")
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -99,8 +108,8 @@ public class CustomerAddressForm {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-	
-	@NotEmpty(message = "error.form.create.account.city.empty")
+
+	@NotEmpty(message = "fo.customer.error_form_address_city_empty")
 	public String getCity() {
 		return city;
 	}
@@ -110,12 +119,12 @@ public class CustomerAddressForm {
 	}
 	
 	public String getStateCode() {
-		return stateCode;
-	}
-
+	    return stateCode;
+    }
+	
 	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
-	}
+	    this.stateCode = stateCode;
+    }
 	
 	public String getAreaCode() {
 	    return areaCode;
@@ -125,7 +134,7 @@ public class CustomerAddressForm {
 	    this.areaCode = areaCode;
     }
 
-	@NotEmpty(message = "error.form.create.account.country.code.empty")
+	@NotEmpty(message = "fo.customer.error_form_address_country_code_empty")
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -134,4 +143,102 @@ public class CustomerAddressForm {
 		this.countryCode = countryCode;
 	}
 
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
+	    result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
+	    result = prime * result + ((addressAdditionalInformation == null) ? 0 : addressAdditionalInformation.hashCode());
+	    result = prime * result + ((addressName == null) ? 0 : addressName.hashCode());
+	    result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
+	    result = prime * result + ((city == null) ? 0 : city.hashCode());
+	    result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
+	    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+	    result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+	    result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
+	    result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+	    result = prime * result + ((title == null) ? 0 : title.hashCode());
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    CustomerAddressForm other = (CustomerAddressForm) obj;
+	    if (address1 == null) {
+		    if (other.address1 != null)
+			    return false;
+	    } else if (!address1.equals(other.address1))
+		    return false;
+	    if (address2 == null) {
+		    if (other.address2 != null)
+			    return false;
+	    } else if (!address2.equals(other.address2))
+		    return false;
+	    if (addressAdditionalInformation == null) {
+		    if (other.addressAdditionalInformation != null)
+			    return false;
+	    } else if (!addressAdditionalInformation.equals(other.addressAdditionalInformation))
+		    return false;
+	    if (addressName == null) {
+		    if (other.addressName != null)
+			    return false;
+	    } else if (!addressName.equals(other.addressName))
+		    return false;
+	    if (areaCode == null) {
+		    if (other.areaCode != null)
+			    return false;
+	    } else if (!areaCode.equals(other.areaCode))
+		    return false;
+	    if (city == null) {
+		    if (other.city != null)
+			    return false;
+	    } else if (!city.equals(other.city))
+		    return false;
+	    if (countryCode == null) {
+		    if (other.countryCode != null)
+			    return false;
+	    } else if (!countryCode.equals(other.countryCode))
+		    return false;
+	    if (firstname == null) {
+		    if (other.firstname != null)
+			    return false;
+	    } else if (!firstname.equals(other.firstname))
+		    return false;
+	    if (lastname == null) {
+		    if (other.lastname != null)
+			    return false;
+	    } else if (!lastname.equals(other.lastname))
+		    return false;
+	    if (postalCode == null) {
+		    if (other.postalCode != null)
+			    return false;
+	    } else if (!postalCode.equals(other.postalCode))
+		    return false;
+	    if (stateCode == null) {
+		    if (other.stateCode != null)
+			    return false;
+	    } else if (!stateCode.equals(other.stateCode))
+		    return false;
+	    if (title == null) {
+		    if (other.title != null)
+			    return false;
+	    } else if (!title.equals(other.title))
+		    return false;
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    return "CustomerAddressForm [addressName=" + addressName + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", address1=" + address1 + ", address2=" + address2
+	            + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode
+	            + ", countryCode=" + countryCode + "]";
+    }
+	
 }

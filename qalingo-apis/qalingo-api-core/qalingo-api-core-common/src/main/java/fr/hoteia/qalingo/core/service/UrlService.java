@@ -183,50 +183,30 @@ public interface UrlService {
 
 	// CUSTOMER
 
-	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
-
-	String buildCustomerDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
-
-	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
-
-	String buildCustomerOrderListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
-
-	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId) throws Exception;
-
-	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String orderId,
-	        boolean keepCurrentDomainName) throws Exception;
-
-	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
-
-	String buildCustomerWishlistUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
-
-	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
-
-	String buildCustomerProductCommentUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
-
 	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
 
 	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
 	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCustomerDetailsUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildCustomerAddressListUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
+	String buildCustomerEditUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCustomerOrderListUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        boolean keepCurrentDomainName) throws Exception;
+	String buildCustomerOrderDetailsUrl(HttpServletRequest request, MarketArea marketArea, String orderId) throws Exception;
 
-	String buildCustomerEditAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String customerAddressId) throws Exception;
+	String buildCustomerWishlistUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildCustomerDeleteAddressUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
-	        String customerAddressId) throws Exception;
+	String buildCustomerProductCommentUrl(HttpServletRequest reques, MarketArea marketAreat) throws Exception;
+
+	String buildCustomerAddressListUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+
+	String buildCustomerAddAddressUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+
+	String buildCustomerEditAddressUrl(HttpServletRequest request, MarketArea marketArea, String customerAddressId) throws Exception;
+
+	String buildCustomerDeleteAddressUrl(HttpServletRequest request, MarketArea marketArea, String customerAddressId) throws Exception;
 
 	// SECURITY
 

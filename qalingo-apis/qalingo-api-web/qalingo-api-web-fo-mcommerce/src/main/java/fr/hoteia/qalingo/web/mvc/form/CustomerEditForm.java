@@ -108,4 +108,80 @@ public class CustomerEditForm {
 		this.optin = optin;
 	}
 
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + ((email == null) ? 0 : email.hashCode());
+	    result = prime * result + ((emailConfirm == null) ? 0 : emailConfirm.hashCode());
+	    result = prime * result + ((fax == null) ? 0 : fax.hashCode());
+	    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+	    result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+	    result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
+	    result = prime * result + (optin ? 1231 : 1237);
+	    result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+	    result = prime * result + ((title == null) ? 0 : title.hashCode());
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    CustomerEditForm other = (CustomerEditForm) obj;
+	    if (email == null) {
+		    if (other.email != null)
+			    return false;
+	    } else if (!email.equals(other.email))
+		    return false;
+	    if (emailConfirm == null) {
+		    if (other.emailConfirm != null)
+			    return false;
+	    } else if (!emailConfirm.equals(other.emailConfirm))
+		    return false;
+	    if (fax == null) {
+		    if (other.fax != null)
+			    return false;
+	    } else if (!fax.equals(other.fax))
+		    return false;
+	    if (firstname == null) {
+		    if (other.firstname != null)
+			    return false;
+	    } else if (!firstname.equals(other.firstname))
+		    return false;
+	    if (lastname == null) {
+		    if (other.lastname != null)
+			    return false;
+	    } else if (!lastname.equals(other.lastname))
+		    return false;
+	    if (mobile == null) {
+		    if (other.mobile != null)
+			    return false;
+	    } else if (!mobile.equals(other.mobile))
+		    return false;
+	    if (optin != other.optin)
+		    return false;
+	    if (phone == null) {
+		    if (other.phone != null)
+			    return false;
+	    } else if (!phone.equals(other.phone))
+		    return false;
+	    if (title == null) {
+		    if (other.title != null)
+			    return false;
+	    } else if (!title.equals(other.title))
+		    return false;
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    return "CustomerEditForm [title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", email=" + email + ", emailConfirm=" + emailConfirm + ", phone=" + phone + ", fax=" + fax
+	            + ", mobile=" + mobile + ", optin=" + optin + "]";
+    }
+	
 }

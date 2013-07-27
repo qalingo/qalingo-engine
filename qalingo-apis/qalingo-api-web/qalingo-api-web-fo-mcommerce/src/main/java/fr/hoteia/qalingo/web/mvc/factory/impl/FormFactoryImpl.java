@@ -110,19 +110,22 @@ public class FormFactoryImpl implements FormFactory {
 	}
 	
 	public CustomerEditForm buildCustomerEditForm(final HttpServletRequest request, final Customer customer) throws Exception {
-		final MarketArea marketMode = requestUtil.getCurrentMarketArea(request);
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketMode.getCode());
+		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
 		CustomerEditForm customerEditForm = new CustomerEditForm();
-		customerEditForm.setTitle(customer.getTitle());
-		customerEditForm.setLastname(customer.getLastname());
-		customerEditForm.setFirstname(customer.getFirstname());
-		customerEditForm.setEmail(customer.getEmail());
+		if(customer != null){
+			customerEditForm.setTitle(customer.getTitle());
+			customerEditForm.setLastname(customer.getLastname());
+			customerEditForm.setFirstname(customer.getFirstname());
+			customerEditForm.setEmail(customer.getEmail());
 
-		customerEditForm.setMobile(customerMarketContext.getMobile());
-		customerEditForm.setPhone(customerMarketContext.getPhone());
-		customerEditForm.setFax(customerMarketContext.getFax());
-		customerEditForm.setOptin(customerMarketContext.isOptin());
-		
+			final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+			if(customerMarketContext != null){
+				customerEditForm.setMobile(customerMarketContext.getMobile());
+				customerEditForm.setPhone(customerMarketContext.getPhone());
+				customerEditForm.setFax(customerMarketContext.getFax());
+				customerEditForm.setOptin(customerMarketContext.isOptin());
+			}
+		}
 		return customerEditForm;
 	}
 	

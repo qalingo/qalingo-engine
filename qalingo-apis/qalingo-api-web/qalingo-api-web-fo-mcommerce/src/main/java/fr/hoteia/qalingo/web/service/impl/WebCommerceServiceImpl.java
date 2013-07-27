@@ -153,7 +153,7 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		return customer;
 	}
 	
-	public Customer buildAndSaveNewAddressCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
+	public Customer updateOrSaveAddressCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
 		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
 		
 		CustomerAddress defaultAddress = new CustomerAddress();

@@ -79,7 +79,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -104,7 +104,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -131,7 +131,7 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 		// Login the new customer
 		securityUtil.authenticationCustomer(request, newCustomer);
 		
-		final String urlRedirect = urlService.buildCustomerDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

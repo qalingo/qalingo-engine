@@ -70,7 +70,7 @@ public class CustomerProductCommentController extends AbstractMCommerceControlle
 		
 		// TODO
 
-		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -84,7 +84,7 @@ public class CustomerProductCommentController extends AbstractMCommerceControlle
 		
 		// TODO
 		
-		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 
