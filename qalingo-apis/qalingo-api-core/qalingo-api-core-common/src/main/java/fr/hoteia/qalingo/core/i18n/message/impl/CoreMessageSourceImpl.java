@@ -132,7 +132,12 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 		try {
 			return messageSource.getMessage(code, args, defaultMessage, locale);
 		} catch (Exception e) {
-			LOG.error("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+			if(code != null 
+					&& code.contains("javax")){
+				LOG.warn("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+			} else {
+				LOG.error("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+			}
 			if(BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))){
 				return getMessage(code, args, defaultMessage, new Locale(Constants.DEFAULT_LOCALE_CODE));
 			}

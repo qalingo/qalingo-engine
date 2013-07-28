@@ -24,6 +24,16 @@
 	<!-- Forwards requests to the "/" resource to the "welcome" view -->
 	<mvc:view-controller path="/" view-name="home" />
 
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<mvc:interceptors>  
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">	
+			<property name="paramName" value="locale-code" /> 
+		</bean> 
+	</mvc:interceptors>  
+	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="messageInterpolator">
 			<bean class="fr.hoteia.qalingo.core.i18n.message.SpringMessageSourceMessageInterpolator">
