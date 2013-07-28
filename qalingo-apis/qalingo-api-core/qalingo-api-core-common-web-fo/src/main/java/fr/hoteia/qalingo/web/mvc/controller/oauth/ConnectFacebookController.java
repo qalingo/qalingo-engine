@@ -19,24 +19,6 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		try {
 			String facebookCallBackURL = "http://fo-marketplace.dev.opentailor.com/sc/callback-facebook.html";
-			
-//			GoogleOAuthParameters oauthParameters = new GoogleOAuthParameters();
-//			oauthParameters.setOAuthSignatureMethod(Constants.GOOGLE_OAUTH_SIGNATURE_METHOD);
-//			oauthParameters.setOAuthConsumerKey(Constants.BOOKOO_CONSUMER_KEY);
-//			oauthParameters.setOAuthCallback(googleContactCallBackURL);
-//			oauthParameters.setScope(Constants.GOOGLE_CONTACT_SCOPE);
-//
-//			OAuthRsaSha1Signer signer = new OAuthRsaSha1Signer(RsaKeyUtil.getPrivateKey());
-//
-//			GoogleOAuthHelper oauthHelper = new GoogleOAuthHelper(signer);
-//			oauthHelper.getUnauthorizedRequestToken(oauthParameters);
-//
-//			String approvalPageUrl = oauthHelper.createUserAuthorizationUrl(oauthParameters);
-//
-//			ServerUtil.addHeaderToResponseForOAuthGoogle(response, Constants.BOOKOO_CONSUMER_KEY, googleContactCallBackURL);
-//
-//			Language language = RequestUtil.getCurrentApplicationLanguage(request, getContext());
-			
 			/*
 				It also has the following optional parameters:
 					- state. An arbitrary unique string created by your app to guard against Cross-site Request Forgery.
@@ -47,9 +29,10 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 					- scope. A comma separated list of Permissions to request from the person using your app.
 			 */
 			
-			String url = "https://www.facebook.com/dialog/oauth?client_id=405673062885284&redirect_uri=" + facebookCallBackURL;
+			//&state=RANDOM_NUMBER -> check this number in call back
+			String url = "https://www.facebook.com/dialog/oauth?client_id=405673062885284&RESPONSE_TYPE=token&scope=email,read_friendlists&redirect_uri=" + facebookCallBackURL;
 			
-			response.sendRedirect(url);                
+			response.sendRedirect(url);
 
 		} catch (Exception e) {
 			e.printStackTrace();
