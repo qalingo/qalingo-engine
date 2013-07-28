@@ -123,7 +123,9 @@ public final class Constants {
 
 	// PROPERTIE FILE NAMES
 	public static final String TITLES_RESOURCE_BUNDLE = "qalingo-titles";
+	public static final String TITLE_MESSAGE_PREFIX = "title.";
 	public static final String COUNTRIES_RESOURCE_BUNDLE = "qalingo-countries";
+	public static final String COUNTRY_MESSAGE_PREFIX = "country.";
 
 	// VELOCITY LAYOUT ATTRIBUTES
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_META = "head_meta";

@@ -35,7 +35,6 @@ import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.OrderService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -43,7 +42,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  * 
  */
 @Controller("customerOrderController")
-public class CustomerOrderController extends AbstractMCommerceController {
+public class CustomerOrderController extends AbstractCustomerController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	

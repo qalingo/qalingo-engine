@@ -99,5 +99,8 @@ public final class ModelConstants {
 	public static final String SUCCESS_MESSAGE = "successMessage";
 
 	public static final String CONTENT_TEXT = "contentText";
-	
+
+	public static final String TITLES = "titles";
+	public static final String COUNTRIES = "countries";
+
 }

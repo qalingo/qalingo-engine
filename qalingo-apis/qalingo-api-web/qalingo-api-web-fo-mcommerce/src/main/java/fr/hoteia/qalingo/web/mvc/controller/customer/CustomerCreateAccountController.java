@@ -9,15 +9,6 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.customer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -33,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -44,16 +34,14 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
-import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
  */
 @Controller("customerCreateAccountController")
-public class CustomerCreateAccountController extends AbstractMCommerceController {
+public class CustomerCreateAccountController extends AbstractCustomerController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -142,54 +130,5 @@ public class CustomerCreateAccountController extends AbstractMCommerceController
 	protected CreateAccountForm getCreateAccountForm(final HttpServletRequest request, final Model model) throws Exception {
     	return formFactory.buildCreateAccountForm(request);
 	}
-    
-    @ModelAttribute("titles")
-    public List<ValueBean> getTitles(final HttpServletRequest request) throws Exception {
-		List<ValueBean> titlesValues = new ArrayList<ValueBean>();
-		try {
-			final Locale locale = getCurrentLocale(request);
-			final ResourceBundle titlesResourceBundle = ResourceBundle.getBundle(Constants.TITLES_RESOURCE_BUNDLE, locale);
-			Set<String> titlesKey = titlesResourceBundle.keySet();
-			for (Iterator<String> iterator = titlesKey.iterator(); iterator.hasNext();) {
-				final String titleKey = (String) iterator.next();
-				titlesValues.add(new ValueBean(titleKey.replace("titles.", ""), (String)titlesResourceBundle.getObject(titleKey)));
-			}
-			
-			Collections.sort(titlesValues, new Comparator<ValueBean>() {
-				@Override
-				public int compare(ValueBean o1, ValueBean o2) {
-					return o1.getValue().compareTo(o2.getValue());
-				}
-			});
-		} catch (Exception e) {
-			LOG.error("", e);
-		}
-		return titlesValues;
-    }
-    
-    @ModelAttribute("countries")
-    public List<ValueBean> getCountries(final HttpServletRequest request) throws Exception {
-		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
-		try {
-			final Locale locale = getCurrentLocale(request);
-			final ResourceBundle countriesResourceBundle = ResourceBundle.getBundle(Constants.COUNTRIES_RESOURCE_BUNDLE, locale);
-			Set<String> countriesKey = countriesResourceBundle.keySet();
-			
-			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
-				final String countryKey = (String) iterator.next();
-				countriesValues.add(new ValueBean(countryKey.replace("countries.", ""), (String)countriesResourceBundle.getObject(countryKey)));
-			}
-			
-			Collections.sort(countriesValues, new Comparator<ValueBean>() {
-				@Override
-				public int compare(ValueBean o1, ValueBean o2) {
-					return o1.getValue().compareTo(o2.getValue());
-				}
-			});
-		} catch (Exception e) {
-			LOG.error("", e);
-		}
-		return countriesValues;
-    }
     
 }
