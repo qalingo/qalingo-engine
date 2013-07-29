@@ -276,11 +276,11 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
-  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `RETAILER_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK475D66AE85628CB7` (`PRODUCT_MARKETING_ID`),
   KEY `FK475D66AECF0A1A38` (`VIRTUAL_CATEGORY_ID`),
@@ -788,6 +788,8 @@ CREATE TABLE `teco_customer_address` (
   `CITY` varchar(255) DEFAULT NULL,
   `COUNTRY_CODE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
   `FIRSTNAME` varchar(255) DEFAULT NULL,
   `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `IS_DEFAULT_BILLING` tinyint(1) NOT NULL DEFAULT '1',
@@ -878,6 +880,29 @@ CREATE TABLE `teco_customer_market_area` (
   PRIMARY KEY (`ID`),
   KEY `FK5AFE443151AA496` (`CUSTOMER_ID`),
   CONSTRAINT `FK5AFE443151AA496` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_customer_oauth`
+--
+
+DROP TABLE IF EXISTS `teco_customer_oauth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_customer_oauth` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `EXPIRES` varchar(255) DEFAULT NULL,
+  `OAUTH_TOKEN` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  `USER_ID` varchar(255) DEFAULT NULL,
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKC39310B851AA496` (`CUSTOMER_ID`),
+  CONSTRAINT `FKC39310B851AA496` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2219,4 +2244,4 @@ CREATE TABLE `teco_tax_county` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-07-28  0:12:44
+-- Dump completed on 2013-07-29 21:14:28

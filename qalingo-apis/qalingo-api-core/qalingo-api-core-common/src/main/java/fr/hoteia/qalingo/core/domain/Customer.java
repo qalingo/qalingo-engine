@@ -110,6 +110,10 @@ public class Customer implements Serializable {
 	    )
 	private Set<CustomerGroup> customerGroups = new HashSet<CustomerGroup>(); 
 	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_ID")
+	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -272,6 +276,14 @@ public class Customer implements Serializable {
 	public void setCustomerGroups(Set<CustomerGroup> customerGroups) {
 		this.customerGroups = customerGroups;
 	}
+	
+	public Set<CustomerOAuth> getOauthAccesses() {
+	    return oauthAccesses;
+    }
+	
+	public void setOauthAccesses(Set<CustomerOAuth> oauthAccesses) {
+	    this.oauthAccesses = oauthAccesses;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

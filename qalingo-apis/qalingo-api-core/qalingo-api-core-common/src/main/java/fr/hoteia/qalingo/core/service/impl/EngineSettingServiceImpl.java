@@ -126,4 +126,16 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
 	}
 
+	public EngineSetting geOAuthAppKeyOrId() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_KEY_OR_ID);
+	}
+
+	public EngineSetting geOAuthAppSecret() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_SECRET);
+	}
+	
+	public EngineSetting geOAuthAppPermissions() {
+		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_PERMISSIONS);
+	}
+
 }

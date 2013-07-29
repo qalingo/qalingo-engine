@@ -186,9 +186,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
 		commonViewBean.setHomeUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setLoginUrl(urlService.buildLoginUrl(request, marketPlace, market, marketArea, localization, retailer));
+		commonViewBean.setLoginUrl(urlService.buildLoginUrl(request, marketArea));
 		commonViewBean.setForgottenPasswordUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketPlace, market, marketArea, localization, retailer));
+		commonViewBean.setLogoutUrl(urlService.buildLogoutUrl(request, marketArea));
 		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(request, marketPlace, market, marketArea, localization, retailer));
 		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
 		commonViewBean.setContactUrl(urlService.buildContactUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -432,8 +432,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        final Retailer retailer) throws Exception {
 		final SecurityViewBean security = new SecurityViewBean();
 
-		security.setLoginUrl(urlService.buildSpringSecurityCheckUrl(request, marketPlace, market, marketArea, localization, retailer));
-		security.setForgottenPasswordUrl(urlService.buildForgottenPasswordUrl(request, marketPlace, market, marketArea, localization, retailer));
+		security.setLoginUrl(urlService.buildSpringSecurityCheckUrl(request, marketArea));
+		security.setForgottenPasswordUrl(urlService.buildForgottenPasswordUrl(request, marketArea));
 
 		return security;
 	}

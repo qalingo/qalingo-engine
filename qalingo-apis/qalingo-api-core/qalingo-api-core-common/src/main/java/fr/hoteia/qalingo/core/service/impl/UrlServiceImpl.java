@@ -451,39 +451,40 @@ public class UrlServiceImpl implements UrlService {
 
 	// SECURITY
 
-	public String buildLoginUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
+	public String buildLoginUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/login.html";
 	}
 
-	public String buildLoginSuccesUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer);
+	public String buildLoginSuccesUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "";
 	}
 
-	public String buildLogoutUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
+	public String buildLogoutUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/logout-session.html";
 	}
 
-	public String buildForbiddenUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
+	public String buildForbiddenUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/forbidden.html";
 	}
 
-	public String buildTimeoutUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer) + getMessage(localization, "seo.url.timeout") + "/" + "timeout.html";
+	public String buildTimeoutUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/timeout.html";
 	}
 
-	public String buildForgottenPasswordUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer) + getMessage(localization, "seo.url.forgotten.password") + "/" + "forgotten-password.html";
+	public String buildForgottenPasswordUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/forgotten-password.html";
 	}
 
-	public String buildSpringSecurityCheckUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
-	        final Retailer retailer) throws Exception {
+	public String buildSpringSecurityCheckUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "" + "j_spring_security_check";
+	}
+	
+	public String buildOAuthConnectUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/connect-" + socialNetworkCode + ".html";
+	}
+	
+	public String buildOAuthCallBackUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/callback-" + socialNetworkCode + ".html";
 	}
 
 	// PREFIX

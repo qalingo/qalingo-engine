@@ -85,8 +85,9 @@ public final class Constants {
 	public static final String PROPERTY_DEFAULT_STAGE_KEYNAME = "10";
 	public static final Integer MILLISECONDS_IN_A_DAY = new Integer("86400000");
 	public static final Integer MILLISECONDS_IN_A_HOUR = new Integer("3600000");
+	public static final long ONE_HOUR = 3600000L;
 	public static final java.util.Date TODAY = new Date();
-
+	
 	public static final String DYNAMIC_LOCALE = "dynamicLocale";
 
 	public static final String I18N_KEY = "i18nAppKey";

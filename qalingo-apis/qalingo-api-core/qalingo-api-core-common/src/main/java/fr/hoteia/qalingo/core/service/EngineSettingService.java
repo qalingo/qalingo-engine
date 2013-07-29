@@ -44,6 +44,11 @@ public interface EngineSettingService {
 	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST			= "BO_TECHNICAL_CACHE_LIST";
 	public final static String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST			= "BO_TECHNICAL_BATCH_LIST";
 
+	// OAUTH : FACEBOOK, TWITTER, GOOGLE, etc
+	public final static String ENGINE_SETTING_OAUTH_APP_KEY_OR_ID						= "OAUTH_APP_KEY_OR_ID";
+	public final static String ENGINE_SETTING_OAUTH_APP_SECRET							= "OAUTH_APP_SECRET";
+	public final static String ENGINE_SETTING_OAUTH_APP_PERMISSIONS						= "OAUTH_APP_PERMISSIONS";
+
 	// MAX USER LOGIN SUCCES TO LOG
 	public final static String ENGINE_SETTING_MAX_USER_CONNECTION_LOG		= "MAX_USER_CONNECTION_LOG";
 	public final static String ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG	= "MAX_CUSTOMER_CONNECTION_LOG";
@@ -91,4 +96,11 @@ public interface EngineSettingService {
 	EngineSetting withEscapeAccent();
 	
 	EngineSetting getRetailerMaxScoreValue();
+	
+	EngineSetting geOAuthAppKeyOrId();
+	
+	EngineSetting geOAuthAppSecret();
+	
+	EngineSetting geOAuthAppPermissions();
+	
 }

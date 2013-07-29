@@ -182,6 +182,13 @@ INSERT INTO teco_engine_setting
 VALUES 
 (3010, 'Setting max customer addresses', 'Setting max customer addresses', 'MAX_CUSTOMER_ADDRESSES', '5', 1);
 
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(10000, 'Setting Oauth App Key or Id', 'Setting Oauth App Key or Id', 'OAUTH_APP_KEY_OR_ID', '', 1),
+(10010, 'Setting Oauth App Secret', 'Setting Oauth App Secret', 'OAUTH_APP_SECRET', '', 1),
+(10020, 'Setting Oauth App Permissions', 'Setting Oauth App Permissions', 'OAUTH_APP_PERMISSIONS', '', 1);
+
 -- ECO CUSTOMER
 INSERT INTO teco_group 
 (id, name, description, code, version)

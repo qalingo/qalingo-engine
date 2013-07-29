@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
@@ -90,6 +93,14 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	
 	@Column(name="LATITUDE")
 	private String latitude;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_CREATE")
+	private Date dateCreate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="DATE_UPDATE")
+	private Date dateUpdate;
 	
 	public CustomerAddress() {
 	}
@@ -252,6 +263,22 @@ public class CustomerAddress extends AbstractAddress implements Serializable {
 	
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+	
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
+
+	public Date getDateUpdate() {
+		return dateUpdate;
+	}
+
+	public void setDateUpdate(Date dateUpdate) {
+		this.dateUpdate = dateUpdate;
 	}
 
 }

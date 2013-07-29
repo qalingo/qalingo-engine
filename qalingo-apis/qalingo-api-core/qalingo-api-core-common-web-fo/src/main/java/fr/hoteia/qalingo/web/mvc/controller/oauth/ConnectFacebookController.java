@@ -3,10 +3,18 @@ package fr.hoteia.qalingo.web.mvc.controller.oauth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import facebook4j.Facebook;
+import facebook4j.FacebookFactory;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
+import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
@@ -15,27 +23,45 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController
 @Controller("connectFacebookController")
 public class ConnectFacebookController extends AbstractFrontofficeQalingoController {
 
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+
 	@RequestMapping("/connect-facebook.html*")
 	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		try {
-			String facebookCallBackURL = "http://fo-marketplace.dev.opentailor.com/sc/callback-facebook.html";
-			/*
-				It also has the following optional parameters:
-					- state. An arbitrary unique string created by your app to guard against Cross-site Request Forgery.
-					- response_type. Determines whether the response data included when the redirect back to the app occurs is in URL parameters or fragments. See the Confirming Identity section to choose which type your app should use. This can be one of: •code. Response data is included as URL parameters and contains code parameter (an encrypted string unique to each login request). This is the default behaviour if this parameter is not specified. It's most useful when your server will be handling the token.
-					- token. Response data is included as a URL fragment and contains an access token. Desktop apps must use this setting for response_type. This is most useful when the client will be handling the token.
-					- code%20token. Response data is included as a URL fragment and contains both an access token and the code parameter.
-	
-					- scope. A comma separated list of Permissions to request from the person using your app.
-			 */
-			
-			//&state=RANDOM_NUMBER -> check this number in call back
-			String url = "https://www.facebook.com/dialog/oauth?client_id=405673062885284&RESPONSE_TYPE=token&scope=email,read_friendlists&redirect_uri=" + facebookCallBackURL;
-			
-			response.sendRedirect(url);
+		    // CLIENT ID
+		    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+		    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+		    
+		    // CLIENT SECRET
+		    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+		    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+		    
+		    // CLIENT PERMISSIONS
+		    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+		    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+		    
+		    if(clientIdEngineSettingValue != null
+		    		&& clientSecretEngineSetting != null
+		    		&& permissionsEngineSettingValue != null){
+
+				final String clientId = clientIdEngineSettingValue.getValue();
+				final String clientSecret = clientSecretEngineSettingValue.getValue();
+				final String permissions = permissionsEngineSettingValue.getValue();
+
+				Facebook facebook = new FacebookFactory().getInstance();
+				facebook.setOAuthAppId(clientId, clientSecret);
+				facebook.setOAuthPermissions(permissions);
+				String facebookCallBackURL = urlService.buildOAuthCallBackUrl(request, currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase());
+				
+				response.sendRedirect(facebook.getOAuthAuthorizationURL(facebookCallBackURL));
+		    } else {
+		    	response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+		    }
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Connect With " + OAuthType.FACEBOOK.getPropertyKey() + " failed!");
+			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
 		}
 		return null;
 	}

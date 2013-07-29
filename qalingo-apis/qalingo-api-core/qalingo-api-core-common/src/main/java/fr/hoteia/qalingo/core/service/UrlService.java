@@ -210,16 +210,22 @@ public interface UrlService {
 
 	// SECURITY
 
-	String buildLoginUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildLoginUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildLogoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildLoginSuccesUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+	
+	String buildLogoutUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildForbiddenUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildForbiddenUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildTimeoutUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildTimeoutUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildForgottenPasswordUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildForgottenPasswordUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
-	String buildSpringSecurityCheckUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildSpringSecurityCheckUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+
+	String buildOAuthConnectUrl(HttpServletRequest request, MarketArea marketArea, String socialNetworkCode) throws Exception;
+	
+	String buildOAuthCallBackUrl(HttpServletRequest request, MarketArea marketArea, String socialNetworkCode) throws Exception;
 
 }

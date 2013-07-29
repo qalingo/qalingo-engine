@@ -49,12 +49,8 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
 		try {
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
 			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			String url = urlService.buildLoginUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)  + "?" + RequestConstants.REQUEST_PARAM_AUTH_ERROR + "=true";
+			String url = urlService.buildLoginUrl(request, currentMarketArea)  + "?" + RequestConstants.REQUEST_PARAM_AUTH_ERROR + "=true";
 			setDefaultFailureUrl(url);
 	        saveException(request, exception);
 	        redirectStrategy.sendRedirect(request, response, url);

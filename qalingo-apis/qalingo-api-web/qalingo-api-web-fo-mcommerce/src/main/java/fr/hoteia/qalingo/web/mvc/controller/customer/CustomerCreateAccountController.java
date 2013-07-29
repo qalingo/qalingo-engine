@@ -105,7 +105,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		final String email = createAccountForm.getEmail();
 		final Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		if(customer != null){
-			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketArea);
 			final Object[] objects = {forgottenPasswordUrl};
 			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}

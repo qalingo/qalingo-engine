@@ -10,11 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
+import facebook4j.Facebook;
+import facebook4j.FacebookFactory;
+import facebook4j.auth.AccessToken;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerOAuth;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
@@ -27,6 +31,7 @@ public class CallBackFacebookController extends AbstractFrontofficeQalingoContro
 	
 	@RequestMapping("/callback-facebook.html*")
 	public ModelAndView callBackFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		try {
 			String error = request.getParameter("error");
 			if(StringUtils.isNotEmpty(error)){
@@ -37,37 +42,86 @@ public class CallBackFacebookController extends AbstractFrontofficeQalingoContro
 				
 				// REIDRECT page login fail
 				
+		    	response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+		    	
 			} else {
-				// STEP 1
-				String code = request.getParameter("code");
-				if(StringUtils.isNotEmpty(code)){
-					// save "code"
-					String facebookCallBackURL = "http://fo-marketplace.dev.opentailor.com/sc/callback-facebook.html";
-					String clientSecret = "8043b0a7dd05e56d1ff87ed28f0b4432";
-					String clientId = "405673062885284";
-					String accessTokenUrl = "https://graph.facebook.com/oauth/access_token?client_id=" + clientId + "&redirect_uri=" + facebookCallBackURL + "&client_secret=" + clientSecret + "&code=" + code;
+
+			    // CLIENT ID
+			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    // CLIENT SECRET
+			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    // CLIENT PERMISSIONS
+			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    if(clientIdEngineSettingValue != null
+			    		&& clientSecretEngineSetting != null
+			    		&& permissionsEngineSettingValue != null){
+			    	
+					final String clientId = clientIdEngineSettingValue.getValue();
+					final String clientSecret = clientSecretEngineSettingValue.getValue();
+					final String permissions = permissionsEngineSettingValue.getValue();
+
+					Facebook facebook = new FacebookFactory().getInstance();
+					facebook.setOAuthAppId(clientId, clientSecret);
+					facebook.setOAuthPermissions(permissions);
 					
-					response.sendRedirect(accessTokenUrl);
-				}
+					// CALLBACK STEP 1 : GET THE CODE AND ASK A TOKEN
+					String code = request.getParameter("code");
+					AccessToken accessToken = null;
+				    String expires = null;
+				    
+					if(StringUtils.isNotEmpty(code)){
+						accessToken = facebook.getOAuthAccessToken(code);
+					}
 
-				// STEP 2
-				String accessToken = request.getParameter("access_token");
-				if(StringUtils.isNotEmpty(accessToken)){
-					String customerInformationUrl = "https://graph.facebook.com/me?access_token=" + accessToken;
-					response.sendRedirect(customerInformationUrl);
-				}
+					// CALLBACK STEP 2 : Use the accessToken to ask user information
+					String email = null;
+					if(accessToken != null
+							&& StringUtils.isNotEmpty(accessToken.getToken())){
+						
+						email = facebook.getEmail();
+						
+						Customer customer = customerService.getCustomerByLoginOrEmail(email);
+						if(customer == null){
+							// CREATE AN NEW CUSTOMER
+							customer = new Customer();
+							customer.setEmail(email);
+							customer.setFirstname(facebook.getMe().getFirstName());
+							customer.setLastname(facebook.getMe().getLastName());
+							
+							CustomerOAuth customerOAuth = new CustomerOAuth();
+							customerOAuth.setOauthToken(accessToken.getToken());
+							customerOAuth.setType(OAuthType.FACEBOOK);
+							customerOAuth.setUserId(facebook.getMe().getId());
+							customer.getOauthAccesses().add(customerOAuth);
+							
+							customerService.saveOrUpdateCustomer(customer);
+							
+						} else {
+							// CHECK AND UPDATE THE CUSTOMER/OAUTH
+							
+						}
+						
+						// LOGIN
+					}
 
-				// STEP 3
-				String userId = request.getParameter("id");
-				if(StringUtils.isNotEmpty(userId)){
-				
-					final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-					response.sendRedirect(urlService.buildCustomerDetailsUrl(request, currentMarketArea));
-				}
+					// STEP 3
+					if(StringUtils.isNotEmpty(email)){
+						response.sendRedirect(urlService.buildLoginSuccesUrl(request, currentMarketArea));
+					}
+			    } else {
+			    	response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			    }
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Callback With " + OAuthType.FACEBOOK.getPropertyKey() + " failed!");
+			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
 		}
 		return null;
 	}
