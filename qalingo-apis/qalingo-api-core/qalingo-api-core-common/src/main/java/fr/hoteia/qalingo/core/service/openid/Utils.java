@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.service.oauth;
+package fr.hoteia.qalingo.core.service.openid;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,8 +17,11 @@ import java.util.zip.GZIPInputStream;
 /**
  * 
  */
-class Utils {
+public class Utils {
 
+    public static final String ATTR_MAC = "openid_mac";
+    public static final String ATTR_ALIAS = "openid_alias";
+    
     private static final int MAX_SIZE = 10240;
     private static final String CONTENT = "Content";
 

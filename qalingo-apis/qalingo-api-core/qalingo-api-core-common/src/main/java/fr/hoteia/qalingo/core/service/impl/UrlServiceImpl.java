@@ -480,11 +480,51 @@ public class UrlServiceImpl implements UrlService {
 	}
 	
 	public String buildOAuthConnectUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/connect-" + socialNetworkCode + ".html";
+		return getContextPrefixUrl(request, marketArea) + "sc/connect-oauth-" + socialNetworkCode + ".html";
 	}
 	
-	public String buildOAuthCallBackUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/callback-" + socialNetworkCode + ".html";
+	public String buildOAuthCallBackUrl(final HttpServletRequest request, final MarketArea marketArea, String socialNetworkCode) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/callback-oauth-" + socialNetworkCode + ".html";
+	}
+	
+	public String buildOpenIdConnectUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/connect-openid-" + socialNetworkCode + ".html";
+	}
+	
+	public String buildOpenIdCallBackUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/callback-openid.html";
+	}
+	
+	public String buildXrdsUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/xrds.html";
+	}
+	
+	public String buildAbsoluteUrl(final HttpServletRequest request, final MarketArea marketArea, final String contextNameValue, final String relativeUrl) throws Exception {
+		String absoluteUrl = buildDomainePathUrl(request, marketArea, contextNameValue);
+		if(!relativeUrl.startsWith("/")){
+			absoluteUrl = absoluteUrl + "/" + relativeUrl;
+		} else {
+			absoluteUrl = absoluteUrl + relativeUrl;
+		}
+		if(!absoluteUrl.startsWith("http://")){
+			absoluteUrl = "http://" + absoluteUrl;
+		}
+		return absoluteUrl;
+	}
+	
+	public String buildDomainePathUrl(final HttpServletRequest request, final MarketArea marketArea, final String contextNameValue) throws Exception {
+		String domainePathUrl = "";
+		if(marketArea != null){
+			String domainName = marketArea.getDomainName(contextNameValue);
+			domainePathUrl = domainName;
+		}
+		if(StringUtils.isEmpty(domainePathUrl)){
+			domainePathUrl = request.getServerName();
+		}
+		if(!domainePathUrl.startsWith("http://")){
+			domainePathUrl = "http://" + domainePathUrl;
+		}
+		return domainePathUrl;
 	}
 
 	// PREFIX
@@ -517,10 +557,11 @@ public class UrlServiceImpl implements UrlService {
 			if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")){
 				String domainName = "localhost:18080/fo-mcommerce";
 				contextPrefixUrl = "http://" + domainName + "/";
-			} else {
-				String domainName = marketArea.getDomainName();
-				contextPrefixUrl = "http://" + domainName + "/";
 			}
+//			else {
+//				String domainName = marketArea.getDomainName();
+//				contextPrefixUrl = "http://" + domainName + "/";
+//			}
 		} else {
 			if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")){
 				contextPrefixUrl = contextPrefixUrl + request.getContextPath() + "/";

@@ -25,44 +25,51 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-facebook.html*")
+	@RequestMapping("/connect-oauth-facebook.html*")
 	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		try {
-		    // CLIENT ID
-		    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-		    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
-		    
-		    // CLIENT SECRET
-		    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
-		    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
-		    
-		    // CLIENT PERMISSIONS
-		    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-		    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
-		    
-		    if(clientIdEngineSettingValue != null
-		    		&& clientSecretEngineSetting != null
-		    		&& permissionsEngineSettingValue != null){
+		
+		// SANITY CHECK
+		if(!requestUtil.hasKnownCustomerLogged(request)){
+			try {
+			    // CLIENT ID
+			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    // CLIENT SECRET
+			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    // CLIENT PERMISSIONS
+			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+			    
+			    if(clientIdEngineSettingValue != null
+			    		&& clientSecretEngineSetting != null
+			    		&& permissionsEngineSettingValue != null){
 
-				final String clientId = clientIdEngineSettingValue.getValue();
-				final String clientSecret = clientSecretEngineSettingValue.getValue();
-				final String permissions = permissionsEngineSettingValue.getValue();
+					final String clientId = clientIdEngineSettingValue.getValue();
+					final String clientSecret = clientSecretEngineSettingValue.getValue();
+					final String permissions = permissionsEngineSettingValue.getValue();
 
-				Facebook facebook = new FacebookFactory().getInstance();
-				facebook.setOAuthAppId(clientId, clientSecret);
-				facebook.setOAuthPermissions(permissions);
-				String facebookCallBackURL = urlService.buildOAuthCallBackUrl(request, currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase());
-				
-				response.sendRedirect(facebook.getOAuthAuthorizationURL(facebookCallBackURL));
-		    } else {
-		    	response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
-		    }
+					Facebook facebook = new FacebookFactory().getInstance();
+					facebook.setOAuthAppId(clientId, clientSecret);
+					facebook.setOAuthPermissions(permissions);
+					String facebookCallBackURL = urlService.buildOAuthCallBackUrl(request, currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase());
+					
+					response.sendRedirect(facebook.getOAuthAuthorizationURL(facebookCallBackURL));
+			    }
 
-		} catch (Exception e) {
-			LOG.error("Connect With " + OAuthType.FACEBOOK.getPropertyKey() + " failed!");
+			} catch (Exception e) {
+				LOG.error("Connect With " + OAuthType.FACEBOOK.getPropertyKey() + " failed!");
+			}
+		}
+
+		// DEFAULT FALLBACK VALUE
+		if(!response.isCommitted()){
 			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
 		}
+		
 		return null;
 	}
 	

@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.service.oauth;
+package fr.hoteia.qalingo.core.service.openid;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

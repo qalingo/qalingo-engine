@@ -46,6 +46,7 @@ public class AttributeDefinition implements Serializable {
 	public static int OBJECT_TYPE_STORE = 5;
 	public static int OBJECT_TYPE_PAYMENT_GATEWAY = 6;
 	public static int OBJECT_TYPE_RULE_REFERENTIAL = 7;
+	public static int OBJECT_TYPE_MARKET_AREA = 8;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

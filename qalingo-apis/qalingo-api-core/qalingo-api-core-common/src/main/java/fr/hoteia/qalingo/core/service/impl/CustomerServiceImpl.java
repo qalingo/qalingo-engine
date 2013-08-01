@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,5 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteCustomer(final Customer customer) {
 		customerDao.deleteCustomer(customer);
 	}
-
+	
 }

@@ -62,6 +62,9 @@ public class Customer implements Serializable {
 	@Column(name="LOGIN")
 	private String login;
 	
+	@Column(name="GENDER")
+    private String gender;
+
 	@Column(name="TITLE")
     private String title;
 	
@@ -80,8 +83,11 @@ public class Customer implements Serializable {
 	@Column(name="DEFAULT_LOCALE")
 	private String defaultLocale;
 	
-	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
+	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean active;
+	
+	@Column(name="VALIDATED", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean validated;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
@@ -141,6 +147,14 @@ public class Customer implements Serializable {
 		this.version = version;
 	}
 
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -149,13 +163,13 @@ public class Customer implements Serializable {
 		this.login = login;
 	}
 
-	public String getCode() {
-		return code;
-	}
+	public String getGender() {
+	    return gender;
+    }
 	
-	public void setCode(String code) {
-		this.code = code;
-	}
+	public void setGender(String gender) {
+	    this.gender = gender;
+    }
 	
     public String getTitle() {
 		return title;
@@ -212,6 +226,14 @@ public class Customer implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public boolean isValidated() {
+    	return validated;
+    }
+
+	public void setValidated(boolean validated) {
+    	this.validated = validated;
+    }
 
 	public Set<CustomerAddress> getAddresses() {
 		return addresses;
@@ -402,104 +424,110 @@ public class Customer implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (active ? 1231 : 1237);
-		result = prime * result
-				+ ((dateCreate == null) ? 0 : dateCreate.hashCode());
-		result = prime * result
-				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-		result = prime * result
-				+ ((defaultLocale == null) ? 0 : defaultLocale.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastname == null) ? 0 : lastname.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + version;
-		return result;
-	}
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + (active ? 1231 : 1237);
+	    result = prime * result + ((code == null) ? 0 : code.hashCode());
+	    result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+	    result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+	    result = prime * result + ((defaultLocale == null) ? 0 : defaultLocale.hashCode());
+	    result = prime * result + ((email == null) ? 0 : email.hashCode());
+	    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+	    result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+	    result = prime * result + ((id == null) ? 0 : id.hashCode());
+	    result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+	    result = prime * result + ((login == null) ? 0 : login.hashCode());
+	    result = prime * result + ((password == null) ? 0 : password.hashCode());
+	    result = prime * result + ((title == null) ? 0 : title.hashCode());
+	    result = prime * result + (validated ? 1231 : 1237);
+	    result = prime * result + version;
+	    return result;
+    }
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (active != other.active)
-			return false;
-		if (dateCreate == null) {
-			if (other.dateCreate != null)
-				return false;
-		} else if (!dateCreate.equals(other.dateCreate))
-			return false;
-		if (dateUpdate == null) {
-			if (other.dateUpdate != null)
-				return false;
-		} else if (!dateUpdate.equals(other.dateUpdate))
-			return false;
-		if (defaultLocale == null) {
-			if (other.defaultLocale != null)
-				return false;
-		} else if (!defaultLocale.equals(other.defaultLocale))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstname == null) {
-			if (other.firstname != null)
-				return false;
-		} else if (!firstname.equals(other.firstname))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lastname == null) {
-			if (other.lastname != null)
-				return false;
-		} else if (!lastname.equals(other.lastname))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		if (login == null) {
-			if (other.login != null)
-				return false;
-		} else if (!login.equals(other.login))
-			return false;
-		if (version != other.version)
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    Customer other = (Customer) obj;
+	    if (active != other.active)
+		    return false;
+	    if (code == null) {
+		    if (other.code != null)
+			    return false;
+	    } else if (!code.equals(other.code))
+		    return false;
+	    if (dateCreate == null) {
+		    if (other.dateCreate != null)
+			    return false;
+	    } else if (!dateCreate.equals(other.dateCreate))
+		    return false;
+	    if (dateUpdate == null) {
+		    if (other.dateUpdate != null)
+			    return false;
+	    } else if (!dateUpdate.equals(other.dateUpdate))
+		    return false;
+	    if (defaultLocale == null) {
+		    if (other.defaultLocale != null)
+			    return false;
+	    } else if (!defaultLocale.equals(other.defaultLocale))
+		    return false;
+	    if (email == null) {
+		    if (other.email != null)
+			    return false;
+	    } else if (!email.equals(other.email))
+		    return false;
+	    if (firstname == null) {
+		    if (other.firstname != null)
+			    return false;
+	    } else if (!firstname.equals(other.firstname))
+		    return false;
+	    if (gender == null) {
+		    if (other.gender != null)
+			    return false;
+	    } else if (!gender.equals(other.gender))
+		    return false;
+	    if (id == null) {
+		    if (other.id != null)
+			    return false;
+	    } else if (!id.equals(other.id))
+		    return false;
+	    if (lastname == null) {
+		    if (other.lastname != null)
+			    return false;
+	    } else if (!lastname.equals(other.lastname))
+		    return false;
+	    if (login == null) {
+		    if (other.login != null)
+			    return false;
+	    } else if (!login.equals(other.login))
+		    return false;
+	    if (password == null) {
+		    if (other.password != null)
+			    return false;
+	    } else if (!password.equals(other.password))
+		    return false;
+	    if (title == null) {
+		    if (other.title != null)
+			    return false;
+	    } else if (!title.equals(other.title))
+		    return false;
+	    if (validated != other.validated)
+		    return false;
+	    if (version != other.version)
+		    return false;
+	    return true;
+    }
 
 	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", version=" + version + ", userId="
-				+ login + ", title=" + title + ", firstname=" + firstname
-				+ ", lastname=" + lastname + ", email=" + email + ", password="
-				+ password + ", defaultLocale=" + defaultLocale + ", active="
-				+ active + ", dateCreate=" + dateCreate + ", dateUpdate="
-				+ dateUpdate + "]";
-	}
-	
+    public String toString() {
+	    return "Customer [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", gender=" + gender + ", title=" + title + ", firstname=" + firstname + ", lastname="
+	            + lastname + ", email=" + email + ", password=" + password + ", defaultLocale=" + defaultLocale + ", active=" + active + ", validated=" + validated + ", dateCreate=" + dateCreate
+	            + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

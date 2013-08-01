@@ -8,13 +8,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
-import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -77,22 +75,22 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
+	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH, urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+		return urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute("followUs")
+	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -100,7 +98,19 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		model.addAttribute("followUs", followUs);
+		return followUs;
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute("xrdsUrl")
+	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		String xrdsURL = urlService.buildXrdsUrl(request, currentMarketArea);
+		String contextValue = requestUtil.getCurrentContextNameValue(request);
+		String fullXrdsURL = urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, xrdsURL);
+		return fullXrdsURL;
 	}
 	
 	/**

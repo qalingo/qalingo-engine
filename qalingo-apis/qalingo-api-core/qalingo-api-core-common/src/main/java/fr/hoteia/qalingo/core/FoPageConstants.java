@@ -29,4 +29,5 @@ public final class FoPageConstants {
 	
 	// TOOLS
 	public static final String VELOCITY_CACHE_VELOCITY_PAGE = "tools/flush-cache-ihm";
+	public static final String XRDS_CACHE_VELOCITY_PAGE = "openid/xrds";
 }

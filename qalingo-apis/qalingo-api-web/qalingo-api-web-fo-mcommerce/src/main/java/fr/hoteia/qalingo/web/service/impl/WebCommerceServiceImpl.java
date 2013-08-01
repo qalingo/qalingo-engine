@@ -87,7 +87,7 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		customer.setLogin(createAccountForm.getEmail());
 		customer.setFirstname(createAccountForm.getFirstname());
 		customer.setLastname(createAccountForm.getLastname());
-		customer.setPassword(securityUtil.generatePassword(createAccountForm.getPassword()));
+		customer.setPassword(securityUtil.encodePassword(createAccountForm.getPassword()));
 		
 		customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
 		customer.setActive(true);

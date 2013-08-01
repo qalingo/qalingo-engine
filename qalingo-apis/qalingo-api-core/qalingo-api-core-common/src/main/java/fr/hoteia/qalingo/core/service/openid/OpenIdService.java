@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.service.oauth;
+package fr.hoteia.qalingo.core.service.openid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,14 +7,18 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,9 +29,16 @@ public class OpenIdService {
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
-    private Provider shortName = new Provider();
+    public static final String OPEN_ID_PROVIDER_ALIAS_SUFIX = ".alias";
+
+    @Autowired 
+    private Properties openIdProperties;
+    
     private Map<String, Endpoint> endpointCache = new ConcurrentHashMap<String, Endpoint>();
     private Map<Endpoint, Association> associationCache = new ConcurrentHashMap<Endpoint, Association>();
+
+    private Map<String, String> urlMap = new HashMap<String, String>();
+    private Map<String, String> aliasMap = new HashMap<String, String>();
 
     private int timeOut = 5000; // 5 seconds
     private String assocQuery = null;
@@ -248,14 +259,15 @@ public class OpenIdService {
     public Endpoint lookupEndpoint(String nameOrUrl) {
         String url = null;
         String alias = null;
-        if (nameOrUrl.startsWith("http://") || nameOrUrl.startsWith("https://")){
+        if (nameOrUrl.startsWith("http://") 
+        		|| nameOrUrl.startsWith("https://")){
             url = nameOrUrl;
         } else {
-            url = shortName.lookupUrlByName(nameOrUrl);
+            url = lookupUrlByName(nameOrUrl);
             if (url == null){
                 throw new OpenIdException("Cannot find OP URL by name: " + nameOrUrl);
             }
-            alias = shortName.lookupAliasByName(nameOrUrl);
+            alias = lookupAliasByName(nameOrUrl);
         }
         Endpoint endpoint = endpointCache.get(url);
         if (endpoint != null && !endpoint.isExpired()){
@@ -457,8 +469,50 @@ public class OpenIdService {
         assocQuery = query;
  
         return query;
- 
     } 
+    
+    private String lookupUrlByName(String name) {
+    	checkMap();
+    	if(StringUtils.isNotEmpty(name)){
+        	String provider = name.toLowerCase();
+    		if(urlMap.get(provider) != null){
+    			return urlMap.get(provider);
+    		} else {
+    			provider = provider.replaceAll("[_]", ".");
+    			if(urlMap.get(provider) != null){
+        			return urlMap.get(provider);
+        		}
+    		}
+    	}
+        return null;
+    }
 
+    private String lookupAliasByName(String name) {
+    	checkMap();
+        String alias = aliasMap.get(name);
+        return alias==null ? Endpoint.DEFAULT_ALIAS : alias;
+    }
+    
+    private void checkMap() {
+        if(urlMap.size() == 0){
+        	loadMap();
+        }
+        if(aliasMap.size() == 0){
+        	loadMap();
+        }
+    }
+    
+    private void loadMap() {
+        for (Object k : openIdProperties.keySet()) {
+            String key = (String) k;
+            String value = openIdProperties.getProperty(key);
+            if (key.endsWith(OPEN_ID_PROVIDER_ALIAS_SUFIX)) {
+                aliasMap.put(key.substring(0, key.length()-6), value);
+            }
+            else {
+                urlMap.put(key, value);
+            }
+        }
+    }
     
 }

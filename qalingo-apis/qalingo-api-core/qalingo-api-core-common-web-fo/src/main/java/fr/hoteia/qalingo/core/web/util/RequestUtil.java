@@ -207,6 +207,11 @@ public interface RequestUtil {
 	/**
      * 
      */
+	boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
 	Long getCurrentCustomerId(HttpServletRequest request) throws Exception;
 	
 	/**
@@ -239,6 +244,11 @@ public interface RequestUtil {
      */
 	String getCurrentThemeResourcePrefixPath(HttpServletRequest request) throws Exception;
 
+	/**
+     * 
+     */
+	String getCurrentContextNameValue(HttpServletRequest request) throws Exception;
+	
 	/**
      * 
      */

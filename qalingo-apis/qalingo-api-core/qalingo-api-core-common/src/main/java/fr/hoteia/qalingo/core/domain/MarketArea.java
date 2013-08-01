@@ -26,11 +26,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+
+import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_MARKET_AREA")
@@ -40,6 +43,8 @@ public class MarketArea implements Serializable {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -6237479836764154416L;
+
+	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME = "MARKET_AREA_DOMAIN_NAME";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -67,9 +72,6 @@ public class MarketArea implements Serializable {
 	
 	@Column(name="THEME")
 	private String theme;
-	
-	@Column(name="DOMAIN_NAME")
-	private String domainName;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATALOG_ID")
@@ -110,6 +112,10 @@ public class MarketArea implements Serializable {
 	        inverseJoinColumns=@JoinColumn(name="RETAILER_ID")
 	    )
 	private Set<Retailer> retailers = new HashSet<Retailer>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="MARKET_AREA_ID")
+	private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>(); 
 	
 	@Column(name="LONGITUDE")
 	private String longitude;
@@ -192,14 +198,6 @@ public class MarketArea implements Serializable {
 		this.theme = theme;
 	}
 	
-	public String getDomainName() {
-		return domainName;
-	}
-	
-	public void setDomainName(String domainName) {
-		this.domainName = domainName;
-	}
-
 	public CatalogVirtual getVirtualCatalog() {
 		return virtualCatalog;
 	}
@@ -297,6 +295,14 @@ public class MarketArea implements Serializable {
 		this.retailers = retailers;
 	}
 	
+	public Set<MarketAreaAttribute> getMarketAreaAttributes() {
+	    return marketAreaAttributes;
+    }
+	
+	public void setMarketAreaAttributes(Set<MarketAreaAttribute> marketAreaAttributes) {
+	    this.marketAreaAttributes = marketAreaAttributes;
+    }
+	
 	public String getLongitude() {
 		return longitude;
 	}
@@ -329,6 +335,21 @@ public class MarketArea implements Serializable {
 		this.dateUpdate = dateUpdate;
 	}
 
+	public String getDomainName(String contextNameValue) {
+	    if(marketAreaAttributes != null){
+	    	for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+	    		MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
+	    		AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
+	            if(StringUtils.isNotEmpty(marketAreaAttribute.getContext())
+	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
+	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME)){
+	            	return (String) marketAreaAttribute.getValue();
+	            }
+            }
+	    }
+	    return null;
+    }
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -340,8 +361,6 @@ public class MarketArea implements Serializable {
 				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result
-				+ ((domainName == null) ? 0 : domainName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (isDefault ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -379,11 +398,6 @@ public class MarketArea implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (domainName == null) {
-			if (other.domainName != null)
-				return false;
-		} else if (!domainName.equals(other.domainName))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -411,7 +425,7 @@ public class MarketArea implements Serializable {
 		return "MarketArea [id=" + id + ", version=" + version + ", name="
 				+ name + ", description=" + description + ", code=" + code
 				+ ", isDefault=" + isDefault + ", theme=" + theme
-				+ ", domainName=" + domainName + ", dateCreate=" + dateCreate
+				+ ", dateCreate=" + dateCreate
 				+ ", dateUpdate=" + dateUpdate + "]";
 	}
 

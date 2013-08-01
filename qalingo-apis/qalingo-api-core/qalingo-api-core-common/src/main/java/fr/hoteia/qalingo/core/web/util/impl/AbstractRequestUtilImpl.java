@@ -340,9 +340,8 @@ public abstract class AbstractRequestUtilImpl {
      */
 	public String getCurrentThemeResourcePrefixPath(final HttpServletRequest request) throws Exception {
 		EngineSetting engineSetting = engineSettingService.getThemeResourcePrefixPath();
-		String contextName = getContextName();
 		try {
-			String contextValue = EngineSettingWebAppContext.valueOf(contextName).getPropertyKey();
+			String contextValue = getCurrentContextNameValue(request);
 			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(contextValue);
 			String prefixPath  = engineSetting.getDefaultValue();
 			if(engineSettingValue != null){
@@ -357,10 +356,17 @@ public abstract class AbstractRequestUtilImpl {
 			return currentThemeResourcePrefixPath;
 	        
         } catch (Exception e) {
-        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        	LOG.error("Context name, " + getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
         }
 		return null;
 	}
+	
+	/**
+     * 
+     */
+	public String getCurrentContextNameValue(final HttpServletRequest request) throws Exception {
+		return EngineSettingWebAppContext.valueOf(getContextName()).getPropertyKey();
+    }
 	
 	/**
      * 

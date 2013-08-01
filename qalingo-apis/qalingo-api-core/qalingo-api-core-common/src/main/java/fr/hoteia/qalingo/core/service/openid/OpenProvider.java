@@ -7,17 +7,17 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.service.oauth;
+package fr.hoteia.qalingo.core.service.openid;
 
 /**
  * 
  */
-public enum OpenIdProvider {
+public enum OpenProvider {
 
 	/**
 	 * 
 	 */
-	GOOGLE("GOOGLE"),
+	GOOGLE_ACCOUNT("GOOGLE_ACCOUNT"),
 	
 	/**
 	 * 
@@ -31,7 +31,7 @@ public enum OpenIdProvider {
 	 * 
 	 * @param propertyKey the property key.
 	 */
-	OpenIdProvider(final String propertyKey) {
+	OpenProvider(final String propertyKey) {
 		this.propertyKey = propertyKey;
 	}
 

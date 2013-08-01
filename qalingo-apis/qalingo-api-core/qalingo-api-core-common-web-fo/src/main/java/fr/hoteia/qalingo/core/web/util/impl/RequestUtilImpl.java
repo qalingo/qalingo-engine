@@ -315,6 +315,17 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 	/**
      * 
      */
+	public boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception {
+		final Customer customer = getCurrentCustomer(request);
+		if(customer != null){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+     * 
+     */
 	public Long getCurrentCustomerId(final HttpServletRequest request) throws Exception {
 		Customer customer = getCurrentCustomer(request);
 		if(customer == null){

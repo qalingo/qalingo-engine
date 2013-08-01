@@ -11,7 +11,6 @@ package fr.hoteia.qalingo.web.mvc.controller.common;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController
 /**
  * 
  */
-@Controller
+@Controller("velocityCacheController")
 public class VelocityCacheController extends AbstractFrontofficeQalingoController {
 
 	@Resource(name="viewResolver")

@@ -26,47 +26,52 @@ public class ConnectTwitterController extends AbstractFrontofficeQalingoControll
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/connect-twitter.html*")
+	@RequestMapping("/connect-oauth-twitter.html*")
 	public ModelAndView connectTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		try {
-		    // CLIENT ID
-		    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-		    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
-		    
-		    // CLIENT SECRET
-		    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
-		    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
-		    
-		    // CLIENT PERMISSIONS
-		    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-		    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
-		    
-		    if(clientIdEngineSettingValue != null
-		    		&& clientSecretEngineSetting != null
-		    		&& permissionsEngineSettingValue != null){
-				
-				final String clientId = clientIdEngineSettingValue.getValue();
-				final String clientSecret = clientSecretEngineSettingValue.getValue();
-				
-				Twitter twitter = TwitterFactory.getSingleton();
-				twitter.setOAuthConsumer(clientId, clientSecret);
+		
+		// SANITY CHECK
+		if(!requestUtil.hasKnownCustomerLogged(request)){
+			try {
+			    // CLIENT ID
+			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    
+			    // CLIENT SECRET
+			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    
+			    // CLIENT PERMISSIONS
+			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    
+			    if(clientIdEngineSettingValue != null
+			    		&& clientSecretEngineSetting != null
+			    		&& permissionsEngineSettingValue != null){
+					
+					final String clientId = clientIdEngineSettingValue.getValue();
+					final String clientSecret = clientSecretEngineSettingValue.getValue();
+					
+					Twitter twitter = TwitterFactory.getSingleton();
+					twitter.setOAuthConsumer(clientId, clientSecret);
 
-			    RequestToken requestToken = twitter.getOAuthRequestToken();
+				    RequestToken requestToken = twitter.getOAuthRequestToken();
 
-				String urlCallBackTwitter = requestToken.getAuthorizationURL();
-				String[] oauth_token = urlCallBackTwitter.split("oauth_token");
-				String oauthToken = oauth_token[1].substring(1, oauth_token[1].length());
-				
-				String connectTwitterUrl = response.encodeRedirectURL(urlCallBackTwitter);
-				response.sendRedirect(connectTwitterUrl);
-				
-		    } else {
-		    	response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
-		    }
+					String urlCallBackTwitter = requestToken.getAuthorizationURL();
+					String[] oauth_token = urlCallBackTwitter.split("oauth_token");
+					String oauthToken = oauth_token[1].substring(1, oauth_token[1].length());
+					
+					String connectTwitterUrl = response.encodeRedirectURL(urlCallBackTwitter);
+					response.sendRedirect(connectTwitterUrl);
+			    }
 
-		} catch (Exception e) {
-			LOG.error("Connect With " + OAuthType.TWITTER.getPropertyKey() + " failed!");
+			} catch (Exception e) {
+				LOG.error("Connect With " + OAuthType.TWITTER.getPropertyKey() + " failed!");
+			}
+		}
+		
+		// DEFAULT FALLBACK VALUE
+		if(!response.isCommitted()){
 			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
 		}
 		

@@ -59,6 +59,7 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
 VALUES 
+(5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
 (20, 'Product Category attribute name', 'Product Category attribute name description', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
 (21, 'Product Category attribute order', 'Product Category attribute order description', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
@@ -94,6 +95,7 @@ VALUES
 (1013, 'Setting resource assets catalog file path', 'Setting resource assets catalog file path', 'ASSET_CATALOG_FILE_PATH', '/images/catalog/category', 1),
 (1014, 'Setting resource assets product marketing file path', 'Setting resource assets product marketing file path', 'ASSET_PRODUCT_MARKETING_FILE_PATH', '/images/catalog/product-marketing', 1),
 (1015, 'Setting resource assets product sku file path', 'Setting resource assets product sku file path', 'ASSET_PROPDUCT_SKU_FILE_PATH', '/images/catalog/product-sku', 1);
+
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)

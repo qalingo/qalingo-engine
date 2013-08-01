@@ -228,4 +228,14 @@ public interface UrlService {
 	
 	String buildOAuthCallBackUrl(HttpServletRequest request, MarketArea marketArea, String socialNetworkCode) throws Exception;
 
+	String buildOpenIdConnectUrl(final HttpServletRequest request, final MarketArea marketArea, final String socialNetworkCode) throws Exception;
+	
+	String buildOpenIdCallBackUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+
+	String buildXrdsUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
+	 
+	String buildAbsoluteUrl(HttpServletRequest request, MarketArea marketArea, String contextNameValue, String relativeUrl) throws Exception;
+
+	String buildDomainePathUrl(HttpServletRequest request, MarketArea marketArea, String contextNameValue) throws Exception;
+
 }

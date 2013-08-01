@@ -11,7 +11,9 @@ package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -61,13 +63,19 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	public void saveOrUpdateCustomer(final Customer customer) {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());
+			customer.setActive(true);
+			customer.setValidated(false);
+			if(StringUtils.isEmpty(customer.getCode())){
+				customer.setCode(UUID.randomUUID().toString());
+			}
 		}
 		customer.setDateUpdate(new Date());
-		if(customer.getId() == null){
-			em.persist(customer);
-		} else {
-			em.merge(customer);
-		}
+//		if(customer.getId() == null){
+//			em.persist(customer);
+//		} else {
+//			em.merge(customer);
+//		}
+		em.merge(customer);
 	}
 
 	public void deleteCustomer(final Customer customer) {

@@ -15,7 +15,16 @@ import fr.hoteia.qalingo.core.domain.Customer;
 
 public interface SecurityUtil {
 
-	String generatePassword(String clearPassword);
-	
+	static final String ALPHA_CAPS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static final String ALPHA		= "abcdefghijklmnopqrstuvwxyz";
+	static final String NUM			= "0123456789";
+	static final String SPL_CHARS	= "!@#$%*";
+    
 	void authenticationCustomer(HttpServletRequest request, Customer customer);
+
+	String encodePassword(String clearPassword);
+
+	String generateAndEncodePassword();
+	
+	String generatePassword();
 }
