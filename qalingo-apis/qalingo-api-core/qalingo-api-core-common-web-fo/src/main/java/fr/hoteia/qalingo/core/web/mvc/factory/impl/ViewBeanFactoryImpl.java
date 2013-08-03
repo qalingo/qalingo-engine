@@ -60,6 +60,7 @@ import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.domain.Tax;
 import fr.hoteia.qalingo.core.domain.enumtype.ImageSize;
+import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
@@ -435,6 +436,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		security.setLoginUrl(urlService.buildSpringSecurityCheckUrl(request, marketArea));
 		security.setForgottenPasswordUrl(urlService.buildForgottenPasswordUrl(request, marketArea));
 
+		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(request, marketArea, OAuthType.FACEBOOK.getPropertyKey()));
+		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(request, marketArea, OAuthType.WINDOWS_LIVE.getPropertyKey()));
+		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(request, marketArea, OAuthType.GOOGLE_CONTACT.getPropertyKey()));
+		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(request, marketArea, OAuthType.YAHOO.getPropertyKey()));
+		
 		return security;
 	}
 
