@@ -35,20 +35,20 @@ public class ConnectTwitterController extends AbstractFrontofficeQalingoControll
 			try {
 			    // CLIENT ID
 			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT SECRET
 			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
-			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    // CLIENT PERMISSIONS
 			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.getPropertyKey());
+			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.TWITTER.name());
 			    
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-					
+			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					
@@ -66,7 +66,7 @@ public class ConnectTwitterController extends AbstractFrontofficeQalingoControll
 			    }
 
 			} catch (Exception e) {
-				LOG.error("Connect With " + OAuthType.TWITTER.getPropertyKey() + " failed!");
+				LOG.error("Connect With " + OAuthType.TWITTER.name() + " failed!");
 			}
 		}
 		

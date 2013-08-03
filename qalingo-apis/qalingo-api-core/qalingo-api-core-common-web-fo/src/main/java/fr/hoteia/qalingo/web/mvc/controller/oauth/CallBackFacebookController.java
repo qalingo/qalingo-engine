@@ -24,13 +24,12 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
  * 
  */
 @Controller("callBackFacebookController")
-public class CallBackFacebookController extends AbstractFrontofficeQalingoController {
+public class CallBackFacebookController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 	
@@ -57,15 +56,15 @@ public class CallBackFacebookController extends AbstractFrontofficeQalingoContro
 				} else {
 				    // CLIENT ID
 				    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-				    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+				    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 				    
 				    // CLIENT SECRET
 				    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
-				    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+				    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 				    
 				    // CLIENT PERMISSIONS
-				    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppKeyOrId();
-				    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.getPropertyKey());
+				    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppPermissions();
+				    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 				    
 				    if(clientIdEngineSettingValue != null
 				    		&& clientSecretEngineSetting != null
@@ -159,7 +158,7 @@ public class CallBackFacebookController extends AbstractFrontofficeQalingoContro
 				}
 				
 			} catch (Exception e) {
-				LOG.error("Callback With " + OAuthType.FACEBOOK.getPropertyKey() + " failed!");
+				LOG.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 			}
 		}
 		

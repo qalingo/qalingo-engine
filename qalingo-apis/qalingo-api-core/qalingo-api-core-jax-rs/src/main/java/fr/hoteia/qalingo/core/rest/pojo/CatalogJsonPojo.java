@@ -16,6 +16,8 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
+
 /**
  *
  * <p>

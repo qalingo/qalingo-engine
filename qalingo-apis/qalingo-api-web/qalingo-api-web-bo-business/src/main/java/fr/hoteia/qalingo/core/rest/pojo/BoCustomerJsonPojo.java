@@ -21,6 +21,7 @@ import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
 /**
  *

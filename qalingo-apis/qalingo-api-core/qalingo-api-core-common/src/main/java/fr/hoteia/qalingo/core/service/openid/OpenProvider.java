@@ -17,12 +17,12 @@ public enum OpenProvider {
 	/**
 	 * 
 	 */
-	GOOGLE_ACCOUNT("GOOGLE_ACCOUNT"),
+	GOOGLE_ACCOUNT("google-account"),
 	
 	/**
 	 * 
 	 */
-	YAHOO("YAHOO");
+	YAHOO("yahoo");
 	
 	private String propertyKey = "";
 

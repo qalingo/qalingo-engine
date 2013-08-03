@@ -17,6 +17,7 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.StoreAttribute;
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
 /**
  *

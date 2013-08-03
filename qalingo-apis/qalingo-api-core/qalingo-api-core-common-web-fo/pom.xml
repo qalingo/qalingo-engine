@@ -30,13 +30,16 @@
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-solr</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
+			<!-- JSON -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
 		<dependency>
 		   <groupId>org.twitter4j</groupId>
 		   <artifactId>twitter4j-core</artifactId>
@@ -49,7 +52,16 @@
 		   <groupId>com.yahoo.yos</groupId>
 			<artifactId>sdk</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.scribe</groupId>
+			<artifactId>scribe</artifactId>
+		</dependency>
 
-			
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 	</dependencies>
 </project>

@@ -30,7 +30,7 @@ public class ConnectYahooController extends AbstractOpenIdFrontofficeController 
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
-				String contextValue = requestUtil.getCurrentContextNameValue(request);
+				final String contextValue = requestUtil.getCurrentContextNameValue(request);
 				openIdService.setRealm(urlService.buildDomainePathUrl(request, currentMarketArea, contextValue));
 				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(request, currentMarketArea);
 				openIdService.setReturnTo(urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, openIdCallBackURL));

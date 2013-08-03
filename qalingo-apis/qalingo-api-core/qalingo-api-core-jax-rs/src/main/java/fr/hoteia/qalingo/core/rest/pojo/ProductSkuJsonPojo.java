@@ -22,6 +22,7 @@ import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSkuPrice;
 import fr.hoteia.qalingo.core.domain.ProductSkuStock;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
 /**
  *

@@ -17,22 +17,27 @@ public enum OAuthType {
 	/**
 	 * 
 	 */
-	FACEBOOK("FACEBOOK"),
+	FACEBOOK("facebook"),
 	
 	/**
 	 * 
 	 */
-	GOOGLE_CONTACT("GOOGLE_CONTACT"),
+	GOOGLE_CONTACT("google-contact"),
 	
 	/**
 	 * 
 	 */
-	YAHOO("YAHOO"),
+	YAHOO("yahoo"),
 	
 	/**
 	 * 
 	 */
-	TWITTER("TWITTER");
+	WINDOWS_LIVE("windows-live"),
+	
+	/**
+	 * 
+	 */
+	TWITTER("twitter");
 	
 	private String propertyKey = "";
 
