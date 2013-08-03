@@ -2,7 +2,6 @@ package fr.hoteia.qalingo.web.mvc.controller.oauth.json.bean.windowslive;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 

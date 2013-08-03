@@ -20,6 +20,9 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
 import fr.hoteia.qalingo.core.service.CustomerGroupService;
@@ -57,7 +60,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 	@Autowired
     protected SecurityUtil securityUtil;
 	
-	void handleAuthenticationData(final HttpServletRequest request, final HttpServletResponse response, final MarketArea currentMarketArea, final String jsonData) throws Exception {
+	void handleAuthenticationData(final HttpServletRequest request, final HttpServletResponse response, final MarketArea currentMarketArea, final OAuthType type, final String jsonData) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = null;
 		try {
@@ -85,6 +88,33 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 				customer.setLastname(lastName);
 				if(StringUtils.isNotEmpty(gender)){
 					customer.setGender(gender);
+				}
+				
+				customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD);
+				
+				switch (type) {
+					case FACEBOOK:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.FACEBOOK);
+						break;
+					case TWITTER:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.TWITTER);
+						break;
+						
+					case WINDOWS_LIVE:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE);
+						break;
+					
+					case YAHOO:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.YAHOO);
+						break;
+						
+					case GOOGLE_CONTACT:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.GOOGLE_ACCOUNT);
+						break;
+	
+					default:
+						customer.setNetworkOrigin(CustomerNetworkOrigin.STANDARD);
+						break;
 				}
 				
 				CustomerAttribute attribute = new CustomerAttribute();

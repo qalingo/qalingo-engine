@@ -92,7 +92,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					    String responseBody = oauthResponse.getBody();
 					    
 					    if(responseCode == 200){
-					    	handleAuthenticationData(request, response, currentMarketArea, responseBody);
+					    	handleAuthenticationData(request, response, currentMarketArea, OAuthType.WINDOWS_LIVE, responseBody);
 					    } else {
 							LOG.error("Callback With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
 					    }

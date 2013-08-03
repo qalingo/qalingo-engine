@@ -20,6 +20,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +39,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
 @Table(name="TECO_CUSTOMER")
@@ -119,6 +123,14 @@ public class Customer implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
+	
+	@Column(name="PLATFORM_ORIGN")
+	@Enumerated(EnumType.STRING) 
+	private CustomerPlatformOrigin platformOrigin;
+	
+	@Column(name="NETWORK_ORIGN")
+	@Enumerated(EnumType.STRING) 
+	private CustomerNetworkOrigin networkOrigin;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -307,6 +319,22 @@ public class Customer implements Serializable {
 	    this.oauthAccesses = oauthAccesses;
     }
 	
+	public CustomerPlatformOrigin getPlatformOrigin() {
+    	return platformOrigin;
+    }
+
+	public void setPlatformOrigin(CustomerPlatformOrigin platformOrigin) {
+    	this.platformOrigin = platformOrigin;
+    }
+
+	public CustomerNetworkOrigin getNetworkOrigin() {
+    	return networkOrigin;
+    }
+
+	public void setNetworkOrigin(CustomerNetworkOrigin networkOrigin) {
+    	this.networkOrigin = networkOrigin;
+    }
+
 	public Date getDateCreate() {
 		return dateCreate;
 	}
