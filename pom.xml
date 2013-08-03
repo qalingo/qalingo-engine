@@ -776,6 +776,11 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.3.2</version>
 				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
