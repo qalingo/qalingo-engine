@@ -85,7 +85,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerViewBean customerView = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
 		model.addAttribute("customer", customerView);
 		
 		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);

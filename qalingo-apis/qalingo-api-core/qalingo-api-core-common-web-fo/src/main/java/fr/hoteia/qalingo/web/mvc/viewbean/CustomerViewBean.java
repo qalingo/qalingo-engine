@@ -20,6 +20,8 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 6264101125517957897L;
 	
+	public static String SCREEN_NAME = "screenName";
+	
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -74,6 +76,17 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
 	public void setCustomerAttributes(Map<String, ValueBean> customerAttributes) {
     	this.customerAttributes = customerAttributes;
+    }
+	
+	public String getScreenName() {
+		if(customerAttributes != null
+				&& customerAttributes.size() > 1){
+			ValueBean screenName = customerAttributes.get(SCREEN_NAME);
+			if(screenName != null){
+				return screenName.getValue();
+			}
+		}
+    	return null;
     }
 	
 }

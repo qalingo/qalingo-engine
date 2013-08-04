@@ -94,7 +94,7 @@ INSERT INTO teco_market
 INSERT INTO teco_market_area 
 (id, description, name, code, theme, is_default, version, default_localization_id, market_id, virtual_catalog_id, currency_id, longitude, latitude)
  VALUES 
-(1, 'Market INT description', 'market area 1 : INT',   'INT', null, 1, 1, 1,  1, 100, 2, '45.000', '-30.000'),
+(1, 'Market INT description', 'market area 1 : INT',   'INT', null, 1, 1, 1,  1, 100, 2, '-30.000', '45.000'),
 (101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 2, 10, 101, 1, '48.480', '2.200'),	
 (102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 3, 10, 102, 1, '40.260', '3.420'),	
 (201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 1, 20, 201, 2, '40.000', '-90.000'),
@@ -104,13 +104,14 @@ INSERT INTO teco_market_area
 (301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 7, 30, 301, 5, '121.280', '31.100'),
 (302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 8, 30, 302, 6, '35.400', '139.450');
 
-
-INSERT INTO teco_market_area_attribute   
-(id, context, string_value, market_area_id, attribute_definition_id)
-VALUES 
+/*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
 (511, 'BO_REPORTING', 'bo-reporting.dev.qalingo.com', 1, 5),
 (512, 'BO_TECHNICAL', 'bo-technical.dev.qalingo.com', 1, 5),
+*/
+INSERT INTO teco_market_area_attribute   
+(id, context, string_value, market_area_id, attribute_definition_id)
+VALUES 
 (513, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 5),
 (514, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 5);
 

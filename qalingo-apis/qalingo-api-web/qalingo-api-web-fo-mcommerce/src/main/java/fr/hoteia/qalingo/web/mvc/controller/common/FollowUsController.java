@@ -71,6 +71,16 @@ public class FollowUsController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
+	@RequestMapping(value = "/newsletter-unregister.html*", method = RequestMethod.POST)
+	public ModelAndView newsletterUnRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
+								BindingResult result, Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
+
+		
+		
+        return modelAndView;
+	}
+	
 	/**
 	 * 
 	 */

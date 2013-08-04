@@ -127,7 +127,7 @@ public interface ViewBeanFactory {
 	StoreViewBean buildStoreViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer, Store store) throws Exception;
 	
-	CustomerViewBean buildCustomerDetailsAccountViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
+	CustomerViewBean buildCustomerViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			Localization localization, Retailer retailer, Customer customer) throws Exception ;
 
 	CustomerWishlistViewBean buildCustomerWishlistViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 

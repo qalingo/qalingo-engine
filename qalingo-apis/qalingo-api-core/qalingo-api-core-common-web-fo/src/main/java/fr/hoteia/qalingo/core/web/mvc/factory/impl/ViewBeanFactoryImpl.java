@@ -854,7 +854,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerViewBean buildCustomerDetailsAccountViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
+	public CustomerViewBean buildCustomerViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 	        final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
 		final Locale locale = localization.getLocale();
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
@@ -881,7 +881,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			final ValueBean customerScreenNameValueBean = new ValueBean();
 			customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
 			customerScreenNameValueBean.setValue(customer.getScreenName());
-			customerViewBean.getCustomerAttributes().put("screenName", customerScreenNameValueBean);
+			customerViewBean.getCustomerAttributes().put(CustomerViewBean.SCREEN_NAME, customerScreenNameValueBean);
 			
 		}
 		return customerViewBean;

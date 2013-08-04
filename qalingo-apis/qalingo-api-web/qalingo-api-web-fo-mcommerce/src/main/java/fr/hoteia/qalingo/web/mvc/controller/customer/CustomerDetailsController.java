@@ -26,14 +26,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
-import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -52,15 +48,8 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
 		// "customer.details";
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CustomerViewBean customerViewBean = viewBeanFactory.buildCustomerDetailsAccountViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
-		modelAndView.addObject("customerDetails", customerViewBean);
+		
+		// Customer is already set by the abstract
 
         return modelAndView;
 	}
@@ -84,11 +73,8 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.POST)
 	public ModelAndView submitCustomerEdit(final HttpServletRequest request, @Valid @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm,
 								BindingResult result, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		// "customer.details";
 

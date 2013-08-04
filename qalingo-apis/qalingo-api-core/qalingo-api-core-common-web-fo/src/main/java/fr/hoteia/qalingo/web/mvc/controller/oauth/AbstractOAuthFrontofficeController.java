@@ -128,7 +128,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 							screenName = screenName.substring(0, 1);
 						}
 						if(!screenName.endsWith(".")){
-							screenName = screenName + ".";
+							screenName = screenName + ". ";
 						}
 					}
 				}

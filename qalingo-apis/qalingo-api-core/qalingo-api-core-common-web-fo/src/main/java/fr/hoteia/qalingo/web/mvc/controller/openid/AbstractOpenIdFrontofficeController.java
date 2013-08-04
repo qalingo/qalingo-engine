@@ -83,7 +83,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractQaling
 						screenName = screenName.substring(0, 1);
 					}
 					if(!screenName.endsWith(".")){
-						screenName = screenName + ".";
+						screenName = screenName + ". ";
 					}
 				}
 			}

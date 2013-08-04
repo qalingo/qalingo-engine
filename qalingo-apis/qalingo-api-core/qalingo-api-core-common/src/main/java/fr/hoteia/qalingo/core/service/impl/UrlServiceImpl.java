@@ -97,6 +97,10 @@ public class UrlServiceImpl implements UrlService {
 		return getContextPrefixUrl(request, marketArea) + "sc/newsletter-register.html";
 	}
 
+	public String buildNewsletterUnRegisterUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/newsletter-unregister.html";
+	}
+	
 	public String buildContactUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer) throws Exception {
 		return buildContactUrl(request, marketPlace, market, marketArea, localization, retailer, true);
