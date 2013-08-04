@@ -860,9 +860,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
 		if(customer != null){
 			customerViewBean.setFirstname(customer.getFirstname());
-
 			customerViewBean.setLastname(customer.getLastname());
-
 			customerViewBean.setEmail(customer.getEmail());
 
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
