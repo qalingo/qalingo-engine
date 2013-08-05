@@ -120,6 +120,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SearchFacetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchProductItemViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.ShareOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
@@ -572,6 +573,15 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			retailerViewBean.getStores().add(storeViewBean);
         }
 		
+		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
+		for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
+			String shareOption = (String) iterator.next();
+			String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
+			ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
+			retailerViewBean.getShareOptions().add(shareOptionViewBean);
+        }
+		
 		return retailerViewBean;
 	}
 
@@ -851,6 +861,40 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		return storeLocator;
 	}
 
+	/**
+     * 
+     */
+	public ShareOptionViewBean buildShareOptionViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+	        final Retailer retailer, final String contextNameValue, final String shareOption, final String relativeUrl ) throws Exception {
+		final Locale locale = localization.getLocale();
+		
+		String shareOptionCode = shareOption;
+		String shareOptionColor = "";
+		if(shareOptionCode.contains(":")){
+			String[] shareOptionAddInfo = shareOptionCode.split(":");
+			shareOptionCode = shareOptionAddInfo[0];
+			for (int i = 0; i < shareOptionAddInfo.length; i++) {
+                String addInfo = (String) shareOptionAddInfo[i];
+                if(addInfo.contains("#")){
+                	shareOptionColor = addInfo;
+                }
+            }
+		}
+		
+		final ShareOptionViewBean shareOptionViewBean = new ShareOptionViewBean();
+		shareOptionViewBean.setCode(shareOptionCode);
+		shareOptionViewBean.setName(shareOptionCode);
+		shareOptionViewBean.setLinkColor(shareOptionColor);
+		shareOptionViewBean.setLinkLabel(getSpecificMessage(ScopeWebMessage.SHARE_OPTION, "label_" + shareOptionCode.toLowerCase(), locale));
+		
+		String absoluteUrl = urlService.buildAbsoluteUrl(request, marketArea, contextNameValue, relativeUrl);
+		String addThisUrl = urlService.buildAddThisUrl(shareOption, absoluteUrl);
+
+		shareOptionViewBean.setUrl(urlService.buildAddThisUrl(shareOptionCode, addThisUrl));
+
+		return shareOptionViewBean;
+	}
+	
 	/**
      * 
      */

@@ -1,6 +1,6 @@
 package fr.hoteia.qalingo.core.exception;
 
-public class UniqueConstraintCodeCategoryException extends RuntimeException {
+public class UniqueConstraintCodeCategoryException extends Exception {
 
 	/**
 	 * 
@@ -9,4 +9,16 @@ public class UniqueConstraintCodeCategoryException extends RuntimeException {
 
 	public UniqueConstraintCodeCategoryException() {
 	}
+	
+    public UniqueConstraintCodeCategoryException(String message) {
+    	super(message);
+    }
+    
+    public UniqueConstraintCodeCategoryException(String message, Throwable cause) {
+    	super(message, cause);
+    }
+
+    public UniqueConstraintCodeCategoryException(Throwable cause) {
+        super(cause);
+    }
 }

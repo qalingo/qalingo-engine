@@ -10,9 +10,11 @@
 package fr.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -44,7 +46,8 @@ public class MarketArea implements Serializable {
 	 */
 	private static final long serialVersionUID = -6237479836764154416L;
 
-	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME = "MARKET_AREA_DOMAIN_NAME";
+	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME	= "MARKET_AREA_DOMAIN_NAME";
+	public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS	= "MARKET_AREA_SHARE_OPTIONS";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -344,6 +347,22 @@ public class MarketArea implements Serializable {
 	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
 	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME)){
 	            	return (String) marketAreaAttribute.getValue();
+	            }
+            }
+	    }
+	    return null;
+    }
+	
+	public List<String> getShareOptions(String contextNameValue) {
+	    if(marketAreaAttributes != null){
+	    	for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+	    		MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
+	    		AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
+	            if(StringUtils.isNotEmpty(marketAreaAttribute.getContext())
+	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
+	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS)){
+	            	String value = (String) marketAreaAttribute.getValue();
+	            	return Arrays.asList(value.split("\\s*,\\s*"));
 	            }
             }
 	    }

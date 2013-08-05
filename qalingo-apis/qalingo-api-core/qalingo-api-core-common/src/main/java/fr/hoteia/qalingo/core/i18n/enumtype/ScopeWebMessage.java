@@ -192,6 +192,11 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
+	SHARE_OPTION("share_option"),
+	
+	/**
+	 * 
+	 */
 	OUR_COMPANY("our_company"),
 	
 	/**

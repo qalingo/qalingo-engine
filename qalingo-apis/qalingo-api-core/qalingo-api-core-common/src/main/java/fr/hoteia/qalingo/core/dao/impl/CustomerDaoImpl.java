@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.CustomerDao;
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerAttribute;
+import fr.hoteia.qalingo.core.exception.CustomerAttributeException;
 
 @Transactional
 @Repository("customerDao")
@@ -60,7 +63,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		return super.findByExample(customerExample);
 	}
 
-	public void saveOrUpdateCustomer(final Customer customer) {
+	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());
 			customer.setActive(true);
@@ -70,6 +73,20 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			}
 		}
 		customer.setDateUpdate(new Date());
+		
+		for (Iterator<CustomerAttribute> iterator = customer.getCustomerAttributes().iterator(); iterator.hasNext();) {
+			CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
+			// ATTRIBUTE DEFINITION CAN'T BE NULL
+	        if(customerAttribute.getAttributeDefinition() == null){
+	        	throw new CustomerAttributeException("Attribute Definition can't be null!");
+	        }
+			// MARKET AREA CAN'T BE NULL IF ATTRIBUTE IS NOT GLOBAL
+	        if(!customerAttribute.getAttributeDefinition().isGlobal()
+	        		&& customerAttribute.getMarketAreaId() == null){
+	        	throw new CustomerAttributeException("Market Area can't be null if Attribute is not global!");
+	        }
+        }
+		
 //		if(customer.getId() == null){
 //			em.persist(customer);
 //		} else {

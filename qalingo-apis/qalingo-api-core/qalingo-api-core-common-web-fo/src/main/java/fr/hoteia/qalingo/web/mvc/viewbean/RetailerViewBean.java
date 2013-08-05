@@ -55,6 +55,8 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	protected List<StoreViewBean> stores = new ArrayList<StoreViewBean>();
 
+	protected List<ShareOptionViewBean> shareOptions = new ArrayList<ShareOptionViewBean>();
+
 	public String getCode() {
     	return code;
     }
@@ -205,6 +207,14 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setStores(List<StoreViewBean> stores) {
 	    this.stores = stores;
+    }
+	
+	public List<ShareOptionViewBean> getShareOptions() {
+	    return shareOptions;
+    }
+	
+	public void setShareOptions(List<ShareOptionViewBean> shareOptions) {
+	    this.shareOptions = shareOptions;
     }
 	
 	public String getMetaShareTitle() {

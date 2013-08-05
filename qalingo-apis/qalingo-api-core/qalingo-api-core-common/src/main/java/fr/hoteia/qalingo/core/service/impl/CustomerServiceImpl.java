@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.findByExample(criteria);
 	}
 
-	public void saveOrUpdateCustomer(final Customer customer) {
+	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
 		customerDao.saveOrUpdateCustomer(customer);
 	}
 

@@ -25,7 +25,7 @@ public interface CustomerService {
 	
 	List<Customer> findCustomer(Customer criteria);
 	
-	void saveOrUpdateCustomer(Customer customer);
+	void saveOrUpdateCustomer(Customer customer) throws Exception;
 	
 	void deleteCustomer(Customer customer);
 	

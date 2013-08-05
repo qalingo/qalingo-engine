@@ -61,7 +61,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
  
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveSomeBean(CustomerJsonPojo customerJsonPojo) {
+	public void saveSomeBean(CustomerJsonPojo customerJsonPojo) throws Exception {
 		Customer customer = jsonFactory.buildCustomer(customerJsonPojo);
 		customerService.saveOrUpdateCustomer(customer);
 	}
