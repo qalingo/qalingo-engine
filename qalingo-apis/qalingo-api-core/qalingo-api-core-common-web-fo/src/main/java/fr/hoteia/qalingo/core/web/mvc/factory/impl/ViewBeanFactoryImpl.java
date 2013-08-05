@@ -492,10 +492,12 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		if (currentRetailer.getAddresses() != null) {
 			Set<RetailerAddress> addresses = currentRetailer.getAddresses();
 			RetailerAddress defaultAddress = null;
-			for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-				RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
-				if (retailerAddress.isDefault()) {
-					defaultAddress = retailerAddress;
+			if(addresses != null){
+				for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+					RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
+					if (retailerAddress.isDefault()) {
+						defaultAddress = retailerAddress;
+					}
 				}
 			}
 			if (defaultAddress != null) {
@@ -538,49 +540,57 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
 		Set<RetailerCustomerComment> customerComments = currentRetailer.getCustomerComments();
-		for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-			RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
-			RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
-			
-			retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-			retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
-			
-			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
-			if (retailerCustomerComment.getDateCreate() != null) {
-				retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
-			} else {
-				retailerCustomerCommentViewBean.setDateCreate(Constants.NOT_AVAILABLE);
-			}
-			
-			retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
-	        retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
-        }
+		if(customerComments != null){
+			for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+				RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
+				RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
+				
+				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
+				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
+				
+				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+				if (retailerCustomerComment.getDateCreate() != null) {
+					retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
+				} else {
+					retailerCustomerCommentViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+				}
+				
+				retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
+		        retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
+	        }
+		}
 
 		Set<RetailerTag> tags = currentRetailer.getRetailerTags();
-		for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
-	        RetailerTag retailerTag = (RetailerTag) iterator.next();
-	        RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
-	        retailerTagViewBean.setCode(retailerTag.getCode());
-	        retailerTagViewBean.setName(retailerTag.getName());
-	        retailerTagViewBean.setDescription(retailerTag.getDescription());
-	        retailerViewBean.getTags().add(retailerTagViewBean);
-        }
+		if(tags != null){
+			for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
+		        RetailerTag retailerTag = (RetailerTag) iterator.next();
+		        RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
+		        retailerTagViewBean.setCode(retailerTag.getCode());
+		        retailerTagViewBean.setName(retailerTag.getName());
+		        retailerTagViewBean.setDescription(retailerTag.getDescription());
+		        retailerViewBean.getTags().add(retailerTagViewBean);
+	        }
+		}
 		
 		Set<Store> stores = currentRetailer.getStores();
-		for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-			Store store = (Store) iterator.next();
-			StoreViewBean storeViewBean = buildStoreViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, store);
-			retailerViewBean.getStores().add(storeViewBean);
-        }
+		if(stores != null){
+			for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
+				Store store = (Store) iterator.next();
+				StoreViewBean storeViewBean = buildStoreViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, store);
+				retailerViewBean.getStores().add(storeViewBean);
+	        }
+		}
 		
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
-		for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
-			String shareOption = (String) iterator.next();
-			String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
-			ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
-			retailerViewBean.getShareOptions().add(shareOptionViewBean);
-        }
+		if(shareOptions != null){
+			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
+				String shareOption = (String) iterator.next();
+				String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
+				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
+				retailerViewBean.getShareOptions().add(shareOptionViewBean);
+	        }
+		}
 		
 		return retailerViewBean;
 	}
