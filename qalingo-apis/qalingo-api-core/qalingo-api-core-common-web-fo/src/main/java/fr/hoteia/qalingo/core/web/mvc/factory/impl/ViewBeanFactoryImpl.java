@@ -486,7 +486,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
 		final Locale locale = localization.getLocale();
 		
-		retailerViewBean.setCode(currentRetailer.getCode);
+		retailerViewBean.setCode(currentRetailer.getCode());
 		retailerViewBean.setName(currentRetailer.getName());
 		retailerViewBean.setDescription(currentRetailer.getDescription());
 
