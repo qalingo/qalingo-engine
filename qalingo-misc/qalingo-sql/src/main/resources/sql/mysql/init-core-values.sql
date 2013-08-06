@@ -60,6 +60,7 @@ INSERT INTO teco_attribute_definition
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
 VALUES 
 (5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
+(6, 'Market Area Share Option', 'Market Area Share Option', 'MARKET_AREA_SHARE_OPTIONS', 1, 8, 0, 0, 0, 1),
 (10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
 (20, 'Product Category attribute name', 'Product Category attribute name description', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
 (21, 'Product Category attribute order', 'Product Category attribute order description', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),

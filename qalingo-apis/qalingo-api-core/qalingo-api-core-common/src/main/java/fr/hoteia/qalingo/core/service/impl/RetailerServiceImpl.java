@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.RetailerDao;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.service.RetailerService;
 
@@ -63,6 +65,22 @@ public class RetailerServiceImpl implements RetailerService {
 
 	public void deleteRetailer(final Retailer retailer) {
 		retailerDao.deleteRetailer(retailer);
+	}
+	
+	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+		retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+	}
+
+	public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+		retailerDao.deleteRetailerCustomerRate(retailerCustomerRate);
+	}
+	
+	public void saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+		retailerDao.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
+	}
+
+	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+		retailerDao.deleteRetailerCustomerComment(retailerCustomerComment);
 	}
 	
 	// STORE

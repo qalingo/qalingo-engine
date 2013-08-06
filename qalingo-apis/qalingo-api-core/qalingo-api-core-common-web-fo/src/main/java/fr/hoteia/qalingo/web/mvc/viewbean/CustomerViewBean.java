@@ -22,6 +22,7 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 	
 	public static String SCREEN_NAME = "screenName";
 	
+	private String avatarImg;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -30,6 +31,14 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
 	private Map<String, ValueBean> customerAttributes = new HashMap<String, ValueBean>();
 
+	public String getAvatarImg() {
+	    return avatarImg;
+    }
+	
+	public void setAvatarImg(String avatarImg) {
+	    this.avatarImg = avatarImg;
+    }
+	
 	public String getFirstname() {
     	return firstname;
     }

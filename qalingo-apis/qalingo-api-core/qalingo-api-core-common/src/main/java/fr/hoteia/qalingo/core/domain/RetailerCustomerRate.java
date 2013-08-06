@@ -41,6 +41,12 @@ public class RetailerCustomerRate extends AbstractAddress implements Serializabl
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 	
+	@Column(name="CUSTOMER_ID")
+	private Long customerId;
+	
+	@Column(name="PROCESSED", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean processed;
+	
 	public RetailerCustomerRate() {
 	}
 
@@ -75,11 +81,28 @@ public class RetailerCustomerRate extends AbstractAddress implements Serializabl
 	public void setRetailerId(Long retailerId) {
 	    this.retailerId = retailerId;
     }
+	
+	public Long getCustomerId() {
+		return customerId;
+	}
+	
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+
+	public boolean isProcessed() {
+    	return processed;
+    }
+
+	public void setProcessed(boolean processed) {
+    	this.processed = processed;
+    }
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
+	    result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
 	    result = prime * result + ((id == null) ? 0 : id.hashCode());
 	    result = prime * result + ((rate == null) ? 0 : rate.hashCode());
 	    result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
@@ -96,6 +119,11 @@ public class RetailerCustomerRate extends AbstractAddress implements Serializabl
 	    if (getClass() != obj.getClass())
 		    return false;
 	    RetailerCustomerRate other = (RetailerCustomerRate) obj;
+	    if (customerId == null) {
+		    if (other.customerId != null)
+			    return false;
+	    } else if (!customerId.equals(other.customerId))
+		    return false;
 	    if (id == null) {
 		    if (other.id != null)
 			    return false;
@@ -121,7 +149,7 @@ public class RetailerCustomerRate extends AbstractAddress implements Serializabl
 
 	@Override
     public String toString() {
-	    return "RetailerCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", retailerId=" + retailerId + "]";
+	    return "RetailerCustomerRate [id=" + id + ", rate=" + rate + ", type=" + type + ", retailerId=" + retailerId + ", customerId=" + customerId + "]";
     }
 	
 }

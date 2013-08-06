@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.RetailerDao;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import fr.hoteia.qalingo.core.domain.Store;
 
 @Transactional
@@ -78,6 +80,34 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
 	public void deleteRetailer(final Retailer retailer) {
 		em.remove(retailer);
+	}
+	
+	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+		if(retailerCustomerRate.getId() == null){
+			em.persist(retailerCustomerRate);
+		} else {
+			em.merge(retailerCustomerRate);
+		}
+	}
+
+	public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+		em.remove(retailerCustomerRate);
+	}
+	
+	public void saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+		if(retailerCustomerComment.getDateCreate() == null){
+			retailerCustomerComment.setDateCreate(new Date());
+		}
+		retailerCustomerComment.setDateUpdate(new Date());
+		if(retailerCustomerComment.getId() == null){
+			em.persist(retailerCustomerComment);
+		} else {
+			em.merge(retailerCustomerComment);
+		}
+	}
+
+	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+		em.remove(retailerCustomerComment);
 	}
 	
 	// STORE

@@ -66,6 +66,9 @@ public class Customer implements Serializable {
 	@Column(name="LOGIN")
 	private String login;
 	
+	@Column(name="AVATAR_IMG")
+	private String avatarImg;
+	
 	@Column(name="GENDER")
     private String gender;
 
@@ -175,6 +178,14 @@ public class Customer implements Serializable {
 		this.login = login;
 	}
 
+	public String getAvatarImg() {
+	    return avatarImg;
+    }
+	
+	public void setAvatarImg(String avatarImg) {
+	    this.avatarImg = avatarImg;
+    }
+	
 	public String getGender() {
 	    return gender;
     }
@@ -553,7 +564,7 @@ public class Customer implements Serializable {
 
 	@Override
     public String toString() {
-	    return "Customer [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", gender=" + gender + ", title=" + title + ", firstname=" + firstname + ", lastname="
+	    return "Customer [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", avatarImg=" + avatarImg + ", gender=" + gender + ", title=" + title + ", firstname=" + firstname + ", lastname="
 	            + lastname + ", email=" + email + ", password=" + password + ", defaultLocale=" + defaultLocale + ", active=" + active + ", validated=" + validated + ", dateCreate=" + dateCreate
 	            + ", dateUpdate=" + dateUpdate + "]";
     }

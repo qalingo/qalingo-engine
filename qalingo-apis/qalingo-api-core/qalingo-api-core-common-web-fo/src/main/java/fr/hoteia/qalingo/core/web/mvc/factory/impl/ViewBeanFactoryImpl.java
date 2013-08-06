@@ -486,6 +486,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
 		final Locale locale = localization.getLocale();
 		
+		retailerViewBean.setCode(currentRetailer.getCode);
 		retailerViewBean.setName(currentRetailer.getName());
 		retailerViewBean.setDescription(currentRetailer.getDescription());
 
@@ -913,6 +914,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
 		if(customer != null){
+			customerViewBean.setAvatarImg(customer.getAvatarImg());
 			customerViewBean.setFirstname(customer.getFirstname());
 			customerViewBean.setLastname(customer.getLastname());
 			customerViewBean.setEmail(customer.getEmail());

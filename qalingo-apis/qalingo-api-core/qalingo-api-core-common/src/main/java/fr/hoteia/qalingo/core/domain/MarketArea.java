@@ -362,7 +362,11 @@ public class MarketArea implements Serializable {
 	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
 	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS)){
 	            	String value = (String) marketAreaAttribute.getValue();
-	            	return Arrays.asList(value.split("\\s*,\\s*"));
+	            	if(value.contains(",")){
+		            	return Arrays.asList(value.split("\\s*,\\s*"));
+	            	} else {
+	            		return Arrays.asList(value);
+	            	}
 	            }
             }
 	    }

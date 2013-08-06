@@ -12,6 +12,8 @@ package fr.hoteia.qalingo.core.dao;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import fr.hoteia.qalingo.core.domain.Store;
 
 public interface RetailerDao {
@@ -29,6 +31,14 @@ public interface RetailerDao {
 	void saveOrUpdateRetailer(Retailer retailer);
 
 	void deleteRetailer(Retailer retailer);
+	
+	void saveOrUpdateRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
+	
+	void deleteRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
+	
+	void saveOrUpdateRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
+	
+	void deleteRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
 	
 	// STORE
 	

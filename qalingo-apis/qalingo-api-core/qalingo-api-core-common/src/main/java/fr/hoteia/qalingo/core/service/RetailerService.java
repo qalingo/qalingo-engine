@@ -12,6 +12,8 @@ package fr.hoteia.qalingo.core.service;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerComment;
+import fr.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import fr.hoteia.qalingo.core.domain.Store;
 
 public interface RetailerService {
@@ -31,6 +33,14 @@ public interface RetailerService {
 	void saveOrUpdateRetailer(Retailer retailer);
 	
 	void deleteRetailer(Retailer retailer);
+	
+	void saveOrUpdateRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
+	
+	void deleteRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
+	
+	void saveOrUpdateRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
+	
+	void deleteRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
 	
 	// STORE
 	
