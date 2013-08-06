@@ -901,7 +901,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		String absoluteUrl = urlService.buildAbsoluteUrl(request, marketArea, contextNameValue, relativeUrl);
 		String addThisUrl = urlService.buildAddThisUrl(shareOption, absoluteUrl);
 
-		shareOptionViewBean.setUrl(urlService.buildAddThisUrl(shareOptionCode, addThisUrl));
+		shareOptionViewBean.setUrl(addThisUrl);
 
 		return shareOptionViewBean;
 	}

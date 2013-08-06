@@ -91,6 +91,7 @@ public final class ModelConstants {
 	// RETAILER
 	public static final String MESSAGE_NR_OF_ELEMENTS = "nrOfElementsInformationMessage";
 	public static final String QUALITY_OF_SERVICE_SCORE_MAX = "qualityOfServiceMax";
+	public static final String PRICE_SCORE_MAX = "priceMax";
 	
 	// OTHERS
 	public static final String HEADER_TITLE = "headerTitle";
