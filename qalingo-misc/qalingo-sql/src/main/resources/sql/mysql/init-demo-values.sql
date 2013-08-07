@@ -68,7 +68,7 @@ INSERT INTO teco_retailer
 (3, 'Default Retailer', 'Official Retailer', 'ORE', 0, 0, 1);
 
 INSERT INTO teco_retailer_address 
-(id, version, address1, address2, additional_information, postal_code, city, country_code, email, fax, mobile, phone, retailer_id, longitude, latitude, is_default)
+(id, version, address1, address2, additional_information, postal_code, city, country_code, email, fax, mobile, phone, retailer_id, latitude, longitude, is_default)
  VALUES 
 (1, 1, 'address r1', '', '', '92300', 'Levallois-Perret', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 1, '48.833', '2.333', 1), 
 (2, 1, 'address r2', '', '', '75000', 'Paris', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 2, '48.833', '2.333', 1), 
@@ -92,7 +92,7 @@ INSERT INTO teco_market
 (30, 'Market 5 = example Asia', 'ASIA', null, 1, 'Asia', 1, 30);
 
 INSERT INTO teco_market_area 
-(id, description, name, code, theme, is_default, version, default_localization_id, market_id, virtual_catalog_id, currency_id, longitude, latitude)
+(id, description, name, code, theme, is_default, version, default_localization_id, market_id, virtual_catalog_id, currency_id, latitude, longitude)
  VALUES 
 (1, 'Market INT description', 'market area 1 : INT',   'INT', null, 1, 1, 1,  1, 100, 2, '-30.000', '45.000'),
 (101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 2, 10, 101, 1, '48.480', '2.200'),	
@@ -147,10 +147,10 @@ INSERT INTO teco_market_area_retailer_rel
 -- STORE
 
 INSERT INTO teco_store 
-(id, business_name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, longitude, latitude, type, version)
+(id, business_name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, latitude, longitude, type, version)
  VALUES 
-(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '-73.633', '40.667', 'SHOP', 1),
-(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '2.333', '48.833', 'SHOP,CORNER', 1);
+(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
+(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1);
 
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)

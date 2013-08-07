@@ -302,10 +302,12 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 		Customer customer = engineEcoSession.getCurrentCustomer();
 		if (customer == null) {
 			// CHECK
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			if (StringUtils.isNotEmpty(username) && !username.equalsIgnoreCase("anonymousUser")) {
-				customer = customerService.getCustomerByLoginOrEmail(username);
-				engineEcoSession.setCurrentCustomer(customer);
+			if(SecurityContextHolder.getContext().getAuthentication() != null){
+				String username = SecurityContextHolder.getContext().getAuthentication().getName();
+				if (StringUtils.isNotEmpty(username) && !username.equalsIgnoreCase("anonymousUser")) {
+					customer = customerService.getCustomerByLoginOrEmail(username);
+					engineEcoSession.setCurrentCustomer(customer);
+				}
 			}
 		}
 		return customer;
