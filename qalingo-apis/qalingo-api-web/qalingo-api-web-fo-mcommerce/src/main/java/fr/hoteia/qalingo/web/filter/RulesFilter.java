@@ -31,7 +31,7 @@ import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 import fr.hoteia.qalingo.core.util.RuleUtil;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
-public class RulesFilterFilter implements Filter {
+public class RulesFilter implements Filter {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
