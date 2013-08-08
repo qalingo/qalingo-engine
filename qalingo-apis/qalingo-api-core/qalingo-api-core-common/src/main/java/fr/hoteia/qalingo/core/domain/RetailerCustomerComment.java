@@ -139,7 +139,8 @@ public class RetailerCustomerComment extends AbstractAddress implements Serializ
 	    final int prime = 31;
 	    int result = 1;
 	    result = prime * result + ((comment == null) ? 0 : comment.hashCode());
-	    result = prime * result + ((customerComments == null) ? 0 : customerComments.hashCode());
+	    result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+	    result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
 	    result = prime * result + ((id == null) ? 0 : id.hashCode());
 	    result = prime * result + ((retailerCustomerCommentId == null) ? 0 : retailerCustomerCommentId.hashCode());
 	    result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
@@ -160,10 +161,15 @@ public class RetailerCustomerComment extends AbstractAddress implements Serializ
 			    return false;
 	    } else if (!comment.equals(other.comment))
 		    return false;
-	    if (customerComments == null) {
-		    if (other.customerComments != null)
+	    if (dateCreate == null) {
+		    if (other.dateCreate != null)
 			    return false;
-	    } else if (!customerComments.equals(other.customerComments))
+	    } else if (!dateCreate.equals(other.dateCreate))
+		    return false;
+	    if (dateUpdate == null) {
+		    if (other.dateUpdate != null)
+			    return false;
+	    } else if (!dateUpdate.equals(other.dateUpdate))
 		    return false;
 	    if (id == null) {
 		    if (other.id != null)
@@ -185,8 +191,7 @@ public class RetailerCustomerComment extends AbstractAddress implements Serializ
 
 	@Override
     public String toString() {
-	    return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", retailerId=" + retailerId
-	            + ", customerComments=" + customerComments + "]";
-    }
-	
+	    return "RetailerCustomerComment [id=" + id + ", comment=" + comment + ", retailerCustomerCommentId=" + retailerCustomerCommentId + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate
+	            + ", dateUpdate=" + dateUpdate + "]";
+    }	
 }
