@@ -190,7 +190,7 @@ public interface UrlService {
 	String buildCustomerCreateAccountUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
 	        boolean keepCurrentDomainName) throws Exception;
 
-	String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea, String permalink);
+	String buildCustomerDetailsUrl(HttpServletRequest request, MarketArea marketArea, String permalink) throws Exception;
 	
 	String buildCustomerDetailsUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
