@@ -48,7 +48,7 @@ public class RetailerCustomerComment extends AbstractAddress implements Serializ
 	@Column(name="RETAILER_CUSTOMER_COMMENT_ID")
 	private Long retailerCustomerCommentId;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 
