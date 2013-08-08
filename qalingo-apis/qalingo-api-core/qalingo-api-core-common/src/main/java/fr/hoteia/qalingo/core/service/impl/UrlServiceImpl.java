@@ -410,7 +410,7 @@ public class UrlServiceImpl implements UrlService {
 	}
 	
 	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea, String permalink) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "customer/permalink";
+		return getContextPrefixUrl(request, marketArea) + "customer/" + permalink;
 	}
 	
 	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
