@@ -21,6 +21,7 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
     private static final long serialVersionUID = 6890622615711735056L;
 	
 	protected String customerDisplayName;
+	protected String customerAvatarImg;
 	protected String customerUrl;
 	protected String comment;
 	protected String dateCreate;
@@ -35,6 +36,14 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	    this.customerDisplayName = customerDisplayName;
     }
 
+	public String getCustomerAvatarImg() {
+	    return customerAvatarImg;
+    }
+	
+	public void setCustomerAvatarImg(String customerAvatarImg) {
+	    this.customerAvatarImg = customerAvatarImg;
+    }
+	
 	public String getCustomerUrl() {
     	return customerUrl;
     }

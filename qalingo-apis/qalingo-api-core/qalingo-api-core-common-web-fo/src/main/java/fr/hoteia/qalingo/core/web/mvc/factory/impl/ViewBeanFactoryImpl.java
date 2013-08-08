@@ -37,6 +37,7 @@ import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
+import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.domain.CustomerProductComment;
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
@@ -548,6 +549,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				
 				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
 				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea, retailerCustomerComment.getCustomer().getPermalink()));
+				retailerCustomerCommentViewBean.setCustomerAvatarImg(retailerCustomerComment.getCustomer().getAvatarImg());
 				
 				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 				if (retailerCustomerComment.getDateCreate() != null) {
@@ -918,6 +920,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerViewBean.setFirstname(customer.getFirstname());
 			customerViewBean.setLastname(customer.getLastname());
 			customerViewBean.setEmail(customer.getEmail());
+			customerViewBean.setAvatarImg(customer.getAvatarImg());
 
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 			if (customer.getDateCreate() != null) {
@@ -932,6 +935,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
 			}
 
+			if(customer.getConnectionLogs() != null
+					&& customer.getConnectionLogs().size() > 0){
+				CustomerConnectionLog customerConnectionLog = customer.getConnectionLogs().iterator().next();
+				if (customerConnectionLog.getLoginDate() != null) {
+					customerViewBean.setLastConnectionDate(dateFormat.format(customerConnectionLog.getLoginDate() ));
+				} else {
+					customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
+				}
+			}
+			
 			final ValueBean customerScreenNameValueBean = new ValueBean();
 			customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
 			customerScreenNameValueBean.setValue(customer.getScreenName());

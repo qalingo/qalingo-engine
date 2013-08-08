@@ -28,6 +28,7 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 	private String email;
 	private String dateCreate;
 	private String dateUpdate;
+	private String lastConnectionDate;
 
 	private Map<String, ValueBean> customerAttributes = new HashMap<String, ValueBean>();
 
@@ -77,6 +78,14 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
 	public void setDateUpdate(String dateUpdate) {
     	this.dateUpdate = dateUpdate;
+    }
+	
+	public String getLastConnectionDate() {
+	    return lastConnectionDate;
+    }
+	
+	public void setLastConnectionDate(String lastConnectionDate) {
+	    this.lastConnectionDate = lastConnectionDate;
     }
 
 	public Map<String, ValueBean> getCustomerAttributes() {
