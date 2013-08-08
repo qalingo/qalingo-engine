@@ -41,9 +41,9 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping("/customer-product-comment-list.html*")
+	@RequestMapping("/personal-product-comment-list.html*")
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-product-comment-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-product-comment-list");
 		
 		// "customer.product.comment";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
@@ -59,13 +59,9 @@ public class CustomerProductCommentController extends AbstractCustomerController
         return modelAndView;
 	}
 
-	@RequestMapping("/remove-customer-product-comment.html*")
+	@RequestMapping("/remove-personal-product-comment.html*")
 	public ModelAndView removeProductComment(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		// TODO
 
@@ -73,13 +69,9 @@ public class CustomerProductCommentController extends AbstractCustomerController
         return new ModelAndView(new RedirectView(url));
 	}
 	
-	@RequestMapping("/add-customer-product-comment.html*")
+	@RequestMapping("/add-personal-product-comment.html*")
 	public ModelAndView addProductComment(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		// TODO
 		

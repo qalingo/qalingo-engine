@@ -18,6 +18,8 @@ public interface CustomerDao {
 	Customer getCustomerById(Long customerId);
 
 	Customer getCustomerByCode(String code);
+	
+	Customer getCustomerByPermalink(String permalink);
 
 	Customer getCustomerByLoginOrEmail(String usernameOrEmail);
 	 

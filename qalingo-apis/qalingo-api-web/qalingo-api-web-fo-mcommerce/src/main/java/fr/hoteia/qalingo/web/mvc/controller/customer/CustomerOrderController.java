@@ -52,9 +52,9 @@ public class CustomerOrderController extends AbstractCustomerController {
 	@Autowired
     protected OrderService orderService;
 	
-	@RequestMapping("/customer-order-list.html*")
+	@RequestMapping("/personal-order-list.html*")
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-list");
 		
 		// "customer.order.list";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
@@ -91,9 +91,9 @@ public class CustomerOrderController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping("/customer-order-details.html*")
+	@RequestMapping("/personal-order-details.html*")
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-order-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-details");
 		
 		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID);
 		if(StringUtils.isNotEmpty(orderId)){

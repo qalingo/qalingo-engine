@@ -42,9 +42,9 @@ public class CustomerWishListController extends AbstractCustomerController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping("/customer-wishlist.html*")
+	@RequestMapping("/personal-wishlist.html*")
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-wishlist");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-wishlist");
 		
 		// "customer.wishlist";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
@@ -62,11 +62,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 
 	@RequestMapping("/remove-from-wishlist.html*")
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
@@ -77,11 +73,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 	
 	@RequestMapping("/add-to-wishlist.html*")
 	public ModelAndView AddToWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		

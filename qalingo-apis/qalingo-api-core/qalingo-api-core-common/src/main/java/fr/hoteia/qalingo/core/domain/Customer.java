@@ -69,6 +69,9 @@ public class Customer implements Serializable {
 	@Column(name="AVATAR_IMG")
 	private String avatarImg;
 	
+	@Column(name="PERMALINK")
+	private String permalink;
+	
 	@Column(name="GENDER")
     private String gender;
 
@@ -184,6 +187,14 @@ public class Customer implements Serializable {
 	
 	public void setAvatarImg(String avatarImg) {
 	    this.avatarImg = avatarImg;
+    }
+	
+	public String getPermalink() {
+	    return permalink;
+    }
+	
+	public void setPermalink(String permalink) {
+	    this.permalink = permalink;
     }
 	
 	public String getGender() {

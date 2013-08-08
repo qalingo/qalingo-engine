@@ -41,6 +41,15 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		Customer customer = (Customer) query.uniqueResult();
 		return customer;
 	}
+	
+	public Customer getCustomerByPermalink(final String permalink) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Customer WHERE upper(permalink) = upper(:permalink)";
+		Query query = session.createQuery(sql);
+		query.setString("permalink", permalink);
+		Customer customer = (Customer) query.uniqueResult();
+		return customer;
+	}
 
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
 		Session session = (Session) em.getDelegate();

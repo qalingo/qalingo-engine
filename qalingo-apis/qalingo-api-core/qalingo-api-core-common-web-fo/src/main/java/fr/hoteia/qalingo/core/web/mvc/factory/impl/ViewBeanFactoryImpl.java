@@ -547,7 +547,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
 				
 				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea));
+				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea, retailerCustomerComment.getCustomer().getPermalink()));
 				
 				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 				if (retailerCustomerComment.getDateCreate() != null) {

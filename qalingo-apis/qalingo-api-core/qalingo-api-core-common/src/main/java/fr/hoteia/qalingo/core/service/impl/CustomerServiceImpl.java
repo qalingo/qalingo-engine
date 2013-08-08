@@ -40,7 +40,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer getCustomerByCode(final String code) {
 		return customerDao.getCustomerByCode(code);
 	}
-	
+
+	public Customer getCustomerByPermalink(final String permalink) {
+		return customerDao.getCustomerByPermalink(permalink);
+	}
+
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
 		return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
 	}

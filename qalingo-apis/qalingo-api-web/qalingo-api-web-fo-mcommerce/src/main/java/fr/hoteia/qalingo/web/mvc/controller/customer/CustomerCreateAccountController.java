@@ -83,11 +83,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.POST)
 	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm,
 								BindingResult result) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);

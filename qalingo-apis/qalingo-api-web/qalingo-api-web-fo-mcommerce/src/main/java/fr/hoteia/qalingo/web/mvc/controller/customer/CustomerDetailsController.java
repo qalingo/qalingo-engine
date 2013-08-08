@@ -25,11 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.MarketPlace;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -41,22 +47,44 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
+    protected CustomerService customerService;
+	
+	@Autowired
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/customer-details.html*", method = RequestMethod.GET)
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
-		// "customer.details";
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
+		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_PERMALINK);
+		Customer customer = customerService.getCustomerByPermalink(permalink);
+		
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
+		
+        return modelAndView;
+	}
+	
+	@RequestMapping(value = "/personal-details.html*", method = RequestMethod.GET)
+	public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-details");
+		
+		// "customer.details";
+
 		// Customer is already set by the abstract
 
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.GET)
-	public ModelAndView displayCustomerEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-form");
+	@RequestMapping(value = "/personal-edit.html*", method = RequestMethod.GET)
+	public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-form");
 		
 		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
@@ -70,8 +98,8 @@ public class CustomerDetailsController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.POST)
-	public ModelAndView submitCustomerEdit(final HttpServletRequest request, @Valid @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm,
+	@RequestMapping(value = "/personal-edit.html*", method = RequestMethod.POST)
+	public ModelAndView submitPersonalEdit(final HttpServletRequest request, @Valid @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm,
 								BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -79,7 +107,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// "customer.details";
 
 		if (result.hasErrors()) {
-			return displayCustomerEdit(request, model, customerEditForm);
+			return displayPersonalEdit(request, model, customerEditForm);
 		}
 		
 		final String newEmail = customerEditForm.getEmail();

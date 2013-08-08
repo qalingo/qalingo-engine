@@ -73,6 +73,7 @@ public final class ModelConstants {
 	public static final String ORDER_VIEW_BEAN = "order";
 	public static final String SHIPPING_VIEW_BEAN = "shipping";
 	public static final String CUSTOMER_VIEW_BEAN = "customer";
+	public static final String CUSTOMER_DETAILS_VIEW_BEAN = "customerDetails";
 	public static final String USER_VIEW_BEAN = "user";
 
 	// SPRING FORM

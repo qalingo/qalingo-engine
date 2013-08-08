@@ -54,9 +54,9 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping(value = "/customer-address-list.html*")
+	@RequestMapping(value = "/personal-address-list.html*")
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-address-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-address-list");
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		// "customer.address.list";
@@ -72,7 +72,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-delete-address.html*")
+	@RequestMapping(value = "/personal-delete-address.html*")
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 
@@ -89,9 +89,9 @@ public class CustomerAddressController extends AbstractCustomerController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/customer-add-address.html*", method = RequestMethod.GET)
+	@RequestMapping(value = "/personal-add-address.html*", method = RequestMethod.GET)
 	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-add-address-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-add-address-form");
 		
 		// "customer.add.address";
 
@@ -108,7 +108,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/customer-add-address.html*", method = RequestMethod.POST)
+	@RequestMapping(value = "/personal-add-address.html*", method = RequestMethod.POST)
 	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 								BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -127,9 +127,9 @@ public class CustomerAddressController extends AbstractCustomerController {
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/customer-edit-address.html*", method = RequestMethod.GET)
+	@RequestMapping(value = "/personal-edit-address.html*", method = RequestMethod.GET)
 	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-edit-address-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-address-form");
 		
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -175,15 +175,11 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/customer-edit-address.html*", method = RequestMethod.POST)
+	@RequestMapping(value = "/personal-edit-address.html*", method = RequestMethod.POST)
 	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
-								BindingResult result, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+												  BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
 		// "customer.edit.address";
 		

@@ -19,6 +19,8 @@ public interface CustomerService {
 
 	Customer getCustomerByCode(String code);
 
+	Customer getCustomerByPermalink(String permalink);
+
 	Customer getCustomerByLoginOrEmail(String loginOrEmail);
 
 	List<Customer> findCustomers();

@@ -409,48 +409,52 @@ public class UrlServiceImpl implements UrlService {
 		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.customer") + "/customer-create-account.html";
 	}
 	
+	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea, String permalink) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "customer/permalink";
+	}
+	
 	public String buildCustomerDetailsUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-details.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-details.html";
 	}
 	
 	public String buildCustomerEditUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-edit.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-edit.html";
 	}
 
 	public String buildCustomerOrderListUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-list.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-order-list.html";
 	}
 
 	public String buildCustomerOrderDetailsUrl(final HttpServletRequest request, final MarketArea marketArea, final String orderId) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-order-details.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-order-details.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID + "=" + orderId;
 	}
 
 	public String buildCustomerWishlistUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-wishlist.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-wishlist.html";
 	}
 
 	public String buildCustomerProductCommentUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-product-comment-list.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-product-comment-list.html";
 	}
 
 	public String buildCustomerAddressListUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-address-list.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-address-list.html";
 	}
 
 	public String buildCustomerAddAddressUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-add-address.html";
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-add-address.html";
 	}
 
 	public String buildCustomerEditAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
 		if(StringUtils.isNotEmpty(customerAddressId)){
-			return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+			return getContextPrefixUrl(request, marketArea) + "sc/personal-edit-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 		} else {
-			return getContextPrefixUrl(request, marketArea) + "sc/customer-edit-address.html";
+			return getContextPrefixUrl(request, marketArea) + "sc/personal-edit-address.html";
 		}
 	}
 
 	public String buildCustomerDeleteAddressUrl(final HttpServletRequest request, final MarketArea marketArea, final String customerAddressId) throws Exception {
-		return getContextPrefixUrl(request, marketArea) + "sc/customer-delete-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
+		return getContextPrefixUrl(request, marketArea) + "sc/personal-delete-address.html?" + RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID + "=" + customerAddressId;
 	}
 
 	// SECURITY

@@ -38,6 +38,7 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAM_BRAND_CODE = "brand-code";
 	public static final String REQUEST_PARAMETER_LOCALE_CODE = "locale-code";
 	public static final String REQUEST_PARAM_CUSTOMER_CODE = "customer-code";
+	public static final String REQUEST_PARAM_CUSTOMER_PERMALINK = "customer-permalink";
 	public static final String REQUEST_PARAM_ORDER_CODE = "order-code";
 	public static final String REQUEST_PARAM_RULE_CODE = "rule-code";
 	public static final String REQUEST_PARAM_SHIPPING_CODE = "shipping-code";
