@@ -60,7 +60,7 @@ public class RetailerServiceImpl implements RetailerService {
 	}
 	
 	public List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults) {
-		return retailerDao.findLastRetailers(marketAreaId, retailerId, tags);
+		return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults);
 	}
 	
 	public List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults) {
