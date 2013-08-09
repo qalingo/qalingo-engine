@@ -12,9 +12,9 @@ package fr.hoteia.qalingo.web.mvc.controller.common;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 public class HomeController extends AbstractMCommerceController {
 
 	@RequestMapping(FoPageConstants.HOME_URL + "*")
-	public ModelAndView displayHome(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.HOME_VELOCITY_PAGE);
 
 		final Locale locale = requestUtil.getCurrentLocale(request);
@@ -42,14 +42,14 @@ public class HomeController extends AbstractMCommerceController {
 		overrideSeoTitle(request, modelAndView, title);
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
-		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
+		model.addAttribute(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
 	}
 	
 	@RequestMapping(FoPageConstants.INDEX_URL + "*")
-	public ModelAndView displayIndex(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        return displayHome(request, response);
+	public ModelAndView displayIndex(final HttpServletRequest request, final Model model) throws Exception {
+        return displayHome(request, model);
 	}
     
 }
