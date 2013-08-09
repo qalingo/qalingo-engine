@@ -484,9 +484,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        final Retailer currentRetailer) throws Exception {
 		final Market market = marketArea.getMarket();
 		final MarketPlace marketPlace = market.getMarketPlace();
-		final RetailerViewBean retailerViewBean = new RetailerViewBean();
 		final Locale locale = localization.getLocale();
-		
+
+		final RetailerViewBean retailerViewBean = new RetailerViewBean();
+
 		retailerViewBean.setCode(currentRetailer.getCode());
 		retailerViewBean.setName(currentRetailer.getName());
 		retailerViewBean.setDescription(currentRetailer.getDescription());

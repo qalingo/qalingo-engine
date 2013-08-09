@@ -59,6 +59,18 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
 	}
 	
+	public List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults) {
+		return retailerDao.findLastRetailers(marketAreaId, retailerId, tags);
+	}
+	
+	public List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults) {
+		return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults);
+	}
+	
+	public List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults) {
+		return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
+	}
+	
 	public void saveOrUpdateRetailer(final Retailer retailer) {
 		retailerDao.saveOrUpdateRetailer(retailer);
 	}

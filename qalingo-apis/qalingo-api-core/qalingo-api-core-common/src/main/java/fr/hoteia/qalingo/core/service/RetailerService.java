@@ -30,6 +30,12 @@ public interface RetailerService {
 
 	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
 
+	List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults);
+	
+	List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults);
+	
+	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults);
+	
 	void saveOrUpdateRetailer(Retailer retailer);
 	
 	void deleteRetailer(Retailer retailer);

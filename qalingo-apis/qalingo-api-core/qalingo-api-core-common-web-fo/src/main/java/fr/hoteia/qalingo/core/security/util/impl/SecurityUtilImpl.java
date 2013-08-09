@@ -51,6 +51,13 @@ public class SecurityUtilImpl implements SecurityUtil {
 	@Autowired
 	protected PasswordEncoder encoder;
 	
+	public String generatePermalink() {
+
+		// TODO : setting in database
+		
+		return new String(generatePswd(10, 10, 1, 1, 0));
+	}
+	
 	public void authenticationCustomer(final HttpServletRequest request, final Customer customer) {
 		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword());

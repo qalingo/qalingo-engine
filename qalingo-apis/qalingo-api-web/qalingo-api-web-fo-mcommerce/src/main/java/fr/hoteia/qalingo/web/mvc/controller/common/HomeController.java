@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 public class HomeController extends AbstractMCommerceController {
 
 	@RequestMapping(FoPageConstants.HOME_URL + "*")
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView displayHome(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.HOME_VELOCITY_PAGE);
 
 		final Locale locale = requestUtil.getCurrentLocale(request);
@@ -48,8 +48,8 @@ public class HomeController extends AbstractMCommerceController {
 	}
 	
 	@RequestMapping(FoPageConstants.INDEX_URL + "*")
-	public ModelAndView index(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        return home(request, response);
+	public ModelAndView displayIndex(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        return displayHome(request, response);
 	}
     
 }

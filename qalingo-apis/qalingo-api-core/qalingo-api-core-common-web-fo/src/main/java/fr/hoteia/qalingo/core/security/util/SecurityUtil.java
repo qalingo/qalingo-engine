@@ -20,6 +20,8 @@ public interface SecurityUtil {
 	static final String NUM			= "0123456789";
 	static final String SPL_CHARS	= "!@#$%*";
     
+	String generatePermalink();
+	
 	void authenticationCustomer(HttpServletRequest request, Customer customer);
 
 	String encodePassword(String clearPassword);

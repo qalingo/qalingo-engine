@@ -66,6 +66,36 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 
+	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults) {
+		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
+		String sql = "FROM Retailer ORDER BY dateCreate DESC";
+		Query query = session.createQuery(sql);
+		query.setMaxResults(maxResults);
+		List<Retailer> retailers = (List<Retailer>) query.list();
+		return retailers;
+	}
+	
+	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults) {
+		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
+		String sql = "FROM Retailer ORDER BY qualityOfService DESC";
+		Query query = session.createQuery(sql);
+		query.setMaxResults(maxResults);
+		List<Retailer> retailers = (List<Retailer>) query.list();
+		return retailers;
+	}
+	
+	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults) {
+		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
+		String sql = "FROM Retailer ORDER BY ratioQualityPrice DESC";
+		Query query = session.createQuery(sql);
+		query.setMaxResults(maxResults);
+		List<Retailer> retailers = (List<Retailer>) query.list();
+		return retailers;
+	}
+	
 	public void saveOrUpdateRetailer(final Retailer retailer) {
 		if(retailer.getDateCreate() == null){
 			retailer.setDateCreate(new Date());

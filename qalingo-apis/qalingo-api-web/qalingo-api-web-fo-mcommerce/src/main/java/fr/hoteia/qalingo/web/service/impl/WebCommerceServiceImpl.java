@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -84,10 +85,19 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 	public Customer buildAndSaveNewCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CreateAccountForm createAccountForm) throws Exception {
 		Customer customer = new Customer();
 		
+		if(customer.getCode() == null){
+			customer.setCode(UUID.randomUUID().toString());
+		}
+		
 		customer.setLogin(createAccountForm.getEmail());
 		customer.setFirstname(createAccountForm.getFirstname());
 		customer.setLastname(createAccountForm.getLastname());
 		customer.setPassword(securityUtil.encodePassword(createAccountForm.getPassword()));
+		
+		if(customer.getPermalink() == null){
+			String permalink = securityUtil.generatePermalink();
+			customer.setPermalink(permalink);
+		}
 		
 		customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
 		customer.setActive(true);

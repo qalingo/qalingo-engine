@@ -83,6 +83,10 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		}
 		customer.setDateUpdate(new Date());
 		
+		if(customer.getPermalink() == null){
+			customer.setPermalink(UUID.randomUUID().toString());
+		}
+		
 		for (Iterator<CustomerAttribute> iterator = customer.getCustomerAttributes().iterator(); iterator.hasNext();) {
 			CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
 			// ATTRIBUTE DEFINITION CAN'T BE NULL

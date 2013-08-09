@@ -67,6 +67,9 @@ public class Retailer implements Serializable {
 	@Column(name="DESCRIPTION")
 	private String description;
 
+	@Column(name="LOGO")
+	private String logo;
+	
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
 	
@@ -183,6 +186,14 @@ public class Retailer implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getLogo() {
+	    return logo;
+    }
+	
+	public void setLogo(String logo) {
+	    this.logo = logo;
+    }
 
 	public boolean isDefault() {
 		return isDefault;

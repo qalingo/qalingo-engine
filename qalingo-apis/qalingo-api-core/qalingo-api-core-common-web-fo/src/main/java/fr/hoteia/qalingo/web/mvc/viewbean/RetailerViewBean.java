@@ -80,6 +80,21 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	public void setDescription(String description) {
     	this.description = description;
     }
+	
+	public String getSortDescription() {
+    	return description;
+    }
+	
+	public String getShortDescription() {
+		String shortDescription = getDescription();
+		if(StringUtils.isNotEmpty(shortDescription)){
+			shortDescription = removeHtml(shortDescription);
+			if(shortDescription.length() > Constants.SHORT_DESCRIPTION_MAX_LENGTH){
+				shortDescription = shortDescription.substring(0, Constants.SHORT_DESCRIPTION_MAX_LENGTH) + "...";
+			}
+		}
+	    return shortDescription;
+    }
 
 	public boolean isDefault() {
     	return isDefault;
