@@ -106,7 +106,7 @@ public class ContactController extends AbstractMCommerceController {
     	return formFactory.buildContactUsForm(request);
 	}
     
-    @ModelAttribute("countries")
+    @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
@@ -116,9 +116,8 @@ public class ContactController extends AbstractMCommerceController {
 			
 			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
 				final String countryKey = (String) iterator.next();
-				countriesValues.add(new ValueBean(countryKey.replace("countries.", ""), (String)countriesResourceBundle.getObject(countryKey)));
+				countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), (String)countriesResourceBundle.getObject(countryKey)));
 			}
-			
 			Collections.sort(countriesValues, new Comparator<ValueBean>() {
 				@Override
 				public int compare(ValueBean o1, ValueBean o2) {
