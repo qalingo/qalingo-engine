@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -519,7 +520,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
 				retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
 				retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
-				retailerViewBean.getDefaultAddress().setCountryLabel(defaultAddress.getCountryCode());
+				
+				final ResourceBundle countriesResourceBundle = ResourceBundle.getBundle(Constants.COUNTRIES_RESOURCE_BUNDLE, locale);
+				String coutryLabel = (String) countriesResourceBundle.getObject(Constants.COUNTRY_MESSAGE_PREFIX + defaultAddress.getCountryCode());
+				
+				retailerViewBean.getDefaultAddress().setCountryLabel(coutryLabel);
 
 				retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
 				retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());

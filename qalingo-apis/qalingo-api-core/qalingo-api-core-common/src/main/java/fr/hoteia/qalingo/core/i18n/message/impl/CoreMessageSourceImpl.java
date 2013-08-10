@@ -191,19 +191,25 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 	}
 	
 	private String buildCommonFullKey(ScopeCommonMessage scope, String key){
-		return I18nKeyValueUniverse.COMMON.getPropertyKey() + "." + scope.getPropertyKey() + "." + key.replaceAll("\\.", "_");
+		return I18nKeyValueUniverse.COMMON.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
 	}
 	
 	private String buildEmailFullKey(ScopeEmailMessage scope, String key){
-		return I18nKeyValueUniverse.EMAIL.getPropertyKey() + "." + scope.getPropertyKey() + "." + key.replaceAll("\\.", "_");
+		return I18nKeyValueUniverse.EMAIL.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
 	}
 	
 	private String buildSpecificFullKey(I18nKeyValueUniverse universe, ScopeWebMessage scope, String key){
-		return universe.getPropertyKey() + "." + scope.getPropertyKey() + "." + key.replaceAll("\\.", "_");
+		return universe.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
 	}
 	
 	private String buildReferenceDataFullKey(ScopeReferenceDataMessage scope, String key){
-		return scope.getPropertyKey() + "." + key.replaceAll("\\.", "_");
+		return scope.getPropertyKey() + "." + handleKey(key);
+	}
+	
+	private String handleKey(String key){
+		key = key.replaceAll("\\.", "_");
+		key = key.replaceAll("\\-", "_");
+		return key;
 	}
 
 }
