@@ -20,7 +20,8 @@ public class CustomerAddressViewBean extends AbstractAddressViewBean implements 
 	
     private Long id;
     private String addressName;
-    private String title;
+    private String titleCode;
+    private String titleLabel;
     private String lastname;
     private String firstname;
 	private Long customerId;
@@ -46,13 +47,21 @@ public class CustomerAddressViewBean extends AbstractAddressViewBean implements 
 		this.addressName = addressName;
 	}
 	
-	public String getTitle() {
-		return title;
-	}
+	public String getTitleCode() {
+    	return titleCode;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	public void setTitleCode(String titleCode) {
+    	this.titleCode = titleCode;
+    }
+
+	public String getTitleLabel() {
+    	return titleLabel;
+    }
+
+	public void setTitleLabel(String titleLabel) {
+    	this.titleLabel = titleLabel;
+    }
 
 	public String getLastname() {
 		return lastname;

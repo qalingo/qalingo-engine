@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -74,6 +73,7 @@ import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
@@ -159,6 +159,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	@Autowired
 	protected CustomerProductCommentService customerProductCommentService;
 
+	@Autowired
+	protected ReferentialDataService referentialDataService;
+	
 	@Autowired
 	protected UrlService urlService;
 
@@ -521,10 +524,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
 				retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
 				
-				final ResourceBundle countriesResourceBundle = ResourceBundle.getBundle(Constants.COUNTRIES_RESOURCE_BUNDLE, locale);
-				String coutryLabel = (String) countriesResourceBundle.getObject(Constants.COUNTRY_MESSAGE_PREFIX + defaultAddress.getCountryCode());
-				
-				retailerViewBean.getDefaultAddress().setCountryLabel(coutryLabel);
+				String countryLabel = referentialDataService.getCountryByLocale(defaultAddress.getCountryCode(), locale);
+				retailerViewBean.getDefaultAddress().setCountryLabel(countryLabel);
 
 				retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
 				retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
@@ -969,9 +970,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
 	public CustomerWishlistViewBean buildCustomerWishlistViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 	        final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
-
 		final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
-
 		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
 		if (customerMarketArea != null) {
 			final Set<CustomerWishlist> customerWishlists = customerMarketArea.getWishlistProducts();
@@ -995,9 +994,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
 	public CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 	        final Localization localization, final Retailer retailer, final Customer customer) throws Exception {
-
 		final CustomerProductCommentsViewBean customerProductCommentsViewBean = new CustomerProductCommentsViewBean();
-
 		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
 		if (customerMarketArea != null) {
 			final Set<CustomerProductComment> customerProductComments = customerMarketArea.getProductComments();
@@ -1051,9 +1048,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
 	public CustomerAddressViewBean buildCustomeAddressViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea,
 	        final Localization localization, final Retailer retailer, final CustomerAddress customerAddress) throws Exception {
-
+		final Locale locale = localization.getLocale();
 		final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
-
 		customerAddressViewBean.setId(customerAddress.getId());
 
 		String addressName = customerAddress.getAddressName();
@@ -1063,7 +1059,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerAddressViewBean.setAddressName(customerAddress.getCity());
 		}
 
-		customerAddressViewBean.setTitle(customerAddress.getTitle());
+		customerAddressViewBean.setTitleCode(customerAddress.getTitle());
+		String titleLabel = referentialDataService.getTitleByLocale(customerAddress.getTitle(), locale);
+		customerAddressViewBean.setTitleLabel(titleLabel);
+
 		customerAddressViewBean.setLastname(customerAddress.getLastname());
 		customerAddressViewBean.setFirstname(customerAddress.getFirstname());
 
@@ -1075,6 +1074,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		customerAddressViewBean.setStateCode(customerAddress.getStateCode());
 		customerAddressViewBean.setAreaCode(customerAddress.getAreaCode());
 		customerAddressViewBean.setCountryCode(customerAddress.getCountryCode());
+		
+		String coutryLabel = referentialDataService.getCountryByLocale(customerAddress.getCountryCode(), locale);
+		customerAddressViewBean.setCountryLabel(coutryLabel);
 
 		customerAddressViewBean.setDefaultBilling(customerAddress.isDefaultBilling());
 		customerAddressViewBean.setDefaultShipping(customerAddress.isDefaultShipping());

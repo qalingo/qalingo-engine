@@ -16,6 +16,7 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
+import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.UrlService;
 
 /**
@@ -39,6 +40,9 @@ public abstract class AbstractQalingoController {
 	
 	@Autowired
     protected UrlService urlService;
+	
+	@Autowired
+    protected ReferentialDataService referentialDataService;
 	
 	/**
 	 * 

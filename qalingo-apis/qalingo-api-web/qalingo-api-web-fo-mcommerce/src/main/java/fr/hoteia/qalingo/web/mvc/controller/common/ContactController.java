@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,12 +111,11 @@ public class ContactController extends AbstractMCommerceController {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
 			final Locale locale = getCurrentLocale(request);
-			final ResourceBundle countriesResourceBundle = ResourceBundle.getBundle(Constants.COUNTRIES_RESOURCE_BUNDLE, locale);
-			Set<String> countriesKey = countriesResourceBundle.keySet();
-			
+			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
+			Set<String> countriesKey = countries.keySet();
 			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {
 				final String countryKey = (String) iterator.next();
-				countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), (String)countriesResourceBundle.getObject(countryKey)));
+				countriesValues.add(new ValueBean(countryKey.replace(Constants.COUNTRY_MESSAGE_PREFIX, ""), countries.get(countryKey)));
 			}
 			Collections.sort(countriesValues, new Comparator<ValueBean>() {
 				@Override
