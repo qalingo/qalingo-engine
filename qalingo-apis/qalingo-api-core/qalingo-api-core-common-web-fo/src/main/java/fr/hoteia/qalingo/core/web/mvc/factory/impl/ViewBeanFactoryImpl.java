@@ -917,11 +917,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Locale locale = localization.getLocale();
 		final CustomerViewBean customerViewBean = new CustomerViewBean();
 		if(customer != null){
-			customerViewBean.setAvatarImg(customer.getAvatarImg());
+			customerViewBean.setAvatarImg(requestUtil.getCustomerAvatar(request, customer));
 			customerViewBean.setFirstname(customer.getFirstname());
 			customerViewBean.setLastname(customer.getLastname());
 			customerViewBean.setEmail(customer.getEmail());
-			customerViewBean.setAvatarImg(customer.getAvatarImg());
 
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 			if (customer.getDateCreate() != null) {

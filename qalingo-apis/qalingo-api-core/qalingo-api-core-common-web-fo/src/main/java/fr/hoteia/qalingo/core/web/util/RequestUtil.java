@@ -207,6 +207,11 @@ public interface RequestUtil {
 	/**
      * 
      */
+	String getCustomerAvatar(HttpServletRequest request, Customer customer) throws Exception;
+	
+	/**
+     * 
+     */
 	boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception;
 	
 	/**
