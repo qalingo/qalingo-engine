@@ -492,6 +492,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		retailerViewBean.setName(currentRetailer.getName());
 		retailerViewBean.setDescription(currentRetailer.getDescription());
 
+		retailerViewBean.setOfficialRetailer(currentRetailer.isOfficialRetailer());
+		retailerViewBean.setDefault(currentRetailer.isDefault());
+		retailerViewBean.setBrand(currentRetailer.isBrand());
+		retailerViewBean.setEcommerce(currentRetailer.isEcommerce());
+
 		if (currentRetailer.getAddresses() != null) {
 			Set<RetailerAddress> addresses = currentRetailer.getAddresses();
 			RetailerAddress defaultAddress = null;
@@ -550,7 +555,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				
 				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
 				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(request, marketArea, retailerCustomerComment.getCustomer().getPermalink()));
-				retailerCustomerCommentViewBean.setCustomerAvatarImg(retailerCustomerComment.getCustomer().getAvatarImg());
+				retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(request, retailerCustomerComment.getCustomer()));
 				
 				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
 				if (retailerCustomerComment.getDateCreate() != null) {

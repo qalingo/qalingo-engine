@@ -323,7 +323,7 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 			if ( StringUtils.isNotEmpty(customer.getAvatarImg())) {
 				customerAvatar = customer.getAvatarImg();
 			} else {
-				String email = customer.getEmail();
+				String email = customer.getEmail().toLowerCase().trim();
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] array = md.digest(email.getBytes("CP1252"));
 				StringBuffer sb = new StringBuffer();

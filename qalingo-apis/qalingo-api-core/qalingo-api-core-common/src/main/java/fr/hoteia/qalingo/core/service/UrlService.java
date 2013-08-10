@@ -70,7 +70,13 @@ public interface UrlService {
 	
 	String buildRetailerCreateUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
 	        Retailer retailer, boolean keepCurrentDomainName) throws Exception;
+
+	String buildRetailerContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
 	
+	String buildRetailerContactUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
+	        Retailer retailer, String retailerName, String retailerCode, boolean keepCurrentDomainName) throws Exception;
+
 	String buildRetailerVoteUrl(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
 	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
 	

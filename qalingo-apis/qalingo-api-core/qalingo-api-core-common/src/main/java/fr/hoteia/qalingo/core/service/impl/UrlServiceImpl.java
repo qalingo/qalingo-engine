@@ -161,6 +161,16 @@ public class UrlServiceImpl implements UrlService {
 		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "/" + "retailer-create.html";
 	}
 	
+	public String buildRetailerContactUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+	        final Retailer retailer, final String retailerName, final String retailerCode) throws Exception {
+		return buildRetailerContactUrl(request, marketPlace, market, marketArea, localization, retailer, retailerName, retailerCode, true);
+	}
+	
+	public String buildRetailerContactUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
+	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "-" + handleString(retailerName) + "/" + "retailer-contact-" + retailerCode.toLowerCase() + ".html";
+	}
+	
 	public String buildRetailerVoteUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String retailerName, final String retailerCode) throws Exception {
 		return buildRetailerVoteUrl(request, marketPlace, market, marketArea, localization, retailer, retailerName, retailerCode, true);
@@ -168,7 +178,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildRetailerVoteUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "-" +handleString(retailerName) + "/" + "retailer-vote-" + retailerCode.toLowerCase() + ".html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store") + "-" + handleString(retailerName) + "/" + "retailer-vote-" + retailerCode.toLowerCase() + ".html";
 	}
 	
 	public String buildRetailerCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
@@ -178,7 +188,7 @@ public class UrlServiceImpl implements UrlService {
 
 	public String buildRetailerCommentUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
 	        final Retailer retailer, final String retailerName, final String retailerCode, final boolean keepCurrentDomainName) throws Exception {
-		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store")+ "-" +handleString(retailerName) + "/" + "retailer-comment-" + retailerCode.toLowerCase() + ".html";
+		return getFullPrefixUrl(request, marketPlace, market, marketArea, localization, retailer, keepCurrentDomainName) + getMessage(localization, "seo.url.store")+ "-" + handleString(retailerName) + "/" + "retailer-comment-" + retailerCode.toLowerCase() + ".html";
 	}
 
 	public String buildConditionOfUseUrl(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, final Localization localization,
