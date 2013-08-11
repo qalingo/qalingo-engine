@@ -26,6 +26,7 @@ public class MenuViewBean extends AbstractViewBean implements Serializable {
 	protected String alt;
 	protected String img;
 	protected String url;
+	protected boolean active;
 	
 	List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
 
@@ -64,6 +65,14 @@ public class MenuViewBean extends AbstractViewBean implements Serializable {
 		this.url = url;
 	}
 	
+	public boolean isActive() {
+    	return active;
+    }
+
+	public void setActive(boolean active) {
+    	this.active = active;
+    }
+
 	public List<MenuViewBean> getSubMenus() {
 		return subMenus;
 	}

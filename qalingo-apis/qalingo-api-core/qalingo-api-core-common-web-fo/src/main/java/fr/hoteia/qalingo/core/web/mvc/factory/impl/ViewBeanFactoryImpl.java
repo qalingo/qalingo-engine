@@ -242,6 +242,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
 		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
 		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
+		String currentUrl = request.getQueryString();
 		if (menuViewBeans == null) {
 			final Locale locale = localization.getLocale();
 			final String localeCode = localization.getCode();
@@ -250,6 +251,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 			MenuViewBean menu = new MenuViewBean();
 			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
+			if(currentUrl != null && currentUrl.contains("home.html")){
+				menu.setActive(true);
+			}
 			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 			menuViewBeans.add(menu);
 
