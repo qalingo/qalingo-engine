@@ -9,15 +9,11 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.CmsContent;
 
 public interface CmsContentService {
 
 	CmsContent getCmsContentById(String cmsContentId);
-	
-	List<CmsContent> findCmsContent(CmsContent criteria);
 	
 	void saveOrUpdateCmsContent(CmsContent cmsContent);
 	

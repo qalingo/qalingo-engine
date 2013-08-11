@@ -29,7 +29,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,16 +65,16 @@ public class CatalogVirtual implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
-	@OneToOne(mappedBy="virtualCatalog")
-	private MarketArea marketArea;
+//	@OneToOne(mappedBy="virtualCatalog")
+//	private MarketArea marketArea;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATALOG_ID", insertable=false, updatable=false)
 	private CatalogMaster catalogMaster;
 	
 	@ManyToMany(
 	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
-       		fetch = FetchType.EAGER,
+       		fetch = FetchType.LAZY,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(
@@ -144,13 +143,13 @@ public class CatalogVirtual implements Serializable {
 		this.code = code;
 	}
 	
-	public MarketArea getMarketArea() {
-		return marketArea;
-	}
-	
-	public void setMarketArea(MarketArea marketArea) {
-		this.marketArea = marketArea;
-	}
+//	public MarketArea getMarketArea() {
+//		return marketArea;
+//	}
+//	
+//	public void setMarketArea(MarketArea marketArea) {
+//		this.marketArea = marketArea;
+//	}
 	
 	public CatalogMaster getCatalogMaster() {
 		return catalogMaster;

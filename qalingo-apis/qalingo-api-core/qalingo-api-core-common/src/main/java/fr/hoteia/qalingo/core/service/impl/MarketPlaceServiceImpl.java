@@ -48,10 +48,6 @@ public class MarketPlaceServiceImpl implements MarketPlaceService {
 		return marketPlaceDao.findMarketPlaces();
 	}
 	
-	public List<MarketPlace> findMarketPlace(MarketPlace criteria) {
-		return marketPlaceDao.findByExample(criteria);
-	}
-
 	public void saveOrUpdateMarketPlace(MarketPlace marketPlace) {
 		marketPlaceDao.saveOrUpdateMarketPlace(marketPlace);
 	}

@@ -95,47 +95,47 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	// Common Engine Setting Value
 	
 	public EngineSetting getAssetFileRootPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH);
 	}
 	
 	public EngineSetting getAssetWebRootPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH);
 	}
 	
 	public EngineSetting getAssetCatalogFilePath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH);
 	}
 	
 	public EngineSetting getAssetProductMarketingFilePath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH);
 	}
 	
 	public EngineSetting getAssetPoductSkuFilePath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH);
 	}
 	
 	public EngineSetting getThemeResourcePrefixPath() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);
 	}
 	
 	public EngineSetting withEscapeAccent() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
 	}
 	
 	public EngineSetting getRetailerMaxScoreValue() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
 	}
 
 	public EngineSetting geOAuthAppKeyOrId() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_KEY_OR_ID);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_KEY_OR_ID);
 	}
 
 	public EngineSetting geOAuthAppSecret() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_SECRET);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_SECRET);
 	}
 	
 	public EngineSetting geOAuthAppPermissions() {
-		return engineSettingDao.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_PERMISSIONS);
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_PERMISSIONS);
 	}
 
 }

@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,10 +38,6 @@ public class CustomerGroupServiceImpl implements CustomerGroupService {
 		return customerGroupDao.getCustomerGroupByCode(code);
 	}
 	
-	public List<CustomerGroup> findCustomerGroup(CustomerGroup criteria) {
-		return customerGroupDao.findByExample(criteria);
-	}
-
 	public void saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
 		customerGroupDao.saveOrUpdateCustomerGroup(customerGroup);
 	}

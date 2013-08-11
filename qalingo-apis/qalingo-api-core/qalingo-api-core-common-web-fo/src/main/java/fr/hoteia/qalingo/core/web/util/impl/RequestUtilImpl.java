@@ -434,7 +434,8 @@ public class RequestUtilImpl extends AbstractRequestUtilImpl implements RequestU
 					if (marketArea == null) {
 						marketArea = market.getDefaultMarketArea();
 					}
-					engineEcoSession.setCurrentMarketArea(marketArea);
+					// SET A RELOAD OBJECT MARKET AREA
+					engineEcoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
 
 					// LOCALE
 					Localization localization = marketArea.getLocalization(localeCode);

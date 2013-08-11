@@ -12,9 +12,12 @@ package fr.hoteia.qalingo.core.service;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 
 public interface MarketService {
 
+	// MARKET
+	
 	Market getDefaultMarket();
 
 	Market getMarketById(String marketId);
@@ -23,10 +26,11 @@ public interface MarketService {
 	
 	List<Market> findMarkets();
 
-	List<Market> findMarkets(Market criteria);
-	
 	void saveOrUpdateMarket(Market market);
 	
 	void deleteMarket(Market market);
 
+	// MARKET AREA
+	
+	MarketArea getMarketAreaById(String rawMarketAreaId);
 }

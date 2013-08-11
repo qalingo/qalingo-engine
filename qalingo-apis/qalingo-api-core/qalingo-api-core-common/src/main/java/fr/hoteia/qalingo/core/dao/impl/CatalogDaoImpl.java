@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -33,20 +32,16 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 		return em.find(CatalogMaster.class, catalogMasterId);
 	}
 
-	public CatalogVirtual getCatalogVirtualByCode(final Long marketAreaId, final Long retailerId, final String catalogVirtualCode) {
+	public CatalogVirtual getCatalogVirtual(final Long marketAreaId, final Long retailerId) {
 		Session session = (Session) em.getDelegate();
 		initCatalogVirtual(session, marketAreaId, retailerId);
-		String sql = "FROM CatalogVirtual WHERE upper(code) = upper(:code)";
+		String sql = "SELECT cv FROM CatalogVirtual cv, MarketArea ma WHERE cv.id = ma.virtualCatalogId AND ma.id = :marketAreaId";
 		Query query = session.createQuery(sql);
-		query.setString("code", catalogVirtualCode);
+		query.setLong("marketAreaId", marketAreaId);
 		CatalogVirtual catalogVirtual = (CatalogVirtual) query.uniqueResult();
 		return catalogVirtual;
 	}
 	
-	public List<CatalogMaster> findByExample(final CatalogMaster productCatalogExample) {
-		return super.findByExample(productCatalogExample);
-	}
-
 	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {
 		if(catalogMaster.getDateCreate() == null){
 			catalogMaster.setDateCreate(new Date());

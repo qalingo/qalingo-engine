@@ -68,10 +68,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		return customers;
 	}
 	
-	public List<Customer> findByExample(final Customer customerExample) {
-		return super.findByExample(customerExample);
-	}
-
 	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());

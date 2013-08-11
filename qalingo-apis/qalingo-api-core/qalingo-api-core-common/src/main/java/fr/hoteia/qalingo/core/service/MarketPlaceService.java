@@ -23,8 +23,6 @@ public interface MarketPlaceService {
 	
 	List<MarketPlace> findMarketPlaces();
 	
-	List<MarketPlace> findMarketPlace(MarketPlace criteria);
-	
 	void saveOrUpdateMarketPlace(MarketPlace marketPlace);
 	
 	void deleteMarketPlace(MarketPlace marketPlace);

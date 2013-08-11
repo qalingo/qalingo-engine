@@ -9,15 +9,11 @@
  */
 package fr.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.ProductSkuStock;
 
 public interface StockDao {
 
 	ProductSkuStock getStockById(Long stockId);
-
-	List<ProductSkuStock> findByExample(ProductSkuStock stockExample);
 
 	void saveOrUpdateStock(ProductSkuStock stock);
 

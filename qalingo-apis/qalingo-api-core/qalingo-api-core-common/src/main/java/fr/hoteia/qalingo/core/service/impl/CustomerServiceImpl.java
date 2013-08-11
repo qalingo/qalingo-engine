@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,10 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.findCustomers();
 	}
 	
-	public List<Customer> findCustomer(final Customer criteria) {
-		return customerDao.findByExample(criteria);
-	}
-
 	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
 		customerDao.saveOrUpdateCustomer(customer);
 	}

@@ -9,15 +9,11 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.Cart;
 
 public interface CartService {
 
 	Cart getCartById(String cartId);
-	
-	List<Cart> findCart(Cart criteria);
 	
 	void saveOrUpdateCart(Cart cart);
 	

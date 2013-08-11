@@ -9,15 +9,11 @@
  */
 package fr.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
 
 public interface CustomerWishlistDao {
 
 	CustomerWishlist getCustomerWishlistById(Long customerWishlistId);
-
-	List<CustomerWishlist> findByExample(CustomerWishlist customerWishlistExample);
 
 	void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
 

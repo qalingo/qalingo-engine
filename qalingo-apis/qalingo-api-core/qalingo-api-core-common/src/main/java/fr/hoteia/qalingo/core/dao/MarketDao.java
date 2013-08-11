@@ -12,9 +12,12 @@ package fr.hoteia.qalingo.core.dao;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 
 public interface MarketDao {
 
+	// MARKET
+	
 	Market getDefaultMarket();
 	
 	Market getMarketById(Long marketId);
@@ -23,10 +26,11 @@ public interface MarketDao {
 	
 	List<Market> findMarkets();
 
-	List<Market> findByExample(Market marketExample);
-
 	void saveOrUpdateMarket(Market market);
 
 	void deleteMarket(Market market);
 
+	// MARKET AREA
+	
+	MarketArea getMarketAreaById(Long marketAreaId);
 }

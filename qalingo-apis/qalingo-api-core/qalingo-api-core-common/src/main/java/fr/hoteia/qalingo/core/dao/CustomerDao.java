@@ -25,8 +25,6 @@ public interface CustomerDao {
 	 
 	List<Customer> findCustomers();
 	
-	List<Customer> findByExample(Customer customerExample);
-
 	void saveOrUpdateCustomer(Customer customer) throws Exception;
 
 	void deleteCustomer(Customer customer);

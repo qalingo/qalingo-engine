@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.dao.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -27,10 +25,6 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
 	public Tax getTaxById(Long taxId) {
 		return em.find(Tax.class, taxId);
-	}
-
-	public List<Tax> findByExample(Tax taxExample) {
-		return super.findByExample(taxExample);
 	}
 
 	public void saveOrUpdateTax(Tax tax) {

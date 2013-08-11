@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +27,6 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 
 	public Cart getCartById(Long cartId) {
 		return em.find(Cart.class, cartId);
-	}
-
-	public List<Cart> findByExample(Cart cartExample) {
-		return super.findByExample(cartExample);
 	}
 
 	public void saveOrUpdateCart(Cart cart) {

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Asset;
@@ -131,6 +132,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
  * 
  */
 @Service("viewBeanFactory")
+@Transactional
 public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory implements ViewBeanFactory {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -145,7 +147,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	protected MarketService marketService;
 
 	@Autowired
-	protected CatalogService ProductCatalogService;
+	protected CatalogService catalogService;
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
@@ -257,37 +259,38 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			menu.setUrl(urlService.buildHomeUrl(request, marketPlace, market, marketArea, localization, retailer));
 			menuViewBeans.add(menu);
 
-			CatalogVirtual productCatalog = ProductCatalogService.getCatalogVirtualByCode(marketArea.getId(), retailer.getId(), marketArea.getVirtualCatalog().getCode());
+			CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId(), retailer.getId());
+			if(catalogVirtual != null){
+				final List<CatalogCategoryVirtual> productCategoies = catalogVirtual.getProductCategories(marketArea.getId());
+				if (productCategoies != null) {
+					for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
+						final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
+						menu = new MenuViewBean();
+						final String seoProductCategoryName = productCategory.getI18nName(localeCode);
+						final String seoProductCategoryCode = productCategory.getCode();
+						menu.setName(seoProductCategoryName);
+						menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
 
-			final List<CatalogCategoryVirtual> productCategoies = productCatalog.getProductCategories(marketArea.getId());
-			if (productCategoies != null) {
-				for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
-					final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
-					menu = new MenuViewBean();
-					final String seoProductCategoryName = productCategory.getI18nName(localeCode);
-					final String seoProductCategoryCode = productCategory.getCode();
-					menu.setName(seoProductCategoryName);
-					menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(request, marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
-
-					List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
-					if (subProductCategories != null) {
-						List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
-						for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-							final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
-							final MenuViewBean subMenu = new MenuViewBean();
-							final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
-							final String seoSubProductCategoryCode = subProductCategory.getCode();
-							subMenu.setName(seoSubProductCategoryName);
-							subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName,
-							        seoSubProductCategoryCode));
-							subMenus.add(subMenu);
+						List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
+						if (subProductCategories != null) {
+							List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
+							for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subProductCategories.iterator(); iteratorSubProductCategory.hasNext();) {
+								final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
+								final MenuViewBean subMenu = new MenuViewBean();
+								final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
+								final String seoSubProductCategoryCode = subProductCategory.getCode();
+								subMenu.setName(seoSubProductCategoryName);
+								subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(request, marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName,
+								        seoSubProductCategoryCode));
+								subMenus.add(subMenu);
+							}
+							menu.setSubMenus(subMenus);
 						}
-						menu.setSubMenus(subMenus);
+						menuViewBeans.add(menu);
 					}
-					menuViewBeans.add(menu);
 				}
 			}
-
+			
 			menu = new MenuViewBean();
 			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
 			menu.setUrl(urlService.buildOurCompanyUrl(request, marketPlace, market, marketArea, localization, retailer));
@@ -600,16 +603,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        }
 		}
 		
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
-		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
-		if(shareOptions != null){
-			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
-				String shareOption = (String) iterator.next();
-				String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
-				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
-				retailerViewBean.getShareOptions().add(shareOptionViewBean);
-	        }
-		}
+//		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+//		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
+//		if(shareOptions != null){
+//			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
+//				String shareOption = (String) iterator.next();
+//				String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
+//				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
+//				retailerViewBean.getShareOptions().add(shareOptionViewBean);
+//	        }
+//		}
 		
 		return retailerViewBean;
 	}

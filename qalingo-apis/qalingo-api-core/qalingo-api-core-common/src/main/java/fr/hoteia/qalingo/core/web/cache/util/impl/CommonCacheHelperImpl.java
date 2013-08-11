@@ -43,6 +43,14 @@ public class CommonCacheHelperImpl implements CommonCacheHelper {
 	/**
 	 * @return the prefix key value for a specific element.
 	 */
+	public String buildPrefixKey(final WebElementType elementType) {
+		String cacheKey = elementType.getKey();
+		return cacheKey;
+	}
+	
+	/**
+	 * @return the prefix key value for a specific element.
+	 */
 	public String buildPrefixKey(final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
 			 final Localization localization, final Retailer retailer, final WebElementType elementType) {
 		String cacheKey = marketPlace.getCode() + "_" + market.getCode() + "_" + marketArea.getCode() + "_" + localization.getCode() + "_" + retailer.getCode() + "_" + elementType.getKey();

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.MarketDao;
 import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.service.MarketService;
 
 @Service("marketService")
@@ -25,6 +26,8 @@ public class MarketServiceImpl implements MarketService {
 
 	@Autowired
 	private MarketDao marketDao;
+	
+	// MARKET
 	
 	public Market getDefaultMarket() {
 		return marketDao.getDefaultMarket();
@@ -48,10 +51,6 @@ public class MarketServiceImpl implements MarketService {
 		return marketDao.findMarkets();
 	}
 	
-	public List<Market> findMarkets(Market criteria) {
-		return marketDao.findByExample(criteria);
-	}
-
 	public void saveOrUpdateMarket(Market market) {
 		marketDao.saveOrUpdateMarket(market);
 	}
@@ -60,4 +59,15 @@ public class MarketServiceImpl implements MarketService {
 		marketDao.deleteMarket(market);
 	}
 
+	// MARKET AREA
+	
+	public MarketArea getMarketAreaById(String rawMarketAreaId) {
+		long marketAreaId = -1;
+		try {
+			marketAreaId = Long.parseLong(rawMarketAreaId);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException(e);
+		}
+		return marketDao.getMarketAreaById(marketAreaId);
+	}
 }

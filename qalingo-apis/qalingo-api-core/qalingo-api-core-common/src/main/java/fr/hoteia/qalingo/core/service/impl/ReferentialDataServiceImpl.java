@@ -68,6 +68,7 @@ public class ReferentialDataServiceImpl implements ReferentialDataService {
 			ResourceBundle countriesBundleByLocale = getCountriesBundleByLocale(locale);
 			if(countriesBundleByLocale != null){
 				countriesByLocale.put(locale, buildMap(countriesBundleByLocale));
+				countriesMapByLocale = countriesByLocale.get(locale);
 			} else {
 				countriesMapByLocale = getCountriesByLocale(Locale.ENGLISH);
 			}

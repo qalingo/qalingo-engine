@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.FoPageConstants;
@@ -37,6 +38,7 @@ import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.UrlService;
 
 @Service(value = "urlService")
+@Transactional
 public class UrlServiceImpl implements UrlService {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());

@@ -33,6 +33,11 @@ public interface CommonCacheHelper {
 	/**
 	 * 
 	 */
+	String buildPrefixKey(WebElementType elementType);
+	
+	/**
+	 * 
+	 */
 	String buildPrefixKey(MarketPlace marketPlace, Market market, MarketArea marketArea, 
 			 Localization localization, Retailer retailer, WebElementType elementType);
 	

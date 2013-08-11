@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.ProductBrand;
 
 public interface ProductBrandService {
@@ -18,8 +16,6 @@ public interface ProductBrandService {
 	ProductBrand getProductBrandById(String productBrandId);
 	
 	ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode);
-	
-	List<ProductBrand> findProductBrand(ProductBrand criteria);
 	
 	void saveOrUpdateProductBrand(ProductBrand productBrand);
 	

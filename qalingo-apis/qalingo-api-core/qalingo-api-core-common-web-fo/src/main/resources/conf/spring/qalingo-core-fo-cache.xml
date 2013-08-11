@@ -71,5 +71,17 @@
 		<property name="cache" ref="storeLocatorCache" />
 		<property name="engineSettingService" ref="engineSettingService" />
 	</bean>
+	
+	<bean id="engineSettingCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="overflowToDisk" value="false" />
+		<property name="maxElementsInMemory" value="500" />
+	</bean>
 
+	<bean id="engineSettingCacheHelper" class="fr.hoteia.qalingo.core.web.cache.util.impl.CommonCacheHelperImpl">
+		<property name="cache" ref="engineSettingCache" />
+	</bean>
+
+	<bean id="engineSettingService" class="fr.hoteia.qalingo.core.security.service.impl.EngineSettingServiceCachingImpl">
+	</bean>
+	
 </beans>

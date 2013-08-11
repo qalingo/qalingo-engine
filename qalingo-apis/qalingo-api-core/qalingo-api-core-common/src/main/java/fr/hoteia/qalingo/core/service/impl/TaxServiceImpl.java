@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,6 @@ public class TaxServiceImpl implements TaxService {
 			throw new IllegalArgumentException(e);
 		}
 		return taxDao.getTaxById(taxId);
-	}
-
-	public List<Tax> findTax(Tax criteria) {
-		return taxDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateTax(Tax tax) {

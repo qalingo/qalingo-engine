@@ -63,11 +63,11 @@ public class Market implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MARKETPLACE_ID", insertable=false, updatable=false)
 	private MarketPlace marketPlace;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_ID")
 	private Set<MarketArea> marketAreas = new HashSet<MarketArea>(); 
 	

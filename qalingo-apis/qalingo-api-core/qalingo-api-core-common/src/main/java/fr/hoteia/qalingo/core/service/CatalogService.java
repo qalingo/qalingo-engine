@@ -16,7 +16,7 @@ public interface CatalogService {
 
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	
-	CatalogVirtual getCatalogVirtualByCode(Long marketAreaId, Long retailerId, String catalogVirtualCode);
+	CatalogVirtual getCatalogVirtual(Long marketAreaId, Long retailerId);
 	
 	void saveOrUpdateProductCatalog(CatalogMaster productCatalog);
 	

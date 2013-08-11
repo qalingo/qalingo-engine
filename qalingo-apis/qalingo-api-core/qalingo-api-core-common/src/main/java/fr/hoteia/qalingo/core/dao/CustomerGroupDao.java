@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 
 public interface CustomerGroupDao {
@@ -19,8 +17,6 @@ public interface CustomerGroupDao {
 
 	CustomerGroup getCustomerGroupByCode(String code);
 	
-	List<CustomerGroup> findByExample(CustomerGroup customerGroupExample);
-
 	void saveOrUpdateCustomerGroup(CustomerGroup customerGroup);
 
 	void deleteCustomerGroup(CustomerGroup customerGroup);

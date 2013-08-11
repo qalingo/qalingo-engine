@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,6 @@ public class StockServiceImpl implements StockService {
 			throw new IllegalArgumentException(e);
 		}
 		return stockDao.getStockById(stockId);
-	}
-
-	public List<ProductSkuStock> findStock(ProductSkuStock criteria) {
-		return stockDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock stock) {

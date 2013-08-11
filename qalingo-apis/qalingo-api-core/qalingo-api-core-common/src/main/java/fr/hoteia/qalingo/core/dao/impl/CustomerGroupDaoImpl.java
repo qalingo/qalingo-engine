@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -41,10 +40,6 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 		return customerGroup;
 	}
 	
-	public List<CustomerGroup> findByExample(CustomerGroup customerGroupExample) {
-		return super.findByExample(customerGroupExample);
-	}
-
 	public void saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
 		if(customerGroup.getDateCreate() == null){
 			customerGroup.setDateCreate(new Date());

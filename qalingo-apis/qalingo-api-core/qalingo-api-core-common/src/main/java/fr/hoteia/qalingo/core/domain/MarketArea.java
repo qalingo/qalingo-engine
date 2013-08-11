@@ -29,7 +29,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -76,24 +75,24 @@ public class MarketArea implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@OneToOne
     @JoinColumn(name="VIRTUAL_CATALOG_ID")
-	private CatalogVirtual virtualCatalog;
+	private Long virtualCatalogId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
 	private Market market;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -105,7 +104,7 @@ public class MarketArea implements Serializable {
 	private Set<Localization> localizations = new HashSet<Localization>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Retailer.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -201,13 +200,21 @@ public class MarketArea implements Serializable {
 		this.theme = theme;
 	}
 	
-	public CatalogVirtual getVirtualCatalog() {
-		return virtualCatalog;
-	}
+//	public CatalogVirtual getVirtualCatalog() {
+//		return virtualCatalog;
+//	}
+//	
+//	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
+//		this.virtualCatalog = virtualCatalog;
+//	}
 	
-	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
-		this.virtualCatalog = virtualCatalog;
-	}
+	public Long getVirtualCatalogId() {
+	    return virtualCatalogId;
+    }
+	
+	public void setVirtualCatalogId(Long virtualCatalogId) {
+	    this.virtualCatalogId = virtualCatalogId;
+    }
 	
 	public Market getMarket() {
 		return market;

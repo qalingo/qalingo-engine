@@ -42,10 +42,6 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 		return productBrand;
 	}
 	
-	public List<ProductBrand> findByExample(final ProductBrand productBrandExample) {
-		return super.findByExample(productBrandExample);
-	}
-
 	public void saveOrUpdateProductBrand(final ProductBrand productBrand) {
 		if(productBrand.getDateCreate() == null){
 			productBrand.setDateCreate(new Date());

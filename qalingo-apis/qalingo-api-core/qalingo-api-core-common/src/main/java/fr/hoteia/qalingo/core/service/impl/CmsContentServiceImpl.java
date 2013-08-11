@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,6 @@ public class CmsContentServiceImpl implements CmsContentService {
 			throw new IllegalArgumentException(e);
 		}
 		return cmsContentDao.getCmsContentById(cmsContentId);
-	}
-
-	public List<CmsContent> findCmsContent(CmsContent criteria) {
-		return cmsContentDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateCmsContent(CmsContent cmsContent) {

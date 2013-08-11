@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +27,6 @@ public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsCont
 
 	public CmsContent getCmsContentById(Long cmsContentId) {
 		return em.find(CmsContent.class, cmsContentId);
-	}
-
-	public List<CmsContent> findByExample(CmsContent cmsContentExample) {
-		return super.findByExample(cmsContentExample);
 	}
 
 	public void saveOrUpdateCmsContent(CmsContent cmsContent) {

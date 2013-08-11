@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,6 @@ public class CustomerWishlistServiceImpl implements CustomerWishlistService {
 			throw new IllegalArgumentException(e);
 		}
 		return customerWishlistDao.getCustomerWishlistById(customerWishlistId);
-	}
-
-	public List<CustomerWishlist> findCustomerWishlist(CustomerWishlist criteria) {
-		return customerWishlistDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {

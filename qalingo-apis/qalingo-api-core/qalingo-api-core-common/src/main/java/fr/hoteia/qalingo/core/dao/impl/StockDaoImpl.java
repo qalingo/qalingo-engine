@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.dao.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -27,10 +25,6 @@ public class StockDaoImpl extends AbstractGenericDaoImpl implements StockDao {
 
 	public ProductSkuStock getStockById(Long productSkuStockId) {
 		return em.find(ProductSkuStock.class, productSkuStockId);
-	}
-
-	public List<ProductSkuStock> findByExample(ProductSkuStock productSkuStockExample) {
-		return super.findByExample(productSkuStockExample);
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock productSkuStock) {

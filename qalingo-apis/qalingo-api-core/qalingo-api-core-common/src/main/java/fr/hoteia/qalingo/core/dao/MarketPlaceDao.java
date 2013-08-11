@@ -23,8 +23,6 @@ public interface MarketPlaceDao {
 	
 	List<MarketPlace> findMarketPlaces();
 	
-	List<MarketPlace> findByExample(MarketPlace marketPlaceExample);
-
 	void saveOrUpdateMarketPlace(MarketPlace marketPlace);
 
 	void deleteMarketPlace(MarketPlace marketPlace);

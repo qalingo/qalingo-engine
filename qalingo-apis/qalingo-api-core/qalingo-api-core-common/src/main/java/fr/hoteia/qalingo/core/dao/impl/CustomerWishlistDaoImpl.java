@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.dao.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -27,10 +25,6 @@ public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements C
 
 	public CustomerWishlist getCustomerWishlistById(Long customerWishlistId) {
 		return em.find(CustomerWishlist.class, customerWishlistId);
-	}
-
-	public List<CustomerWishlist> findByExample(CustomerWishlist customerWishlistExample) {
-		return super.findByExample(customerWishlistExample);
 	}
 
 	public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {

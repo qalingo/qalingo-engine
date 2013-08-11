@@ -21,13 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.MarketDao;
 import fr.hoteia.qalingo.core.domain.Market;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 
-@Transactional
 @Repository("marketDao")
+@Transactional
 public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
+	// MARKET
+	
 	public Market getDefaultMarket() {
 		Session session = (Session) em.getDelegate();
 		String sql = "FROM Market WHERE isDefault = true";
@@ -47,10 +50,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 		query.setString("code", code);
 		Market market = (Market) query.uniqueResult();
 		return market;
-	}
-	
-	public List<Market> findByExample(Market marketExample) {
-		return super.findByExample(marketExample);
 	}
 	
 	public List<Market> findMarkets() {
@@ -76,5 +75,10 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	public void deleteMarket(Market market) {
 		em.remove(market);
 	}
+	
+	// MARKET AREA
 
+	public MarketArea getMarketAreaById(Long marketAreaId) {
+		return em.find(MarketArea.class, marketAreaId);
+	}
 }

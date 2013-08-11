@@ -66,11 +66,11 @@ public class MarketPlace implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATALOG_ID")
 	private CatalogMaster masterCatalog;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKETPLACE_ID")
 	private Set<Market> markets = new HashSet<Market>(); 
 	
@@ -228,7 +228,6 @@ public class MarketPlace implements Serializable {
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (isDefault ? 1231 : 1237);
-		result = prime * result + ((markets == null) ? 0 : markets.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + version;
@@ -271,11 +270,6 @@ public class MarketPlace implements Serializable {
 			return false;
 		if (isDefault != other.isDefault)
 			return false;
-		if (markets == null) {
-			if (other.markets != null)
-				return false;
-		} else if (!markets.equals(other.markets))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -290,6 +284,11 @@ public class MarketPlace implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+    public String toString() {
+	    return "MarketPlace [id=" + id + ", version=" + version + ", name=" + name + ", path=" + path + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", theme="
+	            + theme + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
 	
 }

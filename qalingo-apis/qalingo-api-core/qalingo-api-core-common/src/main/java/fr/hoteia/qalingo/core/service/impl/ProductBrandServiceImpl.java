@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +36,6 @@ public class ProductBrandServiceImpl implements ProductBrandService {
 	
 	public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
 		return productBrandDao.getProductBrandByCode(marketAreaId, productBrandCode);
-	}
-
-	public List<ProductBrand> findProductBrand(ProductBrand criteria) {
-		return productBrandDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateProductBrand(ProductBrand productBrand) {

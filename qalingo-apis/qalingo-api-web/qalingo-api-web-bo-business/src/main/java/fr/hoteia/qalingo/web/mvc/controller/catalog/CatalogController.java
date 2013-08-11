@@ -67,7 +67,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 	protected JsonFactory jsonFactory;
 
 	@Autowired
-	protected CatalogService productCatalogService;
+	protected CatalogService catalogService;
 	
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
@@ -80,9 +80,11 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CATALOG_VELOCITY_PAGE);
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final CatalogMaster catalogMaster = currentMarketArea.getVirtualCatalog().getCatalogMaster();
+		CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(currentMarketArea.getId(), currentRetailer.getId());
+		final CatalogMaster catalogMaster = catalogVirtual.getCatalogMaster();
 
 		final String pageKey = BoPageConstants.CATALOG_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
@@ -110,8 +112,10 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CATALOG_VELOCITY_PAGE);
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Locale locale = requestUtil.getCurrentLocale(request);
-		final CatalogVirtual catalogVirtual = currentMarketArea.getVirtualCatalog();
+		
+		CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(currentMarketArea.getId(), currentRetailer.getId());
 
 		final String pageKey = BoPageConstants.CATALOG_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);

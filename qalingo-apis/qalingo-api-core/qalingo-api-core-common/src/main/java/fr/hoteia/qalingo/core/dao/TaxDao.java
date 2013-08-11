@@ -17,8 +17,6 @@ public interface TaxDao {
 
 	Tax getTaxById(Long taxId);
 
-	List<Tax> findByExample(Tax taxExample);
-
 	void saveOrUpdateTax(Tax tax);
 
 	void deleteTax(Tax tax);

@@ -62,7 +62,7 @@ public class CatalogMaster implements Serializable {
 	
 	@OneToMany(
 	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
-       		fetch = FetchType.EAGER,
+       		fetch = FetchType.LAZY,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
     @JoinTable(

@@ -9,15 +9,11 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.Tax;
 
 public interface TaxService {
 
 	Tax getTaxById(String taxId);
-	
-	List<Tax> findTax(Tax criteria);
 	
 	void saveOrUpdateTax(Tax tax);
 	

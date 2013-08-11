@@ -9,35 +9,31 @@
  */
 package fr.hoteia.qalingo.core.dao.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Example;
 
 public abstract class AbstractGenericDaoImpl {
 
 	@PersistenceContext
 	protected EntityManager em;
 
-	/**
-	 * 
-	 * @param <T>
-	 * @param example - a not null example of required instance
-	 * @return
-	 */
-	public <T> List<T> findByExample(T example) {
-		if (example == null) {
-			throw new IllegalArgumentException("findByExample can not be null");
-		}
-		Session session = (Session) em.getDelegate();
-		Criteria crit = session.createCriteria(example.getClass());
-		crit.add(Example.create(example));
-		return (List<T>) crit.list();
-	}
+//	/**
+//	 * 
+//	 * @param <T>
+//	 * @param example - a not null example of required instance
+//	 * @return
+//	 */
+//	public <T> List<T> findByExample(T example) {
+//		if (example == null) {
+//			throw new IllegalArgumentException("findByExample can not be null");
+//		}
+//		Session session = (Session) em.getDelegate();
+//		Criteria crit = session.createCriteria(example.getClass());
+//		crit.add(Example.create(example));
+//		return (List<T>) crit.list();
+//	}
 	
 	void initProductSkuFilter(Session session, Long marketAreaId, Long retailerId){
 		session.enableFilter("filterProductSkuAttributeIsGlobal");

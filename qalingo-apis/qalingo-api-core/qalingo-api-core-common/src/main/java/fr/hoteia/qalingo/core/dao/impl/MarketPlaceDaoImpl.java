@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.hoteia.qalingo.core.dao.MarketPlaceDao;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 
-@Transactional
 @Repository("marketPlaceDao")
+@Transactional
 public class MarketPlaceDaoImpl extends AbstractGenericDaoImpl implements MarketPlaceDao {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -55,10 +55,6 @@ public class MarketPlaceDaoImpl extends AbstractGenericDaoImpl implements Market
 		Query query = session.createQuery(sql);
 		List<MarketPlace> marketPlaces = (List<MarketPlace>) query.list();
 		return marketPlaces;
-	}
-
-	public List<MarketPlace> findByExample(MarketPlace marketPlaceExample) {
-		return super.findByExample(marketPlaceExample);
 	}
 
 	public void saveOrUpdateMarketPlace(MarketPlace marketPlace) {

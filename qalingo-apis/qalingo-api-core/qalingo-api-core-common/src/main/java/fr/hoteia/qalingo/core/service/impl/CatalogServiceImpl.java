@@ -35,8 +35,8 @@ public class CatalogServiceImpl implements CatalogService {
 		return catalogMasterDao.getProductCatalogById(catalogMasterId);
 	}
 	
-	public CatalogVirtual getCatalogVirtualByCode(final Long marketAreaId, final Long retailerId, final String catalogVirtualCode) {
-		return catalogMasterDao.getCatalogVirtualByCode(marketAreaId, retailerId, catalogVirtualCode);
+	public CatalogVirtual getCatalogVirtual(final Long marketAreaId, final Long retailerId) {
+		return catalogMasterDao.getCatalogVirtual(marketAreaId, retailerId);
 	}
 
 	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {

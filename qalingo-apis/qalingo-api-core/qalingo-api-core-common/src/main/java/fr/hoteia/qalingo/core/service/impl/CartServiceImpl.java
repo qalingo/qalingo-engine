@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +32,6 @@ public class CartServiceImpl implements CartService {
 			throw new IllegalArgumentException(e);
 		}
 		return cartDao.getCartById(cartId);
-	}
-
-	public List<Cart> findCart(Cart criteria) {
-		return cartDao.findByExample(criteria);
 	}
 
 	public void saveOrUpdateCart(Cart cart) {
