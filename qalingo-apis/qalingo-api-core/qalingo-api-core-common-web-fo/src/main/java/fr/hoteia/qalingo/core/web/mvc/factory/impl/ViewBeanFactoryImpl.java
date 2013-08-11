@@ -603,16 +603,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        }
 		}
 		
-//		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
-//		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
-//		if(shareOptions != null){
-//			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
-//				String shareOption = (String) iterator.next();
-//				String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
-//				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
-//				retailerViewBean.getShareOptions().add(shareOptionViewBean);
-//	        }
-//		}
+		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+		List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
+		if(shareOptions != null){
+			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
+				String shareOption = (String) iterator.next();
+				String relativeUrl = urlService.buildRetailerDetailsUrl(request, marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
+				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, marketPlace, market, marketArea, localization, currentRetailer, contextNameValue, shareOption, relativeUrl);
+				retailerViewBean.getShareOptions().add(shareOptionViewBean);
+	        }
+		}
 		
 		return retailerViewBean;
 	}
