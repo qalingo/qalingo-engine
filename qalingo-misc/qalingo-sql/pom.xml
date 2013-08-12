@@ -7,7 +7,7 @@
 		<version>0.7.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>qalingo-sql</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>{Q} Commerce Solution SQL</name>
 	<description>{Q} Commerce Solution SQL</description>
 	<url>http://www.hoteia.com</url>
@@ -24,5 +24,90 @@
 		<finalName>sql</finalName>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>setup-mysql</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
 
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.9</version>
+							</dependency>
+						</dependencies>
+
+						<configuration>
+							<driver>com.mysql.jdbc.Driver</driver>
+							<url>jdbc:mysql://localhost:3306/qalingo?AutoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</url>
+							<username>qalingo</username>
+							<password>password</password>
+						</configuration>
+						
+						<executions>
+							<execution>
+								<id>drop-db</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<!-- need another database to drop the targeted one -->
+									<url>jdbc:mysql://localhost:3306/</url>
+									<username>root</username>
+									<password>root</password>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/main/resources/sql/mysql/drop-database-qalingo.sql</srcFile>
+									</srcFiles>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+							<execution>
+								<id>create-db</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<!-- need another database to create the targeted one -->
+									<url>jdbc:mysql://localhost:3306/</url>
+									<username>root</username>
+									<password>root</password>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/main/resources/sql/mysql/create-database-qalingo.sql</srcFile>
+									</srcFiles>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+							<execution>
+								<id>init-db</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
+										<srcFile>src/main/resources/sql/mysql/init-core-values.sql</srcFile>
+										<srcFile>src/main/resources/sql/mysql/init-demo-values.sql</srcFile>
+									</srcFiles>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
