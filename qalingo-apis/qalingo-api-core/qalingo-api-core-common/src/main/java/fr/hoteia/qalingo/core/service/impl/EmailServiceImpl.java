@@ -93,8 +93,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("contactUsEmailBean", contactUsEmailBean);
 
-        	// TODO : define engine setting
-        	String toEmail = "";
+        	String toEmail = contactUsEmailBean.getToEmail();
         	mimeMessagePreparator.setTo(toEmail);
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -131,8 +130,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("newsletterRegistrationConfirmationEmailBean", newsletterRegistrationConfirmationEmailBean);
 
-        	// TODO : define engine setting
-        	String fromEmail = "";
+        	String fromEmail = newsletterRegistrationConfirmationEmailBean.getFromEmail();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -169,8 +167,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("customerNewAccountConfirmationEmailBean", customerNewAccountConfirmationEmailBean);
 
-        	// TODO : define engine setting
-        	String fromEmail = "";
+        	String fromEmail = customerNewAccountConfirmationEmailBean.getFromEmail();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -207,8 +204,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
-        	// TODO : define engine setting
-        	String fromEmail = "";
+        	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -245,8 +241,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
 
-        	// TODO : define engine setting
-        	String fromEmail = "";
+        	String fromEmail = orderConfirmationEmailBean.getFromEmail();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -283,8 +278,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("orderSentConfirmationEmailBean", orderSentConfirmationEmailBean);
 
-        	// TODO : define engine setting
-        	String fromEmail = "";
+        	String fromEmail = orderSentConfirmationEmailBean.getFromEmail();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -305,4 +299,5 @@ public class EmailServiceImpl implements EmailService {
         	LOG.error("Error, can't build the message :", e.getMessage());
         }
     }
+
 }

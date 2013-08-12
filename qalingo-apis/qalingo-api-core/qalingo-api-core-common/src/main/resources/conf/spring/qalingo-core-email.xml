@@ -44,25 +44,25 @@
 		<!--<property name="host"><value>smtp.free.fr</value></property>-->
 		<!-- http://forum.springframework.org/showthread.php?t=32039 -->
 
-		<property name="username" value="" />
-		<property name="password" value="" />
+		<property name="username" value="${conf.smtp.username}" />
+		<property name="password" value="${conf.smtp.password}" />
 		
 	    <property name="javaMailProperties">
 	        <props>
-				<prop key="mail.smtp.host">smtp.gmail.com</prop>
-				<prop key="mail.smtp.port">465</prop>
+				<prop key="mail.smtp.host">${conf.smtp.mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${conf.smtp.mail.smtp.port}</prop>
 				
-				<prop key="mail.smtps.auth">true</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtps.auth">${conf.smtp.mail.smtps.auth}</prop>
+				<prop key="mail.smtp.auth">${conf.smtp.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${conf.smtp.mail.smtp.starttls.enable}</prop>
 				
-				<prop key="mail.smtp.debug">false</prop>
-				<prop key="mail.debug">false</prop>
-
+				<prop key="mail.smtp.debug">${conf.smtp.mail.smtp.debug}</prop>
+				<prop key="mail.debug">${conf.smtp.mail.debug}</prop>
+				<!--
 				<prop key="mail.smtp.socketFactory.port">465</prop>
 				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
 				<prop key="mail.smtp.socketFactory.fallback">false</prop>
-
+				-->
 	        </props>
 	    </property>
 	</bean>

@@ -11,6 +11,14 @@ package fr.hoteia.qalingo.core.email.bean;
 
 public class OrderSentConfirmationEmailBean {
 
+	private String fromEmail;
 
+	public String getFromEmail() {
+	    return fromEmail;
+    }
+	
+	public void setFromEmail(String fromEmail) {
+	    this.fromEmail = fromEmail;
+    }
 
 }

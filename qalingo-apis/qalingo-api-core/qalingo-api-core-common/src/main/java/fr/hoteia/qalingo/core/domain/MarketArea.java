@@ -45,8 +45,10 @@ public class MarketArea implements Serializable {
 	 */
 	private static final long serialVersionUID = -6237479836764154416L;
 
-	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME	= "MARKET_AREA_DOMAIN_NAME";
-	public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS	= "MARKET_AREA_SHARE_OPTIONS";
+	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_GENERIC_ROM	= "MARKET_AREA_EMAIL_GENERIC_FROM";
+	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_CONTACT		= "MARKET_AREA_EMAIL_CONTACT";
+	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME		= "MARKET_AREA_DOMAIN_NAME";
+	public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS		= "MARKET_AREA_SHARE_OPTIONS";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -346,34 +348,38 @@ public class MarketArea implements Serializable {
 	}
 
 	public String getDomainName(String contextNameValue) {
-	    if(marketAreaAttributes != null){
-	    	for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-	    		MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
-	    		AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
-	            if(StringUtils.isNotEmpty(marketAreaAttribute.getContext())
-	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
-	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME)){
-	            	return (String) marketAreaAttribute.getValue();
-	            }
-            }
+	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
+    }
+	
+	public String getEmailGenericFrom(String contextNameValue) {
+	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_GENERIC_ROM, contextNameValue);
+    }
+	
+	public String getEmailContact(String contextNameValue) {
+	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_CONTACT, contextNameValue);
+    }
+	
+	public List<String> getShareOptions(String contextNameValue) {
+	    String value = getAttributeValueString(MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS, contextNameValue);
+	    if(StringUtils.isNotEmpty(value)){
+	    	if(value.contains(",")){
+	        	return Arrays.asList(value.split("\\s*,\\s*"));
+	    	} else {
+	    		return Arrays.asList(value);
+	    	}
 	    }
 	    return null;
     }
 	
-	public List<String> getShareOptions(String contextNameValue) {
+	private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
 	    if(marketAreaAttributes != null){
 	    	for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
 	    		MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
 	    		AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
 	            if(StringUtils.isNotEmpty(marketAreaAttribute.getContext())
 	            		&& marketAreaAttribute.getContext().equals(contextNameValue)
-	            		&& attributeDefinition.getCode().equals(MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS)){
-	            	String value = (String) marketAreaAttribute.getValue();
-	            	if(value.contains(",")){
-		            	return Arrays.asList(value.split("\\s*,\\s*"));
-	            	} else {
-	            		return Arrays.asList(value);
-	            	}
+	            		&& attributeDefinition.getCode().equals(attributeDefinitionCode)){
+	            	return (String) marketAreaAttribute.getValue();
 	            }
             }
 	    }
