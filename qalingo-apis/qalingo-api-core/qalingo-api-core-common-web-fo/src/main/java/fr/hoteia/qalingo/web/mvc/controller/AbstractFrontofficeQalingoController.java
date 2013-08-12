@@ -208,7 +208,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 * 
 	 */
 	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentVelocityPrefix(request);
+		return requestUtil.getCurrentVelocityWebPrefix(request);
 	}
 	/**
 	 * 

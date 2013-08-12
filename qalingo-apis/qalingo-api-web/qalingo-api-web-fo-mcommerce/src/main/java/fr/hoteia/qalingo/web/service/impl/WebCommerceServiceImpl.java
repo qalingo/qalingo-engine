@@ -18,8 +18,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +57,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Transactional
 public class WebCommerceServiceImpl implements WebCommerceService {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
     protected EmailService emailService;
 	
@@ -121,7 +117,6 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		defaultAddress.setPostalCode(createAccountForm.getPostalCode());
 		defaultAddress.setCity(createAccountForm.getCity());
 		defaultAddress.setStateCode(createAccountForm.getStateCode());
-		defaultAddress.setAreaCode(createAccountForm.getAreaCode());
 		defaultAddress.setCountryCode(createAccountForm.getCountryCode());
 		defaultAddress.setDefaultBilling(true);
 		defaultAddress.setDefaultShipping(true);
@@ -141,8 +136,8 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 	}
 	
 	public Customer updateCurrentCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerEditForm customerEditForm) throws Exception {
-		String userId = requestUtil.getCurrentCustomerLogin(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(userId);
+		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
+		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		
 		customer.setLogin(customerEditForm.getEmail());
 		customer.setFirstname(customerEditForm.getFirstname());
@@ -157,47 +152,62 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		
 		// save market context phone etc
 		
+		// UPDATE CUSTOMER
 		customerService.saveOrUpdateCustomer(customer);
+		
+		// UPDATE SESSION
+		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		requestUtil.updateCurrentCustomer(request, customer);
 		
 		return customer;
 	}
 	
 	public Customer updateOrSaveAddressCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
-		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
+		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		
-		CustomerAddress defaultAddress = new CustomerAddress();
-		if(StringUtils.isNotEmpty(customerAddressForm.getAddressName())){
-			defaultAddress.setAddressName(customerAddressForm.getAddressName());
-		} else {
-			defaultAddress.setAddressName(customerAddressForm.getAddress1() + "(" + customerAddressForm.getCity() + ")");
+		CustomerAddress customerAddress = new CustomerAddress();
+		String addressId = customerAddressForm.getIdOrGuid();
+		if(StringUtils.isNotEmpty(addressId)){
+			customerAddress = customer.getAddress(new Long(addressId));
 		}
-		defaultAddress.setAddressName(customerAddressForm.getAddressName());
-		defaultAddress.setTitle(customerAddressForm.getTitle());
-		defaultAddress.setLastname(customerAddressForm.getLastname());
-		defaultAddress.setFirstname(customerAddressForm.getFirstname());
-		defaultAddress.setAddress1(customerAddressForm.getAddress1());
-		defaultAddress.setAddress2(customerAddressForm.getAddress2());
-		defaultAddress.setAddressAdditionalInformation(customerAddressForm.getAddressAdditionalInformation());
-		defaultAddress.setPostalCode(customerAddressForm.getPostalCode());
-		defaultAddress.setCity(customerAddressForm.getCity());
-		defaultAddress.setStateCode(customerAddressForm.getStateCode());
-		defaultAddress.setAreaCode(customerAddressForm.getAreaCode());
-		defaultAddress.setCountryCode(customerAddressForm.getCountryCode());
-		defaultAddress.setDefaultBilling(true);
-		defaultAddress.setDefaultShipping(true);
-		customer.getAddresses().add(defaultAddress);
 		
+		if(StringUtils.isNotEmpty(customerAddressForm.getAddressName())){
+			customerAddress.setAddressName(customerAddressForm.getAddressName());
+		} else {
+			customerAddress.setAddressName(customerAddressForm.getAddress1() + "(" + customerAddressForm.getCity() + ")");
+		}
+		customerAddress.setAddressName(customerAddressForm.getAddressName());
+		customerAddress.setTitle(customerAddressForm.getTitle());
+		customerAddress.setLastname(customerAddressForm.getLastname());
+		customerAddress.setFirstname(customerAddressForm.getFirstname());
+		customerAddress.setAddress1(customerAddressForm.getAddress1());
+		customerAddress.setAddress2(customerAddressForm.getAddress2());
+		customerAddress.setAddressAdditionalInformation(customerAddressForm.getAddressAdditionalInformation());
+		customerAddress.setPostalCode(customerAddressForm.getPostalCode());
+		customerAddress.setCity(customerAddressForm.getCity());
+		customerAddress.setStateCode(customerAddressForm.getStateCode());
+		customerAddress.setCountryCode(customerAddressForm.getCountryCode());
+		customerAddress.setDefaultBilling(true);
+		customerAddress.setDefaultShipping(true);
+		
+		if(StringUtils.isEmpty(addressId)){
+			customer.getAddresses().add(customerAddress);
+		}
+		
+		// UPDATE CUSTOMER
 		customerService.saveOrUpdateCustomer(customer);
 		
-		customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		// UPDATE SESSION
+		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		requestUtil.updateCurrentCustomer(request, customer);
 		
 		return customer;
 	}
 	
 	public Customer deleteAddressCustomer(final HttpServletRequest request, final String customerAddressId) throws Exception {
-		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
+		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		CustomerAddress customerAddress = customer.getAddress(new Long(customerAddressId));
 		
 		// SANITY CHECK : wrong address id for this customer
@@ -220,16 +230,20 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		}
 		customer.getAddresses().remove(customerAddress);
 		
+		// UPDATE CUSTOMER
 		customerService.saveOrUpdateCustomer(customer);
-		customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		
+		// UPDATE SESSION
+		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		requestUtil.updateCurrentCustomer(request, customer);
+		
 		return customer;
 	}
 	
 	public Customer addProductSkuToWishlist(final HttpServletRequest request, final String productSkuCode) throws Exception {
 		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		String userId = requestUtil.getCurrentCustomerLogin(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(userId);
+		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
+		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		customer = checkCustomerMarketArea(request, customer);
 		
 		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
@@ -321,16 +335,17 @@ public class WebCommerceServiceImpl implements WebCommerceService {
      * 
      */
 	public void buildAndSaveContactUsMail(final HttpServletRequest request, final ContactUsForm contactUsForm) throws Exception {
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityPrefix(request);
+		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
+		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final ContactUsEmailBean contactUsEmailBean = new ContactUsEmailBean();
 		BeanUtils.copyProperties(contactUsForm, contactUsEmailBean);
-		if(customer != null){
-			emailService.buildAndSaveContactUsMail(localization, customer, VelocityPath, contactUsEmailBean);
-		} else {
-			LOG.error("Can't send email contact us, customer is null.");
-		}
+		
+		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+		contactUsEmailBean.setToEmail(marketArea.getEmailGenericFrom(contextNameValue));
+		
+		emailService.buildAndSaveContactUsMail(localization, customer, VelocityPath, contactUsEmailBean);
 	}
 	
     /**
@@ -338,15 +353,12 @@ public class WebCommerceServiceImpl implements WebCommerceService {
      */
 	public void saveAndBuildNewsletterRegistrationConfirmationMail(final HttpServletRequest request, final FollowUsForm followUsForm) throws Exception {
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityPrefix(request);
+		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean = new NewsletterRegistrationConfirmationEmailBean();
 		BeanUtils.copyProperties(followUsForm, newsletterRegistrationConfirmationEmailBean);
-		if(customer != null){
-			emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, customer, VelocityPath, newsletterRegistrationConfirmationEmailBean);
-		} else {
-			LOG.error("Can't send email newsletter registration, customer is null.");
-		}
+		
+		emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, customer, VelocityPath, newsletterRegistrationConfirmationEmailBean);
 	}
 	
     /**
@@ -354,15 +366,12 @@ public class WebCommerceServiceImpl implements WebCommerceService {
      */
 	public void buildAndSaveCustomerForgottenPasswordMail(final HttpServletRequest request, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityPrefix(request);
+		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
 		BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
-		if(customer != null){
-			emailService.buildAndSaveCustomerForgottenPasswordMail(localization, customer, VelocityPath, customerForgottenPasswordEmailBean);
-		} else {
-			LOG.error("Can't send email forgotten password, customer is null.");
-		}
+		
+		emailService.buildAndSaveCustomerForgottenPasswordMail(localization, customer, VelocityPath, customerForgottenPasswordEmailBean);
 	}
 	
     /**
@@ -370,15 +379,12 @@ public class WebCommerceServiceImpl implements WebCommerceService {
      */
 	public void buildAndSaveCustomerNewAccountMail(final HttpServletRequest request, final CreateAccountForm createAccountForm) throws Exception {
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityPrefix(request);
+		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
 		BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
-		if(customer != null){
-			emailService.buildAndSaveCustomerNewAccountMail(localization, customer, VelocityPath, customerNewAccountConfirmationEmailBean);
-		} else {
-			LOG.error("Can't send new account customer email, customer is null.");
-		}
+		
+		emailService.buildAndSaveCustomerNewAccountMail(localization, customer, VelocityPath, customerNewAccountConfirmationEmailBean);
 	}
-
+	
 }

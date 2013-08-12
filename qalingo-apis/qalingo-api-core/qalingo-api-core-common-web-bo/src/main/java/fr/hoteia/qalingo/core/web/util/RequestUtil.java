@@ -246,5 +246,5 @@ public interface RequestUtil {
 	/**
 	 * 
 	 */
-	String getCurrentVelocityPrefix(HttpServletRequest request) throws Exception;
+	String getCurrentVelocityWebPrefix(HttpServletRequest request) throws Exception;
 }

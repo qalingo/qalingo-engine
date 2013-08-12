@@ -371,8 +371,16 @@ public abstract class AbstractRequestUtilImpl {
 	/**
      * 
      */
-	public String getCurrentVelocityPrefix(final HttpServletRequest request) throws Exception {
+	public String getCurrentVelocityWebPrefix(final HttpServletRequest request) throws Exception {
 		String velocityPath = "/" + getCurrentTheme(request) + "/www/" + getCurrentDevice(request) + "/content/";
+		return velocityPath;
+	}
+	
+	/**
+     * 
+     */
+	public String getCurrentVelocityEmailPrefix(final HttpServletRequest request) throws Exception {
+		String velocityPath = "/" + getCurrentTheme(request) + "/email/";
 		return velocityPath;
 	}
 	

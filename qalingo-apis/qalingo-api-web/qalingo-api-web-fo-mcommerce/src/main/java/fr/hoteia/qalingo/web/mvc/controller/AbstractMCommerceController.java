@@ -255,7 +255,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	 * 
 	 */
 	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentVelocityPrefix(request);
+		return requestUtil.getCurrentVelocityWebPrefix(request);
 	}
 	
 }

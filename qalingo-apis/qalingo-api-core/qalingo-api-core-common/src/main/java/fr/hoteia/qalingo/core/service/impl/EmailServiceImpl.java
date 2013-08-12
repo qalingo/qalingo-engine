@@ -109,9 +109,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
     
@@ -146,9 +146,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
 
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
     
@@ -183,9 +183,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
     
@@ -220,9 +220,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
     
@@ -257,9 +257,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
     
@@ -294,9 +294,9 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't send the message :", e.getMessage());
+        	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e.getMessage());
+        	LOG.error("Error, can't build the message :", e);
         }
     }
 
