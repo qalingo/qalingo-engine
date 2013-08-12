@@ -343,7 +343,7 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		BeanUtils.copyProperties(contactUsForm, contactUsEmailBean);
 		
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
-		contactUsEmailBean.setToEmail(marketArea.getEmailGenericFrom(contextNameValue));
+		contactUsEmailBean.setToEmail(marketArea.getEmailContact(contextNameValue));
 		
 		emailService.buildAndSaveContactUsMail(localization, customer, VelocityPath, contactUsEmailBean);
 	}
