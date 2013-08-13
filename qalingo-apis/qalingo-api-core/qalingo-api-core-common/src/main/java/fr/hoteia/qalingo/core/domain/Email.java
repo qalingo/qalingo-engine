@@ -61,6 +61,10 @@ public class Email implements Serializable {
 	@Column(name="STATUS", nullable=false)
 	private String status;
 	
+	@Column(name="EXCEPTION_CONTENT")
+	@Lob
+    private Blob exceptionContent;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -111,6 +115,14 @@ public class Email implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public Blob getExceptionContent() {
+	    return exceptionContent;
+    }
+	
+	public void setExceptionContent(Blob exceptionContent) {
+	    this.exceptionContent = exceptionContent;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

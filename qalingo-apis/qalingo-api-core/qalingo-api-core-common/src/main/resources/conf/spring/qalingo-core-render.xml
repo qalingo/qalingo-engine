@@ -23,8 +23,8 @@
         <property name="velocityProperties">
             <props>
 				<prop key="resource.loader">${resource.loader}</prop>
-				<prop key="file.resource.loader.path">${file.resource.loader.class}</prop>
-				<prop key="file.resource.loader.class">${file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.path">${file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">${file.resource.loader.class}</prop>
 				<prop key="file.resource.loader.cache">${file.resource.loader.cache}</prop>
 				<prop key="eventhandler.include.class">${eventhandler.include.class}</prop>
 				
