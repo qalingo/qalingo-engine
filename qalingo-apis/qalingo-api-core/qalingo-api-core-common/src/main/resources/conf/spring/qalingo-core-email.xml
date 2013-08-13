@@ -19,11 +19,9 @@
 	    ">
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<!--<property name="host"><value>smtp.free.fr</value></property>-->
-		<!-- http://forum.springframework.org/showthread.php?t=32039 -->
-
-		<property name="username" value="${conf.smtp.username}" />
-		<property name="password" value="${conf.smtp.password}" />
+		<property name="host"		value="${conf.smtp.host}" />
+		<property name="username"	value="${conf.smtp.username}" />
+		<property name="password"	value="${conf.smtp.password}" />
 		
 	    <property name="javaMailProperties">
 	        <props>

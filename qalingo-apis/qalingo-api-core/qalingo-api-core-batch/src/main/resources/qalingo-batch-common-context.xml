@@ -11,13 +11,21 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<import resource="classpath:conf/spring/qalingo-core-dao.xml" />
+
+	<import resource="classpath:conf/spring/qalingo-core-email.xml" />
+
+	<import resource="classpath:conf/spring/qalingo-core-i18n.xml" />
+
+	<import resource="classpath:conf/spring/qalingo-core-service.xml" />
 	
 	<!-- COMMON -->
 	<bean id="stepListener" class="fr.hoteia.qalingo.core.batch.StepListener">
-		<!--
 		<property name="alertMailSender" ref="alertMailSender" />
-		-->
 	</bean>
 
 </beans>

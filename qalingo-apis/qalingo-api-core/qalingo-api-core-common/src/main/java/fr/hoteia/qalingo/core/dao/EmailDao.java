@@ -21,11 +21,16 @@ public interface EmailDao {
 
 	List<Email> findEmailByStatus(String status);
 	
-	List<Long> findIdsForEmailSync();
+	List<Long> findIdsForEmailSync(String type);
 	
 	void saveOrUpdateEmail(Email email);
 
-	void saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException;
+	void saveEmail(Email email, MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException;
+	
+	void saveEmail(Email email, Exception exception) throws IOException;
+
+	void handleEmailException(Email email, Exception exception) throws IOException;
 	
 	void deleteEmail(Email email);
+	
 }

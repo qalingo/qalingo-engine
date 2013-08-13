@@ -48,11 +48,12 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 		return emails;
 	}
 
-	public List<Long> findIdsForEmailSync() {
+	public List<Long> findIdsForEmailSync(String type) {
 		Session session = (Session) em.getDelegate();
-		String sql = "SELECT id FROM Email WHERE status = :status";
+		String sql = "SELECT id FROM Email WHERE status = :status AND type = :type AND processedCount < 5";
 		Query query = session.createQuery(sql);
 		query.setString("status", Email.EMAIl_STATUS_PENDING);
+		query.setString("type", type);
 		List<Long> emailIds = (List<Long>) query.list();
 		return emailIds;
 	}
@@ -96,6 +97,37 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 		email.setEmailContent(blob);
 
 		saveOrUpdateEmail(email);
+	}
+	
+	/**
+	 * @throws IOException
+	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email, Exception e)
+	 */
+	public void saveEmail(final Email email, final Exception exception) throws IOException {
+		handleEmailException(email, exception);
+		saveOrUpdateEmail(email);
+	}
+	
+	/**
+	 * @throws IOException
+	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#handleEmailException(Email email, Exception e)
+	 */
+	public void handleEmailException(final Email email, final Exception exception) throws IOException {
+		Session session = (Session) em.getDelegate();
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+		oos.writeObject(exception);
+		oos.flush();
+		oos.close();
+		bos.close();
+
+		byte[] data = bos.toByteArray();
+
+		Blob blob = Hibernate.getLobCreator(session).createBlob(data);
+
+		email.setExceptionContent(blob);
 	}
 
 	public void deleteEmail(final Email email) {

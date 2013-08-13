@@ -25,7 +25,7 @@ public interface EmailService {
 
 	Email getEmailById(Long id);
 
-	List<Long> findIdsForEmailSync();
+	List<Long> findIdsForEmailSync(String type);
 
 	List<Email> findEmailByStatus(String status);
 	

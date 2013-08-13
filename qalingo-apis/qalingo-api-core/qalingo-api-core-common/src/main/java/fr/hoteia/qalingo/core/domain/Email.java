@@ -41,6 +41,8 @@ public class Email implements Serializable {
 	public static final String EMAIl_TYPE_ORDER_SENT = "ORDER_SENT";
 	
 	public static final String EMAIl_STATUS_PENDING = "PENDING";
+	public static final String EMAIl_STATUS_SENDED = "SENDED";
+	public static final String EMAIl_STATUS_ERROR = "ERROR";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -64,6 +66,9 @@ public class Email implements Serializable {
 	@Column(name="EXCEPTION_CONTENT")
 	@Lob
     private Blob exceptionContent;
+	
+	@Column(name="PROCESSED_COUNT", nullable=false, columnDefinition="int(11) default 0")
+	private int processedCount;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -122,6 +127,14 @@ public class Email implements Serializable {
 	
 	public void setExceptionContent(Blob exceptionContent) {
 	    this.exceptionContent = exceptionContent;
+    }
+	
+	public int getProcessedCount() {
+	    return processedCount;
+    }
+	
+	public void setProcessedCount(int processedCount) {
+	    this.processedCount = processedCount;
     }
 	
 	public Date getDateCreate() {

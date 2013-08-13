@@ -63,8 +63,8 @@ public class EmailServiceImpl implements EmailService {
 		return emailDao.findEmailByStatus(status);
 	}
 	
-	public List<Long> findIdsForEmailSync() {
-		return emailDao.findIdsForEmailSync();
+	public List<Long> findIdsForEmailSync(String type) {
+		return emailDao.findIdsForEmailSync(type);
 	}
 	
 	public void saveOrUpdateEmail(Email email) {
