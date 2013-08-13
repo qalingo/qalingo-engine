@@ -96,6 +96,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("contactUsEmailBean", contactUsEmailBean);
 
         	String toEmail = contactUsEmailBean.getToEmail();
+        	
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(toEmail);
         	mimeMessagePreparator.setFrom(fromEmail);
