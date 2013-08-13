@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.core.util.impl;
 
+import java.io.Serializable;
+
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
@@ -18,8 +20,13 @@ import javax.mail.internet.MimeMultipart;
 
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-public class MimeMessagePreparatorImpl implements MimeMessagePreparator {
+public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Serializable {
 
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 745699901105995036L;
+    
 	private String from;
 	private String to;
 	private String cc;
