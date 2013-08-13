@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.core.service.impl;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +53,6 @@ public class EmailServiceImpl implements EmailService {
     private VelocityEngine velocityEngine;
     
 	@Autowired
-    private MimeMessagePreparatorImpl mimeMessagePreparator;
-    
-	@Autowired
 	protected CoreMessageSource coreMessageSource;
 	
 	public Email getEmailById(Long id) {
@@ -71,6 +69,10 @@ public class EmailServiceImpl implements EmailService {
 	
 	public void saveOrUpdateEmail(Email email) {
 		emailDao.saveOrUpdateEmail(email);
+	}
+	
+	public void saveOrUpdateEmail(Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+		emailDao.saveEmail(email, mimeMessagePreparator);
 	}
 	
 	public void deleteEmail(Email email) {
@@ -94,6 +96,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("contactUsEmailBean", contactUsEmailBean);
 
         	String toEmail = contactUsEmailBean.getToEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(toEmail);
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -103,15 +106,16 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-text-content.vm", model));
         	
         	Email email = new Email();
-        	email.setType(Email.EMAIl_TYPE_CONTACT_US);
+        	email.setType(Email.EMAIl_TYPE_CONTACT);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
-        	
-        	saveOrUpdateEmail(email);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
     
@@ -131,6 +135,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("newsletterRegistrationConfirmationEmailBean", newsletterRegistrationConfirmationEmailBean);
 
         	String fromEmail = newsletterRegistrationConfirmationEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -142,13 +147,14 @@ public class EmailServiceImpl implements EmailService {
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
-        	saveOrUpdateEmail(email);
-
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
     
@@ -168,6 +174,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customerNewAccountConfirmationEmailBean", customerNewAccountConfirmationEmailBean);
 
         	String fromEmail = customerNewAccountConfirmationEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -178,14 +185,14 @@ public class EmailServiceImpl implements EmailService {
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
-        	email.setStatus(Email.EMAIl_STATUS_PENDING);
-        	
-        	saveOrUpdateEmail(email);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
     
@@ -205,6 +212,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
         	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -216,13 +224,14 @@ public class EmailServiceImpl implements EmailService {
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
-        	
-        	saveOrUpdateEmail(email);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
     
@@ -242,6 +251,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
 
         	String fromEmail = orderConfirmationEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -253,13 +263,14 @@ public class EmailServiceImpl implements EmailService {
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
-        	
-        	saveOrUpdateEmail(email);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
     
@@ -279,6 +290,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("orderSentConfirmationEmailBean", orderSentConfirmationEmailBean);
 
         	String fromEmail = orderSentConfirmationEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(customer.getEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
@@ -290,14 +302,15 @@ public class EmailServiceImpl implements EmailService {
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_SENT);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
-        	
-        	saveOrUpdateEmail(email);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
         }
     }
-
+    
 }

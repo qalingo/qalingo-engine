@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_EMAIL")
+@Table(name="TBO_EMAIL")
 public class Email implements Serializable {
 
 	/**
@@ -35,7 +35,7 @@ public class Email implements Serializable {
 
 	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION = "NEW_ACCOUNT_CONFIRMATION";
 	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD = "FORGOTTEN_PASSWORD";
-	public static final String EMAIl_TYPE_CONTACT_US = "CONTACT_US";
+	public static final String EMAIl_TYPE_CONTACT = "CONTACT";
 	public static final String EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION = "NEWSLETTER_REGISTRATION_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_CONFIRMATION = "ORDER_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_SENT = "ORDER_SENT";

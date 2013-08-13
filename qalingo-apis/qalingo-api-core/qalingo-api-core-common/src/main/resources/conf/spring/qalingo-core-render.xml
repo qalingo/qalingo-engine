@@ -22,11 +22,11 @@
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
             <props>
-				<prop key="resource.loader">file</prop>
-				<prop key="file.resource.loader.path">${file.resource.loader.path}</prop>
-				<prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop>
-				<prop key="file.resource.loader.cache">false</prop>
-				<prop key="eventhandler.include.class">org.apache.velocity.app.event.implement.IncludeRelativePath</prop>
+				<prop key="resource.loader">${resource.loader}</prop>
+				<prop key="file.resource.loader.path">${file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.class">${file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.cache">${file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${eventhandler.include.class}</prop>
 				
                 <prop key="velocimacro.library"></prop>
             </props>

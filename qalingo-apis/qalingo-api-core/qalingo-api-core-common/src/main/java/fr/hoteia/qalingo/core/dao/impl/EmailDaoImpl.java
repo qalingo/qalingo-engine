@@ -16,6 +16,7 @@ import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -51,7 +52,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 		Session session = (Session) em.getDelegate();
 		String sql = "SELECT id FROM Email WHERE status = :status";
 		Query query = session.createQuery(sql);
-		query.setString("status", "PENDING");
+		query.setString("status", Email.EMAIl_STATUS_PENDING);
 		List<Long> emailIds = (List<Long>) query.list();
 		return emailIds;
 	}
@@ -60,7 +61,11 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 		if(email.getDateCreate() == null){
 			email.setDateCreate(new Date());
 		}
+		if(StringUtils.isNotEmpty(email.getStatus())){
+			email.setStatus(Email.EMAIl_STATUS_PENDING);
+		}
 		email.setDateUpdate(new Date());
+		
 		if(email.getId() == null){
 			em.persist(email);
 		} else {

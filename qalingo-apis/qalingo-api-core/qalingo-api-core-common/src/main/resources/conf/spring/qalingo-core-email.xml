@@ -45,14 +45,6 @@
 	    </property>
 	</bean>
 	
-	<bean id="mimeMessagePreparator" class="fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl">
-		<property name="from" value="" />
-		<property name="to" value="" />
-		<property name="subject" value="" />
-		<property name="plainTextContent" value="" />
-		<property name="htmlContent" value="" />
-	</bean>
-	
 	<bean id="viewResolver" class="fr.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
         <property name="layoutUrl" value="default/www/default/layout/default.vm" />
