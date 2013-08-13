@@ -33,7 +33,7 @@ public interface EmailService {
 
 	void deleteEmail(Email email);
 	
-	void buildAndSaveContactUsMail(Localization localization, Customer customer, String VelocityPath, ContactUsEmailBean contactUsEmailBean);
+	void buildAndSaveContactMail(Localization localization, Customer customer, String VelocityPath, ContactUsEmailBean contactUsEmailBean);
 	
 	void saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, Customer customer, String VelocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean);
 	

@@ -17,6 +17,8 @@
 
 	<import resource="classpath:conf/spring/qalingo-core-dao.xml" />
 
+	<import resource="classpath:conf/spring/qalingo-core-render.xml" />
+
 	<import resource="classpath:conf/spring/qalingo-core-email.xml" />
 
 	<import resource="classpath:conf/spring/qalingo-core-i18n.xml" />

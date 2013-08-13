@@ -78,9 +78,9 @@ public class EmailServiceImpl implements EmailService {
 	}
 	
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveContactUsMail(Localization localization, Customer customer, String VelocityPath, ContactUsEmailBean contactUsEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactUsEmailBean contactUsEmailBean)
      */
-    public void buildAndSaveContactUsMail(final Localization localization, final Customer customer, final String VelocityPath, final ContactUsEmailBean contactUsEmailBean) {
+    public void buildAndSaveContactMail(final Localization localization, final Customer customer, final String velocityPath, final ContactUsEmailBean contactUsEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -98,9 +98,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {contactUsEmailBean.getLastname(), contactUsEmailBean.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("contact.us.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "contact-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "contact-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.contact.email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_CONTACT_US);
@@ -116,9 +116,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, Customer customer, String VelocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean)
      */
-    public void saveAndBuildNewsletterRegistrationConfirmationMail(final Localization localization, final Customer customer, final String VelocityPath, final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) {
+    public void saveAndBuildNewsletterRegistrationConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -135,9 +135,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("newsletter.registration.confirmation.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "newsletter-registration-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "newsletter-registration-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter.registration_confirmation_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-registration-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-registration-confirmation-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION);
@@ -153,9 +153,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String velocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean)
      */
-    public void buildAndSaveCustomerNewAccountMail(final Localization localization, final Customer customer, final String VelocityPath, final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) {
+    public void buildAndSaveCustomerNewAccountMail(final Localization localization, final Customer customer, final String velocityPath, final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -172,9 +172,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("customer.new.account.confirmation.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "new-account-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "new-account-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.new_account_confirmation_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION);
@@ -190,9 +190,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String velocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
      */
-    public void buildAndSaveCustomerForgottenPasswordMail(final Localization localization, final Customer customer, final String VelocityPath, final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) {
+    public void buildAndSaveCustomerForgottenPasswordMail(final Localization localization, final Customer customer, final String velocityPath, final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -209,9 +209,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("customer.forgotten.password.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "forgotten-password-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "forgotten-password-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.forgotten_password_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
@@ -227,9 +227,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean)
      */
-    public void buildAndSaveNewOrderConfirmationMail(final Localization localization, final Customer customer, final String VelocityPath, final OrderConfirmationEmailBean orderConfirmationEmailBean) {
+    public void buildAndSaveNewOrderConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final OrderConfirmationEmailBean orderConfirmationEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -246,9 +246,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("order.confirmation.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "order-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "order-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.confirmation_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_CONFIRMATION);
@@ -264,9 +264,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderSentConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderSentConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
      */
-    public void buildAndSaveOrderSentConfirmationMail(final Localization localization, final Customer customer, final String VelocityPath, final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) {
+    public void buildAndSaveOrderSentConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -283,9 +283,9 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("order.sent.confirmation.email.prospect.subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "order-sent-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "order-sent-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.ship_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-sent-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-sent-text-content.vm", model));
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_ORDER_SENT);

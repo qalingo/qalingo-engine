@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:context="http://www.springframework.org/schema/context" 
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    ">
+
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">file</prop>
+				<prop key="file.resource.loader.path">${file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop>
+				<prop key="file.resource.loader.cache">false</prop>
+				<prop key="eventhandler.include.class">org.apache.velocity.app.event.implement.IncludeRelativePath</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+
+	<!-- 
+	  This bean sets up the Velocity environment for us based on a root path for templates.
+	  Optionally, a properties file can be specified for more control over the Velocity
+	  environment, but the defaults are pretty sane for file based template loading.
+	-->
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+	  <property name="configLocation" value="classpath:velocity.properties"/>
+	</bean>
+
+</beans>

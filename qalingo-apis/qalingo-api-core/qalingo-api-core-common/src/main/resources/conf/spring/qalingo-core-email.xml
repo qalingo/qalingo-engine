@@ -17,28 +17,6 @@
 	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	    ">
-
-    <!-- Configure Velocity for sending e-mail -->
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="velocityProperties">
-            <props>
-                <prop key="resource.loader">class</prop>
-                <prop key="class.resource.loader.class">
-                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-                </prop>
-                <prop key="velocimacro.library"></prop>
-            </props>
-        </property>
-    </bean>
-
-	<!-- 
-	  This bean sets up the Velocity environment for us based on a root path for templates.
-	  Optionally, a properties file can be specified for more control over the Velocity
-	  environment, but the defaults are pretty sane for file based template loading.
-	-->
-	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-	  <property name="configLocation" value="classpath:velocity.properties"/>
-	</bean>
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<!--<property name="host"><value>smtp.free.fr</value></property>-->
