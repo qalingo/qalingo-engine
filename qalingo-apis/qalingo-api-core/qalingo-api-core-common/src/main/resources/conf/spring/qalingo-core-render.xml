@@ -39,7 +39,7 @@
 	  environment, but the defaults are pretty sane for file based template loading.
 	-->
 	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-	  <property name="configLocation" value="classpath:velocity.properties"/>
+	  <property name="configLocation" value="classpath:common-qalingo-velocity.properties"/>
 	</bean>
 
 </beans>

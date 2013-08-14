@@ -65,6 +65,11 @@
 			</dependency>
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
+				<artifactId>qalingo-api-core-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.hoteia.qalingo</groupId>
 				<artifactId>qalingo-api-core-common-web-bo</artifactId>
 				<version>${project.version}</version>
 			</dependency>

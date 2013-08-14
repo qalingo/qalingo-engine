@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.EngineBoSession;
 import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
@@ -28,6 +30,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.User;
 
 /**
  * 
@@ -48,6 +51,11 @@ public interface RequestUtil {
 	 *
 	 */
 	String getEnvironmentName() throws Exception;
+	
+	/**
+	 *
+	 */
+	String getApplicationName() throws Exception;
 	
 	/**
 	 *
@@ -132,6 +140,41 @@ public interface RequestUtil {
 	/**
      * 
      */
+	User getCurrentUser(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	Long getCurrentUserId(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	void updateCurrentUser(HttpServletRequest request, User user) throws Exception;
+	
+	/**
+     * 
+     */
+	Company getCurrentCompany(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	void handleBackofficeUrlParameters(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	EngineBoSession getCurrentBoSession(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	void setCurrentBoSession(HttpServletRequest request, EngineBoSession ecoSession) throws Exception;
+	
+	/**
+     * 
+     */
 	Cart getCurrentCart(HttpServletRequest request) throws Exception;
 	
 	/**
@@ -178,6 +221,11 @@ public interface RequestUtil {
      * 
      */
 	MarketArea getCurrentMarketArea(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	Localization getCurrentMarketLocalization(HttpServletRequest request) throws Exception;
 	
 	/**
      * 

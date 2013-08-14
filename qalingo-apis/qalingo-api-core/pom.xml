@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>qalingo-api-core-common</module>
+		<module>qalingo-api-core-security</module>
 		<module>qalingo-api-core-common-web-bo</module>
 		<module>qalingo-api-core-common-web-fo</module>
 		<module>qalingo-api-core-xml-binding</module>

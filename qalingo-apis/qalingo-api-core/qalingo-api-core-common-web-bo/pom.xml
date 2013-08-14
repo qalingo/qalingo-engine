@@ -28,13 +28,17 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
+			<artifactId>qalingo-api-core-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-jax-rs</artifactId>
 		</dependency>
 		
 		<!-- Commons libs-->
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 		
 		<dependency>

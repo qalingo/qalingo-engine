@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
@@ -261,31 +260,18 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initUser(final HttpServletRequest request, final Model model) throws Exception {
-		// USER
-		final User user = getUser();
-		model.addAttribute("user", user);
-	}
-	
-	/**
-	 * 
-	 */
-	protected User getUser(){
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = null;
-		if(StringUtils.isNotEmpty(username)
-				&& !username.equalsIgnoreCase("anonymousUser")){
-			user = userService.getUserByLoginOrEmail(username);
-		}
+	@ModelAttribute("user")
+	protected User initUser(final HttpServletRequest request, final Model model) throws Exception {
+		final User user = requestUtil.getCurrentUser(request);
 		return user;
 	}
 	
 	/**
+	 * @throws Exception  
 	 * 
 	 */
-	protected String getUserId(){
-		User user = getUser();
+	protected String getUserId(final HttpServletRequest request) throws Exception {
+		User user = requestUtil.getCurrentUser(request);
 		if(user != null){
 			Long userId = user.getId();
 			if(userId != null){

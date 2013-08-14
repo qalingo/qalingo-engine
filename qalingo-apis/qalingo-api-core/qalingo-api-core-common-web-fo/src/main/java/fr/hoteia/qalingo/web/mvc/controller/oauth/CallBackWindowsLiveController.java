@@ -23,8 +23,8 @@ import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
+import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 
 /**
  * 

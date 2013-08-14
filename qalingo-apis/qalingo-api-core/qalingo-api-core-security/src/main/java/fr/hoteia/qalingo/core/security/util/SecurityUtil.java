@@ -12,13 +12,22 @@ package fr.hoteia.qalingo.core.security.util;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.User;
 
 public interface SecurityUtil {
 
-	String generatePassword(String clearPassword);
+	static final String ALPHA_CAPS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static final String ALPHA		= "abcdefghijklmnopqrstuvwxyz";
+	static final String NUM			= "0123456789";
+	static final String SPL_CHARS	= "!@#$%*";
+    
+	String generatePermalink();
 	
 	void authenticationCustomer(HttpServletRequest request, Customer customer);
+
+	String encodePassword(String clearPassword);
+
+	String generateAndEncodePassword();
 	
-	void authenticationUser(HttpServletRequest request, User user);
+	String generatePassword();
+	
 }

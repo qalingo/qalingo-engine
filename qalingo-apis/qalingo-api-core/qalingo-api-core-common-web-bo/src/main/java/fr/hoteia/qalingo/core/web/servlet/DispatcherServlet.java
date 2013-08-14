@@ -25,13 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.View;
 
 import fr.hoteia.qalingo.core.domain.Company;
 import fr.hoteia.qalingo.core.domain.User;
-import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
@@ -76,17 +74,11 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 	private void initPlatformTheme(HttpServletRequest request){
 		final ServletContext context = getServletContext();
 		final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-		final UserService userService = (UserService) ctx.getBean("userService");
 		final RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
 
 		// THEME
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			User user = null;
-			if(StringUtils.isNotEmpty(username)
-					&& !username.equalsIgnoreCase("anonymousUser")){
-				user = userService.getUserByLoginOrEmail(username);
-			}
+			User user = requestUtil.getCurrentUser(request);
 			if(user !=null){
 				final Company company = user.getCompany();
 				if(company != null
@@ -95,6 +87,7 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 					requestUtil.updateCurrentTheme(request, themeFolder);
 				} 
 			}
+			
 		} catch (Exception e) {
 			LOG.error("", e);
 		}
