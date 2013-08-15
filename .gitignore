@@ -1,5 +1,6 @@
-/.classpath
-/.project
-/pom.xml.releaseBackup
-/release.properties
-/release.properties
+.settings
+.classpath
+.project
+target
+pom.xml.releaseBackup
+release.properties
