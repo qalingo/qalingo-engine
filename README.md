@@ -11,13 +11,13 @@ https://github.com/qalingo/qalingo-b2c-windows-quick-start-env
 0) over Linux, you will find a quick start here :
 https://github.com/qalingo/qalingo-b2c-linux-quick-start-env
 
-1) Check your Maven configuration to add nexus.hoteia.com
-<QUICK_START>/qalingo/tools/Maven_m2_conf/settings.xml
+1) Check your Maven configuration to add http://nexus.hoteia.com
+"QUICK_START"/qalingo/tools/Maven_m2_conf/settings.xml
 Maven profile "dev-qalingo" is in here, with all the specific configuration like JDBC, SMTP etc
 
 2) Clone git projects like :
 * qalingo-b2c-engine : the core
-* qalingo-b2c-i18n : wordins with *.properties
+* qalingo-b2c-i18n : wording with *.properties
 * qalingo-b2c-shared : resources like jdbc and email configuration, etc etc
 
 * qalingo-b2c-web-classic-fo-bo : the basic webapps : backoffice and frontoffice
@@ -31,7 +31,7 @@ qalingo-b2c-engine\qalingo-misc\qalingo-sql\src\main\resources\sql\mysql
 
 5) configure your Apache/Tomcat servers, with configuration from step 0
 
-6) Use the pom.xml from <QUICK_START>/qalingo/workspace/pom.xml to plug module you need.
+6) Use the pom.xml from "QUICK_START"/qalingo/workspace/pom.xml to plug module you need.
 You wil be able to run a maven clean install -P dev-qalingo and build all the big projects
 
 7) Use SH or BAT to start your servers
@@ -43,6 +43,10 @@ You create your own Maven project and :
 * put a zip/copy/past assets from qalingo-b2c-web-classic-fo-bo : don't clone, you don't need to sync Qalingo
 * put a zip/copy/past backoffice/frontoffice webapps from qalingo-b2c-web-classic-fo-bo : don't clone, you don't need to sync Qalingo
 * put a zip/copy/past qalingo-b2c-web-batch : don't clone, you don't need to sync Qalingo
+
+Change your hosts file to add your project and use Apache/Tomcat like Qalingo configuration.
+127.0.0.1  fo-mcommerce.dev.MyDomainName.com fo-prehome.dev.MyDomainName.com rest-remote.dev.MyDomainName.com
+127.0.0.1  bo-business.dev.MyDomainName.com bo-reporting.dev.MyDomainName.com bo-technical.dev.MyDomainName.com
 
 After that, in your own project you will write and build your own Jars and add it with Maven Qalingo dependencies.
 Example in your root pom : 
@@ -81,8 +85,8 @@ Example in your root pom :
 
 
 * If you need to override a class, create a new bean like ExtViewBeanFactoryImpl which extends ViewBeanFactoryImpl and add a bean in your Spring configuration context.
-	<bean id="viewBeanFactory" 
-		  class="fr.hoteia.opentailor.web.mvc.factory.impl.ExtViewBeanFactoryImpl" />
+
+<bean id="viewBeanFactory" class="fr.hoteia.opentailor.web.mvc.factory.impl.ExtViewBeanFactoryImpl" />
 		  
 * If you can't -> create an issue, or make a pull request on Qalingo :D
 
