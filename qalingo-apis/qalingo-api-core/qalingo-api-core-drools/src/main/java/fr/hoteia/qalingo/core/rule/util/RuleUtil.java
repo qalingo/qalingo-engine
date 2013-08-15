@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.util;
+package fr.hoteia.qalingo.core.rule.util;
 
 import java.util.List;
 

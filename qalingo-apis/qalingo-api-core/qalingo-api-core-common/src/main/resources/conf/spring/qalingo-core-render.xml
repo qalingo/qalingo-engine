@@ -22,11 +22,11 @@
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
             <props>
-				<prop key="resource.loader">${resource.loader}</prop>
-				<prop key="file.resource.loader.path">${file.resource.loader.path}</prop>
-				<prop key="file.resource.loader.class">${file.resource.loader.class}</prop>
-				<prop key="file.resource.loader.cache">${file.resource.loader.cache}</prop>
-				<prop key="eventhandler.include.class">${eventhandler.include.class}</prop>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
 				
                 <prop key="velocimacro.library"></prop>
             </props>
@@ -39,7 +39,17 @@
 	  environment, but the defaults are pretty sane for file based template loading.
 	-->
 	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-	  <property name="configLocation" value="classpath:common-qalingo-velocity.properties"/>
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
 	</bean>
 
 </beans>

@@ -28,7 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import fr.hoteia.qalingo.core.domain.EngineEcoSession;
-import fr.hoteia.qalingo.core.util.RuleUtil;
+import fr.hoteia.qalingo.core.rule.util.RuleUtil;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class RulesFilter implements Filter {

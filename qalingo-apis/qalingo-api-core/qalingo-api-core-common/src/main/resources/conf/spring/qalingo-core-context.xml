@@ -17,6 +17,7 @@
 
 	<import resource="classpath:conf/spring/qalingo-core-persistence.xml" />
 
+	<import resource="classpath:conf/spring/qalingo-core-dao.xml" />
 
 	<import resource="classpath:conf/spring/qalingo-core-render.xml" />
 
