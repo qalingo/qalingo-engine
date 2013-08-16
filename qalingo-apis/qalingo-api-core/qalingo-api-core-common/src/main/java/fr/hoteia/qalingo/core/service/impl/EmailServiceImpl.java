@@ -30,6 +30,7 @@ import fr.hoteia.qalingo.core.dao.EmailDao;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Email;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactUsEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
@@ -275,9 +276,9 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderSentConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
      */
-    public void buildAndSaveOrderSentConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) {
+    public void buildAndSaveOrderShippedConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -295,12 +296,51 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.ship_email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-sent-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-sent-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.shipped_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-text-content.vm", model));
         	
         	Email email = new Email();
-        	email.setType(Email.EMAIl_TYPE_ORDER_SENT);
+        	email.setType(Email.EMAIl_TYPE_ORDER_SHIPPED);
+        	email.setStatus(Email.EMAIl_STATUS_PENDING);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
+        	
+        } catch (MailException e) {
+        	LOG.error("Error, can't save the message :", e);
+        } catch (VelocityException e) {
+        	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
+        }
+    }
+    
+    /**
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean)
+     */
+    public void buildAndSaveAbandonedShoppingCartMail(final Localization localization, final Customer customer, final String velocityPath, final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) {
+        try {
+        	final Locale locale = localization.getLocale();
+        	
+        	Map<String, Object> model = new HashMap<String, Object>();
+          
+        	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
+        	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
+        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put("customer", customer);
+        	model.put("abandonedShoppingCartEmailBean", abandonedShoppingCartEmailBean);
+
+        	String fromEmail = abandonedShoppingCartEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
+        	mimeMessagePreparator.setTo(customer.getEmail());
+        	mimeMessagePreparator.setFrom(fromEmail);
+        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.abandoned.shopping.cart_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-text-content.vm", model));
+        	
+        	Email email = new Email();
+        	email.setType(Email.EMAIl_TYPE_ABANDONED_SHOPPING_CART);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	

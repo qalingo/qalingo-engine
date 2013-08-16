@@ -33,12 +33,13 @@ public class Email implements Serializable {
 	 */
 	private static final long serialVersionUID = 4668053374460238571L;
 
-	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION = "NEW_ACCOUNT_CONFIRMATION";
-	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD = "FORGOTTEN_PASSWORD";
-	public static final String EMAIl_TYPE_CONTACT = "CONTACT";
-	public static final String EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION = "NEWSLETTER_REGISTRATION_CONFIRMATION";
-	public static final String EMAIl_TYPE_ORDER_CONFIRMATION = "ORDER_CONFIRMATION";
-	public static final String EMAIl_TYPE_ORDER_SENT = "ORDER_SENT";
+	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION				= "NEW_ACCOUNT_CONFIRMATION";
+	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD					= "FORGOTTEN_PASSWORD";
+	public static final String EMAIl_TYPE_CONTACT								= "CONTACT";
+	public static final String EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION	= "NEWSLETTER_REGISTRATION_CONFIRMATION";
+	public static final String EMAIl_TYPE_ORDER_CONFIRMATION					= "ORDER_CONFIRMATION";
+	public static final String EMAIl_TYPE_ORDER_SHIPPED							= "ORDER_SHIPPED";
+	public static final String EMAIl_TYPE_ABANDONED_SHOPPING_CART				= "ABANDONED_SHOPPING_CART";
 	
 	public static final String EMAIl_STATUS_PENDING = "PENDING";
 	public static final String EMAIl_STATUS_SENDED = "SENDED";

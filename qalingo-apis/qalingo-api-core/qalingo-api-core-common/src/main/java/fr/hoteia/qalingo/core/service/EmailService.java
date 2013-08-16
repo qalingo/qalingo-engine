@@ -14,6 +14,7 @@ import java.util.List;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Email;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactUsEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
@@ -43,6 +44,7 @@ public interface EmailService {
 	
 	void buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean);
 	
-	void buildAndSaveOrderSentConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean);
+	void buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean);
 	
+	void buildAndSaveAbandonedShoppingCartMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean);
 }
