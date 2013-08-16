@@ -115,6 +115,13 @@ VALUES
 (513, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 5),
 (514, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 5);
 
+INSERT INTO teco_market_area_attribute   
+(id, context, string_value, market_area_id, attribute_definition_id)
+VALUES 
+(100, 'FO_MCOMMERCE', 'no-reply@YOURDOMAIN.com', 1, 1),
+(101, 'FO_MCOMMERCE',   'contact@YOURDOMAIN.com', 1, 2),
+(101, 'FO_MCOMMERCE',   'facebook,twitter', 1, 6);
+
 INSERT INTO teco_market_area_localization_rel 
 (market_area_id, localization_id)
  VALUES 

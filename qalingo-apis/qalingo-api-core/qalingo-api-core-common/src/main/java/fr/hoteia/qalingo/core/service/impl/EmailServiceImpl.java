@@ -87,7 +87,8 @@ public class EmailServiceImpl implements EmailService {
         	final Locale locale = localization.getLocale();
         	
         	Map<String, Object> model = new HashMap<String, Object>();
-        	String fromEmail = contactUsEmailBean.getEmail();
+        	String fromEmail = contactUsEmailBean.getFromEmail();
+        	String toEmail = contactUsEmailBean.getToEmail();
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
@@ -95,8 +96,6 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customer", customer);
         	model.put("contactUsEmailBean", contactUsEmailBean);
 
-        	String toEmail = contactUsEmailBean.getToEmail();
-        	
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(toEmail);
         	mimeMessagePreparator.setFrom(fromEmail);

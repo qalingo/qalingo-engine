@@ -59,6 +59,8 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
 VALUES 
+(1, 'Market Area Email From (Generic)', 'Market Area Email From (Generic)', 'MARKET_AREA_EMAIL_FROM', 1, 8, 0, 0, 0, 1),
+(2, 'Market Area Email Contact (To)', 'Market Area Email Contact (To)', 'MARKET_AREA_EMAIL_CONTACT', 1, 8, 0, 0, 0, 1),
 (5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (6, 'Market Area Share Option', 'Market Area Share Option', 'MARKET_AREA_SHARE_OPTIONS', 1, 8, 0, 0, 0, 1),
 (10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),

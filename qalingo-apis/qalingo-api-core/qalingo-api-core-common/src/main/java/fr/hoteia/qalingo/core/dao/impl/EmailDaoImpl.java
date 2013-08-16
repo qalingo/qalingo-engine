@@ -62,7 +62,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 		if(email.getDateCreate() == null){
 			email.setDateCreate(new Date());
 		}
-		if(StringUtils.isNotEmpty(email.getStatus())){
+		if(StringUtils.isEmpty(email.getStatus())){
 			email.setStatus(Email.EMAIl_STATUS_PENDING);
 		}
 		email.setDateUpdate(new Date());

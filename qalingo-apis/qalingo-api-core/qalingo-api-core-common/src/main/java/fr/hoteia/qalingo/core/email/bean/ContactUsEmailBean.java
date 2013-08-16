@@ -11,6 +11,7 @@ package fr.hoteia.qalingo.core.email.bean;
 
 public class ContactUsEmailBean {
 
+	private String fromEmail;
 	private String toEmail;
 	
     private String lastname;
@@ -23,6 +24,14 @@ public class ContactUsEmailBean {
     private String website;
     private String subject;
     private String message;
+    
+    public String getFromEmail() {
+	    return fromEmail;
+    }
+    
+    public void setFromEmail(String fromEmail) {
+	    this.fromEmail = fromEmail;
+    }
     
     public String getToEmail() {
 	    return toEmail;
