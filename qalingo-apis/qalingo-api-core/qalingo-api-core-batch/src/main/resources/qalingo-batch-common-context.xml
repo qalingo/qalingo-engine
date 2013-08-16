@@ -19,7 +19,47 @@
 	
 	<import resource="classpath:conf/spring/qalingo-core-dao.xml" />
 
-	<import resource="classpath:conf/spring/qalingo-core-email.xml" />
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<!--
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				-->
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host"		value="${conf.smtp.host}" />
+		<property name="username"	value="${conf.smtp.username}" />
+		<property name="password"	value="${conf.smtp.password}" />
+		
+	    <property name="javaMailProperties">
+	        <props>
+				<prop key="mail.smtp.host">${conf.smtp.mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${conf.smtp.mail.smtp.port}</prop>
+				
+				<prop key="mail.smtps.auth">${conf.smtp.mail.smtps.auth}</prop>
+				<prop key="mail.smtp.auth">${conf.smtp.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${conf.smtp.mail.smtp.starttls.enable}</prop>
+				
+				<prop key="mail.smtp.debug">${conf.smtp.mail.smtp.debug}</prop>
+				<prop key="mail.debug">${conf.smtp.mail.debug}</prop>
+				<!--
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				-->
+	        </props>
+	    </property>
+	</bean>
 
 	<import resource="classpath:conf/spring/qalingo-core-i18n.xml" />
 
@@ -37,11 +77,6 @@
 		<property name="emailTo" value="${batch.email.alert.to}"/>	
 	</bean>
 	
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value=" ${batch.email.host}" />
-		<property name="port" value="${batch.email.port}" />
-	</bean>
-
 	<bean id="alertMailTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
 		<property name="from" value="${batch.email.alert.from}" />
 		<property name="subject" value="${batch.email.alert.subject}" />
