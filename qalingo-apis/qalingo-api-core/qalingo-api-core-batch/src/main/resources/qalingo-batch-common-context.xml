@@ -29,5 +29,22 @@
 	<bean id="stepListener" class="fr.hoteia.qalingo.core.batch.StepListener">
 		<property name="alertMailSender" ref="alertMailSender" />
 	</bean>
+	
+	<bean id="alertMailSender" class="fr.hoteia.qalingo.core.batch.AlertMailSender">
+		<property name="mailSender" ref="mailSender"/>
+		<property name="templateMessage" ref="alertMailTemplateMessage"/>
+		<property name="urlPrefix" value="${tomcat.context.url}"/>		
+		<property name="emailTo" value="${batch.email.alert.to}"/>	
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value=" ${batch.email.host}" />
+		<property name="port" value="${batch.email.port}" />
+	</bean>
+
+	<bean id="alertMailTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="${batch.email.alert.from}" />
+		<property name="subject" value="${batch.email.alert.subject}" />
+	</bean>
 
 </beans>
