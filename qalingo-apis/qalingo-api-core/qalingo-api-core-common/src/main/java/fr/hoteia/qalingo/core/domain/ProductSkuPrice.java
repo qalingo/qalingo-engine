@@ -45,7 +45,7 @@ public class ProductSkuPrice implements Serializable {
 	@Column(name="PRICE")
 	private BigDecimal price;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 	

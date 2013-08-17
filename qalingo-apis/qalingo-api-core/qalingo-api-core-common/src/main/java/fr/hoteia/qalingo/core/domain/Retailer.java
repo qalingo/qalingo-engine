@@ -94,27 +94,27 @@ public class Retailer implements Serializable {
 	@Column(name="RATIO_QUALITY_PRICE", nullable=false, columnDefinition="tinyint(1) default 0")
 	private int ratioQualityPrice;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<Store> stores = new HashSet<Store>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'RETAILER'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'RETAILER'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsByMarketArea = new HashSet<Asset>();  
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	@Filter(name="filterRetailerAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<RetailerAttribute> retailerGlobalAttributes = new HashSet<RetailerAttribute>(); 
@@ -124,16 +124,16 @@ public class Retailer implements Serializable {
 	@Filter(name="filterRetailerAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<RetailerCustomerRate> customerRates = new HashSet<RetailerCustomerRate>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.RetailerTag.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

@@ -9,15 +9,22 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
  * 
  */
-public class CustomerAddressForm {
+public class CustomerAddressForm implements Serializable {
 	
-    private String idOrGuid;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8718140220836343060L;
+    
+	private String idOrGuid;
     private String addressName;
     private String title;
     private String lastname;

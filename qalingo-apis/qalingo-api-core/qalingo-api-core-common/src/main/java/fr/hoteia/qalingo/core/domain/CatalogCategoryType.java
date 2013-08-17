@@ -55,7 +55,7 @@ public class CatalogCategoryType implements Serializable {
 	@Column(name="CODE")
 	private String code;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	private Set<CatalogCategoryTypeAttribute> catalogCategoryTypeAttributes = new HashSet<CatalogCategoryTypeAttribute>(); 
 
@@ -134,5 +134,4 @@ public class CatalogCategoryType implements Serializable {
 		this.dateUpdate = dateUpdate;
 	}
 
-	
 }

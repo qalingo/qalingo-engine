@@ -65,7 +65,7 @@ public class Cart implements Serializable {
     @JoinColumn(name="SESSION_ID")
 	private EngineEcoSession session;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CART_ID")
 	private Set<CartItem> cartItems = new HashSet<CartItem>();
 

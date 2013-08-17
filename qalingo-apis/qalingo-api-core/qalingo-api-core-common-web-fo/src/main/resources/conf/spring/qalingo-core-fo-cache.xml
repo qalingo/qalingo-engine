@@ -81,7 +81,6 @@
 		<property name="cache" ref="engineSettingCache" />
 	</bean>
 
-	<bean id="engineSettingService" class="fr.hoteia.qalingo.core.security.service.impl.EngineSettingServiceCachingImpl">
-	</bean>
+	<bean id="engineSettingService" class="fr.hoteia.qalingo.core.service.cache.impl.CacheEngineSettingServiceImpl" />
 	
 </beans>

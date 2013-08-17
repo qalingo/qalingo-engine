@@ -62,7 +62,7 @@ public class Company implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="COMPANY_ID")
 	private Set<User> users = new HashSet<User>(); 
 	
@@ -71,7 +71,7 @@ public class Company implements Serializable {
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

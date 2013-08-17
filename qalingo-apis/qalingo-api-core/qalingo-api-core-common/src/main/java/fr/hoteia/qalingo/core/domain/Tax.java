@@ -59,7 +59,7 @@ public class Tax implements Serializable {
 	@Column(name="PERCENT")
 	private BigDecimal percent;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="TAX_ID")
 	private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>(); 
 	

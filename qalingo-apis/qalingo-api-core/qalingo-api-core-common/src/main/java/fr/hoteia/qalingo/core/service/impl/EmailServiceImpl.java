@@ -34,11 +34,13 @@ import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactUsEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.EmailService;
+import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 
 @Service("emailService")
@@ -50,6 +52,9 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
     private EmailDao emailDao;
 
+	@Autowired
+    private UrlService urlService;
+	
 	@Autowired
     private VelocityEngine velocityEngine;
     
@@ -198,9 +203,10 @@ public class EmailServiceImpl implements EmailService {
     }
     
     /**
+     * @throws Exception 
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String velocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
      */
-    public void buildAndSaveCustomerForgottenPasswordMail(final Localization localization, final Customer customer, final String velocityPath, final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) {
+    public void buildAndSaveCustomerForgottenPasswordMail(final Localization localization, final Customer customer, final String velocityPath, final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
         try {
         	final Locale locale = localization.getLocale();
         	
@@ -210,6 +216,7 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
+        	model.put("resetPasswordUrl", urlService.buildResetPasswordUrl(null, null, customer.getEmail(), customerForgottenPasswordEmailBean.getToken()));
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
         	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
@@ -224,6 +231,45 @@ public class EmailServiceImpl implements EmailService {
         	
         	Email email = new Email();
         	email.setType(Email.EMAIl_TYPE_FORGOTTEN_PASSWORD);
+        	email.setStatus(Email.EMAIl_STATUS_PENDING);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
+        	
+        } catch (MailException e) {
+        	LOG.error("Error, can't save the message :", e);
+        } catch (VelocityException e) {
+        	LOG.error("Error, can't build the message :", e);
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
+        }
+    }
+    
+    /**
+     * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String velocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean)
+     */
+    public void buildAndSaveCustomerResetPasswordConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) {
+        try {
+        	final Locale locale = localization.getLocale();
+        	
+        	Map<String, Object> model = new HashMap<String, Object>();
+          
+        	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
+        	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
+        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put("customer", customer);
+        	model.put("customerResetPasswordConfirmationEmailBean", customerResetPasswordConfirmationEmailBean);
+
+        	String fromEmail = customerResetPasswordConfirmationEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
+        	mimeMessagePreparator.setTo(customer.getEmail());
+        	mimeMessagePreparator.setFrom(fromEmail);
+        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.reset_password_email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
+        	
+        	Email email = new Email();
+        	email.setType(Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	

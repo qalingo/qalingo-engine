@@ -94,7 +94,7 @@ public class Store implements Serializable {
 	@Column(name="COUNTRY_CODE")
     private String countryCode;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="STORE_ID")
 	private Set<StoreAttribute> storeAttributes = new HashSet<StoreAttribute>(); 
 	

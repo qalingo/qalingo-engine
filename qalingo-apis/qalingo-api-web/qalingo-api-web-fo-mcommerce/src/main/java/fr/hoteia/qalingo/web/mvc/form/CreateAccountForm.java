@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,9 +18,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class CreateAccountForm {
+public class CreateAccountForm implements Serializable {
 	
-    private String addressName;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8411240584011044748L;
+    
+	private String addressName;
     private String title;
     private String lastname;
     private String firstname;
@@ -356,5 +363,5 @@ public class CreateAccountForm {
 	            + ", countryCode=" + countryCode + ", email=" + email + ", emailConfirm=" + emailConfirm + ", password=" + password + ", passwordConfirm=" + passwordConfirm + ", phone=" + phone
 	            + ", fax=" + fax + ", mobile=" + mobile + ", optin=" + optin + "]";
     }
-	
+
 }

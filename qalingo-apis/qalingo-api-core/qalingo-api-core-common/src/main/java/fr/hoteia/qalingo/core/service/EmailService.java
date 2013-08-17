@@ -18,6 +18,7 @@ import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactUsEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
@@ -40,8 +41,10 @@ public interface EmailService {
 	
 	void buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean);
 	
-	void buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean);
-	
+	void buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception;
+
+	void buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String VelocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean);
+
 	void buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean);
 	
 	void buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean);

@@ -62,7 +62,7 @@ public class RuleRepository implements Serializable {
 	private boolean active;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.AbstractRuleReferential.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -74,7 +74,7 @@ public class RuleRepository implements Serializable {
 	private Set<AbstractRuleReferential> rules = new HashSet<AbstractRuleReferential>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

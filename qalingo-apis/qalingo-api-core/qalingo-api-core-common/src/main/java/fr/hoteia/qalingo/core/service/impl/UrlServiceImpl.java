@@ -494,6 +494,10 @@ public class UrlServiceImpl implements UrlService {
 	public String buildForgottenPasswordUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "sc/forgotten-password.html";
 	}
+	
+	public String buildResetPasswordUrl(final HttpServletRequest request, final MarketArea marketArea, final String email, final String token) throws Exception {
+		return getContextPrefixUrl(request, marketArea) + "sc/reset-password.html?" + RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL + "=" + email + "&" + RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN + "=" + token;
+	}
 
 	public String buildSpringSecurityCheckUrl(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
 		return getContextPrefixUrl(request, marketArea) + "" + "j_spring_security_check";

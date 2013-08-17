@@ -89,28 +89,28 @@ public class CatalogCategoryVirtual implements Serializable {
 //	@Column(name="IS_ROOT", nullable=false, columnDefinition="tinyint(1) default 0")
 //	private boolean isRoot;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name="DEFAULT_PARENT_CATEGORY_ID")
 	private CatalogCategoryVirtual defaultParentCatalogCategory;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	private CatalogCategoryMaster categoryMaster;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
 	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -122,7 +122,7 @@ public class CatalogCategoryVirtual implements Serializable {
 	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.ProductMarketing.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -133,13 +133,13 @@ public class CatalogCategoryVirtual implements Serializable {
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogVirtualCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'VIRTUAL_CATEGORY'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogVirtualCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'VIRTUAL_CATEGORY'")
 	@OrderBy(clause = "ordering asc")

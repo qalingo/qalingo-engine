@@ -48,7 +48,7 @@ public class EngineEcoSession implements Serializable {
 	@Column(name="JSESSION_ID")
 	private String jSessionId;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CART_ID")
 	private Cart cart;
 

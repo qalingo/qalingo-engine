@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,9 +18,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class NewsletterQuickRegistrationForm {
+public class NewsletterQuickRegistrationForm implements Serializable {
 	
-    private String email;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5141197211982561210L;
+    
+	private String email;
     
 	@NotEmpty(message = "fo.follow_us.error_form_email_empty")
 	@Email(message = "fo.follow_us.error_form_email_is_not_valid")

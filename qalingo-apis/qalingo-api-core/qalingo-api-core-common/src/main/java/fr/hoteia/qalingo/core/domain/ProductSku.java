@@ -86,33 +86,33 @@ public class ProductSku implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<ProductSkuAttribute> productSkuGlobalAttributes = new HashSet<ProductSkuAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<ProductSkuAttribute> productSkuMarketAreaAttributes = new HashSet<ProductSkuAttribute>(); 
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
 	private ProductMarketing productMarketing;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_SKU'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_SKU'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuPriceByMarketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
 	private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>(); 
@@ -123,7 +123,7 @@ public class ProductSku implements Serializable {
 	private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Retailer.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

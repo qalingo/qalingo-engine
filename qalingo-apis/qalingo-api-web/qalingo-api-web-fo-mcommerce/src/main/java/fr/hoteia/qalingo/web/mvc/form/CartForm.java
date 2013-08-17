@@ -9,13 +9,20 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 /**
  * 
  * 
  */
-public class CartForm {
+public class CartForm implements Serializable {
 	
-    private String billingAddressId;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -18080132978988541L;
+    
+	private String billingAddressId;
     private String shippingAddressId;
     
 	public String getBillingAddressId() {

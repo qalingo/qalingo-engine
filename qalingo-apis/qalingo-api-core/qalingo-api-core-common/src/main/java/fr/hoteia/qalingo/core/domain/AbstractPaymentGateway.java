@@ -65,7 +65,7 @@ public abstract class AbstractPaymentGateway implements Serializable {
 	@Column(name="CODE")
 	private String code;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PAYMENT_GATEWAY_ID")
 	private Set<PaymentGatewayAttribute> paymentGatewayAttributes = new HashSet<PaymentGatewayAttribute>(); 
 	

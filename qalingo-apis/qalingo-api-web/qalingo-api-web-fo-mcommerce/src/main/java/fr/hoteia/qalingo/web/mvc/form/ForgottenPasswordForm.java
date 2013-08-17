@@ -17,15 +17,15 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  */
 public class ForgottenPasswordForm {
-	
-	@NotEmpty(message = "error.form.forgotten.password.email.empty")
-	@Email(message = "error.form.forgotten.password.email.is.not.valid")
-    private String emailOrLogin;
-    
+
+	@NotEmpty(message = "fo.auth.error_form_forgotten_password_email_empty")
+	@Email(message = "fo.auth.error_form_forgotten_password_email_is_not_valid")
+	private String emailOrLogin;
+
 	public String getEmailOrLogin() {
 		return emailOrLogin;
 	}
-	
+
 	public void setEmailOrLogin(String emailOrLogin) {
 		this.emailOrLogin = emailOrLogin;
 	}

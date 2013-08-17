@@ -48,14 +48,14 @@ public class RetailerCustomerComment extends AbstractAddress implements Serializ
 	@Column(name="RETAILER_CUSTOMER_COMMENT_ID")
 	private Long retailerCustomerCommentId;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH})
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
 	

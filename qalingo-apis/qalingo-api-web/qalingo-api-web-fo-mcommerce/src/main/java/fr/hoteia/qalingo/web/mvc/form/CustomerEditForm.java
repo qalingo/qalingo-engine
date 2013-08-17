@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,9 +18,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class CustomerEditForm {
+public class CustomerEditForm implements Serializable {
 	
-    private String title;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 533390528530898417L;
+    
+	private String title;
     private String lastname;
     private String firstname;
     
@@ -31,7 +38,7 @@ public class CustomerEditForm {
 
     private boolean optin;
 
-	@NotEmpty(message = "error.form.create.account.title.empty")
+	@NotEmpty(message = "error.form.customer.create.account.title.empty")
     public String getTitle() {
 		return title;
 	}
@@ -40,7 +47,7 @@ public class CustomerEditForm {
 		this.title = title;
 	}
     
-	@NotEmpty(message = "error.form.create.account.lastname.empty")
+	@NotEmpty(message = "error.form.customer.create.account.lastname.empty")
 	public String getLastname() {
 		return lastname;
 	}
@@ -49,7 +56,7 @@ public class CustomerEditForm {
 		this.lastname = lastname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.firstname.empty")
+	@NotEmpty(message = "error.form.customer.create.account.firstname.empty")
 	public String getFirstname() {
 		return firstname;
 	}
@@ -58,8 +65,8 @@ public class CustomerEditForm {
 		this.firstname = firstname;
 	}
 
-	@NotEmpty(message = "error.form.create.account.email.empty")
-	@Email(message = "error.form.create.account.email.is.not.valid")
+	@NotEmpty(message = "error.form.customer.create.account.email.empty")
+	@Email(message = "error.form.customer.create.account.email.is.not.valid")
 	public String getEmail() {
 		return email;
 	}
@@ -183,5 +190,5 @@ public class CustomerEditForm {
 	    return "CustomerEditForm [title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", email=" + email + ", emailConfirm=" + emailConfirm + ", phone=" + phone + ", fax=" + fax
 	            + ", mobile=" + mobile + ", optin=" + optin + "]";
     }
-	
+
 }

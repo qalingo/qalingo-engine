@@ -72,7 +72,7 @@ public abstract class AbstractRuleReferential implements Serializable {
 	private String salience;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

@@ -75,6 +75,11 @@ public interface RequestUtil {
 	/**
 	 *
 	 */
+	SimpleDateFormat getDataVocabularyFormatDate(HttpServletRequest request) throws Exception;
+	
+	/**
+	 *
+	 */
 	SimpleDateFormat getAtomFormatDate(HttpServletRequest request) throws Exception;
 	
 	/**

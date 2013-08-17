@@ -55,7 +55,7 @@ public class ProductAssociationLink implements Serializable {
 	@Enumerated(EnumType.STRING) 
 	private ProductAssociationLinkType type;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
 	private ProductMarketing productMarketing;
 	

@@ -166,6 +166,14 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
+	public SimpleDateFormat getDataVocabularyFormatDate(final HttpServletRequest request) throws Exception {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		return formatter;
+	}
+	
+	/**
+	 *
+	 */
 	public SimpleDateFormat getAtomFormatDate(final HttpServletRequest request) throws Exception {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
 		return formatter;

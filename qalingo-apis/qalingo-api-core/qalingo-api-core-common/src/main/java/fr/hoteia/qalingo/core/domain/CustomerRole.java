@@ -64,7 +64,7 @@ public class CustomerRole implements Serializable {
 	private Date dateUpdate;
 
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.CustomerPermission.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

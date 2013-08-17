@@ -127,6 +127,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ShareOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.markup.datavocabulary.ReviewDataVocabularyViewBean;
 
 /**
  * 
@@ -578,6 +579,18 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				}
 				
 				retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
+				
+				ReviewDataVocabularyViewBean reviewDataVocabulary = new ReviewDataVocabularyViewBean();
+				reviewDataVocabulary.setItemreviewed(currentRetailer.getName());
+				reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
+				DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(request);
+				reviewDataVocabulary.setDtreviewed(dateFormat.format(retailerCustomerComment.getDateCreate()));
+//				reviewDataVocabulary.setSummary(summary);
+				reviewDataVocabulary.setDescription(retailerCustomerComment.getComment());
+//				reviewDataVocabulary.setRating(rating);
+				
+				retailerCustomerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+				
 		        retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
 	        }
 		}

@@ -79,7 +79,7 @@ public class CatalogCategoryMaster implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CATALOG_CATEGORY_TYPE_ID", insertable=false, updatable=false)
 	private CatalogCategoryType catalogCategoryType;
 	
@@ -89,24 +89,24 @@ public class CatalogCategoryMaster implements Serializable {
 //	@Column(name="IS_ROOT", nullable=false, columnDefinition="tinyint(1) default 0")
 //	private boolean isRoot;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name="DEFAULT_PARENT_CATEGORY_ID")
 	private CatalogCategoryMaster defaultParentCatalogCategory;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	@Filter(name="filterCatalogMasterCategoryAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryMasterAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	@Filter(name="filterCatalogMasterCategoryAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
 	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryMasterAttribute>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -118,7 +118,7 @@ public class CatalogCategoryMaster implements Serializable {
 	private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=fr.hoteia.qalingo.core.domain.ProductMarketing.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -129,13 +129,13 @@ public class CatalogCategoryMaster implements Serializable {
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	@Filter(name="filterCatalogMasterCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'MASTER_CATEGORY'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	@Filter(name="filterCatalogMasterCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'MASTER_CATEGORY'")
 	@OrderBy(clause = "ordering asc")

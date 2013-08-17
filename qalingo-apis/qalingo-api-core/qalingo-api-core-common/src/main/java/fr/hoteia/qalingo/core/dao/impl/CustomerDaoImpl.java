@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.hoteia.qalingo.core.dao.CustomerDao;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
+import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.exception.CustomerAttributeException;
 
 @Transactional
@@ -106,6 +107,24 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
 	public void deleteCustomer(final Customer customer) {
 		em.remove(customer);
+	}
+	
+	// CREDENTIAL
+	
+	public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+		if(customerCredential.getDateCreate() == null){
+			customerCredential.setDateCreate(new Date());
+			if(StringUtils.isEmpty(customerCredential.getResetToken())){
+				customerCredential.setResetToken(UUID.randomUUID().toString());
+			}
+		}
+		customerCredential.setDateUpdate(new Date());
+		
+		if(customerCredential.getId() == null){
+			em.persist(customerCredential);
+		} else {
+			em.merge(customerCredential);
+		}
 	}
 
 }

@@ -232,6 +232,8 @@ public interface UrlService {
 
 	String buildForgottenPasswordUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
+	String buildResetPasswordUrl(HttpServletRequest request, MarketArea marketArea, String email, String token) throws Exception;
+
 	String buildSpringSecurityCheckUrl(HttpServletRequest request, MarketArea marketArea) throws Exception;
 
 	String buildOAuthConnectUrl(HttpServletRequest request, MarketArea marketArea, String socialNetworkCode) throws Exception;

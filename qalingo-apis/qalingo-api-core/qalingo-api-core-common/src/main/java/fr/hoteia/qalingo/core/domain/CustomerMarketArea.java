@@ -62,11 +62,11 @@ public class CustomerMarketArea implements Serializable {
 	@Column(name="MARKET_AREA_CODE")
     private String marketAreaCode;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
 	private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
 	private Set<CustomerProductComment> productComments = new HashSet<CustomerProductComment>(); 
 	

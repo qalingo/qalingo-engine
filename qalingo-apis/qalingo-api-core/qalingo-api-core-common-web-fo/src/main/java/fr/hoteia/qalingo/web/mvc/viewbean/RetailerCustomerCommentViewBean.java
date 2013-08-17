@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.hoteia.qalingo.web.mvc.viewbean.markup.datavocabulary.ReviewDataVocabularyViewBean;
+
 public class RetailerCustomerCommentViewBean extends AbstractViewBean implements Serializable {
 
 	/**
@@ -25,6 +27,8 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	protected String customerUrl;
 	protected String comment;
 	protected String dateCreate;
+	
+	ReviewDataVocabularyViewBean reviewDataVocabulary = new ReviewDataVocabularyViewBean();
 	
 	protected List<RetailerCustomerCommentViewBean> comments = new ArrayList<RetailerCustomerCommentViewBean>();
 
@@ -66,6 +70,14 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	
 	public void setDateCreate(String dateCreate) {
     	this.dateCreate = dateCreate;
+    }
+	
+	public ReviewDataVocabularyViewBean getReviewDataVocabulary() {
+	    return reviewDataVocabulary;
+    }
+	
+	public void setReviewDataVocabulary(ReviewDataVocabularyViewBean reviewDataVocabulary) {
+	    this.reviewDataVocabulary = reviewDataVocabulary;
     }
 
 	public List<RetailerCustomerCommentViewBean> getComments() {

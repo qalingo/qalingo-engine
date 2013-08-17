@@ -12,6 +12,7 @@ package fr.hoteia.qalingo.web.service;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Order;
@@ -21,8 +22,13 @@ import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
+import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 
 public interface WebCommerceService {
+
+	CustomerCredential flagCustomeCredentialWithToken(HttpServletRequest request, Customer customer) throws Exception;
+	
+	void resetCustomeCredential(HttpServletRequest request, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
 
 	Customer buildAndSaveNewCustomer(HttpServletRequest request, Market market, MarketArea marketMode, CreateAccountForm createAccountForm) throws Exception;
 	
@@ -42,8 +48,10 @@ public interface WebCommerceService {
 	
 	void saveAndBuildNewsletterRegistrationConfirmationMail(HttpServletRequest request, FollowUsForm followUsForm) throws Exception;
 
-	void buildAndSaveCustomerForgottenPasswordMail(HttpServletRequest request, ForgottenPasswordForm forgottenPasswordForm) throws Exception;
-
 	void buildAndSaveCustomerNewAccountMail(HttpServletRequest request, CreateAccountForm createAccountForm) throws Exception;
+
+	void buildAndSaveCustomerForgottenPasswordMail(HttpServletRequest request, Customer customer, CustomerCredential customerCredential, ForgottenPasswordForm forgottenPasswordForm) throws Exception;
+
+	void buildAndSaveCustomerResetPasswordConfirmationMail(HttpServletRequest request, Customer customer) throws Exception;
 
 }

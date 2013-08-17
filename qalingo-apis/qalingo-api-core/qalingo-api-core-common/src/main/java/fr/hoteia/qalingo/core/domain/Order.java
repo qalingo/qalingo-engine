@@ -65,19 +65,19 @@ public class Order implements Serializable {
 	@Column(name="SHIPPING_ADDRESS_ID")
 	private Long shippingAddressId;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderItem> orderItems = new HashSet<OrderItem>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderPayment> orderPayments = new HashSet<OrderPayment>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderShipment> orderShipments = new HashSet<OrderShipment>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="ORDER_ID")
 	private Set<OrderTax> orderTaxes = new HashSet<OrderTax>();
 	

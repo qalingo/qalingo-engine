@@ -9,13 +9,20 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 /**
  * 
  * 
  */
-public class PaymentForm {
+public class PaymentForm implements Serializable {
 	
-    private String cardHolder;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6292956614074854660L;
+    
+	private String cardHolder;
     private String cardNumber;
     private String cardCrypto;
     private String cardMonth;

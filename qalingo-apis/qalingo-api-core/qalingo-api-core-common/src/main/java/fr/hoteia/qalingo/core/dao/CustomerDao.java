@@ -12,6 +12,7 @@ package fr.hoteia.qalingo.core.dao;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerCredential;
 
 public interface CustomerDao {
 
@@ -29,4 +30,7 @@ public interface CustomerDao {
 
 	void deleteCustomer(Customer customer);
 
+	// CREDENTIAL
+	
+	void saveOrUpdateCustomerCredential(CustomerCredential customerCredential) throws Exception;
 }

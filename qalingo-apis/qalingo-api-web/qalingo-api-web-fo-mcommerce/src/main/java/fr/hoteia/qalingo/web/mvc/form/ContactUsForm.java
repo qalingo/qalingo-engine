@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,9 +18,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class ContactUsForm {
+public class ContactUsForm implements Serializable {
 	
-    private String lastname;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3169760453881902024L;
+    
+	private String lastname;
     private String firstname;
     private String country;
     private String email;

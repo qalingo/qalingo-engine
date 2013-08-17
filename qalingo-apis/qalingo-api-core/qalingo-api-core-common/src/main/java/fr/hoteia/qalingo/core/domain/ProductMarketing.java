@@ -82,39 +82,39 @@ public class ProductMarketing implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="BRAND_ID", insertable=false, updatable=false)
 	private ProductBrand productBrand;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_TYPE_ID", insertable=false, updatable=false)
 	private ProductMarketingType productMargetingType;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETTING_ID")
 	@Filter(name="filterProductMarketingAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<ProductMarketingAttribute> productMarketingGlobalAttributes = new HashSet<ProductMarketingAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETTING_ID")
 	@Filter(name="filterProductMarketingAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new HashSet<ProductMarketingAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
 	private Set<ProductSku> productSkus = new HashSet<ProductSku>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
 	private Set<ProductAssociationLink> productAssociationLinks = new HashSet<ProductAssociationLink>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
 	@Filter(name="filterProductMarketingAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_MARKETING'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
 	@Filter(name="filterProductMarketingAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_MARKETING'")
 	@OrderBy(clause = "ordering asc")

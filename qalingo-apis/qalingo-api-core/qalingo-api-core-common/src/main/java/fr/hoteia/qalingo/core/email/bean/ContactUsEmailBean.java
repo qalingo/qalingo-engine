@@ -9,11 +9,15 @@
  */
 package fr.hoteia.qalingo.core.email.bean;
 
-public class ContactUsEmailBean {
+import java.io.Serializable;
 
-	private String fromEmail;
-	private String toEmail;
-	
+public class ContactUsEmailBean extends AbstractEmailBean implements Serializable {
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -4803104945071198172L;
+    
     private String lastname;
     private String firstname;
     private String country;
@@ -24,22 +28,6 @@ public class ContactUsEmailBean {
     private String website;
     private String subject;
     private String message;
-    
-    public String getFromEmail() {
-	    return fromEmail;
-    }
-    
-    public void setFromEmail(String fromEmail) {
-	    this.fromEmail = fromEmail;
-    }
-    
-    public String getToEmail() {
-	    return toEmail;
-    }
-    
-    public void setToEmail(String toEmail) {
-	    this.toEmail = toEmail;
-    }
     
 	public String getLastname() {
 		return lastname;
@@ -120,6 +108,5 @@ public class ContactUsEmailBean {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }

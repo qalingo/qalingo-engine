@@ -41,7 +41,7 @@ public class TaxCountry implements Serializable {
 	@Column(name="CODE_COUNTRY")
 	private String codeCountry;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="TAX_COUNTRY_ID")
 	private Set<TaxCounty> taxCounties = new HashSet<TaxCounty>(); 
 	

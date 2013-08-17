@@ -9,16 +9,22 @@
  */
 package fr.hoteia.qalingo.core.email.bean;
 
-public class CustomerForgottenPasswordEmailBean {
+import java.io.Serializable;
 
-	private String fromEmail;
+public class CustomerForgottenPasswordEmailBean extends AbstractEmailBean implements Serializable {
 
-	public String getFromEmail() {
-	    return fromEmail;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -5410830735779028978L;
+    
+    private String token;
+
+    public String getToken() {
+	    return token;
     }
-	
-	public void setFromEmail(String fromEmail) {
-	    this.fromEmail = fromEmail;
+    
+    public void setToken(String token) {
+	    this.token = token;
     }
-
 }

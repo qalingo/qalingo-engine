@@ -11,9 +11,12 @@ package fr.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -99,15 +102,19 @@ public class Customer implements Serializable {
 	@Column(name="VALIDATED", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean validated;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_ID")
+	private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>(); 
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerAddress> addresses = new HashSet<CustomerAddress>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerConnectionLog> connectionLogs = new HashSet<CustomerConnectionLog>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>(); 
 
@@ -269,6 +276,39 @@ public class Customer implements Serializable {
     	this.validated = validated;
     }
 
+	public Set<CustomerCredential> getCredentials() {
+	    return credentials;
+    }
+	
+	public CustomerCredential getCurrentCredential() {
+		if(credentials != null){
+			List<CustomerCredential> sortedObjects = new LinkedList<CustomerCredential>(credentials);
+			Collections.sort(sortedObjects, new Comparator<CustomerCredential>() {
+				@Override
+				public int compare(CustomerCredential o1, CustomerCredential o2) {
+					if(o1 != null
+							&& o2 != null){
+						Date order1 = o1.getDateCreate();
+						Date order2 = o2.getDateCreate();
+						if(order1 != null
+								&& order2 != null){
+							return order1.compareTo(order2);				
+						} else {
+							return o1.getId().compareTo(o2.getId());	
+						}
+					}
+					return 0;
+				}
+			});
+			return sortedObjects.get(0);
+		}
+	    return null;
+    }
+	
+	public void setCredentials(Set<CustomerCredential> credentials) {
+	    this.credentials = credentials;
+    }
+	
 	public Set<CustomerAddress> getAddresses() {
 		return addresses;
 	}

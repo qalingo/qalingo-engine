@@ -52,6 +52,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAM_USER_ID = "user-id";
 	public static final String REQUEST_PARAM_PAGE_ID = "page-id";
 
+	public static final String REQUEST_PARAMETER_PASSWORD_RESET_TOKEN = "reset-token";
+	public static final String REQUEST_PARAMETER_PASSWORD_RESET_EMAIL = "reset-email";
 	public static final String REQUEST_PARAM_AUTH_ERROR = "auth-error";
 
 	// SEARCH PAGINATION

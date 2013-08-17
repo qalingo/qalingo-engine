@@ -28,6 +28,10 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
+			<artifactId>qalingo-api-core-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-common-web-fo</artifactId>
 		</dependency>
 		<dependency>

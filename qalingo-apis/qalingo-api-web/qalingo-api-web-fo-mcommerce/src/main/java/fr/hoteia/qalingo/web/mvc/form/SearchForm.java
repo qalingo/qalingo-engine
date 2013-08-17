@@ -9,14 +9,20 @@
  */
 package fr.hoteia.qalingo.web.mvc.form;
 
+import java.io.Serializable;
 
 /**
  * 
  * 
  */
-public class SearchForm {
+public class SearchForm implements Serializable {
 	
-    private String text;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1243393136279082685L;
+    
+	private String text;
     
 	public String getText() {
 		return text;
@@ -55,5 +61,5 @@ public class SearchForm {
     public String toString() {
 	    return "SearchForm [text=" + text + "]";
     }
-
+	
 }

@@ -20,7 +20,7 @@ VALUES
 
 -- password equal "password"
 INSERT INTO tbo_user 
-(id, version, email, firstname, lastname, password, login, is_active, company_id)
+(id, version, email, firstname, lastname, current_password, login, is_active, company_id)
 VALUES (1, 1, 'qalingo@qalingo.com', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
 
 INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
@@ -29,7 +29,7 @@ INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
 
 -- password equal "password"
 INSERT INTO teco_customer 
-(id, version, email, firstname, lastname, password, login, code, is_active)
+(id, version, email, firstname, lastname, current_password, login, code, is_active)
 VALUES (1, 1, 'qalingo@qalingo.com', 'Customer', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'customer', 'CUST1', 1);
 
 INSERT INTO teco_customer_address 
@@ -39,6 +39,10 @@ VALUES (1, 'MR', 'Customer', 'Qalingo', 'rue de versaille', '', '', 'address1', 
 INSERT INTO teco_customer_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, customer_id, attribute_definition_id, localization_code, market_area_id)
 VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 10, null, null);
+
+INSERT INTO teco_customer_credential 
+(id, customer_id, password)
+VALUES (1, 1, 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58');
 
 INSERT INTO teco_cust_group_rel 
 (customer_id, group_id) 

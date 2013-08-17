@@ -9,16 +9,13 @@
  */
 package fr.hoteia.qalingo.core.email.bean;
 
-public class OrderSentConfirmationEmailBean {
+import java.io.Serializable;
 
-	private String fromEmail;
+public class OrderSentConfirmationEmailBean extends AbstractEmailBean implements Serializable {
 
-	public String getFromEmail() {
-	    return fromEmail;
-    }
-	
-	public void setFromEmail(String fromEmail) {
-	    this.fromEmail = fromEmail;
-    }
-
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -6623586686705324336L;
+    
 }

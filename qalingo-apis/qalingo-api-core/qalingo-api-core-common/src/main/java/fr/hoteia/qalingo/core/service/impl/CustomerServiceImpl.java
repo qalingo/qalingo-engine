@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.dao.CustomerDao;
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
 @Service("customerService")
@@ -58,6 +59,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	public void deleteCustomer(final Customer customer) {
 		customerDao.deleteCustomer(customer);
+	}
+	
+	// CREDENTIAL
+	
+	public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+		customerDao.saveOrUpdateCustomerCredential(customerCredential);
 	}
 	
 }

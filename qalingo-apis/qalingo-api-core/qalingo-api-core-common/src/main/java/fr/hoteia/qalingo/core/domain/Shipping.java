@@ -59,7 +59,7 @@ public class Shipping implements Serializable {
 	@Column(name="PRICE")
 	private BigDecimal price;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="SHIPPING_ID")
 	private Set<ShippingCountry> shippingCountries = new HashSet<ShippingCountry>(); 
 	
