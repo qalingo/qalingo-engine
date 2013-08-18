@@ -13,7 +13,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -60,12 +62,12 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
 	public void saveOrUpdateEmail(final Email email) {
 		if(email.getDateCreate() == null){
-			email.setDateCreate(new Date());
+			email.setDateCreate(new Timestamp(new Date().getTime()));
 		}
 		if(StringUtils.isEmpty(email.getStatus())){
 			email.setStatus(Email.EMAIl_STATUS_PENDING);
 		}
-		email.setDateUpdate(new Date());
+		email.setDateUpdate(new Timestamp(new Date().getTime()));
 		
 		if(email.getId() == null){
 			em.persist(email);
@@ -133,4 +135,26 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 	public void deleteEmail(final Email email) {
 		em.remove(email);
 	}
+	
+	public int deleteSendedEmail(Timestamp before) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "DELETE FROM Email WHERE dateCreate <= :before";
+//		Query query = session.createQuery(sql);
+//		query.setTimestamp("before", before);
+//		int row = query.executeUpdate();
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM Email WHERE dateCreate <= :before";
+		Query query = session.createQuery(sql);
+		query.setTimestamp("before", before);
+		List<Email> emails = (List<Email>) query.list();
+		if(emails != null){
+			for (Iterator<Email> iterator = emails.iterator(); iterator.hasNext();) {
+		        Email email = (Email) iterator.next();
+		        deleteEmail(email);
+	        }
+			return emails.size();
+		}
+		return 0;
+	}
+
 }

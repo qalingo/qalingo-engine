@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.dao;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Email;
@@ -32,5 +33,7 @@ public interface EmailDao {
 	void handleEmailException(Email email, Exception exception) throws IOException;
 	
 	void deleteEmail(Email email);
-	
+
+	int deleteSendedEmail(Timestamp before);
+
 }

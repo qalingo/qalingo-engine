@@ -65,7 +65,7 @@ public class JobLauncherDetails extends QuartzJobBean {
 		
 		JobParameters jobParameters = getJobParametersFromJobMap(jobDataMap);
 		try {
-			jobLauncher.run(jobLocator.getJob("chargementAdpAssureurJob"), jobParameters);
+			jobLauncher.run(jobLocator.getJob(jobName), jobParameters);
 
 		} catch (JobExecutionException e) {
 			log.error("Could not execute job.", e);
