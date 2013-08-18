@@ -45,7 +45,7 @@ public class MarketArea implements Serializable {
 	 */
 	private static final long serialVersionUID = -6237479836764154416L;
 
-	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM	= "MARKET_AREA_EMAIL_GENERIC_FROM";
+	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM			= "MARKET_AREA_EMAIL_FROM";
 	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_CONTACT		= "MARKET_AREA_EMAIL_CONTACT";
 	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME		= "MARKET_AREA_DOMAIN_NAME";
 	public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS		= "MARKET_AREA_SHARE_OPTIONS";
