@@ -85,16 +85,16 @@ public class MarketArea implements Serializable {
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
 	private Market market;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.LAZY,
+			fetch = FetchType.EAGER,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -117,7 +117,7 @@ public class MarketArea implements Serializable {
 	    )
 	private Set<Retailer> retailers = new HashSet<Retailer>(); 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_AREA_ID")
 	private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>(); 
 	
@@ -248,10 +248,9 @@ public class MarketArea implements Serializable {
 	
 	public Localization getLocalization(String localeCode) {
 		Localization localeToReturn = null;
-		Set<Localization> locales = getLocalizations();
-		if(locales != null
-				&& locales.size() > 0){
-			for (Iterator<Localization> iterator = locales.iterator(); iterator.hasNext();) {
+		if(localizations != null
+				&& !localizations.isEmpty()){
+			for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
 				Localization localization = (Localization) iterator.next();
 				if(localization.getCode().equalsIgnoreCase(localeCode)){
 					localeToReturn = localization;
@@ -271,9 +270,8 @@ public class MarketArea implements Serializable {
 	
 	public Retailer getDefaultRetailer() {
 		Retailer defaultRetailer = null;
-		Set<Retailer> retailers = getRetailers();
 		if(retailers != null
-				&& retailers.size() > 0){
+				&& !retailers.isEmpty()){
 			for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 				Retailer retailer = (Retailer) iterator.next();
 				if(retailer.isDefault()){
@@ -290,9 +288,8 @@ public class MarketArea implements Serializable {
 	
 	public Retailer getRetailer(String retailerCode) {
 		Retailer retailerToReturn = null;
-		Set<Retailer> retailers = getRetailers();
 		if(retailers != null
-				&& retailers.size() > 0){
+				&& !retailers.isEmpty()){
 			for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 				Retailer retailer = (Retailer) iterator.next();
 				if(retailer.getCode().equalsIgnoreCase(retailerCode)){
@@ -372,7 +369,8 @@ public class MarketArea implements Serializable {
     }
 	
 	private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
-	    if(marketAreaAttributes != null){
+	    if(marketAreaAttributes != null
+	    		&& !marketAreaAttributes.isEmpty()){
 	    	for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
 	    		MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
 	    		AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();

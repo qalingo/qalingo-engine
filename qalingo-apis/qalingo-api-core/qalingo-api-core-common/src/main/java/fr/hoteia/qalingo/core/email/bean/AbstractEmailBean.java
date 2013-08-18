@@ -19,7 +19,7 @@ public abstract class AbstractEmailBean implements Serializable {
     private static final long serialVersionUID = 5417215634608783739L;
     
 	private String fromEmail;
-	private String replyTo;
+	private String replyToEmail;
 	private String toEmail;
 	
 	public String getFromEmail() {
@@ -30,12 +30,12 @@ public abstract class AbstractEmailBean implements Serializable {
 	    this.fromEmail = fromEmail;
     }
 	
-	public String getReplyTo() {
-	    return replyTo;
+	public String getReplyToEmail() {
+	    return replyToEmail;
     }
 	
-	public void setReplyTo(String replyTo) {
-	    this.replyTo = replyTo;
+	public void setReplyToEmail(String replyToEmail) {
+	    this.replyToEmail = replyToEmail;
     }
 	
 	public String getToEmail() {

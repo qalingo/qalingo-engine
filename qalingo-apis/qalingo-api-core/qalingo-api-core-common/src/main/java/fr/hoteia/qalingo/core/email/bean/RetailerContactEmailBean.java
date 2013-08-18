@@ -11,13 +11,15 @@ package fr.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class ContactUsEmailBean extends AbstractEmailBean implements Serializable {
+public class RetailerContactEmailBean extends AbstractEmailBean implements Serializable {
 
 	/**
      * 
      */
-    private static final long serialVersionUID = -4803104945071198172L;
-    
+    private static final long serialVersionUID = -4803104155071198172L;
+
+    private String retailerCode;
+
     private String lastname;
     private String firstname;
     private String country;
@@ -28,6 +30,14 @@ public class ContactUsEmailBean extends AbstractEmailBean implements Serializabl
     private String website;
     private String subject;
     private String message;
+    
+    public String getRetailerCode() {
+	    return retailerCode;
+    }
+    
+    public void setRetailerCode(String retailerCode) {
+	    this.retailerCode = retailerCode;
+    }
     
 	public String getLastname() {
 		return lastname;

@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * 
  */
-public class ContactUsForm implements Serializable {
+public class ContactForm implements Serializable {
 	
     /**
      * 
@@ -145,7 +145,7 @@ public class ContactUsForm implements Serializable {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    ContactUsForm other = (ContactUsForm) obj;
+	    ContactForm other = (ContactForm) obj;
 	    if (country == null) {
 		    if (other.country != null)
 			    return false;

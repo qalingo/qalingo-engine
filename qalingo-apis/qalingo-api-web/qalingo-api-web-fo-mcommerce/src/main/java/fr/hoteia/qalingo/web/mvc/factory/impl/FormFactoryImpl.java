@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
-import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
@@ -50,8 +50,8 @@ public class FormFactoryImpl implements FormFactory {
 	@Autowired
     protected UrlService urlService;
 	
-	public ContactUsForm buildContactUsForm(final HttpServletRequest request) throws Exception {
-		final ContactUsForm contactUsForm = new ContactUsForm();
+	public ContactForm buildContactForm(final HttpServletRequest request) throws Exception {
+		final ContactForm contactUsForm = new ContactForm();
 		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
 		if(languageCode.equals("en")) {
 			contactUsForm.setCountry("US");

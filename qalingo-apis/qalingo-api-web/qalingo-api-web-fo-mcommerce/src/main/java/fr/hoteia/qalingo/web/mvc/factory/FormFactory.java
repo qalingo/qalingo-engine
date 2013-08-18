@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
-import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.web.mvc.form.SearchForm;
 
 public interface FormFactory {
 
-	ContactUsForm buildContactUsForm(HttpServletRequest request) throws Exception;
+	ContactForm buildContactForm(HttpServletRequest request) throws Exception;
 
 	SearchForm buildSearchForm(HttpServletRequest request) throws Exception;
 

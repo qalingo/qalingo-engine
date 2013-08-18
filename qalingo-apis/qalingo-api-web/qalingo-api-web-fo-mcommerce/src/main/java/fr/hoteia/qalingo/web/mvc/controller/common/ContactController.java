@@ -41,7 +41,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
@@ -57,7 +57,7 @@ public class ContactController extends AbstractMCommerceController {
     protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = "/contact.html*", method = RequestMethod.GET)
-	public ModelAndView displayContactForm(final HttpServletRequest request, Model model,  @ModelAttribute("contactUsForm") ContactUsForm contactUsForm) throws Exception {
+	public ModelAndView displayContactForm(final HttpServletRequest request, Model model,  @ModelAttribute("contactForm") ContactForm contactForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-form");
 		
 		// "contactus";
@@ -74,7 +74,7 @@ public class ContactController extends AbstractMCommerceController {
 	}
 
 	@RequestMapping(value = "/contact.html*", method = RequestMethod.POST)
-	public ModelAndView submitContact(final HttpServletRequest request, @Valid  @ModelAttribute("contactUsForm") ContactUsForm contactUsForm,
+	public ModelAndView submitContact(final HttpServletRequest request, @Valid  @ModelAttribute("contactForm") ContactForm contactForm,
 								BindingResult result, Model model) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "contact/contact-success");
@@ -82,7 +82,7 @@ public class ContactController extends AbstractMCommerceController {
 		// "contactus";
 		
 		if (result.hasErrors()) {
-			return displayContactForm(request, model, contactUsForm);
+			return displayContactForm(request, model, contactForm);
 		}
 		
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
@@ -93,7 +93,7 @@ public class ContactController extends AbstractMCommerceController {
 
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
 
-		webCommerceService.buildAndSaveContactUsMail(request, contactUsForm);
+		webCommerceService.buildAndSaveContactMail(request, contactForm);
 
         return modelAndView;
 	}
@@ -101,9 +101,9 @@ public class ContactController extends AbstractMCommerceController {
 	/**
 	 * 
 	 */
-    @ModelAttribute("contactUsForm")
-	protected ContactUsForm getContactUsForm(final HttpServletRequest request, final Model model) throws Exception {
-    	return formFactory.buildContactUsForm(request);
+    @ModelAttribute("contactForm")
+	protected ContactForm getContactUsForm(final HttpServletRequest request, final Model model) throws Exception {
+    	return formFactory.buildContactForm(request);
 	}
     
     @ModelAttribute(ModelConstants.COUNTRIES)

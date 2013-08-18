@@ -37,6 +37,7 @@ public class Email implements Serializable {
 	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD					= "FORGOTTEN_PASSWORD";
 	public static final String EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION			= "RESET_PASSWORD_CONFIRMATION";
 	public static final String EMAIl_TYPE_CONTACT								= "CONTACT";
+	public static final String EMAIl_TYPE_RETAILER_CONTACT						= "RETAILER_CONTACT";
 	public static final String EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION	= "NEWSLETTER_REGISTRATION_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_CONFIRMATION					= "ORDER_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_SHIPPED							= "ORDER_SHIPPED";

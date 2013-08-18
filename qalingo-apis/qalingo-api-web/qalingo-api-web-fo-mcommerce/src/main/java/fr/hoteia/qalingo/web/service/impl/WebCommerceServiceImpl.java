@@ -37,24 +37,28 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.OrderItem;
-import fr.hoteia.qalingo.core.email.bean.ContactUsEmailBean;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerGroupService;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.EmailService;
 import fr.hoteia.qalingo.core.service.OrderService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 @Service("webCommerceService")
@@ -66,6 +70,9 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 	
 	@Autowired
     protected CustomerService customerService;
+	
+	@Autowired
+    protected RetailerService retailerService;
 	
 	@Autowired
     protected OrderService orderService;
@@ -371,68 +378,93 @@ public class WebCommerceServiceImpl implements WebCommerceService {
     /**
      * 
      */
-	public void buildAndSaveContactUsMail(final HttpServletRequest request, final ContactUsForm contactUsForm) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
+	public void buildAndSaveContactMail(final HttpServletRequest request, final ContactForm contactForm) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Localization localization = requestUtil.getCurrentLocalization(request);
+		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
+		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+
+		final ContactEmailBean contactEmailBean = new ContactEmailBean();
+		BeanUtils.copyProperties(contactForm, contactEmailBean);
+		contactEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		contactEmailBean.setToEmail(currentMarketArea.getEmailContact(contextNameValue));
+		contactEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		
+		emailService.buildAndSaveContactMail(localization, VelocityPath, contactEmailBean);
+	}
+	
+    /**
+     * 
+     */
+	public void buildAndSaveRetailerContactMail(final HttpServletRequest request, final RetailerContactForm retailerContactForm) throws Exception {
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 
-		final ContactUsEmailBean contactUsEmailBean = new ContactUsEmailBean();
-		BeanUtils.copyProperties(contactUsForm, contactUsEmailBean);
+		final Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerContactForm.getRetailerCode());
 		
-		contactUsEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
-		contactUsEmailBean.setToEmail(marketArea.getEmailContact(contextNameValue));
+		final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
+		BeanUtils.copyProperties(retailerContactForm, retailerContactEmailBean);
+		retailerContactEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		retailerContactEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		retailerContactEmailBean.setToEmail(retailer.getDefaultAddress().getEmail());
 		
-		emailService.buildAndSaveContactMail(localization, customer, VelocityPath, contactUsEmailBean);
+		emailService.buildAndSaveRetailerContactMail(localization, customer, VelocityPath, retailerContactEmailBean);
 	}
 	
     /**
      * 
      */
 	public void saveAndBuildNewsletterRegistrationConfirmationMail(final HttpServletRequest request, final FollowUsForm followUsForm) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 
 		final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean = new NewsletterRegistrationConfirmationEmailBean();
 		BeanUtils.copyProperties(followUsForm, newsletterRegistrationConfirmationEmailBean);
-		newsletterRegistrationConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		newsletterRegistrationConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		newsletterRegistrationConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		newsletterRegistrationConfirmationEmailBean.setToEmail(followUsForm.getEmail());
 		
-		emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, customer, VelocityPath, newsletterRegistrationConfirmationEmailBean);
+		emailService.saveAndBuildNewsletterRegistrationConfirmationMail(localization, VelocityPath, newsletterRegistrationConfirmationEmailBean);
 	}
 	
     /**
      * 
      */
 	public void buildAndSaveCustomerNewAccountMail(final HttpServletRequest request, final CreateAccountForm createAccountForm) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 
 		final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
 		BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
-		customerNewAccountConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerNewAccountConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerNewAccountConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerNewAccountConfirmationEmailBean.setToEmail(createAccountForm.getEmail());
 		
-		emailService.buildAndSaveCustomerNewAccountMail(localization, customer, VelocityPath, customerNewAccountConfirmationEmailBean);
+		emailService.buildAndSaveCustomerNewAccountMail(localization, VelocityPath, customerNewAccountConfirmationEmailBean);
 	}
 	
     /**
      * 
      */
 	public void buildAndSaveCustomerForgottenPasswordMail(final HttpServletRequest request,  final Customer customer, final CustomerCredential customerCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 
 		final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
 		BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
-		customerForgottenPasswordEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerForgottenPasswordEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerForgottenPasswordEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerForgottenPasswordEmailBean.setToEmail(customer.getEmail());
 		customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
 		
 		emailService.buildAndSaveCustomerForgottenPasswordMail(localization, customer, VelocityPath, customerForgottenPasswordEmailBean);
@@ -442,13 +474,14 @@ public class WebCommerceServiceImpl implements WebCommerceService {
      * 
      */
 	public void buildAndSaveCustomerResetPasswordConfirmationMail(final HttpServletRequest request, final Customer customer) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
 		final Localization localization = requestUtil.getCurrentLocalization(request);
 		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
 
 		final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean = new CustomerResetPasswordConfirmationEmailBean();
-		customerResetPasswordConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerResetPasswordConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerResetPasswordConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
 		customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
 		
 		emailService.buildAndSaveCustomerResetPasswordConfirmationMail(localization, customer, VelocityPath, customerResetPasswordConfirmationEmailBean);

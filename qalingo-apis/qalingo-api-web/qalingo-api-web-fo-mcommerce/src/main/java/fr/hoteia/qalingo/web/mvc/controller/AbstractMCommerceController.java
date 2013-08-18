@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
@@ -31,7 +30,6 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
@@ -85,8 +83,10 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
-		model.addAttribute("customer", customerView);
+		if(customer != null){
+			final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+			model.addAttribute("customer", customerView);
+		}
 		
 		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 		model.addAttribute("customerLinks", customerLinks);

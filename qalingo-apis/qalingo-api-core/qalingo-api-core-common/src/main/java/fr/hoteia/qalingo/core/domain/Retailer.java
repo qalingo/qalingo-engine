@@ -12,6 +12,7 @@ package fr.hoteia.qalingo.core.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -95,6 +96,10 @@ public class Retailer implements Serializable {
 	private int ratioQualityPrice;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="RETAILER_ID")
+	private Set<RetailerLink> links = new HashSet<RetailerLink>(); 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="RETAILER_ID")
 	private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>(); 
 	
@@ -259,8 +264,30 @@ public class Retailer implements Serializable {
     	this.ratioQualityPrice = ratioQualityPrice;
     }
 
+	public Set<RetailerLink> getLinks() {
+	    return links;
+    }
+	
+	public void setLinks(Set<RetailerLink> links) {
+	    this.links = links;
+    }
+	
 	public Set<RetailerAddress> getAddresses() {
 	    return addresses;
+    }
+	
+	public RetailerAddress getDefaultAddress() {
+		RetailerAddress defaultAddress = null;
+		if(addresses != null
+				&& !addresses.isEmpty()){
+			for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+				RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
+				if (retailerAddress.isDefault()) {
+					defaultAddress = retailerAddress;
+				}
+			}
+		}
+		return defaultAddress;
     }
 	
 	public void setAddresses(Set<RetailerAddress> addresses) {

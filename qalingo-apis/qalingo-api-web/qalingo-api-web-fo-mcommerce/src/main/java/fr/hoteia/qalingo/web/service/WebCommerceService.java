@@ -16,13 +16,14 @@ import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Order;
-import fr.hoteia.qalingo.web.mvc.form.ContactUsForm;
+import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
 public interface WebCommerceService {
 
@@ -44,8 +45,10 @@ public interface WebCommerceService {
 	
 	Order buildAndSaveNewOrder(HttpServletRequest request, Market market, MarketArea marketMode) throws Exception;
 	
-	void buildAndSaveContactUsMail(HttpServletRequest request, ContactUsForm contactUsForm) throws Exception;
-	
+	void buildAndSaveContactMail(HttpServletRequest request, ContactForm contactForm) throws Exception;
+
+	void buildAndSaveRetailerContactMail(HttpServletRequest request, RetailerContactForm retailerContactForm) throws Exception;
+
 	void saveAndBuildNewsletterRegistrationConfirmationMail(HttpServletRequest request, FollowUsForm followUsForm) throws Exception;
 
 	void buildAndSaveCustomerNewAccountMail(HttpServletRequest request, CreateAccountForm createAccountForm) throws Exception;

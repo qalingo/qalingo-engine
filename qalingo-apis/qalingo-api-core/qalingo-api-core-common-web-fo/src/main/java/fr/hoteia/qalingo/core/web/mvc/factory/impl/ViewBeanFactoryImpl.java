@@ -71,6 +71,7 @@ import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.CatalogService;
 import fr.hoteia.qalingo.core.service.CustomerProductCommentService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
@@ -162,6 +163,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	@Autowired
 	protected CustomerProductCommentService customerProductCommentService;
 
+	@Autowired
+	protected RetailerService retailerService;
+	
 	@Autowired
 	protected ReferentialDataService referentialDataService;
 	
@@ -483,8 +487,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
 		retailerViewBeans = new ArrayList<RetailerViewBean>();
 		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-			final Retailer retailerTmp = (Retailer) iterator.next();
-			retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer, retailerTmp));
+			final Retailer retailerIt = (Retailer) iterator.next();
+			final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
+			retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer, reloadedRetailer));
 		}
 		return retailerViewBeans;
 	}
@@ -511,15 +516,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		if (currentRetailer.getAddresses() != null) {
 			Set<RetailerAddress> addresses = currentRetailer.getAddresses();
-			RetailerAddress defaultAddress = null;
-			if(addresses != null){
-				for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-					RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
-					if (retailerAddress.isDefault()) {
-						defaultAddress = retailerAddress;
-					}
-				}
-			}
+			RetailerAddress defaultAddress = currentRetailer.getDefaultAddress();
 			if (defaultAddress != null) {
 				retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
 				retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
