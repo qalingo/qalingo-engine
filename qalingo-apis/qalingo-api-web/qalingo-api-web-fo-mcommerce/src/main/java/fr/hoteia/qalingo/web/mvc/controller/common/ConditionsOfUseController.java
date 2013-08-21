@@ -18,9 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.FoPageConstants;
 import fr.hoteia.qalingo.core.ModelConstants;
-import fr.hoteia.qalingo.core.i18n.BoMessageKey;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import fr.hoteia.qalingo.core.i18n.FoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -31,17 +31,17 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 @Controller("conditionsOfUseController")
 public class ConditionsOfUseController extends AbstractMCommerceController {
 
-	@RequestMapping(FoPageConstants.CONDITIONS_OF_USE_URL + "*")
+	@RequestMapping(FoUrls.CONDITIONS_OF_USE_URL)
 	public ModelAndView conditionsOfUse(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.CONDITIONS_OF_USE_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_USE.getVelocityPage());
 
 		final Locale locale = requestUtil.getCurrentLocale(request);
 		
-		final String pageKey = FoPageConstants.CONDITIONS_OF_USE_KEY;
+		final String pageKey = FoUrls.CONDITIONS_OF_USE.getKey();
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		final String contentText = getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		final String contentText = getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, FoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;

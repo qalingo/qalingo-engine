@@ -13,11 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
@@ -25,20 +29,19 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("logoutController")
 public class LogoutController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping("/logout.html*")
+	@RequestMapping(BoUrls.LOGOUT_URL)
 	public ModelAndView logout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/logout");
-		
-		// "logout";
-		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentLocalization);
-		modelAndView.addObject(Constants.SECURITY_VIEW_BEAN, security);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LOGOUT.getVelocityPage());
 		
         return modelAndView;
+	}
+	
+	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
+	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
 	}
 	
 }

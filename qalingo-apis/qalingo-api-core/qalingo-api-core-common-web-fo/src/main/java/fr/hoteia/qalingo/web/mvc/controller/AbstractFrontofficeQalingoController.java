@@ -83,7 +83,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		return urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		return urlService.buildSearchUrl( currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 	}
 	
 	/**
@@ -92,12 +92,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute("followUs")
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, requestUtil.getRequestData(request));
 		return followUs;
 	}
 	
@@ -107,9 +102,9 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute("xrdsUrl")
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		String xrdsURL = urlService.buildXrdsUrl(request, currentMarketArea);
+		String xrdsURL = urlService.buildXrdsUrl( currentMarketArea);
 		String contextValue = requestUtil.getCurrentContextNameValue(request);
-		String fullXrdsURL = urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, xrdsURL);
+		String fullXrdsURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, xrdsURL);
 		return fullXrdsURL;
 	}
 	

@@ -10,29 +10,30 @@
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 
 /**
  * Change context
  */
-@Controller
+@Controller("changeContextController")
 public class ChangeContextController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping("/	*")
-	public ModelAndView changeLanguage(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
+	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
 		final String url = requestUtil.getLastRequestUrl(request);
         return new ModelAndView(new RedirectView(url));
 	}
 	
-	@RequestMapping("/change-context.html*")
-	public ModelAndView changeContext(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
+	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
 		final String url = requestUtil.getLastRequestUrl(request);
         return new ModelAndView(new RedirectView(url));
 	}

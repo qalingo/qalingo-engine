@@ -27,10 +27,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.dao.EmailDao;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Email;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.AbstractEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
@@ -45,6 +47,7 @@ import fr.hoteia.qalingo.core.exception.EmailProcessException;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.EmailService;
 import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 
 @Service("emailService")
@@ -93,8 +96,9 @@ public class EmailServiceImpl implements EmailService {
      * @throws Exception 
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveContactMail(Localization localization, Customer customer, String velocityPath, ContactEmailBean contactEmailBean)
      */
-    public void buildAndSaveContactMail(final Localization localization, final String velocityPath, final ContactEmailBean contactEmailBean) throws Exception {
+    public void buildAndSaveContactMail(final RequestData requestData, final String velocityPath, final ContactEmailBean contactEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -135,8 +139,9 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveRetailerContactMail(Localization localization, Customer customer, String velocityPath, RetailerContactEmailBean retailerContactEmailBean)
      */
-    public void buildAndSaveRetailerContactMail(final Localization localization, final Customer customer, final String velocityPath, final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
+    public void buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -178,9 +183,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean)
      */
-    public void saveAndBuildNewsletterRegistrationConfirmationMail(final Localization localization, final String velocityPath, 
+    public void saveAndBuildNewsletterRegistrationConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -220,9 +226,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerNewAccountMail(Localization localization, Customer customer, String velocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean)
      */
-    public void buildAndSaveCustomerNewAccountMail(final Localization localization, final String velocityPath, 
+    public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
     											   final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -262,9 +269,10 @@ public class EmailServiceImpl implements EmailService {
      * @throws Exception 
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String velocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean)
      */
-    public void buildAndSaveCustomerForgottenPasswordMail(final Localization localization, final Customer customer, final String velocityPath, 
+    public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													  final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -276,7 +284,12 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
-        	model.put("resetPasswordUrl", urlService.buildResetPasswordUrl(null, null, customer.getEmail(), customerForgottenPasswordEmailBean.getToken()));
+        	
+			Map<String, String> urlParams = new HashMap<String, String>();
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, customer.getEmail());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN, customerForgottenPasswordEmailBean.getToken());
+			String resetPasswordUrl = urlService.generateUrl(FoUrls.RESET_PASSWORD, requestData, urlParams);
+        	model.put("resetPasswordUrl", resetPasswordUrl);
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
         	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
@@ -306,9 +319,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String velocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean)
      */
-    public void buildAndSaveCustomerResetPasswordConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, 
+    public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     															  final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -349,9 +363,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean)
      */
-    public void buildAndSaveNewOrderConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, 
+    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												 final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -392,9 +407,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean)
      */
-    public void buildAndSaveOrderShippedConfirmationMail(final Localization localization, final Customer customer, final String velocityPath, 
+    public void buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													 final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -435,9 +451,10 @@ public class EmailServiceImpl implements EmailService {
     /**
      * @see fr.hoteia.qalingo.core.service.EmailService#buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean)
      */
-    public void buildAndSaveAbandonedShoppingCartMail(final Localization localization, final Customer customer, final String velocityPath, 
+    public void buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												  final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
         try {
+        	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK

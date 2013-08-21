@@ -71,7 +71,7 @@ public class Company implements Serializable {
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.LAZY,
+			fetch = FetchType.EAGER,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

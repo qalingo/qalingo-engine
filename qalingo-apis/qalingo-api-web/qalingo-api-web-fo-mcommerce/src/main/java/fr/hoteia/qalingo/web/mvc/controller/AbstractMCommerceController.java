@@ -28,7 +28,6 @@ import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
@@ -37,11 +36,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
+import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
  * <p>
- * <a href="AbstractMCommerceFrontofficeController.java.html"><i>View Source</i></a>
+ * <a href="AbstractMCommerceController.java.html"><i>View Source</i></a>
  * </p>
  * 
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
@@ -51,6 +51,9 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
+	@Autowired
+    protected WebCommerceService webCommerceService;
+	
 	@Autowired
     protected RequestUtil requestUtil;
 	
@@ -62,13 +65,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	 */
 	@ModelAttribute
 	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		// COMMON
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(request, requestUtil.getRequestData(request)));
 	}
 	
 	/**
@@ -76,19 +73,13 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	 */
 	@ModelAttribute
 	protected void initCustomer(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		if(customer != null){
-			final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+			final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer);
 			model.addAttribute("customer", customerView);
 		}
 		
-		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(request, requestUtil.getRequestData(request));
 		model.addAttribute("customerLinks", customerLinks);
 	}
 	
@@ -98,8 +89,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
 		// LEGAL-TERMS
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, currentLocalization);
+		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, requestUtil.getRequestData(request));
 		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
 	}
 	
@@ -109,12 +99,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initConditionOfUse(final HttpServletRequest request, final Model model) throws Exception {
 		// CONDITIONS OF USE
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		ConditionsViewBean conditionsViewBean = viewBeanFactory.buildConditionsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		ConditionsViewBean conditionsViewBean = viewBeanFactory.buildConditionsViewBean(request, requestUtil.getRequestData(request));
 		model.addAttribute("conditions", conditionsViewBean);
 	}
 	
@@ -124,12 +109,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initCart(final HttpServletRequest request, final Model model) throws Exception {
 		// CART
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		HeaderCartViewBean headerCartViewBean = viewBeanFactory.buildHeaderCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		HeaderCartViewBean headerCartViewBean = viewBeanFactory.buildHeaderCartViewBean(request, requestUtil.getRequestData(request));
 		model.addAttribute("headerCart", headerCartViewBean);
 	}
 	
@@ -149,9 +129,8 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initLocalizationForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute("languages", viewBeanFactory.buildLocalizationViewBeans(request, currentMarketArea, currentLocalization));
+		model.addAttribute("languages", viewBeanFactory.buildLocalizationViewBeansByMarketArea(request, requestUtil.getRequestData(request), currentLocalization));
 	}
 	
 	/**
@@ -161,9 +140,8 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	protected void initMaketAreasForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// MARKET AREAS FOR THE CURRENT MARKET
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		model.addAttribute("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, currentMarket, new ArrayList<MarketArea>(marketAreaList), currentLocalization));
+		model.addAttribute("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(request, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
 	}
 	
 	/**
@@ -173,9 +151,8 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	protected void initMaketsForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// MARKETS FOR THE CURRENT MARKETPLACE
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		Set<Market> marketList = currentMarketPlace.getMarkets();
-		model.addAttribute("markets", viewBeanFactory.buildMarketViewBeans(request, currentMarketPlace, new ArrayList<Market>(marketList), currentLocalization));
+		model.addAttribute("markets", viewBeanFactory.buildMarketViewBeans(request, requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList)));
 	}
 	
 	/**
@@ -184,10 +161,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initRetailersForCurrentMarketArea(final HttpServletRequest request, final Model model) throws Exception {
 		// RETAILERS FOR THE CURRENT MARKET AREA
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(request, currentMarketArea, currentLocalization, currentRetailer));
+		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(request, requestUtil.getRequestData(request)));
 	}
 	
 	/**
@@ -196,12 +170,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
 		// HEADER
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute("menus", viewBeanFactory.buildMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+		model.addAttribute("menus", viewBeanFactory.buildMenuViewBeans(request, requestUtil.getRequestData(request)));
 	}
 	
 	/**
@@ -210,12 +179,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@ModelAttribute
 	protected void initFooter(final HttpServletRequest request, final Model model) throws Exception {
 		// FOOTER
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute("footerMenus", viewBeanFactory.buildFooterMenuViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+		model.addAttribute("footerMenus", viewBeanFactory.buildFooterMenuViewBeans(request, requestUtil.getRequestData(request)));
 	}
 	
 	/**

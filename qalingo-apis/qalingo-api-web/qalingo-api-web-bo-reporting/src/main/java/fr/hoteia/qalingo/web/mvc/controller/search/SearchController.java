@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -28,9 +29,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 @Controller("searchController")
 public class SearchController extends AbstractReportingBackofficeController {
 
-	@RequestMapping("/search.html*")
+	@RequestMapping(BoUrls.SEARCH_URL)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

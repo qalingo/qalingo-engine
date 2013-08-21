@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.drools.core.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,17 +30,13 @@ import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -49,19 +44,16 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Controller("forgottenPasswordController")
 public class ForgottentPasswordController extends AbstractMCommerceController {
 
-	@Autowired
-    protected WebCommerceService webCommerceService;
-	
-	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.GET)
 	public ModelAndView displayForgottenPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD.getVelocityPage());
 		
 		modelAndView.addObject("formForgottenPassword", new ForgottenPasswordForm());
 		
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/forgotten-password.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.FORGOTTEN_PASSWORD_URL, method = RequestMethod.POST)
 	public ModelAndView forgottenPassword(final HttpServletRequest request, final HttpServletResponse response, @Valid ForgottenPasswordForm forgottenPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/forgotten-password-success");
@@ -83,9 +75,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/reset-password.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.RESET_PASSWORD_URL, method = RequestMethod.GET)
 	public ModelAndView resetPassword(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/reset-password-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD.getVelocityPage());
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 
@@ -107,10 +99,10 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/reset-password.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.RESET_PASSWORD_URL, method = RequestMethod.POST)
 	public ModelAndView resetPassword(final HttpServletRequest request, final HttpServletResponse response, @Valid ResetPasswordForm resetPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/reset-password-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD.getVelocityPage());
 
 		if (result.hasErrors()) {
 			return displayForgottenPassword(request, response, modelMap);
@@ -130,18 +122,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	/**
-	 * 
-	 */
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurity(final HttpServletRequest request, final Model model) throws Exception {
-		// SECURITY
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		return viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
 	}
 	
 }

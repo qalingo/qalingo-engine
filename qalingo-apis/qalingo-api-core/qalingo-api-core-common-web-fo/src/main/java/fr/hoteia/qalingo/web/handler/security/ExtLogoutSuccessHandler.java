@@ -22,15 +22,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
-@Component
+@Component(value="extLogoutSuccessHandler")
 public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -53,15 +49,9 @@ public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         }
         
 		try {
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			
 			requestUtil.cleanCurrentCustomer(request);
 			
-	        String url = urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+	        String url = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
 	        setDefaultTargetUrl(url);
 		} catch (Exception e) {
 			LOG.error("", e);

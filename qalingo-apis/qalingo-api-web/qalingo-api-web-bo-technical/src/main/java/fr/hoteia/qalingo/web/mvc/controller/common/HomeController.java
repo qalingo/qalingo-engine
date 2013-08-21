@@ -10,13 +10,14 @@
 package fr.hoteia.qalingo.web.mvc.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -28,14 +29,19 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 @Controller("homeController")
 public class HomeController extends AbstractTechnicalBackofficeController {
 
-	@RequestMapping("/home.html*")
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "home");
+	@RequestMapping(BoUrls.HOME_URL)
+	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.HOME.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
+	}
+	
+	@RequestMapping(BoUrls.INDEX_URL)
+	public ModelAndView displayIndex(final HttpServletRequest request, final Model model) throws Exception {
+        return displayHome(request, model);
 	}
     
 }

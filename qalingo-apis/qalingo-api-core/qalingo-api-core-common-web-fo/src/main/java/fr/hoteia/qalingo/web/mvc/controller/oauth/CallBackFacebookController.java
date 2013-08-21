@@ -21,6 +21,7 @@ import fr.hoteia.qalingo.core.domain.CustomerOAuth;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
@@ -149,7 +150,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 
 							// Redirect to the details page
 							if(StringUtils.isNotEmpty(email)){
-								response.sendRedirect(urlService.buildCustomerDetailsUrl(request, currentMarketArea));
+								response.sendRedirect(urlService.buildCustomerDetailsUrl(currentMarketArea));
 							}
 
 						}
@@ -164,7 +165,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 
 		return null;

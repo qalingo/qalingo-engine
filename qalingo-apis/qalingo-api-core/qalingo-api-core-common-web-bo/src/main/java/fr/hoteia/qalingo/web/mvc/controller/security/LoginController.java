@@ -16,19 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
@@ -37,12 +34,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 /**
  * 
  */
-@Controller
+@Controller("loginController")
 public class LoginController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping("/login.html*")
+	@RequestMapping(BoUrls.LOGIN_URL)
 	public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/login");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LOGIN.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
@@ -50,7 +47,7 @@ public class LoginController extends AbstractBackofficeQalingoController {
 		// SANITY CHECK: User logged
 		final User currentUser = requestUtil.getCurrentUser(request);
 		if(currentUser != null){
-			final String url = backofficeUrlService.buildUserDetailsUrl();
+			final String url =  backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -61,9 +58,6 @@ public class LoginController extends AbstractBackofficeQalingoController {
 			model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
 		}
 		
-		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentLocalization);
-		modelAndView.addObject(Constants.SECURITY_VIEW_BEAN, security);
-		
         return modelAndView;
 	}
 	
@@ -71,9 +65,12 @@ public class LoginController extends AbstractBackofficeQalingoController {
 	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("security/login");
 		
-		// "header.title.login";
-		
         return modelAndView;
+	}
+	
+	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
+	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
 	}
 	
 }

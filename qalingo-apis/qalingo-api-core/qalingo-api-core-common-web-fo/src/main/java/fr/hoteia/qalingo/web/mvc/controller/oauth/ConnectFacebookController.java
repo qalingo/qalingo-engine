@@ -14,6 +14,7 @@ import facebook4j.FacebookFactory;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
@@ -55,8 +56,8 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 					Facebook facebook = new FacebookFactory().getInstance();
 					facebook.setOAuthAppId(clientId, clientSecret);
 					facebook.setOAuthPermissions(permissions);
-					String facebookCallBackURL = urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, 
-													urlService.buildOAuthCallBackUrl(request, currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+					String facebookCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
+													urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 					
 					response.sendRedirect(facebook.getOAuthAuthorizationURL(facebookCallBackURL));
 			    }
@@ -68,7 +69,7 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 		
 		return null;

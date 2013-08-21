@@ -36,8 +36,7 @@ import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Asset;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
@@ -74,7 +73,6 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = "/asset-edit.html*", method = RequestMethod.GET)
 	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ASSET_FORM_VELOCITY_PAGE);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 
 		// "asset.edit";
 
@@ -82,12 +80,11 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		if(StringUtils.isNotEmpty(currentAssetCode)){
 			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(request, currentMarketArea, currentLocalization, asset));
+			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(request, requestUtil.getRequestData(request), asset));
 			modelAndView.addObject(Constants.ASSET_FORM, formFactory.buildProductMarketingAssetForm(request, asset));
 			return modelAndView;
 		} else {
-			final String urlRedirect = backofficeUrlService.buildHomeUrl();
+			final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 	}
@@ -161,10 +158,6 @@ public class AssetController extends AbstractBusinessBackofficeController {
 
 	protected void initRuleDetailsPage(final HttpServletRequest request, final HttpServletResponse response, 
 											final ModelAndViewThemeDevice modelAndView, final Asset asset) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		// "asset.details";
-
-		modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(request, currentMarketArea, currentLocalization, asset));
+		modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(request, requestUtil.getRequestData(request), asset));
 	}
 }

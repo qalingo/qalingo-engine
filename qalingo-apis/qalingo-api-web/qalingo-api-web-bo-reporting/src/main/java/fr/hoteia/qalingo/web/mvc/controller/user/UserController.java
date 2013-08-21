@@ -9,15 +9,13 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.user;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -41,15 +39,15 @@ public class UserController extends AbstractReportingBackofficeController {
 	@Autowired
 	protected WebBackofficeService webBackofficeService;
 	
-	@RequestMapping(value = "/user-details.html*", method = RequestMethod.GET)
-	public ModelAndView userDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-details");
+	@RequestMapping(value = BoUrls.USER_DETAILS_URL, method = RequestMethod.GET)
+	public ModelAndView userDetails(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_DETAILS.getVelocityPage());
 
 		User user = requestUtil.getCurrentUser(request);
-		// Refresh Data cause CurrentUser is from Session or Spring Security
-		user = userService.getUserById(user.getId().toString());
 		if(user != null){
-			initUserDetailsPage(request, response, modelAndView, user);
+			// Refresh Data cause CurrentUser is from Session or Spring Security
+			user = userService.getUserById(user.getId().toString());
+			initUserDetailsPage(request, model, modelAndView, user);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -58,15 +56,12 @@ public class UserController extends AbstractReportingBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/user-edit.html*", method = RequestMethod.GET)
-	public ModelAndView userEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
+	@RequestMapping(value = BoUrls.USER_EDIT_URL, method = RequestMethod.GET)
+	public ModelAndView userEdit(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_EDIT.getVelocityPage());
 		
-		final String titleKeyPrefixSufix = "user.edit";
-
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		
 //		modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
 
@@ -74,62 +69,43 @@ public class UserController extends AbstractReportingBackofficeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/user-edit.html*", method = RequestMethod.POST)
-	public ModelAndView userEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid UserForm userForm,
+	@RequestMapping(value = BoUrls.USER_EDIT_URL, method = RequestMethod.POST)
+	public ModelAndView submitUserEdit(final HttpServletRequest request, final Model model, @Valid UserForm userForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
-		final String titleKeyPrefixSufix = "user.edit";
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-//			modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-			formFactory.buildUserForm(request, modelAndView, user);
-			return modelAndView;
+			return userEdit(request, model);
 		}
 		
 		// SANITY CHECK
 		if(BooleanUtils.negate(userForm.getLogin().equalsIgnoreCase(user.getLogin()))){
 			User userCheck = userService.getUserByLoginOrEmail(userForm.getLogin());
 			if(userCheck != null){
-				result.rejectValue("login", "error.form.user.update.login.already.exist", null,"This email customer account already exist!.");
-
-				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
-				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-//				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-				formFactory.buildUserForm(request, modelAndView, user);
-				return modelAndView;
+				result.rejectValue("login", "error.form.user.update.login.already.exist", null, "This email customer account already exist!.");
+				return userEdit(request, model);
 				
 			}
 		}
 		if(BooleanUtils.negate(userForm.getEmail().equalsIgnoreCase(user.getEmail()))){
 			User userCheck = userService.getUserByLoginOrEmail(userForm.getEmail());
 			if(userCheck != null){
-				result.rejectValue("email", "error.form.user.update.email.already.exist", null,"This email customer account already exist!.");
-
-				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "user/user-edit");
-				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-//				modelAndView.addObject("userEdit", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
-				formFactory.buildUserForm(request, modelAndView, user);
-				return modelAndView;
+				result.rejectValue("email", "error.form.user.update.email.already.exist", null, "This email customer account already exist!.");
+				return userEdit(request, model);
 			}
 		}
 		
 		// UPDATE USER
 		webBackofficeService.updateUser(user, userForm);
 		
-		final String urlRedirect = backofficeUrlService.buildUserDetailsUrl();
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
-	protected void initUserDetailsPage(final HttpServletRequest request, final HttpServletResponse response, final ModelAndViewThemeDevice modelAndView, final User user) throws Exception{
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "user.details";
-
-		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, currentLocalization, user));
+	protected void initUserDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final User user) throws Exception{
+		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, requestUtil.getRequestData(request), user));
 	}
     
 }

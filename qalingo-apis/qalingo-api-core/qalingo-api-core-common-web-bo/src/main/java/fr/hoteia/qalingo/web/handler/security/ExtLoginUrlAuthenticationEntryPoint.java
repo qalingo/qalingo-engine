@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
@@ -50,7 +51,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response,
 													 AuthenticationException exception) {
 		try {
-			String url = backofficeUrlService.buildLoginUrl();
+			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
 			LOG.error("", e);
@@ -94,7 +95,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String buildRedirectUrlToLoginPage(HttpServletRequest request, HttpServletResponse response, 
 												 AuthenticationException authException) {
 		try {
-			String url = backofficeUrlService.buildLoginUrl();
+			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
 			LOG.error("", e);

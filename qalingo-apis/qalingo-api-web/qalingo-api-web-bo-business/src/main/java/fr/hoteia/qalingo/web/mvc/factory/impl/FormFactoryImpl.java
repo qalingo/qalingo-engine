@@ -33,6 +33,7 @@ import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.AttributeService;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
@@ -262,9 +263,9 @@ public class FormFactoryImpl implements FormFactory {
 		final List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add("form");
 		userForm.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
-		userForm.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl());
-		userForm.setUserEditUrl(backofficeUrlService.buildUserEditUrl());
-		userForm.setFormSubmitUrl(backofficeUrlService.buildUserFormPostUrl());
+		userForm.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request)));
+		userForm.setUserEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestUtil.getRequestData(request)));
+		userForm.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestUtil.getRequestData(request)));
 		
 		return userForm;
 	}

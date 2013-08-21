@@ -1,5 +1,7 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
@@ -14,6 +16,8 @@ import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 
 public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 	
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	
     protected BackofficeUrlService backofficeUrlService;
 	
     @Override
@@ -24,9 +28,13 @@ public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 		final BoProductCategoryJsonPojo boProductCategoryJsonPojo = new BoProductCategoryJsonPojo();
 		BeanUtils.copyProperties(productCategoryJsonPojo, boProductCategoryJsonPojo);
 		
-		boProductCategoryJsonPojo.setAddChildCategoryUrl(backofficeUrlService.buildAddMasterProductCategoryUrl(productCategory.getCode()));
-		boProductCategoryJsonPojo.setDetailsUrl(backofficeUrlService.buildProductMasterCategoryDetailsUrl(productCategory.getCode()));
-		boProductCategoryJsonPojo.setEditUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(productCategory.getCode()));
+		try {
+	        boProductCategoryJsonPojo.setAddChildCategoryUrl(backofficeUrlService.buildAddMasterProductCategoryUrl(productCategory.getCode()));
+			boProductCategoryJsonPojo.setDetailsUrl(backofficeUrlService.buildProductMasterCategoryDetailsUrl(productCategory.getCode()));
+			boProductCategoryJsonPojo.setEditUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(productCategory.getCode()));
+        } catch (Exception e) {
+        	LOG.error("Failed to build URLs in JSON!", e);
+        }
 		return boProductCategoryJsonPojo;
 	}
     
@@ -38,9 +46,13 @@ public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 		final BoProductCategoryJsonPojo boProductCategoryJsonPojo = new BoProductCategoryJsonPojo();
 		BeanUtils.copyProperties(productCategoryJsonPojo, boProductCategoryJsonPojo);
 		
-		boProductCategoryJsonPojo.setAddChildCategoryUrl(backofficeUrlService.buildAddVirtualProductCategoryUrl(productCategory.getCode()));
-		boProductCategoryJsonPojo.setDetailsUrl(backofficeUrlService.buildProductVirtualCategoryDetailsUrl(productCategory.getCode()));
-		boProductCategoryJsonPojo.setEditUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(productCategory.getCode()));
+		try {
+			boProductCategoryJsonPojo.setAddChildCategoryUrl(backofficeUrlService.buildAddVirtualProductCategoryUrl(productCategory.getCode()));
+			boProductCategoryJsonPojo.setDetailsUrl(backofficeUrlService.buildProductVirtualCategoryDetailsUrl(productCategory.getCode()));
+			boProductCategoryJsonPojo.setEditUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(productCategory.getCode()));
+        } catch (Exception e) {
+        	LOG.error("Failed to build URLs in JSON!", e);
+        }
 		return boProductCategoryJsonPojo;
 	}
 		
@@ -52,8 +64,12 @@ public class BoJsonFactoryImpl extends JsonFactoryImpl implements JsonFactory {
 		final BoProductMarketingJsonPojo boProductMarketingJsonPojo = new BoProductMarketingJsonPojo();
 		BeanUtils.copyProperties(productMarketingJsonPojo, boProductMarketingJsonPojo);
 
-		boProductMarketingJsonPojo.setDetailsUrl(backofficeUrlService.buildProductMarketingDetailsUrl(productMarketing.getCode()));
-		boProductMarketingJsonPojo.setEditUrl(backofficeUrlService.buildProductMarketingEditUrl(productMarketing.getCode()));
+		try {
+			boProductMarketingJsonPojo.setDetailsUrl(backofficeUrlService.buildProductMarketingDetailsUrl(productMarketing.getCode()));
+			boProductMarketingJsonPojo.setEditUrl(backofficeUrlService.buildProductMarketingEditUrl(productMarketing.getCode()));
+        } catch (Exception e) {
+        	LOG.error("Failed to build URLs in JSON!", e);
+        }
 		return boProductMarketingJsonPojo;
 	}
 	

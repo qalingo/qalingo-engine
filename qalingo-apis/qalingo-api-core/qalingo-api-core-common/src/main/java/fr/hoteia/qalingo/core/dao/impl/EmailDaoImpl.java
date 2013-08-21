@@ -143,7 +143,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 //		query.setTimestamp("before", before);
 //		int row = query.executeUpdate();
 		Session session = (Session) em.getDelegate();
-		String sql = "FROM Email WHERE dateCreate <= :before";
+		String sql = "FROM Email WHERE dateCreate <= :before AND status = '" + Email.EMAIl_STATUS_SENDED + "'";
 		Query query = session.createQuery(sql);
 		query.setTimestamp("before", before);
 		List<Email> emails = (List<Email>) query.list();

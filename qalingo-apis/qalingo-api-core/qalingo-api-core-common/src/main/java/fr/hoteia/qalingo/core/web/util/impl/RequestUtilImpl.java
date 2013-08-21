@@ -63,6 +63,7 @@ import fr.hoteia.qalingo.core.service.LocalizationService;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.MarketService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
@@ -473,12 +474,6 @@ public class RequestUtilImpl implements RequestUtil {
 		return url;
 	}
 	
-	
-	
-	
-	
-	
-	
 	/**
      * 
      */
@@ -646,10 +641,21 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public MarketPlace getCurrentMarketPlace(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		MarketPlace marketPlace = engineEcoSession.getCurrentMarketPlace();
-		if (marketPlace == null) {
-			initDefaultEcoMarketPlace(request);
+		MarketPlace marketPlace = null;
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			marketPlace = engineBoSession.getCurrentMarketPlace();
+			if (marketPlace == null) {
+				initDefaultBoMarketPlace(request);
+				marketPlace = engineBoSession.getCurrentMarketPlace();
+			}
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			marketPlace = engineEcoSession.getCurrentMarketPlace();
+			if (marketPlace == null) {
+				initDefaultEcoMarketPlace(request);
+				marketPlace = engineEcoSession.getCurrentMarketPlace();
+			}
 		}
 		return marketPlace;
 	}
@@ -658,11 +664,21 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public Market getCurrentMarket(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 		Market market = null;
-		market = engineEcoSession.getCurrentMarket();
-		if (market == null) {
-			initDefaultEcoMarketPlace(request);
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			market = engineBoSession.getCurrentMarket();
+			if (market == null) {
+				initDefaultEcoMarketPlace(request);
+				market = engineBoSession.getCurrentMarket();
+			}
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			market = engineEcoSession.getCurrentMarket();
+			if (market == null) {
+				initDefaultEcoMarketPlace(request);
+				market = engineEcoSession.getCurrentMarket();
+			}
 		}
 		return market;
 	}
@@ -671,11 +687,21 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public MarketArea getCurrentMarketArea(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 		MarketArea marketArea = null;
-		marketArea = engineEcoSession.getCurrentMarketArea();
-		if (marketArea == null) {
-			initDefaultEcoMarketPlace(request);
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			marketArea = engineBoSession.getCurrentMarketArea();
+			if (marketArea == null) {
+				initDefaultBoMarketPlace(request);
+				marketArea = engineBoSession.getCurrentMarketArea();
+			}
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			marketArea = engineEcoSession.getCurrentMarketArea();
+			if (marketArea == null) {
+				initDefaultEcoMarketPlace(request);
+				marketArea = engineEcoSession.getCurrentMarketArea();
+			}
 		}
 		return marketArea;
 	}
@@ -684,8 +710,14 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public Localization getCurrentMarketLocalization(final HttpServletRequest request) throws Exception {
-		EngineBoSession engineBoSession = getCurrentBoSession(request);
-		Localization localization = engineBoSession.getCurrentMarketLocalization();
+		Localization localization = null;
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			localization = engineBoSession.getCurrentMarketLocalization();
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			localization = engineEcoSession.getCurrentLocalization();
+		}
 		return localization;
 	}
 	
@@ -693,8 +725,14 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public Localization getCurrentLocalization(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		Localization localization = engineEcoSession.getCurrentLocalization();
+		Localization localization = null;
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			localization = engineBoSession.getCurrentMarketLocalization();
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			localization = engineEcoSession.getCurrentLocalization();
+		}
 		return localization;
 	}
 
@@ -707,7 +745,11 @@ public class RequestUtilImpl implements RequestUtil {
 			return localization.getLocale();
 		} else {
 			LOG.warn("Current Locale is null and it is not possible. Need to reset session.");
-			initDefaultEcoMarketPlace(request);
+			if(isBackoffice()){
+				initDefaultBoMarketPlace(request);
+			} else {
+				initDefaultEcoMarketPlace(request);
+			}
 			localization = getCurrentLocalization(request);
 			return localization.getLocale();
 		}
@@ -718,9 +760,15 @@ public class RequestUtilImpl implements RequestUtil {
      */
 	public void updateCurrentLocalization(final HttpServletRequest request, final Localization localization) throws Exception {
 		if (localization != null) {
-			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-			engineEcoSession.setCurrentLocalization(localization);
-			updateCurrentEcoSession(request, engineEcoSession);
+			if(isBackoffice()){
+				EngineBoSession engineBoSession = getCurrentBoSession(request);
+				engineBoSession.setCurrentLocalization(localization);
+				updateCurrentBoSession(request, engineBoSession);
+			} else {
+				EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+				engineEcoSession.setCurrentLocalization(localization);
+				updateCurrentEcoSession(request, engineEcoSession);
+			}
 		}
 	}
 
@@ -728,11 +776,19 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
 	public Retailer getCurrentRetailer(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 		Retailer retailer = null;
-		retailer = engineEcoSession.getCurrentRetailer();
-		if (retailer == null) {
-			initDefaultEcoMarketPlace(request);
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			retailer = engineBoSession.getCurrentRetailer();
+			if (retailer == null) {
+				initDefaultBoMarketPlace(request);
+			}
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			retailer = engineEcoSession.getCurrentRetailer();
+			if (retailer == null) {
+				initDefaultEcoMarketPlace(request);
+			}
 		}
 		return retailer;
 	}
@@ -1271,11 +1327,17 @@ public class RequestUtilImpl implements RequestUtil {
      */
 	@Override
 	public String getCurrentDevice(final HttpServletRequest request) throws Exception {
-		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		String currenDevice = engineEcoSession.getDevice();
-		// SANITY CHECK
-		if (StringUtils.isEmpty(currenDevice)) {
-			return "default";
+		String currenDevice = "default";
+		if(isBackoffice()){
+			EngineBoSession engineBoSession = getCurrentBoSession(request);
+			if(StringUtils.isNotEmpty(engineBoSession.getDevice())){
+				currenDevice = engineBoSession.getDevice();
+			}
+		} else {
+			EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			if(StringUtils.isNotEmpty(engineEcoSession.getDevice())){
+				currenDevice = engineEcoSession.getDevice();
+			}
 		}
 		return currenDevice;
 	}
@@ -1285,11 +1347,53 @@ public class RequestUtilImpl implements RequestUtil {
      */
 	@Override
 	public void updateCurrentDevice(final HttpServletRequest request, final String device) throws Exception {
-		final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-		if (StringUtils.isNotEmpty(device)) {
-			engineEcoSession.setDevice(device);
-			updateCurrentEcoSession(request, engineEcoSession);
+		if(isBackoffice()){
+			final EngineBoSession engineBoSession = getCurrentBoSession(request);
+			if (StringUtils.isNotEmpty(device)) {
+				engineBoSession.setDevice(device);
+				updateCurrentBoSession(request, engineBoSession);
+			}
+		} else {
+			final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+			if (StringUtils.isNotEmpty(device)) {
+				engineEcoSession.setDevice(device);
+				updateCurrentEcoSession(request, engineEcoSession);
+			}
 		}
+	}
+	
+	/**
+     * 
+     */
+	public Company getCurrentCompany(final HttpServletRequest request) throws Exception {
+		EngineBoSession engineBoSession = getCurrentBoSession(request);
+		User user = engineBoSession.getCurrentUser();
+		if(user == null){
+			return null;
+		}
+		return user.getCompany();
+	}
+	
+	/**
+     * 
+     */
+	public RequestData getRequestData(final HttpServletRequest request) throws Exception {
+		RequestData requestData = new RequestData();
+		String contextPath = "";
+		if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")){
+			contextPath = contextPath + request.getContextPath() + "/";
+		} else {
+			contextPath = "/";
+		}
+		requestData.setContextPath(contextPath);
+		requestData.setContextNameValue(getCurrentContextNameValue(request));
+		
+		requestData.setMarketPlace(getCurrentMarketPlace(request));
+		requestData.setMarket(getCurrentMarket(request));
+		requestData.setMarketArea(getCurrentMarketArea(request));
+		requestData.setLocalization(getCurrentLocalization(request));
+		requestData.setRetailer(getCurrentRetailer(request));
+		return requestData;
 	}
 
 	/**
@@ -1399,18 +1503,6 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
      * 
      */
-	public Company getCurrentCompany(final HttpServletRequest request) throws Exception {
-		EngineBoSession engineBoSession = getCurrentBoSession(request);
-		User user = engineBoSession.getCurrentUser();
-		if(user == null){
-			return null;
-		}
-		return user.getCompany();
-	}
-	
-	/**
-     * 
-     */
 	protected void initCart(final HttpServletRequest request) throws Exception {
 		final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 		Cart cart = engineEcoSession.getCart();
@@ -1469,4 +1561,10 @@ public class RequestUtilImpl implements RequestUtil {
 		updateCurrentEcoSession(request, engineEcoSession);
 	}
 
+	protected boolean isBackoffice() throws Exception {
+		if(getContextName().contains("BO_")){
+			return true;
+		} 
+		return false;
+	}
 }

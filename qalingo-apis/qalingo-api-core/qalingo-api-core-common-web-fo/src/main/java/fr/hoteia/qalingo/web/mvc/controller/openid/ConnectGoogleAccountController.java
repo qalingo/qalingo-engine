@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.openid.Association;
 import fr.hoteia.qalingo.core.service.openid.Endpoint;
 import fr.hoteia.qalingo.core.service.openid.OpenProvider;
@@ -31,9 +32,9 @@ public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeCon
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
 				final String contextValue = requestUtil.getCurrentContextNameValue(request);
-				openIdService.setRealm(urlService.buildDomainePathUrl(request, currentMarketArea, contextValue));
-				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(request, currentMarketArea);
-				openIdService.setReturnTo(urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, openIdCallBackURL));
+				openIdService.setRealm(urlService.buildDomainePathUrl( currentMarketArea, contextValue));
+				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl( currentMarketArea);
+				openIdService.setReturnTo(urlService.buildAbsoluteUrl( currentMarketArea, contextValue, openIdCallBackURL));
 	        
 				Endpoint endpoint = openIdService.lookupEndpoint(OpenProvider.GOOGLE_ACCOUNT.getPropertyKey().toLowerCase());
 	            Association association = openIdService.lookupAssociation(endpoint);
@@ -49,7 +50,7 @@ public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeCon
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 		
 		return null;

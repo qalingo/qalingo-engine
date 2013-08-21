@@ -31,6 +31,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -351,5 +352,10 @@ public interface RequestUtil {
      * 
      */
 	String getCurrentVelocityEmailPrefix(HttpServletRequest request) throws Exception;
+	
+	/**
+     * 
+     */
+	RequestData getRequestData(HttpServletRequest request) throws Exception;
 	
 }

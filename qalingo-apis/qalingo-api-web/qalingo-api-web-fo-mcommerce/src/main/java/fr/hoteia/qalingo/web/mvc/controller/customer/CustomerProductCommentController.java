@@ -21,11 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -45,15 +41,8 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-product-comment-list");
 		
-		// "customer.product.comment";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, requestUtil.getRequestData(request), customer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;
@@ -65,7 +54,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		
 		// TODO
 
-		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketArea);
+		final String url = urlService.buildCustomerProductCommentUrl(currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -75,7 +64,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		
 		// TODO
 		
-		final String url = urlService.buildCustomerProductCommentUrl(request, currentMarketArea);
+		final String url = urlService.buildCustomerProductCommentUrl(currentMarketArea);
         return new ModelAndView(new RedirectView(url));
 	}
 

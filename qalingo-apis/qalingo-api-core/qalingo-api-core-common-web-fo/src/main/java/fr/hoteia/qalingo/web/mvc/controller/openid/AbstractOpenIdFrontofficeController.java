@@ -15,6 +15,7 @@ import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
+import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
 import fr.hoteia.qalingo.core.service.CustomerGroupService;
 import fr.hoteia.qalingo.core.service.CustomerService;
@@ -23,7 +24,6 @@ import fr.hoteia.qalingo.core.service.openid.OpenIdException;
 import fr.hoteia.qalingo.core.service.openid.OpenIdService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 
 /**
  * 
@@ -91,7 +91,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractQaling
 			attribute.setStringValue(screenName);
 			customer.getCustomerAttributes().add(attribute);
 			
-			CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode("GROUP_FO_CUSTOMER");
+			CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
 			customer.getCustomerGroups().add(customerGroup);
 			
 			if(StringUtils.isNotEmpty(auth.getLanguage())){

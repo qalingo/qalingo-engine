@@ -78,7 +78,7 @@ public class MarketArea implements Serializable {
 	private String theme;
 	
 //	@OneToOne
-    @JoinColumn(name="VIRTUAL_CATALOG_ID")
+    @Column(name="VIRTUAL_CATALOG_ID")
 	private Long virtualCatalogId;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

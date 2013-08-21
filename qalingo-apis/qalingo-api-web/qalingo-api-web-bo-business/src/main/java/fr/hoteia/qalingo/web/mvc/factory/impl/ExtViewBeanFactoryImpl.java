@@ -16,7 +16,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 
@@ -30,7 +32,8 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 	 * 
 	 */
 	@Override
-	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 		
@@ -42,7 +45,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		}
 		menu.setCssIcon("icon-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-		menu.setUrl(backofficeUrlService.buildHomeUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
@@ -57,36 +60,36 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		
 		MenuViewBean subMenu = new MenuViewBean();
 		subMenu.setName("Manage Master Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageMasterCatalogUrl());
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestUtil.getRequestData(request)));
 		menu.getSubMenus().add(subMenu);
 		
 		subMenu = new MenuViewBean();
 		subMenu.setName("Manage Virtual Catalog");
-		subMenu.setUrl(backofficeUrlService.buildManageVirtualCatalogUrl());
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestUtil.getRequestData(request)));
 		menu.getSubMenus().add(subMenu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion");
-		menu.setUrl(backofficeUrlService.buildRuleListUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping");
-		menu.setUrl(backofficeUrlService.buildShippingListUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders");
-		menu.setUrl(backofficeUrlService.buildOrderListUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers");
-		menu.setUrl(backofficeUrlService.buildCustomerListUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

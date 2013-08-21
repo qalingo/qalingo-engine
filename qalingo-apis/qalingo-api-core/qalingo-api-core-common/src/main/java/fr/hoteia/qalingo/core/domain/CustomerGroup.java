@@ -37,6 +37,9 @@ public class CustomerGroup implements Serializable {
 	 */
 	private static final long serialVersionUID = -4046896794437210150L;
 
+	// TODO : ENUM OR NOT ?
+	public static String GROUP_FO_CUSTOMER = "GROUP_FO_CUSTOMER";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)

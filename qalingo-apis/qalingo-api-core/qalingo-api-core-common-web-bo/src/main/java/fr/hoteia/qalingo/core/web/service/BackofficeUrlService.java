@@ -10,160 +10,60 @@
 package fr.hoteia.qalingo.core.web.service;
 
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 public interface BackofficeUrlService {
 
-	// COMMON
-	
-	String buildHomeUrl();
-	
-	String buildLoginUrl();
-	
-	String buildLogoutUrl();
-	
-	String buildUserDetailsUrl();
+	String buildProductMasterCategoryDetailsUrl(String productCategoryCode) throws Exception;
 
-	String buildUserDetailsUrl(String userId);
-	
-	String buildUserEditUrl();
+	String buildProductVirtualCategoryDetailsUrl(String productCategoryCode) throws Exception;
 
-	String buildUserEditUrl(String userId);
-	
-	String buildUserFormPostUrl();
-	
-	String buildUserListUrl();
-	
-	String buildFaqUrl();
-	
-	String buildForbiddenUrl();
-	
-	// REPORTING
-	
-	String buildCatalogStatsUrl();
-	
-	String buildPromotionStatsUrl();
-	
-	String buildShippingStatsUrl();
-	
-	String buildOrderStatsUrl();
-	
-	String buildCustomerStatsUrl();
-	
-	String buildReportingUrl();
-	
-	String buildChangeLanguageUrl(Localization localization);
-	
-	String buildChangeContextUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer);
+	String buildAddMasterProductCategoryUrl(String productCategoryCode) throws Exception;
 
-	String buildSpringSecurityCheckUrl();
+	String buildAddVirtualProductCategoryUrl(String productCategoryCode) throws Exception;
 	
-	String buildForgottenPasswordUrl();
-	
-	String buildGlobalSearchUrl();
-	
-	// BUSINESS
-	
-	String buildManageMasterCatalogUrl();
-	
-	String buildManageVirtualCatalogUrl();
-	
-	String buildProductMasterCategoryDetailsUrl(String productCategoryCode);
+	String buildMasterProductCategoryEditUrl(String productCategoryCode) throws Exception;
 
-	String buildProductVirtualCategoryDetailsUrl(String productCategoryCode);
+	String buildVirtualProductCategoryEditUrl(String productCategoryCode) throws Exception;
 
-	String buildAddMasterProductCategoryUrl(String productCategoryCode);
+	String buildProductMarketingDetailsUrl(String productMarketingCode) throws Exception;
+	
+	String buildProductMarketingEditUrl(String productMarketingCode) throws Exception;
 
-	String buildAddVirtualProductCategoryUrl(String productCategoryCode);
+	String buildProductSkuDetailsUrl(String productSkuCode) throws Exception;
 	
-	String buildMasterProductCategoryEditUrl(String productCategoryCode);
+	String buildProductSkuEditUrl(String productSkuCode) throws Exception;
 
-	String buildVirtualProductCategoryEditUrl(String productCategoryCode);
+	String buildAssetDetailsUrl(String assetCode) throws Exception;
+	
+	String buildAssetEditUrl(String assetCode) throws Exception;
 
-	String buildMasterProductCategoryFormPostUrl();
+	String buildRuleDetailsUrl(String promotionCode) throws Exception;
 	
-	String buildVirtualProductCategoryFormPostUrl();
+	String buildRuleEditUrl(String promotionCode) throws Exception;
+	
+	String buildShippingDetailsUrl(String shippingCode) throws Exception;
+	
+	String buildShippingEditUrl(String shippingCode) throws Exception;
+	
+	String buildOrderDetailsUrl(String orderNum) throws Exception;
+	
+	String buildOrderEditUrl(String orderNum) throws Exception;
+	
+	String buildCustomerDetailsUrl(String customerCode) throws Exception;
+	
+	String buildCustomerEditUrl(String customerCode) throws Exception;
 
-	String buildProductMarketingDetailsUrl(String productMarketingCode);
+	// KEEP
 	
-	String buildProductMarketingEditUrl(String productMarketingCode);
+	String generateUrl(BoUrls url, RequestData requestData);
 
-	String buildProductMarketingFormPostUrl();
-
-	String buildProductSkuDetailsUrl(String productSkuCode);
+	String generateUrl(BoUrls url, RequestData requestData, Object... params);
 	
-	String buildProductSkuEditUrl(String productSkuCode);
-
-	String buildProductSkuFormPostUrl();
-
-	String buildAssetDetailsUrl(String assetCode);
+	String buildChangeLanguageUrl(RequestData requestData, Localization localization) throws Exception;
 	
-	String buildAssetEditUrl(String assetCode);
-
-	String buildAssetFormPostUrl();
+	String buildChangeContextUrl(RequestData requestData) throws Exception;
 	
-	String buildRuleListUrl();
-	
-	String buildRuleDetailsUrl(String promotionCode);
-	
-	String buildRuleEditUrl(String promotionCode);
-	
-	String buildShippingListUrl();
-	
-	String buildShippingDetailsUrl(String shippingCode);
-	
-	String buildShippingEditUrl(String shippingCode);
-	
-	String buildOrderListUrl();
-	
-	String buildOrderDetailsUrl(String orderNum);
-	
-	String buildOrderEditUrl(String orderNum);
-	
-	String buildCustomerListUrl();
-	
-	String buildCustomerDetailsUrl(String customerCode);
-	
-	String buildCustomerEditUrl(String customerCode);
-
-	// TECHNICAL
-	
-	String buildReferenceDataListUrl();
-	
-	String buildEngineSettingListUrl();
-	
-	String buildEngineSettingValueEditUrl();
-
-	String buildEngineSettingValueEditUrl(String engineSettingValueId);
-	
-	String buildCacheUrl();
-	
-	String buildBatchUrl();
-	
-	String buildBatchCustomerUrl();
-	
-	String buildBatchOrderUrl();
-	
-	String buildBatchEmailUrl();
-	
-	String buildBatchCmsUrl();
-	
-	String buildBatchStockUrl();
-	
-	String buildMonitoringUrl();
-	
-	String buildSearchConfigUrl();
-	
-	String buildSearchUrl();
-	
-	String buildSearchEngineSettingUrl();
-	
-	String buildSearchUserUrl();
-	
-	String buildSearchBatchUrl();
-	
-	String buildEngineSettingDetailsUrl(String engineSettingId);
+	String buildSpringSecurityCheckUrl(RequestData requestData) throws Exception;
 }

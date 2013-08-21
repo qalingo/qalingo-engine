@@ -12,7 +12,6 @@ package fr.hoteia.qalingo.web.mvc.controller.common;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.NewsletterQuickRegistrationForm;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -33,24 +32,17 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Controller("followUsController")
 public class FollowUsController extends AbstractMCommerceController {
 
-	@Autowired
-    protected WebCommerceService webCommerceService;
-	
-	@RequestMapping(value = "/follow-us.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.GET)
 	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-form");
-		
-		// "followus";
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
 		
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/follow-us.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.POST)
 	public ModelAndView followUs(final HttpServletRequest request, @Valid @ModelAttribute("followUsForm") FollowUsForm followUsForm,
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
-
-		// "followus";
 
 		if (result.hasErrors()) {
 			return displayFollowUs(request, model, followUsForm);
@@ -60,23 +52,24 @@ public class FollowUsController extends AbstractMCommerceController {
 		
         return modelAndView;
 	}
-
-	@RequestMapping(value = "/newsletter-register.html*", method = RequestMethod.POST)
+	
+	@RequestMapping(value = FoUrls.NEWSLETTER_REGISTER_URL, method = RequestMethod.POST)
 	public ModelAndView newsletterRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
 
 		
+		// TODO
 		
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/newsletter-unregister.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.NEWSLETTER_UNREGISTER_URL, method = RequestMethod.GET)
 	public ModelAndView newsletterUnRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/unregister-newsletter-success");
 
-		
+		// TODO
 		
         return modelAndView;
 	}

@@ -71,16 +71,16 @@ public class User implements Serializable {
 	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
 	private boolean active;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="COMPANY_ID", insertable=false, updatable=false)
 	private Company company;
 	
 	@ManyToMany(
-			fetch = FetchType.LAZY,
+			fetch = FetchType.EAGER,
 	        targetEntity=fr.hoteia.qalingo.core.domain.UserGroup.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -89,9 +89,9 @@ public class User implements Serializable {
 	        joinColumns=@JoinColumn(name="USER_ID"),
 	        inverseJoinColumns=@JoinColumn(name="GROUP_ID")
 	    )
-	private Set<UserGroup> userGroups;
+	private Set<UserGroup> userGroups = new HashSet<UserGroup>();
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="USER_ID")
 	@OrderBy("LOGIN_DATE DESC") 
 	private Set<UserConnectionLog> connectionLogs = new HashSet<UserConnectionLog>(); 

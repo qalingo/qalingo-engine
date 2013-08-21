@@ -29,6 +29,7 @@ import fr.hoteia.qalingo.core.domain.BatchProcessObject;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.BatchProcessObjectService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -50,27 +51,24 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping("/search-batch.html*")
 	public ModelAndView searchBatch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 
-		final String titleKeyPrefixSufix = "search";
-		
 		formFactory.buildBatchQuickSearchForm(request, modelAndView);
 		
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/batch.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.BATCH_URL, method = RequestMethod.GET)
 	public ModelAndView batch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         return batchCustomer(request, response);
 	}
 	
 	@RequestMapping(value = "/batch-customer.html*", method = RequestMethod.GET)
 	public ModelAndView batchCustomer(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "batch.customer.list";
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
@@ -85,11 +83,10 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping(value = "/batch-order.html*", method = RequestMethod.GET)
 	public ModelAndView batchOrder(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "batch.order.list";
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Order);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
@@ -104,11 +101,10 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping(value = "/batch-email.html*", method = RequestMethod.GET)
 	public ModelAndView batchEmail(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "batch.email.list";
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Email);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
@@ -123,11 +119,10 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping(value = "/batch-cms.html*", method = RequestMethod.GET)
 	public ModelAndView batchCms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "batch.cms.list";
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Cms);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
@@ -142,11 +137,10 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	@RequestMapping(value = "/batch-stock.html*", method = RequestMethod.GET)
 	public ModelAndView batchStock(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "batch/batch-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
-		final String titleKeyPrefixSufix = "batch.stock.list";
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Stock);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
@@ -193,7 +187,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	protected PagedListHolder<BatchViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, 
 			final List<BatchProcessObject> batchProcessObjects, PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder) throws Exception{
-		List<BatchViewBean> batchViewBeans = viewBeanFactory.buildBatchViewBeans(request, currentLocalization, batchProcessObjects);
+		List<BatchViewBean> batchViewBeans = viewBeanFactory.buildBatchViewBeans(request, requestUtil.getRequestData(request), batchProcessObjects);
 		batchViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
 
 		batchViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
@@ -206,32 +200,32 @@ public class BatchController extends AbstractTechnicalBackofficeController {
         return batchViewBeanPagedListHolder;
 	}
 	
-	protected void initLinks(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final Locale locale){
+	protected void initLinks(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final Locale locale) throws Exception{
 		List<LinkMenuViewBean> batchLinks = new ArrayList<LinkMenuViewBean>();
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.customer.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCustomerUrl());
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH_CUSTOMER, requestUtil.getRequestData(request)));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.order.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchOrderUrl());
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH_ORDER, requestUtil.getRequestData(request)));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.email.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchEmailUrl());
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH_EMAIL, requestUtil.getRequestData(request)));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.cms.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchCmsUrl());
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH_CMS, requestUtil.getRequestData(request)));
 		batchLinks.add(linkMenuViewBean);
 		
 		linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.batch.stock.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.buildBatchStockUrl());
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH_STOCK, requestUtil.getRequestData(request)));
 		batchLinks.add(linkMenuViewBean);
 		
 		modelAndView.addObject("links", batchLinks);

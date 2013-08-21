@@ -21,11 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
@@ -55,8 +51,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response,
 													 AuthenticationException exception) {
 		try {
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			String url = urlService.buildLoginUrl(request, currentMarketArea);
+			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
 			LOG.error("", e);
@@ -100,8 +95,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 	protected String buildRedirectUrlToLoginPage(HttpServletRequest request, HttpServletResponse response, 
 												 AuthenticationException authException) {
 		try {
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			String url = urlService.buildLoginUrl(request, currentMarketArea);
+			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
 			LOG.error("", e);

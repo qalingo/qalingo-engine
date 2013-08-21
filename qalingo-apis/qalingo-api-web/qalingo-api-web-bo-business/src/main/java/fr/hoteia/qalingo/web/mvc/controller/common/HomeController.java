@@ -12,14 +12,14 @@ package fr.hoteia.qalingo.web.mvc.controller.common;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -31,12 +31,12 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController
 @Controller("homeController")
 public class HomeController extends AbstractBusinessBackofficeController {
 
-	@RequestMapping(BoPageConstants.HOME_URL + "*")
-	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.HOME_VELOCITY_PAGE);
+	@RequestMapping(BoUrls.HOME_URL)
+	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.HOME.getVelocityPage());
 		final Locale locale = requestUtil.getCurrentLocale(request);
 		
-		final String pageKey = BoPageConstants.HOME_KEY;
+		final String pageKey = BoUrls.HOME_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
@@ -44,6 +44,11 @@ public class HomeController extends AbstractBusinessBackofficeController {
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;
+	}
+	
+	@RequestMapping(BoUrls.INDEX_URL)
+	public ModelAndView displayIndex(final HttpServletRequest request, final Model model) throws Exception {
+        return displayHome(request, model);
 	}
     
 }

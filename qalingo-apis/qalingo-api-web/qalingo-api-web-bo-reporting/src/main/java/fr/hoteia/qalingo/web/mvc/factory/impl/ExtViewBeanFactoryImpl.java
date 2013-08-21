@@ -16,7 +16,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 
@@ -29,7 +31,8 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
      * 
      */
 	@Override
-	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
@@ -38,49 +41,49 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu.setCssClass("active");
 		menu.setCssIcon("icon-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-		menu.setUrl(backofficeUrlService.buildHomeUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-sitemap");
 		menu.setName("Catalog stats");
-		menu.setUrl(backofficeUrlService.buildCatalogStatsUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CATALOG, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion stats");
-		menu.setUrl(backofficeUrlService.buildPromotionStatsUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping stats");
-		menu.setUrl(backofficeUrlService.buildShippingStatsUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders stats");
-		menu.setUrl(backofficeUrlService.buildOrderStatsUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers stats");
-		menu.setUrl(backofficeUrlService.buildCustomerStatsUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-bar-chart");
 		menu.setName("Reporting");
-		menu.setUrl(backofficeUrlService.buildReportingUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REPORTING, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(backofficeUrlService.buildFaqUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;

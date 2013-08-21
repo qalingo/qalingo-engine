@@ -12,8 +12,6 @@ package fr.hoteia.qalingo.web.mvc.controller.customer;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +24,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -43,8 +39,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Controller("customerCreateAccountController")
 public class CustomerCreateAccountController extends AbstractCustomerController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
     protected CustomerService customerService;
 	
@@ -58,22 +52,18 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
 		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
+			final String url = urlService.buildCustomerDetailsUrl(currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
 		// "customer.create.account";
 
-		modelAndView.addObject(ModelConstants.URL_BACK, urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
 //		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
 
@@ -89,7 +79,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
+			final String url = urlService.buildCustomerDetailsUrl(currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -102,7 +92,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		final String email = createAccountForm.getEmail();
 		final Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		if(customer != null){
-			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketArea);
+			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
 			final Object[] objects = {forgottenPasswordUrl};
 			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}
@@ -116,7 +106,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// Login the new customer
 		securityUtil.authenticationCustomer(request, newCustomer);
 		
-		final String urlRedirect = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
+		final String urlRedirect = urlService.buildCustomerDetailsUrl(currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

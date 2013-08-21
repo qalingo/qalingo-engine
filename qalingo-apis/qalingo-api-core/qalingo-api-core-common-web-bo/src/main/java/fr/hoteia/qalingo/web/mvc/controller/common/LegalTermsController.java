@@ -18,8 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -28,15 +28,15 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 /**
  * 
  */
-@Controller
+@Controller("legalTermsController")
 public class LegalTermsController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping(BoPageConstants.LEGAL_TERMS_URL + "*")
+	@RequestMapping(BoUrls.LEGAL_TERMS_URL)
 	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.LEGAL_TERMS_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.LEGAL_TERMS.getVelocityPage());
 		final Locale locale = requestUtil.getCurrentLocale(request);
 		
-		final String pageKey = BoPageConstants.LEGAL_TERMS_KEY;
+		final String pageKey = BoUrls.LEGAL_TERMS_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
@@ -26,12 +27,10 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 @Controller("cacheController")
 public class CacheController extends AbstractTechnicalBackofficeController {
 
-	@RequestMapping(value = "/cache.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.CACHE_URL, method = RequestMethod.GET)
 	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cache/cache");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CACHE.getVelocityPage());
 		
-		final String titleKeyPrefixSufix = "cache";
-
         return modelAndView;
 	}
     

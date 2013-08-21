@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.FoPageConstants;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver;
@@ -26,12 +25,12 @@ public class XrdsController extends AbstractFrontofficeQalingoController {
 
 	@RequestMapping("/xrds.html*")
 	public ModelAndView displayXRDS(final HttpServletRequest request, final HttpServletResponse response, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.XRDS_CACHE_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
-		String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(request, currentMarketArea);
+		String openIdCallBackURL = urlService.buildOpenIdCallBackUrl( currentMarketArea);
 		String contextValue = requestUtil.getCurrentContextNameValue(request);
-		String returnToURL = urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, openIdCallBackURL);
+		String returnToURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, openIdCallBackURL);
 		
 		model.addAttribute("returnToURL", returnToURL);
 		

@@ -32,9 +32,9 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.web.mvc.viewbean.AssetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CatalogCategoryViewBean;
@@ -65,80 +65,79 @@ import fr.hoteia.qalingo.web.mvc.viewbean.UserViewBean;
 
 public interface ViewBeanFactory {
 
-	CommonViewBean buildCommonViewBean(HttpServletRequest request, MarketPlace marketPlace, Market market, MarketArea marketArea, 
-			 Localization localization, Retailer retailer) throws Exception;
+	CommonViewBean buildCommonViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
 	
-	List<MenuViewBean> buildMenuViewBeans(HttpServletRequest request, Localization localization) throws Exception;
+	List<MenuViewBean> buildMenuViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
 
-	List<MenuViewBean> buildMorePageMenuViewBeans(HttpServletRequest request, Localization localization) throws Exception;
+	List<MenuViewBean> buildMorePageMenuViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
 
-	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, Localization localization) throws Exception;
+	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
 	
-	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request, Localization localization) throws Exception;
+	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
 	
-	MarketPlaceViewBean buildMarketPlaceViewBean(HttpServletRequest request, MarketPlace marketPlace) throws Exception;
+	MarketPlaceViewBean buildMarketPlaceViewBean(HttpServletRequest request, RequestData requestData, MarketPlace marketPlace) throws Exception;
 	
-	List<MarketViewBean> buildMarketViewBeans(HttpServletRequest request, MarketPlace marketPlace, List<Market> markets, Localization localization) throws Exception;
+	List<MarketViewBean> buildMarketViewBeansByMarketPlace(HttpServletRequest request, RequestData requestData, MarketPlace marketPlace, List<Market> markets) throws Exception;
 	
-	List<MarketAreaViewBean> buildMarketAreaViewBeans(HttpServletRequest request, Market market, List<MarketArea> marketAreas, Localization localization) throws Exception;
+	List<MarketAreaViewBean> buildMarketAreaViewBeansByMarket(HttpServletRequest request, RequestData requestData, Market market, List<MarketArea> marketAreas) throws Exception;
 	
-	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
+	List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(HttpServletRequest request, RequestData requestData, List<Localization> localizations) throws Exception;
 
-	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, List<Localization> localizations) throws Exception;
+	List<LocalizationViewBean> buildLocalizationViewBeans(HttpServletRequest request, RequestData requestData, List<Localization> localizations) throws Exception;
 
-	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization) throws Exception;
-	
-	CatalogViewBean buildMasterCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> productCategories) throws Exception;
+	LocalizationViewBean buildLocalizationViewBean(HttpServletRequest request, RequestData requestData, Localization localization) throws Exception;
 
-	CatalogViewBean buildVirtualCatalogViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogVirtual catalogVirtual, List<CatalogCategoryVirtual> productCategories) throws Exception;
+	List<RetailerViewBean> buildRetailerViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
+	
+	CatalogViewBean buildMasterCatalogViewBean(HttpServletRequest request, RequestData requestData, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> productCategories) throws Exception;
 
-	List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception;
+	CatalogViewBean buildVirtualCatalogViewBean(HttpServletRequest request, RequestData requestData, CatalogVirtual catalogVirtual, List<CatalogCategoryVirtual> productCategories) throws Exception;
 
-	List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception;
-	
-	CatalogCategoryViewBean buildMasterProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogCategoryMaster productCategory, boolean fullPopulate) throws Exception;
+	List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(HttpServletRequest request, RequestData requestData, List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception;
 
-	CatalogCategoryViewBean buildVirtualProductCategoryViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, CatalogCategoryVirtual productCategory, boolean fullPopulate) throws Exception;
+	List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(HttpServletRequest request, RequestData requestData, List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception;
+	
+	CatalogCategoryViewBean buildMasterProductCategoryViewBean(HttpServletRequest request, RequestData requestData, CatalogCategoryMaster productCategory, boolean fullPopulate) throws Exception;
 
-	List<ProductMarketingViewBean> buildProductMarketingViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, List<ProductMarketing> productMarketings, boolean withDependency) throws Exception;
-	
-	ProductMarketingViewBean buildProductMarketingViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, ProductMarketing productMarketing, boolean withDependency) throws Exception;
+	CatalogCategoryViewBean buildVirtualProductCategoryViewBean(HttpServletRequest request, RequestData requestData, CatalogCategoryVirtual productCategory, boolean fullPopulate) throws Exception;
 
-	ProductSkuViewBean buildProductSkuViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, ProductSku productSku) throws Exception;
+	List<ProductMarketingViewBean> buildProductMarketingViewBeans(HttpServletRequest request, RequestData requestData, List<ProductMarketing> productMarketings, boolean withDependency) throws Exception;
+	
+	ProductMarketingViewBean buildProductMarketingViewBean(HttpServletRequest request, RequestData requestData, ProductMarketing productMarketing, boolean withDependency) throws Exception;
 
-	AssetViewBean buildAssetViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, Asset asset) throws Exception;
-	
-	LocalizationViewBean buildLocalizationViewBean(HttpServletRequest request, Localization localization) throws Exception;
+	ProductSkuViewBean buildProductSkuViewBean(HttpServletRequest request, RequestData requestData, ProductSku productSku) throws Exception;
 
-	LegalTermsViewBean buildLegalTermsViewBean(HttpServletRequest request, Localization localization) throws Exception;
+	AssetViewBean buildAssetViewBean(HttpServletRequest request, RequestData requestData, Asset asset) throws Exception;
 	
-	SecurityViewBean buildSecurityViewBean(HttpServletRequest request, Localization localization) throws Exception;
+	LegalTermsViewBean buildLegalTermsViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
+	
+	SecurityViewBean buildSecurityViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
 
-	UserViewBean buildUserViewBean(HttpServletRequest request, Localization localization, User user) throws Exception;
+	UserViewBean buildUserViewBean(HttpServletRequest request, RequestData requestData, User user) throws Exception;
 	
-	List<UserViewBean> buildUserViewBeans(HttpServletRequest request, Localization localization, List<User> users) throws Exception;
+	List<UserViewBean> buildUserViewBeans(HttpServletRequest request, RequestData requestData, List<User> users) throws Exception;
 	
-	ShippingViewBean buildShippingViewBean(HttpServletRequest request, Localization localization, Shipping shipping) throws Exception;
+	ShippingViewBean buildShippingViewBean(HttpServletRequest request, RequestData requestData, Shipping shipping) throws Exception;
 	
-	OrderViewBean buildOrderViewBean(HttpServletRequest request, Localization localization, Order order) throws Exception;
+	OrderViewBean buildOrderViewBean(HttpServletRequest request, RequestData requestData, Order order) throws Exception;
 	
-	RuleViewBean buildRuleViewBean(HttpServletRequest request, Localization localization, AbstractRuleReferential rule) throws Exception;
+	RuleViewBean buildRuleViewBean(HttpServletRequest request, RequestData requestData, AbstractRuleReferential rule) throws Exception;
 	
-	CustomerViewBean buildCustomerViewBean(HttpServletRequest request, Localization localization, Customer customer) throws Exception;
+	CustomerViewBean buildCustomerViewBean(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
 	
-	List<GlobalSearchViewBean> buildGlobalSearchViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, Retailer retailer, String searchText) throws Exception;
+	List<GlobalSearchViewBean> buildGlobalSearchViewBean(HttpServletRequest request, RequestData requestData, String searchText) throws Exception;
 
 	List<EngineSettingViewBean> buildEngineSettingViewBeans(HttpServletRequest request, List<EngineSetting> engineSettings) throws Exception;
 	
 	EngineSettingViewBean buildEngineSettingViewBean(HttpServletRequest request, EngineSetting engineSetting) throws Exception;
 	
-	EngineSettingDetailsViewBean buildEngineSettingDetailsViewBean(HttpServletRequest request, Localization localization) throws Exception;
+	EngineSettingDetailsViewBean buildEngineSettingDetailsViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
 	
-	EngineSettingValueEditViewBean buildEngineSettingValueEditViewBean(HttpServletRequest request, Localization localization, EngineSettingValue engineSettingValue) throws Exception;
+	EngineSettingValueEditViewBean buildEngineSettingValueEditViewBean(HttpServletRequest request, RequestData requestData, EngineSettingValue engineSettingValue) throws Exception;
 
-	List<BatchViewBean> buildBatchViewBeans(HttpServletRequest request, Localization localization, List<BatchProcessObject> batchProcessObjects) throws Exception;
+	List<BatchViewBean> buildBatchViewBeans(HttpServletRequest request, RequestData requestData, List<BatchProcessObject> batchProcessObjects) throws Exception;
 	
-	BatchViewBean buildBatchViewBean(HttpServletRequest request, Localization localization, BatchProcessObject batchProcessObject) throws Exception;
+	BatchViewBean buildBatchViewBean(HttpServletRequest request, RequestData requestData, BatchProcessObject batchProcessObject) throws Exception;
 	
 	List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(HttpServletRequest request, List<CurrencyReferential> currencyReferentials) throws Exception;
 	

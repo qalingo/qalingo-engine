@@ -28,6 +28,7 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.PaymentForm;
@@ -51,22 +52,10 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		final Cart currentCart = requestUtil.getCurrentCart(request);
 		int cartItemsCount = currentCart.getCartItems().size();
 		if(cartItemsCount == 0){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
+			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		// "shoppingcart.payment";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("paymentForm", formFactory.buildPaymentForm(request));
@@ -90,7 +79,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		// Create and Save a new order
 		webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
 		
-		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

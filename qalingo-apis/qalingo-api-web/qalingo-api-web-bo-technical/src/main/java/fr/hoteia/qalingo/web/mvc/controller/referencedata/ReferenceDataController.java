@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.CurrencyReferential;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.CurrencyReferentialService;
 import fr.hoteia.qalingo.core.service.PaymentGatewayService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -42,18 +43,16 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 	@Autowired
 	protected PaymentGatewayService paymentGatewayService;
 	
-	@RequestMapping("/reference-datas.html*")
+	@RequestMapping(BoUrls.REFERENCE_DATAS_URL)
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "reference-data/reference-data");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.REFERENCE_DATAS.getVelocityPage());
 
-		final String titleKeyPrefixSufix = "technical.reference.datas";
-		
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();
 		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(request, currencyReferentials);
 		modelAndView.addObject("currencyReferentials", currencyReferentialViewBeans);
 		
 		List<Localization> localizations = localizationService.findLocalizations();
-		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(request, localizations);
+		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), localizations);
 		modelAndView.addObject("localizations", localizationViewBeans);
 		
 		List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways();

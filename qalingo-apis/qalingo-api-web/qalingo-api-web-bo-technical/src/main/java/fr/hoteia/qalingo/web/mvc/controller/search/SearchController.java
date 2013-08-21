@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
@@ -34,9 +35,9 @@ public class SearchController extends AbstractTechnicalBackofficeController {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 	
-	@RequestMapping("/search-config.html*")
+	@RequestMapping(BoUrls.SEARCH_CONFIG_URL)
 	public ModelAndView searchConfig(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-config");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH_CONFIG.getVelocityPage());
 
 		final String titleKeyPrefixSufix = "solr";
 		
@@ -47,9 +48,9 @@ public class SearchController extends AbstractTechnicalBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping("/search.html*")
+	@RequestMapping(BoUrls.SEARCH_URL)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

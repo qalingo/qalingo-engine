@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -29,9 +30,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 @Controller("catalogController")
 public class CatalogController extends AbstractReportingBackofficeController {
 
-	@RequestMapping(value = "/catalog-stats.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.CATALOG_URL, method = RequestMethod.GET)
 	public ModelAndView catalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/catalog");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CATALOG.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

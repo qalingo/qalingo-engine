@@ -27,12 +27,13 @@ import org.springframework.stereotype.Component;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.domain.UserConnectionLog;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.UserConnectionLogService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
-@Component
+@Component(value="extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -72,12 +73,13 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	    	// Update the User in Session
 	    	user.getConnectionLogs().add(userConnectionLog);
 	    	requestUtil.updateCurrentUser(request, user);
+	    	
 	    	setUseReferer(false);
 			String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
 			
 	        // SANITY CHECK
 	        if(StringUtils.isEmpty(url)){
-	    		url = backofficeUrlService.buildHomeUrl();
+	    		url = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
 	        }
 	        
 	    	setDefaultTargetUrl(url);
@@ -88,4 +90,5 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 		}
 
     }
+
 }

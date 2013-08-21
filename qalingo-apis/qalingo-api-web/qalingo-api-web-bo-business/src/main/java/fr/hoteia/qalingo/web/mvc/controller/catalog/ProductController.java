@@ -42,6 +42,8 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.viewbean.ProductMarketingViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.ProductSkuViewBean;
 
 /**
  * 
@@ -70,7 +72,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
 		
 		// "business.product.marketing.details";
-		modelAndViewFactory.initProductMarketingModelAndView(request, modelAndView, productMarketing);
+		initProductMarketingModelAndView(request, modelAndView, productMarketing);
 		initSpecificSeo(request, modelAndView, "", productMarketing.getBusinessName());
 		
         return modelAndView;
@@ -88,7 +90,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 
 		// "business.product.marketing.edit";
 
-		modelAndViewFactory.initProductMarketingModelAndView(request, modelAndView, productMarketing);
+		initProductMarketingModelAndView(request, modelAndView, productMarketing);
 		modelAndView.addObject("productMarketingForm", formFactory.buildProductMarketingForm(request, productMarketing));
 		initSpecificSeo(request, modelAndView, "", productMarketing.getBusinessName());
 
@@ -112,7 +114,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 			if (result.hasErrors()) {
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.PRODUCT_MARKETING_FORM_VELOCITY_PAGE);
 				final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
-				modelAndViewFactory.initProductMarketingModelAndView(request, modelAndView, productMarketing);
+				initProductMarketingModelAndView(request, modelAndView, productMarketing);
 				modelAndView.addObject("productMarketingForm", formFactory.buildProductMarketingForm(request, productMarketing));
 				initSpecificSeo(request, modelAndView, "", productMarketing.getBusinessName());
 				return modelAndView;
@@ -146,7 +148,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 
 		// "business.product.sku.details";
-		modelAndViewFactory.initProductSkuModelAndView(request, modelAndView, productSku);
+		initProductSkuModelAndView(request, modelAndView, productSku);
 		modelAndView.addObject("productSkuForm", formFactory.buildProductSkuForm(request, productSku));
 		initSpecificSeo(request, modelAndView, "", productSku.getBusinessName());
 		
@@ -163,7 +165,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 		
 		// "business.product.sku.edit";
-		modelAndViewFactory.initProductSkuModelAndView(request, modelAndView, productSku);
+		initProductSkuModelAndView(request, modelAndView, productSku);
 		modelAndView.addObject("productSkuForm", formFactory.buildProductSkuForm(request, productSku));
 		initSpecificSeo(request, modelAndView, "", productSku.getBusinessName());
 		
@@ -186,7 +188,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 				ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.PRODUCT_SKU_FORM_VELOCITY_PAGE);
 //				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 				final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
-				modelAndViewFactory.initProductSkuModelAndView(request, modelAndView, productSku);
+				initProductSkuModelAndView(request, modelAndView, productSku);
 				modelAndView.addObject("productMarketingForm", formFactory.buildProductSkuForm(request, productSku));
 				initSpecificSeo(request, modelAndView, "", productSku.getBusinessName());
 				return modelAndView;
@@ -222,4 +224,26 @@ public class ProductController extends AbstractBusinessBackofficeController {
         modelAndView.addObject("seoPageTitle", appName + " - " + headerTitle);
         modelAndView.addObject("mainContentTitle", headerTitle);
 	}
+	
+	/**
+     * 
+     */
+	protected void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductMarketing productMarketing) throws Exception {
+		
+		ProductMarketingViewBean productMarketingViewBean = viewBeanFactory.buildProductMarketingViewBean(request, requestUtil.getRequestData(request), productMarketing, true);
+		
+		modelAndView.addObject(Constants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
+	}
+	
+	
+	/**
+     * 
+     */
+	protected void initProductSkuModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductSku productSku) throws Exception {
+		
+		ProductSkuViewBean productSkuViewBean = viewBeanFactory.buildProductSkuViewBean(request, requestUtil.getRequestData(request), productSku);
+		
+		modelAndView.addObject(Constants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
+	}
+	
 }

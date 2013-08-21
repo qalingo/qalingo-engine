@@ -136,7 +136,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 				attribute.setStringValue(screenName);
 				customer.getCustomerAttributes().add(attribute);
 				
-				CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode("GROUP_FO_CUSTOMER");
+				CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
 				customer.getCustomerGroups().add(customerGroup);
 				
 				if(StringUtils.isNotEmpty(locale)){
@@ -155,7 +155,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.buildCustomerDetailsUrl(request, currentMarketArea));
+				response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
 			}
 			
 		}

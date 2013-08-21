@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,10 +25,8 @@ import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -39,21 +38,18 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 @Controller("loginController")
 public class LoginController extends AbstractMCommerceController {
 
-	@RequestMapping("/login.html*")
+	@RequestMapping(FoUrls.LOGIN_URL)
 	public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/login");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LOGIN.getVelocityPage());
 		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		final Locale locale = currentLocalization.getLocale();
 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
+			final String url = urlService.buildCustomerDetailsUrl(currentMarketArea);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -64,32 +60,25 @@ public class LoginController extends AbstractMCommerceController {
 			model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
 		}
 		
-		//  "login";
-
-		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		modelAndView.addObject("security", security);
+        return modelAndView;
+	}
+	
+	@RequestMapping(FoUrls.LOGIN_CHECK_URL)
+	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndView modelAndView = new ModelAndView(FoUrls.LOGIN.getVelocityPage());
+		
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		if(currentCustomer != null){
+			final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+	        return new ModelAndView(new RedirectView(urlRedirect));
+		}
 		
         return modelAndView;
 	}
 	
-	@RequestMapping("/login-check.html*")
-	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndView modelAndView = new ModelAndView("security/login");
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		if(currentCustomer != null){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			final String urlRedirect = urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-	        return new ModelAndView(new RedirectView(urlRedirect));
-		}
-		
-		// "header.title.login";
-		
-        return modelAndView;
+	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
+	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
 	}
 	
 }

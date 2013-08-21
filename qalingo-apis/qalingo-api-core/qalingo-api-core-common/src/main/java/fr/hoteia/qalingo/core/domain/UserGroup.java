@@ -11,6 +11,7 @@ package fr.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -73,7 +74,7 @@ public class UserGroup implements Serializable {
 	        joinColumns=@JoinColumn(name="GROUP_ID"),
 	        inverseJoinColumns=@JoinColumn(name="ROLE_ID")
 	    )	
-	private Set<UserRole> groupRoles;
+	private Set<UserRole> groupRoles = new HashSet<UserRole>(); 
 	
 	public UserGroup(){
 	}

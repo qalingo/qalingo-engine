@@ -21,8 +21,10 @@ public class SecurityViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -6903293893445728139L;
 	
 	private String loginUrl;
+	private String submitLoginUrl;
     private String forgottenPasswordUrl;
 
+    // OAUTH / OPENID URLS
     private Map<String, String> urls = new HashMap<String, String>();
     
 	public String getLoginUrl() {
@@ -33,6 +35,14 @@ public class SecurityViewBean extends AbstractViewBean implements Serializable {
 		this.loginUrl = loginUrl;
 	}
 
+    public String getSubmitLoginUrl() {
+	    return submitLoginUrl;
+    }
+    
+    public void setSubmitLoginUrl(String submitLoginUrl) {
+	    this.submitLoginUrl = submitLoginUrl;
+    }
+    
 	public String getForgottenPasswordUrl() {
 		return forgottenPasswordUrl;
 	}

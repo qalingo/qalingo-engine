@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
@@ -56,8 +57,8 @@ public class ConnectWindowsLiveController extends AbstractFrontofficeQalingoCont
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(request, currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl(request, currentMarketArea, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
+															urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(LiveApi.class)
@@ -80,7 +81,7 @@ public class ConnectWindowsLiveController extends AbstractFrontofficeQalingoCont
 
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 		
 		return null;

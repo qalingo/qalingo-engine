@@ -12,20 +12,21 @@ package fr.hoteia.qalingo.core.web.mvc.factory.impl;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import fr.hoteia.qalingo.core.domain.Asset;
@@ -58,12 +59,14 @@ import fr.hoteia.qalingo.core.domain.UserConnectionLog;
 import fr.hoteia.qalingo.core.domain.UserGroup;
 import fr.hoteia.qalingo.core.domain.UserPermission;
 import fr.hoteia.qalingo.core.domain.UserRole;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
@@ -107,8 +110,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.UserViewBean;
 @Service("viewBeanFactory")
 public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory implements ViewBeanFactory {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-
 	@Autowired
     protected RequestUtil requestUtil;
 	
@@ -131,22 +132,27 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CommonViewBean buildCommonViewBean(final HttpServletRequest request, final MarketPlace marketPlace, final Market market, final MarketArea marketArea, 
-											  final Localization localization, final Retailer retailer) throws Exception {
+	public CommonViewBean buildCommonViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		final Retailer retailer = requestData.getRetailer();
 		
 		final CommonViewBean commonViewBean = new CommonViewBean();
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
-		commonViewBean.setHomeUrl(backofficeUrlService.buildHomeUrl());
-		commonViewBean.setLoginUrl(backofficeUrlService.buildLoginUrl());
-		commonViewBean.setLogoutUrl(backofficeUrlService.buildLogoutUrl());
-		commonViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl());
-		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
-		commonViewBean.setCurrentMarket(buildMarketViewBean(request, market));
-		commonViewBean.setCurrentMarketArea(buildMarketAreaViewBean(request, marketArea));
-		commonViewBean.setCurrentMarketLocalization(buildLocalizationViewBean(request, marketArea, localization));
-		commonViewBean.setCurrentRetailer(buildRetailerViewBean(request, marketArea, localization, retailer));
+		commonViewBean.setHomeUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request)));
+		commonViewBean.setLoginUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request)));
+		commonViewBean.setLogoutUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestUtil.getRequestData(request)));
+		commonViewBean.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request)));
+		
+		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, requestData, marketPlace));
+		commonViewBean.setCurrentMarket(buildMarketViewBean(request, requestData, market));
+		commonViewBean.setCurrentMarketArea(buildMarketAreaViewBean(request, requestData, marketArea));
+		commonViewBean.setCurrentMarketLocalization(buildLocalizationViewBeanByMarketArea(request, requestData, localization));
+		commonViewBean.setCurrentRetailer(buildRetailerViewBean(request, requestData, retailer));
 		
 		return commonViewBean;
 	}
@@ -155,7 +161,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
 		return new ArrayList<MenuViewBean>();
 	}
 	
@@ -163,7 +169,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<MenuViewBean> buildMorePageMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<MenuViewBean> buildMorePageMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		// TODO : denis : move this part in the global list menu java/vm
@@ -171,7 +177,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		MenuViewBean menu = new MenuViewBean();
 		menu.setCssIcon("icon-paper-clip");
 		menu.setName("FAQ");
-		menu.setUrl(backofficeUrlService.buildFaqUrl());
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestUtil.getRequestData(request)));
 		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
@@ -181,14 +187,15 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		
 		final List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 		
 		FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
 		footerMenuList.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-		footerMenuList.setUrl(backofficeUrlService.buildHomeUrl());
+		footerMenuList.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request)));
 		footerMenuViewBeans.add(footerMenuList);
 		
 		return footerMenuViewBeans;
@@ -198,7 +205,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
 		final WebElementType marketPlaceElementType = WebElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE_LIST";
@@ -208,7 +215,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			final List<MarketPlace> marketPlaceList = marketPlaceService.findMarketPlaces();
 			for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
 				final MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
-				marketPlaceViewBeans.add(buildMarketPlaceViewBean(request, marketPlaceNavigation));
+				marketPlaceViewBeans.add(buildMarketPlaceViewBean(request, requestData, marketPlaceNavigation));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketPlaceElementType, marketPlaceCacheKey, marketPlaceViewBeans);
 		}
@@ -219,17 +226,23 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public MarketPlaceViewBean buildMarketPlaceViewBean(final HttpServletRequest request, final MarketPlace marketPlace) throws Exception {
+	public MarketPlaceViewBean buildMarketPlaceViewBean(final HttpServletRequest request, final RequestData requestData, final MarketPlace marketPlace) throws Exception {
 		final Market defaultMarket = marketPlace.getDefaultMarket();
 		final MarketArea defaultMarketArea = defaultMarket.getDefaultMarketArea();
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
 		
+		requestData.setMarketPlace(marketPlace);
+		requestData.setMarket(defaultMarket);
+		requestData.setMarketArea(defaultMarketArea);
+		requestData.setLocalization(defaultLocalization);
+		requestData.setRetailer(defaultRetailer);
+		
 		MarketPlaceViewBean marketPlaceViewBean = new MarketPlaceViewBean();
 		marketPlaceViewBean.setName(marketPlace.getName());
-		marketPlaceViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(marketPlace, defaultMarket, defaultMarketArea, defaultLocalization, defaultRetailer));
+		marketPlaceViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
 		
-		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, marketPlace, new ArrayList<Market>(marketPlace.getMarkets()), defaultLocalization));
+		marketPlaceViewBean.setMarkets(buildMarketViewBeansByMarketPlace(request, requestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 		
 		return marketPlaceViewBean;
 	}
@@ -238,7 +251,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final MarketPlace marketPlace, final List<Market> markets, final Localization localization) throws Exception {
+	public List<MarketViewBean> buildMarketViewBeansByMarketPlace(final HttpServletRequest request, final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
 		final WebElementType marketElementType = WebElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketCacheKey = marketPrefixCacheKey + "_" + marketPlace.getCode() + "_MARKET_LIST";
@@ -247,7 +260,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			marketViewBeans = new ArrayList<MarketViewBean>();
 			for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
 				final Market marketNavigation = (Market) iteratorMarket.next();
-				marketViewBeans.add(buildMarketViewBean(request, marketNavigation));
+				marketViewBeans.add(buildMarketViewBean(request, requestData, marketNavigation));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketElementType, marketCacheKey, marketViewBeans);
 		}
@@ -258,17 +271,23 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public MarketViewBean buildMarketViewBean(final HttpServletRequest request, final Market market) throws Exception {
+	public MarketViewBean buildMarketViewBean(final HttpServletRequest request, final RequestData requestData, final Market market) throws Exception {
 		final MarketPlace marketPlace = market.getMarketPlace();
 		final MarketArea defaultMarketArea = market.getDefaultMarketArea();
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
 		
+		requestData.setMarketPlace(marketPlace);
+		requestData.setMarket(market);
+		requestData.setMarketArea(defaultMarketArea);
+		requestData.setLocalization(defaultLocalization);
+		requestData.setRetailer(defaultRetailer);
+		
 		final MarketViewBean marketViewBean = new MarketViewBean();
 		marketViewBean.setName(market.getName());
-		marketViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(marketPlace, market, defaultMarketArea, defaultLocalization, defaultRetailer));
+		marketViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
 		
-		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, market, new ArrayList<MarketArea>(market.getMarketAreas()), defaultLocalization));
+		marketViewBean.setMarketAreas(buildMarketAreaViewBeansByMarket(request, requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 		
 		return marketViewBean;
 	}
@@ -277,7 +296,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final Market market, final List<MarketArea> marketAreas, final Localization localization) throws Exception {
+	public List<MarketAreaViewBean> buildMarketAreaViewBeansByMarket(final HttpServletRequest request, final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final WebElementType marketAreaElementType = WebElementType.MARKET_AREA_VIEW_BEAN_LIST;
 		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
 		final String marketAreaCacheKey = marketAreaPrefixCacheKey + "_" + market.getCode() + "_MARKET_AREA_LIST";
@@ -286,7 +306,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
 			for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
 				final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-				marketAreaViewBeans.add(buildMarketAreaViewBean(request, marketArea));
+				marketAreaViewBeans.add(buildMarketAreaViewBean(request, requestData, marketArea));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketAreaElementType, marketAreaCacheKey, marketAreaViewBeans);
 		}
@@ -297,15 +317,21 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public MarketAreaViewBean buildMarketAreaViewBean(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
+	public MarketAreaViewBean buildMarketAreaViewBean(final HttpServletRequest request, final RequestData requestData, final MarketArea marketArea) throws Exception {
 		final Market market = marketArea.getMarket();
 		final MarketPlace marketPlace = market.getMarketPlace();
 		final Localization defaultLocalization = marketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = marketArea.getDefaultRetailer();
 		
+		requestData.setMarketPlace(marketPlace);
+		requestData.setMarket(market);
+		requestData.setMarketArea(marketArea);
+		requestData.setLocalization(defaultLocalization);
+		requestData.setRetailer(defaultRetailer);
+		
 		final MarketAreaViewBean marketAreaViewBean = new MarketAreaViewBean();
 		marketAreaViewBean.setName(marketArea.getName());
-		marketAreaViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(marketPlace, market, marketArea, defaultLocalization, defaultRetailer));
+		marketAreaViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
 		return marketAreaViewBean;
 	}
 	
@@ -313,33 +339,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
-		final WebElementType localizationElementType = WebElementType.LOCALIZATION_VIEW_BEAN_LIST;
-		final String localizationPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
-		final String localizationCacheKey = localizationPrefixCacheKey + "_" + marketArea.getCode() + "_LOCALIZATION_LIST";
-		List<LocalizationViewBean> localizationViewBeans = (List<LocalizationViewBean>) menuMarketNavigationCacheHelper.getFromCache(localizationElementType, localizationCacheKey);
-		if(localizationViewBeans == null){
-			final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
-			localizationViewBeans = new ArrayList<LocalizationViewBean>();
-			for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
-				final Localization localizationAvailable = (Localization) iterator.next();
-				localizationViewBeans.add(buildLocalizationViewBean(request, marketArea, localizationAvailable));
-			}
-			menuMarketNavigationCacheHelper.addToCache(localizationElementType, localizationCacheKey, localizationViewBeans);
-		}
-		return localizationViewBeans;
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	public LocalizationViewBean buildLocalizationViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
-		final Market market = marketArea.getMarket();
-		final MarketPlace marketPlace = market.getMarketPlace();
+	public LocalizationViewBean buildLocalizationViewBeanByMarketArea(final HttpServletRequest request, final RequestData requestData, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
 		final String localeCodeNavigation = localization.getCode();
-		final Retailer retailer = requestUtil.getCurrentRetailer(request);
+		
+		requestData.setLocalization(localization);
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
 		
@@ -350,7 +354,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 		
-		localizationViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(marketPlace, market, marketArea, localization, retailer));
+		localizationViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
 		return localizationViewBean;
 	}
 	
@@ -358,12 +362,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final List<Localization> localizations) throws Exception {
+	public List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(final HttpServletRequest request, final RequestData requestData, final List<Localization> localizations) throws Exception {
 		final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
 		if(localizations != null){
 			for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
 				Localization localization = (Localization) iterator.next();
-				localizationViewBeans.add(buildLocalizationViewBean(request, localization));
+				localizationViewBeans.add(buildLocalizationViewBeanByMarketArea(request, requestData, localization));
 			}
 		}
 		return localizationViewBeans;
@@ -373,7 +377,22 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public LocalizationViewBean buildLocalizationViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
+	public List<LocalizationViewBean> buildLocalizationViewBeans(final HttpServletRequest request, final RequestData requestData,  final List<Localization> localizations) throws Exception {
+		final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
+		if(localizations != null){
+			for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
+				Localization localization = (Localization) iterator.next();
+				localizationViewBeans.add(buildLocalizationViewBean(request, requestData, localization));
+			}
+		}
+		return localizationViewBeans;
+	}
+	
+	/**
+	 * @throws Exception 
+	 * 
+	 */
+	public LocalizationViewBean buildLocalizationViewBean(final HttpServletRequest request, final RequestData requestData, final Localization localization) throws Exception {
 		final Locale locale = localization.getLocale();
 		final String localeCodeNavigation = localization.getCode();
 		
@@ -386,7 +405,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 		
-		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(localization));
+		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(requestData, localization));
 		return localizationViewBean;
 	}
 	
@@ -394,7 +413,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		
 		final WebElementType retailerElementType = WebElementType.RETAILER_VIEW_BEAN_LIST;
 		final String retailerPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey(localization);
 		final String retailerCacheKey = retailerPrefixCacheKey + "_RETAILER";
@@ -403,8 +425,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
 			retailerViewBeans = new ArrayList<RetailerViewBean>();
 			for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-				final Retailer retailer = (Retailer) iterator.next();
-				retailerViewBeans.add(buildRetailerViewBean(request, marketArea, localization, retailer));
+				final Retailer retailerIt = (Retailer) iterator.next();
+				retailerViewBeans.add(buildRetailerViewBean(request, requestData, retailerIt));
 			}
 			menuMarketNavigationCacheHelper.addToCache(retailerElementType, retailerCacheKey, retailerViewBeans);
 		}
@@ -415,12 +437,17 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final Retailer retailer) throws Exception {
-		final Market market = marketArea.getMarket();
-		final MarketPlace marketPlace = market.getMarketPlace();
+	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final RequestData requestData, final Retailer retailer) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		
+		requestData.setRetailer(retailer);
+		
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
 		retailerViewBean.setName(retailer.getName());
-		retailerViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(marketPlace, market, marketArea, localization, retailer));
+		retailerViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
 		return retailerViewBean;
 	}
 	
@@ -428,14 +455,14 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogViewBean buildMasterCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, 
+	public CatalogViewBean buildMasterCatalogViewBean(final HttpServletRequest request, final RequestData requestData, 
 													  final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> productCategories) throws Exception {
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogMaster.getBusinessName());
 		catalogViewBean.setCode(catalogMaster.getCode());
 		
 		if(productCategories != null){
-			catalogViewBean.setCategories(buildMasterProductCategoryViewBeans(request, marketArea, localization, productCategories, true));
+			catalogViewBean.setCategories(buildMasterProductCategoryViewBeans(request, requestData, productCategories, true));
 		}
 
 		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.buildAddMasterProductCategoryUrl(null));
@@ -448,13 +475,14 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogViewBean buildVirtualCatalogViewBean(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> productCategories) throws Exception {
+	public CatalogViewBean buildVirtualCatalogViewBean(final HttpServletRequest request, final RequestData requestData, 
+													   final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> productCategories) throws Exception {
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogVirtual.getBusinessName());
 		catalogViewBean.setCode(catalogVirtual.getCode());
 		
 		if(productCategories != null){
-			catalogViewBean.setCategories(buildVirtualProductCategoryViewBeans(request, marketArea, localization, productCategories, true));
+			catalogViewBean.setCategories(buildVirtualProductCategoryViewBeans(request, requestData, productCategories, true));
 		}
 
 		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.buildAddVirtualProductCategoryUrl(null));
@@ -467,12 +495,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, 
+	public List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(final HttpServletRequest request, final RequestData requestData, 
 																			 final List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception {
 		List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
 		for (Iterator<CatalogCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
 			final CatalogCategoryMaster category = (CatalogCategoryMaster) iterator.next();
-			categoryViewBeans.add(buildMasterProductCategoryViewBean(request, marketArea, localization, category, fullPopulate));
+			categoryViewBeans.add(buildMasterProductCategoryViewBean(request, requestData, category, fullPopulate));
 		}
 		return categoryViewBeans;
 	}
@@ -481,12 +509,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(final HttpServletRequest request, final MarketArea marketArea, final Localization localization, 
+	public List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(final HttpServletRequest request, final RequestData requestData, 
 																			  final List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception {
 		List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
 		for (Iterator<CatalogCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
 			final CatalogCategoryVirtual category = (CatalogCategoryVirtual) iterator.next();
-			categoryViewBeans.add(buildVirtualProductCategoryViewBean(request, marketArea, localization, category, fullPopulate));
+			categoryViewBeans.add(buildVirtualProductCategoryViewBean(request, requestData, category, fullPopulate));
 		}
 		return categoryViewBeans;
 	}
@@ -495,8 +523,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final MarketArea marketArea, 
-																	  final Localization localization, final CatalogCategoryMaster category, boolean fullPopulate) throws Exception {
+	public CatalogCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final RequestData requestData, 
+																	  final CatalogCategoryMaster category, boolean fullPopulate) throws Exception {
 		final CatalogCategoryViewBean productCategoryViewBean = new CatalogCategoryViewBean();
 		
 //		// VIEW/FORM LABELS
@@ -523,7 +551,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			productCategoryViewBean.setDescription(category.getDescription());
 			
 			if(category.getDefaultParentCatalogCategory() != null){
-				productCategoryViewBean.setDefaultParentCategory(buildMasterProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentCatalogCategory(), false));
+				productCategoryViewBean.setDefaultParentCategory(buildMasterProductCategoryViewBean(request, requestData, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -542,7 +570,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 			if(fullPopulate){
 				if(category.getCatalogCategories() != null){
-					productCategoryViewBean.setSubCategories(buildMasterProductCategoryViewBeans(request, marketArea, localization, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
+					productCategoryViewBean.setSubCategories(buildMasterProductCategoryViewBeans(request, requestData, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
 				}
 				
 				Set<CatalogCategoryMasterAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
@@ -557,7 +585,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 					productCategoryViewBean.getMarketAreaAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
 				}
 				
-				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(request, marketArea, localization, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
+				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(request, requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
 				productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
 				int countProduct = category.getProductMarketings().size();
@@ -570,7 +598,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 				Set<Asset> assets = category.getAssetsIsGlobal();
 				for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
 					Asset asset = (Asset) iterator.next();
-					productCategoryViewBean.getAssets().add(buildAssetViewBean(request, marketArea, localization, asset));
+					productCategoryViewBean.getAssets().add(buildAssetViewBean(request, requestData, asset));
 				}
 			}
 
@@ -579,10 +607,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 //			productCategoryViewBean.setCategoryEditLabel(getSpecificMessage("business.catalog.category.edit.url.label", locale));
 			productCategoryViewBean.setCategoryEditUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(categoryCode));
+			
+			productCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(categoryCode));
 		}
 		
 //		productCategoryViewBean.setSubmitLabel(getSpecificMessage("business.catalog.category.edit.submit.label", locale));
-		productCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildMasterProductCategoryFormPostUrl());
 
 //		productCategoryViewBean.setCancelLabel(getSpecificMessage("business.catalog.category.edit.cancel.label", locale));
 		final List<String> excludedPatterns = new ArrayList<String>();
@@ -596,8 +625,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogCategoryViewBean buildVirtualProductCategoryViewBean(final HttpServletRequest request, final MarketArea marketArea, 
-																	   final Localization localization, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
+	public CatalogCategoryViewBean buildVirtualProductCategoryViewBean(final HttpServletRequest request, final RequestData requestData, 
+																	   final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
 		final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 		
 //		// VIEW/FORM LABELS
@@ -624,7 +653,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 //			catalogCategoryViewBean.setDescriptionInformation(category.getDescription());
 
 			if(category.getDefaultParentCatalogCategory() != null){
-				catalogCategoryViewBean.setDefaultParentCategory(buildVirtualProductCategoryViewBean(request, marketArea, localization, category.getDefaultParentCatalogCategory(), false));
+				catalogCategoryViewBean.setDefaultParentCategory(buildVirtualProductCategoryViewBean(request, requestData, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -643,7 +672,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 			if(fullPopulate){
 				if(category.getCatalogCategories() != null){
-					catalogCategoryViewBean.setSubCategories(buildVirtualProductCategoryViewBeans(request, marketArea, localization, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
+					catalogCategoryViewBean.setSubCategories(buildVirtualProductCategoryViewBeans(request, requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
 				}
 
 				Set<CatalogCategoryVirtualAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
@@ -658,7 +687,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 					catalogCategoryViewBean.getMarketAreaAttributes().put(productCategoryVirtualAttribute.getAttributeDefinition().getCode(), productCategoryVirtualAttribute.getValueAsString());
 				}
 	
-				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(request, marketArea, localization, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
+				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(request, requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
 				catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 				
 				int countProduct = category.getProductMarketings().size();
@@ -671,7 +700,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 				Set<Asset> assets = category.getAssetsIsGlobal();
 				for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
 					Asset asset = (Asset) iterator.next();
-					catalogCategoryViewBean.getAssets().add(buildAssetViewBean(request, marketArea, localization, asset));
+					catalogCategoryViewBean.getAssets().add(buildAssetViewBean(request, requestData, asset));
 				}
 			}
 
@@ -680,6 +709,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 //			catalogCategoryViewBean.setCategoryEditLabel(getSpecificMessage("business.catalog.category.edit.url.label", locale));
 			catalogCategoryViewBean.setCategoryEditUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(categoryCode));
+			
+			catalogCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(categoryCode));
 		}
 		
 //		catalogCategoryViewBean.setCancelLabel(getSpecificMessage("business.catalog.category.edit.cancel.label", locale));
@@ -688,7 +719,6 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		catalogCategoryViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
 
 //		catalogCategoryViewBean.setSubmitLabel(getSpecificMessage("business.catalog.category.edit.submit.label", locale));
-		catalogCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildVirtualProductCategoryFormPostUrl());
 		
 		return catalogCategoryViewBean;
 	}
@@ -697,12 +727,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<ProductMarketingViewBean> buildProductMarketingViewBeans(HttpServletRequest request, MarketArea marketArea, Localization localization, 
-																		 List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
+	public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final HttpServletRequest request, final RequestData requestData, 
+																		 final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
 		List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
 			ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-			products.add(buildProductMarketingViewBean(request, marketArea, localization, productMarketing, withDependency));
+			products.add(buildProductMarketingViewBean(request, requestData, productMarketing, withDependency));
 		}
 		return products;
 	}
@@ -711,9 +741,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public ProductMarketingViewBean buildProductMarketingViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, 
-																  ProductMarketing productMarketing, boolean withDependency) throws Exception {
-		final Locale locale = localization.getLocale();
+	public ProductMarketingViewBean buildProductMarketingViewBean(final HttpServletRequest request, final RequestData requestData, 
+																  final ProductMarketing productMarketing, boolean withDependency) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
 		final Long marketAreaId = marketArea.getId();
 		final String productCode = productMarketing.getCode();
 		
@@ -761,19 +791,19 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			Set<ProductSku> productSkus = productMarketing.getProductSkus();
 			for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSku productSku = (ProductSku) iterator.next();
-				productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(request, marketArea, localization, productSku));
+				productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(request, requestData, productSku));
 			}
 			
 			Set<ProductAssociationLink> productCrossLinks = productMarketing.getProductAssociationLinks();
 			for (Iterator<ProductAssociationLink> iterator = productCrossLinks.iterator(); iterator.hasNext();) {
 				ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
-				productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(request, marketArea, localization, productAssociationLink));
+				productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(request, requestData, productAssociationLink));
 			}
 			
 			Set<Asset> assets = productMarketing.getAssetsIsGlobal();
 			for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
 				Asset asset = (Asset) iterator.next();
-				productMarketingViewBean.getAssets().add(buildAssetViewBean(request, marketArea, localization, asset));
+				productMarketingViewBean.getAssets().add(buildAssetViewBean(request, requestData, asset));
 			}
 
 		}
@@ -817,10 +847,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, 
-																			  ProductAssociationLink productAssociationLink) throws Exception {
-		final Long marketAreaId = marketArea.getId();
-		
+	public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final HttpServletRequest request, final RequestData requestData, 
+																			  final ProductAssociationLink productAssociationLink) throws Exception {
 		final ProductAssociationLinkViewBean productCrossLinkViewBean = new ProductAssociationLinkViewBean();
 		
 		productCrossLinkViewBean.setOrderItem(productAssociationLink.getRankPosition());
@@ -837,7 +865,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public ProductSkuViewBean buildProductSkuViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, ProductSku productSku) throws Exception {
+	public ProductSkuViewBean buildProductSkuViewBean(final HttpServletRequest request, final RequestData requestData, final ProductSku productSku) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
 		final Long marketAreaId = marketArea.getId();
 		final String productSkuCode = productSku.getCode();
 		
@@ -884,7 +913,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			productSkuViewBean.getMarketAreaAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());
 		}
 		
-		productSkuViewBean.setProductMarketing(buildProductMarketingViewBean(request, marketArea, localization, productSku.getProductMarketing(), false));
+		productSkuViewBean.setProductMarketing(buildProductMarketingViewBean(request, requestData, productSku.getProductMarketing(), false));
 
 		Set<ProductMarketingAttribute> productMarketingGlobalAttributes = productSku.getProductMarketing().getProductMarketingGlobalAttributes();
 		for (Iterator<ProductMarketingAttribute> iterator = productMarketingGlobalAttributes.iterator(); iterator.hasNext();) {
@@ -901,7 +930,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		Set<Asset> assets = productSku.getAssetsIsGlobal();
 		for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
 			Asset asset = (Asset) iterator.next();
-			productSkuViewBean.getAssets().add(buildAssetViewBean(request, marketArea, localization, asset));
+			productSkuViewBean.getAssets().add(buildAssetViewBean(request, requestData, asset));
 		}
 		
 		DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -957,7 +986,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public AssetViewBean buildAssetViewBean(HttpServletRequest request, MarketArea marketArea, Localization localization, Asset asset) throws Exception {
+	public AssetViewBean buildAssetViewBean(final HttpServletRequest request, final RequestData requestData, final Asset asset) throws Exception {
 		final String assetCode = asset.getCode();
 		
 		AssetViewBean assetViewBean = new AssetViewBean();
@@ -996,7 +1025,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		
 		assetViewBean.setDetailsUrl(backofficeUrlService.buildAssetDetailsUrl(assetCode));
 		assetViewBean.setEditUrl(backofficeUrlService.buildAssetEditUrl(assetCode));
-		assetViewBean.setFormSubmitUrl(backofficeUrlService.buildAssetFormPostUrl());
+		assetViewBean.setFormSubmitUrl(backofficeUrlService.buildAssetEditUrl(assetCode));
 
 		return assetViewBean;
 	}
@@ -1005,7 +1034,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public LegalTermsViewBean buildLegalTermsViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
+	public LegalTermsViewBean buildLegalTermsViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		
 		final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
@@ -1020,14 +1050,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public SecurityViewBean buildSecurityViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
-		final Locale locale = localization.getLocale();
+	public SecurityViewBean buildSecurityViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
 		final SecurityViewBean security = new SecurityViewBean();
-		security.setLoginPageTitle(getSpecificMessage(ScopeWebMessage.AUTH, "header.title.login", locale));
-		security.setLoginPageText(getSpecificMessage(ScopeWebMessage.AUTH, "login.content.text", locale));
-		security.setForgottenPasswordPageText(getSpecificMessage(ScopeWebMessage.AUTH, "forgotten.password.content.text", locale));
-		security.setLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl());
-		security.setForgottenPasswordUrl(backofficeUrlService.buildForgottenPasswordUrl());
+		security.setLoginUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request)));
+		security.setSubmitLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(requestUtil.getRequestData(request)));
+		security.setForgottenPasswordUrl(backofficeUrlService.generateUrl(BoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request)));
 		return security;
 	}
 	
@@ -1035,7 +1062,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public UserViewBean buildUserViewBean(final HttpServletRequest request, final Localization localization, final User user) throws Exception {
+	public UserViewBean buildUserViewBean(final HttpServletRequest request, final RequestData requestData, final User user) throws Exception {
 		final UserViewBean userViewBean = new UserViewBean();
 		userViewBean.setId(user.getId());
 		userViewBean.setLogin(user.getLogin());
@@ -1102,8 +1129,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add("form");
 		userViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
-		userViewBean.setUserDetailsUrl(backofficeUrlService.buildUserDetailsUrl(user.getId().toString()));
-		userViewBean.setUserEditUrl(backofficeUrlService.buildUserEditUrl(user.getId().toString()));
+
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_USER_ID, user.getId().toString());
+		userViewBean.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request), urlParams));
+		userViewBean.setUserEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestUtil.getRequestData(request), urlParams));
 		
 		return userViewBean;
 	}
@@ -1111,11 +1141,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	/**
      * 
      */
-	public List<UserViewBean> buildUserViewBeans(final HttpServletRequest request, final Localization localization, final List<User> users) throws Exception {
+	public List<UserViewBean> buildUserViewBeans(final HttpServletRequest request, final RequestData requestData, final List<User> users) throws Exception {
 		final List<UserViewBean> userViewBeans = new ArrayList<UserViewBean>();
 		for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
 			User user = (User) iterator.next();
-			userViewBeans.add(buildUserViewBean(request, localization, user));
+			userViewBeans.add(buildUserViewBean(request, requestData, user));
 		}
 		return userViewBeans;
 	}
@@ -1124,7 +1154,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public ShippingViewBean buildShippingViewBean(final HttpServletRequest request, final Localization localization, final Shipping shipping) throws Exception{
+	public ShippingViewBean buildShippingViewBean(final HttpServletRequest request, final RequestData requestData, final Shipping shipping) throws Exception{
 		ShippingViewBean shippingViewBean = new ShippingViewBean();
 		shippingViewBean.setId(shipping.getId());
 		
@@ -1158,7 +1188,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public OrderViewBean buildOrderViewBean(final HttpServletRequest request, final Localization localization, final Order order) throws Exception{
+	public OrderViewBean buildOrderViewBean(final HttpServletRequest request, final RequestData requestData, final Order order) throws Exception{
 		OrderViewBean orderViewBean = new OrderViewBean();
 		orderViewBean.setId(order.getId());
 		
@@ -1191,7 +1221,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public RuleViewBean buildRuleViewBean(final HttpServletRequest request, final Localization localization, final AbstractRuleReferential rule) throws Exception{
+	public RuleViewBean buildRuleViewBean(final HttpServletRequest request, final RequestData requestData, final AbstractRuleReferential rule) throws Exception{
 		RuleViewBean ruleViewBean = new RuleViewBean();
 		ruleViewBean.setId(rule.getId());
 		
@@ -1222,7 +1252,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CustomerViewBean buildCustomerViewBean(final HttpServletRequest request, final Localization localization, final Customer customer) throws Exception{
+	public CustomerViewBean buildCustomerViewBean(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception{
 		CustomerViewBean customerViewBean = new CustomerViewBean();
 		customerViewBean.setId(customer.getId());
 
@@ -1258,8 +1288,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<GlobalSearchViewBean> buildGlobalSearchViewBean(final HttpServletRequest request, final MarketArea marketArea, 
-																final Localization localization, final Retailer retailer, final String searchText) throws Exception {
+	public List<GlobalSearchViewBean> buildGlobalSearchViewBean(final HttpServletRequest request, final RequestData requestData, final String searchText) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Retailer retailer = requestData.getRetailer();
 		
 		final List<GlobalSearchViewBean> globalSearchViewBeans = new ArrayList<GlobalSearchViewBean>();
 
@@ -1309,7 +1340,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final EngineSettingViewBean engineSettingViewBean = new EngineSettingViewBean();
 		engineSettingViewBean.setName(engineSetting.getName());
 		engineSettingViewBean.setDescription(engineSetting.getDescription());
-		engineSettingViewBean.setEngineSettingDetailsUrl(backofficeUrlService.buildEngineSettingDetailsUrl(engineSetting.getId().toString()));
+		
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID, engineSetting.getId().toString());
+		engineSettingViewBean.setEngineSettingDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), urlParams));
 		Set<EngineSettingValue> engineSettingValues = engineSetting.getEngineSettingValues();
 		if(engineSettingValues != null){
 			for (Iterator<EngineSettingValue> iterator = engineSettingValues.iterator(); iterator.hasNext();) {
@@ -1323,10 +1357,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	/**
      * 
      */
-	public EngineSettingDetailsViewBean buildEngineSettingDetailsViewBean(final HttpServletRequest request, final Localization localization) throws Exception {
-		final Locale locale = localization.getLocale();
+	public EngineSettingDetailsViewBean buildEngineSettingDetailsViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
 		final EngineSettingDetailsViewBean engineSettingValueDetailsViewBean = new EngineSettingDetailsViewBean();
-//		engineSettingValueDetailsViewBean.setEditLabel(coreMessageSource.getMessage("engine.setting.details.edit.value", null, locale));
 		return engineSettingValueDetailsViewBean;
 	}
 	
@@ -1337,29 +1369,32 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final EngineSettingValueViewBean engineSettingValueViewBean = new EngineSettingValueViewBean();
 		engineSettingValueViewBean.setContext(engineSettingValue.getContext());
 		engineSettingValueViewBean.setValue(engineSettingValue.getValue());
-		engineSettingValueViewBean.setEditUrl(backofficeUrlService.buildEngineSettingValueEditUrl(engineSettingValue.getId().toString()));
+		
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID, engineSettingValue.getId().toString());
+		engineSettingValueViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_EDIT, requestUtil.getRequestData(request), urlParams));
 		return engineSettingValueViewBean;
 	}
 	
 	/**
      * 
      */
-	public EngineSettingValueEditViewBean buildEngineSettingValueEditViewBean(final HttpServletRequest request, final Localization localization, final EngineSettingValue engineSettingValue) throws Exception {
-		final Locale locale = localization.getLocale();
+	public EngineSettingValueEditViewBean buildEngineSettingValueEditViewBean(final HttpServletRequest request, final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
 		final EngineSettingValueEditViewBean engineSettingValueEdit = new EngineSettingValueEditViewBean();
-//		engineSettingValueEdit.setSubmitLabel(coreMessageSource.getMessage("form.engine.setting.value.edit.submit.label", null, locale));
-		engineSettingValueEdit.setFormSubmitUrl(backofficeUrlService.buildEngineSettingValueEditUrl(engineSettingValue.getId().toString()));
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID, engineSettingValue.getId().toString());
+		engineSettingValueEdit.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_EDIT, requestUtil.getRequestData(request), urlParams));
 		return engineSettingValueEdit;
 	}
 	
 	/**
      * 
      */
-	public List<BatchViewBean> buildBatchViewBeans(final HttpServletRequest request, final Localization localization, final List<BatchProcessObject> batchProcessObjects) throws Exception {
+	public List<BatchViewBean> buildBatchViewBeans(final HttpServletRequest request, final RequestData requestData, final List<BatchProcessObject> batchProcessObjects) throws Exception {
 		final List<BatchViewBean> batchViewBeans = new ArrayList<BatchViewBean>();
 		for (Iterator<BatchProcessObject> iterator = batchProcessObjects.iterator(); iterator.hasNext();) {
 			BatchProcessObject batchProcessObject = (BatchProcessObject) iterator.next();
-			batchViewBeans.add(buildBatchViewBean(request, localization, batchProcessObject));
+			batchViewBeans.add(buildBatchViewBean(request, requestData, batchProcessObject));
 		}
 		return batchViewBeans;
 	}
@@ -1367,7 +1402,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	/**
      * 
      */
-	public BatchViewBean buildBatchViewBean(final HttpServletRequest request, final Localization localization, final BatchProcessObject batchProcessObject) throws Exception {
+	public BatchViewBean buildBatchViewBean(final HttpServletRequest request, final RequestData requestData, final BatchProcessObject batchProcessObject) throws Exception {
 		final BatchViewBean batchViewBean = new BatchViewBean();
 		batchViewBean.setId(batchProcessObject.getId());
 		batchViewBean.setStatus(batchProcessObject.getStatus());

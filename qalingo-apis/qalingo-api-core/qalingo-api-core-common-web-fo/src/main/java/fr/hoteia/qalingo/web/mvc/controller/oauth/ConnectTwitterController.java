@@ -14,7 +14,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.RequestToken;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
@@ -28,7 +28,6 @@ public class ConnectTwitterController extends AbstractFrontofficeQalingoControll
 
 	@RequestMapping("/connect-oauth-twitter.html*")
 	public ModelAndView connectTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -72,7 +71,7 @@ public class ConnectTwitterController extends AbstractFrontofficeQalingoControll
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 		
         return null;

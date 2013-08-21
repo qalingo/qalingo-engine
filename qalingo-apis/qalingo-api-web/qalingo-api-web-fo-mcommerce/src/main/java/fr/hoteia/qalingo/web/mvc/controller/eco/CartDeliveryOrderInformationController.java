@@ -39,6 +39,7 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.CartForm;
@@ -61,22 +62,10 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		final Cart currentCart = requestUtil.getCurrentCart(request);
 		int cartItemsCount = currentCart.getCartItems().size();
 		if(cartItemsCount == 0){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
+			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		// "shoppingcart.order.informations";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
@@ -99,7 +88,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		
 		requestUtil.updateCurrentCart(request, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 		
-		final String urlRedirect = urlService.buildCartOrderPaymentUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCartOrderPaymentUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -107,17 +96,11 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
     public List<CustomerAddressViewBean> getAddresses(HttpServletRequest request) {
 		List<CustomerAddressViewBean> addressesValues = new ArrayList<CustomerAddressViewBean>();
 		try {
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			
 			final Customer customer = requestUtil.getCurrentCustomer(request);
 			Set<CustomerAddress> addresses = customer.getAddresses();
 			for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
 				final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-				addressesValues.add(viewBeanFactory.buildCustomeAddressViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customerAddress));
+				addressesValues.add(viewBeanFactory.buildCustomeAddressViewBean(request, requestUtil.getRequestData(request), customerAddress));
 			}
 			
 			Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {

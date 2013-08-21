@@ -22,6 +22,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.stereotype.Component;
 
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
@@ -40,13 +41,12 @@ public class ExtAccessDeniedHandlerImpl extends AccessDeniedHandlerImpl {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 					   AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		try {
-			String url = backofficeUrlService.buildForbiddenUrl();
+			String url = backofficeUrlService.generateUrl(BoUrls.FORBIDDEN, requestUtil.getRequestData(request));
 			setErrorPage(url);
 		} catch (Exception e) {
 			LOG.error("", e);
 		}
 		super.handle(request, response, accessDeniedException);
 	}
-	
 	
 }

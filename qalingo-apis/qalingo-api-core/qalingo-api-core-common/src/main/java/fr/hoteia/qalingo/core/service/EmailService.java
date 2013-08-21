@@ -13,7 +13,6 @@ import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Email;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
@@ -23,6 +22,7 @@ import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmail
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 public interface EmailService {
 
@@ -36,22 +36,22 @@ public interface EmailService {
 
 	void deleteEmail(Email email);
 	
-	void buildAndSaveContactMail(Localization localization, String VelocityPath, ContactEmailBean contactEmailBean) throws Exception;
+	void buildAndSaveContactMail(RequestData requestData, String VelocityPath, ContactEmailBean contactEmailBean) throws Exception;
 
-	void buildAndSaveRetailerContactMail(Localization localization, Customer customer, String VelocityPath, RetailerContactEmailBean retailerCcontactEmailBean) throws Exception;
+	void buildAndSaveRetailerContactMail(RequestData requestData, Customer customer, String VelocityPath, RetailerContactEmailBean retailerCcontactEmailBean) throws Exception;
 
-	void saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, String VelocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
+	void saveAndBuildNewsletterRegistrationConfirmationMail(RequestData requestData, String VelocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
 	
-	void buildAndSaveCustomerNewAccountMail(Localization localization, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception;
+	void buildAndSaveCustomerNewAccountMail(RequestData requestData, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception;
 	
-	void buildAndSaveCustomerForgottenPasswordMail(Localization localization, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception;
+	void buildAndSaveCustomerForgottenPasswordMail(RequestData requestData, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception;
 
-	void buildAndSaveCustomerResetPasswordConfirmationMail(Localization localization, Customer customer, String VelocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception;
+	void buildAndSaveCustomerResetPasswordConfirmationMail(RequestData requestData, Customer customer, String VelocityPath, CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception;
 
-	void buildAndSaveNewOrderConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception;
+	void buildAndSaveNewOrderConfirmationMail(RequestData requestData, Customer customer, String VelocityPath, OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception;
 	
-	void buildAndSaveOrderShippedConfirmationMail(Localization localization, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception;
+	void buildAndSaveOrderShippedConfirmationMail(RequestData requestData, Customer customer, String VelocityPath, OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception;
 	
-	void buildAndSaveAbandonedShoppingCartMail(Localization localization, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception;
+	void buildAndSaveAbandonedShoppingCartMail(RequestData requestData, Customer customer, String velocityPath, AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception;
 	
 }

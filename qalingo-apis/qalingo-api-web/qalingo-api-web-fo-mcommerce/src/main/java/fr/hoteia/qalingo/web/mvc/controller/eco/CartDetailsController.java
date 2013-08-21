@@ -26,6 +26,7 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
@@ -53,7 +54,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String url = urlService.buildCartDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCartDetailsUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 		
         return new ModelAndView(new RedirectView(url));
 	}
@@ -69,7 +70,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		requestUtil.removeCartItemFromCurrentCart(request, skuCode);
 
-		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
+		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
 	}
 	
 	@RequestMapping("/cart-details.html*")
@@ -80,22 +81,10 @@ public class CartDetailsController extends AbstractMCommerceController {
 		final Cart currentCart = requestUtil.getCurrentCart(request);
 		int cartItemsCount = currentCart.getCartItems().size();
 		if(cartItemsCount == 0){
-			final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-			final Market currentMarket = requestUtil.getCurrentMarket(request);
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-			return new ModelAndView(new RedirectView(urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
+			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		// "shoppingcart.details";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));

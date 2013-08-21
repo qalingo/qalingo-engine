@@ -18,8 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -28,15 +28,15 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
 /**
  * 
  */
-@Controller
+@Controller("faqController")
 public class FaqController extends AbstractBackofficeQalingoController {
 
-	@RequestMapping(BoPageConstants.FAQ_URL + "*")
+	@RequestMapping(BoUrls.FAQ_URL)
 	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.FAQ_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.FAQ.getVelocityPage());
 		final Locale locale = requestUtil.getCurrentLocale(request);
 
-		final String pageKey = BoPageConstants.FAQ_KEY;
+		final String pageKey = BoUrls.FAQ.getKey();
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		

@@ -36,8 +36,9 @@ import fr.hoteia.qalingo.core.service.CustomerConnectionLogService;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 
-@Component
+@Component(value="extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -82,12 +83,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 			
 	        // SANITY CHECK
 	        if(StringUtils.isEmpty(url)){
-	    		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-	    		final Market currentMarket = requestUtil.getCurrentMarket(request);
-	    		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-	    		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-	    		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-	    		url = urlService.buildHomeUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+	    		url = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
 	        } else {
 	        	String cartDetails = "cart-details.html";
 	        	if(url.contains(cartDetails)){
@@ -96,7 +92,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 		    		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		    		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		    		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		    		url = urlService.buildCartDeliveryAndOrderDetailsUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		    		url = urlService.buildCartDeliveryAndOrderDetailsUrl( currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
 	        	}
 	        }
 			

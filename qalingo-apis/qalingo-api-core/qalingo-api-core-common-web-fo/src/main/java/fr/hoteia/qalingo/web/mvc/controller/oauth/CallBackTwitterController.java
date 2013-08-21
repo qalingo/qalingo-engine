@@ -3,7 +3,6 @@ package fr.hoteia.qalingo.web.mvc.controller.oauth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.User;
-import fr.hoteia.qalingo.core.domain.AttributeDefinition;
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
@@ -40,7 +33,6 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 	
 	@RequestMapping("/callback-oauth-twitter.html*")
 	public ModelAndView callBackTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -119,7 +111,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 //
 //					// Redirect to the details page
 //					if(StringUtils.isNotEmpty(email)){
-//						response.sendRedirect(urlService.buildCustomerDetailsUrl(request, currentMarketArea));
+//						response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
 //					}
 
 			    }
@@ -131,7 +123,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.buildLoginUrl(request, currentMarketArea));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		}
 
 		return null;

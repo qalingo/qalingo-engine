@@ -22,8 +22,8 @@ import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -37,7 +37,13 @@ import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MarketAreaViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MarketViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 
 /**
  * 
@@ -120,30 +126,17 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		// COMMON
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		CommonViewBean commonViewBean = viewBeanFactory.buildCommonViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, commonViewBean);
+	@ModelAttribute(ModelConstants.COMMON_VIEW_BEAN)
+	protected CommonViewBean initCommon(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildCommonViewBean(request, requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
-		// QUICK SEARCH
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		model.addAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH, urlService.buildSearchUrl(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer));
+	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
+	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
+		return backofficeUrlService.generateUrl(BoUrls.GLOBAL_SEARCH, requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -152,48 +145,92 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute
 	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
 		// HEADER
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(request, currentLocalization));
-		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(request, currentLocalization));
+		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(request, requestUtil.getRequestData(request)));
+		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(request, requestUtil.getRequestData(request)));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initLocalizations(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.LANGUAGES_VIEW_BEAN)
+	protected List<LocalizationViewBean> initLocalizations(final HttpServletRequest request, final Model model) throws Exception {
 		// LOCALIZATIONS
 		Company company = requestUtil.getCurrentCompany(request);
 		if(company != null){
 			Set<Localization> localizations = company.getLocalizations();
-			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, new ArrayList<Localization>(localizations)));
+			return viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), new ArrayList<Localization>(localizations));
 		} else {
 			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
 			List<Localization> defaultLocalizations = new ArrayList<Localization>();
 			defaultLocalizations.add(defaultLocalization);
-			model.addAttribute(ModelConstants.LANGUAGE_VIEW_BEAN, viewBeanFactory.buildLocalizationViewBeans(request, defaultLocalizations));
+			return viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), defaultLocalizations);
 		}
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		// LEGAL-TERMS
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, currentLocalization);
-		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
+	@ModelAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN)
+	protected List<MarketPlaceViewBean> initAllPlaces(final HttpServletRequest request, final Model model) throws Exception {
+		// ALL MARKETPLACES
+		return viewBeanFactory.buildMarketPlaceViewBeans(request, requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initFooter(final HttpServletRequest request, final Model model) throws Exception {
-		// FOOTER
-		final Localization currentLocalization = requestUtil.getCurrentMarketLocalization(request);
-		model.addAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN, viewBeanFactory.buildFooterMenuViewBeans(request, currentLocalization));
+	@ModelAttribute(ModelConstants.MARKETS_VIEW_BEAN)
+	protected List<MarketViewBean> initMarkets(final HttpServletRequest request, final Model model) throws Exception {
+		// MARKETS FOR THE CURRENT MARKETPLACE
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+		Set<Market> marketList = currentMarketPlace.getMarkets();
+		return viewBeanFactory.buildMarketViewBeansByMarketPlace(request, requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.MARKET_AREAS_VIEW_BEAN)
+	protected List<MarketAreaViewBean> initMarletAreas(final HttpServletRequest request, final Model model) throws Exception {
+		// MARKET AREAS FOR THE CURRENT MARKET
+		final Market currentMarket = requestUtil.getCurrentMarket(request);
+		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
+		return viewBeanFactory.buildMarketAreaViewBeansByMarket(request, requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.MARKET_LANGUAGES_VIEW_BEAN)
+	protected List<LocalizationViewBean> initMarketLocalizations(final HttpServletRequest request, final Model model) throws Exception {
+		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		return viewBeanFactory.buildLocalizationViewBeansByMarketArea(request, requestUtil.getRequestData(request), new ArrayList<Localization>(currentMarketArea.getLocalizations()));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)
+	protected List<RetailerViewBean> initRetailers(final HttpServletRequest request, final Model model) throws Exception {
+		// RETAILERS FOR THE CURRENT MARKET AREA
+		return viewBeanFactory.buildRetailerViewBeans(request, requestUtil.getRequestData(request));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN)
+	protected LegalTermsViewBean initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildLegalTermsViewBean(request, requestUtil.getRequestData(request));
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN)
+	protected List<FooterMenuViewBean> initFooter(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildFooterMenuViewBeans(request, requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -260,7 +297,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	/**
 	 * 
 	 */
-	@ModelAttribute("user")
+	@ModelAttribute(ModelConstants.USER_VIEW_BEAN)
 	protected User initUser(final HttpServletRequest request, final Model model) throws Exception {
 		final User user = requestUtil.getCurrentUser(request);
 		return user;

@@ -14,13 +14,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.RuleReferentialService;
@@ -50,10 +50,15 @@ public class RuleController extends AbstractBusinessBackofficeController {
 
 	@Autowired
 	private RuleReferentialService ruleReferentialService;
-	
-	@RequestMapping(value = "/rule-list.html*", method = RequestMethod.GET)
-	public ModelAndView rule(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.RULE_LIST_VELOCITY_PAGE);
+
+	@RequestMapping(value = BoUrls.RULE_URL, method = RequestMethod.GET)
+	public ModelAndView rule(final HttpServletRequest request, final Model model) throws Exception {
+		return ruleList(request, model);
+	}
+
+	@RequestMapping(value = BoUrls.RULE_LIST_URL, method = RequestMethod.GET)
+	public ModelAndView ruleList(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.RULE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -90,15 +95,15 @@ public class RuleController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/rule-details.html*", method = RequestMethod.GET)
-	public ModelAndView ruleDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.RULE_DETAILS_VELOCITY_PAGE);
+	@RequestMapping(value = BoUrls.RULE_DETAILS_URL, method = RequestMethod.GET)
+	public ModelAndView ruleDetails(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_DETAILS.getVelocityPage());
 
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if(rule != null){
-			initRuleDetailsPage(request, response, modelAndView, rule);
+			initRuleDetailsPage(request, model, modelAndView, rule);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -107,35 +112,27 @@ public class RuleController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/rule-edit.html*", method = RequestMethod.GET)
-	public ModelAndView ruleEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.RULE_FORM_VELOCITY_PAGE);
+	@RequestMapping(value = BoUrls.RULE_EDIT_URL, method = RequestMethod.GET)
+	public ModelAndView ruleEdit(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_EDIT.getVelocityPage());
 		
-		// "rule.edit";
-
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, currentLocalization, rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
 		modelAndView.addObject(Constants.RULE_FORM, formFactory.buildRuleForm(request, rule));
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/rule-edit.html*", method = RequestMethod.POST)
-	public ModelAndView ruleEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid RuleForm ruleForm,
+	@RequestMapping(value = BoUrls.RULE_EDIT_URL, method = RequestMethod.POST)
+	public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid RuleForm ruleForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
-		// "rule.edit";
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.RULE_FORM_VELOCITY_PAGE);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, currentLocalization, rule));
-			modelAndView.addObject(Constants.RULE_FORM, formFactory.buildRuleForm(request, rule));
-			return modelAndView;
+			return ruleEdit(request, model);
 		}
 		
 		// UPDATE RULE
@@ -154,7 +151,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		final List<AbstractRuleReferential> rules = ruleReferentialService.findRuleReferentials();
 		for (Iterator<AbstractRuleReferential> iterator = rules.iterator(); iterator.hasNext();) {
 			AbstractRuleReferential rule = (AbstractRuleReferential) iterator.next();
-			ruleViewBeans.add(viewBeanFactory.buildRuleViewBean(request, currentLocalization, rule));
+			ruleViewBeans.add(viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
 		}
 		ruleViewBeanPagedListHolder = new PagedListHolder<RuleViewBean>(ruleViewBeans);
 		ruleViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -163,11 +160,10 @@ public class RuleController extends AbstractBusinessBackofficeController {
         return ruleViewBeanPagedListHolder;
 	}
     
-	protected void initRuleDetailsPage(final HttpServletRequest request, final HttpServletResponse response, 
+	protected void initRuleDetailsPage(final HttpServletRequest request, final Model model, 
 											final ModelAndViewThemeDevice modelAndView, final AbstractRuleReferential rule) throws Exception {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		// "rule.details";
-
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, currentLocalization, rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
 	}
+
 }

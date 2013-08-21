@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +21,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.FoPageConstants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import fr.hoteia.qalingo.core.i18n.FoMessageKey;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
@@ -34,24 +39,25 @@ public class HomeController extends AbstractPrehomeController {
 	@Autowired
 	protected MarketPlaceService marketPlaceService;
 	
-	@Autowired
-    protected ViewBeanFactory viewBeanFactory;
-	
-	@Autowired
-    protected UrlService urlService;
-	
-	@RequestMapping(FoPageConstants.PRE_HOME_URL + "*")
-	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoPageConstants.PRE_HOME_VELOCITY_PAGE);
-		
-		// FoPageConstants.PRE_HOME_KEY
+	@RequestMapping(FoUrls.HOME_URL)
+	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.HOME.getVelocityPage());
 
+		final Locale locale = requestUtil.getCurrentLocale(request);
+		
+		final String pageKey = FoUrls.HOME.getKey();
+		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+		overrideSeoTitle(request, modelAndView, title);
+
+		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, FoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		model.addAttribute(ModelConstants.CONTENT_TEXT, contentText);
+		
         return modelAndView;
 	}
 	
-	@RequestMapping(FoPageConstants.INDEX_URL + "*")
-	public ModelAndView index(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        return home(request, response);
+	@RequestMapping(FoUrls.INDEX_URL)
+	public ModelAndView displayIndex(final HttpServletRequest request, final Model model) throws Exception {
+        return displayHome(request, model);
 	}
 	
 	/**

@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -39,9 +39,9 @@ import fr.hoteia.qalingo.web.mvc.viewbean.GlobalSearchViewBean;
 @Controller("searchController")
 public class SearchController extends AbstractBusinessBackofficeController {
 
-	@RequestMapping(value = "/global-search.html*", method = RequestMethod.POST)
+	@RequestMapping(value = BoUrls.SEARCH_URL, method = RequestMethod.POST)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SEARCH_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -86,7 +86,7 @@ public class SearchController extends AbstractBusinessBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		PagedListHolder<GlobalSearchViewBean> globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>();
 		
-		final List<GlobalSearchViewBean> globalSearchViewBeans = viewBeanFactory.buildGlobalSearchViewBean(request, currentMarketArea, currentLocalization, currentRetailer, searchText);
+		final List<GlobalSearchViewBean> globalSearchViewBeans = viewBeanFactory.buildGlobalSearchViewBean(request, requestUtil.getRequestData(request), searchText);
 
 		globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>(globalSearchViewBeans);
 		globalSearchViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);

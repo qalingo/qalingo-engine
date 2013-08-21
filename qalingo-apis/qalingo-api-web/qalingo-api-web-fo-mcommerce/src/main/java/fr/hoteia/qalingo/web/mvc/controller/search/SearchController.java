@@ -28,11 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
@@ -60,14 +55,7 @@ public class SearchController extends AbstractMCommerceController {
 	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 		
-		// "search";
-
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		modelAndView.addObject("searchForm", formFactory.buildSearchForm(request));
@@ -81,18 +69,11 @@ public class SearchController extends AbstractMCommerceController {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
 
-		// "search";
-		
 		if (result.hasErrors()) {
 			return displaySearch(request, response, modelMap);
 		}
 
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		try {
@@ -137,14 +118,7 @@ public class SearchController extends AbstractMCommerceController {
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductResponseBean productResponseBean,
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
-		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(request, currentMarketPlace, currentMarket, currentMarketArea, 
-				currentLocalization, currentRetailer, productResponseBean);
+		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(request, requestUtil.getRequestData(request), productResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
 		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);

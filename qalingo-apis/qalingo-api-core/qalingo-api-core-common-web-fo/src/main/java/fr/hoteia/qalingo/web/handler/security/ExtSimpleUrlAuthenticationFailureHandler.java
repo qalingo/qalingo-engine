@@ -10,6 +10,8 @@
 package fr.hoteia.qalingo.web.handler.security;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,15 +25,11 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.RequestConstants;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
-@Component
+@Component(value="extSimpleUrlAuthenticationFailureHandler")
 public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
@@ -49,8 +47,9 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
 		try {
-			final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-			String url = urlService.buildLoginUrl(request, currentMarketArea)  + "?" + RequestConstants.REQUEST_PARAM_AUTH_ERROR + "=true";
+			Map<String, String> urlParams = new HashMap<String, String>();
+			urlParams.put(RequestConstants.REQUEST_PARAM_AUTH_ERROR, "true");
+			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
 			setDefaultFailureUrl(url);
 	        saveException(request, exception);
 	        redirectStrategy.sendRedirect(request, response, url);
@@ -58,6 +57,5 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 			LOG.error("", e);
 		}
 	}
-	
 	
 }

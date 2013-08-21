@@ -12,8 +12,6 @@ package fr.hoteia.qalingo.web.mvc.controller.customer;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +25,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
@@ -44,8 +40,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Controller("customerDetailsController")
 public class CustomerDetailsController extends AbstractCustomerController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
     protected CustomerService customerService;
 	
@@ -56,16 +50,10 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
 		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
 		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_PERMALINK);
 		Customer customer = customerService.getCustomerByPermalink(permalink);
 		
-		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer, customer);
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
         return modelAndView;
@@ -75,8 +63,6 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-details");
 		
-		// "customer.details";
-
 		// Customer is already set by the abstract
 
         return modelAndView;
@@ -115,7 +101,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		final Customer checkCustomer = customerService.getCustomerByLoginOrEmail(newEmail);
 		if(checkCustomer != null
 				&& !currentCustomer.getEmail().equalsIgnoreCase(newEmail)) {
-			final String forgottenPasswordUrl = urlService.buildForgottenPasswordUrl(request, currentMarketArea);
+			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
 			final Object[] objects = {forgottenPasswordUrl};
 			result.rejectValue("email", "fo.customer.error_form_create_account_account_already_exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}
@@ -123,15 +109,15 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// Update the customer
 		webCommerceService.updateCurrentCustomer(request, currentMarket, currentMarketArea, customerEditForm);
 		
-		final String urlRedirect = urlService.buildCustomerDetailsUrl(request, currentMarketArea);
+		final String urlRedirect = urlService.buildCustomerDetailsUrl(currentMarketArea);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
     @ModelAttribute
     public void commonValues(HttpServletRequest request, Model model) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-    	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(request, currentMarketArea));
-    	model.addAttribute(ModelConstants.URL_CUSTOMER_EDIT, urlService.buildCustomerEditUrl(request, currentMarketArea));
+    	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(currentMarketArea));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_EDIT, urlService.buildCustomerEditUrl(currentMarketArea));
     }
     
 }

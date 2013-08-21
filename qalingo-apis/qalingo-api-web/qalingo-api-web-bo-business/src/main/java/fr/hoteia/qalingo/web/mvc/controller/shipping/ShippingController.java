@@ -14,26 +14,25 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Shipping;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.ShippingService;
@@ -50,10 +49,15 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 
 	@Autowired
 	private ShippingService shippingService;
-	
-	@RequestMapping(value = "/shipping-list.html*", method = RequestMethod.GET)
-	public ModelAndView shipping(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SHIPPING_LIST_VELOCITY_PAGE);
+
+	@RequestMapping(value = BoUrls.SHIPPING_URL, method = RequestMethod.GET)
+	public ModelAndView shipping(final HttpServletRequest request, final Model model) throws Exception {
+		return shippingList(request, model);
+	}
+
+	@RequestMapping(value = BoUrls.SHIPPING_LIST_URL, method = RequestMethod.GET)
+	public ModelAndView shippingList(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.SHIPPING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -90,15 +94,15 @@ public class ShippingController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/shipping-details.html*", method = RequestMethod.GET)
-	public ModelAndView shippingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SHIPPING_DETAILS_VELOCITY_PAGE);
+	@RequestMapping(value = BoUrls.SHIPPING_DETAILS_URL, method = RequestMethod.GET)
+	public ModelAndView shippingDetails(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_DETAILS.getVelocityPage());
 
 		final String currentShippingCode = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingById(currentShippingCode);
 		
 		if(shipping != null){
-			initShippingDetailsPage(request, response, modelAndView, shipping);
+			initShippingDetailsPage(request, model, modelAndView, shipping);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -107,36 +111,27 @@ public class ShippingController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/shipping-edit.html*", method = RequestMethod.GET)
-	public ModelAndView shippingEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SHIPPING_FORM_VELOCITY_PAGE);
+	@RequestMapping(value = BoUrls.SHIPPING_EDIT_URL, method = RequestMethod.GET)
+	public ModelAndView shippingEdit(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_EDIT.getVelocityPage());
 		
-		// "shipping.edit";
-
 		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, currentLocalization, shipping));
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), shipping));
 		modelAndView.addObject(Constants.SHIPPING_FORM, formFactory.buildShippingForm(request, shipping));
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/shipping-edit.html*", method = RequestMethod.POST)
-	public ModelAndView shippingEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid ShippingForm shippingForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
-
-		// "shipping.edit";
+	@RequestMapping(value = BoUrls.SHIPPING_EDIT_URL, method = RequestMethod.POST)
+	public ModelAndView submitShippingEdit(final HttpServletRequest request, final Model model, @Valid ShippingForm shippingForm,
+								BindingResult result) throws Exception {
 		
 		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.SHIPPING_FORM_VELOCITY_PAGE);
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, currentLocalization, shipping));
-			modelAndView.addObject(Constants.SHIPPING_FORM, formFactory.buildShippingForm(request, shipping));
-			return modelAndView;
+			return shippingEdit(request, model);
 		}
 		
 		// UPDATE SHIPPING
@@ -155,7 +150,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		final List<Shipping> shippings = shippingService.findShippings();
 		for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
 			Shipping shipping = (Shipping) iterator.next();
-			shippingViewBeans.add(viewBeanFactory.buildShippingViewBean(request, currentLocalization, shipping));
+			shippingViewBeans.add(viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), shipping));
 		}
 		shippingViewBeanPagedListHolder = new PagedListHolder<ShippingViewBean>(shippingViewBeans);
 		shippingViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -164,9 +159,8 @@ public class ShippingController extends AbstractBusinessBackofficeController {
         return shippingViewBeanPagedListHolder;
 	}
     
-	protected void initShippingDetailsPage(final HttpServletRequest request, final HttpServletResponse response, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		// "shipping.details";
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, currentLocalization, user));
+	protected void initShippingDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), user));
 	}
+
 }
