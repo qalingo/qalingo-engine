@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.hoteia.qalingo.web.mvc.viewbean.markup.datavocabulary.ReviewDataVocabularyViewBean;
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 
 public class RetailerCustomerCommentViewBean extends AbstractViewBean implements Serializable {
 
@@ -28,7 +28,7 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	protected String comment;
 	protected String dateCreate;
 	
-	ReviewDataVocabularyViewBean reviewDataVocabulary = new ReviewDataVocabularyViewBean();
+	ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
 	
 	protected List<RetailerCustomerCommentViewBean> comments = new ArrayList<RetailerCustomerCommentViewBean>();
 
@@ -72,11 +72,11 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
     	this.dateCreate = dateCreate;
     }
 	
-	public ReviewDataVocabularyViewBean getReviewDataVocabulary() {
+	public ReviewDataVocabularyPojo getReviewDataVocabulary() {
 	    return reviewDataVocabulary;
     }
 	
-	public void setReviewDataVocabulary(ReviewDataVocabularyViewBean reviewDataVocabulary) {
+	public void setReviewDataVocabulary(ReviewDataVocabularyPojo reviewDataVocabulary) {
 	    this.reviewDataVocabulary = reviewDataVocabulary;
     }
 

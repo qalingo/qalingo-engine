@@ -128,7 +128,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ShareOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.markup.datavocabulary.ReviewDataVocabularyViewBean;
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 
 /**
  * 
@@ -390,7 +390,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		return followUs;
 	}
 
-	private FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, String followType) throws Exception {
+	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, String followType) throws Exception {
 		String followTypeMessageKey = followType;
 		if (followTypeMessageKey.contains("-")) {
 			// REPLACE DASH BY DOT - DOT WILL BE REPLACE LATER TO GET MESSAGE
@@ -593,7 +593,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				
 				retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
 				
-				ReviewDataVocabularyViewBean reviewDataVocabulary = new ReviewDataVocabularyViewBean();
+				ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
 				reviewDataVocabulary.setItemreviewed(currentRetailer.getName());
 				reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
 				DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(request);

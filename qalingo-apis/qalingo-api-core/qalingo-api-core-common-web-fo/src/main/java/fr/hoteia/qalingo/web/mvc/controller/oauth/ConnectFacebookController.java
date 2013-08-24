@@ -3,26 +3,26 @@ package fr.hoteia.qalingo.web.mvc.controller.oauth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.FacebookApi;
+import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import facebook4j.Facebook;
-import facebook4j.FacebookFactory;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
  * 
  */
 @Controller("connectFacebookController")
-public class ConnectFacebookController extends AbstractFrontofficeQalingoController {
+public class ConnectFacebookController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -52,14 +52,22 @@ public class ConnectFacebookController extends AbstractFrontofficeQalingoControl
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
-
-					Facebook facebook = new FacebookFactory().getInstance();
-					facebook.setOAuthAppId(clientId, clientSecret);
-					facebook.setOAuthPermissions(permissions);
-					String facebookCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-													urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 					
-					response.sendRedirect(facebook.getOAuthAuthorizationURL(facebookCallBackURL));
+					final String facebookCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
+															urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+
+				    OAuthService service = new ServiceBuilder()
+                    .provider(FacebookApi.class)
+                    .apiKey(clientId)
+                    .apiSecret(clientSecret)
+                    .scope(permissions)
+                    .callback(facebookCallBackURL)
+                    .build();
+					
+					// Obtain the Authorization URL
+					String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+
+					response.sendRedirect(authorizationUrl);
 			    }
 
 			} catch (Exception e) {

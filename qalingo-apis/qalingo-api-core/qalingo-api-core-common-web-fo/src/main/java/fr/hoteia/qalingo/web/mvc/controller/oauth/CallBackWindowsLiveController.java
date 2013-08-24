@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LiveApi;
 import org.scribe.model.OAuthRequest;
@@ -19,13 +22,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.AttributeDefinition;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import fr.hoteia.qalingo.core.service.AttributeService;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
+import fr.hoteia.qalingo.core.service.AttributeService;
+import org.hoteia.tools.scribe.mapping.oauth.windowslive.json.pojo.UserPojo;
 
 /**
  * 
@@ -35,8 +43,6 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	private static final Token EMPTY_TOKEN = null;
-	
 	@Autowired
 	protected AttributeService attributeService;
 	
@@ -44,7 +50,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
     protected SecurityUtil securityUtil;
 	
 	@RequestMapping("/callback-oauth-windows-live.html*")
-	public ModelAndView callBackTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView callBackWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// SANITY CHECK
@@ -86,7 +92,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					if(StringUtils.isNotEmpty(code)){
 						Verifier verifier = new Verifier(code);
 						Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
-						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, "https://apis.live.net/v5.0/me");
+						OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, LIVE_ME_URL);
 					    service.signRequest(accessToken, oauthRequest);
 					    Response oauthResponse = oauthRequest.send();
 					    int responseCode = oauthResponse.getCode();
@@ -114,6 +120,81 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 		}
 
 		return null;
+	}
+	
+	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, MarketArea currentMarketArea, OAuthType type, String jsonData) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		UserPojo userPojo = null;
+		try {
+			userPojo = mapper.readValue(jsonData, UserPojo.class);
+		} catch (JsonGenerationException e) {
+			LOG.error(e.getMessage());
+		} catch (JsonMappingException e) {
+			LOG.error(e.getMessage());
+		}
+		if(userPojo != null){
+			final String email = userPojo.getEmails().getPreferred();
+			final String firstName = userPojo.getFirstName();
+			final String lastName = userPojo.getLastName();
+			final String gender = userPojo.getGender();
+			final String locale = userPojo.getLocale();
+			Customer customer = customerService.getCustomerByLoginOrEmail(email);
+			
+			if(customer == null){
+				// CREATE A NEW CUSTOMER
+				customer = new Customer();
+				setCommonCustomerInformation(request, customer);
+
+				customer.setLogin(email);
+				customer.setPassword(securityUtil.generateAndEncodePassword());
+				customer.setEmail(email);
+				customer.setFirstname(firstName);
+				customer.setLastname(lastName);
+				if(StringUtils.isNotEmpty(gender)){
+					customer.setGender(gender);
+				}
+				
+				customer.setNetworkOrigin(CustomerNetworkOrigin.WINDOWS_LIVE);
+				
+				CustomerAttribute attribute = new CustomerAttribute();
+				AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(CustomerAttribute.CUSTOMER_ATTRIBUTE_SCREENAME);
+				attribute.setAttributeDefinition(attributeDefinition);
+				String screenName = "";
+				if(StringUtils.isNotEmpty(lastName)){
+					if(StringUtils.isNotEmpty(lastName)){
+						screenName = lastName;
+						if(screenName.length() > 1){
+							screenName = screenName.substring(0, 1);
+						}
+						if(!screenName.endsWith(".")){
+							screenName = screenName + ". ";
+						}
+					}
+				}
+				screenName = screenName + firstName;
+				attribute.setStringValue(screenName);
+				customer.getCustomerAttributes().add(attribute);
+				
+				if(StringUtils.isNotEmpty(locale)){
+					customer.setDefaultLocale(locale);
+				}
+				
+				customerService.saveOrUpdateCustomer(customer);
+			}
+
+			// Redirect to the details page
+			if(StringUtils.isNotEmpty(customer.getEmail())){
+				
+				// Login the new customer
+				securityUtil.authenticationCustomer(request, customer);
+				
+				// Update the customer session
+				requestUtil.updateCurrentCustomer(request, customer);
+
+				response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
+			}
+			
+		}
 	}
 
 }

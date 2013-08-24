@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.web.mvc.factory;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,6 +46,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
@@ -81,6 +83,8 @@ public interface ViewBeanFactory {
 	List<FooterMenuViewBean> buildFooterMenuViewBeans(HttpServletRequest request, RequestData requestData) throws Exception;
 	
 	FollowUsViewBean buildFollowUsViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
+	
+	FollowUsOptionViewBean buildFollowOption(HttpServletRequest request, Locale locale, String followType) throws Exception;
 	
 	LegalTermsViewBean buildLegalTermsViewBean(HttpServletRequest request, RequestData requestData) throws Exception;
 

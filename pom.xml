@@ -144,6 +144,18 @@
 				<version>${project.version}</version>
 			</dependency>
 			
+			<!-- Hoteia libs -->
+			<dependency>
+				<groupId>org.hoteia.tools</groupId>
+				<artifactId>rich-snippets-mapping</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hoteia.tools</groupId>
+				<artifactId>scribe-mapping</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+			
 			<!-- Commons libs -->
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -472,21 +484,7 @@
 				<version>${jackson-version}</version>
 			</dependency>
 
-			<dependency>
-			   <groupId>org.twitter4j</groupId>
-			   <artifactId>twitter4j-core</artifactId>
-			   <version>3.0.3</version>
-			</dependency>
-			<dependency>
-			  <groupId>org.facebook4j</groupId>
-			  <artifactId>facebook4j-core</artifactId>
-			  <version>1.1.11</version>
-			</dependency>
-			<dependency>
-			   <groupId>com.yahoo.yos</groupId>
-				<artifactId>sdk</artifactId>
-				<version>0.1.0</version>
-			</dependency>
+			<!-- OAuth -->
 			<dependency>
 				<groupId>org.scribe</groupId>
 				<artifactId>scribe</artifactId>

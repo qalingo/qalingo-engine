@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LiveApi;
-import org.scribe.model.Token;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +17,17 @@ import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
  * 
  */
 @Controller("connectWindowsLiveController")
-public class ConnectWindowsLiveController extends AbstractFrontofficeQalingoController {
+public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeController {
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	private static final Token EMPTY_TOKEN = null;
-	
 	@RequestMapping("/connect-oauth-windows-live.html*")
-	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView connectWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// SANITY CHECK

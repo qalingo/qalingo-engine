@@ -72,10 +72,10 @@ public enum FoUrls {
 	public static final String LOGIN_URL				= "/login.html";
 	public static final String LOGIN_VELOCITY_PAGE		= "security/login";
 
-	public static final String LOGIN_CHECK_URL				= "/login-check.html";
+	public static final String LOGIN_CHECK_URL			= "/login-check.html";
 
 	public static final String LOGOUT_KEY				= "logout";
-	public static final String LOGOUT_URL				= "/logout.html";
+	public static final String LOGOUT_URL				= "/logout-session.html";
 	public static final String LOGOUT_VELOCITY_PAGE		= "security/logout";
 
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";

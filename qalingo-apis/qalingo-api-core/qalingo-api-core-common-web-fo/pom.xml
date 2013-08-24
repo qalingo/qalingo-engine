@@ -35,7 +35,17 @@
 			<artifactId>qalingo-api-core-solr</artifactId>
 		</dependency>
 
-			<!-- JSON -->
+		<!-- Hoteia libs -->
+		<dependency>
+			<groupId>org.hoteia.tools</groupId>
+			<artifactId>rich-snippets-mapping</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hoteia.tools</groupId>
+			<artifactId>scribe-mapping</artifactId>
+		</dependency>
+			
+		<!-- JSON -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
@@ -44,18 +54,8 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
-		<dependency>
-		   <groupId>org.twitter4j</groupId>
-		   <artifactId>twitter4j-core</artifactId>
-		</dependency>
-		<dependency>
-		  <groupId>org.facebook4j</groupId>
-		  <artifactId>facebook4j-core</artifactId>
-		</dependency>
-		<dependency>
-		   <groupId>com.yahoo.yos</groupId>
-			<artifactId>sdk</artifactId>
-		</dependency>
+		
+		<!-- OAuth -->
 		<dependency>
 			<groupId>org.scribe</groupId>
 			<artifactId>scribe</artifactId>
