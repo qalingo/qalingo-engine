@@ -22,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -37,7 +38,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping("/personal-product-comment-list.html*")
+	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-product-comment-list");
 		
@@ -48,23 +49,23 @@ public class CustomerProductCommentController extends AbstractCustomerController
         return modelAndView;
 	}
 
+	// TODO : Add to FoUrls
 	@RequestMapping("/remove-personal-product-comment.html*")
 	public ModelAndView removeProductComment(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// TODO
 
-		final String url = urlService.buildCustomerProductCommentUrl(currentMarketArea);
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 	
+	// TODO : Add to FoUrls
 	@RequestMapping("/add-personal-product-comment.html*")
 	public ModelAndView addProductComment(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		// TODO
 		
-		final String url = urlService.buildCustomerProductCommentUrl(currentMarketArea);
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 

@@ -28,7 +28,7 @@ public class XrdsController extends AbstractFrontofficeQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "");
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
-		String openIdCallBackURL = urlService.buildOpenIdCallBackUrl( currentMarketArea);
+		String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(requestUtil.getRequestData(request));
 		String contextValue = requestUtil.getCurrentContextNameValue(request);
 		String returnToURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, openIdCallBackURL);
 		

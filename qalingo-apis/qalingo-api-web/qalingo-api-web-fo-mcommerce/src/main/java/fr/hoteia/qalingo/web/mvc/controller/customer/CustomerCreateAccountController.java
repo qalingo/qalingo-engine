@@ -52,12 +52,10 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
 		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(currentMarketArea);
+			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -79,7 +77,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){
-			final String url = urlService.buildCustomerDetailsUrl(currentMarketArea);
+			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
 		}
 		
@@ -106,7 +104,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		// Login the new customer
 		securityUtil.authenticationCustomer(request, newCustomer);
 		
-		final String urlRedirect = urlService.buildCustomerDetailsUrl(currentMarketArea);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

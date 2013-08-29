@@ -14,10 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import fr.hoteia.qalingo.core.i18n.FoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -74,12 +72,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
 	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		return urlService.buildSearchUrl( currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		return urlService.buildSearchUrl(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -98,7 +91,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute("xrdsUrl")
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		String xrdsURL = urlService.buildXrdsUrl( currentMarketArea);
+		String xrdsURL = urlService.buildXrdsUrl(requestUtil.getRequestData(request));
 		String contextValue = requestUtil.getCurrentContextNameValue(request);
 		String fullXrdsURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, xrdsURL);
 		return fullXrdsURL;

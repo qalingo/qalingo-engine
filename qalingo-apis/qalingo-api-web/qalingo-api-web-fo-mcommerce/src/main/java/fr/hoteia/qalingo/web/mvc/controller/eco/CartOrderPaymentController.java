@@ -66,11 +66,8 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	@RequestMapping(value = "/cart-order-payment.html*", method = RequestMethod.POST)
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		if (result.hasErrors()) {
 			return displayOrderPayment(request, response);
@@ -79,7 +76,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		// Create and Save a new order
 		webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
 		
-		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

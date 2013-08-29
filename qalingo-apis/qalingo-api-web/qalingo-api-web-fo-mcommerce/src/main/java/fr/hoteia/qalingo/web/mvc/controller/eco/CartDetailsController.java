@@ -49,28 +49,17 @@ public class CartDetailsController extends AbstractMCommerceController {
 			LOG.error("Error to add product sku to cart, skuCode:" + skuCode, e);
 		}
 		
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String url = urlService.buildCartDetailsUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String url = urlService.buildCartDetailsUrl(requestUtil.getRequestData(request));
 		
         return new ModelAndView(new RedirectView(url));
 	}
 
 	@RequestMapping("/remove-from-cart.html*")
 	public ModelAndView removeFromCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		requestUtil.removeCartItemFromCurrentCart(request, skuCode);
 
-		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer)));
+		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request))));
 	}
 	
 	@RequestMapping("/cart-details.html*")

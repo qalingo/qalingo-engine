@@ -54,7 +54,7 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
 					final String facebookCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(FacebookApi.class)

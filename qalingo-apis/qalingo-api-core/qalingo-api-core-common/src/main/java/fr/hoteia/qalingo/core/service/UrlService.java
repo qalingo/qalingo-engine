@@ -9,120 +9,89 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 public interface UrlService {
 
-	String buildRetailerDetailsUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	String buildRetailerDetailsUrl(RequestData requestData, String retailerName, String retailerCode) throws Exception;
 	
-	String buildRetailerCreateUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-	        Retailer retailer) throws Exception;
+	String buildRetailerCreateUrl(RequestData requestData) throws Exception;
 
-	String buildRetailerContactUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	String buildRetailerContactUrl(RequestData requestData, String retailerName, String retailerCode) throws Exception;
 
-	String buildRetailerVoteUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	String buildRetailerVoteUrl(RequestData requestData, String retailerName, String retailerCode) throws Exception;
 	
-	String buildRetailerCommentUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization,
-	        Retailer retailer, String retailerName, String retailerCode) throws Exception;
+	String buildRetailerCommentUrl(RequestData requestData, String retailerName, String retailerCode) throws Exception;
 	
-	String buildConditionOfUseUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildConditionOfUseUrl(RequestData requestData) throws Exception;
 
-	String buildSearchUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildSearchUrl(RequestData requestData) throws Exception;
 
-	String buildChangeLanguageUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildChangeLanguageUrl(RequestData requestData) throws Exception;
 
-	String buildProductBrandLineUrlAsProductAxeUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	String buildProductBrandLineUrlAsProductAxeUrl(RequestData requestData,
 	        String brandName, String brandCode) throws Exception;
 
-	String buildProductBrandDetailsUrlAsProductAxeUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	String buildProductBrandDetailsUrlAsProductAxeUrl(RequestData requestData,
 	        String brandName, String brandCode) throws Exception;
 
-	String buildProductCategoryUrlAsProductAxeUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	String buildProductCategoryUrlAsProductAxeUrl(RequestData requestData,
 	        String categoryName, String categoryCode) throws Exception;
 
-	String buildProductCategoryUrlAsProductLineUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer,
+	String buildProductCategoryUrlAsProductLineUrl(RequestData requestData,
 	        String categoryName, String categoryCode) throws Exception;
 
-	String buildProductUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	String buildProductUrl(RequestData requestData, String categoryName,
 	        String categoryCode, String productName, String productCode) throws Exception;
 
-	String buildProductAddToCartUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	String buildProductAddToCartUrl(RequestData requestData, String categoryName,
 	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode) throws Exception;
 
-	String buildProductRemoveFromCartUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode) throws Exception;
+	String buildProductRemoveFromCartUrl(RequestData requestData, String skuCode) throws Exception;
 
-	String buildProductAddToWishlistUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String categoryName,
+	String buildProductAddToWishlistUrl(RequestData requestData, String categoryName,
 	        String categoryCode, String productName, String productCode, String productSkuName, String productSkuCode) throws Exception;
 
-	String buildProductRemoveFromWishlistUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer, String skuCode) throws Exception;
+	String buildProductRemoveFromWishlistUrl(RequestData requestData, String skuCode) throws Exception;
 
-	String buildCartDetailsUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartDetailsUrl(RequestData requestData) throws Exception;
 
-	String buildCartDetailsUpdateUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartDetailsUpdateUrl(RequestData requestData) throws Exception;
 
-	String buildCartAuthUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartAuthUrl(RequestData requestData) throws Exception;
 
-	String buildCartDeliveryAndOrderDetailsUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartDeliveryAndOrderDetailsUrl(RequestData requestData) throws Exception;
 
-	String buildCartOrderPaymentUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartOrderPaymentUrl(RequestData requestData) throws Exception;
 
-	String buildCartOrderConfirmationUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCartOrderConfirmationUrl(RequestData requestData) throws Exception;
 
-	String buildCustomerCreateAccountUrl(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) throws Exception;
+	String buildCustomerCreateAccountUrl(RequestData requestData) throws Exception;
 
-	String buildCustomerDetailsUrl(MarketArea marketArea, String permalink) throws Exception;
+	String buildCustomerDetailsUrl(RequestData requestData, String permalink) throws Exception;
 	
-	String buildCustomerDetailsUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerEditUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerOrderListUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerOrderDetailsUrl(MarketArea marketArea, String orderId) throws Exception;
-
-	String buildCustomerWishlistUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerProductCommentUrl(MarketArea marketAreat) throws Exception;
-
-	String buildCustomerAddressListUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerAddAddressUrl(MarketArea marketArea) throws Exception;
-
-	String buildCustomerEditAddressUrl(MarketArea marketArea, String customerAddressId) throws Exception;
-
-	String buildCustomerDeleteAddressUrl(MarketArea marketArea, String customerAddressId) throws Exception;
-
 	// TODO REWRITE
-	String buildOAuthConnectUrl(MarketArea marketArea, String socialNetworkCode) throws Exception;
+	String buildOAuthConnectUrl(RequestData requestData, String socialNetworkCode) throws Exception;
 	
-	String buildOAuthCallBackUrl(MarketArea marketArea, String socialNetworkCode) throws Exception;
+	String buildOAuthCallBackUrl(RequestData requestData, String socialNetworkCode) throws Exception;
 
-	String buildOpenIdConnectUrl(MarketArea marketArea, String socialNetworkCode) throws Exception;
+	String buildOpenIdConnectUrl(RequestData requestData, String socialNetworkCode) throws Exception;
 	
-	String buildOpenIdCallBackUrl(MarketArea marketArea) throws Exception;
+	String buildOpenIdCallBackUrl(RequestData requestData) throws Exception;
 
-	String buildXrdsUrl(MarketArea marketArea) throws Exception;
+	String buildXrdsUrl(RequestData requestData) throws Exception;
 	 
 	String buildAbsoluteUrl(MarketArea marketArea, String contextNameValue, String relativeUrl) throws Exception;
 
 	String buildDomainePathUrl(MarketArea marketArea, String contextNameValue) throws Exception;
 	
 	// TODO  KEEP
-	
-	String generateUrl(FoUrls url, RequestData requestData);
 
 	String generateUrl(FoUrls url, RequestData requestData, Object... params);
 	
-	String buildRootUrl() throws Exception;
+//	String buildRootUrl() throws Exception;
 	
 	String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception;
 

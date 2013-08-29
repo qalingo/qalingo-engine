@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
@@ -25,8 +24,6 @@ public class CallBackOpenIdController extends AbstractOpenIdFrontofficeControlle
 	
 	@RequestMapping("/callback-openid.html*")
 	public ModelAndView callBackGoogleContact(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
@@ -37,7 +34,7 @@ public class CallBackOpenIdController extends AbstractOpenIdFrontofficeControlle
 				String alias = (String) request.getSession().getAttribute(Utils.ATTR_ALIAS);
 				OpenIdAuthentication authentication = openIdService.getAuthentication(request, mac_key, alias);
 				handleAuthenticationData(request, authentication);
-		    	response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
+		    	response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 
 			} catch (Exception e) {
 				LOG.error("Callback With " + OAuthType.YAHOO.getPropertyKey() + " failed!");

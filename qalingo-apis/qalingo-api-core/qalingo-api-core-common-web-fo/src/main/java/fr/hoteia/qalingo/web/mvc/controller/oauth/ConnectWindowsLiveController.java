@@ -54,7 +54,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
 					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(LiveApi.class)

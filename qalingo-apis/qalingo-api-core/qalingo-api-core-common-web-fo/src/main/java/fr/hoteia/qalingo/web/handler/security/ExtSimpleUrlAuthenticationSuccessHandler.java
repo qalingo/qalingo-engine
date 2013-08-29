@@ -27,16 +27,11 @@ import org.springframework.stereotype.Component;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.CustomerConnectionLogService;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
-import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 
 @Component(value="extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -87,12 +82,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	        } else {
 	        	String cartDetails = "cart-details.html";
 	        	if(url.contains(cartDetails)){
-		    		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		    		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		    		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		    		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		    		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		    		url = urlService.buildCartDeliveryAndOrderDetailsUrl( currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		    		url = urlService.buildCartDeliveryAndOrderDetailsUrl(requestUtil.getRequestData(request));
 	        	}
 	        }
 			
