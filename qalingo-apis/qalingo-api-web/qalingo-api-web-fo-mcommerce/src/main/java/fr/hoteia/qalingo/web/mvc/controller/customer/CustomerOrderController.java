@@ -28,6 +28,7 @@ import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Order;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.OrderService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
@@ -47,7 +48,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 	@Autowired
     protected OrderService orderService;
 	
-	@RequestMapping("/personal-order-list.html*")
+	@RequestMapping(FoUrls.PERSONAL_ORDER_LIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-list");
 		
@@ -86,7 +87,7 @@ public class CustomerOrderController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping("/personal-order-details.html*")
+	@RequestMapping(FoUrls.PERSONAL_ORDER_DETAILS_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-details");
 		
