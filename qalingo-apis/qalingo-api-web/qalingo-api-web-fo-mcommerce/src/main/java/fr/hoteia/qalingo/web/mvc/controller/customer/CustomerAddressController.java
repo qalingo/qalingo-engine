@@ -31,6 +31,7 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
@@ -51,7 +52,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping(value = "/personal-address-list.html*")
+	@RequestMapping(FoUrls.PERSONAL_ADDRESS_LIST_URL)
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-address-list");
 		
@@ -62,10 +63,8 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/personal-delete-address.html*")
+	@RequestMapping(FoUrls.PERSONAL_DELETE_ADDRESS_URL)
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-
 		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
 		
 		try {
@@ -75,11 +74,11 @@ public class CustomerAddressController extends AbstractCustomerController {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
 		}
 
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(currentMarketArea);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/personal-add-address.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-add-address-form");
 		
@@ -90,7 +89,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/personal-add-address.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.POST)
 	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 								BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -105,15 +104,14 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// Save the new address customer
 		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(currentMarketArea);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
-	@RequestMapping(value = "/personal-edit-address.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-address-form");
 		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
 		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, requestUtil.getRequestData(request), currentCustomer);
@@ -132,13 +130,13 @@ public class CustomerAddressController extends AbstractCustomerController {
 			
 		} catch (Exception e) {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(currentMarketArea);
+			final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 
 		// SANITY CHECK : wrong address id for this customer
 		if(customerAddress == null){
-			final String urlRedirect = urlService.buildCustomerAddressListUrl(currentMarketArea);
+			final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
@@ -151,7 +149,7 @@ public class CustomerAddressController extends AbstractCustomerController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/personal-edit-address.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.POST)
 	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 												  BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -166,16 +164,15 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// Save the new address customer
 		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
 		
-		final String urlRedirect = urlService.buildCustomerAddressListUrl(currentMarketArea);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
     @ModelAttribute
     public void commonValues(HttpServletRequest request, Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-    	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(currentMarketArea));
-    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_ADD, urlService.buildCustomerAddAddressUrl(currentMarketArea));
-    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_EDIT, urlService.buildCustomerEditAddressUrl(currentMarketArea, null));
+    	model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request)));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_ADD, urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request)));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_ADDRESS_EDIT, urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestUtil.getRequestData(request)));
     }
 
 }

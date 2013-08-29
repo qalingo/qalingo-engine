@@ -33,7 +33,7 @@ public class ConnectYahooController extends AbstractOpenIdFrontofficeController 
 			try {
 				final String contextValue = requestUtil.getCurrentContextNameValue(request);
 				openIdService.setRealm(urlService.buildDomainePathUrl( currentMarketArea, contextValue));
-				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl( currentMarketArea);
+				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(requestUtil.getRequestData(request));
 				openIdService.setReturnTo(urlService.buildAbsoluteUrl( currentMarketArea, contextValue, openIdCallBackURL));
 	        
 				Endpoint endpoint = openIdService.lookupEndpoint(OpenProvider.YAHOO.getPropertyKey().toLowerCase());

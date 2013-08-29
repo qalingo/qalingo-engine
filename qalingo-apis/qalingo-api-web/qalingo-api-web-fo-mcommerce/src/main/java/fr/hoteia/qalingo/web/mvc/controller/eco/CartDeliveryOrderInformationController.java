@@ -76,11 +76,6 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 	@RequestMapping(value = "/cart-delivery-order-information.html*", method = RequestMethod.POST)
 	public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
 		if (result.hasErrors()) {
 			return displayOrderDelivery(request, response);
@@ -88,7 +83,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		
 		requestUtil.updateCurrentCart(request, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 		
-		final String urlRedirect = urlService.buildCartOrderPaymentUrl(currentMarketPlace, currentMarket, currentMarketArea, currentLocalization, currentRetailer);
+		final String urlRedirect = urlService.buildCartOrderPaymentUrl(requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

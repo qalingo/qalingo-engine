@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.MarketArea;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
@@ -38,7 +38,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping("/personal-wishlist.html*")
+	@RequestMapping(FoUrls.PERSONAL_WISHLIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-wishlist");
 		
@@ -49,20 +49,20 @@ public class CustomerWishListController extends AbstractCustomerController {
         return modelAndView;
 	}
 
+	// TODO : Add to FoUrls
 	@RequestMapping("/remove-from-wishlist.html*")
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
 
-		final String url = urlService.buildCustomerWishlistUrl(currentMarketArea);
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 	
+	// TODO : Add to FoUrls
 	@RequestMapping("/add-to-wishlist.html*")
 	public ModelAndView AddToWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
 		
@@ -73,7 +73,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 			LOG.error("Error with the wishlist, skuCode:" + skuCode, e);
 		}
 		
-		final String url = urlService.buildCustomerWishlistUrl(currentMarketArea);
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 

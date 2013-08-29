@@ -78,7 +78,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					final String permissions = permissionsEngineSettingValue.getValue();
 
 					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-							urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+							urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(LiveApi.class)
@@ -191,7 +191,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 			}
 			
 		}

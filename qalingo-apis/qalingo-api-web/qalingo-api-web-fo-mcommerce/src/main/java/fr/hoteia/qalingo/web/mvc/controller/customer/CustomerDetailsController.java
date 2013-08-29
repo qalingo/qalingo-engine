@@ -59,7 +59,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/personal-details.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.PERSONAL_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-details");
 		
@@ -68,7 +68,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/personal-edit.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.PERSONAL_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-form");
 		
@@ -84,7 +84,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/personal-edit.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.PERSONAL_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView submitPersonalEdit(final HttpServletRequest request, @Valid @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm,
 								BindingResult result, final Model model) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -109,15 +109,14 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// Update the customer
 		webCommerceService.updateCurrentCustomer(request, currentMarket, currentMarketArea, customerEditForm);
 		
-		final String urlRedirect = urlService.buildCustomerDetailsUrl(currentMarketArea);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
     @ModelAttribute
     public void commonValues(HttpServletRequest request, Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-    	model.addAttribute(ModelConstants.URL_BACK, urlService.buildCustomerDetailsUrl(currentMarketArea));
-    	model.addAttribute(ModelConstants.URL_CUSTOMER_EDIT, urlService.buildCustomerEditUrl(currentMarketArea));
+    	model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request)));
+    	model.addAttribute(ModelConstants.URL_CUSTOMER_EDIT, urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request)));
     }
     
 }

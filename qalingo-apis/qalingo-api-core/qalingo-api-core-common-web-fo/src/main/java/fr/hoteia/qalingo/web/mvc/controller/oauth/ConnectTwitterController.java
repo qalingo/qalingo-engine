@@ -54,7 +54,7 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					
 					final String twitterCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
+															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.TWITTER.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(TwitterApi.class)

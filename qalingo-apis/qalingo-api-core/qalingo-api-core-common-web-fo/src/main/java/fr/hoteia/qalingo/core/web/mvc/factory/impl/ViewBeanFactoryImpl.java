@@ -13,9 +13,11 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -24,11 +26,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.Cart;
 import fr.hoteia.qalingo.core.domain.CartItem;
@@ -128,7 +132,6 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ShareOptionViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreLocatorViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.StoreViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 
 /**
  * 
@@ -206,8 +209,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		commonViewBean.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
 		commonViewBean.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request)));
 		commonViewBean.setLogoutUrl(urlService.generateUrl(FoUrls.LOGOUT, requestUtil.getRequestData(request)));
-		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(marketPlace, market, marketArea, localization, retailer));
-		commonViewBean.setCustomerDetailsUrl(urlService.buildCustomerDetailsUrl(marketArea));
+		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(requestUtil.getRequestData(request)));
+		commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 		commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestUtil.getRequestData(request)));
 
 		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
@@ -233,7 +236,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		// NO CACHE FOR THIS PART
 
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(marketPlace, market, marketArea, localization, retailer));
+		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request)));
 		headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
 		if (currentCart.getCartItems().size() == 1) {
 			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
@@ -286,7 +289,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 						final String seoProductCategoryName = productCategory.getI18nName(localeCode);
 						final String seoProductCategoryCode = productCategory.getCode();
 						menu.setName(seoProductCategoryName);
-						menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(marketPlace, market, marketArea, localization, retailer, seoProductCategoryName, seoProductCategoryCode));
+						menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(requestUtil.getRequestData(request), seoProductCategoryName, seoProductCategoryCode));
 
 						List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
 						if (subProductCategories != null) {
@@ -297,7 +300,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 								final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
 								final String seoSubProductCategoryCode = subProductCategory.getCode();
 								subMenu.setName(seoSubProductCategoryName);
-								subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(marketPlace, market, marketArea, localization, retailer, seoSubProductCategoryName,
+								subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(requestUtil.getRequestData(request), seoSubProductCategoryName,
 								        seoSubProductCategoryCode));
 								subMenus.add(subMenu);
 							}
@@ -465,10 +468,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		security.setSubmitLoginUrl(urlService.buildSpringSecurityCheckUrl(requestUtil.getRequestData(request)));
 		security.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request)));
 
-		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(marketArea, OAuthType.FACEBOOK.getPropertyKey()));
-		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(marketArea, OAuthType.WINDOWS_LIVE.getPropertyKey()));
-		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(marketArea, OAuthType.GOOGLE_CONTACT.getPropertyKey()));
-		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(marketArea, OAuthType.YAHOO.getPropertyKey()));
+		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.FACEBOOK.getPropertyKey()));
+		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey()));
+		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.GOOGLE_CONTACT.getPropertyKey()));
+		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.YAHOO.getPropertyKey()));
 		
 		return security;
 	}
@@ -512,6 +515,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
+	// TODO : check currentRetailer
 	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final RequestData requestData, final Retailer currentRetailer) throws Exception {
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
@@ -563,7 +567,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 		}
 
-		retailerViewBean.setUrl(urlService.buildRetailerDetailsUrl(marketPlace, market, marketArea, localization, retailer, currentRetailer.getName(), currentRetailer.getCode()));
+		retailerViewBean.setUrl(urlService.buildRetailerDetailsUrl(requestUtil.getRequestData(request), currentRetailer.getName(), currentRetailer.getCode()));
 
 		retailerViewBean.setQualityOfService(currentRetailer.getQualityOfService());
 		retailerViewBean.setPriceScore(currentRetailer.getPriceScore());
@@ -581,7 +585,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
 				
 				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(marketArea, retailerCustomerComment.getCustomer().getPermalink()));
+				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestUtil.getRequestData(request), retailerCustomerComment.getCustomer().getPermalink()));
 				retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(request, retailerCustomerComment.getCustomer()));
 				
 				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -634,7 +638,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		if(shareOptions != null){
 			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
 				String shareOption = (String) iterator.next();
-				String relativeUrl = urlService.buildRetailerDetailsUrl(marketPlace, market, marketArea, localization, currentRetailer, retailerViewBean.getName(), retailerViewBean.getCode());
+				String relativeUrl = urlService.buildRetailerDetailsUrl(requestUtil.getRequestData(request), retailerViewBean.getName(), retailerViewBean.getCode());
 				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, requestData, contextNameValue, shareOption, relativeUrl);
 				retailerViewBean.getShareOptions().add(shareOptionViewBean);
 	        }
@@ -660,32 +664,32 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerLinks = new ArrayList<CutomerMenuViewBean>();
 			CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerDetailsUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddressListUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerAddAddressUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerOrderListUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerWishlistUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.buildCustomerProductCommentUrl(marketArea));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request)));
 			customerLinks.add(cutomerMenuViewBean);
 
 			menuCustomerCacheHelper.addToCache(customerMenuElementType, customerMenuCacheKey, customerLinks);
@@ -883,7 +887,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 
-		localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(marketPlace, market, marketArea, localization, retailer));
+		localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(requestUtil.getRequestData(request)));
 		if (localization.getCode().equals(currentLocalization.getCode())) {
 			localizationViewBean.setActive(true);
 		}
@@ -1141,8 +1145,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		Long customerAddressId = customerAddress.getId();
 
-		customerAddressViewBean.setEditUrl(urlService.buildCustomerEditAddressUrl(marketArea, customerAddressId.toString()));
-		customerAddressViewBean.setDeleteUrl(urlService.buildCustomerDeleteAddressUrl(marketArea, customerAddressId.toString()));
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID, customerAddressId.toString());
+		
+		customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestUtil.getRequestData(request), urlParams));
+		customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request), urlParams));
 
 		return customerAddressViewBean;
 	}
@@ -1224,9 +1231,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String categoryName = productCategory.getI18nName(localeCode);
 		final String categoryCode = productCategory.getCode();
 		if (productCategory.isRoot()) {
-			productCategoryViewBean.setProductAxeUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode));
+			productCategoryViewBean.setProductAxeUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(requestUtil.getRequestData(request), categoryName, categoryCode));
 		} else {
-			productCategoryViewBean.setProductLineUrl(urlService.buildProductCategoryUrlAsProductLineUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode));
+			productCategoryViewBean.setProductLineUrl(urlService.buildProductCategoryUrlAsProductLineUrl(requestUtil.getRequestData(request), categoryName, categoryCode));
 		}
 
 		List<ProductCategoryViewBean> subProductCategoryViewBeans = new ArrayList<ProductCategoryViewBean>();
@@ -1251,7 +1258,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		return productCategoryViewBean;
 	}
-
+	
 	/**
      * 
      */
@@ -1295,14 +1302,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String productName = productMarketing.getI18nName(localeCode);
 		final String productCode = productMarketing.getCode();
 		productMarketingViewBean.setProductDetailsUrl(urlService
-		        .buildProductUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
+		        .buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
 
 		final ProductBrand productBrand = productMarketing.getProductBrand();
 		if (productBrand != null) {
 			final String brandName = productBrand.getName();
 			final String brandCode = productBrand.getCode();
-			productMarketingViewBean.setBrandDetailsUrl(urlService.buildProductBrandDetailsUrlAsProductAxeUrl(marketPlace, market, marketArea, localization, retailer, brandName, brandCode));
-			productMarketingViewBean.setBrandLineDetailsUrl(urlService.buildProductBrandLineUrlAsProductAxeUrl(marketPlace, market, marketArea, localization, retailer, brandName, brandCode));
+			productMarketingViewBean.setBrandDetailsUrl(urlService.buildProductBrandDetailsUrlAsProductAxeUrl(requestUtil.getRequestData(request), brandName, brandCode));
+			productMarketingViewBean.setBrandLineDetailsUrl(urlService.buildProductBrandLineUrlAsProductAxeUrl(requestUtil.getRequestData(request), brandName, brandCode));
 		}
 
 		Set<ProductSku> skus = productMarketing.getProductSkus();
@@ -1341,13 +1348,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		final CartViewBean cartViewBean = new CartViewBean();
 
-		cartViewBean.setCartDetailsUrl(urlService.buildCartDetailsUrl(marketPlace, market, marketArea, localization, retailer));
-		cartViewBean.setCartAuthUrl(urlService.buildCartAuthUrl(marketPlace, market, marketArea, localization, retailer));
-		cartViewBean.setCartDeliveryAndOrderDetailsUrl(urlService.buildCartDeliveryAndOrderDetailsUrl(marketPlace, market, marketArea, localization, retailer));
-		cartViewBean.setCartOrderPaymentUrl(urlService.buildCartOrderPaymentUrl(marketPlace, market, marketArea, localization, retailer));
-		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(marketPlace, market, marketArea, localization, retailer));
+		cartViewBean.setCartDetailsUrl(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request)));
+		cartViewBean.setCartAuthUrl(urlService.buildCartAuthUrl(requestUtil.getRequestData(request)));
+		cartViewBean.setCartDeliveryAndOrderDetailsUrl(urlService.buildCartDeliveryAndOrderDetailsUrl(requestUtil.getRequestData(request)));
+		cartViewBean.setCartOrderPaymentUrl(urlService.buildCartOrderPaymentUrl(requestUtil.getRequestData(request)));
+		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(requestUtil.getRequestData(request)));
 
-		cartViewBean.setAddNewAddressUrl(urlService.buildCustomerAddAddressUrl(marketArea));
+		cartViewBean.setAddNewAddressUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestUtil.getRequestData(request)));
 
 		// ITEMS PART
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
@@ -1447,7 +1454,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
 		}
 
-		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(marketPlace, market, marketArea, localization, retailer, cartItem.getProductSkuCode()));
+		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(requestUtil.getRequestData(request), cartItem.getProductSkuCode()));
 
 		return cartItemViewBean;
 	}
@@ -1544,8 +1551,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		// final Object[] params = {order.getOrderNum()};
 		// orderViewBean.setConfirmationMessage(getSpecificMessage(ScopeWebMessage.COMMON,
 		// "order.confirmation.message", params, locale));
+		
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID, orderId.toString());
 
-		orderViewBean.setOrderDetailsUrl(urlService.buildCustomerOrderDetailsUrl(marketArea, orderId));
+		orderViewBean.setOrderDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestUtil.getRequestData(request), urlParams));
 
 		return orderViewBean;
 	}
@@ -1623,7 +1633,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String productName = productMarketing.getI18nName(localeCode);
 		final String productCode = productMarketing.getCode();
 		productCrossLinkViewBean.setProductDetailsUrl(urlService
-		        .buildProductUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
+		        .buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
 
 		return productCrossLinkViewBean;
 	}
@@ -1672,14 +1682,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String productCode = productMarketing.getCode();
 		final String productSkuName = productSku.getI18nName(localeCode);
 		final String productSkuCode = productSku.getCode();
-		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode));
+		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
 
-		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName, productCode,
+		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode,
 		        productSkuName, productSkuCode));
-		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(marketPlace, market, marketArea, localization, retailer, productSkuCode));
-		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName,
+		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(requestUtil.getRequestData(request), productSkuCode));
+		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
 		        productCode, productSkuName, productSkuCode));
-		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(marketPlace, market, marketArea, localization, retailer, productSkuCode));
+		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(requestUtil.getRequestData(request), productSkuCode));
 
 		return productSkuViewBean;
 	}
@@ -1739,9 +1749,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		searchProductItemViewBean.setDescription(productMarketing.getDescription());
 		searchProductItemViewBean.setCode(productCode);
 
-		searchProductItemViewBean.setProductDetailsUrl(urlService.buildProductUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName,
+		searchProductItemViewBean.setProductDetailsUrl(urlService.buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
 		        productCode));
-		searchProductItemViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(marketPlace, market, marketArea, localization, retailer, categoryName, categoryCode, productName,
+		searchProductItemViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
 		        productCode, productSkuName, productSkuCode));
 
 		return searchProductItemViewBean;

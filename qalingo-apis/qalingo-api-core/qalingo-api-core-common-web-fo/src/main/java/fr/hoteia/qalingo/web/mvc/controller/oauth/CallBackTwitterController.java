@@ -77,7 +77,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 
 					final String twitterCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-							urlService.buildOAuthCallBackUrl( currentMarketArea, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
+							urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.TWITTER.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(TwitterApi.class)
@@ -190,7 +190,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.buildCustomerDetailsUrl( currentMarketArea));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 			}
 			
 		}
