@@ -26,7 +26,6 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
 
 /**
@@ -47,9 +46,6 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 
 	@Autowired
     protected ViewBeanFactory viewBeanFactory;
-	
-	@Autowired
-    protected RequestUtil requestUtil;
 	
 	/**
 	 * 

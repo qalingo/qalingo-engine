@@ -44,6 +44,14 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST			= "BO_TECHNICAL_CACHE_LIST";
 	public final String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST			= "BO_TECHNICAL_BATCH_LIST";
 
+	// Web tracking like Google Analytics
+	public final String ENGINE_SETTING_WEB_TRACKING_NUMBER						= "WEB_TRACKING_NUMBER";
+	public final String ENGINE_SETTING_WEB_TRACKING_NAME						= "WEB_TRACKING_NAME";
+
+	// Web monitoring like Pingdom
+	public final String ENGINE_SETTING_WEB_MONITORING_NUMBER					= "WEB_MONITORING_NUMBER";
+	public final String ENGINE_SETTING_WEB_MONITORING_NAME						= "WEB_MONITORING_NAME";
+	
 	// OAUTH : FACEBOOK, TWITTER, GOOGLE, etc
 	public final String ENGINE_SETTING_OAUTH_APP_KEY_OR_ID						= "OAUTH_APP_KEY_OR_ID";
 	public final String ENGINE_SETTING_OAUTH_APP_SECRET							= "OAUTH_APP_SECRET";
@@ -97,10 +105,18 @@ public interface EngineSettingService {
 	
 	EngineSetting getRetailerMaxScoreValue();
 	
-	EngineSetting geOAuthAppKeyOrId();
+	EngineSetting getOAuthAppKeyOrId();
 	
-	EngineSetting geOAuthAppSecret();
+	EngineSetting getOAuthAppSecret();
 	
-	EngineSetting geOAuthAppPermissions();
+	EngineSetting getOAuthAppPermissions();
+	
+	EngineSetting getWebTrackingNumber();
+	
+	EngineSetting getWebTrackingName();
+	
+	EngineSetting getWebMonitoringNumber();
+	
+	EngineSetting getWebMonitoringName();
 	
 }

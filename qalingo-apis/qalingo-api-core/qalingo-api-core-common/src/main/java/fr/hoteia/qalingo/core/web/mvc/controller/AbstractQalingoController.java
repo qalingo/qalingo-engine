@@ -12,12 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.EngineSetting;
+import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.core.web.viewbean.MonitoringViewBean;
+import fr.hoteia.qalingo.core.web.viewbean.TrackingViewBean;
 
 /**
  * 
@@ -43,6 +49,9 @@ public abstract class AbstractQalingoController {
 	
 	@Autowired
     protected ReferentialDataService referentialDataService;
+	
+	@Autowired
+    protected RequestUtil requestUtil;
 	
 	/**
 	 * 
@@ -81,6 +90,54 @@ public abstract class AbstractQalingoController {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.TRACKING_VIEW_BEAN)
+	protected TrackingViewBean initTracking(final HttpServletRequest request, final Model model) throws Exception {
+		TrackingViewBean trackingViewBean = null;
+    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
+
+	    EngineSetting webTrackingNumberEngineSetting = engineSettingService.getWebTrackingNumber();
+	    EngineSettingValue webTrackingNumberEngineSettingValue = webTrackingNumberEngineSetting.getEngineSettingValue(contextValue);
+	    if(webTrackingNumberEngineSettingValue != null){
+	    	trackingViewBean = new TrackingViewBean();
+	    	trackingViewBean.setTrackingNumber(webTrackingNumberEngineSettingValue.getValue());
+	    	
+		    EngineSetting webTrackingNameEngineSetting = engineSettingService.getWebTrackingName();
+		    EngineSettingValue webTrackingNameEngineSettingValue = webTrackingNameEngineSetting.getEngineSettingValue(contextValue);
+		    if(webTrackingNameEngineSettingValue != null){
+		    	trackingViewBean.setTrackingName(webTrackingNameEngineSettingValue.getValue());
+		    }
+
+	    }
+		return trackingViewBean;
+	}
+
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.MONITORING_VIEW_BEAN)
+	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
+		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
+    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
+
+	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getWebMonitoringNumber();
+	    EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
+	    if(webMonitoringNumberEngineSettingValue != null){
+	    	monitoringViewBean = new MonitoringViewBean();
+	    	monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
+	    	
+		    EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
+		    EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
+		    if(webMonitoringNameEngineSettingValue != null){
+		    	monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());
+		    }
+
+	    }
+		return monitoringViewBean;
+	}
+	
 	/**
 	 * @throws Exception 
 	 * 

@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.scribe.model.Token;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import fr.hoteia.qalingo.core.service.CustomerGroupService;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.openid.OpenIdException;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
  * 
@@ -44,9 +42,6 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractQalingo
 	
 	@Autowired
 	protected AttributeService attributeService;
-	
-	@Autowired
-    protected RequestUtil requestUtil;
 	
 	@Autowired
     protected SecurityUtil securityUtil;

@@ -35,7 +35,6 @@ import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
@@ -73,9 +72,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@Autowired
     protected ViewBeanFactory viewBeanFactory;
 
-	@Autowired
-    protected RequestUtil requestUtil;
-	
 	/**
 	 * 
 	 */

@@ -34,15 +34,15 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
 			    // CLIENT ID
-			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSetting clientIdEngineSetting = engineSettingService.getOAuthAppKeyOrId();
 			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT SECRET
-			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+			    EngineSetting clientSecretEngineSetting = engineSettingService.getOAuthAppSecret();
 			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    // CLIENT PERMISSIONS
-			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppPermissions();
+			    EngineSetting permissionsEngineSetting = engineSettingService.getOAuthAppPermissions();
 			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.WINDOWS_LIVE.name());
 			    
 			    if(clientIdEngineSettingValue != null

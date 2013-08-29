@@ -126,16 +126,32 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
 	}
 
-	public EngineSetting geOAuthAppKeyOrId() {
+	public EngineSetting getOAuthAppKeyOrId() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_KEY_OR_ID);
 	}
 
-	public EngineSetting geOAuthAppSecret() {
+	public EngineSetting getOAuthAppSecret() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_SECRET);
 	}
 	
-	public EngineSetting geOAuthAppPermissions() {
+	public EngineSetting getOAuthAppPermissions() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_OAUTH_APP_PERMISSIONS);
+	}
+	
+	public EngineSetting getWebTrackingNumber() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_TRACKING_NUMBER);
+	}
+	
+	public EngineSetting getWebTrackingName() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_TRACKING_NAME);
+	}
+	
+	public EngineSetting getWebMonitoringNumber() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_MONITORING_NUMBER);
+	}
+	
+	public EngineSetting getWebMonitoringName() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_MONITORING_NAME);
 	}
 
 }

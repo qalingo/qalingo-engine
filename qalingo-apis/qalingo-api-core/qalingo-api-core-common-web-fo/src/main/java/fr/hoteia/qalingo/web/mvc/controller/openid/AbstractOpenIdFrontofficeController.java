@@ -23,7 +23,6 @@ import fr.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
 import fr.hoteia.qalingo.core.service.openid.OpenIdException;
 import fr.hoteia.qalingo.core.service.openid.OpenIdService;
 import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**
  * 
@@ -49,9 +48,6 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractQaling
 	
 	@Autowired
 	protected AttributeService attributeService;
-	
-	@Autowired
-    protected RequestUtil requestUtil;
 	
 	@Autowired
     protected SecurityUtil securityUtil;

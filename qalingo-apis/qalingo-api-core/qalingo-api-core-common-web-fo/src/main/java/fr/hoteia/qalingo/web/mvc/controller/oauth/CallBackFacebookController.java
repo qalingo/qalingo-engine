@@ -58,15 +58,15 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 			try {
 
 			    // CLIENT ID
-			    EngineSetting clientIdEngineSetting = engineSettingService.geOAuthAppKeyOrId();
+			    EngineSetting clientIdEngineSetting = engineSettingService.getOAuthAppKeyOrId();
 			    EngineSettingValue clientIdEngineSettingValue = clientIdEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    // CLIENT SECRET
-			    EngineSetting clientSecretEngineSetting = engineSettingService.geOAuthAppSecret();
+			    EngineSetting clientSecretEngineSetting = engineSettingService.getOAuthAppSecret();
 			    EngineSettingValue clientSecretEngineSettingValue = clientSecretEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    // CLIENT PERMISSIONS
-			    EngineSetting permissionsEngineSetting = engineSettingService.geOAuthAppPermissions();
+			    EngineSetting permissionsEngineSetting = engineSettingService.getOAuthAppPermissions();
 			    EngineSettingValue permissionsEngineSettingValue = permissionsEngineSetting.getEngineSettingValue(OAuthType.FACEBOOK.name());
 			    
 			    if(clientIdEngineSettingValue != null

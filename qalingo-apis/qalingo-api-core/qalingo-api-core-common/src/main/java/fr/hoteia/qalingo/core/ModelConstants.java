@@ -62,6 +62,9 @@ public final class ModelConstants {
 	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
 	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
 	public static final String SECURITY_VIEW_BEAN = "security";
+	
+	public static final String TRACKING_VIEW_BEAN = "tracking";
+	public static final String MONITORING_VIEW_BEAN = "monitoring";
 
 	public static final String CATALOG_VIEW_BEAN = "catalog";
 	public static final String CATALOG_CATEGORY_VIEW_BEAN = "catalogCategory";
