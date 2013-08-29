@@ -20,7 +20,7 @@ VALUES
 
 -- password equal "password"
 INSERT INTO tbo_user 
-(id, version, email, firstname, lastname, current_password, login, is_active, company_id)
+(id, version, email, firstname, lastname, password, login, is_active, company_id)
 VALUES (1, 1, 'qalingo@qalingo.com', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
 
 INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
@@ -29,7 +29,7 @@ INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
 
 -- password equal "password"
 INSERT INTO teco_customer 
-(id, version, email, firstname, lastname, current_password, login, code, is_active)
+(id, version, email, firstname, lastname, password, login, code, is_active)
 VALUES (1, 1, 'qalingo@qalingo.com', 'Customer', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'customer', 'CUST1', 1);
 
 INSERT INTO teco_customer_address 
@@ -124,7 +124,7 @@ INSERT INTO teco_market_area_attribute
 VALUES 
 (100, 'FO_MCOMMERCE', 'no-reply@YOURDOMAIN.com', 1, 1),
 (101, 'FO_MCOMMERCE',   'contact@YOURDOMAIN.com', 1, 2),
-(101, 'FO_MCOMMERCE',   'facebook,twitter', 1, 6);
+(102, 'FO_MCOMMERCE',   'facebook,twitter', 1, 6);
 
 INSERT INTO teco_market_area_localization_rel 
 (market_area_id, localization_id)
