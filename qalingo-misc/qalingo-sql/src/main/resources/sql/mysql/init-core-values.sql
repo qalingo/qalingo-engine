@@ -100,6 +100,16 @@ VALUES
 (1015, 'Setting resource assets product sku file path', 'Setting resource assets product sku file path', 'ASSET_PROPDUCT_SKU_FILE_PATH', '/images/catalog/product-sku', 1);
 
 
+-- Tracking/Monitoring settings
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(2010, 'Setting tracking number', 'Setting tracking number', 'WEB_TRACKING_NUMBER', '', 1),
+(2011, 'Setting tracking name', 'Setting tracking name', 'WEB_TRACKING_NAME', '', 1),
+(2020, 'Setting monitoring number', 'Setting monitoring number', 'WEB_MONITORING_NUMBER', '', 1),
+(2021, 'Setting monitoring name', 'Setting monitoring name', 'WEB_MONITORING_NAME', '', 1);
+
+
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
