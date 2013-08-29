@@ -1,5 +1,8 @@
 package fr.hoteia.qalingo.core.domain.enumtype;
 
+import fr.hoteia.qalingo.core.RequestConstants;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
+
 public enum FoUrls {
 
     HOME(FoUrls.HOME_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE),
@@ -19,6 +22,19 @@ public enum FoUrls {
     LOGIN(FoUrls.LOGIN_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE),
     LOGIN_CHECK(FoUrls.LOGIN_CHECK_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE),
     LOGOUT(FoUrls.LOGOUT_URL, FoUrls.LOGOUT_KEY, FoUrls.LOGOUT_VELOCITY_PAGE),
+    
+    PERSONAL_DETAILS(FoUrls.PERSONAL_DETAILS_URL, FoUrls.PERSONAL_DETAILS_KEY, FoUrls.PERSONAL_DETAILS_VELOCITY_PAGE),
+    PERSONAL_EDIT(FoUrls.PERSONAL_EDIT_URL, FoUrls.PERSONAL_EDIT_KEY, FoUrls.PERSONAL_EDIT_VELOCITY_PAGE),
+    PERSONAL_ORDER_LIST(FoUrls.PERSONAL_ORDER_LIST_URL, FoUrls.PERSONAL_ORDER_LIST_KEY, FoUrls.PERSONAL_ORDER_LIST_VELOCITY_PAGE),
+    PERSONAL_ORDER_DETAILS(FoUrls.PERSONAL_ORDER_DETAILS_URL, FoUrls.PERSONAL_ORDER_DETAILS_KEY, FoUrls.PERSONAL_ORDER_DETAILS_VELOCITY_PAGE),
+    PERSONAL_WISHLIST(FoUrls.PERSONAL_WISHLIST_URL, FoUrls.PERSONAL_WISHLIST_KEY, FoUrls.PERSONAL_WISHLIST_VELOCITY_PAGE),
+    PERSONAL_PRODUCT_COMMENT_LIST(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_KEY, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_VELOCITY_PAGE),
+    PERSONAL_ADDRESS_LIST(FoUrls.PERSONAL_ADDRESS_LIST_URL, FoUrls.PERSONAL_ADDRESS_LIST_KEY, FoUrls.PERSONAL_ADDRESS_LIST_VELOCITY_PAGE),
+    PERSONAL_ADD_ADDRESS(FoUrls.PERSONAL_ADD_ADDRESS_URL, FoUrls.PERSONAL_ADD_ADDRESS_KEY, FoUrls.PERSONAL_ADD_ADDRESS_VELOCITY_PAGE),
+    PERSONAL_EDIT_ADDRESS(FoUrls.PERSONAL_EDIT_ADDRESS_URL, FoUrls.PERSONAL_EDIT_ADDRESS_KEY, FoUrls.PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE),
+    PERSONAL_DELETE_ADDRESS(FoUrls.PERSONAL_DELETE_ADDRESS_URL, FoUrls.PERSONAL_DELETE_ADDRESS_KEY, FoUrls.PERSONAL_DELETE_ADDRESS_VELOCITY_PAGE),
+    
+    
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE);
@@ -58,11 +74,11 @@ public enum FoUrls {
 	
 	public static final String NEWSLETTER_REGISTER_KEY				= "newsletter-register";
 	public static final String NEWSLETTER_REGISTER_URL				= "/newsletter-register.html";
-	public static final String NEWSLETTER_REGISTER_VELOCITY_PAGE	= "follow-us/follow-us-form";
+	public static final String NEWSLETTER_REGISTER_VELOCITY_PAGE	= "newsletter/register";
 	
-	public static final String NEWSLETTER_UNREGISTER_KEY				= "newsletter-register";
+	public static final String NEWSLETTER_UNREGISTER_KEY				= "newsletter-unregister";
 	public static final String NEWSLETTER_UNREGISTER_URL				= "/newsletter-unregister.html";
-	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "follow-us/follow-us-form";
+	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "newsletter/unregister";
 	
 	public static final String VELOCITY_CACHE_KEY			= "flush-cache-ihm";
 	public static final String VELOCITY_CACHE_URL			= "/flush-cache-ihm.html";
@@ -78,6 +94,46 @@ public enum FoUrls {
 	public static final String LOGOUT_URL				= "/logout-session.html";
 	public static final String LOGOUT_VELOCITY_PAGE		= "security/logout";
 
+	public static final String PERSONAL_DETAILS_KEY					= "personal-details";
+	public static final String PERSONAL_DETAILS_URL					= "/personal-details.html";
+	public static final String PERSONAL_DETAILS_VELOCITY_PAGE		= "customer/personal-details";
+	
+	public static final String PERSONAL_EDIT_KEY				= "personal-edit";
+	public static final String PERSONAL_EDIT_URL				= "/personal-edit.html";
+	public static final String PERSONAL_EDIT_VELOCITY_PAGE		= "customer/personal-edit";
+	
+	public static final String PERSONAL_ORDER_LIST_KEY					= "personal-order-list";
+	public static final String PERSONAL_ORDER_LIST_URL					= "/personal-order-list.html";
+	public static final String PERSONAL_ORDER_LIST_VELOCITY_PAGE		= "customer/personal-order-list";
+	
+	public static final String PERSONAL_ORDER_DETAILS_KEY					= "personal-order-details";
+	public static final String PERSONAL_ORDER_DETAILS_URL					= "/personal-order-details.html";
+	public static final String PERSONAL_ORDER_DETAILS_VELOCITY_PAGE		= "customer/personal-order-details";
+	
+	public static final String PERSONAL_WISHLIST_KEY				= "personal-wishlist";
+	public static final String PERSONAL_WISHLIST_URL				= "/personal-wishlist.html";
+	public static final String PERSONAL_WISHLIST_VELOCITY_PAGE		= "customer/personal-wishlist";
+	
+	public static final String PERSONAL_PRODUCT_COMMENT_LIST_KEY				= "personal-product-comment-list";
+	public static final String PERSONAL_PRODUCT_COMMENT_LIST_URL				= "/personal-product-comment-list.html";
+	public static final String PERSONAL_PRODUCT_COMMENT_LIST_VELOCITY_PAGE		= "customer/personal-product-comment-list";
+	
+	public static final String PERSONAL_ADDRESS_LIST_KEY				= "personal-address-list";
+	public static final String PERSONAL_ADDRESS_LIST_URL				= "/personal-address-list.html";
+	public static final String PERSONAL_ADDRESS_LIST_VELOCITY_PAGE		= "customer/personal-address-list";
+
+	public static final String PERSONAL_ADD_ADDRESS_KEY					= "personal-add-address";
+	public static final String PERSONAL_ADD_ADDRESS_URL					= "/personal-add-address.html";
+	public static final String PERSONAL_ADD_ADDRESS_VELOCITY_PAGE		= "customer/personal-add-address";
+
+	public static final String PERSONAL_EDIT_ADDRESS_KEY					= "personal-edit-address";
+	public static final String PERSONAL_EDIT_ADDRESS_URL					= "/personal-edit-address.html";
+	public static final String PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE			= "customer/personal-edit-address";
+
+	public static final String PERSONAL_DELETE_ADDRESS_KEY					= "personal-delete-address";
+	public static final String PERSONAL_DELETE_ADDRESS_URL					= "/personal-delete-address.html";
+	public static final String PERSONAL_DELETE_ADDRESS_VELOCITY_PAGE		= "customer/personal-delete-address";
+	
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 	
 	public static final String FORBIDDEN_KEY				= "forbidden";
