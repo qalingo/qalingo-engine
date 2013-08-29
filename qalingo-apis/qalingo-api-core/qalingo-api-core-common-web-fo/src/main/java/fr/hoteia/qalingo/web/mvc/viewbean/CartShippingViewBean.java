@@ -10,8 +10,6 @@
 package fr.hoteia.qalingo.web.mvc.viewbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CartShippingViewBean extends AbstractViewBean implements Serializable {
 
