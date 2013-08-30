@@ -43,7 +43,7 @@ public class TaxCountry implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="TAX_COUNTRY_ID")
-	private Set<TaxCounty> taxCounties = new HashSet<TaxCounty>(); 
+	private Set<TaxState> taxCounties = new HashSet<TaxState>(); 
 	
 	public TaxCountry() {
 	}
@@ -64,11 +64,11 @@ public class TaxCountry implements Serializable {
 		this.codeCountry = codeCountry;
 	}
 
-	public Set<TaxCounty> getTaxCounties() {
+	public Set<TaxState> getTaxCounties() {
 		return taxCounties;
 	}
 
-	public void setTaxeCounties(Set<TaxCounty> taxCounties) {
+	public void setTaxeCounties(Set<TaxState> taxCounties) {
 		this.taxCounties = taxCounties;
 	}
 	

@@ -94,7 +94,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	public ModelAndView orderDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ORDER_DETAILS.getVelocityPage());
 
-		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
+		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_CODE);
 		final Order order = orderService.getOrderById(currentOrderCode);
 		
 		if(order != null){
@@ -150,7 +150,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		final List<Order> orders = orderService.findOrders();
 		for (Iterator<Order> iterator = orders.iterator(); iterator.hasNext();) {
 			Order order = (Order) iterator.next();
-			orderViewBeans.add(viewBeanFactory.buildOrderViewBean(request, requestUtil.getRequestData(request), order));
+			orderViewBeans.add(viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), order));
 		}
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -159,6 +159,6 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Order user) throws Exception{
-		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, viewBeanFactory.buildOrderViewBean(request, requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
 	}
 }

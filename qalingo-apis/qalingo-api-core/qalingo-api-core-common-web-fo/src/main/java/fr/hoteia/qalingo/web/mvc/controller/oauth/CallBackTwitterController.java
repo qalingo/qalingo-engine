@@ -28,12 +28,12 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 	
 	@RequestMapping("/callback-oauth-twitter.html*")
 	public ModelAndView callBackTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -72,12 +72,10 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 
-					final String twitterCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-							urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.TWITTER.getPropertyKey().toLowerCase()));
+					final String twitterCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(TwitterApi.class)
@@ -99,7 +97,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 					    String responseBody = oauthResponse.getBody();
 					    
 					    if(responseCode == 200){
-					    	handleAuthenticationData(request, response, currentMarketArea, OAuthType.TWITTER, responseBody);
+					    	handleAuthenticationData(request, response, requestData, OAuthType.TWITTER, responseBody);
 					    } else {
 							LOG.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
 					    }
@@ -116,13 +114,13 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 
 		return null;
 	}
 	
-	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, MarketArea currentMarketArea, OAuthType type, String jsonData) throws Exception {
+	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, RequestData requestData, OAuthType type, String jsonData) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		UserPojo userPojo = null;
 		try {
@@ -190,7 +188,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
 			}
 			
 		}

@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 
 	@RequestMapping("/connect-oauth-windows-live.html*")
 	public ModelAndView connectWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -53,8 +53,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(LiveApi.class)
@@ -77,7 +76,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 		
 		return null;

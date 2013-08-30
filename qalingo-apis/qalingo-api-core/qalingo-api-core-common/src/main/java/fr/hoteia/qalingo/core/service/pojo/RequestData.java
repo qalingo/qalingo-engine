@@ -2,6 +2,8 @@ package fr.hoteia.qalingo.core.service.pojo;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -20,6 +22,7 @@ public class RequestData implements Serializable {
 	private String contextNameValue;
 	private String contextPath;
 
+	private HttpServletRequest request;
 	private MarketPlace marketPlace;
 	private Market market;
 	private MarketArea marketArea;
@@ -60,6 +63,14 @@ public class RequestData implements Serializable {
 	public void switchContextPathByMarketAreaDomainName(){
 		this.contextPath = "http://" + marketArea.getDomainName(contextNameValue) + "/";
 	}
+	
+	public HttpServletRequest getRequest() {
+	    return request;
+    }
+	
+	public void setRequest(HttpServletRequest request) {
+	    this.request = request;
+    }
 	
 	public MarketPlace getMarketPlace() {
 	    return marketPlace;

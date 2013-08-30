@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.Cart;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
@@ -27,12 +28,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 @Controller("cartAuthController")
 public class CartAuthController extends AbstractMCommerceController {
 
-	@RequestMapping("/cart-auth.html*")
+	@RequestMapping(FoUrls.CART_AUTH_URL)
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-auth");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_AUTH.getVelocityPage());
 
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
         return modelAndView;

@@ -19,8 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TECO_TAX_COUNTY")
-public class TaxCounty implements Serializable {
+@Table(name="TECO_TAX_STATE")
+public class TaxState implements Serializable {
 
 	/**
 	 * Generated UID
@@ -35,7 +35,7 @@ public class TaxCounty implements Serializable {
 	@Column(name="CODE_COUNTY")
 	private String codeCounty;
 	
-	public TaxCounty() {
+	public TaxState() {
 	}
 	
 	public Long getId() {
@@ -53,6 +53,5 @@ public class TaxCounty implements Serializable {
 	public void setCodeCounty(String codeCounty) {
 		this.codeCounty = codeCounty;
 	}
-
 	
 }

@@ -110,7 +110,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-details");
 
-		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_ID);
+		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID);
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
@@ -119,9 +119,9 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 
 				initLinks(request, modelAndView, locale, engineSetting);
 				
-				modelAndView.addObject("engineSettingDetails", viewBeanFactory.buildEngineSettingDetailsViewBean(request, requestUtil.getRequestData(request)));
+				modelAndView.addObject("engineSettingDetails", viewBeanFactory.buildEngineSettingDetailsViewBean(requestUtil.getRequestData(request)));
 				
-				modelAndView.addObject("engineSetting", viewBeanFactory.buildEngineSettingViewBean(request, engineSetting));
+				modelAndView.addObject("engineSetting", viewBeanFactory.buildEngineSettingViewBean(requestUtil.getRequestData(request), engineSetting));
 			} else {
 				final String url = requestUtil.getLastRequestUrl(request);
 				return new ModelAndView(new RedirectView(url));
@@ -140,11 +140,11 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-value-edit");
 		
-		final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID);
+		final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
 		if(StringUtils.isNotEmpty(engineSettingValueId)){
 			final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
 			if(engineSettingValue != null){
-				modelAndView.addObject("engineSettingValueEdit", viewBeanFactory.buildEngineSettingValueEditViewBean(request, requestUtil.getRequestData(request), engineSettingValue));
+				modelAndView.addObject("engineSettingValueEdit", viewBeanFactory.buildEngineSettingValueEditViewBean(requestUtil.getRequestData(request), engineSettingValue));
 
 				formFactory.buildEngineSettingValueEditForm(request, modelAndView, engineSettingValue);
 				return modelAndView;
@@ -170,13 +170,13 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 
 		final String engineSettingId = engineSettingValue.getEngineSetting().getId().toString();
 		Map<String, String> urlParams = new HashMap<String, String>();
-		urlParams.put(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID, engineSettingId);
+		urlParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID, engineSettingId);
         return new ModelAndView(new RedirectView(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), urlParams)));
 	}
 	
 	protected PagedListHolder<EngineSettingViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<EngineSetting> engineSettings,
 			PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder) throws Exception{
-		List<EngineSettingViewBean> engineSettingViewBeans = viewBeanFactory.buildEngineSettingViewBeans(request, engineSettings);
+		List<EngineSettingViewBean> engineSettingViewBeans = viewBeanFactory.buildEngineSettingViewBeans(requestUtil.getRequestData(request), engineSettings);
 		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
 		
 		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
@@ -201,7 +201,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 			linkMenuViewBean = new LinkMenuViewBean();
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.details", locale));
 			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAM_ENGINE_SETTING_VALUE_ID, engineSetting.getId().toString());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID, engineSetting.getId().toString());
 			linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), urlParams));
 			customerLinks.add(linkMenuViewBean);
 		}

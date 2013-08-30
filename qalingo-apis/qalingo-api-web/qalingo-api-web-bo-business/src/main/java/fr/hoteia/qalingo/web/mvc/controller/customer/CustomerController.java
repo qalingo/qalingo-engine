@@ -99,7 +99,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_DETAILS_VELOCITY_PAGE);
 
-		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerByCode(currentCustomerCode);
 		
 		if(customer != null){
@@ -116,9 +116,9 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	public ModelAndView customerEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_FORM_VELOCITY_PAGE);
 		
-		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 		modelAndView.addObject(Constants.CUSTOMER_FORM, formFactory.buildCustomerForm(request, customer));
 		return modelAndView;
 	}
@@ -128,12 +128,12 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 								BindingResult result, ModelMap modelMap) throws Exception {
 
 		// "customer.edit";
-		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_CODE);
+		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
 		
 		if (result.hasErrors()) {
 			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_FORM_VELOCITY_PAGE);
-			modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer));
+			modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 			modelAndView.addObject(Constants.CUSTOMER_FORM, formFactory.buildCustomerForm(request, customer));
 			return modelAndView;
 		}
@@ -153,7 +153,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final List<Customer> customers = customerService.findCustomers();
 		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
 			Customer customer = (Customer) iterator.next();
-			customerViewBeans.add(viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer));
+			customerViewBeans.add(viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 		}
 		customerViewBeanPagedListHolder = new PagedListHolder<CustomerViewBean>(customerViewBeans);
 		customerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -163,6 +163,6 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initCustomerDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Customer user) throws Exception{
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
 	}
 }

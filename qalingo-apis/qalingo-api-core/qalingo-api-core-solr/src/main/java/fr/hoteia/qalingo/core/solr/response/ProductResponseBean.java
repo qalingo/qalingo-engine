@@ -14,19 +14,19 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
 
-import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
+import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 
 public class ProductResponseBean {
 
-	private List<ProductSolr> productSolrList = new ArrayList<ProductSolr>();
+	private List<ProductSkuSolr> productSolrList = new ArrayList<ProductSkuSolr>();
 	
 	private List<FacetField> productSolrFacetFieldList = new ArrayList<FacetField>();
 
-	public List<ProductSolr> getProductSolrList() {
+	public List<ProductSkuSolr> getProductSolrList() {
 		return productSolrList;
 	}
 
-	public void setProductSolrList(List<ProductSolr> productSolrList) {
+	public void setProductSolrList(List<ProductSkuSolr> productSolrList) {
 		this.productSolrList = productSolrList;
 	}
 

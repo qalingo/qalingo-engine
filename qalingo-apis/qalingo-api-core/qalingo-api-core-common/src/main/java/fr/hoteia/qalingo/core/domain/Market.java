@@ -275,5 +275,10 @@ public class Market implements Serializable {
 		return true;
 	}
 
-	
+	@Override
+    public String toString() {
+	    return "Market [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", theme=" + theme + ", marketPlace="
+	            + marketPlace + ", marketAreas=" + marketAreas + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

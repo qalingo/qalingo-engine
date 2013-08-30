@@ -52,7 +52,7 @@ public class LoginController extends AbstractBackofficeQalingoController {
 		}
 		
 		// SANITY CHECK : Param from spring-security
-		String error = request.getParameter(RequestConstants.REQUEST_PARAM_AUTH_ERROR);
+		String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
 		if(BooleanUtils.toBoolean(error)){
 			model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
 			model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
@@ -70,7 +70,7 @@ public class LoginController extends AbstractBackofficeQalingoController {
 	
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 	}
 	
 }

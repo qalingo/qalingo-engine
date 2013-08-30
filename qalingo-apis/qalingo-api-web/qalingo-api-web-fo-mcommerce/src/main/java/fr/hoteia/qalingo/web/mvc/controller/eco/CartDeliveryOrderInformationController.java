@@ -34,11 +34,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.core.domain.Cart;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -54,9 +49,9 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	@RequestMapping(value = "/cart-delivery-order-information.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.CART_DELIVERY_URL, method = RequestMethod.GET)
 	public ModelAndView displayOrderDelivery(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-delivery-order-information");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_DELIVERY.getVelocityPage());
 
 		// SANITY CHECK
 		final Cart currentCart = requestUtil.getCurrentCart(request);
@@ -65,7 +60,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
@@ -73,7 +68,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/cart-delivery-order-information.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.CART_DELIVERY_URL, method = RequestMethod.POST)
 	public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
@@ -83,7 +78,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		
 		requestUtil.updateCurrentCart(request, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 		
-		final String urlRedirect = urlService.buildCartOrderPaymentUrl(requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -95,7 +90,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 			Set<CustomerAddress> addresses = customer.getAddresses();
 			for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
 				final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-				addressesValues.add(viewBeanFactory.buildCustomeAddressViewBean(request, requestUtil.getRequestData(request), customerAddress));
+				addressesValues.add(viewBeanFactory.buildCustomeAddressViewBean(requestUtil.getRequestData(request), customerAddress));
 			}
 			
 			Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {

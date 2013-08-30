@@ -23,11 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.domain.Cart;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -44,9 +41,9 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping("/cart-order-payment.html*")
+	@RequestMapping(FoUrls.CART_ORDER_PAYMENT_URL)
 	public ModelAndView displayOrderPayment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-order-payment");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_PAYMENT.getVelocityPage());
 
 		// SANITY CHECK
 		final Cart currentCart = requestUtil.getCurrentCart(request);
@@ -55,7 +52,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("paymentForm", formFactory.buildPaymentForm(request));
@@ -63,7 +60,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/cart-order-payment.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.CART_ORDER_PAYMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
@@ -76,7 +73,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		// Create and Save a new order
 		webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
 		
-		final String urlRedirect = urlService.buildCartOrderConfirmationUrl(requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

@@ -39,6 +39,6 @@ public class TimeoutController extends AbstractBackofficeQalingoController {
 	
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 	}
 }

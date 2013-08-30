@@ -23,13 +23,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_CUSTOMER_ADDRESS")
+@Table(name="TECO_CUSTOMER_CREDENTIAL")
 public class CustomerCredential extends AbstractAddress implements Serializable {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 2501911341288490523L;
+    private static final long serialVersionUID = 3355851476679100735L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

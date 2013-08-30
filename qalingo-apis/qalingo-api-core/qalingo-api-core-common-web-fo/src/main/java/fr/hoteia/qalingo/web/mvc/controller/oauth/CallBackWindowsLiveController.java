@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hoteia.tools.scribe.mapping.oauth.windowslive.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LiveApi;
 import org.scribe.model.OAuthRequest;
@@ -27,13 +28,12 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.tools.scribe.mapping.oauth.windowslive.json.pojo.UserPojo;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 	
 	@RequestMapping("/callback-oauth-windows-live.html*")
 	public ModelAndView callBackWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -72,13 +72,11 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-							urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
+					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(LiveApi.class)
@@ -99,7 +97,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					    String responseBody = oauthResponse.getBody();
 					    
 					    if(responseCode == 200){
-					    	handleAuthenticationData(request, response, currentMarketArea, OAuthType.WINDOWS_LIVE, responseBody);
+					    	handleAuthenticationData(request, response, requestData, OAuthType.WINDOWS_LIVE, responseBody);
 					    } else {
 							LOG.error("Callback With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
 					    }
@@ -116,13 +114,13 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 
 		return null;
 	}
 	
-	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, MarketArea currentMarketArea, OAuthType type, String jsonData) throws Exception {
+	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, RequestData requestData, OAuthType type, String jsonData) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		UserPojo userPojo = null;
 		try {
@@ -191,7 +189,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
 			}
 			
 		}

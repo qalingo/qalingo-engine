@@ -68,7 +68,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
+		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_MARKETING_CODE);
 		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
 		
 		// "business.product.marketing.details";
@@ -85,7 +85,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 		
-		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_MARKETING_CODE);
+		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_MARKETING_CODE);
 		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
 
 		// "business.product.marketing.edit";
@@ -144,7 +144,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 
 		// "business.product.sku.details";
@@ -161,7 +161,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
 		
 		// "business.product.sku.edit";
@@ -230,7 +230,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductMarketing productMarketing) throws Exception {
 		
-		ProductMarketingViewBean productMarketingViewBean = viewBeanFactory.buildProductMarketingViewBean(request, requestUtil.getRequestData(request), productMarketing, true);
+		ProductMarketingViewBean productMarketingViewBean = viewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
 		
 		modelAndView.addObject(Constants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 	}
@@ -241,7 +241,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductSkuModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductSku productSku) throws Exception {
 		
-		ProductSkuViewBean productSkuViewBean = viewBeanFactory.buildProductSkuViewBean(request, requestUtil.getRequestData(request), productSku);
+		ProductSkuViewBean productSkuViewBean = viewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
 		
 		modelAndView.addObject(Constants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
 	}

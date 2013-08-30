@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.ProductBrandService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -34,15 +36,14 @@ public class BrandDetailsController extends AbstractMCommerceController {
 	@Autowired
 	protected ProductBrandService productBrandService;
 	
-	@RequestMapping("/brand-details.html*")
-	public ModelAndView brandDetails(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "catalog/brand-details");
+	@RequestMapping(FoUrls.BRAND_DETAILS_URL)
+	public ModelAndView brandDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
 
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String brandCode = request.getParameter(RequestConstants.REQUEST_PARAM_BRAND_CODE);
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		final ProductBrandViewBean productBrandViewBean = viewBeanFactory.buildProductBrandViewBean(request, requestUtil.getRequestData(request), productBrand);
+		final ProductBrandViewBean productBrandViewBean = viewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
         return modelAndView;

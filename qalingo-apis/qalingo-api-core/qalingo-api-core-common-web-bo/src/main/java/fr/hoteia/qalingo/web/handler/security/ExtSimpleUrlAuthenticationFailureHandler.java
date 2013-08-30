@@ -48,7 +48,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 			throws IOException, ServletException {
 		try {
 			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAM_AUTH_ERROR, "true");
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR, "true");
 			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
 			setDefaultFailureUrl(url);
 	        saveException(request, exception);

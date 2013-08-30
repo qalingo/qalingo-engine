@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 
 	@RequestMapping("/connect-oauth-facebook.html*")
 	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -48,13 +48,11 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 					
-					final String facebookCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+					final String facebookCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(FacebookApi.class)
@@ -77,7 +75,7 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 		
 		return null;

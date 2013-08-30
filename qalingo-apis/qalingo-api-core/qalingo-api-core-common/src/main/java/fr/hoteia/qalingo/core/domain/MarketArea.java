@@ -106,7 +106,7 @@ public class MarketArea implements Serializable {
 	private Set<Localization> localizations = new HashSet<Localization>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.LAZY,
+			fetch = FetchType.EAGER,
 	        targetEntity=fr.hoteia.qalingo.core.domain.Retailer.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

@@ -99,7 +99,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	public ModelAndView ruleDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_DETAILS.getVelocityPage());
 
-		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if(rule != null){
@@ -116,10 +116,10 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	public ModelAndView ruleEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_EDIT.getVelocityPage());
 		
-		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
 		modelAndView.addObject(Constants.RULE_FORM, formFactory.buildRuleForm(request, rule));
 		return modelAndView;
 	}
@@ -128,7 +128,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid RuleForm ruleForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
-		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAM_RULE_CODE);
+		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if (result.hasErrors()) {
@@ -143,7 +143,6 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	}
 
 	private PagedListHolder<RuleViewBean> initList(final HttpServletRequest request, String sessionKey) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		PagedListHolder<RuleViewBean> ruleViewBeanPagedListHolder = new PagedListHolder<RuleViewBean>();
 		
 		final List<RuleViewBean> ruleViewBeans = new ArrayList<RuleViewBean>();
@@ -151,7 +150,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		final List<AbstractRuleReferential> rules = ruleReferentialService.findRuleReferentials();
 		for (Iterator<AbstractRuleReferential> iterator = rules.iterator(); iterator.hasNext();) {
 			AbstractRuleReferential rule = (AbstractRuleReferential) iterator.next();
-			ruleViewBeans.add(viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
+			ruleViewBeans.add(viewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
 		}
 		ruleViewBeanPagedListHolder = new PagedListHolder<RuleViewBean>(ruleViewBeans);
 		ruleViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -163,7 +162,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	protected void initRuleDetailsPage(final HttpServletRequest request, final Model model, 
 											final ModelAndViewThemeDevice modelAndView, final AbstractRuleReferential rule) throws Exception {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(request, requestUtil.getRequestData(request), rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
 	}
 
 }

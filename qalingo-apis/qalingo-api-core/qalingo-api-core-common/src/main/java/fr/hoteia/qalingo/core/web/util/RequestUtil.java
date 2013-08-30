@@ -66,32 +66,32 @@ public interface RequestUtil {
 	/**
 	 *
 	 */
-	DateFormat getFormatDate(HttpServletRequest request, int dateStyle, int timeStyle) throws Exception;
+	DateFormat getFormatDate(RequestData requestData, int dateStyle, int timeStyle) throws Exception;
 	
 	/**
 	 *
 	 */
-	SimpleDateFormat getRssFormatDate(HttpServletRequest request) throws Exception;
+	SimpleDateFormat getRssFormatDate(RequestData requestData) throws Exception;
 	
 	/**
 	 *
 	 */
-	SimpleDateFormat getDataVocabularyFormatDate(HttpServletRequest request) throws Exception;
+	SimpleDateFormat getDataVocabularyFormatDate(RequestData requestData) throws Exception;
 	
 	/**
 	 *
 	 */
-	SimpleDateFormat getAtomFormatDate(HttpServletRequest request) throws Exception;
+	SimpleDateFormat getAtomFormatDate(RequestData requestData) throws Exception;
 	
 	/**
 	 *
 	 */
-	NumberFormat getCartItemPriceNumberFormat(HttpServletRequest request, String currencyCode) throws Exception;
+	NumberFormat getCartItemPriceNumberFormat(RequestData requestData, String currencyCode) throws Exception;
 	
 	/**
 	 *
 	 */
-	NumberFormat getNumberFormat(HttpServletRequest request, String currencyCode, RoundingMode roundingMode, int maximumFractionDigits,
+	NumberFormat getNumberFormat(RequestData requestData, String currencyCode, RoundingMode roundingMode, int maximumFractionDigits,
 			int minimumFractionDigits, int maximumIntegerDigits, int minimumIntegerDigits) throws Exception;
 	/**
      * 

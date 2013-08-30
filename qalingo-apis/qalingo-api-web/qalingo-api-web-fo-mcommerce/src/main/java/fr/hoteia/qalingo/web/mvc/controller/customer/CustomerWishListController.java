@@ -40,31 +40,27 @@ public class CustomerWishListController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.PERSONAL_WISHLIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-wishlist");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_WISHLIST.getVelocityPage());
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerWishlistViewBean customerWishListViewBean = viewBeanFactory.buildCustomerWishlistViewBean(request, requestUtil.getRequestData(request), customer);
+		final CustomerWishlistViewBean customerWishListViewBean = viewBeanFactory.buildCustomerWishlistViewBean(requestUtil.getRequestData(request), customer);
 		model.addAttribute("customerWishList", customerWishListViewBean);
 
         return modelAndView;
 	}
 
-	// TODO : Add to FoUrls
-	@RequestMapping("/remove-from-wishlist.html*")
+	@RequestMapping(FoUrls.WISHLIST_REMOVE_ITEM_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		
-		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
 
 		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
 	}
 	
-	// TODO : Add to FoUrls
-	@RequestMapping("/add-to-wishlist.html*")
+	@RequestMapping(FoUrls.WISHLIST_ADD_PRODUCT_URL)
 	public ModelAndView AddToWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		
-		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		
 		try {
 			webCommerceService.addProductSkuToWishlist(request, skuCode);

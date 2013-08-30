@@ -124,7 +124,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute(ModelConstants.COMMON_VIEW_BEAN)
 	protected CommonViewBean initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildCommonViewBean(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildCommonViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -141,8 +141,8 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute
 	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
 		// HEADER
-		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(request, requestUtil.getRequestData(request)));
-		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(request, requestUtil.getRequestData(request)));
+		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, viewBeanFactory.buildMenuViewBeans(requestUtil.getRequestData(request)));
+		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, viewBeanFactory.buildMorePageMenuViewBeans(requestUtil.getRequestData(request)));
 	}
 	
 	/**
@@ -154,12 +154,12 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		Company company = requestUtil.getCurrentCompany(request);
 		if(company != null){
 			Set<Localization> localizations = company.getLocalizations();
-			return viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), new ArrayList<Localization>(localizations));
+			return viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), new ArrayList<Localization>(localizations));
 		} else {
 			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
 			List<Localization> defaultLocalizations = new ArrayList<Localization>();
 			defaultLocalizations.add(defaultLocalization);
-			return viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), defaultLocalizations);
+			return viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), defaultLocalizations);
 		}
 	}
 	
@@ -169,7 +169,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN)
 	protected List<MarketPlaceViewBean> initAllPlaces(final HttpServletRequest request, final Model model) throws Exception {
 		// ALL MARKETPLACES
-		return viewBeanFactory.buildMarketPlaceViewBeans(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -180,7 +180,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		// MARKETS FOR THE CURRENT MARKETPLACE
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		Set<Market> marketList = currentMarketPlace.getMarkets();
-		return viewBeanFactory.buildMarketViewBeansByMarketPlace(request, requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList));
+		return viewBeanFactory.buildMarketViewBeansByMarketPlace(requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList));
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		// MARKET AREAS FOR THE CURRENT MARKET
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		return viewBeanFactory.buildMarketAreaViewBeansByMarket(request, requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList));
+		return viewBeanFactory.buildMarketAreaViewBeansByMarket(requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList));
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	protected List<LocalizationViewBean> initMarketLocalizations(final HttpServletRequest request, final Model model) throws Exception {
 		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		return viewBeanFactory.buildLocalizationViewBeansByMarketArea(request, requestUtil.getRequestData(request), new ArrayList<Localization>(currentMarketArea.getLocalizations()));
+		return viewBeanFactory.buildLocalizationViewBeansByMarketArea(requestUtil.getRequestData(request), new ArrayList<Localization>(currentMarketArea.getLocalizations()));
 	}
 	
 	/**
@@ -210,7 +210,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	@ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)
 	protected List<RetailerViewBean> initRetailers(final HttpServletRequest request, final Model model) throws Exception {
 		// RETAILERS FOR THE CURRENT MARKET AREA
-		return viewBeanFactory.buildRetailerViewBeans(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildRetailerViewBeans(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN)
 	protected LegalTermsViewBean initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildLegalTermsViewBean(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildLegalTermsViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -226,7 +226,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN)
 	protected List<FooterMenuViewBean> initFooter(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildFooterMenuViewBeans(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildFooterMenuViewBeans(requestUtil.getRequestData(request));
 	}
 	
 	/**

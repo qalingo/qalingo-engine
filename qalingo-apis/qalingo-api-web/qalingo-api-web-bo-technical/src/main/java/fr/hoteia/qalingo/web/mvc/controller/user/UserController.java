@@ -115,7 +115,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 	public ModelAndView userDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_DETAILS.getVelocityPage());
 
-		final String userId = request.getParameter(RequestConstants.REQUEST_PARAM_USER_ID);
+		final String userId = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_ID);
 		if(StringUtils.isNotEmpty(userId)){
 			final User user = userService.getUserById(userId);
 			if(user != null){
@@ -145,11 +145,11 @@ public class UserController extends AbstractTechnicalBackofficeController {
 	public ModelAndView userEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_EDIT.getVelocityPage());
 		
-		final String userId = request.getParameter(RequestConstants.REQUEST_PARAM_USER_ID);
+		final String userId = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_ID);
 		if(StringUtils.isNotEmpty(userId)){
 			final User user = userService.getUserById(userId);
 			if(user != null){
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, requestUtil.getRequestData(request), user));
+				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 
 				formFactory.buildUserForm(request, modelAndView, user);
 				return modelAndView;
@@ -158,7 +158,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 			final Long currentUserId = requestUtil.getCurrentUserId(request);
 			final User user = userService.getUserById(currentUserId.toString());
 			
-			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(request, requestUtil.getRequestData(request), user));
+			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 
 			formFactory.buildUserForm(request, modelAndView, user);
 			return modelAndView;
@@ -198,7 +198,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 		webBackofficeService.updateUser(user, userForm);
 		
 		Map<String, String> urlParams = new HashMap<String, String>();
-		urlParams.put(RequestConstants.REQUEST_PARAM_USER_ID, userId);
+		urlParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, userId);
         return new ModelAndView(new RedirectView(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request), urlParams)));
 	}
 	
@@ -208,12 +208,12 @@ public class UserController extends AbstractTechnicalBackofficeController {
 
 		initLinks(request, modelAndView, locale, user);
 		
-		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, requestUtil.getRequestData(request), user));
+		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 	}
 	
 	protected PagedListHolder<UserViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, final List<User> users,
 			PagedListHolder<UserViewBean> userViewBeanPagedListHolder) throws Exception {
-		List<UserViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(request, requestUtil.getRequestData(request), users);
+		List<UserViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(requestUtil.getRequestData(request), users);
 		userViewBeanPagedListHolder = new PagedListHolder<UserViewBean>(userViewBeans);
 
 		userViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
@@ -239,7 +239,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 			linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.user.details", locale));
 			
 			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAM_USER_ID, user.getId().toString());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, user.getId().toString());
 			linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request), urlParams));
 			customerLinks.add(linkMenuViewBean);
 		}

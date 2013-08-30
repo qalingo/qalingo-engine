@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.openid.Association;
 import fr.hoteia.qalingo.core.service.openid.Endpoint;
 import fr.hoteia.qalingo.core.service.openid.OpenProvider;
 import fr.hoteia.qalingo.core.service.openid.Utils;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -26,15 +26,14 @@ public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeCon
 
 	@RequestMapping("/connect-openid-google-account.html*")
 	public ModelAndView connectGoogle(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
 			try {
-				final String contextValue = requestUtil.getCurrentContextNameValue(request);
-				openIdService.setRealm(urlService.buildDomainePathUrl( currentMarketArea, contextValue));
-				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(requestUtil.getRequestData(request));
-				openIdService.setReturnTo(urlService.buildAbsoluteUrl( currentMarketArea, contextValue, openIdCallBackURL));
+				openIdService.setRealm(urlService.buildDomainePathUrl(requestData));
+				String openIdCallBackURL = urlService.buildOpenIdCallBackUrl(requestData);
+				openIdService.setReturnTo(urlService.buildAbsoluteUrl(requestData, openIdCallBackURL));
 	        
 				Endpoint endpoint = openIdService.lookupEndpoint(OpenProvider.GOOGLE_ACCOUNT.getPropertyKey().toLowerCase());
 	            Association association = openIdService.lookupAssociation(endpoint);
@@ -50,7 +49,7 @@ public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeCon
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 		
 		return null;

@@ -48,15 +48,15 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.REFERENCE_DATAS.getVelocityPage());
 
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();
-		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(request, currencyReferentials);
+		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
 		modelAndView.addObject("currencyReferentials", currencyReferentialViewBeans);
 		
 		List<Localization> localizations = localizationService.findLocalizations();
-		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(request, requestUtil.getRequestData(request), localizations);
+		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
 		modelAndView.addObject("localizations", localizationViewBeans);
 		
 		List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways();
-		List<PaymentGatewayViewBean> paymentGatewayViewBeans = viewBeanFactory.buildPaymentGatewayViewBeans(request, paymentGateways);
+		List<PaymentGatewayViewBean> paymentGatewayViewBeans = viewBeanFactory.buildPaymentGatewayViewBeans(requestUtil.getRequestData(request), paymentGateways);
 		modelAndView.addObject("paymentGateways", paymentGatewayViewBeans);
 		
         return modelAndView;

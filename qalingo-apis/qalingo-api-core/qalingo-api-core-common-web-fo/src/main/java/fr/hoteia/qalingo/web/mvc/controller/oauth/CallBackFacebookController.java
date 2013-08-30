@@ -28,12 +28,12 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 	
 	@RequestMapping("/callback-oauth-facebook.html*")
 	public ModelAndView callBackFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -72,13 +72,11 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-							urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(FacebookApi.class)
@@ -99,7 +97,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 					    String responseBody = oauthResponse.getBody();
 					    
 					    if(responseCode == 200){
-					    	handleAuthenticationData(request, response, currentMarketArea, OAuthType.FACEBOOK, responseBody);
+					    	handleAuthenticationData(request, response, requestData, OAuthType.FACEBOOK, responseBody);
 					    } else {
 							LOG.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 					    }
@@ -116,13 +114,13 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 		
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 
 		return null;
 	}
 	
-	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, MarketArea currentMarketArea, OAuthType type, String jsonData) throws Exception {
+	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, RequestData requestData, OAuthType type, String jsonData) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		UserPojo userPojo = null;
 		try {
@@ -194,7 +192,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
 			}
 			
 		}

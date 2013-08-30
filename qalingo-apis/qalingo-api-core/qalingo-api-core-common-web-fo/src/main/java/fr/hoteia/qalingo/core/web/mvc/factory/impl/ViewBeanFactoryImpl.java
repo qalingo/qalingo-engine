@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,7 +82,7 @@ import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
-import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
+import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
@@ -191,32 +192,32 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CommonViewBean buildCommonViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final CommonViewBean commonViewBean = new CommonViewBean();
 
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		
 		// NO CACHE FOR THIS PART
 
 		final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(request);
 		commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
 
-		commonViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
-		commonViewBean.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
-		commonViewBean.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request)));
-		commonViewBean.setLogoutUrl(urlService.generateUrl(FoUrls.LOGOUT, requestUtil.getRequestData(request)));
-		commonViewBean.setCreateAccountUrl(urlService.buildCustomerCreateAccountUrl(requestUtil.getRequestData(request)));
-		commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
-		commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestUtil.getRequestData(request)));
+		commonViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+		commonViewBean.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
+		commonViewBean.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
+		commonViewBean.setLogoutUrl(urlService.generateUrl(FoUrls.LOGOUT, requestData));
+		commonViewBean.setCreateAccountUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestUtil.getRequestData(request)));
+		commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+		commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
 
-		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(request, marketPlace));
-		commonViewBean.setCurrentMarket(buildMarketViewBean(request, market));
-		commonViewBean.setCurrentMarketArea(buildMarketAreaViewBean(request, marketArea));
-		commonViewBean.setCurrentLocalization(buildLocalizationViewBean(request, requestData, localization));
+		commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(requestData, marketPlace));
+		commonViewBean.setCurrentMarket(buildMarketViewBean(requestData, market));
+		commonViewBean.setCurrentMarketArea(buildMarketAreaViewBean(requestData, marketArea));
+		commonViewBean.setCurrentLocalization(buildLocalizationViewBean(requestData, localization));
 
 		return commonViewBean;
 	}
@@ -224,19 +225,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public HeaderCartViewBean buildHeaderCartViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+	public HeaderCartViewBean buildHeaderCartViewBean(final RequestData requestData) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final Locale locale = localization.getLocale();
 		final HeaderCartViewBean headerCartViewBean = new HeaderCartViewBean();
 
 		// NO CACHE FOR THIS PART
 
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		headerCartViewBean.setCartUrl(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request)));
+		headerCartViewBean.setCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
 		headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
 		if (currentCart.getCartItems().size() == 1) {
 			headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
@@ -253,7 +251,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<MenuViewBean> buildMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public List<MenuViewBean> buildMenuViewBeans(final RequestData requestData) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
@@ -276,7 +275,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			if(currentUrl != null && currentUrl.contains("home.html")){
 				menu.setActive(true);
 			}
-			menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+			menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 			menuViewBeans.add(menu);
 
 			CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId(), retailer.getId());
@@ -287,9 +286,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 						final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
 						menu = new MenuViewBean();
 						final String seoProductCategoryName = productCategory.getI18nName(localeCode);
-						final String seoProductCategoryCode = productCategory.getCode();
 						menu.setName(seoProductCategoryName);
-						menu.setUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(requestUtil.getRequestData(request), seoProductCategoryName, seoProductCategoryCode));
+						menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, productCategory));
 
 						List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
 						if (subProductCategories != null) {
@@ -298,10 +296,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 								final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
 								final MenuViewBean subMenu = new MenuViewBean();
 								final String seoSubProductCategoryName = productCategory.getI18nName(localeCode) + " " + subProductCategory.getI18nName(localeCode);
-								final String seoSubProductCategoryCode = subProductCategory.getCode();
 								subMenu.setName(seoSubProductCategoryName);
-								subMenu.setUrl(urlService.buildProductCategoryUrlAsProductLineUrl(requestUtil.getRequestData(request), seoSubProductCategoryName,
-								        seoSubProductCategoryCode));
+								subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, productCategory));
 								subMenus.add(subMenu);
 							}
 							menu.setSubMenus(subMenus);
@@ -313,7 +309,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			
 			menu = new MenuViewBean();
 			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
-			menu.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestUtil.getRequestData(request)));
+			menu.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestData));
 			menuViewBeans.add(menu);
 
 			menuTopCacheHelper.addToCache(menuTopElementType, menuTopCacheKey, menuViewBeans);
@@ -325,7 +321,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public List<FooterMenuViewBean> buildFooterMenuViewBeans(final RequestData requestData) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		
 		final WebElementType footerMenuElementType = WebElementType.FOOTER_MENU_VIEW_BEAN_LIST;
@@ -374,7 +370,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public FollowUsViewBean buildFollowUsViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public FollowUsViewBean buildFollowUsViewBean(final RequestData requestData) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 
@@ -384,16 +380,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		followUs.setSubmitUrlFullForm(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
 
 		final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
-		followOptions.add(buildFollowOption(request, locale, "facebook"));
-		followOptions.add(buildFollowOption(request, locale, "twitter"));
-		followOptions.add(buildFollowOption(request, locale, "google-plus"));
-		followOptions.add(buildFollowOption(request, locale, "rss"));
+		followOptions.add(buildFollowOption(requestData, locale, "facebook"));
+		followOptions.add(buildFollowOption(requestData, locale, "twitter"));
+		followOptions.add(buildFollowOption(requestData, locale, "google-plus"));
+		followOptions.add(buildFollowOption(requestData, locale, "rss"));
 		followUs.setFollowOptions(followOptions);
 
 		return followUs;
 	}
 
-	public FollowUsOptionViewBean buildFollowOption(final HttpServletRequest request, final Locale locale, String followType) throws Exception {
+	public FollowUsOptionViewBean buildFollowOption(final RequestData requestData, final Locale locale, String followType) throws Exception {
 		String followTypeMessageKey = followType;
 		if (followTypeMessageKey.contains("-")) {
 			// REPLACE DASH BY DOT - DOT WILL BE REPLACE LATER TO GET MESSAGE
@@ -412,7 +408,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public LegalTermsViewBean buildLegalTermsViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public LegalTermsViewBean buildLegalTermsViewBean(final RequestData requestData) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 
@@ -444,7 +440,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public OurCompanyViewBean buildOurCompanyViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public OurCompanyViewBean buildOurCompanyViewBean(final RequestData requestData) throws Exception {
 		final OurCompanyViewBean ourCompany = new OurCompanyViewBean();
 		return ourCompany;
 	}
@@ -452,7 +448,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public FaqViewBean buildFaqViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public FaqViewBean buildFaqViewBean(final RequestData requestData) throws Exception {
 		final FaqViewBean faq = new FaqViewBean();
 		return faq;
 	}
@@ -460,18 +456,17 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public SecurityViewBean buildSecurityViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
-		final MarketArea marketArea = requestData.getMarketArea();
+	public SecurityViewBean buildSecurityViewBean(final RequestData requestData) throws Exception {
 		final SecurityViewBean security = new SecurityViewBean();
 
-		security.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
-		security.setSubmitLoginUrl(urlService.buildSpringSecurityCheckUrl(requestUtil.getRequestData(request)));
-		security.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request)));
+		security.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
+		security.setSubmitLoginUrl(urlService.buildSpringSecurityCheckUrl(requestData));
+		security.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
 
-		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.FACEBOOK.getPropertyKey()));
-		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.WINDOWS_LIVE.getPropertyKey()));
-		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.GOOGLE_CONTACT.getPropertyKey()));
-		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(requestUtil.getRequestData(request), OAuthType.YAHOO.getPropertyKey()));
+		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(requestData, OAuthType.FACEBOOK.getPropertyKey()));
+		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey()));
+		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(requestData, OAuthType.GOOGLE_CONTACT.getPropertyKey()));
+		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(requestData, OAuthType.YAHOO.getPropertyKey()));
 		
 		return security;
 	}
@@ -479,7 +474,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(final RequestData requestData) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
 		final WebElementType retailerElementType = WebElementType.RETAILER_VIEW_BEAN_LIST;
@@ -488,7 +483,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		List<RetailerViewBean> retailerViewBeans = (List<RetailerViewBean>) menuMarketNavigationCacheHelper.getFromCache(retailerElementType, retailerCacheKey);
 		if (retailerViewBeans == null) {
 			final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-			retailerViewBeans = buildRetailerViewBeans(request, requestData, retailers);
+			retailerViewBeans = buildRetailerViewBeans(requestData, retailers);
 			menuMarketNavigationCacheHelper.addToCache(retailerElementType, retailerCacheKey, retailerViewBeans);
 		}
 		return retailerViewBeans;
@@ -497,8 +492,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<RetailerViewBean> buildRetailerViewBeans(final HttpServletRequest request, final RequestData requestData,
-	        final List<Retailer> retailers) throws Exception {
+	public List<RetailerViewBean> buildRetailerViewBeans(final RequestData requestData, final List<Retailer> retailers) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getRetailer();
 		
@@ -507,7 +501,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 			final Retailer retailerIt = (Retailer) iterator.next();
 			final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
-			retailerViewBeans.add(buildRetailerViewBean(request, requestData, reloadedRetailer));
+			retailerViewBeans.add(buildRetailerViewBean(requestData, reloadedRetailer));
 		}
 		return retailerViewBeans;
 	}
@@ -515,28 +509,25 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	// TODO : check currentRetailer
-	public RetailerViewBean buildRetailerViewBean(final HttpServletRequest request, final RequestData requestData, final Retailer currentRetailer) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
+	public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final Locale locale = localization.getLocale();
 
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
 
-		retailerViewBean.setCode(currentRetailer.getCode());
-		retailerViewBean.setName(currentRetailer.getName());
-		retailerViewBean.setDescription(currentRetailer.getDescription());
+		retailerViewBean.setCode(retailer.getCode());
+		retailerViewBean.setName(retailer.getName());
+		retailerViewBean.setDescription(retailer.getDescription());
 
-		retailerViewBean.setOfficialRetailer(currentRetailer.isOfficialRetailer());
-		retailerViewBean.setDefault(currentRetailer.isDefault());
-		retailerViewBean.setBrand(currentRetailer.isBrand());
-		retailerViewBean.setEcommerce(currentRetailer.isEcommerce());
+		retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
+		retailerViewBean.setDefault(retailer.isDefault());
+		retailerViewBean.setBrand(retailer.isBrand());
+		retailerViewBean.setEcommerce(retailer.isEcommerce());
 
-		if (currentRetailer.getAddresses() != null) {
-			RetailerAddress defaultAddress = currentRetailer.getDefaultAddress();
+		if (retailer.getAddresses() != null) {
+			RetailerAddress defaultAddress = retailer.getDefaultAddress();
 			if (defaultAddress != null) {
 				retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
 				retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
@@ -567,28 +558,28 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 		}
 
-		retailerViewBean.setUrl(urlService.buildRetailerDetailsUrl(requestUtil.getRequestData(request), currentRetailer.getName(), currentRetailer.getCode()));
+		retailerViewBean.setUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
 
-		retailerViewBean.setQualityOfService(currentRetailer.getQualityOfService());
-		retailerViewBean.setPriceScore(currentRetailer.getPriceScore());
-		retailerViewBean.setRatioQualityPrice(currentRetailer.getRatioQualityPrice());
+		retailerViewBean.setQualityOfService(retailer.getQualityOfService());
+		retailerViewBean.setPriceScore(retailer.getPriceScore());
+		retailerViewBean.setRatioQualityPrice(retailer.getRatioQualityPrice());
 
 		int reviewCount = retailerViewBean.getComments().size();
 		retailerViewBean.setReviewCount(reviewCount);
 		Object[] reviewCountLabelParams = {reviewCount};
 		retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
-		Set<RetailerCustomerComment> customerComments = currentRetailer.getCustomerComments();
+		Set<RetailerCustomerComment> customerComments = retailer.getCustomerComments();
 		if(customerComments != null){
 			for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
 				RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
 				RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
 				
 				retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestUtil.getRequestData(request), retailerCustomerComment.getCustomer().getPermalink()));
-				retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(request, retailerCustomerComment.getCustomer()));
+				retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, retailerCustomerComment.getCustomer().getPermalink()));
+				retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), retailerCustomerComment.getCustomer()));
 				
-				DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+				DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
 				if (retailerCustomerComment.getDateCreate() != null) {
 					retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
 				} else {
@@ -598,9 +589,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
 				
 				ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
-				reviewDataVocabulary.setItemreviewed(currentRetailer.getName());
+				reviewDataVocabulary.setItemreviewed(retailer.getName());
 				reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
-				DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(request);
+				DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
 				reviewDataVocabulary.setDtreviewed(dateFormat.format(retailerCustomerComment.getDateCreate()));
 //				reviewDataVocabulary.setSummary(summary);
 				reviewDataVocabulary.setDescription(retailerCustomerComment.getComment());
@@ -612,7 +603,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        }
 		}
 
-		Set<RetailerTag> tags = currentRetailer.getRetailerTags();
+		Set<RetailerTag> tags = retailer.getRetailerTags();
 		if(tags != null){
 			for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
 		        RetailerTag retailerTag = (RetailerTag) iterator.next();
@@ -624,11 +615,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	        }
 		}
 		
-		Set<Store> stores = currentRetailer.getStores();
+		Set<Store> stores = retailer.getStores();
 		if(stores != null){
 			for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
 				Store store = (Store) iterator.next();
-				StoreViewBean storeViewBean = buildStoreViewBean(request, requestData, store);
+				StoreViewBean storeViewBean = buildStoreViewBean( requestData, store);
 				retailerViewBean.getStores().add(storeViewBean);
 	        }
 		}
@@ -638,8 +629,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		if(shareOptions != null){
 			for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
 				String shareOption = (String) iterator.next();
-				String relativeUrl = urlService.buildRetailerDetailsUrl(requestUtil.getRequestData(request), retailerViewBean.getName(), retailerViewBean.getCode());
-				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(request, requestData, contextNameValue, shareOption, relativeUrl);
+				String relativeUrl = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer);
+				ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(requestData, shareOption, relativeUrl);
 				retailerViewBean.getShareOptions().add(shareOptionViewBean);
 	        }
 		}
@@ -650,8 +641,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final HttpServletRequest request, final RequestData requestData) throws Exception {
-		final MarketArea marketArea = requestData.getMarketArea();
+	public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final RequestData requestData) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		
 		final WebElementType customerMenuElementType = WebElementType.CUSTOMER_MENU_VIEW_BEAN_LIST;
@@ -664,32 +654,32 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerLinks = new ArrayList<CutomerMenuViewBean>();
 			CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_details_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_address_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_add_address_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_order_list_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_LIST, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_wishlist_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			cutomerMenuViewBean = new CutomerMenuViewBean();
 			cutomerMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.CUSTOMER, "customer_product_comment_label", locale));
-			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestUtil.getRequestData(request)));
+			cutomerMenuViewBean.setUrl(urlService.generateUrl(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST, requestData));
 			customerLinks.add(cutomerMenuViewBean);
 
 			menuCustomerCacheHelper.addToCache(customerMenuElementType, customerMenuCacheKey, customerLinks);
@@ -700,7 +690,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ConditionsViewBean buildConditionsViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public ConditionsViewBean buildConditionsViewBean(final RequestData requestData) throws Exception {
 		final ConditionsViewBean conditions = new ConditionsViewBean();
 
 		return conditions;
@@ -709,7 +699,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final HttpServletRequest request) throws Exception {
+	public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final RequestData requestData) throws Exception {
 		final WebElementType marketPlaceElementType = WebElementType.MARKET_PLACE_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPlacePrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketPlaceCacheKey = marketPlacePrefixCacheKey + "_MARKETPLACE_LIST";
@@ -719,7 +709,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			final List<MarketPlace> marketPlaceList = marketPlaceService.findMarketPlaces();
 			for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
 				final MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
-				marketPlaceViewBeans.add(buildMarketPlaceViewBean(request, marketPlaceNavigation));
+				marketPlaceViewBeans.add(buildMarketPlaceViewBean(requestData, marketPlaceNavigation));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketPlaceElementType, marketPlaceCacheKey, marketPlaceViewBeans);
 		}
@@ -729,7 +719,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public MarketPlaceViewBean buildMarketPlaceViewBean(final HttpServletRequest request, final MarketPlace marketPlace) throws Exception {
+	public MarketPlaceViewBean buildMarketPlaceViewBean(final RequestData requestData, final MarketPlace marketPlace) throws Exception {
 		final Market defaultMarket = marketPlace.getDefaultMarket();
 		final MarketArea defaultMarketArea = defaultMarket.getDefaultMarketArea();
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
@@ -738,15 +728,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		MarketPlaceViewBean marketPlaceViewBean = new MarketPlaceViewBean();
 		marketPlaceViewBean.setName(marketPlace.getName());
 		
-		RequestData RequestData = requestUtil.getRequestData(request);
-		RequestData.setMarket(defaultMarket);
-		RequestData.setMarketArea(defaultMarketArea);
-		RequestData.setLocalization(defaultLocalization);
-		RequestData.setRetailer(defaultRetailer);
+		RequestData newRequestData = new RequestData();
+		BeanUtils.copyProperties(requestData, newRequestData);
+		newRequestData.setMarket(defaultMarket);
+		newRequestData.setMarketArea(defaultMarketArea);
+		newRequestData.setLocalization(defaultLocalization);
+		newRequestData.setRetailer(defaultRetailer);
 		
-		marketPlaceViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, RequestData));
+		marketPlaceViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, newRequestData));
 
-		marketPlaceViewBean.setMarkets(buildMarketViewBeans(request, RequestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
+		marketPlaceViewBean.setMarkets(buildMarketViewBeans(newRequestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 
 		return marketPlaceViewBean;
 	}
@@ -754,7 +745,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<MarketViewBean> buildMarketViewBeans(final HttpServletRequest request, final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
+	public List<MarketViewBean> buildMarketViewBeans(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
 		final WebElementType marketElementType = WebElementType.MARKET_NAVIGATION_VIEW_BEAN_LIST;
 		final String marketPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
 		final String marketCacheKey = marketPrefixCacheKey + "_" + marketPlace.getCode() + "_MARKET_LIST";
@@ -763,7 +754,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			marketViewBeans = new ArrayList<MarketViewBean>();
 			for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
 				final Market marketNavigation = (Market) iteratorMarket.next();
-				marketViewBeans.add(buildMarketViewBean(request, marketNavigation));
+				marketViewBeans.add(buildMarketViewBean(requestData, marketNavigation));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketElementType, marketCacheKey, marketViewBeans);
 		}
@@ -773,7 +764,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public MarketViewBean buildMarketViewBean(final HttpServletRequest request, final Market market) throws Exception {
+	public MarketViewBean buildMarketViewBean(final RequestData requestData, final Market market) throws Exception {
 		final MarketArea defaultMarketArea = market.getDefaultMarketArea();
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
@@ -781,14 +772,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final MarketViewBean marketViewBean = new MarketViewBean();
 		marketViewBean.setName(market.getName());
 		
-		RequestData RequestData = requestUtil.getRequestData(request);
+		RequestData RequestData = requestData;
 		RequestData.setMarketArea(defaultMarketArea);
 		RequestData.setLocalization(defaultLocalization);
 		RequestData.setRetailer(defaultRetailer);
 		
 		marketViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, RequestData));
 
-		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(request, market, new ArrayList<MarketArea>(market.getMarketAreas())));
+		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 
 		return marketViewBean;
 	}
@@ -796,7 +787,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final HttpServletRequest request, final Market market, final List<MarketArea> marketAreas)
+	public List<MarketAreaViewBean> buildMarketAreaViewBeans(final RequestData requestData, final Market market, final List<MarketArea> marketAreas)
 	        throws Exception {
 		final WebElementType marketAreaElementType = WebElementType.MARKET_AREA_VIEW_BEAN_LIST;
 		final String marketAreaPrefixCacheKey = menuMarketNavigationCacheHelper.buildGlobalPrefixKey();
@@ -806,7 +797,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
 			for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
 				final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-				marketAreaViewBeans.add(buildMarketAreaViewBean(request, marketArea));
+				marketAreaViewBeans.add(buildMarketAreaViewBean(requestData, marketArea));
 			}
 			menuMarketNavigationCacheHelper.addToCache(marketAreaElementType, marketAreaCacheKey, marketAreaViewBeans);
 		}
@@ -816,8 +807,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public MarketAreaViewBean buildMarketAreaViewBean(final HttpServletRequest request, final MarketArea marketArea) throws Exception {
-		final Market market = marketArea.getMarket();
+	public MarketAreaViewBean buildMarketAreaViewBean(final RequestData requestData, final MarketArea marketArea) throws Exception {
 		final Localization defaultLocalization = marketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = marketArea.getDefaultRetailer();
 
@@ -826,7 +816,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		marketAreaViewBean.setDescription(marketArea.getDescription());
 		marketAreaViewBean.setCode(marketArea.getCode());
 		
-		RequestData RequestData = requestUtil.getRequestData(request);
+		RequestData RequestData = requestData;
 		RequestData.setLocalization(defaultLocalization);
 		RequestData.setRetailer(defaultRetailer);
 		
@@ -839,7 +829,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(final HttpServletRequest request, final RequestData requestData, final Localization currentLocalization) throws Exception {
+	public List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(final RequestData requestData, final Localization currentLocalization) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		
 		final WebElementType localizationElementType = WebElementType.LOCALIZATION_VIEW_BEAN_LIST;
@@ -851,7 +841,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			localizationViewBeans = new ArrayList<LocalizationViewBean>();
 			for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
 				final Localization localizationAvailable = (Localization) iterator.next();
-				localizationViewBeans.add(buildLocalizationViewBean(request, requestData, localizationAvailable));
+				localizationViewBeans.add(buildLocalizationViewBean(requestData, localizationAvailable));
 			}
 			menuMarketNavigationCacheHelper.addToCache(localizationElementType, localizationCacheKey, localizationViewBeans);
 		}
@@ -868,13 +858,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public LocalizationViewBean buildLocalizationViewBean(final HttpServletRequest request, final RequestData requestData, final Localization localization) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+	public LocalizationViewBean buildLocalizationViewBean(final RequestData requestData, final Localization localization) throws Exception {
 		final Localization currentLocalization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
-		
 		final Locale locale = localization.getLocale();
 		final String localeCodeNavigation = localization.getCode();
 
@@ -887,7 +872,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 
-		localizationViewBean.setUrl(urlService.buildChangeLanguageUrl(requestUtil.getRequestData(request)));
+		localizationViewBean.setUrl(urlService.generateUrl(FoUrls.CHANGE_LANGUAGE, requestData));
 		if (localization.getCode().equals(currentLocalization.getCode())) {
 			localizationViewBean.setActive(true);
 		}
@@ -897,7 +882,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public StoreLocatorViewBean buildStoreLocatorViewBean(final HttpServletRequest request, final RequestData requestData, final List<Store> stores) throws Exception {
+	public StoreLocatorViewBean buildStoreLocatorViewBean(final RequestData requestData, final List<Store> stores) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		
 		final WebElementType storeLocatorElementType = WebElementType.STORE_VIEW_BEAN_LIST;
@@ -911,7 +896,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			storeLocator.setTextHtml(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "content.text", locale));
 			for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
 				final Store store = (Store) iterator.next();
-				storeLocator.getStores().add(buildStoreViewBean(request, requestData, store));
+				storeLocator.getStores().add(buildStoreViewBean(requestData, store));
 			}
 			storeLocatorCacheHelper.addToCache(storeLocatorElementType, storeLocatorCacheKey, storeLocator);
 		}
@@ -921,7 +906,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public StoreViewBean buildStoreViewBean(final HttpServletRequest request, final RequestData requestData, final Store store) throws Exception {
+	public StoreViewBean buildStoreViewBean(final RequestData requestData, final Store store) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		
 		final StoreViewBean storeLocator = new StoreViewBean();
@@ -947,9 +932,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ShareOptionViewBean buildShareOptionViewBean(final HttpServletRequest request, final RequestData requestData, final String contextNameValue, 
-														final String shareOption, final String relativeUrl ) throws Exception {
-		final MarketArea marketArea = requestData.getMarketArea();
+	public ShareOptionViewBean buildShareOptionViewBean(final RequestData requestData, final String shareOption, final String relativeUrl ) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		
@@ -972,7 +955,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		shareOptionViewBean.setLinkColor(shareOptionColor);
 		shareOptionViewBean.setLinkLabel(getSpecificMessage(ScopeWebMessage.SHARE_OPTION, "label_" + shareOptionCode.toLowerCase(), locale));
 		
-		String absoluteUrl = urlService.buildAbsoluteUrl(marketArea, contextNameValue, relativeUrl);
+		String absoluteUrl = urlService.buildAbsoluteUrl(requestData, relativeUrl);
 		String addThisUrl = urlService.buildAddThisUrl(shareOption, absoluteUrl);
 
 		shareOptionViewBean.setUrl(addThisUrl);
@@ -983,7 +966,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerViewBean buildCustomerViewBean(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+	public CustomerViewBean buildCustomerViewBean(final RequestData requestData, final Customer customer) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
 		
 		final Locale locale = localization.getLocale();
@@ -994,7 +978,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			customerViewBean.setLastname(customer.getLastname());
 			customerViewBean.setEmail(customer.getEmail());
 
-			DateFormat dateFormat = requestUtil.getFormatDate(request, DateFormat.MEDIUM, DateFormat.MEDIUM);
+			DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
 			if (customer.getDateCreate() != null) {
 				customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
 			} else {
@@ -1029,7 +1013,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerWishlistViewBean buildCustomerWishlistViewBean(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+	public CustomerWishlistViewBean buildCustomerWishlistViewBean(final RequestData requestData, final Customer customer) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getRetailer();
 		
@@ -1044,7 +1028,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
 					final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerWishlistViewBean.getProductSkus().add(
-					        buildProductSkuViewBean(request, requestData, productCategory, productMarketing, productSku));
+					        buildProductSkuViewBean(requestData, productCategory, productMarketing, productSku));
 				}
 			}
 		}
@@ -1055,7 +1039,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+	public CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(final RequestData requestData, final Customer customer) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getRetailer();
 		
@@ -1070,7 +1054,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 					final ProductMarketing productMarketing = productSku.getProductMarketing();
 					final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 					customerProductCommentsViewBean.getCustomerProductCommentViewBeans()
-					        .add(buildCustomerProductCommentViewBean(request, requestData, productCategory, productMarketing, productSku, customerProductComment));
+					        .add(buildCustomerProductCommentViewBean(requestData, productCategory, productMarketing, productSku, customerProductComment));
 				}
 			}
 		}
@@ -1080,10 +1064,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerProductCommentViewBean buildCustomerProductCommentViewBean(final HttpServletRequest request, final RequestData requestData, final CatalogCategoryVirtual productCategory, 
+	public CustomerProductCommentViewBean buildCustomerProductCommentViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory, 
 			final ProductMarketing productMarketing, final ProductSku productSku, final CustomerProductComment customerProductComment) throws Exception {
 		final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
-		customerProductCommentViewBean.setProductSku(buildProductSkuViewBean(request, requestData, productCategory, productMarketing, productSku));
+		customerProductCommentViewBean.setProductSku(buildProductSkuViewBean(requestData, productCategory, productMarketing, productSku));
 		customerProductCommentViewBean.setComment(customerProductComment.getComment());
 		return customerProductCommentViewBean;
 	}
@@ -1091,14 +1075,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerAddressListViewBean buildCustomerAddressListViewBean(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+	public CustomerAddressListViewBean buildCustomerAddressListViewBean(final RequestData requestData, final Customer customer) throws Exception {
 		final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
-		customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+		customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 
 		Set<CustomerAddress> addresses = customer.getAddresses();
 		for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
 			CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-			customerAddressListViewBean.getCustomerAddressList().add(buildCustomeAddressViewBean(request, requestData, customerAddress));
+			customerAddressListViewBean.getCustomerAddressList().add(buildCustomeAddressViewBean(requestData, customerAddress));
 		}
 
 		return customerAddressListViewBean;
@@ -1107,8 +1091,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public CustomerAddressViewBean buildCustomeAddressViewBean(final HttpServletRequest request, final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
-		final MarketArea marketArea = requestData.getMarketArea();
+	public CustomerAddressViewBean buildCustomeAddressViewBean(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
@@ -1146,10 +1129,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		Long customerAddressId = customerAddress.getId();
 
 		Map<String, String> urlParams = new HashMap<String, String>();
-		urlParams.put(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID, customerAddressId.toString());
+		urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID, customerAddressId.toString());
 		
-		customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestUtil.getRequestData(request), urlParams));
-		customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request), urlParams));
+		customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
+		customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
 
 		return customerAddressViewBean;
 	}
@@ -1157,7 +1140,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductBrandViewBean buildProductBrandViewBean(final HttpServletRequest request, final RequestData requestData, final ProductBrand productBrand) throws Exception {
+	public ProductBrandViewBean buildProductBrandViewBean(final RequestData requestData, final ProductBrand productBrand) throws Exception {
 		final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
 		productBrandViewBean.setName(productBrand.getName());
 		productBrandViewBean.setDescription(productBrand.getDescription());
@@ -1167,16 +1150,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductBrandViewBean buildProductBrandViewBean(final HttpServletRequest request, final RequestData requestData, final ProductBrand productBrand, 
+	public ProductBrandViewBean buildProductBrandViewBean(final RequestData requestData, final ProductBrand productBrand, 
 														  final List<ProductMarketing> productMarketings) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getRetailer();
 		
-		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(request, requestData, productBrand);
+		final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
 		for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
 			final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
 			CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
-			productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(request, requestData, productCategory, productMarketing));
+			productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, productCategory, productMarketing));
 		}
 		return productBrandViewBean;
 	}
@@ -1184,20 +1167,17 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductCategoryViewBean buildMasterProductCategoryViewBean(final HttpServletRequest request, final RequestData requestData, final CatalogCategoryVirtual productCategory) throws Exception {
-		final ProductCategoryViewBean productCategoryViewBean = buildProductCategoryViewBean(request, requestData, productCategory);
+	public ProductCategoryViewBean buildMasterProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory) throws Exception {
+		final ProductCategoryViewBean productCategoryViewBean = buildProductCategoryViewBean(requestData, productCategory);
 		return productCategoryViewBean;
 	}
 
 	/**
      * 
      */
-	public ProductCategoryViewBean buildProductCategoryViewBean(final HttpServletRequest request, final RequestData requestData, final CatalogCategoryVirtual productCategory) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+	public ProductCategoryViewBean buildProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		
 		final String localeCode = localization.getCode();
 		final ProductCategoryViewBean productCategoryViewBean = new ProductCategoryViewBean();
@@ -1228,12 +1208,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			productCategoryViewBean.setIconImage("");
 		}
 
-		final String categoryName = productCategory.getI18nName(localeCode);
-		final String categoryCode = productCategory.getCode();
 		if (productCategory.isRoot()) {
-			productCategoryViewBean.setProductAxeUrl(urlService.buildProductCategoryUrlAsProductAxeUrl(requestUtil.getRequestData(request), categoryName, categoryCode));
+			productCategoryViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, productCategory));
 		} else {
-			productCategoryViewBean.setProductLineUrl(urlService.buildProductCategoryUrlAsProductLineUrl(requestUtil.getRequestData(request), categoryName, categoryCode));
+			productCategoryViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, productCategory));
 		}
 
 		List<ProductCategoryViewBean> subProductCategoryViewBeans = new ArrayList<ProductCategoryViewBean>();
@@ -1241,7 +1219,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		if (subCategories != null) {
 			for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
 				final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
-				subProductCategoryViewBeans.add(buildProductCategoryViewBean(request, requestData, subProductCategory));
+				subProductCategoryViewBeans.add(buildProductCategoryViewBean(requestData, subProductCategory));
 			}
 		}
 		productCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
@@ -1251,7 +1229,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		if (productMarketings != null) {
 			for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
 				final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
-				productMarketingViewBeans.add(buildProductMarketingViewBean(request, requestData, productCategory, productMarketing));
+				productMarketingViewBeans.add(buildProductMarketingViewBean(requestData, productCategory, productMarketing));
 			}
 		}
 		productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
@@ -1262,13 +1240,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductMarketingViewBean buildProductMarketingViewBean(final HttpServletRequest request, RequestData requestData, final CatalogCategoryVirtual productCategory, 
+	public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory, 
 																  final ProductMarketing productMarketing) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final String localeCode = localization.getCode();
 		final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
 
@@ -1297,26 +1272,19 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			productMarketingViewBean.setIconImage("");
 		}
 
-		final String categoryName = productCategory.getI18nName(localeCode);
-		final String categoryCode = productCategory.getCode();
-		final String productName = productMarketing.getI18nName(localeCode);
-		final String productCode = productMarketing.getCode();
-		productMarketingViewBean.setProductDetailsUrl(urlService
-		        .buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
+		productMarketingViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
 		final ProductBrand productBrand = productMarketing.getProductBrand();
 		if (productBrand != null) {
-			final String brandName = productBrand.getName();
-			final String brandCode = productBrand.getCode();
-			productMarketingViewBean.setBrandDetailsUrl(urlService.buildProductBrandDetailsUrlAsProductAxeUrl(requestUtil.getRequestData(request), brandName, brandCode));
-			productMarketingViewBean.setBrandLineDetailsUrl(urlService.buildProductBrandLineUrlAsProductAxeUrl(requestUtil.getRequestData(request), brandName, brandCode));
+			productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestUtil.getRequestData(request), productBrand));
+			productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestUtil.getRequestData(request), productBrand));
 		}
 
 		Set<ProductSku> skus = productMarketing.getProductSkus();
 		if (skus != null) {
 			for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
 				final ProductSku productSku = (ProductSku) iterator.next();
-				productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(request, requestData, productCategory, productMarketing, productSku));
+				productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, productCategory, productMarketing, productSku));
 			}
 		}
 
@@ -1326,7 +1294,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				final ProductAssociationLink productCrossLink = (ProductAssociationLink) iterator.next();
 				if (productCrossLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
 					productMarketingViewBean.getProductCrossLinks().add(
-					        buildProductCrossLinkViewBean(request, requestData, productCategory, productMarketing));
+					        buildProductCrossLinkViewBean(requestData, productCategory, productMarketing));
 				}
 			}
 		}
@@ -1338,36 +1306,33 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	 * @throws Exception
 	 * 
 	 */
-	public CartViewBean buildCartViewBean(final HttpServletRequest request, final RequestData requestData, final Cart cart) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
+	public CartViewBean buildCartViewBean(final RequestData requestData, final Cart cart) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final Locale locale = localization.getLocale();
 
 		final CartViewBean cartViewBean = new CartViewBean();
 
-		cartViewBean.setCartDetailsUrl(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request)));
-		cartViewBean.setCartAuthUrl(urlService.buildCartAuthUrl(requestUtil.getRequestData(request)));
-		cartViewBean.setCartDeliveryAndOrderDetailsUrl(urlService.buildCartDeliveryAndOrderDetailsUrl(requestUtil.getRequestData(request)));
-		cartViewBean.setCartOrderPaymentUrl(urlService.buildCartOrderPaymentUrl(requestUtil.getRequestData(request)));
-		cartViewBean.setCartOrderConfirmationUrl(urlService.buildCartOrderConfirmationUrl(requestUtil.getRequestData(request)));
+		cartViewBean.setCartDetailsUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+		cartViewBean.setCartAuthUrl(urlService.generateUrl(FoUrls.CART_AUTH, requestData));
+		cartViewBean.setCartDeliveryAndOrderDetailsUrl(urlService.generateUrl(FoUrls.CART_DELIVERY, requestData));
+		cartViewBean.setCartOrderPaymentUrl(urlService.generateUrl(FoUrls.CART_ORDER_PAYMENT, requestData));
+		cartViewBean.setCartOrderConfirmationUrl(urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestData));
 
-		cartViewBean.setAddNewAddressUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestUtil.getRequestData(request)));
+		cartViewBean.setAddNewAddressUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
 
 		// ITEMS PART
 		List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
 		Set<CartItem> cartItems = cart.getCartItems();
 		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
 			final CartItem cartItem = (CartItem) iterator.next();
-			cartItemViewBeans.add(buildCartItemViewBean(request, requestData, cartItem));
+			cartItemViewBeans.add(buildCartItemViewBean(requestData, cartItem));
 		}
 		cartViewBean.setCartItems(cartItemViewBeans);
 
 		// SUB PART : Subtotal
 		final String currencyCode = marketArea.getCurrency().getCode();
-		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
 		BigDecimal cartItemsTotal = new BigDecimal("0");
 		BigDecimal cartShippingTotal = new BigDecimal("0");
 		BigDecimal cartFeesTotal = new BigDecimal("0");
@@ -1429,12 +1394,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	private CartItemViewBean buildCartItemViewBean(final HttpServletRequest request, final RequestData requestData, final CartItem cartItem) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
+	private CartItemViewBean buildCartItemViewBean(final RequestData requestData, final CartItem cartItem) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final String localizationCode = localization.getCode();
 
 		final CartItemViewBean cartItemViewBean = new CartItemViewBean();
@@ -1444,7 +1406,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		cartItemViewBean.setQuantity(cartItem.getQuantity());
 
 		final String currencyCode = marketArea.getCurrency().getCode();
-		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
 		final BigDecimal price = cartItem.getPrice();
 		if (price != null) {
 			cartItemViewBean.setPrice(formatter.format(price));
@@ -1454,7 +1416,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
 		}
 
-		cartItemViewBean.setDeleteUrl(urlService.buildProductRemoveFromCartUrl(requestUtil.getRequestData(request), cartItem.getProductSkuCode()));
+		cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, cartItem));
 
 		return cartItemViewBean;
 	}
@@ -1462,11 +1424,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<OrderViewBean> buildOrderViewBeans(final HttpServletRequest request, final RequestData requestData, final List<Order> orders) throws Exception {
+	public List<OrderViewBean> buildOrderViewBeans(final RequestData requestData, final List<Order> orders) throws Exception {
 		final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
 		for (Iterator<Order> iterator = orders.iterator(); iterator.hasNext();) {
 			Order order = (Order) iterator.next();
-			orderViewBeans.add(buildOrderViewBean(request, requestData, order));
+			orderViewBeans.add(buildOrderViewBean(requestData, order));
 		}
 		return orderViewBeans;
 	}
@@ -1474,7 +1436,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public OrderViewBean buildOrderViewBean(final HttpServletRequest request, final RequestData requestData, final Order order) throws Exception {
+	public OrderViewBean buildOrderViewBean(final RequestData requestData, final Order order) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
@@ -1486,13 +1448,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Set<OrderItem> orderItems = order.getOrderItems();
 		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
 			OrderItem orderItem = (OrderItem) iterator.next();
-			orderItemViewBeans.add(buildOrderItemViewBean(request, requestData, orderItem));
+			orderItemViewBeans.add(buildOrderItemViewBean(requestData, orderItem));
 		}
 		orderViewBean.setOrderItems(orderItemViewBeans);
 
 		// SUB PART : Subtotal
 		final String currencyCode = marketArea.getCurrency().getCode();
-		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
 		BigDecimal orderItemsTotal = new BigDecimal("0");
 		BigDecimal orderShippingTotal = new BigDecimal("0");
 		BigDecimal orderFeesTotal = new BigDecimal("0");
@@ -1553,9 +1515,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		// "order.confirmation.message", params, locale));
 		
 		Map<String, String> urlParams = new HashMap<String, String>();
-		urlParams.put(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID, orderId.toString());
+		urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, orderId.toString());
 
-		orderViewBean.setOrderDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestUtil.getRequestData(request), urlParams));
+		orderViewBean.setOrderDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, urlParams));
 
 		return orderViewBean;
 	}
@@ -1563,7 +1525,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public OrderItemViewBean buildOrderItemViewBean(final HttpServletRequest request, final RequestData requestData, final OrderItem orderItem) throws Exception {
+	public OrderItemViewBean buildOrderItemViewBean(final RequestData requestData, final OrderItem orderItem) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
 		final String localeCode = localization.getCode();
@@ -1574,7 +1536,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		orderItemViewBean.setName(orderItem.getProductSku().getI18nName(localeCode));
 
 		String currencyCode = marketArea.getCurrency().getCode();
-		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(request, currencyCode);
+		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
 		final BigDecimal price = orderItem.getPrice();
 		if (price != null) {
 			orderItemViewBean.setPrice(formatter.format(price));
@@ -1592,12 +1554,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductCrossLinkViewBean buildProductCrossLinkViewBean(final HttpServletRequest request, final RequestData requestData, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+	public ProductCrossLinkViewBean buildProductCrossLinkViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing) throws Exception {
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final String localeCode = localization.getCode();
 		final ProductCrossLinkViewBean productCrossLinkViewBean = new ProductCrossLinkViewBean();
 
@@ -1628,12 +1587,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			productCrossLinkViewBean.setIconImage("");
 		}
 
-		final String categoryName = productCategory.getI18nName(localeCode);
-		final String categoryCode = productCategory.getCode();
-		final String productName = productMarketing.getI18nName(localeCode);
-		final String productCode = productMarketing.getCode();
-		productCrossLinkViewBean.setProductDetailsUrl(urlService
-		        .buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
+		productCrossLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
 		return productCrossLinkViewBean;
 	}
@@ -1641,13 +1595,10 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public ProductSkuViewBean buildProductSkuViewBean(final HttpServletRequest request, final RequestData requestData, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku)
+	public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory, final ProductMarketing productMarketing, final ProductSku productSku)
 	        throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
+		final HttpServletRequest request = requestData.getRequest();
 		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
 		final String localeCode = localization.getCode();
 		final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
@@ -1676,20 +1627,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			productSkuViewBean.setIconImage("");
 		}
 
-		final String categoryName = productCategory.getI18nName(localeCode);
-		final String categoryCode = productCategory.getCode();
-		final String productName = productMarketing.getI18nName(localeCode);
-		final String productCode = productMarketing.getCode();
-		final String productSkuName = productSku.getI18nName(localeCode);
-		final String productSkuCode = productSku.getCode();
-		productSkuViewBean.setProductDetailsUrl(urlService.buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode));
-
-		productSkuViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName, productCode,
-		        productSkuName, productSkuCode));
-		productSkuViewBean.setRemoveFromCartUrl(urlService.buildProductRemoveFromCartUrl(requestUtil.getRequestData(request), productSkuCode));
-		productSkuViewBean.setAddToWishlistUrl(urlService.buildProductAddToWishlistUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
-		        productCode, productSkuName, productSkuCode));
-		productSkuViewBean.setRemoveFromWishlistUrl(urlService.buildProductRemoveFromWishlistUrl(requestUtil.getRequestData(request), productSkuCode));
+		productSkuViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productSku));
+		
+		productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, productCategory, productMarketing, productSku));
+		productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, productSku));
+		
+		productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, productCategory, productMarketing, productSku));
+		productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, productSku));
 
 		return productSkuViewBean;
 	}
@@ -1699,7 +1643,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public SearchViewBean buildSearchViewBean(final HttpServletRequest request, final RequestData requestData) throws Exception {
+	public SearchViewBean buildSearchViewBean(final RequestData requestData) throws Exception {
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 
@@ -1712,13 +1656,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<SearchProductItemViewBean> buildSearchProductItemViewBeans(final HttpServletRequest request, final RequestData requestData, 
+	public List<SearchProductItemViewBean> buildSearchProductItemViewBeans(final RequestData requestData, 
 																		   final ProductResponseBean productResponseBean) throws Exception {
 		final List<SearchProductItemViewBean> searchProductItems = new ArrayList<SearchProductItemViewBean>();
-		List<ProductSolr> products = productResponseBean.getProductSolrList();
-		for (Iterator<ProductSolr> iterator = products.iterator(); iterator.hasNext();) {
-			ProductSolr productSolr = (ProductSolr) iterator.next();
-			searchProductItems.add(buildSearchProductItemViewBean(request, requestData, productSolr));
+		List<ProductSkuSolr> productSkus = productResponseBean.getProductSolrList();
+		for (Iterator<ProductSkuSolr> iterator = productSkus.iterator(); iterator.hasNext();) {
+			ProductSkuSolr productSkuSolr = (ProductSkuSolr) iterator.next();
+			searchProductItems.add(buildSearchProductItemViewBean(requestData, productSkuSolr));
 		}
 		return searchProductItems;
 	}
@@ -1726,33 +1670,29 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public SearchProductItemViewBean buildSearchProductItemViewBean(final HttpServletRequest request, final RequestData requestData, final ProductSolr productSolr) throws Exception {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
+	public SearchProductItemViewBean buildSearchProductItemViewBean(final RequestData requestData, final ProductSkuSolr productSkuSolr) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
 		final Retailer retailer = requestData.getRetailer();
 		final String localeCode = localization.getCode();
 
-		final String productCode = productSolr.getCode();
-		ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productCode);
+		final String productSkuCode = productSkuSolr.getCode();
+		final ProductSku productSku = productSkuService.getProductSkuByCode(marketArea.getId(), retailer.getId(), productSkuCode);
+		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productSku.getProductMarketing().getCode());
+		final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 
 		final String productName = productMarketing.getCode();
-		final CatalogCategoryVirtual productCategory = productCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
 		final String categoryName = productCategory.getI18nName(localeCode);
 		final String categoryCode = productCategory.getCode();
 		final String productSkuName = productMarketing.getDefaultProductSku().getI18nName(localeCode);
-		final String productSkuCode = productMarketing.getDefaultProductSku().getCode();
 
 		final SearchProductItemViewBean searchProductItemViewBean = new SearchProductItemViewBean();
-		searchProductItemViewBean.setName(productMarketing.getI18nName(localeCode));
+		searchProductItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
 		searchProductItemViewBean.setDescription(productMarketing.getDescription());
-		searchProductItemViewBean.setCode(productCode);
+		searchProductItemViewBean.setCode(productSkuCode);
 
-		searchProductItemViewBean.setProductDetailsUrl(urlService.buildProductUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
-		        productCode));
-		searchProductItemViewBean.setAddToCartUrl(urlService.buildProductAddToCartUrl(requestUtil.getRequestData(request), categoryName, categoryCode, productName,
-		        productCode, productSkuName, productSkuCode));
+		searchProductItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productSku));
+		searchProductItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, productCategory, productMarketing, productSku));
 
 		return searchProductItemViewBean;
 	}
@@ -1760,12 +1700,12 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public List<SearchFacetViewBean> buildSearchFacetViewBeans(final HttpServletRequest request, final ProductResponseBean productResponseBean) throws Exception {
+	public List<SearchFacetViewBean> buildSearchFacetViewBeans(final RequestData requestData, final ProductResponseBean productResponseBean) throws Exception {
 		final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
 		List<FacetField> productFacetFields = productResponseBean.getProductSolrFacetFieldList();
 		for (Iterator<FacetField> iterator = productFacetFields.iterator(); iterator.hasNext();) {
 			FacetField facetField = (FacetField) iterator.next();
-			searchFacetViewBeans.add(buildSearchFacetViewBean(request, facetField));
+			searchFacetViewBeans.add(buildSearchFacetViewBean(requestData, facetField));
 		}
 		return searchFacetViewBeans;
 	}
@@ -1773,7 +1713,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 	/**
      * 
      */
-	public SearchFacetViewBean buildSearchFacetViewBean(final HttpServletRequest request, final FacetField facetField) throws Exception {
+	public SearchFacetViewBean buildSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
 		final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 		searchFacetViewBean.setName(facetField.getName());
 		List<String> values = new ArrayList<String>();

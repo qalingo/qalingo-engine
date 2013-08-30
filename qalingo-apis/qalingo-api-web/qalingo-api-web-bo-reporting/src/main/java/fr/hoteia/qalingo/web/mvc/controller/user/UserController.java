@@ -105,7 +105,7 @@ public class UserController extends AbstractReportingBackofficeController {
 	}
 
 	protected void initUserDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final User user) throws Exception{
-		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(request, requestUtil.getRequestData(request), user));
+		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 	}
     
 }

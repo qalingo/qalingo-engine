@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.FoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -72,7 +72,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
 	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		return urlService.buildSearchUrl(requestUtil.getRequestData(request));
+		return urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request));
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute("followUs")
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(request, requestUtil.getRequestData(request));
+		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
 		return followUs;
 	}
 	
@@ -90,10 +90,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 */
 	@ModelAttribute("xrdsUrl")
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		String xrdsURL = urlService.buildXrdsUrl(requestUtil.getRequestData(request));
-		String contextValue = requestUtil.getCurrentContextNameValue(request);
-		String fullXrdsURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, xrdsURL);
+		String xrdsURL = urlService.generateUrl(FoUrls.XRDS, requestUtil.getRequestData(request));
+		String fullXrdsURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
 		return fullXrdsURL;
 	}
 	

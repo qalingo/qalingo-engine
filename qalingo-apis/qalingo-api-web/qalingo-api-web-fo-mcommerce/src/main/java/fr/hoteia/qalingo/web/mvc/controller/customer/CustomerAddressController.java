@@ -54,10 +54,10 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.PERSONAL_ADDRESS_LIST_URL)
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-address-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADDRESS_LIST.getVelocityPage());
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, requestUtil.getRequestData(request), customer);
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), customer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 
         return modelAndView;
@@ -65,7 +65,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.PERSONAL_DELETE_ADDRESS_URL)
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
-		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
 		
 		try {
 			webCommerceService.deleteAddressCustomer(request, customerAddressId);
@@ -80,10 +80,10 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-add-address-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADD_ADDRESS.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, requestUtil.getRequestData(request), currentCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), currentCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
         return modelAndView;
@@ -95,8 +95,6 @@ public class CustomerAddressController extends AbstractCustomerController {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 
-		// "customer.add.address";
-		
 		if (result.hasErrors()) {
 			return displayCustomerAddAddress(request, model, customerAddressForm);
 		}
@@ -110,15 +108,15 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-address-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT_ADDRESS.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(request, requestUtil.getRequestData(request), currentCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), currentCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
 
-		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ADDRESS_ID);
+		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
 		if(StringUtils.isEmpty(customerAddressId)){
 			customerAddressId = customerAddressForm.getIdOrGuid();
 		}
@@ -155,8 +153,6 @@ public class CustomerAddressController extends AbstractCustomerController {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 
-		// "customer.edit.address";
-		
 		if (result.hasErrors()) {
 			return displayCustomerEditAddress(request, model, customerAddressForm);
 		}

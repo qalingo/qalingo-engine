@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
@@ -41,7 +39,7 @@ public class LogoutController extends AbstractBackofficeQalingoController {
 	
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildSecurityViewBean(request, requestUtil.getRequestData(request));
+		return viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 	}
 	
 }

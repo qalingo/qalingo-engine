@@ -98,7 +98,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	public ModelAndView shippingDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_DETAILS.getVelocityPage());
 
-		final String currentShippingCode = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingById(currentShippingCode);
 		
 		if(shipping != null){
@@ -115,10 +115,10 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	public ModelAndView shippingEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_EDIT.getVelocityPage());
 		
-		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), shipping));
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(requestUtil.getRequestData(request), shipping));
 		modelAndView.addObject(Constants.SHIPPING_FORM, formFactory.buildShippingForm(request, shipping));
 		return modelAndView;
 	}
@@ -127,7 +127,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	public ModelAndView submitShippingEdit(final HttpServletRequest request, final Model model, @Valid ShippingForm shippingForm,
 								BindingResult result) throws Exception {
 		
-		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAM_SHIPPING_CODE);
+		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
 		if (result.hasErrors()) {
@@ -150,7 +150,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		final List<Shipping> shippings = shippingService.findShippings();
 		for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
 			Shipping shipping = (Shipping) iterator.next();
-			shippingViewBeans.add(viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), shipping));
+			shippingViewBeans.add(viewBeanFactory.buildShippingViewBean(requestUtil.getRequestData(request), shipping));
 		}
 		shippingViewBeanPagedListHolder = new PagedListHolder<ShippingViewBean>(shippingViewBeans);
 		shippingViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -160,7 +160,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initShippingDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(request, requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(requestUtil.getRequestData(request), user));
 	}
 
 }

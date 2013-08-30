@@ -12,7 +12,6 @@ package fr.hoteia.qalingo.web.mvc.controller;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,6 @@ import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.FoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
-import fr.hoteia.qalingo.core.service.UrlService;
-import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 
 /**
@@ -66,7 +63,7 @@ public class HomeController extends AbstractPrehomeController {
 	@ModelAttribute
 	protected void initMarketPlaces(final HttpServletRequest request, final Model model) throws Exception {
 		// Markets
-		model.addAttribute("marketPlaces", viewBeanFactory.buildMarketPlaceViewBeans(request));
+		model.addAttribute("marketPlaces", viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request)));
 	}
     
 }

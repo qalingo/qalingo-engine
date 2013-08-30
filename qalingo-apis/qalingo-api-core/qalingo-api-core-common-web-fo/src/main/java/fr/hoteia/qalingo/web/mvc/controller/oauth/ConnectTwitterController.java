@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 
 	@RequestMapping("/connect-oauth-twitter.html*")
 	public ModelAndView connectTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		// SANITY CHECK
 		if(!requestUtil.hasKnownCustomerLogged(request)){
@@ -49,12 +49,10 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 			    if(clientIdEngineSettingValue != null
 			    		&& clientSecretEngineSetting != null
 			    		&& permissionsEngineSettingValue != null){
-			    	final String contextValue = requestUtil.getCurrentContextNameValue(request);
 					final String clientId = clientIdEngineSettingValue.getValue();
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					
-					final String twitterCallBackURL = urlService.buildAbsoluteUrl( currentMarketArea, contextValue, 
-															urlService.buildOAuthCallBackUrl(requestUtil.getRequestData(request), OAuthType.TWITTER.getPropertyKey().toLowerCase()));
+					final String twitterCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.TWITTER.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(TwitterApi.class)
@@ -79,7 +77,7 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 
 		// DEFAULT FALLBACK VALUE
 		if(!response.isCommitted()){
-			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request)));
+			response.sendRedirect(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		}
 		
 		return null;

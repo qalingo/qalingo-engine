@@ -50,9 +50,8 @@ public class CustomerOrderController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.PERSONAL_ORDER_LIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_LIST.getVelocityPage());
 		
-		// "customer.order.list";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
 		List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
@@ -89,9 +88,9 @@ public class CustomerOrderController extends AbstractCustomerController {
 
 	@RequestMapping(FoUrls.PERSONAL_ORDER_DETAILS_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-order-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
 		
-		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_ORDER_ID);
+		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID);
 		if(StringUtils.isNotEmpty(orderId)){
 			final Order order = orderService.getOrderById(orderId);
 			if(order != null){
@@ -100,11 +99,6 @@ public class CustomerOrderController extends AbstractCustomerController {
 				final Customer customer = requestUtil.getCurrentCustomer(request);
 				List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
 				if(orders.contains(order)){
-					
-					
-					// "customer.order.details";
-					
-					
 			        return modelAndView;
 				} else {
 					LOG.warn("Customer, " + customer.getId() + "/" + customer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
@@ -117,7 +111,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 
 	protected PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<Order> orders,
 			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder) throws Exception {
-		List<OrderViewBean> orderViewBeans = viewBeanFactory.buildOrderViewBeans(request, requestUtil.getRequestData(request), orders);
+		List<OrderViewBean> orderViewBeans = viewBeanFactory.buildOrderViewBeans(requestUtil.getRequestData(request), orders);
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, orderViewBeanPagedListHolder);

@@ -58,6 +58,13 @@ public abstract class AbstractUrlServiceImpl {
 		return url;
 	}
 
+	protected String handleParamValue(String string) throws Exception {
+		if(StringUtils.isNotEmpty(string)) {
+			string = string.toLowerCase();
+		}
+		return string;
+	}
+
 	protected String handleString(String string) throws Exception {
 		if(StringUtils.isNotEmpty(string)) {
 			string = string.replaceAll(" ", "-");
@@ -77,7 +84,7 @@ public abstract class AbstractUrlServiceImpl {
 		return string;
 	}
 	
-	protected String buildPrefix(final RequestData requestData){
+	protected String buildDefaultPrefix(final RequestData requestData){
 		return buildContextPath(requestData) + Constants.SPRING_URL_PATH;
 	}
 	

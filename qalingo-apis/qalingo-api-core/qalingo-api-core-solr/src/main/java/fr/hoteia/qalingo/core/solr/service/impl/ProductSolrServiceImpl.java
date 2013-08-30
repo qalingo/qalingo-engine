@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import fr.hoteia.qalingo.core.solr.bean.ProductSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
@@ -66,11 +67,11 @@ public class ProductSolrServiceImpl extends AbstractSolrService implements Produ
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         request.setPath(getRequestPath());
         QueryResponse response = new QueryResponse(solrServer.request(request), solrServer);
-    	List<ProductSolr> productSolrList = response.getBeans(ProductSolr.class);
+    	List<ProductSkuSolr> productSkuSolrList = response.getBeans(ProductSkuSolr.class);
     	List<FacetField> productSolrFacetFieldList = response.getFacetFields();
     	
     	ProductResponseBean productResponseBean = new ProductResponseBean();
-    	productResponseBean.setProductSolrList(productSolrList);
+    	productResponseBean.setProductSolrList(productSkuSolrList);
     	productResponseBean.setProductSolrFacetFieldList(productSolrFacetFieldList);
     	
     	return productResponseBean;

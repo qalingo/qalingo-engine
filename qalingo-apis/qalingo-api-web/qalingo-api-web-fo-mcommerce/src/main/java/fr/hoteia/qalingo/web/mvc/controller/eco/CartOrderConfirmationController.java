@@ -29,9 +29,9 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 @Controller("cartOrderConfirmationController")
 public class CartOrderConfirmationController extends AbstractMCommerceController {
 
-	@RequestMapping("/cart-order-confirmation.html*")
+	@RequestMapping(FoUrls.CART_ORDER_CONFIRMATION_URL)
 	public ModelAndView home(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-order-confirmation");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_CONFIRMATION.getVelocityPage());
 
 		// SANITY CHECK
 		final Order lastOrder = requestUtil.getLastOrder(request);;
@@ -39,7 +39,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(request, requestUtil.getRequestData(request), lastOrder);
+		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), lastOrder);
 		modelAndView.addObject("order", orderViewBean);
 		
         return modelAndView;

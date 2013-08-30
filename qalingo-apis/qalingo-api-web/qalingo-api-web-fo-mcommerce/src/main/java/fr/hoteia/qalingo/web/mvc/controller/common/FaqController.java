@@ -30,7 +30,7 @@ public class FaqController extends AbstractMCommerceController {
 	public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "faq/faq");
 		
-		final FaqViewBean faq = viewBeanFactory.buildFaqViewBean(request, requestUtil.getRequestData(request));
+		final FaqViewBean faq = viewBeanFactory.buildFaqViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("faq", faq);
 		
         return modelAndView;

@@ -1,7 +1,6 @@
 package fr.hoteia.qalingo.core.domain.enumtype;
 
 import fr.hoteia.qalingo.core.RequestConstants;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 public enum FoUrls {
 
@@ -16,7 +15,10 @@ public enum FoUrls {
     STORE_LOCATION(FoUrls.STORE_LOCATION_URL, FoUrls.STORE_LOCATION_KEY, FoUrls.STORE_LOCATION_VELOCITY_PAGE),
     NEWSLETTER_REGISTER(FoUrls.NEWSLETTER_REGISTER_URL, FoUrls.NEWSLETTER_REGISTER_KEY, FoUrls.NEWSLETTER_REGISTER_VELOCITY_PAGE),
     NEWSLETTER_UNREGISTER(FoUrls.NEWSLETTER_UNREGISTER_URL, FoUrls.NEWSLETTER_UNREGISTER_KEY, FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE),
-    
+
+    SEARCH(FoUrls.SEARCH_URL, FoUrls.SEARCH_KEY, FoUrls.SEARCH_VELOCITY_PAGE),
+    CHANGE_LANGUAGE(FoUrls.HOME_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE),
+
     VELOCITY_CACHE(FoUrls.VELOCITY_CACHE_URL, FoUrls.VELOCITY_CACHE_KEY, FoUrls.VELOCITY_CACHE_VELOCITY_PAGE),
 
     LOGIN(FoUrls.LOGIN_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE),
@@ -29,16 +31,45 @@ public enum FoUrls {
     PERSONAL_ORDER_DETAILS(FoUrls.PERSONAL_ORDER_DETAILS_URL, FoUrls.PERSONAL_ORDER_DETAILS_KEY, FoUrls.PERSONAL_ORDER_DETAILS_VELOCITY_PAGE),
     PERSONAL_WISHLIST(FoUrls.PERSONAL_WISHLIST_URL, FoUrls.PERSONAL_WISHLIST_KEY, FoUrls.PERSONAL_WISHLIST_VELOCITY_PAGE),
     PERSONAL_PRODUCT_COMMENT_LIST(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_KEY, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_VELOCITY_PAGE),
+    PERSONAL_ADD_PRODUCT_COMMENT_LIST(FoUrls.PERSONAL_ADD_PRODUCT_COMMENT_LIST_URL, FoUrls.PERSONAL_ADD_PRODUCT_COMMENT_LIST_KEY, FoUrls.PERSONAL_ADD_PRODUCT_COMMENT_LIST_VELOCITY_PAGE),
+    PERSONAL_REMOVE_PRODUCT_COMMENT_LIST(FoUrls.PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_URL, FoUrls.PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_KEY, FoUrls.PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_VELOCITY_PAGE),
     PERSONAL_ADDRESS_LIST(FoUrls.PERSONAL_ADDRESS_LIST_URL, FoUrls.PERSONAL_ADDRESS_LIST_KEY, FoUrls.PERSONAL_ADDRESS_LIST_VELOCITY_PAGE),
     PERSONAL_ADD_ADDRESS(FoUrls.PERSONAL_ADD_ADDRESS_URL, FoUrls.PERSONAL_ADD_ADDRESS_KEY, FoUrls.PERSONAL_ADD_ADDRESS_VELOCITY_PAGE),
     PERSONAL_EDIT_ADDRESS(FoUrls.PERSONAL_EDIT_ADDRESS_URL, FoUrls.PERSONAL_EDIT_ADDRESS_KEY, FoUrls.PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE),
     PERSONAL_DELETE_ADDRESS(FoUrls.PERSONAL_DELETE_ADDRESS_URL, FoUrls.PERSONAL_DELETE_ADDRESS_KEY, FoUrls.PERSONAL_DELETE_ADDRESS_VELOCITY_PAGE),
-    
-    
+
+    CUSTOMER_DETAILS(FoUrls.CUSTOMER_DETAILS_URL, FoUrls.CUSTOMER_DETAILS_KEY, FoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE),
+    CUSTOMER_CREATE_ACCOUNT(FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, FoUrls.CUSTOMER_CREATE_ACCOUNT_KEY, FoUrls.CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE),
+
+    RETAILER_DETAILS(FoUrls.RETAILER_DETAILS_URL, FoUrls.RETAILER_DETAILS_KEY, FoUrls.RETAILER_DETAILS_VELOCITY_PAGE),
+    RETAILER_CREATE(FoUrls.RETAILER_CREATE_URL, FoUrls.RETAILER_CREATE_KEY, FoUrls.RETAILER_CREATE_VELOCITY_PAGE),
+    RETAILER_CONTACT(FoUrls.RETAILER_CONTACT_URL, FoUrls.RETAILER_CONTACT_KEY, FoUrls.RETAILER_CONTACT_FORM_VELOCITY_PAGE),
+    RETAILER_COMMENT(FoUrls.RETAILER_COMMENT_URL, FoUrls.RETAILER_COMMENT_KEY, FoUrls.RETAILER_COMMENT_FORM_VELOCITY_PAGE),
+    RETAILER_VOTE(FoUrls.RETAILER_VOTE_URL, FoUrls.RETAILER_COMMENT_KEY, FoUrls.RETAILER_COMMENT_FORM_VELOCITY_PAGE),
+
+    BRAND_DETAILS(FoUrls.BRAND_DETAILS_URL, FoUrls.BRAND_DETAILS_KEY, FoUrls.BRAND_DETAILS_VELOCITY_PAGE),
+    BRAND_LINE(FoUrls.BRAND_LINE_URL, FoUrls.BRAND_LINE_KEY, FoUrls.BRAND_LINE_VELOCITY_PAGE),
+
+    CATEGORY_AS_AXE(FoUrls.CATEGORY_AS_AXE_URL, FoUrls.CATEGORY_AS_AXE_KEY, FoUrls.CATEGORY_AS_AXE_VELOCITY_PAGE),
+    CATEGORY_AS_LINE(FoUrls.CATEGORY_AS_LINE_URL, FoUrls.CATEGORY_AS_LINE_KEY, FoUrls.CATEGORY_AS_LINE_VELOCITY_PAGE),
+    PRODUCT_DETAILS(FoUrls.PRODUCT_DETAILS_URL, FoUrls.PRODUCT_DETAILS_KEY, FoUrls.PRODUCT_DETAILS_VELOCITY_PAGE),
+    WISHLIST_ADD_PRODUCT(FoUrls.WISHLIST_ADD_PRODUCT_URL, FoUrls.WISHLIST_ADD_PRODUCT_KEY, FoUrls.WISHLIST_ADD_PRODUCT_VELOCITY_PAGE),
+    WISHLIST_REMOVE_ITEM(FoUrls.WISHLIST_REMOVE_ITEM_URL, FoUrls.WISHLIST_REMOVE_ITEM_KEY, FoUrls.WISHLIST_REMOVE_ITEM_VELOCITY_PAGE),
+
+    CART_DETAILS(FoUrls.CART_DETAILS_URL, FoUrls.CART_DETAILS_KEY, FoUrls.CART_DETAILS_VELOCITY_PAGE),
+    CART_ADD_ITEM(FoUrls.CART_ADD_PRODUCT_URL, FoUrls.CART_ADD_PRODUCT_KEY, FoUrls.CART_ADD_PRODUCT_VELOCITY_PAGE),
+    CART_REMOVE_ITEM(FoUrls.CART_REMOVE_ITEM_URL, FoUrls.CART_REMOVE_ITEM_KEY, FoUrls.CART_REMOVE_ITEM_VELOCITY_PAGE),
+    CART_AUTH(FoUrls.CART_AUTH_URL, FoUrls.CART_AUTH_KEY, FoUrls.CART_AUTH_VELOCITY_PAGE),
+    CART_DELIVERY(FoUrls.CART_DELIVERY_URL, FoUrls.CART_DELIVERY_KEY, FoUrls.CART_DELIVERY_VELOCITY_PAGE),
+    CART_ORDER_PAYMENT(FoUrls.CART_ORDER_PAYMENT_URL, FoUrls.CART_ORDER_PAYMENT_KEY, FoUrls.CART_ORDER_PAYMENT_VELOCITY_PAGE),
+    CART_ORDER_CONFIRMATION(FoUrls.CART_ORDER_CONFIRMATION_URL, FoUrls.CART_ORDER_CONFIRMATION_KEY, FoUrls.CART_ORDER_CONFIRMATION_VELOCITY_PAGE),
+
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE),
-    RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE);
-    
+    RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE),
+
+    XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE);
+
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/home.html";
 	public static final String HOME_VELOCITY_PAGE	= "home";
@@ -79,7 +110,11 @@ public enum FoUrls {
 	public static final String NEWSLETTER_UNREGISTER_KEY				= "newsletter-unregister";
 	public static final String NEWSLETTER_UNREGISTER_URL				= "/newsletter-unregister.html";
 	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "newsletter/unregister";
-	
+
+	public static final String SEARCH_KEY				= "search";
+	public static final String SEARCH_URL				= "/search.html";
+	public static final String SEARCH_VELOCITY_PAGE		= "search/search-result";
+
 	public static final String VELOCITY_CACHE_KEY			= "flush-cache-ihm";
 	public static final String VELOCITY_CACHE_URL			= "/flush-cache-ihm.html";
 	public static final String VELOCITY_CACHE_VELOCITY_PAGE	= "tools/flush-cache-ihm";
@@ -100,7 +135,7 @@ public enum FoUrls {
 	
 	public static final String PERSONAL_EDIT_KEY				= "personal-edit";
 	public static final String PERSONAL_EDIT_URL				= "/personal-edit.html";
-	public static final String PERSONAL_EDIT_VELOCITY_PAGE		= "customer/personal-edit";
+	public static final String PERSONAL_EDIT_VELOCITY_PAGE		= "customer/personal-edit-form";
 	
 	public static final String PERSONAL_ORDER_LIST_KEY					= "personal-order-list";
 	public static final String PERSONAL_ORDER_LIST_URL					= "/personal-order-list.html";
@@ -117,24 +152,112 @@ public enum FoUrls {
 	public static final String PERSONAL_PRODUCT_COMMENT_LIST_KEY				= "personal-product-comment-list";
 	public static final String PERSONAL_PRODUCT_COMMENT_LIST_URL				= "/personal-product-comment-list.html";
 	public static final String PERSONAL_PRODUCT_COMMENT_LIST_VELOCITY_PAGE		= "customer/personal-product-comment-list";
-	
+
+	public static final String PERSONAL_ADD_PRODUCT_COMMENT_LIST_KEY				= "add-personal-product-comment";
+	public static final String PERSONAL_ADD_PRODUCT_COMMENT_LIST_URL				= "/add-personal-product-comment.html";
+	public static final String PERSONAL_ADD_PRODUCT_COMMENT_LIST_VELOCITY_PAGE		= "";
+
+	public static final String PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_KEY				= "remove-personal-product-comment";
+	public static final String PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_URL				= "/remove-personal-product-comment.html";
+	public static final String PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_VELOCITY_PAGE	= "";
+
 	public static final String PERSONAL_ADDRESS_LIST_KEY				= "personal-address-list";
 	public static final String PERSONAL_ADDRESS_LIST_URL				= "/personal-address-list.html";
 	public static final String PERSONAL_ADDRESS_LIST_VELOCITY_PAGE		= "customer/personal-address-list";
 
 	public static final String PERSONAL_ADD_ADDRESS_KEY					= "personal-add-address";
 	public static final String PERSONAL_ADD_ADDRESS_URL					= "/personal-add-address.html";
-	public static final String PERSONAL_ADD_ADDRESS_VELOCITY_PAGE		= "customer/personal-add-address";
+	public static final String PERSONAL_ADD_ADDRESS_VELOCITY_PAGE		= "customer/personal-add-address-form";
 
 	public static final String PERSONAL_EDIT_ADDRESS_KEY					= "personal-edit-address";
 	public static final String PERSONAL_EDIT_ADDRESS_URL					= "/personal-edit-address.html";
-	public static final String PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE			= "customer/personal-edit-address";
+	public static final String PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE			= "customer/personal-edit-address-form";
 
 	public static final String PERSONAL_DELETE_ADDRESS_KEY					= "personal-delete-address";
 	public static final String PERSONAL_DELETE_ADDRESS_URL					= "/personal-delete-address.html";
 	public static final String PERSONAL_DELETE_ADDRESS_VELOCITY_PAGE		= "customer/personal-delete-address";
+
+	public static final String CUSTOMER_DETAILS_KEY							= "customer-details";
+	public static final String CUSTOMER_DETAILS_URL							= "/customer-details.html";
+	public static final String CUSTOMER_DETAILS_VELOCITY_PAGE				= "customer/customer-details";
 	
-	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
+	public static final String CUSTOMER_CREATE_ACCOUNT_KEY					= "customer-create-account";
+	public static final String CUSTOMER_CREATE_ACCOUNT_URL					= "/customer-create-account.html";
+	public static final String CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE		= "customer/customer-create-account-form";
+
+	public static final String RETAILER_DETAILS_KEY					= "retailer-details";
+	public static final String RETAILER_DETAILS_URL					= "/retailer-details-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String RETAILER_DETAILS_VELOCITY_PAGE		= "retailer/retailer-details";
+
+	public static final String RETAILER_CREATE_KEY					= "retailer-create";
+	public static final String RETAILER_CREATE_URL					= "/retailer-create.html";
+	public static final String RETAILER_CREATE_VELOCITY_PAGE		= "retailer/retailer-create-form";
+
+	public static final String RETAILER_CONTACT_KEY						= "retailer-contact";
+	public static final String RETAILER_CONTACT_URL						= "/retailer-contact.html";
+	public static final String RETAILER_CONTACT_FORM_VELOCITY_PAGE		= "retailer/retailer-contact-form";
+	public static final String RETAILER_CONTACT_SUCCESS_VELOCITY_PAGE	= "retailer/retailer-contact-succes";
+
+	public static final String RETAILER_COMMENT_KEY					= "retailer-comment";
+	public static final String RETAILER_COMMENT_URL					= "/retailer-comment.html";
+	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment-form";
+	public static final String RETAILER_VOTE_URL					= "/retailer-vote.html";
+
+	public static final String BRAND_DETAILS_KEY					= "brand-details";
+	public static final String BRAND_DETAILS_URL					= "/brand-details-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String BRAND_DETAILS_VELOCITY_PAGE			= "catalog/brand-details";
+	
+	public static final String BRAND_LINE_KEY					= "brand-line";
+	public static final String BRAND_LINE_URL					= "/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String BRAND_LINE_VELOCITY_PAGE			= "catalog/brand-line";
+
+	public static final String CATEGORY_AS_AXE_KEY					= "product-axe";
+	public static final String CATEGORY_AS_AXE_URL					= "/product-axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String CATEGORY_AS_AXE_VELOCITY_PAGE			= "catalog/product-axe";
+
+	public static final String CATEGORY_AS_LINE_KEY					= "product-line";
+	public static final String CATEGORY_AS_LINE_URL					= "/product-line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String CATEGORY_AS_LINE_VELOCITY_PAGE		= "catalog/product-line";
+
+	public static final String PRODUCT_DETAILS_KEY					= "product-details";
+	public static final String PRODUCT_DETAILS_URL					= "/product-details-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9\\-]+}-pm-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9\\-]+}-sku-{" + RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE + ":[a-zA-Z0-9\\-]+}.html";
+	public static final String PRODUCT_DETAILS_VELOCITY_PAGE		= "catalog/product-details";
+	
+	public static final String WISHLIST_ADD_PRODUCT_URL				= "add-to-wishlist";
+	public static final String WISHLIST_ADD_PRODUCT_KEY				= "/add-to-wishlist.html";
+	public static final String WISHLIST_ADD_PRODUCT_VELOCITY_PAGE	= "";
+
+	public static final String WISHLIST_REMOVE_ITEM_URL				= "remove-from-wishlist";
+	public static final String WISHLIST_REMOVE_ITEM_KEY				= "/remove-from-wishlist.html";
+	public static final String WISHLIST_REMOVE_ITEM_VELOCITY_PAGE	= "";
+	
+	public static final String CART_DETAILS_URL					= "cart-details";
+	public static final String CART_DETAILS_KEY					= "/cart-details.html";
+	public static final String CART_DETAILS_VELOCITY_PAGE		= "cart/cart-details";
+
+	public static final String CART_ADD_PRODUCT_URL				= "add-to-cart";
+	public static final String CART_ADD_PRODUCT_KEY				= "/add-to-cart.html";
+	public static final String CART_ADD_PRODUCT_VELOCITY_PAGE	= "";
+
+	public static final String CART_REMOVE_ITEM_URL				= "remove-from-cart";
+	public static final String CART_REMOVE_ITEM_KEY				= "/remove-from-cart.html";
+	public static final String CART_REMOVE_ITEM_VELOCITY_PAGE	= "";
+
+	public static final String CART_AUTH_KEY					= "cart-auth";
+	public static final String CART_AUTH_URL					= "/cart-auth.html";
+	public static final String CART_AUTH_VELOCITY_PAGE			= "cart/cart-auth";
+	
+	public static final String CART_DELIVERY_KEY					= "cart-delivery-order-information";
+	public static final String CART_DELIVERY_URL					= "/cart-delivery-order-information.html";
+	public static final String CART_DELIVERY_VELOCITY_PAGE			= "cart/cart-delivery-order-information";
+	
+	public static final String CART_ORDER_PAYMENT_KEY					= "cart-order-payment";
+	public static final String CART_ORDER_PAYMENT_URL					= "/cart-order-payment.html";
+	public static final String CART_ORDER_PAYMENT_VELOCITY_PAGE			= "cart/cart-order-payment";
+	
+	public static final String CART_ORDER_CONFIRMATION_KEY				= "cart-order-confirmation";
+	public static final String CART_ORDER_CONFIRMATION_URL				= "/cart/cart-order-confirmation.html";
+	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart/cart-order-confirmation";
 	
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/forbidden.html";
@@ -152,9 +275,14 @@ public enum FoUrls {
 	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
 	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-form";
 
+	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
+
+	public static final String XRDS_KEY				= "xrds";
+	public static final String XRDS_URL				= "/xrds.html";
+	public static final String XRDS_VELOCITY_PAGE	= "";
+	
 	// TOOLS
 //	public static final String XRDS_CACHE_VELOCITY_PAGE = "openid/xrds";
-	
 	
 	
 	

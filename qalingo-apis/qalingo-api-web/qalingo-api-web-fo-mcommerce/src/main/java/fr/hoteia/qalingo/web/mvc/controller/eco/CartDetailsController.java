@@ -21,11 +21,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Cart;
-import fr.hoteia.qalingo.core.domain.Localization;
-import fr.hoteia.qalingo.core.domain.Market;
-import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.MarketPlace;
-import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -39,9 +34,9 @@ public class CartDetailsController extends AbstractMCommerceController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	@RequestMapping("/add-to-cart.html*")
+	@RequestMapping(FoUrls.CART_ADD_PRODUCT_URL)
 	public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		try {
 			requestUtil.updateCurrentCart(request, skuCode, 1);
 			
@@ -49,22 +44,22 @@ public class CartDetailsController extends AbstractMCommerceController {
 			LOG.error("Error to add product sku to cart, skuCode:" + skuCode, e);
 		}
 		
-		final String url = urlService.buildCartDetailsUrl(requestUtil.getRequestData(request));
+		final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
 		
         return new ModelAndView(new RedirectView(url));
 	}
 
-	@RequestMapping("/remove-from-cart.html*")
+	@RequestMapping(FoUrls.CART_REMOVE_ITEM_URL)
 	public ModelAndView removeFromCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAM_PRODUCT_SKU_CODE);
+		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		requestUtil.removeCartItemFromCurrentCart(request, skuCode);
 
-		return new ModelAndView(new RedirectView(urlService.buildCartDetailsUrl(requestUtil.getRequestData(request))));
+		return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 	}
 	
-	@RequestMapping("/cart-details.html*")
+	@RequestMapping(FoUrls.CART_DETAILS_URL)
 	public ModelAndView displayCartDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "cart/cart-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_DETAILS.getVelocityPage());
 
 		// SANITY CHECK: Empty cart
 		final Cart currentCart = requestUtil.getCurrentCart(request);
@@ -73,7 +68,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(request, requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));

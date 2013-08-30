@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
@@ -51,11 +52,11 @@ public class SearchController extends AbstractMCommerceController {
 	@Autowired
 	public ProductSolrService productSolrService;
 
-	@RequestMapping(value = "/search.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
 		
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, requestUtil.getRequestData(request));
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		modelAndView.addObject("searchForm", formFactory.buildSearchForm(request));
@@ -63,22 +64,22 @@ public class SearchController extends AbstractMCommerceController {
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/search.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.POST)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, @Valid SearchForm searchForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "search/search-result");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
 
 		if (result.hasErrors()) {
 			return displaySearch(request, response, modelMap);
 		}
 
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(request, requestUtil.getRequestData(request));
+		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		try {
 			ProductResponseBean productResponseBean = productSolrService.searchProduct();
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, viewBeanFactory.buildSearchFacetViewBeans(request, productResponseBean));
+			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, viewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productResponseBean));
 			
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
@@ -118,7 +119,7 @@ public class SearchController extends AbstractMCommerceController {
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductResponseBean productResponseBean,
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{
-		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(request, requestUtil.getRequestData(request), productResponseBean);
+		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
 		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);

@@ -86,7 +86,7 @@ public class SearchController extends AbstractBusinessBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		PagedListHolder<GlobalSearchViewBean> globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>();
 		
-		final List<GlobalSearchViewBean> globalSearchViewBeans = viewBeanFactory.buildGlobalSearchViewBean(request, requestUtil.getRequestData(request), searchText);
+		final List<GlobalSearchViewBean> globalSearchViewBeans = viewBeanFactory.buildGlobalSearchViewBean(requestUtil.getRequestData(request), searchText);
 
 		globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>(globalSearchViewBeans);
 		globalSearchViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);

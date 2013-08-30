@@ -46,14 +46,14 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	@Autowired
     protected WebCommerceService webCommerceService;
 	
-	@RequestMapping(value = "/customer-details.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.CUSTOMER_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_DETAILS.getVelocityPage());
 		
-		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAM_CUSTOMER_PERMALINK);
+		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_PERMALINK);
 		Customer customer = customerService.getCustomerByPermalink(permalink);
 		
-		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(request, requestUtil.getRequestData(request), customer);
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
         return modelAndView;
@@ -61,7 +61,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	
 	@RequestMapping(value = FoUrls.PERSONAL_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_DETAILS.getVelocityPage());
 		
 		// Customer is already set by the abstract
 
@@ -70,9 +70,8 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-edit-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT.getVelocityPage());
 		
-		// "customer.details";
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 
 		if(customerEditForm == null 
@@ -90,8 +89,6 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
-		// "customer.details";
-
 		if (result.hasErrors()) {
 			return displayPersonalEdit(request, model, customerEditForm);
 		}

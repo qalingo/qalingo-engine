@@ -40,7 +40,7 @@ public class StoreLocationController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_LOCATION.getVelocityPage());
 		
 		final List<Store> stores = storeService.findStores();
-		final StoreLocatorViewBean storeLocator = viewBeanFactory.buildStoreLocatorViewBean(request, requestUtil.getRequestData(request), stores);
+		final StoreLocatorViewBean storeLocator = viewBeanFactory.buildStoreLocatorViewBean(requestUtil.getRequestData(request), stores);
 		modelAndView.addObject("storeLocator", storeLocator);
 		
         return modelAndView;

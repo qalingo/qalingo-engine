@@ -149,8 +149,8 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
-	public DateFormat getFormatDate(final HttpServletRequest request, final int dateStyle, final int timeStyle) throws Exception {
-		final Localization localization = getCurrentLocalization(request);
+	public DateFormat getFormatDate(final RequestData requestData, final int dateStyle, final int timeStyle) throws Exception {
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		DateFormat formatter = DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale); 
 		return formatter;
@@ -159,7 +159,7 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
-	public SimpleDateFormat getRssFormatDate(final HttpServletRequest request) throws Exception {
+	public SimpleDateFormat getRssFormatDate(final RequestData requestData) throws Exception {
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
 		return formatter;
 	}
@@ -167,7 +167,7 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
-	public SimpleDateFormat getDataVocabularyFormatDate(final HttpServletRequest request) throws Exception {
+	public SimpleDateFormat getDataVocabularyFormatDate(final RequestData requestData) throws Exception {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		return formatter;
 	}
@@ -175,7 +175,7 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
-	public SimpleDateFormat getAtomFormatDate(final HttpServletRequest request) throws Exception {
+	public SimpleDateFormat getAtomFormatDate(final RequestData requestData) throws Exception {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
 		return formatter;
 	}
@@ -183,16 +183,16 @@ public class RequestUtilImpl implements RequestUtil {
 	/**
 	 *
 	 */
-	public NumberFormat getCartItemPriceNumberFormat(final HttpServletRequest request, final String currencyCode) throws Exception {
-		return getNumberFormat(request, currencyCode, RoundingMode.HALF_EVEN, 2, 2, 1000000, 1);
+	public NumberFormat getCartItemPriceNumberFormat(final RequestData requestData, final String currencyCode) throws Exception {
+		return getNumberFormat(requestData, currencyCode, RoundingMode.HALF_EVEN, 2, 2, 1000000, 1);
 	}
 	
 	/**
 	 *
 	 */
-	public NumberFormat getNumberFormat(final HttpServletRequest request, final String currencyCode, final RoundingMode roundingMode, final int maximumFractionDigits,
+	public NumberFormat getNumberFormat(final RequestData requestData, final String currencyCode, final RoundingMode roundingMode, final int maximumFractionDigits,
 			final int minimumFractionDigits, final int maximumIntegerDigits, final int minimumIntegerDigits) throws Exception {
-		final Localization localization = getCurrentLocalization(request);
+		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
 		NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
 		formatter.setGroupingUsed(true);
@@ -1379,8 +1379,10 @@ public class RequestUtilImpl implements RequestUtil {
      */
 	public RequestData getRequestData(final HttpServletRequest request) throws Exception {
 		RequestData requestData = new RequestData();
+		requestData.setRequest(request);
 		String contextPath = "";
-		if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")){
+		if (request.getRequestURL().toString().contains("localhost") 
+				|| request.getRequestURL().toString().contains("127.0.0.1")){
 			contextPath = contextPath + request.getContextPath() + "/";
 		} else {
 			contextPath = "/";

@@ -46,7 +46,7 @@ public abstract class AbstractPrehomeController extends AbstractFrontofficeQalin
 	 */
 	@ModelAttribute
 	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(request, requestUtil.getRequestData(request)));
+		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(requestUtil.getRequestData(request)));
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public abstract class AbstractPrehomeController extends AbstractFrontofficeQalin
 	 */
 	@ModelAttribute
 	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(request, requestUtil.getRequestData(request));
+		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(requestUtil.getRequestData(request));
 		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
 	}
 	

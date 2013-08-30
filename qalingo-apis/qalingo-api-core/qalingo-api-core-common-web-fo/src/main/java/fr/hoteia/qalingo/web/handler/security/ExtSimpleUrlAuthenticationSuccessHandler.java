@@ -82,7 +82,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	        } else {
 	        	String cartDetails = "cart-details.html";
 	        	if(url.contains(cartDetails)){
-		    		url = urlService.buildCartDeliveryAndOrderDetailsUrl(requestUtil.getRequestData(request));
+		    		url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
 	        	}
 	        }
 			

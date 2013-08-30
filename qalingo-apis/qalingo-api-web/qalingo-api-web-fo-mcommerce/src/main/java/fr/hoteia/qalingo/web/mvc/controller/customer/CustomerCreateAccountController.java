@@ -48,9 +48,9 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	@Autowired
     protected SecurityUtil securityUtil;
 	
-	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/customer-create-account-form");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
 		
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
@@ -68,7 +68,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         return modelAndView;
 	}
 
-	@RequestMapping(value = "/customer-create-account.html*", method = RequestMethod.POST)
+	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
 	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm,
 								BindingResult result) throws Exception {
 		final Market currentMarket = requestUtil.getCurrentMarket(request);

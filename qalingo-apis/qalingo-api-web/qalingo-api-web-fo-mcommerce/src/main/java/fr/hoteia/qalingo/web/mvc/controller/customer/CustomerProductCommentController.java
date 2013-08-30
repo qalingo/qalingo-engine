@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
@@ -40,17 +39,16 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	
 	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "customer/personal-product-comment-list");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
 		
 		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(request, requestUtil.getRequestData(request), customer);
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(requestUtil.getRequestData(request), customer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;
 	}
 
-	// TODO : Add to FoUrls
-	@RequestMapping("/remove-personal-product-comment.html*")
+	@RequestMapping(FoUrls.PERSONAL_REMOVE_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView removeProductComment(final HttpServletRequest request, final Model model) throws Exception {
 		
 		// TODO
@@ -59,8 +57,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
         return new ModelAndView(new RedirectView(url));
 	}
 	
-	// TODO : Add to FoUrls
-	@RequestMapping("/add-personal-product-comment.html*")
+	@RequestMapping(FoUrls.PERSONAL_ADD_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView addProductComment(final HttpServletRequest request, final Model model) throws Exception {
 		
 		// TODO

@@ -356,9 +356,9 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `RETAILER_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
@@ -866,12 +866,6 @@ DROP TABLE IF EXISTS `teco_customer_address`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_customer_address` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `DATE_CREATE` datetime DEFAULT NULL,
-  `DATE_UPDATE` datetime DEFAULT NULL,
-  `PASSWORD` varchar(255) DEFAULT NULL,
-  `RESET_PROCESSED_DATE` datetime DEFAULT NULL,
-  `RESET_TOKEN` varchar(255) DEFAULT NULL,
-  `TOKEN_TIMESTAMP` datetime DEFAULT NULL,
   `ADDRESS1` varchar(255) DEFAULT NULL,
   `ADDRESS2` varchar(255) DEFAULT NULL,
   `ADDITIONAL_INFORMATION` varchar(255) DEFAULT NULL,
@@ -880,6 +874,8 @@ CREATE TABLE `teco_customer_address` (
   `CITY` varchar(255) DEFAULT NULL,
   `COUNTRY_CODE` varchar(255) DEFAULT NULL,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
   `FIRSTNAME` varchar(255) DEFAULT NULL,
   `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `IS_DEFAULT_BILLING` tinyint(1) NOT NULL DEFAULT '1',
@@ -946,6 +942,28 @@ CREATE TABLE `teco_customer_connection_log` (
   PRIMARY KEY (`ID`),
   KEY `FK2712212251AA496` (`CUSTOMER_ID`),
   CONSTRAINT `FK2712212251AA496` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_customer_credential`
+--
+
+DROP TABLE IF EXISTS `teco_customer_credential`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_customer_credential` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `PASSWORD` varchar(255) DEFAULT NULL,
+  `RESET_PROCESSED_DATE` datetime DEFAULT NULL,
+  `RESET_TOKEN` varchar(255) DEFAULT NULL,
+  `TOKEN_TIMESTAMP` datetime DEFAULT NULL,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK9FCA1AB651AA496` (`CUSTOMER_ID`),
+  CONSTRAINT `FK9FCA1AB651AA496` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2155,8 +2173,8 @@ CREATE TABLE `teco_rule_repository_attribute_rel` (
   `RULE_REPOSITORY_ID` bigint(20) NOT NULL,
   `RULE_REPOSITORY_ATTRIBUTE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`RULE_REPOSITORY_ID`,`RULE_REPOSITORY_ATTRIBUTE_ID`),
-  KEY `FK8FA169C2FB22202F` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C2A6274FFC` (`RULE_REPOSITORY_ID`),
+  KEY `FK8FA169C2FB22202F` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C29191B6EA` (`RULE_REPOSITORY_ATTRIBUTE_ID`),
   CONSTRAINT `FK8FA169C29191B6EA` FOREIGN KEY (`RULE_REPOSITORY_ATTRIBUTE_ID`) REFERENCES `teco_rule_repository_attribute` (`ID`),
   CONSTRAINT `FK8FA169C2A6274FFC` FOREIGN KEY (`RULE_REPOSITORY_ID`) REFERENCES `teco_rule_referential` (`ID`),
@@ -2340,19 +2358,19 @@ CREATE TABLE `teco_tax_country` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `teco_tax_county`
+-- Table structure for table `teco_tax_state`
 --
 
-DROP TABLE IF EXISTS `teco_tax_county`;
+DROP TABLE IF EXISTS `teco_tax_state`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_tax_county` (
+CREATE TABLE `teco_tax_state` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `CODE_COUNTY` varchar(255) DEFAULT NULL,
   `TAX_COUNTRY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `FK4E7C3608BC3117F` (`TAX_COUNTRY_ID`),
-  CONSTRAINT `FK4E7C3608BC3117F` FOREIGN KEY (`TAX_COUNTRY_ID`) REFERENCES `teco_tax_country` (`ID`)
+  KEY `FKE003B39B8BC3117F` (`TAX_COUNTRY_ID`),
+  CONSTRAINT `FKE003B39B8BC3117F` FOREIGN KEY (`TAX_COUNTRY_ID`) REFERENCES `teco_tax_country` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -2365,4 +2383,4 @@ CREATE TABLE `teco_tax_county` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-26 22:27:37
+-- Dump completed on 2013-08-30 11:47:39
