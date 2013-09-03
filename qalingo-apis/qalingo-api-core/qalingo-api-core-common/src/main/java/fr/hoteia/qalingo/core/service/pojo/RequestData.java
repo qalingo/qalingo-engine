@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -21,13 +22,17 @@ public class RequestData implements Serializable {
 
 	private String contextNameValue;
 	private String contextPath;
+	private String VelocityEmailPrefix;
 
 	private HttpServletRequest request;
+	
 	private MarketPlace marketPlace;
 	private Market market;
 	private MarketArea marketArea;
 	private Localization localization;
 	private Retailer retailer;
+	
+	private Customer customer;
 	
 	public RequestData() {
     }
@@ -63,6 +68,14 @@ public class RequestData implements Serializable {
 	public void switchContextPathByMarketAreaDomainName(){
 		this.contextPath = "http://" + marketArea.getDomainName(contextNameValue) + "/";
 	}
+	
+	public String getVelocityEmailPrefix() {
+	    return VelocityEmailPrefix;
+    }
+	
+	public void setVelocityEmailPrefix(String velocityEmailPrefix) {
+	    VelocityEmailPrefix = velocityEmailPrefix;
+    }
 	
 	public HttpServletRequest getRequest() {
 	    return request;
@@ -112,5 +125,12 @@ public class RequestData implements Serializable {
     	this.retailer = retailer;
     }
 	
+	public Customer getCustomer() {
+	    return customer;
+    }
+	
+	public void setCustomer(Customer customer) {
+	    this.customer = customer;
+    }
 
 }

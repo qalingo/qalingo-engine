@@ -1389,12 +1389,19 @@ public class RequestUtilImpl implements RequestUtil {
 		}
 		requestData.setContextPath(contextPath);
 		requestData.setContextNameValue(getCurrentContextNameValue(request));
+
+		requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(request));
 		
 		requestData.setMarketPlace(getCurrentMarketPlace(request));
 		requestData.setMarket(getCurrentMarket(request));
 		requestData.setMarketArea(getCurrentMarketArea(request));
 		requestData.setLocalization(getCurrentLocalization(request));
 		requestData.setRetailer(getCurrentRetailer(request));
+		
+		if(getCurrentCustomer(request) != null){
+			requestData.setCustomer(getCurrentCustomer(request));
+		}
+		
 		return requestData;
 	}
 

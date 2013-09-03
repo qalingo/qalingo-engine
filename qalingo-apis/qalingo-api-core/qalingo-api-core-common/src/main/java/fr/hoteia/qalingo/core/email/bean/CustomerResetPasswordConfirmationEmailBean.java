@@ -11,12 +11,20 @@ package fr.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class CustomerResetPasswordConfirmationEmailBean extends AbstractEmailBean implements Serializable {
+public class CustomerResetPasswordConfirmationEmailBean extends AbstractCustomerEmailBean implements Serializable {
 
 	/**
      * 
      */
     private static final long serialVersionUID = -2549501915991924425L;
     
+	private String customerDetailsUrl;
 
+	public String getCustomerDetailsUrl() {
+	    return customerDetailsUrl;
+    }
+	
+	public void setCustomerDetailsUrl(String customerDetailsUrl) {
+	    this.customerDetailsUrl = customerDetailsUrl;
+    }
 }

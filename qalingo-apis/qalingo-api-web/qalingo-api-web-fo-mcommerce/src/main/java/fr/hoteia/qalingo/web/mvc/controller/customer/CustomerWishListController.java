@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -34,9 +32,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 public class CustomerWishListController extends AbstractCustomerController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-    protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(FoUrls.PERSONAL_WISHLIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
@@ -52,7 +47,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.WISHLIST_REMOVE_ITEM_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-		webCommerceService.removeProductSkuFromWishlist(request, skuCode);
+		webCommerceService.removeProductSkuFromWishlist(request, requestUtil.getRequestData(request), skuCode);
 
 		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(url));
@@ -63,7 +58,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		
 		try {
-			webCommerceService.addProductSkuToWishlist(request, skuCode);
+			webCommerceService.addProductSkuToWishlist(request, requestUtil.getRequestData(request), skuCode);
 			
 		} catch (Exception e) {
 			LOG.error("Error with the wishlist, skuCode:" + skuCode, e);

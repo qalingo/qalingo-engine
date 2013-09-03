@@ -9,6 +9,7 @@ public enum FoUrls {
     OUR_COMPANY(FoUrls.OUR_COMPANY_URL, FoUrls.OUR_COMPANY_KEY, FoUrls.OUR_COMPANY_VELOCITY_PAGE),
     CONDITIONS_OF_USE(FoUrls.CONDITIONS_OF_USE_URL, FoUrls.CONDITIONS_OF_USE_KEY, FoUrls.CONDITIONS_OF_USE_VELOCITY_PAGE),
     FAQ(FoUrls.FAQ_URL, FoUrls.FAQ_KEY, FoUrls.FAQ_VELOCITY_PAGE),
+    CLP(FoUrls.CLP_URL, FoUrls.CLP_KEY, FoUrls.CLP_VELOCITY_PAGE),
     LEGAL_TERMS(FoUrls.LEGAL_TERMS_URL, FoUrls.LEGAL_TERMS_KEY, FoUrls.LEGAL_TERMS_VELOCITY_PAGE),
     FOLLOW_US(FoUrls.FOLLOW_US_URL, FoUrls.FOLLOW_US_KEY, FoUrls.FOLLOW_US_VELOCITY_PAGE),
     CONTACT(FoUrls.CONTACT_URL, FoUrls.CONTACT_KEY, FoUrls.CONTACT_VELOCITY_PAGE),
@@ -67,6 +68,7 @@ public enum FoUrls {
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE),
+    TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE),
 
     XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE);
 
@@ -87,6 +89,10 @@ public enum FoUrls {
 	public static final String FAQ_URL				= "/faq.html";
 	public static final String FAQ_VELOCITY_PAGE	= "faq/faq";
 
+	public static final String CLP_KEY				= "clp";
+	public static final String CLP_URL				= "/clp.html";
+	public static final String CLP_VELOCITY_PAGE	= "clp/clp";
+	
 	public static final String LEGAL_TERMS_KEY				= "legal-terms";
 	public static final String LEGAL_TERMS_URL				= "/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";

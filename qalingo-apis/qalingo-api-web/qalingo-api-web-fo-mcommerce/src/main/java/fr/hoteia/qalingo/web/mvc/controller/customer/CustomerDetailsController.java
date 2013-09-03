@@ -32,7 +32,6 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -42,9 +41,6 @@ public class CustomerDetailsController extends AbstractCustomerController {
 
 	@Autowired
     protected CustomerService customerService;
-	
-	@Autowired
-    protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
@@ -104,7 +100,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		}
 
 		// Update the customer
-		webCommerceService.updateCurrentCustomer(request, currentMarket, currentMarketArea, customerEditForm);
+		webCommerceService.updateCurrentCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, customerEditForm);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

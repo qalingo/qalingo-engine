@@ -68,9 +68,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		}
 		
 		// FLAG THE CREDENTIAL WITH A TOKEN
-		CustomerCredential customerCredential = webCommerceService.flagCustomeCredentialWithToken(request, customer);
+		CustomerCredential customerCredential = webCommerceService.flagCustomeCredentialWithToken(request, requestUtil.getRequestData(request), customer);
 		
-		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(request, customer, customerCredential, forgottenPasswordForm);
+		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(requestUtil.getRequestData(request), customer, customerCredential, forgottenPasswordForm);
 		
         return modelAndView;
 	}
@@ -115,9 +115,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			return displayForgottenPassword(request, response, modelMap);
 		}
 		
-		webCommerceService.flagCustomeCredentialWithToken(request, customer);
+		webCommerceService.flagCustomeCredentialWithToken(request, requestUtil.getRequestData(request), customer);
 
-		webCommerceService.buildAndSaveCustomerResetPasswordConfirmationMail(request, customer);
+		webCommerceService.buildAndSaveCustomerResetPasswordConfirmationMail(requestUtil.getRequestData(request), customer);
 		
         return modelAndView;
 	}

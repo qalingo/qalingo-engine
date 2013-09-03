@@ -33,20 +33,23 @@ public class Email implements Serializable {
 	 */
 	private static final long serialVersionUID = 4668053374460238571L;
 
-	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION				= "NEW_ACCOUNT_CONFIRMATION";
-	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD					= "FORGOTTEN_PASSWORD";
-	public static final String EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION			= "RESET_PASSWORD_CONFIRMATION";
-	public static final String EMAIl_TYPE_CONTACT								= "CONTACT";
-	public static final String EMAIl_TYPE_RETAILER_CONTACT						= "RETAILER_CONTACT";
-	public static final String EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION	= "NEWSLETTER_REGISTRATION_CONFIRMATION";
-	public static final String EMAIl_TYPE_ORDER_CONFIRMATION					= "ORDER_CONFIRMATION";
-	public static final String EMAIl_TYPE_ORDER_SHIPPED							= "ORDER_SHIPPED";
-	public static final String EMAIl_TYPE_ABANDONED_SHOPPING_CART				= "ABANDONED_SHOPPING_CART";
+	public static final String EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION					= "NEW_ACCOUNT_CONFIRMATION";
+	public static final String EMAIl_TYPE_FORGOTTEN_PASSWORD						= "FORGOTTEN_PASSWORD";
+	public static final String EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION				= "RESET_PASSWORD_CONFIRMATION";
+	public static final String EMAIl_TYPE_CONTACT									= "CONTACT";
+	public static final String EMAIl_TYPE_RETAILER_CONTACT							= "RETAILER_CONTACT";
+	public static final String EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION_CONFIRMATION		= "NEWSLETTER_SUBSCRIPTION_CONFIRMATION";
+	public static final String EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION_CONFIRMATION	= "NEWSLETTER_UNSUBSCRIPTION_CONFIRMATION";
+	public static final String EMAIl_TYPE_ORDER_CONFIRMATION						= "ORDER_CONFIRMATION";
+	public static final String EMAIl_TYPE_ORDER_SHIPPED								= "ORDER_SHIPPED";
+	public static final String EMAIl_TYPE_ABANDONED_SHOPPING_CART					= "ABANDONED_SHOPPING_CART";
 	
 	public static final String EMAIl_STATUS_PENDING = "PENDING";
 	public static final String EMAIl_STATUS_SENDED = "SENDED";
 	public static final String EMAIl_STATUS_ERROR = "ERROR";
-	
+
+	public static final String WORDING_SCOPE_EMAIL = "email";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)

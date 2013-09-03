@@ -48,7 +48,7 @@ public class FollowUsController extends AbstractMCommerceController {
 			return displayFollowUs(request, model, followUsForm);
 		}
 
-		webCommerceService.saveAndBuildNewsletterRegistrationConfirmationMail(request, followUsForm);
+		webCommerceService.saveAndBuildNewsletterSubscriptionConfirmationMail(requestUtil.getRequestData(request), followUsForm);
 		
         return modelAndView;
 	}

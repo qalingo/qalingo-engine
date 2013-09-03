@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,6 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerProductCommentsViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -33,9 +31,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 public class CustomerProductCommentController extends AbstractCustomerController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-    protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {

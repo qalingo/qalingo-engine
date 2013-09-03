@@ -78,7 +78,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	/**
 	 * 
 	 */
-	@ModelAttribute("followUs")
+	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
 		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
@@ -88,7 +88,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	/**
 	 * 
 	 */
-	@ModelAttribute("xrdsUrl")
+	@ModelAttribute(ModelConstants.XRDS_URL_VIEW_BEAN)
 	protected String setXrdsUrl(final HttpServletRequest request, final Model model) throws Exception {
 		String xrdsURL = urlService.generateUrl(FoUrls.XRDS, requestUtil.getRequestData(request));
 		String fullXrdsURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);

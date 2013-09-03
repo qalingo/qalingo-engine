@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,6 @@ import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.PaymentForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -38,9 +36,6 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 @Controller("cartOrderPaymentController")
 public class CartOrderPaymentController extends AbstractMCommerceController {
 
-	@Autowired
-    protected WebCommerceService webCommerceService;
-	
 	@RequestMapping(FoUrls.CART_ORDER_PAYMENT_URL)
 	public ModelAndView displayOrderPayment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_PAYMENT.getVelocityPage());
@@ -71,7 +66,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		}
 		
 		// Create and Save a new order
-		webCommerceService.buildAndSaveNewOrder(request, currentMarket, currentMarketArea);
+		webCommerceService.buildAndSaveNewOrder(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

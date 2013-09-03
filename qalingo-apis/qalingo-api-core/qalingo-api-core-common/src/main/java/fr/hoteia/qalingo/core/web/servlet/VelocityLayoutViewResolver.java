@@ -11,14 +11,10 @@ package fr.hoteia.qalingo.core.web.servlet;
 
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
 public class VelocityLayoutViewResolver extends org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver {
-
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	@Override
 	protected View createView(String viewName, Locale locale) throws Exception {

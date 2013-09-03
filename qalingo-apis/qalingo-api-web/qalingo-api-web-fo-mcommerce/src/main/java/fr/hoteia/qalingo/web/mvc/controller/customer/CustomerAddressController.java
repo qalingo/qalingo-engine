@@ -36,7 +36,6 @@ import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
-import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
  * 
@@ -48,9 +47,6 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@Autowired
     protected CustomerService customerService;
-	
-	@Autowired
-    protected WebCommerceService webCommerceService;
 	
 	@RequestMapping(FoUrls.PERSONAL_ADDRESS_LIST_URL)
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
@@ -68,7 +64,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
 		
 		try {
-			webCommerceService.deleteAddressCustomer(request, customerAddressId);
+			webCommerceService.deleteAddressCustomer(request, requestUtil.getRequestData(request), customerAddressId);
 			
 		} catch (Exception e) {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
@@ -100,7 +96,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
+		webCommerceService.updateOrSaveAddressCustomer(request, requestUtil.getRequestData(request),  currentMarket, currentMarketArea, customerAddressForm);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -158,7 +154,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.updateOrSaveAddressCustomer(request, currentMarket, currentMarketArea, customerAddressForm);
+		webCommerceService.updateOrSaveAddressCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, customerAddressForm);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

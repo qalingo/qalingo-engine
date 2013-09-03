@@ -61,7 +61,11 @@ public final class ModelConstants {
 	public static final String LANGUAGES_VIEW_BEAN = "languages";
 	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
 	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
+	public static final String FOLLOW_US_VIEW_BEAN = "followUs";
+	public static final String FAQ_VIEW_BEAN = "faq";
+	public static final String OUR_COMPANY_VIEW_BEAN = "ourCompany";
 	public static final String SECURITY_VIEW_BEAN = "security";
+	public static final String XRDS_URL_VIEW_BEAN = "xrdsUrl";
 	
 	public static final String TRACKING_VIEW_BEAN = "tracking";
 	public static final String MONITORING_VIEW_BEAN = "monitoring";

@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class CustomerForgottenPasswordEmailBean extends AbstractEmailBean implements Serializable {
+public class CustomerForgottenPasswordEmailBean extends AbstractCustomerEmailBean implements Serializable {
 
 	/**
      * 

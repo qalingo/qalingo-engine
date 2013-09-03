@@ -9,47 +9,31 @@
  */
 package fr.hoteia.qalingo.web.service.impl;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.domain.Cart;
-import fr.hoteia.qalingo.core.domain.CartItem;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
-import fr.hoteia.qalingo.core.domain.CustomerGroup;
-import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.domain.CustomerWishlist;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
-import fr.hoteia.qalingo.core.domain.Order;
-import fr.hoteia.qalingo.core.domain.OrderItem;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
-import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
-import fr.hoteia.qalingo.core.security.util.SecurityUtil;
-import fr.hoteia.qalingo.core.service.CustomerGroupService;
-import fr.hoteia.qalingo.core.service.CustomerService;
-import fr.hoteia.qalingo.core.service.EmailService;
-import fr.hoteia.qalingo.core.service.OrderService;
-import fr.hoteia.qalingo.core.service.RetailerService;
-import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
@@ -62,87 +46,27 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 @Service("webCommerceService")
 @Transactional
-public class WebCommerceServiceImpl implements WebCommerceService {
-
-	@Autowired
-    protected EmailService emailService;
-	
-	@Autowired
-    protected CustomerService customerService;
-	
-	@Autowired
-    protected RetailerService retailerService;
-	
-	@Autowired
-    protected OrderService orderService;
-	
-	@Autowired
-    protected CustomerGroupService customerGroupService;
-	
-	@Autowired
-    protected RequestUtil requestUtil;
-	
-	@Autowired
-    protected SecurityUtil securityUtil;
+public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl implements WebCommerceService {
 	
     /**
      * 
      */
-	public CustomerCredential flagCustomeCredentialWithToken(final HttpServletRequest request, final Customer customer) throws Exception {
-		if(customer != null){
-			String token = UUID.randomUUID().toString();
-			CustomerCredential customerCredential = customer.getCurrentCredential();
-			customerCredential.setResetToken(token);
-			Date date = new Date();
-			customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
-			customerService.saveOrUpdateCustomerCredential(customerCredential);
-			return customerCredential;
-		}
-		return null;
+	public void resetCustomeCredential(final HttpServletRequest request, final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
+		super.resetCustomeCredential(request, requestData, customer, resetPasswordForm.getNewPassword());
 	}
 	
     /**
      * 
      */
-	public void resetCustomeCredential(final HttpServletRequest request, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
-		if(customer != null){
-			String clearPassword = resetPasswordForm.getNewPassword();
-			String encorePassword = securityUtil.encodePassword(clearPassword);
-			CustomerCredential customerCredential = new CustomerCredential();
-			customerCredential.setPassword(encorePassword);
-			customer.getCredentials().add(customerCredential);
-			
-			customer.setPassword(encorePassword);
-			
-			customerService.saveOrUpdateCustomer(customer);
-		}
-	}
-	
-    /**
-     * 
-     */
-	public Customer buildAndSaveNewCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CreateAccountForm createAccountForm) throws Exception {
+	public Customer buildAndSaveNewCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, 
+											final CreateAccountForm createAccountForm) throws Exception {
 		Customer customer = new Customer();
-		
-		if(customer.getCode() == null){
-			customer.setCode(UUID.randomUUID().toString());
-		}
 		
 		customer.setLogin(createAccountForm.getEmail());
 		customer.setFirstname(createAccountForm.getFirstname());
 		customer.setLastname(createAccountForm.getLastname());
 		customer.setPassword(securityUtil.encodePassword(createAccountForm.getPassword()));
 		
-		if(customer.getPermalink() == null){
-			String permalink = securityUtil.generatePermalink();
-			customer.setPermalink(permalink);
-		}
-		
-		customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
-		customer.setActive(true);
-		customer.setDateCreate(new Date());
-		customer.setDateUpdate(new Date());
-
 		customer.setEmail(createAccountForm.getEmail());
 
 		CustomerAddress defaultAddress = new CustomerAddress();
@@ -167,18 +91,10 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		addresses.add(defaultAddress);
 		customer.setAddresses(addresses);
 		
-		CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-		customer.getCustomerGroups().add(customerGroup);
-		
-		customerService.saveOrUpdateCustomer(customer);
-		
-		customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
-		requestUtil.updateCurrentCustomer(request, customer);
-		
-		return customer;
+		return super.buildAndSaveNewCustomer(request, requestData, market, marketArea, customer);
 	}
 	
-	public Customer updateCurrentCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerEditForm customerEditForm) throws Exception {
+	public Customer updateCurrentCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, final CustomerEditForm customerEditForm) throws Exception {
 		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
 		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		
@@ -186,26 +102,10 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		customer.setFirstname(customerEditForm.getFirstname());
 		customer.setLastname(customerEditForm.getLastname());
 		
-		customer.setDefaultLocale(marketArea.getDefaultLocalization().toString());
-		customer.setActive(true);
-		customer.setDateCreate(new Date());
-		customer.setDateUpdate(new Date());
-
-		customer.setEmail(customerEditForm.getEmail());
-		
-		// save market context phone etc
-		
-		// UPDATE CUSTOMER
-		customerService.saveOrUpdateCustomer(customer);
-		
-		// UPDATE SESSION
-		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
-		requestUtil.updateCurrentCustomer(request, customer);
-		
-		return customer;
+		return super.updateCurrentCustomer(request, requestData, market, marketArea, customer);
 	}
 	
-	public Customer updateOrSaveAddressCustomer(final HttpServletRequest request, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
+	public Customer updateOrSaveAddressCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
 		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
 		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		
@@ -238,17 +138,10 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 			customer.getAddresses().add(customerAddress);
 		}
 		
-		// UPDATE CUSTOMER
-		customerService.saveOrUpdateCustomer(customer);
-		
-		// UPDATE SESSION
-		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
-		requestUtil.updateCurrentCustomer(request, customer);
-		
-		return customer;
+		return super.updateOrSaveAddressCustomer(request, requestData, market, marketArea, customer);
 	}
 	
-	public Customer deleteAddressCustomer(final HttpServletRequest request, final String customerAddressId) throws Exception {
+	public Customer deleteAddressCustomer(final HttpServletRequest request, final RequestData requestData, final String customerAddressId) throws Exception {
 		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
 		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		CustomerAddress customerAddress = customer.getAddress(new Long(customerAddressId));
@@ -273,211 +166,141 @@ public class WebCommerceServiceImpl implements WebCommerceService {
 		}
 		customer.getAddresses().remove(customerAddress);
 		
-		// UPDATE CUSTOMER
-		customerService.saveOrUpdateCustomer(customer);
-		
-		// UPDATE SESSION
-		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
-		requestUtil.updateCurrentCustomer(request, customer);
-		
-		return customer;
-	}
-	
-	public Customer addProductSkuToWishlist(final HttpServletRequest request, final String productSkuCode) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
-		customer = checkCustomerMarketArea(request, customer);
-		
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
-		
-		CustomerWishlist customerWishlist = customerMarketContext.getCustomerWishlistByProductSkuCode(productSkuCode);
-		if(customerWishlist == null){
-			customerWishlist = new CustomerWishlist();
-			customerWishlist.setCustomerMarketAreaId(customerMarketContext.getId());
-			customerWishlist.setProductSkuCode(productSkuCode);
-			customerWishlist.setPosition(customerMarketContext.getWishlistProducts().size() + 1);
-			customerMarketContext.getWishlistProducts().add(customerWishlist);
-			customer.getCustomerMarketAreas().add(customerMarketContext);
-			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
-			requestUtil.updateCurrentCustomer(request, customer);
-		} else {
-			// Wishlist for this product sku code already exist
-			throw new Exception(""); 
-		}
-		return customer;
-	}
-	
-	public Customer removeProductSkuFromWishlist(final HttpServletRequest request, final String productSkuCode) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
-		customer = checkCustomerMarketArea(request, customer);
-		
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
-		
-		CustomerWishlist customerWishlist = customerMarketContext.getCustomerWishlistByProductSkuCode(productSkuCode);
-		if(customerWishlist != null){
-			customerMarketContext.getWishlistProducts().remove(customerWishlist);
-			customer.getCustomerMarketAreas().add(customerMarketContext);
-			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
-			requestUtil.updateCurrentCustomer(request, customer);
-		}
-		return customer;
-	}
-	
-	public Order buildAndSaveNewOrder(final HttpServletRequest request, final Market market, final MarketArea marketArea) throws Exception {
-		Customer customer = requestUtil.getCurrentCustomer(request);
-		Cart cart = requestUtil.getCurrentCart(request);
-		
-		Order order = new Order();
-		order.setStatus(Order.ORDER_STATUS_PENDING);
-		order.setCustomerId(customer.getId());
-		order.setBillingAddressId(cart.getBillingAddressId());
-		order.setShippingAddressId(cart.getShippingAddressId());
-		
-		Set<CartItem> cartItems = cart.getCartItems();
-		Set<OrderItem> orderItems = new HashSet<OrderItem>();
-		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-			CartItem cartItem = (CartItem) iterator.next();
-			OrderItem orderItem = new OrderItem();
-			orderItem.setProductSkuCode(cartItem.getProductSkuCode());
-			orderItem.setProductSku(cartItem.getProductSku());
-			orderItem.setPrice(cartItem.getPrice());
-			orderItem.setQuantity(cartItem.getQuantity());
-			orderItems.add(orderItem);
-		}
-		order.setOrderItems(orderItems);
-		
-		order = orderService.createNewOrder(order);
-		
-		// Clean Cart
-		requestUtil.cleanCurrentCart(request);
-
-		requestUtil.saveLastOrder(request, order);
-		
-		return order;
-	}
-	
-	private Customer checkCustomerMarketArea(final HttpServletRequest request, Customer customer) throws Exception{
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-		CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
-		if(customerMarketArea == null){
-			// Create a CustomerMarketArea for this MarketArea
-			customerMarketArea = new CustomerMarketArea();
-			customerMarketArea.setMarketAreaCode(marketArea.getCode());
-			customer.getCustomerMarketAreas().add(customerMarketArea);
-			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerById(customer.getId().toString());
-		}
-		return customer;
+		return super.deleteAddressCustomer(request, requestData, customerAddressId);
 	}
 	
     /**
      * 
      */
-	public void buildAndSaveContactMail(final HttpServletRequest request, final ContactForm contactForm) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void buildAndSaveContactMail(final RequestData requestData, final ContactForm contactForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
 
 		final ContactEmailBean contactEmailBean = new ContactEmailBean();
 		BeanUtils.copyProperties(contactForm, contactEmailBean);
-		contactEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		contactEmailBean.setToEmail(currentMarketArea.getEmailContact(contextNameValue));
-		contactEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		contactEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		contactEmailBean.setToEmail(marketArea.getEmailContact(contextNameValue));
+		contactEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
 		
-		emailService.buildAndSaveContactMail(requestUtil.getRequestData(request), VelocityPath, contactEmailBean);
+		super.buildAndSaveContactMail(requestData, contactEmailBean);
 	}
 	
     /**
      * 
      */
-	public void buildAndSaveRetailerContactMail(final HttpServletRequest request, final RetailerContactForm retailerContactForm) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void buildAndSaveRetailerContactMail(final RequestData requestData, final RetailerContactForm retailerContactForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Retailer retailer = requestData.getRetailer();
+		final String contextNameValue = requestData.getContextNameValue();
 
-		final Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerContactForm.getRetailerCode());
+		final Retailer retailerToContact = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerContactForm.getRetailerCode());
 		
 		final RetailerContactEmailBean retailerContactEmailBean = new RetailerContactEmailBean();
 		BeanUtils.copyProperties(retailerContactForm, retailerContactEmailBean);
-		retailerContactEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		retailerContactEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		retailerContactEmailBean.setToEmail(retailer.getDefaultAddress().getEmail());
+		retailerContactEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		retailerContactEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
+		retailerContactEmailBean.setToEmail(retailerToContact.getDefaultAddress().getEmail());
 		
-		emailService.buildAndSaveRetailerContactMail(requestUtil.getRequestData(request), customer, VelocityPath, retailerContactEmailBean);
+		super.buildAndSaveRetailerContactMail(requestData, retailerToContact, retailerContactEmailBean);
 	}
 	
     /**
      * 
      */
-	public void saveAndBuildNewsletterRegistrationConfirmationMail(final HttpServletRequest request, final FollowUsForm followUsForm) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final FollowUsForm followUsForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
 
-		final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean = new NewsletterRegistrationConfirmationEmailBean();
-		BeanUtils.copyProperties(followUsForm, newsletterRegistrationConfirmationEmailBean);
-		newsletterRegistrationConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		newsletterRegistrationConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		newsletterRegistrationConfirmationEmailBean.setToEmail(followUsForm.getEmail());
+		final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
+		BeanUtils.copyProperties(followUsForm, newsletterEmailBean);
+		newsletterEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		newsletterEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
+		newsletterEmailBean.setToEmail(followUsForm.getEmail());
 		
-		emailService.saveAndBuildNewsletterRegistrationConfirmationMail(requestUtil.getRequestData(request), VelocityPath, newsletterRegistrationConfirmationEmailBean);
+		super.saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, newsletterEmailBean);
 	}
 	
     /**
      * 
      */
-	public void buildAndSaveCustomerNewAccountMail(final HttpServletRequest request, final CreateAccountForm createAccountForm) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final FollowUsForm followUsForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
+
+		final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
+		BeanUtils.copyProperties(followUsForm, newsletterEmailBean);
+		newsletterEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		newsletterEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
+		newsletterEmailBean.setToEmail(followUsForm.getEmail());
+		
+		super.saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, newsletterEmailBean);
+	}
+	
+    /**
+     * 
+     */
+	public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final CreateAccountForm createAccountForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
 
 		final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean = new CustomerNewAccountConfirmationEmailBean();
 		BeanUtils.copyProperties(createAccountForm, customerNewAccountConfirmationEmailBean);
-		customerNewAccountConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		customerNewAccountConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerNewAccountConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerNewAccountConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
 		customerNewAccountConfirmationEmailBean.setToEmail(createAccountForm.getEmail());
+
+		customerNewAccountConfirmationEmailBean.setTitle(createAccountForm.getTitle());
+		customerNewAccountConfirmationEmailBean.setFirstname(createAccountForm.getFirstname());
+		customerNewAccountConfirmationEmailBean.setLastname(createAccountForm.getLastname());
+		customerNewAccountConfirmationEmailBean.setEmail(createAccountForm.getEmail());
 		
-		emailService.buildAndSaveCustomerNewAccountMail(requestUtil.getRequestData(request), VelocityPath, customerNewAccountConfirmationEmailBean);
+		customerNewAccountConfirmationEmailBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+		
+		super.buildAndSaveCustomerNewAccountMail(requestData, customerNewAccountConfirmationEmailBean);
 	}
 	
     /**
      * 
      */
-	public void buildAndSaveCustomerForgottenPasswordMail(final HttpServletRequest request,  final Customer customer, final CustomerCredential customerCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final CustomerCredential customerCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
 
 		final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
 		BeanUtils.copyProperties(forgottenPasswordForm, customerForgottenPasswordEmailBean);
-		customerForgottenPasswordEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		customerForgottenPasswordEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerForgottenPasswordEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerForgottenPasswordEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
 		customerForgottenPasswordEmailBean.setToEmail(customer.getEmail());
 		customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
 		
-		emailService.buildAndSaveCustomerForgottenPasswordMail(requestUtil.getRequestData(request), customer, VelocityPath, customerForgottenPasswordEmailBean);
+		customerForgottenPasswordEmailBean.setTitle(customer.getTitle());
+		customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
+		customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
+		customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
+		
+		super.buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, customerForgottenPasswordEmailBean);
 	}
 	
     /**
      * 
      */
-	public void buildAndSaveCustomerResetPasswordConfirmationMail(final HttpServletRequest request, final Customer customer) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final String VelocityPath = requestUtil.getCurrentVelocityEmailPrefix(request);
-		final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+	public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer) throws Exception {
+		final MarketArea marketArea = requestData.getMarketArea();
+		final String contextNameValue = requestData.getContextNameValue();
 
 		final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean = new CustomerResetPasswordConfirmationEmailBean();
-		customerResetPasswordConfirmationEmailBean.setFromEmail(currentMarketArea.getEmailFrom(contextNameValue));
-		customerResetPasswordConfirmationEmailBean.setReplyToEmail(currentMarketArea.getEmailFrom(contextNameValue));
+		customerResetPasswordConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
+		customerResetPasswordConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
 		customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
 		
-		emailService.buildAndSaveCustomerResetPasswordConfirmationMail(requestUtil.getRequestData(request), customer, VelocityPath, customerResetPasswordConfirmationEmailBean);
+		customerResetPasswordConfirmationEmailBean.setTitle(customer.getTitle());
+		customerResetPasswordConfirmationEmailBean.setFirstname(customer.getFirstname());
+		customerResetPasswordConfirmationEmailBean.setLastname(customer.getLastname());
+		customerResetPasswordConfirmationEmailBean.setEmail(customer.getEmail());
+		
+		customerResetPasswordConfirmationEmailBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+		
+		super.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer);
 	}
 
 }

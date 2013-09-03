@@ -29,9 +29,9 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SecurityViewBean;
 @Controller("timeoutController")
 public class TimeoutController extends AbstractMCommerceController {
 
-	@RequestMapping("/timeout.html*")
+	@RequestMapping(FoUrls.TIMEOUT_URL)
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "security/timeout");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TIMEOUT.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		if(currentCustomer != null){

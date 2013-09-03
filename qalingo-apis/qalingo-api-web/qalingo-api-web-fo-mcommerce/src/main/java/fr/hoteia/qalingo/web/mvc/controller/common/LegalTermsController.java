@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
@@ -25,11 +26,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 @Controller("legalTermsController")
 public class LegalTermsController extends AbstractMCommerceController {
 
-	@RequestMapping("/legal-terms.html*")
+	@RequestMapping(FoUrls.LEGAL_TERMS_URL)
 	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "legal-terms/legal-terms");
-		
-		// "legal.terms";
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LEGAL_TERMS.getVelocityPage());
 		
         return modelAndView;
 	}

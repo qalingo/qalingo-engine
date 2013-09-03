@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class RetailerContactEmailBean extends AbstractEmailBean implements Serializable {
+public class RetailerContactEmailBean extends AbstractCustomerEmailBean implements Serializable {
 
 	/**
      * 
@@ -20,10 +20,8 @@ public class RetailerContactEmailBean extends AbstractEmailBean implements Seria
 
     private String retailerCode;
 
-    private String lastname;
-    private String firstname;
     private String country;
-    private String email;
+
     private String phone;
     private String fax;
     private String mobile;
@@ -39,36 +37,12 @@ public class RetailerContactEmailBean extends AbstractEmailBean implements Seria
 	    this.retailerCode = retailerCode;
     }
     
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
 	public String getCountry() {
 		return country;
 	}
 
 	public void setCountry(String country) {
 		this.country = country;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPhone() {

@@ -18,7 +18,7 @@ import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
-import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
@@ -40,7 +40,7 @@ public interface EmailService {
 
 	void buildAndSaveRetailerContactMail(RequestData requestData, Customer customer, String VelocityPath, RetailerContactEmailBean retailerCcontactEmailBean) throws Exception;
 
-	void saveAndBuildNewsletterRegistrationConfirmationMail(RequestData requestData, String VelocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
+	void saveAndBuildNewsletterSubscriptionnConfirmationMail(RequestData requestData, String VelocityPath, NewsletterEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
 	
 	void buildAndSaveCustomerNewAccountMail(RequestData requestData, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception;
 	

@@ -43,9 +43,6 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     protected CustomerService customerService;
 	
 	@Autowired
-    protected WebCommerceService webCommerceService;
-	
-	@Autowired
     protected SecurityUtil securityUtil;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
@@ -96,10 +93,10 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		}
 
 		// Save the new customer
-		final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, currentMarket, currentMarketArea, createAccountForm);
+		final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, createAccountForm);
 
 		// Save the email confirmation
-		webCommerceService.buildAndSaveCustomerNewAccountMail(request, createAccountForm);
+		webCommerceService.buildAndSaveCustomerNewAccountMail(requestUtil.getRequestData(request), createAccountForm);
 
 		// Login the new customer
 		securityUtil.authenticationCustomer(request, newCustomer);

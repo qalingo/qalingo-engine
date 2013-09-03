@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
@@ -26,12 +28,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FaqViewBean;
 @Controller("faqController")
 public class FaqController extends AbstractMCommerceController {
 
-	@RequestMapping("/faq.html*")
+	@RequestMapping(FoUrls.FAQ_URL)
 	public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "faq/faq");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
 		
 		final FaqViewBean faq = viewBeanFactory.buildFaqViewBean(requestUtil.getRequestData(request));
-		modelAndView.addObject("faq", faq);
+		modelAndView.addObject(ModelConstants.FAQ_VIEW_BEAN, faq);
 		
         return modelAndView;
 	}

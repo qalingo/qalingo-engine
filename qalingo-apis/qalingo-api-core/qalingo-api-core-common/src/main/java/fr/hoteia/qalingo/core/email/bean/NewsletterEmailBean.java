@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.email.bean;
 
 import java.io.Serializable;
 
-public class NewsletterRegistrationConfirmationEmailBean extends AbstractEmailBean implements Serializable {
+public class NewsletterEmailBean extends AbstractEmailBean implements Serializable {
 
 	/**
      * 

@@ -16,35 +16,45 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 
 public interface CoreMessageSource extends MessageSource {
 
-	// Common-Message
+	/**
+	 * Common-Message
+	 */
 	String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale);
 	
 	String getCommonMessage(ScopeCommonMessage scope, String key, Object[] params, Locale locale);
 	
-	// Email-Message
+	/**
+	 * Email-Message
+	 */
 	String getEmailMessage(ScopeEmailMessage scope, String key, Locale locale);
 	
 	String getEmailMessage(ScopeEmailMessage scope, String key, Object[] params, Locale locale);
 	
-	// Specific
+	/**
+	 * Specific
+	 */
 	String getSpecificMessage(I18nKeyValueUniverse universe, ScopeWebMessage scope, String key, Locale locale);
 	
 	String getSpecificMessage(I18nKeyValueUniverse universe, ScopeWebMessage scope, String key, Object[] params, Locale locale);
 	
-	// ReferenceData
+	/**
+	 * ReferenceData
+	 */
 	String getReferenceData(ScopeReferenceDataMessage scope, String key, Locale locale);
 	
 	String getReferenceData(ScopeReferenceDataMessage scope, String key, Object[] params, Locale locale);
 	
 	/**
-	 * Load all worgind key/value by webappUnivers and univers/group
+	 * Load all wording key/value by webappUnivers and univers/group
 	 */
 	Map<String, String> loadWording(EngineSettingWebAppContext context, String group, Locale locale);
 	
 	/**
-	 * Load all worgind key/value by webappUnivers
+	 * Load all wording key/value by webappUnivers
 	 */
 	Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale);
+	
+	Map<String, String> loadWording(String tarpatternget, Locale locale);
 	
 	String getMessage(String code, String defaultMessage, Locale locale);
 	

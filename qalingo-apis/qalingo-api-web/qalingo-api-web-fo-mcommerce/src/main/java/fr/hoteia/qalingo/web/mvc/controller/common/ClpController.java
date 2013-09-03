@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -28,9 +29,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 @Controller("clpController")
 public class ClpController extends AbstractMCommerceController {
 
-	@RequestMapping("/clp.html*")
+	@RequestMapping(FoUrls.CLP_URL)
 	public ModelAndView clp(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "clp/clp");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CLP.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.CLP, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

@@ -39,7 +39,7 @@ import fr.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
-import fr.hoteia.qalingo.core.email.bean.NewsletterRegistrationConfirmationEmailBean;
+import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
@@ -112,6 +112,7 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("contactEmailBean", contactEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(toEmail);
@@ -129,10 +130,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -156,13 +160,14 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
         	model.put("retailerContactEmailBean", retailerContactEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
         	mimeMessagePreparator.setTo(toEmail);
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {retailerContactEmailBean.getLastname(), retailerContactEmailBean.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.retailer.contact_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.retailer_contact.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-text-content.vm", model));
         	
@@ -173,18 +178,21 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
     /**
-     * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterRegistrationConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean)
+     * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterSubscriptionnConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterRegistrationConfirmationEmailBean)
      */
-    public void saveAndBuildNewsletterRegistrationConfirmationMail(final RequestData requestData, final String velocityPath, 
-    															   final NewsletterRegistrationConfirmationEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception {
+    public void saveAndBuildNewsletterSubscriptionnConfirmationMail(final RequestData requestData, final String velocityPath, 
+    															   final NewsletterEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception {
         try {
         	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
@@ -197,7 +205,8 @@ public class EmailServiceImpl implements EmailService {
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("newsletterRegistrationConfirmationEmailBean", newsletterRegistrationConfirmationEmailBean);
+        	model.put("newsletterEmailBean", newsletterRegistrationConfirmationEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = newsletterRegistrationConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -205,21 +214,71 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter.registration_confirmation_email_subject", parameters, locale));
-        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-registration-confirmation-html-content.vm", model));
-        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-registration-confirmation-text-content.vm", model));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_subscription_confirmation.email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-text-content.vm", model));
         	
         	Email email = new Email();
-        	email.setType(Email.EMAIl_TYPE_NEWSLETTER_REGISTRATION_CONFIRMATION);
+        	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION_CONFIRMATION);
         	email.setStatus(Email.EMAIl_STATUS_PENDING);
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
+        }
+    }
+    
+    /**
+     * @see fr.hoteia.qalingo.core.service.EmailService#saveAndBuildNewsletterUnsubscriptionConfirmationMail(Localization localization, Customer customer, String velocityPath, NewsletterEmailBean newsletterEmailBean)
+     */
+    public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
+    															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
+        try {
+        	final Localization localization = requestData.getLocalization();
+        	final Locale locale = localization.getLocale();
+        	
+        	// SANITY CHECK
+        	checkEmailAddresses(newsletterEmailBean);
+        	
+        	Map<String, Object> model = new HashMap<String, Object>();
+          
+        	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
+        	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
+        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put("newsletterEmailBean", newsletterEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
+        	String fromEmail = newsletterEmailBean.getFromEmail();
+        	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
+        	mimeMessagePreparator.setTo(newsletterEmailBean.getToEmail());
+        	mimeMessagePreparator.setFrom(fromEmail);
+        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	Object[] parameters = {};
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_unsubscription_confirmation.email_subject", parameters, locale));
+        	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-html-content.vm", model));
+        	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-text-content.vm", model));
+        	
+        	Email email = new Email();
+        	email.setType(Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION_CONFIRMATION);
+        	email.setStatus(Email.EMAIl_STATUS_PENDING);
+        	saveOrUpdateEmail(email, mimeMessagePreparator);
+        	
+        } catch (MailException e) {
+        	LOG.error("Error, can't save the message :", e);
+        	throw e;
+        } catch (VelocityException e) {
+        	LOG.error("Error, can't build the message :", e);
+        	throw e;
+        } catch (IOException e) {
+        	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -241,6 +300,7 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customerNewAccountConfirmationEmailBean", customerNewAccountConfirmationEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = customerNewAccountConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -248,7 +308,7 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customerNewAccountConfirmationEmailBean.getLastname(), customerNewAccountConfirmationEmailBean.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.new_account_confirmation_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.new_account.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-text-content.vm", model));
         	
@@ -258,10 +318,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -284,7 +347,8 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
-        	
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
 			Map<String, String> urlParams = new HashMap<String, String>();
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, customer.getEmail());
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN, customerForgottenPasswordEmailBean.getToken());
@@ -298,7 +362,7 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.forgotten_password_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.forgotten_password.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-text-content.vm", model));
         	
@@ -309,10 +373,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -335,6 +402,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
         	model.put("customerResetPasswordConfirmationEmailBean", customerResetPasswordConfirmationEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = customerResetPasswordConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -342,7 +410,7 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.customer.reset_password_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.reset_password_confirmation.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-text-content.vm", model));
         	
@@ -353,10 +421,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -379,6 +450,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
         	model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = orderConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -397,10 +469,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -423,6 +498,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
         	model.put("orderSentConfirmationEmailBean", orderSentConfirmationEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = orderSentConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -430,7 +506,7 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.shipped_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order_shipped.shipped_email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-text-content.vm", model));
         	
@@ -441,10 +517,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     
@@ -467,6 +546,7 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
         	model.put("abandonedShoppingCartEmailBean", abandonedShoppingCartEmailBean);
+        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
         	String fromEmail = abandonedShoppingCartEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
@@ -474,7 +554,7 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setReplyTo(fromEmail);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
-        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.abandoned.shopping.cart_email_subject", parameters, locale));
+        	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.abandoned_shopping_cart.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-text-content.vm", model));
         	
@@ -485,10 +565,13 @@ public class EmailServiceImpl implements EmailService {
         	
         } catch (MailException e) {
         	LOG.error("Error, can't save the message :", e);
+        	throw e;
         } catch (VelocityException e) {
         	LOG.error("Error, can't build the message :", e);
+        	throw e;
         } catch (IOException e) {
         	LOG.error("Error, can't serializable the message :", e);
+        	throw e;
         }
     }
     

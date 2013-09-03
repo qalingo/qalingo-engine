@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.viewbean.OurCompanyViewBean;
@@ -26,12 +28,12 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OurCompanyViewBean;
 @Controller("ourCompanyController")
 public class OurCompanyController extends AbstractMCommerceController {
 
-	@RequestMapping("/our-company.html*")
+	@RequestMapping(FoUrls.OUR_COMPANY_URL)
 	public ModelAndView ourCompany(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "our-company/our-company");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.OUR_COMPANY.getVelocityPage());
 		
 		final OurCompanyViewBean ourCompany = viewBeanFactory.buildOurCompanyViewBean(requestUtil.getRequestData(request));
-		modelAndView.addObject("ourCompany", ourCompany);
+		modelAndView.addObject(ModelConstants.OUR_COMPANY_VIEW_BEAN, ourCompany);
 		
         return modelAndView;
 	}
