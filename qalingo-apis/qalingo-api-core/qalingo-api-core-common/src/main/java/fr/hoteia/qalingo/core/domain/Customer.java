@@ -102,6 +102,9 @@ public class Customer implements Serializable {
 	@Column(name="VALIDATED", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean validated;
 	
+	@Column(name="IS_ANONYMOUS", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean anonymous;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>(); 
@@ -276,6 +279,14 @@ public class Customer implements Serializable {
     	this.validated = validated;
     }
 
+	public boolean isAnonymous() {
+    	return anonymous;
+    }
+
+	public void setAnonymous(boolean anonymous) {
+    	this.anonymous = anonymous;
+    }
+
 	public Set<CustomerCredential> getCredentials() {
 	    return credentials;
     }
@@ -340,12 +351,12 @@ public class Customer implements Serializable {
 		return customerMarketAreas;
 	}
 	
-	public CustomerMarketArea getCurrentCustomerMarketArea(String marketAreaCode) {
+	public CustomerMarketArea getCurrentCustomerMarketArea(Long marketAreaId) {
 		CustomerMarketArea currentCustomerMarketArea = null;
 		if(customerMarketAreas != null) {
 			for (Iterator<CustomerMarketArea> iterator = customerMarketAreas.iterator(); iterator.hasNext();) {
 				CustomerMarketArea customerMarketArea = (CustomerMarketArea) iterator.next();
-				if(customerMarketArea.getMarketAreaCode().equalsIgnoreCase(marketAreaCode)) {
+				if(customerMarketArea.getMarketAreaId().equals(marketAreaId)) {
 					currentCustomerMarketArea = customerMarketArea;
 				}
 			}

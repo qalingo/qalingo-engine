@@ -38,8 +38,8 @@ public class Email implements Serializable {
 	public static final String EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION				= "RESET_PASSWORD_CONFIRMATION";
 	public static final String EMAIl_TYPE_CONTACT									= "CONTACT";
 	public static final String EMAIl_TYPE_RETAILER_CONTACT							= "RETAILER_CONTACT";
-	public static final String EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION_CONFIRMATION		= "NEWSLETTER_SUBSCRIPTION_CONFIRMATION";
-	public static final String EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION_CONFIRMATION	= "NEWSLETTER_UNSUBSCRIPTION_CONFIRMATION";
+	public static final String EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION					= "NEWSLETTER_SUBSCRIPTION";
+	public static final String EMAIl_TYPE_NEWSLETTER_UNSUBSCRIPTION					= "NEWSLETTER_UNSUBSCRIPTION";
 	public static final String EMAIl_TYPE_ORDER_CONFIRMATION						= "ORDER_CONFIRMATION";
 	public static final String EMAIl_TYPE_ORDER_SHIPPED								= "ORDER_SHIPPED";
 	public static final String EMAIl_TYPE_ABANDONED_SHOPPING_CART					= "ABANDONED_SHOPPING_CART";
@@ -85,6 +85,7 @@ public class Email implements Serializable {
 	private Date dateUpdate;
 	
 	public Email(){
+		this.status = EMAIl_STATUS_PENDING;
 	}
 	
 	public Long getId() {

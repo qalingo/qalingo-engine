@@ -21,7 +21,6 @@ import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
-import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.RetailerContactForm;
@@ -46,13 +45,17 @@ public interface WebCommerceService {
 	
 	Order buildAndSaveNewOrder(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode) throws Exception;
 	
+	Customer saveNewsletterSubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;
+
+	Customer saveNewsletterUnsubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;
+
 	void buildAndSaveContactMail(RequestData requestData, ContactForm contactForm) throws Exception;
 
 	void buildAndSaveRetailerContactMail(RequestData requestData, RetailerContactForm retailerContactForm) throws Exception;
 
-	void saveAndBuildNewsletterSubscriptionConfirmationMail(RequestData requestData, FollowUsForm followUsForm) throws Exception;
+	void saveAndBuildNewsletterSubscriptionConfirmationMail(RequestData requestData, String email) throws Exception;
 
-	void saveAndBuildNewsletterUnsubscriptionConfirmationMail(RequestData requestData, FollowUsForm followUsForm) throws Exception;
+	void saveAndBuildNewsletterUnsubscriptionConfirmationMail(RequestData requestData, String email) throws Exception;
 
 	void buildAndSaveCustomerNewAccountMail(RequestData requestData, CreateAccountForm createAccountForm) throws Exception;
 

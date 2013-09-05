@@ -97,9 +97,10 @@ public enum FoUrls {
 	public static final String LEGAL_TERMS_URL				= "/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
-	public static final String FOLLOW_US_KEY				= "follow-us";
-	public static final String FOLLOW_US_URL				= "/follow-us.html";
-	public static final String FOLLOW_US_VELOCITY_PAGE		= "follow-us/follow-us-form";
+	public static final String FOLLOW_US_KEY					= "follow-us";
+	public static final String FOLLOW_US_URL					= "/follow-us.html";
+	public static final String FOLLOW_US_VELOCITY_PAGE			= "follow-us/follow-us-form";
+	public static final String FOLLOW_US_SUCCESS_VELOCITY_PAGE	= "follow-us/follow-us-success";
 	
 	public static final String CONTACT_KEY				= "contact";
 	public static final String CONTACT_URL				= "/contact.html";

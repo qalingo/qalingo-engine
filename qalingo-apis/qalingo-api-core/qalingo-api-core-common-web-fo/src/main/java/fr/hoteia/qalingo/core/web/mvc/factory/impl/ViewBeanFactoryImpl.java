@@ -1018,7 +1018,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Retailer retailer = requestData.getRetailer();
 		
 		final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
-		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
 		if (customerMarketArea != null) {
 			final Set<CustomerWishlist> customerWishlists = customerMarketArea.getWishlistProducts();
 			if (customerWishlists != null) {
@@ -1044,7 +1044,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final Retailer retailer = requestData.getRetailer();
 		
 		final CustomerProductCommentsViewBean customerProductCommentsViewBean = new CustomerProductCommentsViewBean();
-		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
 		if (customerMarketArea != null) {
 			final Set<CustomerProductComment> customerProductComments = customerMarketArea.getProductComments();
 			if (customerProductComments != null) {

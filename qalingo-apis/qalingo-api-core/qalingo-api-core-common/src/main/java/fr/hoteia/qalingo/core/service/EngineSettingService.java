@@ -37,6 +37,12 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CODE_SOLR		= "SOLR";
 	public final String ENGINE_SETTING_CONTEXT_MASTER	= "MASTER";
 	
+	// Email file mirroring
+	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_ACTIVATED			= "EMAIL_FILE_MIRRORING_ACTIVATED";
+	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH			= "EMAIL_FILE_MIRRORING_FOLDER_PATH";
+	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH			= "EMAIL_FILE_MIRRORING_FOLDER_WEB";
+	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_EXTENSION			= "EMAIL_FILE_MIRRORING_EXTENSION";
+	
 	// COUNT ITEM BY PAGE - PAGE SIZE
 	public final String ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE					= "COUNT_ITEM_BY_PAGE";
 	public final String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST	= "BO_TECHNICAL_ENGINE_SETTING_LIST";
@@ -118,5 +124,23 @@ public interface EngineSettingService {
 	EngineSetting getWebMonitoringNumber();
 	
 	EngineSetting getWebMonitoringName();
+	
+	// EMAIL SETTINGS
+	
+	EngineSetting getEmailFileMirroringActivated();
+
+	boolean getEmailFileMirroringActivated(String context);
+	
+	EngineSetting getEmailFileMirroringFolderPath();
+	
+	String getEmailFileMirroringFolderPath(String context) ;
+	
+	EngineSetting getEmailFileMirroringWebPath();
+	
+	String getEmailFileMirroringWebPath(String context) ;
+	
+	EngineSetting getEmailFileMirroringExtension();
+	
+	String getEmailFileMirroringExtension(String context) ;
 	
 }

@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.hoteia.qalingo.core.domain.Cart;
@@ -27,6 +28,7 @@ import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
+import fr.hoteia.qalingo.core.domain.CustomerOptin;
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
@@ -40,6 +42,7 @@ import fr.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean
 import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
+import fr.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerGroupService;
 import fr.hoteia.qalingo.core.service.CustomerService;
@@ -209,16 +212,16 @@ public class AbstractWebCommerceServiceImpl {
 		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
 		customer = checkCustomerMarketArea(requestData, customer);
 		
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
 		
-		CustomerWishlist customerWishlist = customerMarketContext.getCustomerWishlistByProductSkuCode(productSkuCode);
+		CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
 		if(customerWishlist == null){
 			customerWishlist = new CustomerWishlist();
-			customerWishlist.setCustomerMarketAreaId(customerMarketContext.getId());
+			customerWishlist.setCustomerMarketAreaId(customerMarketArea.getId());
 			customerWishlist.setProductSkuCode(productSkuCode);
-			customerWishlist.setPosition(customerMarketContext.getWishlistProducts().size() + 1);
-			customerMarketContext.getWishlistProducts().add(customerWishlist);
-			customer.getCustomerMarketAreas().add(customerMarketContext);
+			customerWishlist.setPosition(customerMarketArea.getWishlistProducts().size() + 1);
+			customerMarketArea.getWishlistProducts().add(customerWishlist);
+			customer.getCustomerMarketAreas().add(customerMarketArea);
 			customerService.saveOrUpdateCustomer(customer);
 			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
 			requestUtil.updateCurrentCustomer(request, customer);
@@ -234,12 +237,12 @@ public class AbstractWebCommerceServiceImpl {
 		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
 		customer = checkCustomerMarketArea(requestData, customer);
 		
-		final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
 		
-		CustomerWishlist customerWishlist = customerMarketContext.getCustomerWishlistByProductSkuCode(productSkuCode);
+		CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
 		if(customerWishlist != null){
-			customerMarketContext.getWishlistProducts().remove(customerWishlist);
-			customer.getCustomerMarketAreas().add(customerMarketContext);
+			customerMarketArea.getWishlistProducts().remove(customerWishlist);
+			customer.getCustomerMarketAreas().add(customerMarketArea);
 			customerService.saveOrUpdateCustomer(customer);
 			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
 			requestUtil.updateCurrentCustomer(request, customer);
@@ -279,6 +282,73 @@ public class AbstractWebCommerceServiceImpl {
 		
 		return order;
 	}
+	
+	public Customer saveNewsletterSubscription(final RequestData requestData, final String email) throws Exception {
+		Customer customer = customerService.getCustomerByLoginOrEmail(email);
+		MarketArea marketArea = requestData.getMarketArea();
+		HttpServletRequest request = requestData.getRequest();
+		Market market = requestData.getMarket();
+		
+		// SANITY CHECK : CHECK IF THE OPTIN ALREADY EXIST FOR THE MARKET AREA
+		if(customer != null){
+			CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+			if(customerMarketArea != null){
+				CustomerOptin customerOptin = customerMarketArea.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+				if(customerOptin != null){
+					throw new UniqueNewsletterSubscriptionException();
+				}
+			}
+		}
+		
+		CustomerOptin customerOptin = new CustomerOptin();
+		customerOptin.setType(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+		customerOptin.setOrigin("MCOMMERCE");
+
+		// HANDLE OPTIN
+		if(customer != null){
+			customer = checkCustomerMarketArea(requestData, customer);
+			CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+			if(customerMarketArea == null){
+				customerMarketArea = new CustomerMarketArea();
+				customerMarketArea.addOptins(customerOptin);
+				customer.getCustomerMarketAreas().add(customerMarketArea);
+			} else {
+				customerMarketArea.addOptins(customerOptin);
+			}
+		} else {
+			customer = new Customer();
+			customer.setEmail(email);
+			customer.setAnonymous(true);
+			customer = checkCustomerMarketArea(requestData, customer);
+			CustomerMarketArea customerMarketArea = new CustomerMarketArea();
+			customerMarketArea.addOptins(customerOptin);
+			customer.getCustomerMarketAreas().add(customerMarketArea);
+		}
+		
+		customer = updateCurrentCustomer(request, requestData, market, marketArea, customer);
+		return customer;
+    }
+	
+	public Customer saveNewsletterUnsubscription(final RequestData requestData, final String email) throws Exception {
+		Customer customer = customerService.getCustomerByLoginOrEmail(email);
+		MarketArea marketArea = requestData.getMarketArea();
+		HttpServletRequest request = requestData.getRequest();
+		Market market = requestData.getMarket();
+		
+		// SANITY CHECK : CHECK IF THE OPTIN ALREADY EXIST FOR THE MARKET AREA
+		if(customer != null){
+			CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+			if(customerMarketArea != null){
+				CustomerOptin customerOptin = customerMarketArea.getOptins(CustomerOptin.OPTIN_TYPE_WWW_NEWSLETTER);
+				if(customerOptin != null){
+					customerMarketArea.getOptins().remove(customerOptin);
+				}
+			}
+		}
+		
+		customer = updateCurrentCustomer(request, requestData, market, marketArea, customer);
+		return customer;
+    }
 	
     /**
      * 
@@ -347,14 +417,16 @@ public class AbstractWebCommerceServiceImpl {
 	
 	protected Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception{
 		final MarketArea marketArea = requestData.getMarketArea();
-		CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+		CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
 		if(customerMarketArea == null){
 			// Create a CustomerMarketArea for this MarketArea
 			customerMarketArea = new CustomerMarketArea();
-			customerMarketArea.setMarketAreaCode(marketArea.getCode());
+			customerMarketArea.setMarketAreaId(marketArea.getId());
 			customer.getCustomerMarketAreas().add(customerMarketArea);
 			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerById(customer.getId().toString());
+			if(StringUtils.isNotEmpty(customer.getEmail())){
+				customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+			}
 		}
 		return customer;
 	}

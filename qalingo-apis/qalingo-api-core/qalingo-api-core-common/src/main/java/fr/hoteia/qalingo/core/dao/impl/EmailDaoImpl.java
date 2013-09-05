@@ -52,9 +52,10 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
 	public List<Long> findIdsForEmailSync(String type) {
 		Session session = (Session) em.getDelegate();
-		String sql = "SELECT id FROM Email WHERE status = :status AND type = :type AND processedCount < 5";
+		String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
 		Query query = session.createQuery(sql);
 		query.setString("status", Email.EMAIl_STATUS_PENDING);
+		query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
 		query.setString("type", type);
 		List<Long> emailIds = (List<Long>) query.list();
 		return emailIds;

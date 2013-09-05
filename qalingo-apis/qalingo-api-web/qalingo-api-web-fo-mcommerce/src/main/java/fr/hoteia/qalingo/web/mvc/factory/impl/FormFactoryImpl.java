@@ -118,12 +118,12 @@ public class FormFactoryImpl implements FormFactory {
 			customerEditForm.setFirstname(customer.getFirstname());
 			customerEditForm.setEmail(customer.getEmail());
 
-			final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getCode());
+			final CustomerMarketArea customerMarketContext = customer.getCurrentCustomerMarketArea(marketArea.getId());
 			if(customerMarketContext != null){
 				customerEditForm.setMobile(customerMarketContext.getMobile());
 				customerEditForm.setPhone(customerMarketContext.getPhone());
 				customerEditForm.setFax(customerMarketContext.getFax());
-				customerEditForm.setOptin(customerMarketContext.isOptin());
+//				customerEditForm.setOptin(customerMarketContext.isOptin());
 			}
 		}
 		return customerEditForm;

@@ -29,6 +29,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name="TECO_CUSTOMER_MARKET_AREA")
 public class CustomerMarketArea implements Serializable {
@@ -56,12 +58,13 @@ public class CustomerMarketArea implements Serializable {
 	@Column(name="MOBILE")
     private String mobile;
 
-	@Column(name="OPTIN", nullable=false, columnDefinition="int(11) default 0")
-    private boolean optin;
-    
-	@Column(name="MARKET_AREA_CODE")
-    private String marketAreaCode;
+	@Column(name="MARKET_AREA_ID")
+    private Long marketAreaId;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_ID")
+	private Set<CustomerOptin> optins = new HashSet<CustomerOptin>(); 
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
 	private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>(); 
@@ -121,21 +124,42 @@ public class CustomerMarketArea implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public boolean isOptin() {
-		return optin;
-	}
-
-	public void setOptin(boolean optin) {
-		this.optin = optin;
-	}
+	public Long getMarketAreaId() {
+	    return marketAreaId;
+    }
 	
-	public String getMarketAreaCode() {
-		return marketAreaCode;
-	}
+	public void setMarketAreaId(Long marketAreaId) {
+	    this.marketAreaId = marketAreaId;
+    }
 	
-	public void setMarketAreaCode(String marketAreaCode) {
-		this.marketAreaCode = marketAreaCode;
-	}
+	public Set<CustomerOptin> getOptins() {
+	    return optins;
+    }
+	
+	public CustomerOptin getOptins(String type) {
+		CustomerOptin customerOptin = null;
+		if(optins != null
+				&& StringUtils.isNotEmpty(type)){
+			for (Iterator<CustomerOptin> iterator = optins.iterator(); iterator.hasNext();) {
+				CustomerOptin customerOptinIt = (CustomerOptin) iterator.next();
+				if(type.equalsIgnoreCase(customerOptinIt.getType())){
+					customerOptin = customerOptinIt;
+				}
+            }
+		}
+	    return customerOptin;
+    }
+	
+	public void addOptins(CustomerOptin customerOptin) {
+		customerOptin.setCustomerMarketAreaId(getId());
+		customerOptin.setDateCreate(new Date());
+		customerOptin.setDateUpdate(new Date());
+		optins.add(customerOptin);
+    }
+	
+	public void setOptins(Set<CustomerOptin> optins) {
+	    this.optins = optins;
+    }
 
 	public Set<CustomerWishlist> getWishlistProducts() {
 		return wishlistProducts;

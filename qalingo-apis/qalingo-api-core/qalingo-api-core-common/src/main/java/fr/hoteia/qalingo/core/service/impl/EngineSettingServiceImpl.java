@@ -11,6 +11,7 @@ package fr.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -153,5 +154,74 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	public EngineSetting getWebMonitoringName() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_MONITORING_NAME);
 	}
+	
+	// EMAIL SETTINGS
+	
+	public EngineSetting getEmailFileMirroringActivated() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_EMAIL_FILE_MIRRORING_ACTIVATED);
+	}
 
+	public boolean getEmailFileMirroringActivated(String context) {
+		EngineSetting engineSetting = getEmailFileMirroringActivated();
+		boolean emailFileMirroringActivated = false;
+		if(engineSetting != null){
+			emailFileMirroringActivated = BooleanUtils.toBoolean(engineSetting.getDefaultValue());
+			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
+			if(engineSettingValue != null){
+				emailFileMirroringActivated = BooleanUtils.toBoolean(engineSettingValue.getValue());
+			}
+		}
+		return emailFileMirroringActivated;
+	}
+	
+	public EngineSetting getEmailFileMirroringFolderPath() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH);
+	}
+	
+	public String getEmailFileMirroringFolderPath(String context) {
+		EngineSetting engineSetting = getEmailFileMirroringFolderPath();
+		String emailFileMirroringFolderPath = "";
+		if(engineSetting != null){
+			emailFileMirroringFolderPath = engineSetting.getDefaultValue();
+			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
+			if(engineSettingValue != null){
+				emailFileMirroringFolderPath = engineSettingValue.getValue();
+			}
+		}
+		return emailFileMirroringFolderPath;
+	}
+	
+	public EngineSetting getEmailFileMirroringWebPath() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH);
+	}
+	
+	public String getEmailFileMirroringWebPath(String context) {
+		EngineSetting engineSetting = getEmailFileMirroringWebPath();
+		String emailFileMirroringWebPath = "";
+		if(engineSetting != null){
+			emailFileMirroringWebPath = engineSetting.getDefaultValue();
+			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
+			if(engineSettingValue != null){
+				emailFileMirroringWebPath = engineSettingValue.getValue();
+			}
+		}
+		return emailFileMirroringWebPath;
+	}
+	
+	public EngineSetting getEmailFileMirroringExtension() {
+		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_EMAIL_FILE_MIRRORING_EXTENSION);
+	}
+	
+	public String getEmailFileMirroringExtension(String context) {
+		EngineSetting engineSetting = getEmailFileMirroringExtension();
+		String emailFileMirroringPath = "";
+		if(engineSetting != null){
+			emailFileMirroringPath = engineSetting.getDefaultValue();
+			EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(context);
+			if(engineSettingValue != null){
+				emailFileMirroringPath = engineSettingValue.getValue();
+			}
+		}
+		return emailFileMirroringPath;
+	}
 }

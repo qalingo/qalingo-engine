@@ -56,6 +56,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_PASSWORD_RESET_EMAIL		= "reset-email";
 	public static final String REQUEST_PARAMETER_AUTH_ERROR					= "auth-error";
 
+	public static final String REQUEST_PARAMETER_NEWSLETTER_EMAIL			= "newsletter-email";
+
 	// SPRING URL REWRITE
 	public static final String URL_PATTERN_CART_ITEM_CODE					= "cartItemCode";
 	public static final String URL_PATTERN_RETAILER_CODE					= "retailerCode";

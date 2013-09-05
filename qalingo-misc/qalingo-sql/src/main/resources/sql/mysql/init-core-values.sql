@@ -75,17 +75,46 @@ VALUES
 
 -- CORE ENGINE SETTINGS
 
--- Cache TTL settings
+-- Save Email file mirroring setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(1000, 'Cache TTL settings', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
+(500, 'Email file mirroring activated', 'Email file mirroring', 'EMAIL_FILE_MIRRORING_ACTIVATED', 'false', 1);
 
--- SEO settings
+INSERT INTO teco_engine_setting_value  
+(id, context, value, engine_setting_id)
+VALUES 
+(500, 'NEWSLETTER_SUBSCRIPTION', 'true', 500);
+
+-- Save Email file mirroring setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(1005, 'Escape accent URL settings', 'Escape accent URL settings', 'ESCAPE_ACCENT_FROM_URL', 'true', 1);
+(501, 'Email file mirroring folder path', 'Email file mirroring folder path', 'EMAIL_FILE_MIRRORING_FOLDER_PATH', '/home/tomcat/qalingo/datas/emails/', 1);
+
+-- Save Email file mirroring setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(502, 'Email file mirroring web path', 'Email file mirroring web path', 'EMAIL_FILE_MIRRORING_WEB_PATH', '/emails/', 1);
+
+-- Save Email file mirroring setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(503, 'Email file mirroring extension', 'Email file mirroring extension', 'EMAIL_FILE_MIRRORING_EXTENSION', '.html', 1);
+
+-- Cache TTL setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1000, 'Cache TTL setting', 'Cache TTL settings', 'WEB_CACHE_ELEMENT_TIME_TO_LIVE', '3600', 1);
+
+-- SEO setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(1005, 'Escape accent URL setting', 'Escape accent URL settings', 'ESCAPE_ACCENT_FROM_URL', 'true', 1);
 
 
 -- Theme settings
@@ -119,7 +148,7 @@ VALUES
 (1013, 'FO_MCOMMERCE', '/fo-mcommerce-resources/', 1010),
 (1014, 'FO_PREHOME',   '/fo-prehome-resources/', 1010);
 
--- Spring-batch settings
+-- Spring-batch setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
@@ -133,7 +162,7 @@ VALUES
 (1022, 'ERP', 'http://app-erp-sync.demo.qalingo.com/', 1020),
 (1023, 'NOTIFICATION', 'http://app-notification.demo.qalingo.com/', 1020);
 
--- SOLR settings
+-- SOLR setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
@@ -144,7 +173,7 @@ INSERT INTO teco_engine_setting_value
 VALUES 
 (1030, 'MASTER',  'http://176.31.248.152:14080/solr', 1030);
 
--- Catalog resource settings like images
+-- Catalog resource setting like images
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 

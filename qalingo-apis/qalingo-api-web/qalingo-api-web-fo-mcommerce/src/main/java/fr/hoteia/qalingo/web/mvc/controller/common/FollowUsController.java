@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import fr.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
@@ -42,13 +44,40 @@ public class FollowUsController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.POST)
 	public ModelAndView followUs(final HttpServletRequest request, @Valid @ModelAttribute("followUsForm") FollowUsForm followUsForm,
 								BindingResult result, Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
 
 		if (result.hasErrors()) {
 			return displayFollowUs(request, model, followUsForm);
 		}
 
-		webCommerceService.saveAndBuildNewsletterSubscriptionConfirmationMail(requestUtil.getRequestData(request), followUsForm);
+		try {
+			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), followUsForm.getEmail());
+	        
+        } catch (UniqueNewsletterSubscriptionException e) {
+			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
+			final Object[] objects = {forgottenPasswordUrl};
+			result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
+			displayFollowUs(request, model, followUsForm);
+			
+        } catch (Exception e) {
+	        displayFollowUs(request, model, followUsForm);
+        }
+		
+        return modelAndView;
+	}
+	
+	
+	@RequestMapping(value = FoUrls.NEWSLETTER_REGISTER_URL, method = RequestMethod.GET)
+	public ModelAndView newsletterRegister(final HttpServletRequest request, Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
+
+		try {
+			String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL);
+			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), email);
+	        
+        } catch (Exception e) {
+	        displayFollowUs(request, model, new FollowUsForm());
+        }
 		
         return modelAndView;
 	}
@@ -56,10 +85,14 @@ public class FollowUsController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.NEWSLETTER_REGISTER_URL, method = RequestMethod.POST)
 	public ModelAndView newsletterRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/follow-us-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
 
-		
-		// TODO
+		try {
+			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), newsletterQuickRegistrationForm.getEmail());
+	        
+        } catch (Exception e) {
+	        displayFollowUs(request, model, new FollowUsForm());
+        }
 		
         return modelAndView;
 	}
@@ -69,7 +102,13 @@ public class FollowUsController extends AbstractMCommerceController {
 								BindingResult result, Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/unregister-newsletter-success");
 
-		// TODO
+		try {
+			String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL);
+			webCommerceService.saveNewsletterUnsubscriptionAndSendEmail(requestUtil.getRequestData(request), email);
+	        
+        } catch (Exception e) {
+	        displayFollowUs(request, model, new FollowUsForm());
+        }
 		
         return modelAndView;
 	}

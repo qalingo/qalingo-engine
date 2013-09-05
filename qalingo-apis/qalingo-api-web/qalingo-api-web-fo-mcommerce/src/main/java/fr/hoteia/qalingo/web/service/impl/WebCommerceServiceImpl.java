@@ -38,7 +38,6 @@ import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerEditForm;
-import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import fr.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import fr.hoteia.qalingo.web.mvc.form.RetailerContactForm;
@@ -169,6 +168,20 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
 		return super.deleteAddressCustomer(request, requestData, customerAddressId);
 	}
 	
+	@Override
+	public Customer saveNewsletterSubscriptionAndSendEmail(final RequestData requestData, final String email) throws Exception {
+		Customer customer = super.saveNewsletterSubscription(requestData, email);
+		saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, email);
+		return customer;
+    }
+	
+	@Override
+	public Customer saveNewsletterUnsubscriptionAndSendEmail(final RequestData requestData, final String email) throws Exception {
+		Customer customer = super.saveNewsletterUnsubscription(requestData, email);
+		saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, email);
+		return customer;
+    }
+	
     /**
      * 
      */
@@ -207,15 +220,14 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
     /**
      * 
      */
-	public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final FollowUsForm followUsForm) throws Exception {
+	public void saveAndBuildNewsletterSubscriptionConfirmationMail(final RequestData requestData, final String email) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final String contextNameValue = requestData.getContextNameValue();
 
 		final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
-		BeanUtils.copyProperties(followUsForm, newsletterEmailBean);
 		newsletterEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
 		newsletterEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
-		newsletterEmailBean.setToEmail(followUsForm.getEmail());
+		newsletterEmailBean.setToEmail(email);
 		
 		super.saveAndBuildNewsletterSubscriptionConfirmationMail(requestData, newsletterEmailBean);
 	}
@@ -223,15 +235,14 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
     /**
      * 
      */
-	public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final FollowUsForm followUsForm) throws Exception {
+	public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String email) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final String contextNameValue = requestData.getContextNameValue();
 
 		final NewsletterEmailBean newsletterEmailBean = new NewsletterEmailBean();
-		BeanUtils.copyProperties(followUsForm, newsletterEmailBean);
 		newsletterEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
 		newsletterEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
-		newsletterEmailBean.setToEmail(followUsForm.getEmail());
+		newsletterEmailBean.setToEmail(email);
 		
 		super.saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, newsletterEmailBean);
 	}

@@ -10,6 +10,8 @@
 package fr.hoteia.qalingo.core.util.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -28,12 +30,16 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
     private static final long serialVersionUID = 745699901105995036L;
     
 	private String from;
+	private String fromName;
 	private String to;
 	private String cc;
 	private String replyTo;
 	private String subject;
 	private String plainTextContent;
 	private String htmlContent;
+
+	private boolean mirroringActivated;
+	private String mirroringFilePath;
 
 	public String getFrom() {
 		return this.from;
@@ -42,6 +48,14 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 	public void setFrom(String from) {
 		this.from = from;
 	}
+	
+	public String getFromName() {
+	    return fromName;
+    }
+	
+	public void setFromName(String fromName) {
+	    this.fromName = fromName;
+    }
 	
 	public String getTo() {
 		return this.to;
@@ -91,27 +105,49 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 		this.htmlContent = htmlContent;
 	}
 	
+	public boolean isMirroringActivated() {
+    	return mirroringActivated;
+    }
+
+	public void setMirroringActivated(boolean mirroringActivated) {
+    	this.mirroringActivated = mirroringActivated;
+    }
+
+	public String getMirroringFilePath() {
+    	return mirroringFilePath;
+    }
+
+	public void setMirroringFilePath(String mirroringFolderPath) {
+    	this.mirroringFilePath = mirroringFolderPath;
+    }
+
 	public void prepare(MimeMessage message) throws Exception {
 	
-		if( getFrom() != null )
-			message.addFrom(InternetAddress.parse(getFrom()));
-		if( getTo() != null )
+		if(getFrom() != null){
+			List<InternetAddress> toAddress = new ArrayList<InternetAddress>();
+			toAddress.add(new InternetAddress(getFrom(), getFromName()));
+			message.addFrom(toAddress.toArray(new InternetAddress[toAddress.size()]));
+		}
+		if(getTo() != null){
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(getTo()));
-		if( getCc() != null )
+		}
+		if(getCc() != null){
 			message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(getCc()));
-		if( getSubject() != null )
+		}
+		if(getSubject() != null){
 			message.setSubject(getSubject());
+		}
 		
 		MimeMultipart mimeMultipart = new MimeMultipart("alternative");// multipart/mixed or mixed or related or alternative
 		message.setContent(mimeMultipart);
 				
-		if( getPlainTextContent() != null ){
+		if(getPlainTextContent() != null){
 			BodyPart textBodyPart = new MimeBodyPart();
 			textBodyPart.setContent(getPlainTextContent(), "text/plain");
 			mimeMultipart.addBodyPart(textBodyPart);
 		}
 		
-		if( getHtmlContent() != null ){
+		if(getHtmlContent() != null){
 			BodyPart htmlBodyPart = new MimeBodyPart();
 			htmlBodyPart.setContent(getHtmlContent(), "text/html");
 			mimeMultipart.addBodyPart(htmlBodyPart);
