@@ -20,6 +20,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Serializable {
@@ -37,6 +38,8 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 	private String subject;
 	private String plainTextContent;
 	private String htmlContent;
+	
+	private String unsubscribeUrlOrEmail;
 
 	private boolean mirroringActivated;
 	private String mirroringFilePath;
@@ -105,6 +108,14 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
 		this.htmlContent = htmlContent;
 	}
 	
+	public String getUnsubscribeUrlOrEmail() {
+	    return unsubscribeUrlOrEmail;
+    }
+	
+	public void setUnsubscribeUrlOrEmail(String unsubscribeUrlOrEmail) {
+	    this.unsubscribeUrlOrEmail = unsubscribeUrlOrEmail;
+    }
+	
 	public boolean isMirroringActivated() {
     	return mirroringActivated;
     }
@@ -122,7 +133,12 @@ public class MimeMessagePreparatorImpl implements MimeMessagePreparator, Seriali
     }
 
 	public void prepare(MimeMessage message) throws Exception {
-	
+
+		// AUTO unsubscribe for Gmail/Hotmail etc : RFC2369
+		if(StringUtils.isNotEmpty(getUnsubscribeUrlOrEmail())){
+			message.addHeader("List-Unsubscribe", "<" + getUnsubscribeUrlOrEmail() + ">");
+		}
+
 		if(getFrom() != null){
 			List<InternetAddress> toAddress = new ArrayList<InternetAddress>();
 			toAddress.add(new InternetAddress(getFrom(), getFromName()));

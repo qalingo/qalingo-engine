@@ -45,5 +45,5 @@ public abstract class AbstractEmailBean implements Serializable {
 	public void setToEmail(String toEmail) {
 	    this.toEmail = toEmail;
     }
-
+	
 }

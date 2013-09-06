@@ -51,33 +51,36 @@ public class CustomerOrderController extends AbstractCustomerController {
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		
 		List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
-		String url = requestUtil.getCurrentRequestUrl(request);
-		
-		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
-		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder;
+		if(orders != null
+				&& orders.size() > 0){
+			String url = requestUtil.getCurrentRequestUrl(request);
+			
+			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
+	        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder;
 
-        if(StringUtils.isEmpty(page)){
-        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, new PagedListHolder<OrderViewBean>());
-        } else {
-	        orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
-	        if (orderViewBeanPagedListHolder == null) { 
-	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, orderViewBeanPagedListHolder);
+	        if(StringUtils.isEmpty(page)){
+	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, new PagedListHolder<OrderViewBean>());
+	        } else {
+		        orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
+		        if (orderViewBeanPagedListHolder == null) { 
+		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, orderViewBeanPagedListHolder);
+		        }
+		        int pageTarget = new Integer(page).intValue() - 1;
+		        int pageCurrent = orderViewBeanPagedListHolder.getPage();
+		        if (pageCurrent < pageTarget) { 
+		        	for (int i = pageCurrent; i < pageTarget; i++) {
+		        		orderViewBeanPagedListHolder.nextPage(); 
+					}
+		        } else if (pageCurrent > pageTarget) { 
+		        	for (int i = pageTarget; i < pageCurrent; i++) {
+			        	orderViewBeanPagedListHolder.previousPage(); 
+					}
+		        } 
 	        }
-	        int pageTarget = new Integer(page).intValue() - 1;
-	        int pageCurrent = orderViewBeanPagedListHolder.getPage();
-	        if (pageCurrent < pageTarget) { 
-	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		orderViewBeanPagedListHolder.nextPage(); 
-				}
-	        } else if (pageCurrent > pageTarget) { 
-	        	for (int i = pageTarget; i < pageCurrent; i++) {
-		        	orderViewBeanPagedListHolder.previousPage(); 
-				}
-	        } 
-        }
-		model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
-		model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+			model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
+			model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+		}
 		
         return modelAndView;
 	}
@@ -90,7 +93,6 @@ public class CustomerOrderController extends AbstractCustomerController {
 		if(StringUtils.isNotEmpty(orderId)){
 			final Order order = orderService.getOrderById(orderId);
 			if(order != null){
-
 				// SANITY CHECK
 				final Customer customer = requestUtil.getCurrentCustomer(request);
 				List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());

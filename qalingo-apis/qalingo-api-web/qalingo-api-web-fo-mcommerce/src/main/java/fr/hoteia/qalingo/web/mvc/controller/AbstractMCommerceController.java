@@ -30,12 +30,18 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
+import fr.hoteia.qalingo.web.mvc.viewbean.CommonViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.ConditionsViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CustomerViewBean;
-import fr.hoteia.qalingo.web.mvc.viewbean.CutomerMenuViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.FooterMenuViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.HeaderCartViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LegalTermsViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.LocalizationViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MarketAreaViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.MarketPlaceViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MarketViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
+import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
 import fr.hoteia.qalingo.web.service.WebCommerceService;
 
 /**
@@ -63,123 +69,123 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(requestUtil.getRequestData(request)));
+	@ModelAttribute(ModelConstants.COMMON_VIEW_BEAN)
+	protected CommonViewBean initCommon(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildCommonViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initCustomer(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.CUSTOMER_VIEW_BEAN)
+	protected CustomerViewBean initCustomer(final HttpServletRequest request, final Model model) throws Exception {
 		final Customer customer = requestUtil.getCurrentCustomer(request);
 		if(customer != null){
-			final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer);
-			model.addAttribute("customer", customerView);
+			return viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer);
 		}
-		
-		List<CutomerMenuViewBean> customerLinks = viewBeanFactory.buildCutomerMenuViewBeans(requestUtil.getRequestData(request));
-		model.addAttribute("customerLinks", customerLinks);
+		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		// LEGAL-TERMS
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(requestUtil.getRequestData(request));
-		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
+	@ModelAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN)
+	protected LegalTermsViewBean initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildLegalTermsViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initConditionOfUse(final HttpServletRequest request, final Model model) throws Exception {
-		// CONDITIONS OF USE
-		ConditionsViewBean conditionsViewBean = viewBeanFactory.buildConditionsViewBean(requestUtil.getRequestData(request));
-		model.addAttribute("conditions", conditionsViewBean);
+	@ModelAttribute(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN)
+	protected ConditionsViewBean initConditionOfUse(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildConditionsViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initCart(final HttpServletRequest request, final Model model) throws Exception {
-		// CART
-		HeaderCartViewBean headerCartViewBean = viewBeanFactory.buildHeaderCartViewBean(requestUtil.getRequestData(request));
-		model.addAttribute("headerCart", headerCartViewBean);
+	@ModelAttribute(ModelConstants.HEADER_CART)
+	protected HeaderCartViewBean initCart(final HttpServletRequest request, final Model model) throws Exception {
+		return viewBeanFactory.buildHeaderCartViewBean(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initAllMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.MARKET_AREAS_VIEW_BEAN)
+	protected List<MarketPlaceViewBean> initAllMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// ALL MARKETPLACES
-		List<MarketPlaceViewBean> marketPlaceViewBeans = viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request));
-		model.addAttribute("marketPlaces", marketPlaceViewBeans);
+		return viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request));
 	}
-
+	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initLocalizationForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.LANGUAGES_VIEW_BEAN)
+	protected List<LocalizationViewBean> initLocalizationForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		model.addAttribute("languages", viewBeanFactory.buildLocalizationViewBeansByMarketArea(requestUtil.getRequestData(request), currentLocalization));
+		return viewBeanFactory.buildLocalizationViewBeansByMarketArea(requestUtil.getRequestData(request), currentLocalization);
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initMaketAreasForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.MARKET_AREA_VIEW_BEAN)
+	protected MarketAreaViewBean initCurrentMaketArea(final HttpServletRequest request, final Model model) throws Exception {
+		// CURRENT MARKET AREA
+		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+		return viewBeanFactory.buildMarketAreaViewBean(requestUtil.getRequestData(request), currentMarketArea);
+	}
+	
+	/**
+	 * 
+	 */
+	@ModelAttribute(ModelConstants.MARKET_AREAS_VIEW_BEAN)
+	protected List<MarketAreaViewBean> initMaketAreasForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// MARKET AREAS FOR THE CURRENT MARKET
 		final Market currentMarket = requestUtil.getCurrentMarket(request);
 		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-		model.addAttribute("marketAreas", viewBeanFactory.buildMarketAreaViewBeans(requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList)));
+		return viewBeanFactory.buildMarketAreaViewBeans(requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initMaketsForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.MARKETS_VIEW_BEAN)
+	protected List<MarketViewBean> initMarketsForCurrentMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// MARKETS FOR THE CURRENT MARKETPLACE
 		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
 		Set<Market> marketList = currentMarketPlace.getMarkets();
-		model.addAttribute("markets", viewBeanFactory.buildMarketViewBeans(requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList)));
+		return viewBeanFactory.buildMarketViewBeans(requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initRetailersForCurrentMarketArea(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)
+	protected List<RetailerViewBean> initRetailersForCurrentMarketArea(final HttpServletRequest request, final Model model) throws Exception {
 		// RETAILERS FOR THE CURRENT MARKET AREA
-		model.addAttribute("retailers", viewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestUtil.getRequestData(request)));
+		return viewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.MENUS_VIEW_BEAN)
+	protected List<MenuViewBean> initHeader(final HttpServletRequest request, final Model model) throws Exception {
 		// HEADER
-		model.addAttribute("menus", viewBeanFactory.buildMenuViewBeans(requestUtil.getRequestData(request)));
+		return viewBeanFactory.buildMenuViewBeans(requestUtil.getRequestData(request));
 	}
 	
 	/**
 	 * 
 	 */
-	@ModelAttribute
-	protected void initFooter(final HttpServletRequest request, final Model model) throws Exception {
+	@ModelAttribute(ModelConstants.FOOTER_MENUS_VIEW_BEAN)
+	protected List<FooterMenuViewBean> initFooter(final HttpServletRequest request, final Model model) throws Exception {
 		// FOOTER
-		model.addAttribute("footerMenus", viewBeanFactory.buildFooterMenuViewBeans(requestUtil.getRequestData(request)));
+		return viewBeanFactory.buildFooterMenuViewBeans(requestUtil.getRequestData(request));
 	}
 	
 	/**

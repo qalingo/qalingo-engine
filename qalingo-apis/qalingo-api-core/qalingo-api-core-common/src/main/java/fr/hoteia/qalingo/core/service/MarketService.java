@@ -33,4 +33,7 @@ public interface MarketService {
 	// MARKET AREA
 	
 	MarketArea getMarketAreaById(String rawMarketAreaId);
+	
+	MarketArea getMarketAreaByCode(String marketAreaCode);
+
 }

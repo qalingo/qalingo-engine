@@ -93,7 +93,10 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 			}
 		}
 		if(StringUtils.isEmpty(domainePathUrl)){
-			domainePathUrl = request.getRequestURL().toString();
+			String requestUrl = request.getRequestURL().toString();
+			requestUrl = requestUrl.replace("http://", "");
+			String[] urlBlock = requestUrl.split("/");
+			domainePathUrl = urlBlock[0];
 		}
 		if(!domainePathUrl.startsWith("http")){
 			String scheme = request.getScheme();

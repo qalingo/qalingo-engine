@@ -61,8 +61,8 @@ public class CustomerMarketArea implements Serializable {
 	@Column(name="MARKET_AREA_ID")
     private Long marketAreaId;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
 	private Set<CustomerOptin> optins = new HashSet<CustomerOptin>(); 
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

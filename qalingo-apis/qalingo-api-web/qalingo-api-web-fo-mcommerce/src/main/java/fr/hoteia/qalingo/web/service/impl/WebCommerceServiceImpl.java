@@ -9,8 +9,10 @@
  */
 package fr.hoteia.qalingo.web.service.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
@@ -265,7 +268,7 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
 		customerNewAccountConfirmationEmailBean.setLastname(createAccountForm.getLastname());
 		customerNewAccountConfirmationEmailBean.setEmail(createAccountForm.getEmail());
 		
-		customerNewAccountConfirmationEmailBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+		customerNewAccountConfirmationEmailBean.setCustomerDetailsUrl(urlService.buildAbsoluteUrl(requestData, urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData)));
 		
 		super.buildAndSaveCustomerNewAccountMail(requestData, customerNewAccountConfirmationEmailBean);
 	}
@@ -309,7 +312,7 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
 		customerResetPasswordConfirmationEmailBean.setLastname(customer.getLastname());
 		customerResetPasswordConfirmationEmailBean.setEmail(customer.getEmail());
 		
-		customerResetPasswordConfirmationEmailBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+		customerResetPasswordConfirmationEmailBean.setCustomerDetailsUrl(urlService.buildAbsoluteUrl(requestData, urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData)));
 		
 		super.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer);
 	}

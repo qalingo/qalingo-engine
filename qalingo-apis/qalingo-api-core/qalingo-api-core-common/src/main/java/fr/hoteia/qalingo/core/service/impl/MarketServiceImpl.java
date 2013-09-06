@@ -70,4 +70,8 @@ public class MarketServiceImpl implements MarketService {
 		}
 		return marketDao.getMarketAreaById(marketAreaId);
 	}
+	
+	public MarketArea getMarketAreaByCode(String marketAreaCode) {
+		return marketDao.getMarketAreaByCode(marketAreaCode);
+	}
 }

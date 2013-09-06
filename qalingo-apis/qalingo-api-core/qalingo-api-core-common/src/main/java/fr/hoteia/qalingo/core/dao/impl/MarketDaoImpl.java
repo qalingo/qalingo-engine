@@ -81,4 +81,13 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	public MarketArea getMarketAreaById(Long marketAreaId) {
 		return em.find(MarketArea.class, marketAreaId);
 	}
+	
+	public MarketArea getMarketAreaByCode(String code) {
+		Session session = (Session) em.getDelegate();
+		String sql = "FROM MarketArea WHERE upper(code) = upper(:code)";
+		Query query = session.createQuery(sql);
+		query.setString("code", code);
+		MarketArea marketArea = (MarketArea) query.uniqueResult();
+		return marketArea;
+	}
 }

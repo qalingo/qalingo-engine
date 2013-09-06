@@ -31,11 +31,11 @@ public class ReferentialDataServiceImpl implements ReferentialDataService {
 
 	Map<Locale, Map<String, String>> countriesByLocale = new HashMap<Locale, Map<String, String>>();
 
-	public String getTitleByLocale(final String countryCode, final Locale locale) {
+	public String getTitleByLocale(final String titleCode, final Locale locale) {
 		Map<String, String> titlesResourceByLocale = getTitlesByLocale(locale);
-		String title = titlesResourceByLocale.get(countryCode);
+		String title = titlesResourceByLocale.get(titleCode);
 		if(StringUtils.isEmpty(title)){
-			title = titlesResourceByLocale.get(Constants.TITLE_MESSAGE_PREFIX + countryCode);
+			title = titlesResourceByLocale.get(Constants.TITLE_MESSAGE_PREFIX + titleCode);
 		}
 		return title;
 	}
@@ -46,6 +46,7 @@ public class ReferentialDataServiceImpl implements ReferentialDataService {
 			ResourceBundle titlesBundleByLocale = getTitlesBundleByLocale(locale);
 			if(titlesBundleByLocale != null){
 				titlesByLocale.put(locale, buildMap(titlesBundleByLocale));
+				titlesMapByLocale = titlesByLocale.get(locale);
 			} else {
 				titlesMapByLocale = getTitlesByLocale(Locale.ENGLISH);
 			}
@@ -57,7 +58,7 @@ public class ReferentialDataServiceImpl implements ReferentialDataService {
 		Map<String, String> countriesResourceBundle = getCountriesByLocale(locale);
 		String country = countriesResourceBundle.get(countryCode);
 		if(StringUtils.isEmpty(country)){
-			country = countriesResourceBundle.get(Constants.TITLE_MESSAGE_PREFIX + countryCode);
+			country = countriesResourceBundle.get(Constants.COUNTRY_MESSAGE_PREFIX + countryCode);
 		}
 		return country;
 	}

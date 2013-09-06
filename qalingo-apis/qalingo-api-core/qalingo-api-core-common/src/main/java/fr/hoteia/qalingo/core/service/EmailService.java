@@ -41,7 +41,9 @@ public interface EmailService {
 	void buildAndSaveRetailerContactMail(RequestData requestData, Customer customer, String VelocityPath, RetailerContactEmailBean retailerCcontactEmailBean) throws Exception;
 
 	void saveAndBuildNewsletterSubscriptionnConfirmationMail(RequestData requestData, String VelocityPath, NewsletterEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
-	
+
+	void saveAndBuildNewsletterUnsubscriptionConfirmationMail(RequestData requestData, String VelocityPath, NewsletterEmailBean newsletterRegistrationConfirmationEmailBean) throws Exception;
+
 	void buildAndSaveCustomerNewAccountMail(RequestData requestData, String VelocityPath, CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception;
 	
 	void buildAndSaveCustomerForgottenPasswordMail(RequestData requestData, Customer customer, String VelocityPath, CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception;

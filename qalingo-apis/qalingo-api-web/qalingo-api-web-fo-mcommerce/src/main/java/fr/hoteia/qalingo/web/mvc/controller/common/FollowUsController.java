@@ -12,6 +12,7 @@ package fr.hoteia.qalingo.web.mvc.controller.common;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
+import fr.hoteia.qalingo.core.service.MarketService;
+import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import fr.hoteia.qalingo.web.mvc.form.FollowUsForm;
@@ -34,6 +37,9 @@ import fr.hoteia.qalingo.web.mvc.form.NewsletterQuickRegistrationForm;
 @Controller("followUsController")
 public class FollowUsController extends AbstractMCommerceController {
 
+	@Autowired
+    protected MarketService marketService;
+	
 	@RequestMapping(value = FoUrls.FOLLOW_US_URL, method = RequestMethod.GET)
 	public ModelAndView displayFollowUs(final HttpServletRequest request, final Model model, @ModelAttribute("followUsForm") FollowUsForm followUsForm) throws Exception{
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US.getVelocityPage());
@@ -100,11 +106,16 @@ public class FollowUsController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.NEWSLETTER_UNREGISTER_URL, method = RequestMethod.GET)
 	public ModelAndView newsletterUnRegister(final HttpServletRequest request, @Valid @ModelAttribute("newsletterQuickRegistrationForm") NewsletterQuickRegistrationForm newsletterQuickRegistrationForm,
 								BindingResult result, Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "follow-us/unregister-newsletter-success");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE);
 
 		try {
+			String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
 			String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL);
-			webCommerceService.saveNewsletterUnsubscriptionAndSendEmail(requestUtil.getRequestData(request), email);
+			
+			RequestData requestData = requestUtil.getRequestData(request);
+			requestData.setMarketArea(marketService.getMarketAreaByCode(marketAreaCode));
+			
+			webCommerceService.saveNewsletterUnsubscriptionAndSendEmail(requestData, email);
 	        
         } catch (Exception e) {
 	        displayFollowUs(request, model, new FollowUsForm());

@@ -54,12 +54,14 @@ public final class ModelConstants {
 	public static final String MORE_PAGE_MENUS_VIEW_BEAN = "morePageMenus";
 	public static final String MARKET_PLACES_VIEW_BEAN = "marketPlaces";
 	public static final String MARKETS_VIEW_BEAN = "markets";
+	public static final String MARKET_AREA_VIEW_BEAN = "marketArea";
 	public static final String MARKET_AREAS_VIEW_BEAN = "marketAreas";
 	public static final String MARKET_LANGUAGES_VIEW_BEAN = "marketLanguages";
 	public static final String RETAILERS_VIEW_BEAN = "retailers";
 	public static final String RETAILER_VIEW_BEAN = "retailer";
 	public static final String LANGUAGES_VIEW_BEAN = "languages";
 	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
+	public static final String CONDITIONS_OF_USE_VIEW_BEAN = "conditions";
 	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
 	public static final String FOLLOW_US_VIEW_BEAN = "followUs";
 	public static final String FAQ_VIEW_BEAN = "faq";
@@ -81,6 +83,7 @@ public final class ModelConstants {
 	public static final String ORDER_VIEW_BEAN = "order";
 	public static final String SHIPPING_VIEW_BEAN = "shipping";
 	public static final String CUSTOMER_VIEW_BEAN = "customer";
+	public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
 	public static final String CUSTOMER_DETAILS_VIEW_BEAN = "customerDetails";
 	public static final String USER_VIEW_BEAN = "user";
 
@@ -110,6 +113,7 @@ public final class ModelConstants {
 	public static final String LAST_RETAILERS = "lastRetailers";
 
 	// OTHERS
+	public static final String HEADER_CART = "headerCart";
 	public static final String HEADER_TITLE = "headerTitle";
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String INFO_MESSAGE = "infoMessage";

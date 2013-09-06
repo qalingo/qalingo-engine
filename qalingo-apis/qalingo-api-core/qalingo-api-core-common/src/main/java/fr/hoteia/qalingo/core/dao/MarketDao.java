@@ -33,4 +33,6 @@ public interface MarketDao {
 	// MARKET AREA
 	
 	MarketArea getMarketAreaById(Long marketAreaId);
+	
+	MarketArea getMarketAreaByCode(String code);
 }

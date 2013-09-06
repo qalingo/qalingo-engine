@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.service.impl;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +29,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.dao.EmailDao;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Email;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.email.bean.AbandonedShoppingCartEmailBean;
 import fr.hoteia.qalingo.core.email.bean.AbstractEmailBean;
@@ -204,6 +207,7 @@ public class EmailServiceImpl implements EmailService {
     public void saveAndBuildNewsletterSubscriptionnConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
+        	final MarketArea marketArea = requestData.getMarketArea();
         	final Localization localization = requestData.getLocalization();
         	final Locale locale = localization.getLocale();
         	
@@ -218,13 +222,17 @@ public class EmailServiceImpl implements EmailService {
         	model.put("newsletterEmailBean", newsletterEmailBean);
         	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, newsletterEmailBean.getToEmail());
-			String unsubscribeUrl = urlService.generateUrl(FoUrls.NEWSLETTER_UNREGISTER, requestData, urlParams);
-        	model.put("unsubscribeUrl", urlService.buildAbsoluteUrl(requestData, unsubscribeUrl));
+    		Map<String, String> urlParams = new HashMap<String, String>();
+    		urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, URLEncoder.encode(newsletterEmailBean.getToEmail(), Constants.ANSI));
+    		urlParams.put(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE, marketArea.getCode());
+    		String unsubscribeUrl = urlService.generateUrl(FoUrls.NEWSLETTER_UNREGISTER, requestData, urlParams);
+    		String fullUnsubscribeUrl = urlService.buildAbsoluteUrl(requestData, unsubscribeUrl);
+    		
+        	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
 
         	String fromEmail = newsletterEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION, model);
+        	mimeMessagePreparator.setUnsubscribeUrlOrEmail(fullUnsubscribeUrl);
         	mimeMessagePreparator.setTo(newsletterEmailBean.getToEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
@@ -272,12 +280,18 @@ public class EmailServiceImpl implements EmailService {
         	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, newsletterEmailBean.getToEmail());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, URLEncoder.encode(newsletterEmailBean.getToEmail(), Constants.ANSI));
 			String subscribeUrl = urlService.generateUrl(FoUrls.NEWSLETTER_REGISTER, requestData, urlParams);
         	model.put("subscribeUrl", urlService.buildAbsoluteUrl(requestData, subscribeUrl));
         	
+    		String unsubscribeUrl = urlService.generateUrl(FoUrls.NEWSLETTER_UNREGISTER, requestData, urlParams);
+    		String fullUnsubscribeUrl = urlService.buildAbsoluteUrl(requestData, unsubscribeUrl);
+    		
+        	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
+        	
         	String fromEmail = newsletterEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION, model);
+        	mimeMessagePreparator.setUnsubscribeUrlOrEmail(fullUnsubscribeUrl);
         	mimeMessagePreparator.setTo(newsletterEmailBean.getToEmail());
         	mimeMessagePreparator.setFrom(fromEmail);
         	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));

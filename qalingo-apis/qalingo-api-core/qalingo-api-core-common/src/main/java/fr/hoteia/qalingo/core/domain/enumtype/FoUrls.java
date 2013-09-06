@@ -101,7 +101,7 @@ public enum FoUrls {
 	public static final String FOLLOW_US_URL					= "/follow-us.html";
 	public static final String FOLLOW_US_VELOCITY_PAGE			= "follow-us/follow-us-form";
 	public static final String FOLLOW_US_SUCCESS_VELOCITY_PAGE	= "follow-us/follow-us-success";
-	
+
 	public static final String CONTACT_KEY				= "contact";
 	public static final String CONTACT_URL				= "/contact.html";
 	public static final String CONTACT_VELOCITY_PAGE	= "contact/contact-form";
@@ -112,11 +112,11 @@ public enum FoUrls {
 	
 	public static final String NEWSLETTER_REGISTER_KEY				= "newsletter-register";
 	public static final String NEWSLETTER_REGISTER_URL				= "/newsletter-register.html";
-	public static final String NEWSLETTER_REGISTER_VELOCITY_PAGE	= "newsletter/register";
+	public static final String NEWSLETTER_REGISTER_VELOCITY_PAGE	= "newsletter/register-newsletter-success";
 	
 	public static final String NEWSLETTER_UNREGISTER_KEY				= "newsletter-unregister";
 	public static final String NEWSLETTER_UNREGISTER_URL				= "/newsletter-unregister.html";
-	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "newsletter/unregister";
+	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "follow-us/unregister-newsletter-success";
 
 	public static final String SEARCH_KEY				= "search";
 	public static final String SEARCH_URL				= "/search.html";

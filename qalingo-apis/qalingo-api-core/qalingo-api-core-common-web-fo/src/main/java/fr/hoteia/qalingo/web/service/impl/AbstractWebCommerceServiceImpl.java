@@ -136,7 +136,7 @@ public class AbstractWebCommerceServiceImpl {
 		
 		customerService.saveOrUpdateCustomer(customer);
 		
-		customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		customer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
 		requestUtil.updateCurrentCustomer(request, customer);
 		
 		return customer;
@@ -145,7 +145,6 @@ public class AbstractWebCommerceServiceImpl {
 	public Customer updateCurrentCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
 		customer.setDefaultLocale(marketArea.getDefaultLocalization().toString());
 		customer.setActive(true);
-		customer.setDateCreate(new Date());
 		customer.setDateUpdate(new Date());
 
 		// save market context phone etc
@@ -172,8 +171,7 @@ public class AbstractWebCommerceServiceImpl {
 	}
 	
 	public Customer deleteAddressCustomer(final HttpServletRequest request, final RequestData requestData, final String customerAddressId) throws Exception {
-		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
+		Customer customer = requestData.getCustomer();
 		CustomerAddress customerAddress = customer.getAddress(new Long(customerAddressId));
 		
 		// SANITY CHECK : wrong address id for this customer
@@ -200,7 +198,7 @@ public class AbstractWebCommerceServiceImpl {
 		customerService.saveOrUpdateCustomer(customer);
 		
 		// UPDATE SESSION
-		customer = customerService.getCustomerByLoginOrEmail(customerLogin);
+		customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
 		requestUtil.updateCurrentCustomer(request, customer);
 		
 		return customer;
@@ -208,8 +206,7 @@ public class AbstractWebCommerceServiceImpl {
 	
 	public Customer addProductSkuToWishlist(final HttpServletRequest request, final RequestData requestData, final String productSkuCode) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
-		String customerLogin = requestUtil.getCurrentCustomerLogin(request);
-		Customer customer = customerService.getCustomerByLoginOrEmail(customerLogin);
+		Customer customer = requestData.getCustomer();
 		customer = checkCustomerMarketArea(requestData, customer);
 		
 		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
@@ -223,7 +220,7 @@ public class AbstractWebCommerceServiceImpl {
 			customerMarketArea.getWishlistProducts().add(customerWishlist);
 			customer.getCustomerMarketAreas().add(customerMarketArea);
 			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+			customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
 			requestUtil.updateCurrentCustomer(request, customer);
 		} else {
 			// Wishlist for this product sku code already exist
@@ -234,7 +231,7 @@ public class AbstractWebCommerceServiceImpl {
 	
 	public Customer removeProductSkuFromWishlist(final HttpServletRequest request, final RequestData requestData, final String productSkuCode) throws Exception {
 		final MarketArea marketArea = requestData.getMarketArea();
-		Customer customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+		Customer customer = requestData.getCustomer();
 		customer = checkCustomerMarketArea(requestData, customer);
 		
 		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
@@ -244,14 +241,14 @@ public class AbstractWebCommerceServiceImpl {
 			customerMarketArea.getWishlistProducts().remove(customerWishlist);
 			customer.getCustomerMarketAreas().add(customerMarketArea);
 			customerService.saveOrUpdateCustomer(customer);
-			customer = customerService.getCustomerByLoginOrEmail(requestUtil.getCurrentCustomerLogin(request));
+			customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
 			requestUtil.updateCurrentCustomer(request, customer);
 		}
 		return customer;
 	}
 	
 	public Order buildAndSaveNewOrder(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea) throws Exception {
-		Customer customer = requestUtil.getCurrentCustomer(request);
+		Customer customer = requestData.getCustomer();
 		Cart cart = requestUtil.getCurrentCart(request);
 		
 		Order order = new Order();
@@ -375,7 +372,7 @@ public class AbstractWebCommerceServiceImpl {
      * 
      */
 	public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final NewsletterEmailBean newsletterEmailBean) throws Exception {
-		emailService.saveAndBuildNewsletterSubscriptionnConfirmationMail(requestData, requestData.getVelocityEmailPrefix(), newsletterEmailBean);
+		emailService.saveAndBuildNewsletterUnsubscriptionConfirmationMail(requestData, requestData.getVelocityEmailPrefix(), newsletterEmailBean);
 	}
 	
     /**
