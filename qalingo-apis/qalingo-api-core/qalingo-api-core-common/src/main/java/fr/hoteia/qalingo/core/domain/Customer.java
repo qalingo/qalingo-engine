@@ -292,7 +292,8 @@ public class Customer implements Serializable {
     }
 	
 	public CustomerCredential getCurrentCredential() {
-		if(credentials != null){
+		if(credentials != null
+				&& credentials.size() > 0){
 			List<CustomerCredential> sortedObjects = new LinkedList<CustomerCredential>(credentials);
 			Collections.sort(sortedObjects, new Comparator<CustomerCredential>() {
 				@Override

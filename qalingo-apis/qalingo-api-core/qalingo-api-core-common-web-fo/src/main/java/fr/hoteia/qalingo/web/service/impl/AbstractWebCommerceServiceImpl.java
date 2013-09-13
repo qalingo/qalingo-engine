@@ -82,14 +82,16 @@ public class AbstractWebCommerceServiceImpl {
     /**
      * 
      */
-	public CustomerCredential flagCustomeCredentialWithToken(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+	public CustomerCredential flagCustomerCredentialWithToken(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
 		if(customer != null){
 			String token = UUID.randomUUID().toString();
 			CustomerCredential customerCredential = customer.getCurrentCredential();
-			customerCredential.setResetToken(token);
-			Date date = new Date();
-			customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
-			customerService.saveOrUpdateCustomerCredential(customerCredential);
+			if(customerCredential != null){
+				customerCredential.setResetToken(token);
+				Date date = new Date();
+				customerCredential.setTokenTimestamp(new Timestamp(date.getTime()));
+				customerService.saveOrUpdateCustomerCredential(customerCredential);
+			}
 			return customerCredential;
 		}
 		return null;
@@ -98,12 +100,27 @@ public class AbstractWebCommerceServiceImpl {
     /**
      * 
      */
-	public void resetCustomeCredential(final HttpServletRequest request, final RequestData requestData, final Customer customer, final String newPassword) throws Exception {
+	public void cancelCustomerCredentialToken(final HttpServletRequest request, final RequestData requestData, final Customer customer) throws Exception {
+		if(customer != null){
+			CustomerCredential customerCredential = customer.getCurrentCredential();
+			if(customerCredential != null){
+				customerCredential.setResetToken("");
+				customerCredential.setTokenTimestamp(null);
+				customerService.saveOrUpdateCustomerCredential(customerCredential);
+			}
+		}
+	}
+	
+    /**
+     * 
+     */
+	public void resetCustomerCredential(final HttpServletRequest request, final RequestData requestData, final Customer customer, final String newPassword) throws Exception {
 		if(customer != null){
 			String clearPassword = newPassword;
 			String encorePassword = securityUtil.encodePassword(clearPassword);
 			CustomerCredential customerCredential = new CustomerCredential();
 			customerCredential.setPassword(encorePassword);
+			customerCredential.setDateUpdate(new Date());
 			customer.getCredentials().add(customerCredential);
 			
 			customer.setPassword(encorePassword);

@@ -385,13 +385,18 @@ public class EmailServiceImpl implements EmailService {
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customer", customer);
+        	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
         	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, customer.getEmail());
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, URLEncoder.encode(customer.getEmail(), Constants.ANSI));
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_TOKEN, customerForgottenPasswordEmailBean.getToken());
 			String resetPasswordUrl = urlService.generateUrl(FoUrls.RESET_PASSWORD, requestData, urlParams);
-        	model.put("resetPasswordUrl", resetPasswordUrl);
+        	model.put("activeChangePasswordUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
+        	
+			String canceResetPasswordUrl = urlService.generateUrl(FoUrls.CANCEL_RESET_PASSWORD, requestData, urlParams);
+        	model.put("cancelChangePasswordUrl", urlService.buildAbsoluteUrl(requestData, canceResetPasswordUrl));
+        	
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
         	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
@@ -443,6 +448,9 @@ public class EmailServiceImpl implements EmailService {
         	model.put("customerResetPasswordConfirmationEmailBean", customerResetPasswordConfirmationEmailBean);
         	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
+			String loginUrl = urlService.generateUrl(FoUrls.LOGIN, requestData);
+        	model.put("loginUrl", urlService.buildAbsoluteUrl(requestData, loginUrl));
+        	
         	String fromEmail = customerResetPasswordConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION, model);
         	mimeMessagePreparator.setTo(customer.getEmail());

@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.web.mvc.controller;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -137,20 +138,31 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	}
 
 	/**
+	 * @return 
 	 * 
 	 */
-	@ModelAttribute
-	public void initWording(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
-		String contextName = requestUtil.getContextName();
+	@ModelAttribute(ModelConstants.WORDING)
+	public Map<String, String> initWording(final HttpServletRequest request, final Model model) throws Exception {
 		try {
+			return getWordingMap(request);
+        } catch (Exception e) {
+        	LOG.error("Context name, " + requestUtil.getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
+        }
+		return null;
+	}
+	
+	protected Map<String, String> getWordingMap(final HttpServletRequest request){
+		try {
+			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+			final Locale locale = currentLocalization.getLocale();
+			String contextName = requestUtil.getContextName();
 			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
-			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(contextValue, locale));
+			return coreMessageSource.loadWording(contextValue, locale);
 	        
         } catch (Exception e) {
-        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        	LOG.error("Failed to load wording map.", e);
         }
+		return null;
 	}
 	
 	/**

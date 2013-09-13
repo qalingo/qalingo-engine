@@ -68,6 +68,7 @@ public enum FoUrls {
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE),
+    CANCEL_RESET_PASSWORD(FoUrls.CANCEL_RESET_PASSWORD_URL, FoUrls.CANCEL_RESET_PASSWORD_KEY, FoUrls.CANCEL_RESET_PASSWORD_VELOCITY_PAGE),
     TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE),
 
     XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE);
@@ -274,13 +275,19 @@ public enum FoUrls {
 	public static final String TIMEOUT_URL				= "/timeout.html";
 	public static final String TIMEOUT_VELOCITY_PAGE	= "security/timeout";
 	
-	public static final String FORGOTTEN_PASSWORD_KEY				= "forgotten-password";
-	public static final String FORGOTTEN_PASSWORD_URL				= "/forgotten-password.html";
-	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE		= "security/forgotten-password-form";
+	public static final String FORGOTTEN_PASSWORD_KEY					= "forgotten-password";
+	public static final String FORGOTTEN_PASSWORD_URL					= "/forgotten-password.html";
+	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE			= "security/forgotten-password-form";
+	public static final String FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE	= "security/forgotten-password-success";
 
-	public static final String RESET_PASSWORD_KEY				= "reset-password";
-	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
-	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-form";
+	public static final String RESET_PASSWORD_KEY					= "reset-password";
+	public static final String RESET_PASSWORD_URL					= "/reset-password.html";
+	public static final String RESET_PASSWORD_VELOCITY_PAGE			= "security/reset-password-form";
+	public static final String RESET_PASSWORD_SUCCESS_VELOCITY_PAGE	= "security/reset-password-success";
+
+	public static final String CANCEL_RESET_PASSWORD_KEY					= "cancel-reset-password";
+	public static final String CANCEL_RESET_PASSWORD_URL					= "/cancel-reset-password.html";
+	public static final String CANCEL_RESET_PASSWORD_VELOCITY_PAGE			= "";
 
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 

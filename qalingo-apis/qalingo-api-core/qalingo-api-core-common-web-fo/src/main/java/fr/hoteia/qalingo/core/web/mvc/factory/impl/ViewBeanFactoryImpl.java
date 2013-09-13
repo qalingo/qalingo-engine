@@ -462,6 +462,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		security.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
 		security.setSubmitLoginUrl(urlService.buildSpringSecurityCheckUrl(requestData));
 		security.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
+		security.setResetPasswordUrl(urlService.generateUrl(FoUrls.RESET_PASSWORD, requestData));
 
 		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(requestData, OAuthType.FACEBOOK.getPropertyKey()));
 		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey()));

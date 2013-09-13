@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.web.mvc.controller;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import fr.hoteia.qalingo.core.Constants;
@@ -68,7 +71,7 @@ public abstract class AbstractQalingoController {
 	 * 
 	 */
 	@ModelAttribute
-	protected void initMessages(final HttpServletRequest request, final Model model) throws Exception {
+	protected void handleMessages(final HttpServletRequest request, final Model model) throws Exception {
 		// WE USE SESSION FOR MESSAGES BECAUSE REDIRECT CLEAN REQUEST
 		// ERROR MESSAGE
 		String errorMessage = (String) request.getSession().getAttribute(Constants.ERROR_MESSAGE);
@@ -139,6 +142,22 @@ public abstract class AbstractQalingoController {
 	    }
 		return monitoringViewBean;
 	}
+	
+
+	protected void initMessageError(BindingResult result, Exception e, Map<String, String> wording, String formKey, String fieldKey, String errorKey){
+        String errorMessage = wording.get(errorKey);
+        if(StringUtils.isEmpty(errorMessage)){
+        	errorMessage = ""; // EMPTY VALUE TO EVENT VELOCITY MethodInvocationException
+        }
+        FieldError error = new FieldError(formKey, fieldKey, errorMessage);
+        result.addError(error);
+        result.rejectValue(error.getField(), "");
+        if(e != null){
+            LOG.error(errorMessage, e);
+        } else {
+            LOG.warn(errorMessage);
+        }
+    }
 	
 	/**
 	 * @throws Exception 

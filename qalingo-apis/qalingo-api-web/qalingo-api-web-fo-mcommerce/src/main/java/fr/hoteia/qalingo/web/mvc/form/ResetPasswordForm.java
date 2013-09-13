@@ -13,6 +13,8 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import fr.hoteia.qalingo.core.web.validation.annotation.TwoFieldsEquals;
+
 /**
  * 
  * 
@@ -34,6 +36,7 @@ public class ResetPasswordForm implements Serializable {
 	private String newPassword;
 	
 	@NotEmpty(message = "fo.auth.error_form_reset_password_confirm_password_empty")
+    @TwoFieldsEquals(highlightFieldNames={"newPassword"}, message="fo.auth.error_form_reset_password_confirm_password_is_wrong")
 	private String confirmNewPassword;
 
 	public String getEmail() {

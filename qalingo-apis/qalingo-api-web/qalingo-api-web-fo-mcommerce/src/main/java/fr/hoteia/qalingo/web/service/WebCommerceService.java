@@ -27,9 +27,11 @@ import fr.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
 public interface WebCommerceService {
 
-	CustomerCredential flagCustomeCredentialWithToken(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
-	
-	void resetCustomeCredential(HttpServletRequest request, RequestData requestData, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
+	CustomerCredential flagCustomerCredentialWithToken(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
+
+	void cancelCustomerCredentialToken(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
+
+	void resetCustomerCredential(HttpServletRequest request, RequestData requestData, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
 
 	Customer buildAndSaveNewCustomer(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode, CreateAccountForm createAccountForm) throws Exception;
 	

@@ -23,6 +23,7 @@ public class SecurityViewBean extends AbstractViewBean implements Serializable {
 	private String loginUrl;
 	private String submitLoginUrl;
     private String forgottenPasswordUrl;
+    private String resetPasswordUrl;
 
     // OAUTH / OPENID URLS
     private Map<String, String> urls = new HashMap<String, String>();
@@ -50,6 +51,14 @@ public class SecurityViewBean extends AbstractViewBean implements Serializable {
 	public void setForgottenPasswordUrl(String forgottenPasswordUrl) {
 		this.forgottenPasswordUrl = forgottenPasswordUrl;
 	}
+	
+	public String getResetPasswordUrl() {
+	    return resetPasswordUrl;
+    }
+	
+	public void setResetPasswordUrl(String resetPasswordUrl) {
+	    this.resetPasswordUrl = resetPasswordUrl;
+    }
 	
 	public Map<String, String> getUrls() {
 	    return urls;

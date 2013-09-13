@@ -9,10 +9,8 @@
  */
 package fr.hoteia.qalingo.web.service.impl;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
@@ -53,8 +50,8 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
     /**
      * 
      */
-	public void resetCustomeCredential(final HttpServletRequest request, final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
-		super.resetCustomeCredential(request, requestData, customer, resetPasswordForm.getNewPassword());
+	public void resetCustomerCredential(final HttpServletRequest request, final RequestData requestData, final Customer customer, final ResetPasswordForm resetPasswordForm) throws Exception {
+		super.resetCustomerCredential(request, requestData, customer, resetPasswordForm.getNewPassword());
 	}
 	
     /**
