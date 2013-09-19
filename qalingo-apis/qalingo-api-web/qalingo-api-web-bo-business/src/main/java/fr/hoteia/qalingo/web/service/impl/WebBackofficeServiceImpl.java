@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
@@ -29,20 +30,22 @@ import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerAddress;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import fr.hoteia.qalingo.core.service.AttributeService;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 import fr.hoteia.qalingo.web.service.WebBackofficeService;
 
@@ -61,7 +64,10 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	
 	@Autowired
 	protected ProductSkuService productSkuService;
-	
+
+	@Autowired
+	protected RetailerService retailerService;
+
 	@Autowired
 	protected AttributeService attributeService;
 	
@@ -411,6 +417,36 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		// ...
 		
 		productMarketingService.saveOrUpdateProductMarketingAsset(asset);
+	}
+	
+	public void createOrUpdateRetailer(final Retailer retailer, final RetailerForm retailerForm){
+		retailer.setCode(retailerForm.getCode());
+		retailer.setName(retailerForm.getName());
+		retailer.setDescription(retailerForm.getDescription());
+		
+		retailer.setDescription(retailerForm.getDescription());
+		
+		RetailerAddress retailerAddress = retailer.getDefaultAddress();
+		if(retailerAddress == null){
+			retailerAddress = new RetailerAddress();
+			retailer.getAddresses().add(retailerAddress);
+		}
+		
+		retailerAddress.setAddress1(retailerForm.getAddress1());
+		retailerAddress.setAddress2(retailerForm.getAddress2());
+		retailerAddress.setAddressAdditionalInformation(retailerForm.getAddressAdditionalInformation());
+		retailerAddress.setPostalCode(retailerForm.getPostalCode());
+		retailerAddress.setCity(retailerForm.getCity());
+		retailerAddress.setStateCode(retailerForm.getStateCode());
+		retailerAddress.setCountryCode(retailerForm.getCountryCode());
+		
+		retailerAddress.setPhone(retailerForm.getPhone());
+		retailerAddress.setFax(retailerForm.getFax());
+		retailerAddress.setMobile(retailerForm.getMobile());
+		retailerAddress.setEmail(retailerForm.getEmail());
+		retailerAddress.setWebsite(retailerForm.getWebsite());
+		
+		retailerService.saveOrUpdateRetailer(retailer);
 	}
 	
 }

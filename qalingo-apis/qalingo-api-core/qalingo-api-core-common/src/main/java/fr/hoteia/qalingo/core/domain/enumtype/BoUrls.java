@@ -37,6 +37,11 @@ public enum BoUrls {
     
     CATALOG(BoUrls.CATALOG_URL, BoUrls.CATALOG_KEY, BoUrls.CATALOG_VELOCITY_PAGE),
     CUSTOMER(BoUrls.CUSTOMER_URL, BoUrls.CUSTOMER_KEY, BoUrls.CUSTOMER_VELOCITY_PAGE),
+
+    RETAILER(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE),
+    RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE),
+    RETAILER_EDIT(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_EDIT_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE),
+
     CACHE(BoUrls.CACHE_URL, BoUrls.CACHE_KEY, BoUrls.CACHE_VELOCITY_PAGE),
 
     ENGINE_SETTING(BoUrls.ENGINE_SETTING_URL, BoUrls.ENGINE_SETTING_KEY, BoUrls.ENGINE_SETTING_VELOCITY_PAGE),
@@ -133,7 +138,7 @@ public enum BoUrls {
 	public static final String RULE_URL				= "/rule.html";
 	public static final String RULE_VELOCITY_PAGE	= "rule/rule-list";
 
-	public static final String RULE_LIST_URL				= "/rule_list.html";
+	public static final String RULE_LIST_URL				= "/rule-list.html";
 
 	public static final String RULE_DETAILS_KEY				= "rule-details";
 	public static final String RULE_DETAILS_URL				= "/rule-details.html";
@@ -141,7 +146,7 @@ public enum BoUrls {
 
 	public static final String RULE_EDIT_KEY				= "rule-edit";
 	public static final String RULE_EDIT_URL				= "/rule-edit.html";
-	public static final String RULE_EDIT_VELOCITY_PAGE		= "rule/rule-form";
+	public static final String RULE_EDIT_VELOCITY_PAGE		= "rule/rule-edit";
 
 	// ORDER
 	public static final String ORDER_KEY				= "order";
@@ -167,7 +172,7 @@ public enum BoUrls {
 
 	public static final String SHIPPING_EDIT_KEY				= "shipping-edit";
 	public static final String SHIPPING_EDIT_URL				= "/shipping-edit.html";
-	public static final String SHIPPING_EDIT_VELOCITY_PAGE		= "shipping/shipping-form";
+	public static final String SHIPPING_EDIT_VELOCITY_PAGE		= "shipping/shipping-edit";
 
 	// BATCH
 	public static final String BATCH_KEY				= "batch";
@@ -216,7 +221,20 @@ public enum BoUrls {
 	public static final String CUSTOMER_KEY				= "customer";
 	public static final String CUSTOMER_URL				= "/customer.html";
 	public static final String CUSTOMER_VELOCITY_PAGE	= "customer/customer";
-	
+
+	// RETAILER
+	public static final String RETAILER_LIST_KEY			= "retailer";
+	public static final String RETAILER_LIST_URL			= "/retailer-list.html";
+	public static final String RETAILER_LIST_VELOCITY_PAGE	= "retailer/retailer-list";
+
+	public static final String RETAILER_DETAILS_KEY				= "retailer-details";
+	public static final String RETAILER_DETAILS_URL				= "/retailer-details.html";
+	public static final String RETAILER_DETAILS_VELOCITY_PAGE	= "retailer/retailer-details";
+
+	public static final String RETAILER_EDIT_KEY			= "retailer-edit";
+	public static final String RETAILER_EDIT_URL			= "/retailer-edit.html";
+	public static final String RETAILER_EDIT_VELOCITY_PAGE	= "retailer/retailer-edit";
+
 	// SEARCH
 	public static final String SEARCH_KEY				= "search";
 	public static final String SEARCH_URL				= "/search.html";

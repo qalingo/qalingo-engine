@@ -30,6 +30,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
@@ -86,6 +87,8 @@ public interface ViewBeanFactory {
 	LocalizationViewBean buildLocalizationViewBean(RequestData requestData, Localization localization) throws Exception;
 
 	List<RetailerViewBean> buildRetailerViewBeans(RequestData requestData) throws Exception;
+	
+	RetailerViewBean buildRetailerViewBean(RequestData requestData, Retailer retailer) throws Exception;
 	
 	CatalogViewBean buildMasterCatalogViewBean(RequestData requestData, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> productCategories) throws Exception;
 

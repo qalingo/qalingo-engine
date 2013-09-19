@@ -33,7 +33,9 @@ public interface RetailerDao {
 	List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults);
 	
 	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults);
-		
+
+	List<Retailer> findRetailersByTxt(Long marketAreaId, Long retailerId, String searchTxt);
+	
 	void saveOrUpdateRetailer(Retailer retailer);
 
 	void deleteRetailer(Retailer retailer);

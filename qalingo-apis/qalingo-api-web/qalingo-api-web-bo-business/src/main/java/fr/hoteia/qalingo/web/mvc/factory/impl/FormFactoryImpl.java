@@ -16,10 +16,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
@@ -27,10 +29,11 @@ import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
+import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerAddress;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -44,6 +47,7 @@ import fr.hoteia.qalingo.web.mvc.form.OrderForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
 import fr.hoteia.qalingo.web.mvc.form.RuleForm;
 import fr.hoteia.qalingo.web.mvc.form.ShippingForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -247,6 +251,45 @@ public class FormFactoryImpl implements FormFactory {
 			shippingForm.setMarketAreaId(shipping.getMarketAreaId());
 		}
 		return shippingForm;
+	}
+	
+	public RetailerForm buildRetailerForm(final HttpServletRequest request, final Retailer retailer) throws Exception {
+		final RetailerForm retailerForm = new RetailerForm();
+		if(retailer != null){
+			retailerForm.setId(retailer.getId().toString());
+			retailerForm.setCode(retailer.getCode());
+			retailerForm.setName(retailer.getName());
+			retailerForm.setDescription(retailer.getDescription());
+
+			if (retailer.getAddresses() != null) {
+				RetailerAddress defaultAddress = retailer.getDefaultAddress();
+				if (defaultAddress != null) {
+					retailerForm.setAddress1(defaultAddress.getAddress1());
+					retailerForm.setAddress2(defaultAddress.getAddress2());
+					retailerForm.setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
+					retailerForm.setPostalCode(defaultAddress.getPostalCode());
+					retailerForm.setCity(defaultAddress.getCity());
+					retailerForm.setStateCode(defaultAddress.getStateCode());
+					retailerForm.setAreaCode(defaultAddress.getAreaCode());
+					retailerForm.setCountryCode(defaultAddress.getCountryCode());
+					
+					retailerForm.setLongitude(defaultAddress.getLongitude());
+					retailerForm.setLatitude(defaultAddress.getLatitude());
+
+					retailerForm.setPhone(defaultAddress.getPhone());
+					retailerForm.setMobile(defaultAddress.getMobile());
+					retailerForm.setFax(defaultAddress.getFax());
+					retailerForm.setEmail(defaultAddress.getEmail());
+					String websiteUrl = defaultAddress.getWebsite();
+					if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
+						websiteUrl = "http://" + websiteUrl;
+					}
+					retailerForm.setWebsite(websiteUrl);
+				}
+			}
+			
+		}
+		return retailerForm;
 	}
 	
 	public UserForm buildUserForm(final HttpServletRequest request, final User user) throws Exception {

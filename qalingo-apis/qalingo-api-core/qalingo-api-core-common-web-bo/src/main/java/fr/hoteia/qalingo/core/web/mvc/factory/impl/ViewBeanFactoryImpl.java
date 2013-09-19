@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,7 @@ import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.RetailerAddress;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.domain.UserConnectionLog;
@@ -66,6 +68,7 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.MarketPlaceService;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
+import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
@@ -124,6 +127,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 	@Autowired
 	private ProductSkuService productSkuService;
+	
+	@Autowired
+	protected ReferentialDataService referentialDataService;
 	
 	@Resource(name="menuMarketNavigationCacheHelper")
     protected WebCacheHelper menuMarketNavigationCacheHelper;
@@ -439,11 +445,77 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * 
 	 */
 	public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
-		requestData.setRetailer(retailer);
+		final Localization localization = requestData.getLocalization();
+		final Locale locale = localization.getLocale();
 		
 		final RetailerViewBean retailerViewBean = new RetailerViewBean();
+
+		// CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setRetailer(retailer);
+		retailerViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
+		
+		retailerViewBean.setId(retailer.getId());
+		retailerViewBean.setVersion(retailer.getVersion());
+		retailerViewBean.setCode(retailer.getCode());
 		retailerViewBean.setName(retailer.getName());
-		retailerViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
+		retailerViewBean.setDescription(retailer.getDescription());
+
+		if (retailer.getAddresses() != null) {
+			RetailerAddress defaultAddress = retailer.getDefaultAddress();
+			if (defaultAddress != null) {
+				retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
+				retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
+				retailerViewBean.getDefaultAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
+				retailerViewBean.getDefaultAddress().setPostalCode(defaultAddress.getPostalCode());
+				retailerViewBean.getDefaultAddress().setCityLabel(defaultAddress.getCity());
+				retailerViewBean.getDefaultAddress().setStateCode(defaultAddress.getStateCode());
+				retailerViewBean.getDefaultAddress().setStateLabel(defaultAddress.getStateCode());
+				retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
+				retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
+				retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
+				
+				String countryLabel = referentialDataService.getCountryByLocale(defaultAddress.getCountryCode(), locale);
+				retailerViewBean.getDefaultAddress().setCountryLabel(countryLabel);
+
+				retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
+				retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
+
+				retailerViewBean.getDefaultAddress().setPhone(defaultAddress.getPhone());
+				retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
+				retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
+				retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
+				String websiteUrl = defaultAddress.getWebsite();
+				if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
+					websiteUrl = "http://" + websiteUrl;
+				}
+				retailerViewBean.getDefaultAddress().setWebsite(websiteUrl);
+			}
+		}
+
+		DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+		Date createdDate = retailer.getDateCreate();
+		if(createdDate != null){
+			retailerViewBean.setCreatedDate(dateFormat.format(createdDate));
+		} else {
+			retailerViewBean.setCreatedDate("NA");
+		}
+		Date updatedDate = retailer.getDateUpdate();
+		if(updatedDate != null){
+			retailerViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+		} else {
+			retailerViewBean.setUpdatedDate("NA");
+		}
+
+		Map<String, String> urlParams = new HashMap<String, String>();
+		urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_DETAILS_CODE, retailer.getCode());
+		String detailsUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, urlParams);
+		String editUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_EDIT, requestData, urlParams);
+		
+		retailerViewBean.setDetailsUrl(detailsUrl);
+		retailerViewBean.setEditUrl(editUrl);
+
 		return retailerViewBean;
 	}
 	

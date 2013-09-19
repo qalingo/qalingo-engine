@@ -87,11 +87,26 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER, requestData));
 		menuViewBeans.add(menu);
 		
+		// CUSTOMERS / RETAILERS
 		menu = new MenuViewBean();
+		if(currentUrl.contains("catalog")){
+			menu.setCssClass("dropdown active");
+		} else {
+			menu.setCssClass("dropdown");
+		}
 		menu.setCssIcon("icon-group");
-		menu.setName("Customers");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestData));
+		menu.setName("Entities");
 		menuViewBeans.add(menu);
+		
+		subMenu = new MenuViewBean();
+		subMenu.setName("Customers");
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestData));
+		menu.getSubMenus().add(subMenu);
+		
+		subMenu = new MenuViewBean();
+		subMenu.setName("Retailers");
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER, requestData));
+		menu.getSubMenus().add(subMenu);
 		
 		return menuViewBeans;
 	}

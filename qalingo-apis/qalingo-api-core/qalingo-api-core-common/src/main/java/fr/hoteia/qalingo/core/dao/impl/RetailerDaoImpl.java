@@ -96,6 +96,16 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
+	public List<Retailer> findRetailersByTxt(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+		Session session = (Session) em.getDelegate();
+		initRetailerFilter(session, marketAreaId, retailerId);
+		String sql = "FROM Retailer WHERE LOWER(code) LIKE LOWER(:searchTxt) OR LOWER(name) LIKE LOWER(:searchTxt) OR LOWER(description) LIKE LOWER(:searchTxt) ORDER BY name";
+		Query query = session.createQuery(sql);
+		query.setString("searchTxt", "%" + searchTxt + "%");
+		List<Retailer> retailers = (List<Retailer>) query.list();
+		return retailers;
+	}
+	
 	public void saveOrUpdateRetailer(final Retailer retailer) {
 		if(retailer.getDateCreate() == null){
 			retailer.setDateCreate(new Date());

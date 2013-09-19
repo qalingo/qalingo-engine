@@ -160,6 +160,7 @@ public final class Constants {
 	public static final String SHIPPING_VIEW_BEAN = "shipping";
 	public static final String CUSTOMER_VIEW_BEAN = "customer";
 	public static final String USER_VIEW_BEAN = "user";
+	public static final String RETAILER_VIEW_BEAN = "retailer";
 
 	public static final int SHORT_DESCRIPTION_MAX_LENGTH = 50;
 	public static final int SHARE_META_DESCRIPTION_MAX_LENGTH = 150;
@@ -172,6 +173,7 @@ public final class Constants {
 	public static final String SHIPPING_FORM = "shippingForm";
 	public static final String CUSTOMER_FORM = "customerForm";
 	public static final String USER_FORM = "userForm";
+	public static final String RETAILER_FORM = "retailerForm";
 
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String INFO_MESSAGE = "infoMessage";

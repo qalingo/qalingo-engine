@@ -12,13 +12,14 @@ package fr.hoteia.qalingo.web.mvc.factory;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
+import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.ProductSku;
+import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
@@ -27,6 +28,7 @@ import fr.hoteia.qalingo.web.mvc.form.OrderForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
 import fr.hoteia.qalingo.web.mvc.form.RuleForm;
 import fr.hoteia.qalingo.web.mvc.form.ShippingForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
@@ -60,6 +62,8 @@ public interface FormFactory {
 	
 	ShippingForm buildShippingForm(HttpServletRequest request, Shipping shipping) throws Exception;
 	
+	RetailerForm buildRetailerForm(HttpServletRequest request, Retailer retailer) throws Exception;
+
 	UserForm buildUserForm(HttpServletRequest request, User user) throws Exception;
 
 }

@@ -23,6 +23,7 @@ import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
+import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 
 public interface WebBackofficeService {
@@ -48,4 +49,6 @@ public interface WebBackofficeService {
 	void updateProductMarketingAsset(Asset asset, AssetForm assetForm);
 	
 	void createProductMarketingAsset(Asset asset, AssetForm assetForm);
+	
+	void createOrUpdateRetailer(final Retailer retailer, final RetailerForm retailerForm);
 }

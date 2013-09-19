@@ -30,6 +30,7 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_MARKET_AREA_CODE			= "market-area-code";
 	public static final String REQUEST_PARAMETER_MARKET_LANGUAGE			= "market-language-code";
 	public static final String REQUEST_PARAMETER_RETAILER_CODE				= "retailer-code";
+	
 	public static final String REQUEST_PARAMETER_PRODUCT_CATALOG_CODE		= "catalog-code";
 	public static final String REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE		= "category-code";
 	public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE		= "product-code";
@@ -44,6 +45,9 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_SHIPPING_CODE				= "shipping-code";
 	public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE		= "engine-setting-code";
 	public static final String REQUEST_PARAMETER_RETAILER_DETAILS_CODE		= "retailer-details-code";
+
+	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";
+	public static final String REQUEST_PARAMETER_SEARCH_TXT					= "search-txt";
 
 	public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID		= "customer-address-id";
 	public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_ID			= "customer-order-id";
