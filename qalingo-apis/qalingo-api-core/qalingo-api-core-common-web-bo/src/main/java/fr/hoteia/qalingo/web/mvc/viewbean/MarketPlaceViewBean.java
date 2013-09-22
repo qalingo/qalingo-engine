@@ -22,7 +22,7 @@ public class MarketPlaceViewBean extends AbstractViewBean implements Serializabl
 	
 	protected String name;
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
 	
 	protected List<MarketViewBean> markets = new ArrayList<MarketViewBean>();
 
@@ -42,12 +42,12 @@ public class MarketPlaceViewBean extends AbstractViewBean implements Serializabl
 		this.img = img;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getChangeContextUrl() {
+		return changeContextUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setUrl(String changeContextUrl) {
+		this.changeContextUrl = changeContextUrl;
 	}
 	
 	public List<MarketViewBean> getMarkets() {

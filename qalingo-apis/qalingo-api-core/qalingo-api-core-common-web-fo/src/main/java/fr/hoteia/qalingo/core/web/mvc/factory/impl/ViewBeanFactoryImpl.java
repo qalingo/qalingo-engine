@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.web.mvc.factory.impl;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -559,7 +560,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 		}
 
-		retailerViewBean.setUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
+		// CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setRetailer(retailer);
+		retailerViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+		
+		retailerViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
 
 		retailerViewBean.setQualityOfService(retailer.getQualityOfService());
 		retailerViewBean.setPriceScore(retailer.getPriceScore());
@@ -729,16 +736,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		MarketPlaceViewBean marketPlaceViewBean = new MarketPlaceViewBean();
 		marketPlaceViewBean.setName(marketPlace.getName());
 		
-		RequestData newRequestData = new RequestData();
-		BeanUtils.copyProperties(requestData, newRequestData);
-		newRequestData.setMarket(defaultMarket);
-		newRequestData.setMarketArea(defaultMarketArea);
-		newRequestData.setLocalization(defaultLocalization);
-		newRequestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarket(defaultMarket);
+		requestDataChangecontext.setMarketArea(defaultMarketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
-		marketPlaceViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, newRequestData));
+		marketPlaceViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
 
-		marketPlaceViewBean.setMarkets(buildMarketViewBeans(newRequestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
+		marketPlaceViewBean.setMarkets(buildMarketViewBeans(requestDataChangecontext, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 
 		return marketPlaceViewBean;
 	}
@@ -773,12 +780,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final MarketViewBean marketViewBean = new MarketViewBean();
 		marketViewBean.setName(market.getName());
 		
-		RequestData RequestData = requestData;
-		RequestData.setMarketArea(defaultMarketArea);
-		RequestData.setLocalization(defaultLocalization);
-		RequestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarketArea(defaultMarketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
-		marketViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, RequestData));
+		marketViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
 
 		marketViewBean.setMarketAreas(buildMarketAreaViewBeans(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 
@@ -809,6 +817,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      * 
      */
 	public MarketAreaViewBean buildMarketAreaViewBean(final RequestData requestData, final MarketArea marketArea) throws Exception {
+		final Market market = marketArea.getMarket();
+		final MarketPlace marketPlace = market.getMarketPlace();
 		final Localization defaultLocalization = marketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = marketArea.getDefaultRetailer();
 
@@ -817,11 +827,16 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		marketAreaViewBean.setDescription(marketArea.getDescription());
 		marketAreaViewBean.setCode(marketArea.getCode());
 		
-		RequestData RequestData = requestData;
-		RequestData.setLocalization(defaultLocalization);
-		RequestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarketPlace(marketPlace);
+		requestDataChangecontext.setMarket(market);
+		requestDataChangecontext.setMarketArea(marketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
-		marketAreaViewBean.setUrl(urlService.generateUrl(FoUrls.HOME, RequestData));
+		marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+		
 		marketAreaViewBean.setLatitude(marketArea.getLatitude());
 		marketAreaViewBean.setLongitude(marketArea.getLongitude());
 		return marketAreaViewBean;
@@ -873,7 +888,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 
-		localizationViewBean.setUrl(urlService.generateUrl(FoUrls.CHANGE_LANGUAGE, requestData));
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setLocalization(localization);
+		localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
+		
 		if (localization.getCode().equals(currentLocalization.getCode())) {
 			localizationViewBean.setActive(true);
 		}

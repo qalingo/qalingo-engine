@@ -21,20 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import fr.hoteia.qalingo.web.mvc.controller.AbstractBackofficeQalingoController;
+import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
 /**
  * Change context
  */
 @Controller("changeContextController")
-public class ChangeContextController extends AbstractBackofficeQalingoController {
+public class ChangeContextController extends AbstractFrontofficeQalingoController {
 
 	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
 		List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add(BoUrls.CHANGE_LANGUAGE_URL);
 		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
-        return new ModelAndView(new RedirectView(url));
+		RedirectView redirectView = new RedirectView(url);
+		redirectView.setExposeModelAttributes(false);
+        return new ModelAndView(redirectView);
 	}
 	
 	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
@@ -42,7 +44,9 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 		List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add(BoUrls.CHANGE_CONTEXT_URL);
 		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
-        return new ModelAndView(new RedirectView(url));
+		RedirectView redirectView = new RedirectView(url);
+		redirectView.setExposeModelAttributes(false);
+        return new ModelAndView(redirectView);
 	}
 	
 }

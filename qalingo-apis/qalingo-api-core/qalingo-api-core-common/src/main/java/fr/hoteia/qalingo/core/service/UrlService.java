@@ -9,12 +9,19 @@
  */
 package fr.hoteia.qalingo.core.service;
 
+import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 public interface UrlService {
 
 	String buildCustomerDetailsUrl(RequestData requestData, String permalink) throws Exception;
+	
+	String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception;
+	
+	String buildChangeLanguageUrl(RequestData requestData) throws Exception;
+	
+	String buildChangeContextUrl(RequestData requestData) throws Exception;
 	
 	String buildOAuthConnectUrl(RequestData requestData, String socialNetworkCode) throws Exception;
 	
@@ -30,8 +37,6 @@ public interface UrlService {
 	
 	String generateUrl(FoUrls url, RequestData requestData, Object... params);
 	
-	String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception;
-
 	String buildSpringSecurityCheckUrl(RequestData requestData) throws Exception;
 
 }

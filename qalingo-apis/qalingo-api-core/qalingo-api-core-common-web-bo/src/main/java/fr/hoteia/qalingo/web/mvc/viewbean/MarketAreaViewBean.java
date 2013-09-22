@@ -22,7 +22,7 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	
 	protected String name;
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
 
 	protected List<LocalizationViewBean> languages = new ArrayList<LocalizationViewBean>();
 
@@ -42,12 +42,12 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 		this.img = img;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getChangeContextUrl() {
+		return changeContextUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+		this.changeContextUrl = changeContextUrl;
 	}
 	
 	public List<LocalizationViewBean> getLanguages() {

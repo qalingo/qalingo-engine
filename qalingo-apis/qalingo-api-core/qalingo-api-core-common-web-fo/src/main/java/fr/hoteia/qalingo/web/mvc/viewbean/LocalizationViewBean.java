@@ -21,7 +21,7 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	protected String code;
 	protected String name;
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
 	protected boolean active = false;
 
 	public String getCode() {
@@ -48,12 +48,12 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 		this.img = img;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getChangeContextUrl() {
+		return changeContextUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+		this.changeContextUrl = changeContextUrl;
 	}
 
 	public boolean isActive() {

@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
@@ -39,6 +38,7 @@ import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 

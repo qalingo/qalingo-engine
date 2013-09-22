@@ -901,7 +901,7 @@ public class RequestUtilImpl implements RequestUtil {
 		String marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
 		String marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
 		String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-		String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
+		String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
 		String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 		EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 

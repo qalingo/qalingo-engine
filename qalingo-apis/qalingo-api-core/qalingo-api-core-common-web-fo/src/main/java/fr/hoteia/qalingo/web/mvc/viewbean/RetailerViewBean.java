@@ -37,7 +37,8 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected boolean isEcommerce;
 	
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
+	protected String detailsUrl;
 	
 	protected int qualityOfService = 0;
 	protected int priceScore = 0;
@@ -136,14 +137,22 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
     	this.img = img;
     }
 
-	public String getUrl() {
-    	return url;
+	public String getChangeContextUrl() {
+    	return changeContextUrl;
     }
 
-	public void setUrl(String url) {
-    	this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+    	this.changeContextUrl = changeContextUrl;
     }
 
+	public String getDetailsUrl() {
+	    return detailsUrl;
+    }
+	
+	public void setDetailsUrl(String detailsUrl) {
+	    this.detailsUrl = detailsUrl;
+    }
+	
 	public int getQualityOfService() {
     	return qualityOfService;
     }

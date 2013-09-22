@@ -130,6 +130,38 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 	
 	// KEEP
 
+	public String buildChangeLanguageUrl(final RequestData requestData) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		final Retailer retailer = requestData.getRetailer();
+		
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?";
+		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+		return url;
+	}
+	
+	public String buildChangeContextUrl(final RequestData requestData) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		final Retailer retailer = requestData.getRetailer();
+		
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+		return url;
+	}
+	
     public String generateUrl(final BoUrls url, final RequestData requestData) {
     	return generateUrl(url, requestData, null);
     }
@@ -163,26 +195,6 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
     	return handleUrlParameters(urlStr, urlParams, getParams);
     }
     
-	public String buildChangeLanguageUrl(final RequestData requestData, final Localization localization) throws Exception {
-		return buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
-	}
-	
-	public String buildChangeContextUrl(final RequestData requestData) {
-		final MarketPlace marketPlace = requestData.getMarketPlace();
-		final Market market = requestData.getMarket();
-		final MarketArea marketArea = requestData.getMarketArea();
-		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
-		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
-		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + marketPlace.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + market.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + marketArea.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + localization.getCode();
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + retailer.getCode();
-		return url;
-	}
-	
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {
 		return buildContextPath(requestData) + BoUrls.SPRING_SECURITY_URL;
 	}

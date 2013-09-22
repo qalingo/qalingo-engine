@@ -56,14 +56,14 @@ public interface BackofficeUrlService {
 	String buildCustomerEditUrl(String customerCode) throws Exception;
 
 	// KEEP
+
+	String buildChangeLanguageUrl(RequestData requestData) throws Exception;
 	
+	String buildChangeContextUrl(RequestData requestData) throws Exception;
+
 	String generateUrl(BoUrls url, RequestData requestData);
 
 	String generateUrl(BoUrls url, RequestData requestData, Object... params);
-	
-	String buildChangeLanguageUrl(RequestData requestData, Localization localization) throws Exception;
-	
-	String buildChangeContextUrl(RequestData requestData) throws Exception;
 	
 	String buildSpringSecurityCheckUrl(RequestData requestData) throws Exception;
 }

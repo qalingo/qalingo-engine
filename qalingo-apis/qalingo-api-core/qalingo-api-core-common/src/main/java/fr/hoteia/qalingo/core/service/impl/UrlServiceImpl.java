@@ -34,6 +34,7 @@ import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
+import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -49,6 +50,54 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 	
 	public String buildCustomerDetailsUrl(final RequestData requestData, String permalink) throws Exception {
 		return buildContextPath(requestData) + "/customer/" + permalink;
+	}
+	
+	public String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception {
+		String url = null;
+		if (StringUtils.isNotEmpty(shareCode) && StringUtils.isNotEmpty(absoluteUrl)){
+			try {
+				url = "http://api.addthis.com/oexchange/0.8/forward/" + shareCode + "/offer?url=" + URLEncoder.encode(absoluteUrl, Constants.ANSI);
+			} catch (Exception e) {
+				LOG.error("SocialNetwork AddThis URL can't be encode!", e);
+			}
+		}
+		return url;
+	}
+	
+	public String buildChangeLanguageUrl(final RequestData requestData, final Localization localization) throws Exception {
+		return buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
+	}
+	
+	public String buildChangeLanguageUrl(final RequestData requestData) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		final Retailer retailer = requestData.getRetailer();
+		
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?";
+		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+		return url;
+	}
+	
+	public String buildChangeContextUrl(final RequestData requestData) throws Exception {
+		final MarketPlace marketPlace = requestData.getMarketPlace();
+		final Market market = requestData.getMarket();
+		final MarketArea marketArea = requestData.getMarketArea();
+		final Localization localization = requestData.getLocalization();
+		final Retailer retailer = requestData.getRetailer();
+		
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
+		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+		return url;
 	}
 	
 	public String buildOAuthConnectUrl(final RequestData requestData, final String socialNetworkCode) throws Exception {
@@ -171,18 +220,6 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
     	return handleUrlParameters(urlStr, urlParams, getParams);
     }
     
-	public String buildAddThisUrl(String shareCode, String absoluteUrl) throws Exception {
-		String url = null;
-		if (StringUtils.isNotEmpty(shareCode) && StringUtils.isNotEmpty(absoluteUrl)){
-			try {
-				url = "http://api.addthis.com/oexchange/0.8/forward/" + shareCode + "/offer?url=" + URLEncoder.encode(absoluteUrl, Constants.ANSI);
-			} catch (Exception e) {
-				LOG.error("SocialNetwork AddThis URL can't be encode!", e);
-			}
-		}
-		return url;
-	}
-	
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {
 		return buildContextPath(requestData) + FoUrls.SPRING_SECURITY_URL;
 	}

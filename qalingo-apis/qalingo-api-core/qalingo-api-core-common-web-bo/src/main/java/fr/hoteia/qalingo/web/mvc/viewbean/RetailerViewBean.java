@@ -20,7 +20,7 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	
 	// MENU
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
 
 	// ENTITY
 	private Long id;
@@ -45,12 +45,12 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 		this.img = img;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getChangeContextUrl() {
+		return changeContextUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+		this.changeContextUrl = changeContextUrl;
 	}
 
 	public Long getId() {

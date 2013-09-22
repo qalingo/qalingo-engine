@@ -239,15 +239,18 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
 		
-		requestData.setMarketPlace(marketPlace);
-		requestData.setMarket(defaultMarket);
-		requestData.setMarketArea(defaultMarketArea);
-		requestData.setLocalization(defaultLocalization);
-		requestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarketPlace(marketPlace);
+		requestDataChangecontext.setMarket(defaultMarket);
+		requestDataChangecontext.setMarketArea(defaultMarketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
 		MarketPlaceViewBean marketPlaceViewBean = new MarketPlaceViewBean();
 		marketPlaceViewBean.setName(marketPlace.getName());
-		marketPlaceViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
+		
+		marketPlaceViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
 		
 		marketPlaceViewBean.setMarkets(buildMarketViewBeansByMarketPlace(requestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 		
@@ -284,15 +287,18 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
 		
-		requestData.setMarketPlace(marketPlace);
-		requestData.setMarket(market);
-		requestData.setMarketArea(defaultMarketArea);
-		requestData.setLocalization(defaultLocalization);
-		requestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarketPlace(marketPlace);
+		requestDataChangecontext.setMarket(market);
+		requestDataChangecontext.setMarketArea(defaultMarketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
 		final MarketViewBean marketViewBean = new MarketViewBean();
 		marketViewBean.setName(market.getName());
-		marketViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
+		
+		marketViewBean.setChangeContextUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
 		
 		marketViewBean.setMarketAreas(buildMarketAreaViewBeansByMarket(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 		
@@ -330,15 +336,19 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final Localization defaultLocalization = marketArea.getDefaultLocalization();
 		final Retailer defaultRetailer = marketArea.getDefaultRetailer();
 		
-		requestData.setMarketPlace(marketPlace);
-		requestData.setMarket(market);
-		requestData.setMarketArea(marketArea);
-		requestData.setLocalization(defaultLocalization);
-		requestData.setRetailer(defaultRetailer);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setMarketPlace(marketPlace);
+		requestDataChangecontext.setMarket(market);
+		requestDataChangecontext.setMarketArea(marketArea);
+		requestDataChangecontext.setLocalization(defaultLocalization);
+		requestDataChangecontext.setRetailer(defaultRetailer);
 		
 		final MarketAreaViewBean marketAreaViewBean = new MarketAreaViewBean();
 		marketAreaViewBean.setName(marketArea.getName());
-		marketAreaViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
+		
+		marketAreaViewBean.setChangeContextUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
+		
 		return marketAreaViewBean;
 	}
 	
@@ -350,7 +360,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final Locale locale = localization.getLocale();
 		final String localeCodeNavigation = localization.getCode();
 		
-		requestData.setLocalization(localization);
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setLocalization(localization);
 		
 		final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
 		
@@ -361,7 +373,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 		
-		localizationViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestData));
+		localizationViewBean.setChangeContextUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
+		
 		return localizationViewBean;
 	}
 	
@@ -412,7 +425,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
 		
-		localizationViewBean.setUrl(backofficeUrlService.buildChangeLanguageUrl(requestData, localization));
+		RequestData requestDataChangecontext = new RequestData();
+		BeanUtils.copyProperties(requestData, requestDataChangecontext);
+		requestDataChangecontext.setLocalization(localization);
+		localizationViewBean.setChangeContextUrl(backofficeUrlService.buildChangeLanguageUrl(requestDataChangecontext));
+		
 		return localizationViewBean;
 	}
 	
@@ -454,7 +471,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		RequestData requestDataChangecontext = new RequestData();
 		BeanUtils.copyProperties(requestData, requestDataChangecontext);
 		requestDataChangecontext.setRetailer(retailer);
-		retailerViewBean.setUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
+		retailerViewBean.setChangeContextUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
 		
 		retailerViewBean.setId(retailer.getId());
 		retailerViewBean.setVersion(retailer.getVersion());

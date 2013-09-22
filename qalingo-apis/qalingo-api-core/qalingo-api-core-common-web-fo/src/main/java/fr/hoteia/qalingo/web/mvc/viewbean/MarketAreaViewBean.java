@@ -23,7 +23,7 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	protected String name;
 	protected String description;
 	protected String code;
-	protected String url;
+	protected String changeContextUrl;
 	
 	private boolean isDefault;
 	private boolean isEcommerce;
@@ -59,12 +59,12 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
     	this.code = code;
     }
 
-	public String getUrl() {
-    	return url;
+	public String getChangeContextUrl() {
+    	return changeContextUrl;
     }
 
-	public void setUrl(String url) {
-    	this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+    	this.changeContextUrl = changeContextUrl;
     }
 
 	public boolean isDefault() {

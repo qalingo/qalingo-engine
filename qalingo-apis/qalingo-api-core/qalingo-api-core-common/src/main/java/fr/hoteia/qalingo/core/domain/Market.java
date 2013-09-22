@@ -63,7 +63,7 @@ public class Market implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="MARKETPLACE_ID", insertable=false, updatable=false)
 	private MarketPlace marketPlace;
 	

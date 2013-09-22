@@ -20,7 +20,7 @@ public class LocalizationViewBean implements Serializable {
 	
 	protected String name;
 	protected String img;
-	protected String url;
+	protected String changeContextUrl;
 
 	public String getName() {
 		return name;
@@ -38,12 +38,12 @@ public class LocalizationViewBean implements Serializable {
 		this.img = img;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getChangeContextUrl() {
+		return changeContextUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setChangeContextUrl(String changeContextUrl) {
+		this.changeContextUrl = changeContextUrl;
 	}
 	
 }

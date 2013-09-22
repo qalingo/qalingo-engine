@@ -113,7 +113,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	/**
 	 * 
 	 */
-	@ModelAttribute(ModelConstants.MARKET_AREAS_VIEW_BEAN)
+	@ModelAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN)
 	protected List<MarketPlaceViewBean> initAllMarketPlace(final HttpServletRequest request, final Model model) throws Exception {
 		// ALL MARKETPLACES
 		return viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request));
