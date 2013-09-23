@@ -33,7 +33,8 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
 		List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add(BoUrls.CHANGE_LANGUAGE_URL);
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
+		String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
         return new ModelAndView(new RedirectView(url));
 	}
 	
@@ -41,7 +42,8 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
 		List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add(BoUrls.CHANGE_CONTEXT_URL);
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
+		String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
+		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
         return new ModelAndView(new RedirectView(url));
 	}
 	

@@ -106,6 +106,11 @@ public interface RequestUtil {
 	/**
      * 
      */
+	String getLastRequestUrl(HttpServletRequest request, List<String> excludedPatterns, String fallbackUrl) throws Exception;
+	
+	/**
+     * 
+     */
 	String getLastRequestUrl(HttpServletRequest request) throws Exception;
 	
 	/**

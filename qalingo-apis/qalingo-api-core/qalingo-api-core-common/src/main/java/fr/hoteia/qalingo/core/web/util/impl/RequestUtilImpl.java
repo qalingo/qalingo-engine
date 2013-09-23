@@ -1,9 +1,9 @@
 /**
  * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
  * under the Apache License Version 2.0 (release version 0.7.0)
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *		  http://www.apache.org/licenses/LICENSE-2.0
  *
- *                   Copyright (c) Hoteia, 2012-2013
+ *				     Copyright (c) Hoteia, 2012-2013
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
@@ -220,21 +220,21 @@ public class RequestUtilImpl implements RequestUtil {
 		excludedPatterns.add("logout");
 		excludedPatterns.add("timeout");
 		excludedPatterns.add("forbidden");
-       return getRequestUrl(request, excludedPatterns, 1);
+		return getRequestUrl(request, excludedPatterns, 1);
 	}
 	
 	/**
     * 
     */
 	public String getCurrentRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
-       return getRequestUrl(request, excludedPatterns, 0);
+		return getRequestUrl(request, excludedPatterns, 0);
 	}
 	
 	/**
     * 
     */
 	public String getCurrentRequestUrl(final HttpServletRequest request) throws Exception {
-       return getRequestUrl(request, new ArrayList<String>(), 0);
+		return getRequestUrl(request, new ArrayList<String>(), 0);
 	}
 	
 	/**
@@ -247,21 +247,32 @@ public class RequestUtilImpl implements RequestUtil {
 		excludedPatterns.add("logout");
 		excludedPatterns.add("timeout");
 		excludedPatterns.add("forbidden");
-       return getRequestUrl(request, excludedPatterns, 0);
+		return getRequestUrl(request, excludedPatterns, 0);
 	}
 	
 	/**
     * 
     */
+	public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, String fallbackUrl) throws Exception {
+		String url = getRequestUrl(request, excludedPatterns, 1);
+		if(StringUtils.isEmpty(url)){
+			return fallbackUrl;
+		}
+		return url;
+	}
+		
+	/**
+    * 
+    */
 	public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
-       return getRequestUrl(request, excludedPatterns, 1);
+		return getRequestUrl(request, excludedPatterns, 1);
 	}
 	
 	/**
     * 
     */
 	public String getLastRequestUrl(final HttpServletRequest request) throws Exception {
-       return getRequestUrl(request, new ArrayList<String>(), 1);
+		return getRequestUrl(request, new ArrayList<String>(), 1);
 	}
 	
 	/**
@@ -272,20 +283,20 @@ public class RequestUtilImpl implements RequestUtil {
 		String url = Constants.EMPTY;
 		final List<ClickstreamRequest> clickstreams = getClickStreamRequests(request);
 
-       if(clickstreams != null
+		if(clickstreams != null
 				&& !clickstreams.isEmpty()) {
-           if(clickstreams != null
+		    if(clickstreams != null
    				&& !clickstreams.isEmpty()) {
-           	// Clean not html values or exluded patterns
-           	List<ClickstreamRequest> cleanClickstreams = new ArrayList<ClickstreamRequest>();
-       		Iterator<ClickstreamRequest> it = clickstreams.iterator();
-       		while (it.hasNext()) {
-   	        	ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
-   	        	String uri = clickstream.getRequestURI();
-   	        	if(uri.endsWith(".html")){
-	        			// TEST IF THE URL IS EXCLUDE
-   	        		CharSequence[] excludedPatternsCharSequence = excludedPatterns.toArray(new CharSequence[excludedPatterns.size()]);
-   	        		boolean isExclude = false;
+		    	// Clean not html values or exluded patterns
+		    	List<ClickstreamRequest> cleanClickstreams = new ArrayList<ClickstreamRequest>();
+				Iterator<ClickstreamRequest> it = clickstreams.iterator();
+				while (it.hasNext()) {
+   			 	ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
+   			 	String uri = clickstream.getRequestURI();
+   			 	if(uri.endsWith(".html")){
+			 			// TEST IF THE URL IS EXCLUDE
+   			 		CharSequence[] excludedPatternsCharSequence = excludedPatterns.toArray(new CharSequence[excludedPatterns.size()]);
+   			 		boolean isExclude = false;
 	    	    		for (int i = 0; i < excludedPatternsCharSequence.length; i++) {
 	    	    			CharSequence string = excludedPatternsCharSequence[i];
 	    	    			if(uri.contains(string)){
@@ -293,34 +304,40 @@ public class RequestUtilImpl implements RequestUtil {
 	    	    			}
 	    	    		}
 	    	    		if(BooleanUtils.negate(isExclude)){
-	    	        		cleanClickstreams.add(clickstream);
+	    			 		cleanClickstreams.add(clickstream);
 	    	    		}
-   	        	}
-       		}
-           	
-           	if(cleanClickstreams.size() == 1) {
-           		Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
-           		while (itCleanClickstreams.hasNext()) {
-       	        	ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-       	        	String uri = clickstream.getRequestURI();
-      	        		url = uri;
-       	        }
-           	} else {
-           		Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
-           		int countCleanClickstream = 1;
-           		while (itCleanClickstreams.hasNext()) {
-       	        	ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-       	        	String uri = clickstream.getRequestURI();
-       	        	// The last url is the current URI, so we need to get the url previous the last
-       	        	if(countCleanClickstream == (cleanClickstreams.size() - position)) {
-       	        		url = uri;
-       	        	}
-       	        	countCleanClickstream++;
-       	        }
-           	}
-           }
+   			 	}
+				}
+		    	
+		    	if(cleanClickstreams.size() == 1) {
+		    		Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
+		    		while (itCleanClickstreams.hasNext()) {
+					 	ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
+					 	String uri = clickstream.getRequestURI();
+      			 		url = uri;
+					 }
+		    	} else {
+		    		Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
+		    		int countCleanClickstream = 1;
+		    		while (itCleanClickstreams.hasNext()) {
+					 	ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
+					 	String uri = clickstream.getRequestURI();
+					 	// The last url is the current URI, so we need to get the url previous the last
+					 	if(countCleanClickstream == (cleanClickstreams.size() - position)) {
+					 		url = uri;
+					 	}
+					 	countCleanClickstream++;
+					 }
+		    	}
+		    }
 		}
-       return handleUrl(url);
+		
+		// CLEAN CONTEXT FROM URL 
+		if(StringUtils.isNotEmpty(url)
+				&& url.contains(request.getContextPath())){
+			url = url.replace(request.getContextPath(), "");
+		}
+		return handleUrl(url);
 	}
 	
 	/**
@@ -420,10 +437,10 @@ public class RequestUtilImpl implements RequestUtil {
 				currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
 			}
 			return currentThemeResourcePrefixPath;
-	        
-        } catch (Exception e) {
-        	LOG.error("Context name, " + getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
-        }
+			 
+		 } catch (Exception e) {
+		 	LOG.error("Context name, " + getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
+		 }
 		return null;
 	}
 	
@@ -827,7 +844,7 @@ public class RequestUtilImpl implements RequestUtil {
 				StringBuffer sb = new StringBuffer();
 				for (int i = 0; i < array.length; ++i) {
 					sb.append(Integer.toHexString((array[i]
-								& 0xFF) | 0x100).substring(1,3));        
+								& 0xFF) | 0x100).substring(1,3));		 
 				}
 				String gravatarId = sb.toString();
 				if("https".equals(request.getScheme())){
@@ -1123,162 +1140,162 @@ public class RequestUtilImpl implements RequestUtil {
    			&& StringUtils.isNotEmpty(marketCode)
    			&& StringUtils.isNotEmpty(marketAreaCode)
    			&& StringUtils.isNotEmpty(marketLanguageCode)){
-       	if(currentMarketPlace != null 
+			if(currentMarketPlace != null 
    				&& !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)){
-       		// RESET ALL SESSION AND CHANGE THE MARKET PLACE
-       		initBoSession(request);
-       		MarketPlace newMarketPlace = marketPlaceService.getMarketPlaceByCode(marketPlaceCode);
-       		if(newMarketPlace == null){
-       			// INIT A DEFAULT MARKET PLACE
-       			initDefaultBoMarketPlace(request);
-       		} else {
-       			// MARKET PLACE
-           		engineBoSession.setCurrentMarketPlace(newMarketPlace);
-           		updateCurrentTheme(request, newMarketPlace.getTheme());
+				// RESET ALL SESSION AND CHANGE THE MARKET PLACE
+				initBoSession(request);
+				MarketPlace newMarketPlace = marketPlaceService.getMarketPlaceByCode(marketPlaceCode);
+				if(newMarketPlace == null){
+					// INIT A DEFAULT MARKET PLACE
+					initDefaultBoMarketPlace(request);
+				} else {
+					// MARKET PLACE
+		    		engineBoSession.setCurrentMarketPlace(newMarketPlace);
+		    		updateCurrentTheme(request, newMarketPlace.getTheme());
 
-           		// MARKET
-           		Market market = newMarketPlace.getMarket(marketCode);
-           		if(market == null){
-           			market = newMarketPlace.getDefaultMarket();
-           		}
-           		engineBoSession.setCurrentMarket(market);
+		    		// MARKET
+		    		Market market = newMarketPlace.getMarket(marketCode);
+		    		if(market == null){
+		    			market = newMarketPlace.getDefaultMarket();
+		    		}
+		    		engineBoSession.setCurrentMarket(market);
 
-           		// MARKET MODE
-           		MarketArea marketArea = market.getMarketArea(marketAreaCode);
-           		if(marketArea == null){
-           			marketArea = market.getDefaultMarketArea();
-           		}
+		    		// MARKET MODE
+		    		MarketArea marketArea = market.getMarketArea(marketAreaCode);
+		    		if(marketArea == null){
+		    			marketArea = market.getDefaultMarketArea();
+		    		}
 					// TODO : why : SET A RELOAD OBJECT MARKET AREA -> event LazyInitializationException: could not initialize proxy - no Session
-           		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
+		    		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
 					
-           		// LOCALE
-           		Localization localization = marketArea.getLocalization(marketLanguageCode);
-           		if(localization == null){
-           			Localization defaultLocalization = marketArea.getDefaultLocalization();
-               		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
-           		} else {
-               		engineBoSession.setCurrentMarketLocalization(localization);
-           		}
-           		
-           		// RETAILER
-           		Retailer retailer = marketArea.getRetailer(retailerCode);
-           		if(retailer == null){
-           			Retailer defaultRetailer = marketArea.getDefaultRetailer();
-               		engineBoSession.setCurrentRetailer(defaultRetailer);
-           		} else {
-               		engineBoSession.setCurrentRetailer(retailer);
-           		}  
-       		}
+		    		// LOCALE
+		    		Localization localization = marketArea.getLocalization(marketLanguageCode);
+		    		if(localization == null){
+		    			Localization defaultLocalization = marketArea.getDefaultLocalization();
+				 		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
+		    		} else {
+				 		engineBoSession.setCurrentMarketLocalization(localization);
+		    		}
+		    		
+		    		// RETAILER
+		    		Retailer retailer = marketArea.getRetailer(retailerCode);
+		    		if(retailer == null){
+		    			Retailer defaultRetailer = marketArea.getDefaultRetailer();
+				 		engineBoSession.setCurrentRetailer(defaultRetailer);
+		    		} else {
+				 		engineBoSession.setCurrentRetailer(retailer);
+		    		}  
+				}
 
-       	} else {
-           	Market market = engineBoSession.getCurrentMarket();
-           	if(market != null 
-       				&& !market.getCode().equalsIgnoreCase(marketCode)){
-           		
-           		// CHANGE THE MARKET
-           		Market newMarket = marketService.getMarketByCode(marketCode);
-           		if(newMarket == null){
-           			newMarket = currentMarketPlace.getDefaultMarket();
-           		}
-           		engineBoSession.setCurrentMarket(newMarket);
-           		updateCurrentTheme(request, newMarket.getTheme());
+			} else {
+		    	Market market = engineBoSession.getCurrentMarket();
+		    	if(market != null 
+						&& !market.getCode().equalsIgnoreCase(marketCode)){
+		    		
+		    		// CHANGE THE MARKET
+		    		Market newMarket = marketService.getMarketByCode(marketCode);
+		    		if(newMarket == null){
+		    			newMarket = currentMarketPlace.getDefaultMarket();
+		    		}
+		    		engineBoSession.setCurrentMarket(newMarket);
+		    		updateCurrentTheme(request, newMarket.getTheme());
 
-           		// MARKET MODE
-           		MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
-           		if(marketArea == null){
-           			marketArea = market.getDefaultMarketArea();
-           		}
+		    		// MARKET MODE
+		    		MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
+		    		if(marketArea == null){
+		    			marketArea = market.getDefaultMarketArea();
+		    		}
 					// TODO : why : SET A RELOAD OBJECT MARKET AREA -> event LazyInitializationException: could not initialize proxy - no Session
-           		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
-           		
-           		// LOCALE
-           		Localization localization = marketArea.getLocalization(marketLanguageCode);
-           		if(localization == null){
-           			Localization defaultLocalization = marketArea.getDefaultLocalization();
-               		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
-           		} else {
-               		engineBoSession.setCurrentMarketLocalization(localization);
-           		}
-           		
-           		// RETAILER
-           		Retailer retailer = marketArea.getRetailer(retailerCode);
-           		if(retailer == null){
-           			Retailer defaultRetailer = marketArea.getDefaultRetailer();
-               		engineBoSession.setCurrentRetailer(defaultRetailer);
-           		} else {
-               		engineBoSession.setCurrentRetailer(retailer);
-           		}
-           	} else {
-               	MarketArea marketArea = engineBoSession.getCurrentMarketArea();
-               	if(marketArea != null 
-           				&& !marketArea.getCode().equalsIgnoreCase(marketAreaCode)){
+		    		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
+		    		
+		    		// LOCALE
+		    		Localization localization = marketArea.getLocalization(marketLanguageCode);
+		    		if(localization == null){
+		    			Localization defaultLocalization = marketArea.getDefaultLocalization();
+				 		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
+		    		} else {
+				 		engineBoSession.setCurrentMarketLocalization(localization);
+		    		}
+		    		
+		    		// RETAILER
+		    		Retailer retailer = marketArea.getRetailer(retailerCode);
+		    		if(retailer == null){
+		    			Retailer defaultRetailer = marketArea.getDefaultRetailer();
+				 		engineBoSession.setCurrentRetailer(defaultRetailer);
+		    		} else {
+				 		engineBoSession.setCurrentRetailer(retailer);
+		    		}
+		    	} else {
+				 	MarketArea marketArea = engineBoSession.getCurrentMarketArea();
+				 	if(marketArea != null 
+		    				&& !marketArea.getCode().equalsIgnoreCase(marketAreaCode)){
 
-               		// CHANGE THE MARKET MODE
-               		MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
-               		if(newMarketArea == null){
-               			newMarketArea = market.getDefaultMarketArea();
-               		}
+				 		// CHANGE THE MARKET MODE
+				 		MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
+				 		if(newMarketArea == null){
+				 			newMarketArea = market.getDefaultMarketArea();
+				 		}
    					// TODO : why : SET A RELOAD OBJECT MARKET AREA -> event LazyInitializationException: could not initialize proxy - no Session
-               		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(newMarketArea.getId().toString()));
-               		
-               		updateCurrentTheme(request, newMarketArea.getTheme());
-               		
-               		// LOCALE
-               		Localization localization = newMarketArea.getLocalization(marketLanguageCode);
-               		if(localization == null){
-               			Localization defaultLocalization = marketArea.getDefaultLocalization();
-                   		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
-               		} else {
-                   		engineBoSession.setCurrentMarketLocalization(localization);
-               		}
-               		
-               		// RETAILER
-               		Retailer retailer = marketArea.getRetailer(retailerCode);
-               		if(retailer == null){
-               			Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                   		engineBoSession.setCurrentRetailer(defaultRetailer);
-               		} else {
-                   		engineBoSession.setCurrentRetailer(retailer);
-               		}
-               	} else {
-               		Localization localization = engineBoSession.getCurrentMarketLocalization();
-                   	if(localization != null 
-               				&& !localization.getLocale().toString().equalsIgnoreCase(marketLanguageCode)){
-                   		// CHANGE THE LOCALE
-                   		Localization newLocalization = marketArea.getLocalization(marketLanguageCode);
-                   		if(newLocalization == null){
-                   			Localization defaultLocalization = marketArea.getDefaultLocalization();
-                       		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
-                   		} else {
-                       		engineBoSession.setCurrentMarketLocalization(newLocalization);
-                   		}
-                   		
-                   		// RETAILER
-                   		Retailer retailer = marketArea.getRetailer(retailerCode);
-                   		if(retailer == null){
-                   			Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                       		engineBoSession.setCurrentRetailer(defaultRetailer);
-                   		} else {
-                       		engineBoSession.setCurrentRetailer(retailer);
-                   		}  
-                   		
-                   	} else {
-                   		Retailer retailer = engineBoSession.getCurrentRetailer();
-                       	if(retailer != null 
-                   				&& !retailer.getCode().toString().equalsIgnoreCase(retailerCode)){
-                       		// CHANGE THE RETAILER
-                       		Retailer newRetailer = marketArea.getRetailer(retailerCode);
-                       		if(newRetailer == null){
-                       			Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                           		engineBoSession.setCurrentRetailer(defaultRetailer);
-                       		} else {
-                           		engineBoSession.setCurrentRetailer(newRetailer);
-                       		}
-                       	}
-                   	}
-               	}
-           	}
-       	}
+				 		engineBoSession.setCurrentMarketArea(marketService.getMarketAreaById(newMarketArea.getId().toString()));
+				 		
+				 		updateCurrentTheme(request, newMarketArea.getTheme());
+				 		
+				 		// LOCALE
+				 		Localization localization = newMarketArea.getLocalization(marketLanguageCode);
+				 		if(localization == null){
+				 			Localization defaultLocalization = marketArea.getDefaultLocalization();
+				     		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
+				 		} else {
+				     		engineBoSession.setCurrentMarketLocalization(localization);
+				 		}
+				 		
+				 		// RETAILER
+				 		Retailer retailer = marketArea.getRetailer(retailerCode);
+				 		if(retailer == null){
+				 			Retailer defaultRetailer = marketArea.getDefaultRetailer();
+				     		engineBoSession.setCurrentRetailer(defaultRetailer);
+				 		} else {
+				     		engineBoSession.setCurrentRetailer(retailer);
+				 		}
+				 	} else {
+				 		Localization localization = engineBoSession.getCurrentMarketLocalization();
+				     	if(localization != null 
+				 				&& !localization.getLocale().toString().equalsIgnoreCase(marketLanguageCode)){
+				     		// CHANGE THE LOCALE
+				     		Localization newLocalization = marketArea.getLocalization(marketLanguageCode);
+				     		if(newLocalization == null){
+				     			Localization defaultLocalization = marketArea.getDefaultLocalization();
+						  		engineBoSession.setCurrentMarketLocalization(defaultLocalization);
+				     		} else {
+						  		engineBoSession.setCurrentMarketLocalization(newLocalization);
+				     		}
+				     		
+				     		// RETAILER
+				     		Retailer retailer = marketArea.getRetailer(retailerCode);
+				     		if(retailer == null){
+				     			Retailer defaultRetailer = marketArea.getDefaultRetailer();
+						  		engineBoSession.setCurrentRetailer(defaultRetailer);
+				     		} else {
+						  		engineBoSession.setCurrentRetailer(retailer);
+				     		}  
+				     		
+				     	} else {
+				     		Retailer retailer = engineBoSession.getCurrentRetailer();
+						  	if(retailer != null 
+				     				&& !retailer.getCode().toString().equalsIgnoreCase(retailerCode)){
+						  		// CHANGE THE RETAILER
+						  		Retailer newRetailer = marketArea.getRetailer(retailerCode);
+						  		if(newRetailer == null){
+						  			Retailer defaultRetailer = marketArea.getDefaultRetailer();
+						      		engineBoSession.setCurrentRetailer(defaultRetailer);
+						  		} else {
+						      		engineBoSession.setCurrentRetailer(newRetailer);
+						  		}
+						  	}
+				     	}
+				 	}
+		    	}
+			}
 		}
    	
    		// CHECK BACKOFFICE LANGUAGES

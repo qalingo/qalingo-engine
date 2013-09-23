@@ -137,6 +137,9 @@ public enum FoUrls {
 	public static final String LOGOUT_URL				= "/logout-session.html";
 	public static final String LOGOUT_VELOCITY_PAGE		= "security/logout";
 
+	public static final String CHANGE_LANGUAGE_URL		= "/change-language.html";
+	public static final String CHANGE_CONTEXT_URL		= "/change-context.html";
+	
 	public static final String PERSONAL_DETAILS_KEY					= "personal-details";
 	public static final String PERSONAL_DETAILS_URL					= "/personal-details.html";
 	public static final String PERSONAL_DETAILS_VELOCITY_PAGE		= "customer/personal-details";

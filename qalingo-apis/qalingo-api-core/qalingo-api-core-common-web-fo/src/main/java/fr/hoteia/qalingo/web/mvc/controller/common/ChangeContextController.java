@@ -19,7 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController;
 
@@ -29,21 +29,23 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractFrontofficeQalingoController
 @Controller("changeContextController")
 public class ChangeContextController extends AbstractFrontofficeQalingoController {
 
-	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
+	@RequestMapping(FoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
 		List<String> excludedPatterns = new ArrayList<String>();
-		excludedPatterns.add(BoUrls.CHANGE_LANGUAGE_URL);
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
+		excludedPatterns.add(FoUrls.CHANGE_LANGUAGE_URL);
+		String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
 		RedirectView redirectView = new RedirectView(url);
 		redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
 	}
 	
-	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
+	@RequestMapping(FoUrls.CHANGE_CONTEXT_URL)
 	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
 		List<String> excludedPatterns = new ArrayList<String>();
-		excludedPatterns.add(BoUrls.CHANGE_CONTEXT_URL);
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns);
+		excludedPatterns.add(FoUrls.CHANGE_CONTEXT_URL);
+		String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
 		RedirectView redirectView = new RedirectView(url);
 		redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
