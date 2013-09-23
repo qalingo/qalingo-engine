@@ -263,7 +263,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		String menuTopPrefixCacheKey = menuTopCacheHelper.buildPrefixKey(marketPlace, market, marketArea, localization, retailer, menuTopElementType);
 		String menuTopCacheKey = menuTopPrefixCacheKey + "_GLOBAL";
 		List<MenuViewBean> menuViewBeans = (List<MenuViewBean>) menuTopCacheHelper.getFromCache(menuTopElementType, menuTopCacheKey);
-		String currentUrl = request.getQueryString();
 		if (menuViewBeans == null) {
 			final Locale locale = localization.getLocale();
 			final String localeCode = localization.getCode();
@@ -272,9 +271,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 			MenuViewBean menu = new MenuViewBean();
 			menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
-			if(currentUrl != null && currentUrl.contains("home.html")){
-				menu.setActive(true);
-			}
 			menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 			menuViewBeans.add(menu);
 
@@ -288,7 +284,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 						final String seoProductCategoryName = productCategory.getI18nName(localeCode);
 						menu.setName(seoProductCategoryName);
 						menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, productCategory));
-
+						
 						List<CatalogCategoryVirtual> subProductCategories = productCategory.getCatalogCategories(marketArea.getId());
 						if (subProductCategories != null) {
 							List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
@@ -313,6 +309,23 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			menuViewBeans.add(menu);
 
 			menuTopCacheHelper.addToCache(menuTopElementType, menuTopCacheKey, menuViewBeans);
+		}
+		
+		// Set active menu
+		String currentUrl = requestUtil.getLastRequestUrl(request);
+		for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
+			MenuViewBean menu = (MenuViewBean) iteratorMenu.next();
+			if(currentUrl != null 
+					&& currentUrl.contains(menu.getUrl())){
+				menu.setActive(true);
+				for (Iterator<MenuViewBean> iteratorSubMenu = menu.getSubMenus().iterator(); iteratorSubMenu.hasNext();) {
+					MenuViewBean subMenu = (MenuViewBean) iteratorSubMenu.next();
+					if(currentUrl != null 
+							&& currentUrl.contains(subMenu.getUrl())){
+						subMenu.setActive(true);
+					}			
+				}
+			}			
 		}
 
 		return menuViewBeans;
