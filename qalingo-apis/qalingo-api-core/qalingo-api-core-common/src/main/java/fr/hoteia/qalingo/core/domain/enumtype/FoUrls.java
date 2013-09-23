@@ -205,14 +205,14 @@ public enum FoUrls {
 	public static final String RETAILER_CREATE_VELOCITY_PAGE		= "retailer/retailer-create-form";
 
 	public static final String RETAILER_CONTACT_KEY						= "retailer-contact";
-	public static final String RETAILER_CONTACT_URL						= "/retailer-contact.html";
+	public static final String RETAILER_CONTACT_URL						= "/retailer-contact-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9\\-]+}.html";
 	public static final String RETAILER_CONTACT_FORM_VELOCITY_PAGE		= "retailer/retailer-contact-form";
 	public static final String RETAILER_CONTACT_SUCCESS_VELOCITY_PAGE	= "retailer/retailer-contact-succes";
 
 	public static final String RETAILER_COMMENT_KEY					= "retailer-comment";
-	public static final String RETAILER_COMMENT_URL					= "/retailer-comment.html";
+	public static final String RETAILER_COMMENT_URL					= "/retailer-comment-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9\\-]+}.html";
 	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment-form";
-	public static final String RETAILER_VOTE_URL					= "/retailer-vote.html";
+	public static final String RETAILER_VOTE_URL					= "/retailer-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9\\-]+}.html";
 
 	public static final String BRAND_DETAILS_KEY					= "brand-details";
 	public static final String BRAND_DETAILS_URL					= "/brand-details-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9\\-]+}.html";

@@ -10,7 +10,6 @@
 package fr.hoteia.qalingo.core.web.mvc.factory.impl;
 
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;

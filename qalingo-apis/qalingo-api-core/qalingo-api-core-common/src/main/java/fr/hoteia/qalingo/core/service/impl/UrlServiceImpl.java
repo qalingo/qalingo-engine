@@ -174,9 +174,9 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                     	urlStr = getFullPrefixUrl(requestData);
                     	for (Object subParam : params) {
                     		if (subParam instanceof CatalogCategoryVirtual) {
-                            	CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) subParam;
-                            	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(productCategory.getCode()));
-                            	urlStr = urlStr + handleString(productCategory.getBusinessName()) + "/";
+                            	CatalogCategoryVirtual category = (CatalogCategoryVirtual) subParam;
+                            	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
+                            	urlStr = urlStr + handleString(category.getBusinessName()) + "/";
                             } else if (subParam instanceof ProductMarketing) {
                             	ProductMarketing productMarketing = (ProductMarketing) subParam;
                             	urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
@@ -186,9 +186,9 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                     	}
                     	break;
                     } else if (param instanceof CatalogCategoryVirtual) {
-                    	CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(productCategory.getCode()));
-                    	urlStr = getFullPrefixUrl(requestData) + handleString(productCategory.getBusinessName());
+                    	CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
+                    	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
+                    	urlStr = getFullPrefixUrl(requestData) + handleString(category.getBusinessName());
                     	break;
                     } else if (param instanceof ProductBrand) {
                     	ProductBrand productBrand = (ProductBrand) param;
