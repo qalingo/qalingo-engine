@@ -108,8 +108,6 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_URL, method = RequestMethod.GET)
 	public ModelAndView newAccountValidation(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION.getVelocityPage());
-		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 
@@ -135,7 +133,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		String successMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "form_new_account_validation_success_message", locale);
 		addSuccessMessage(request, successMessage);
 
-        return modelAndView;
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
 	/**
