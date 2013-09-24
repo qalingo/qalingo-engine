@@ -81,6 +81,7 @@ import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UrlService;
+import fr.hoteia.qalingo.core.service.openid.OpenProvider;
 import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
@@ -481,8 +482,8 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", 			urlService.buildOAuthConnectUrl(requestData, OAuthType.FACEBOOK.getPropertyKey()));
 		security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT",		urlService.buildOAuthConnectUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey()));
-		security.getUrls().put(OAuthType.GOOGLE_CONTACT.name() + "_CONNECT",	urlService.buildOAuthConnectUrl(requestData, OAuthType.GOOGLE_CONTACT.getPropertyKey()));
-		security.getUrls().put(OAuthType.YAHOO.name() + "_CONNECT",				urlService.buildOAuthConnectUrl(requestData, OAuthType.YAHOO.getPropertyKey()));
+		security.getUrls().put(OpenProvider.GOOGLE_ACCOUNT.name() + "_CONNECT",	urlService.buildOpenIdConnectUrl(requestData, OpenProvider.GOOGLE_ACCOUNT.getPropertyKey()));
+		security.getUrls().put(OpenProvider.YAHOO.name() + "_CONNECT",			urlService.buildOpenIdConnectUrl(requestData, OpenProvider.YAHOO.getPropertyKey()));
 		
 		return security;
 	}
