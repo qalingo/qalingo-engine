@@ -32,7 +32,7 @@ public class RetailerCustomerRate extends AbstractAddress implements Serializabl
 	@Column(name="ID", nullable=false)
 	private Long id;
 	
-	@Column(name="rate")
+	@Column(name="RATE")
     private Integer rate;
 	
 	@Column(name="TYPE")
