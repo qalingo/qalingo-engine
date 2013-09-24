@@ -132,7 +132,6 @@ public class EmailServiceImpl implements EmailService {
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-html-content.vm", model));
         	mimeMessagePreparator.setPlainTextContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-text-content.vm", model));
         	
-        	
         	mimeMessagePreparator.getHtmlContent();
         	
         	Email email = new Email();
@@ -337,6 +336,12 @@ public class EmailServiceImpl implements EmailService {
         	model.put("currentDate", dateFormatter.format(currentDate));
         	model.put("customerNewAccountConfirmationEmailBean", customerNewAccountConfirmationEmailBean);
         	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
+			Map<String, String> urlParams = new HashMap<String, String>();
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL, URLEncoder.encode(customerNewAccountConfirmationEmailBean.getEmail(), Constants.ANSI));
+			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN, UUID.randomUUID().toString());
+			String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
+        	model.put("newCustomerValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
         	String fromEmail = customerNewAccountConfirmationEmailBean.getFromEmail();
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION, model);

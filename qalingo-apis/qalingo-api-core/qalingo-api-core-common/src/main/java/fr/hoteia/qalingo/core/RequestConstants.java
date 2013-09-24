@@ -56,9 +56,12 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_USER_ID					= "user-id";
 	public static final String REQUEST_PARAMETER_PAGE_ID					= "page-id";
 
-	public static final String REQUEST_PARAMETER_PASSWORD_RESET_TOKEN		= "reset-token";
-	public static final String REQUEST_PARAMETER_PASSWORD_RESET_EMAIL		= "reset-email";
-	public static final String REQUEST_PARAMETER_AUTH_ERROR					= "auth-error";
+	public static final String REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL	= "customer-email";
+	public static final String REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN	= "validation-token";
+
+	public static final String REQUEST_PARAMETER_PASSWORD_RESET_TOKEN			= "reset-token";
+	public static final String REQUEST_PARAMETER_PASSWORD_RESET_EMAIL			= "reset-email";
+	public static final String REQUEST_PARAMETER_AUTH_ERROR						= "auth-error";
 
 	public static final String REQUEST_PARAMETER_NEWSLETTER_EMAIL			= "newsletter-email";
 

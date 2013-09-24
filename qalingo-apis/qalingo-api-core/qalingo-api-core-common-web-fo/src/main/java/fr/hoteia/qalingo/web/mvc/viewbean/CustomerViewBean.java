@@ -97,14 +97,18 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
     }
 	
 	public String getScreenName() {
+		String screenNameValue = null;
 		if(customerAttributes != null
 				&& customerAttributes.size() > 0){
 			ValueBean screenName = customerAttributes.get(SCREEN_NAME);
 			if(screenName != null){
-				return screenName.getValue();
+				screenNameValue = screenName.getValue();
 			}
 		}
-    	return null;
+		if(screenNameValue == null){
+			screenNameValue = getLastname() + " " + getFirstname();
+		}
+    	return screenNameValue;
     }
 	
 }

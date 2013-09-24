@@ -159,8 +159,7 @@ public class AbstractWebCommerceServiceImpl {
 		return customer;
 	}
 	
-	public Customer updateCurrentCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, Customer customer) throws Exception {
-		customer.setDefaultLocale(marketArea.getDefaultLocalization().toString());
+	public Customer updateCurrentCustomer(final HttpServletRequest request, final RequestData requestData, Customer customer) throws Exception {
 		customer.setActive(true);
 		customer.setDateUpdate(new Date());
 
@@ -339,7 +338,7 @@ public class AbstractWebCommerceServiceImpl {
 			customer.getCustomerMarketAreas().add(customerMarketArea);
 		}
 		
-		customer = updateCurrentCustomer(request, requestData, market, marketArea, customer);
+		customer = updateCurrentCustomer(request, requestData, customer);
 		return customer;
     }
 	
@@ -360,7 +359,7 @@ public class AbstractWebCommerceServiceImpl {
 			}
 		}
 		
-		customer = updateCurrentCustomer(request, requestData, market, marketArea, customer);
+		customer = updateCurrentCustomer(request, requestData, customer);
 		return customer;
     }
 	

@@ -41,6 +41,7 @@ public enum FoUrls {
 
     CUSTOMER_DETAILS(FoUrls.CUSTOMER_DETAILS_URL, FoUrls.CUSTOMER_DETAILS_KEY, FoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE),
     CUSTOMER_CREATE_ACCOUNT(FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, FoUrls.CUSTOMER_CREATE_ACCOUNT_KEY, FoUrls.CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE),
+    CUSTOMER_NEW_ACCOUNT_VALIDATION(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_URL, FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_KEY, FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_VELOCITY_PAGE),
 
     RETAILER_DETAILS(FoUrls.RETAILER_DETAILS_URL, FoUrls.RETAILER_DETAILS_KEY, FoUrls.RETAILER_DETAILS_VELOCITY_PAGE),
     RETAILER_CREATE(FoUrls.RETAILER_CREATE_URL, FoUrls.RETAILER_CREATE_KEY, FoUrls.RETAILER_CREATE_VELOCITY_PAGE),
@@ -195,6 +196,10 @@ public enum FoUrls {
 	public static final String CUSTOMER_CREATE_ACCOUNT_KEY					= "customer-create-account";
 	public static final String CUSTOMER_CREATE_ACCOUNT_URL					= "/customer-create-account.html";
 	public static final String CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE		= "customer/customer-create-account-form";
+
+	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_KEY				= "customer-new-account-validation";
+	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_URL				= "/customer-new-account-validation.html";
+	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_VELOCITY_PAGE	= "customer/customer-new-account-validation";
 
 	public static final String RETAILER_DETAILS_KEY					= "retailer-details";
 	public static final String RETAILER_DETAILS_URL					= "/retailer-details-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9\\-]+}.html";

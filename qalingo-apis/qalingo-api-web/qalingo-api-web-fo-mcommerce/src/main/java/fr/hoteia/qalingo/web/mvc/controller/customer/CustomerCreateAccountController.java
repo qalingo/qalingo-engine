@@ -9,9 +9,12 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.customer;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -55,12 +61,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		// "customer.create.account";
-
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
-//		formFactory.buildCustomerCreateAccountForm(request, modelAndView);
-
         return modelAndView;
 	}
 
@@ -102,6 +104,38 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
+	}
+	
+	@RequestMapping(value = FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_URL, method = RequestMethod.GET)
+	public ModelAndView newAccountValidation(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION.getVelocityPage());
+		
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+
+		String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN);
+		if (StringUtils.isEmpty(token)) {
+			// ADD ERROR MESSAGE
+			String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_token_is_wrong", locale);
+			addErrorMessage(request, errorMessage);
+		}
+		
+		String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL);
+		final Customer customer = customerService.getCustomerByLoginOrEmail(email);
+		if (customer == null) {
+			// ADD ERROR MESSAGE
+			String errorMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "error_form_new_account_validation_email_or_login_are_wrong", locale);
+			addErrorMessage(request, errorMessage);
+		}
+		
+		// Save customer as active
+		webCommerceService.activeNewCustomer(request, requestUtil.getRequestData(request), customer);
+
+		// ADD SUCCESS MESSAGE
+		String successMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "form_new_account_validation_success_message", locale);
+		addSuccessMessage(request, successMessage);
+
+        return modelAndView;
 	}
 	
 	/**

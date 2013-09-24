@@ -102,6 +102,9 @@ public class Customer implements Serializable {
 	@Column(name="VALIDATED", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean validated;
 	
+	@Column(name="VALIDATION_TOKEN")
+	private String validationToken;
+	
 	@Column(name="IS_ANONYMOUS", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean anonymous;
 	
@@ -277,6 +280,14 @@ public class Customer implements Serializable {
 
 	public void setValidated(boolean validated) {
     	this.validated = validated;
+    }
+	
+	public String getValidationToken() {
+	    return validationToken;
+    }
+	
+	public void setValidationToken(String validationToken) {
+	    this.validationToken = validationToken;
     }
 
 	public boolean isAnonymous() {

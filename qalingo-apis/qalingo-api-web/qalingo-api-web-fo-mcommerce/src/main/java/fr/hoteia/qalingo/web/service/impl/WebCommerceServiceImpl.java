@@ -101,7 +101,12 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
 		customer.setFirstname(customerEditForm.getFirstname());
 		customer.setLastname(customerEditForm.getLastname());
 		
-		return super.updateCurrentCustomer(request, requestData, market, marketArea, customer);
+		return super.updateCurrentCustomer(request, requestData, customer);
+	}
+	
+	public Customer activeNewCustomer(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception {
+		customer.setActive(true);
+		return super.updateCurrentCustomer(request, requestData, customer);
 	}
 	
 	public Customer updateOrSaveAddressCustomer(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea, final CustomerAddressForm customerAddressForm) throws Exception {
