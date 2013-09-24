@@ -112,7 +112,8 @@ public class RequestUtilImpl implements RequestUtil {
 	 */
 	public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
 		if (StringUtils.isNotEmpty(getHost(request)) 
-				&& getHost(request).equalsIgnoreCase("localhost:8080")) {
+				&& (getHost(request).contains("localhost")
+						|| getHost(request).equalsIgnoreCase("127.0.0.1"))) {
 			return true;
 		}
 		return false;
@@ -334,6 +335,7 @@ public class RequestUtilImpl implements RequestUtil {
 		
 		// CLEAN CONTEXT FROM URL 
 		if(StringUtils.isNotEmpty(url)
+				&& !isLocalHostMode(request)
 				&& url.contains(request.getContextPath())){
 			url = url.replace(request.getContextPath(), "");
 		}
