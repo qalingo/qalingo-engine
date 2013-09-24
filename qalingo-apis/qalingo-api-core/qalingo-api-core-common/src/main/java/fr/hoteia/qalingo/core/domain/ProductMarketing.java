@@ -356,7 +356,7 @@ public class ProductMarketing implements Serializable {
 						
 						// TODO : get a default locale code from setting database ?
 						
-						if(productMarketingAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+						if(Constants.DEFAULT_LOCALE_CODE.equals(productMarketingAttribute.getLocalizationCode())){
 							productMarketingAttributeToReturn = productMarketingAttribute;
 						}
 					}

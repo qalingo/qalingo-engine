@@ -401,7 +401,7 @@ public class CatalogCategoryMaster implements Serializable {
 						
 						// TODO : get a default locale code from setting database ?
 						
-						if(catalogCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+						if(Constants.DEFAULT_LOCALE_CODE.equals(catalogCategoryAttribute.getLocalizationCode())){
 							catalogCategoryAttributeToReturn = catalogCategoryAttribute;
 						}
 					}
