@@ -87,62 +87,17 @@ public class OpenIdService {
      * Get authentication information from HTTP request, key.and alias
      */
     public OpenIdAuthentication getAuthentication(HttpServletRequest request, byte[] key, String alias) {
-//        // verify:
-//        String identity = request.getParameter(Provider.REQUEST_PARAM_OPEN_ID_IDENTITY);
-//        if (identity == null){
-//            throw new OpenIdException("Missing '" + Provider.REQUEST_PARAM_OPEN_ID_IDENTITY + "'.");
-//        }
-//        if (request.getParameter(Provider.REQUEST_PARAM_OPEN_ID_INVALIDATE_HANDLE) != null){
-//            throw new OpenIdException("Invalidate handle.");
-//        }
-//        String sig = request.getParameter(Provider.REQUEST_PARAM_OPEN_ID_SIG);
-//        if (sig == null){
-//            throw new OpenIdException("Missing '" + Provider.REQUEST_PARAM_OPEN_ID_SIG + "'.");
-//        }
-//        String signed = request.getParameter(Provider.REQUEST_PARAM_OPEN_ID_SIGNED);
-//        if (signed == null){
-//            throw new OpenIdException("Missing '" + Provider.REQUEST_PARAM_OPEN_ID_SIGNED + "'.");
-//        }
-//        if (!returnTo.equals(request.getParameter(Provider.REQUEST_PARAM_OPEN_ID_RETURN_TO))){
-//            throw new OpenIdException("Bad '" + Provider.REQUEST_PARAM_OPEN_ID_RETURN_TO + "'.");
-//        }
-//        // check sig:
-//        String[] params = signed.split("[\\,]+");
-//        StringBuilder sb = new StringBuilder(1024);
-//        for (String param : params) {
-//            sb.append(param)
-//              .append(':');
-//            String value = request.getParameter("openid." + param);
-//            if (value!=null)
-//                sb.append(value);
-//            sb.append('\n');
-//        }
-//        String hmac = getHmacSha1(sb.toString(), key);
-//        if (!safeEquals(sig, hmac)){
-//            throw new OpenIdException("Verify signature failed.");
-//        }
-//
-//        // set auth:
-//        OpenIdAuthentication auth = new OpenIdAuthentication();
-//        auth.setIdentity(identity);
-//        auth.setEmail(request.getParameter("openid." + alias + ".value.email"));
-//        auth.setLanguage(request.getParameter("openid." + alias + ".value.language"));
-//        auth.setGender(request.getParameter("openid." + alias + ".value.gender"));
-//        auth.setFullname(getFullname(request, alias));
-//        auth.setFirstname(getFirstname(request, alias));
-//        auth.setLastname(getLastname(request, alias));
-//        return auth;
     	// verify:
         String identity = request.getParameter("openid.identity");
-        if (identity==null)
+        if (identity == null)
             throw new OpenIdException("Missing 'openid.identity'.");
         if (request.getParameter("openid.invalidate_handle")!=null)
             throw new OpenIdException("Invalidate handle.");
         String sig = request.getParameter("openid.sig");
-        if (sig==null)
+        if (sig == null)
             throw new OpenIdException("Missing 'openid.sig'.");
         String signed = request.getParameter("openid.signed");
-        if (signed==null)
+        if (signed == null)
             throw new OpenIdException("Missing 'openid.signed'.");
         if (!returnTo.equals(request.getParameter("openid.return_to")))
             throw new OpenIdException("Bad 'openid.return_to'.");
@@ -158,8 +113,9 @@ public class OpenIdService {
             sb.append('\n');
         }
         String hmac = getHmacSha1(sb.toString(), key);
-        if (!safeEquals(sig, hmac))
+        if (!safeEquals(sig, hmac)){
             throw new OpenIdException("Verify signature failed.");
+        }
         // set auth:
         OpenIdAuthentication auth = new OpenIdAuthentication();
         auth.setIdentity(identity);
@@ -270,7 +226,8 @@ public class OpenIdService {
             alias = lookupAliasByName(nameOrUrl);
         }
         Endpoint endpoint = endpointCache.get(url);
-        if (endpoint != null && !endpoint.isExpired()){
+        if (endpoint != null 
+        		&& !endpoint.isExpired()){
             return endpoint;
         }
         endpoint = requestEndpoint(url, alias==null ? Endpoint.DEFAULT_ALIAS : alias);
@@ -280,7 +237,8 @@ public class OpenIdService {
 
     public Association lookupAssociation(Endpoint endpoint) {
         Association assoc = associationCache.get(endpoint);
-        if (assoc!=null && !assoc.isExpired()){
+        if (assoc != null 
+        		&& !assoc.isExpired()){
             return assoc;
         }
         assoc = requestAssociation(endpoint);
@@ -289,18 +247,6 @@ public class OpenIdService {
     }
 
     public String getAuthenticationUrl(Endpoint endpoint, Association association) {
-//        StringBuilder sb = new StringBuilder(1024);
-//        sb.append(endpoint.getUrl())
-//          .append(endpoint.getUrl().contains("?") ? '&' : '?')
-//          .append(getAuthQuery(endpoint.getAlias()))
-//          .append("&" + Provider.REQUEST_PARAM_OPEN_ID_RETURN_TO + "=")
-//          .append(returnToUrlEncode)
-//          .append("&" + Provider.REQUEST_PARAM_OPEN_ID_ASSOC_HANDLE + "=")
-//          .append(association.getAssociationHandle());
-//        if (realm != null){
-//            sb.append("&" + Provider.REQUEST_PARAM_OPEN_ID_REALM + "=").append(realm);
-//        }
-//        return sb.toString();
         StringBuilder sb = new StringBuilder(1024);
         sb.append(endpoint.getUrl())
           .append(endpoint.getUrl().contains("?") ? '&' : '?')
@@ -309,8 +255,9 @@ public class OpenIdService {
           .append(returnToUrlEncode)
           .append("&openid.assoc_handle=")
           .append(association.getAssociationHandle());
-        if (realm!=null)
+        if (realm != null){
             sb.append("&openid.realm=").append(realm);
+        }
         return sb.toString(); 
     }
 
@@ -368,106 +315,41 @@ public class OpenIdService {
         return assoc;
     }
 
-//    String getAuthQuery(String axa) {
-//        if (authQuery != null){
-//            return authQuery;
-//        }
-//        List<String> list = new ArrayList<String>();
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_NS + "=http://specs.openid.net/auth/2.0");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_CLAIMED_ID + "=http://specs.openid.net/auth/2.0/identifier_select");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_IDENTITY + "=http://specs.openid.net/auth/2.0/identifier_select");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_MODE + "=checkid_setup");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_NS + "." + axa + "=http://openid.net/srv/ax/1.0");
-//        list.add("openid." + axa + ".mode=fetch_request");
-//        list.add("openid." + axa + ".type.email=http://axschema.org/contact/email");
-//        list.add("openid." + axa + ".type.fullname=http://axschema.org/namePerson");
-//        list.add("openid." + axa + ".type.language=http://axschema.org/pref/language");
-//        list.add("openid." + axa + ".type.firstname=http://axschema.org/namePerson/first");
-//        list.add("openid." + axa + ".type.lastname=http://axschema.org/namePerson/last");
-//        list.add("openid." + axa + ".type.gender=http://axschema.org/person/gender");
-//        list.add("openid." + axa + ".required=email,fullname,language,firstname,lastname,gender");
-//        String query = Utils.buildQuery(list);
-//        authQuery = query;
-//        return query;
-//    }
-
-    String getAuthQuery(String axa) {
-    	 
-        if (authQuery!=null)
- 
+    private String getAuthQuery(String axa) {
+        if (authQuery != null){
             return authQuery;
- 
+        }
         List<String> list = new ArrayList<String>();
- 
         list.add("openid.ns=http://specs.openid.net/auth/2.0");
- 
         list.add("openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select");
- 
         list.add("openid.identity=http://specs.openid.net/auth/2.0/identifier_select");
- 
         list.add("openid.mode=checkid_setup");
- 
         list.add("openid.ns." + axa + "=http://openid.net/srv/ax/1.0");
- 
         list.add("openid." + axa + ".mode=fetch_request");
- 
         list.add("openid." + axa + ".type.email=http://axschema.org/contact/email");
- 
         list.add("openid." + axa + ".type.fullname=http://axschema.org/namePerson");
- 
         list.add("openid." + axa + ".type.language=http://axschema.org/pref/language");
- 
         list.add("openid." + axa + ".type.firstname=http://axschema.org/namePerson/first");
- 
         list.add("openid." + axa + ".type.lastname=http://axschema.org/namePerson/last");
- 
         list.add("openid." + axa + ".type.gender=http://axschema.org/person/gender");
- 
         list.add("openid." + axa + ".required=email,fullname,language,firstname,lastname,gender");
- 
         String query = Utils.buildQuery(list);
- 
         authQuery = query;
- 
         return query;
- 
     } 
 
-    
-//    String getAssocQuery() {
-//        if (assocQuery != null){
-//            return assocQuery;
-//        }
-//        List<String> list = new ArrayList<String>();
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_NS + "=http://specs.openid.net/auth/2.0");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_MODE + "=associate");
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_SESSION_TYPE + "=" + Association.SESSION_TYPE_NO_ENCRYPTION);
-//        list.add("" + Provider.REQUEST_PARAM_OPEN_ID_ASSOC_TYPE + "=" + Association.ASSOC_TYPE_HMAC_SHA1);
-//        String query = Utils.buildQuery(list);
-//        assocQuery = query;
-//        return query;
-//    }
-    
-    String getAssocQuery() {
-    	 
-        if (assocQuery!=null)
- 
+	private String getAssocQuery() {
+        if (assocQuery != null){
             return assocQuery;
+        }
  
         List<String> list = new ArrayList<String>();
- 
         list.add("openid.ns=http://specs.openid.net/auth/2.0");
- 
         list.add("openid.mode=associate");
- 
         list.add("openid.session_type=" + Association.SESSION_TYPE_NO_ENCRYPTION);
- 
         list.add("openid.assoc_type=" + Association.ASSOC_TYPE_HMAC_SHA1);
- 
         String query = Utils.buildQuery(list);
- 
         assocQuery = query;
- 
         return query;
     } 
     
