@@ -295,9 +295,28 @@ public class ProductMarketing implements Serializable {
 	
 	public ProductMarketingAttribute getProductMarketingAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		ProductMarketingAttribute productMarketingAttributeToReturn = null;
-		if(productMarketingMarketAreaAttributes != null) {
-			List<ProductMarketingAttribute> productMarketingAttributesFilter = new ArrayList<ProductMarketingAttribute>();
-			for (Iterator<ProductMarketingAttribute> iterator = productMarketingMarketAreaAttributes.iterator(); iterator.hasNext();) {
+
+		// 1: GET THE GLOBAL VALUE
+		ProductMarketingAttribute productMarketingGlobalAttribute = getProductMarketingAttribute(productMarketingGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+
+		// 2: GET THE MARKET AREA VALUE
+		ProductMarketingAttribute productMarketingMarketAreaAttribute = getProductMarketingAttribute(productMarketingMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		
+		if(productMarketingMarketAreaAttribute != null){
+			productMarketingAttributeToReturn = productMarketingMarketAreaAttribute;
+		} else if (productMarketingGlobalAttribute != null){
+			productMarketingAttributeToReturn = productMarketingGlobalAttribute;
+		}
+		
+		return productMarketingAttributeToReturn;
+	}
+	
+	private ProductMarketingAttribute getProductMarketingAttribute(Set<ProductMarketingAttribute> productMarketingAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+		ProductMarketingAttribute productMarketingAttributeToReturn = null;
+		List<ProductMarketingAttribute> productMarketingAttributesFilter = new ArrayList<ProductMarketingAttribute>();
+		if(productMarketingAttributes != null) {
+			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
 				ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = productMarketingAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
@@ -305,6 +324,7 @@ public class ProductMarketing implements Serializable {
 					productMarketingAttributesFilter.add(productMarketingAttribute);
 				}
 			}
+			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
@@ -316,26 +336,22 @@ public class ProductMarketing implements Serializable {
 						}
 					}
 				}
-				if(productMarketingAttributesFilter.size() == 0){
-					// TODO : throw error ?
-				}
 			}
+			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productMarketingAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = productMarketingAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-							iterator.remove();
-						}
+					String attributeLocalizationCode = productMarketingAttribute.getLocalizationCode();
+					if(StringUtils.isNotEmpty(attributeLocalizationCode)
+							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+						iterator.remove();
 					}
 				}
 				if(productMarketingAttributesFilter.size() == 0){
-					// TODO : throw error ?
-					
-					for (Iterator<ProductMarketingAttribute> iterator = productMarketingMarketAreaAttributes.iterator(); iterator.hasNext();) {
+					// TODO : warning ?
+
+					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
 						ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
@@ -344,15 +360,16 @@ public class ProductMarketing implements Serializable {
 							productMarketingAttributeToReturn = productMarketingAttribute;
 						}
 					}
-					
 				}
 			}
-			if(productMarketingAttributesFilter.size() == 1){
-				productMarketingAttributeToReturn = productMarketingAttributesFilter.get(0);
-			} else {
-				// TODO : throw error ?
-			}
 		}
+		
+		if(productMarketingAttributesFilter.size() == 1){
+			productMarketingAttributeToReturn = productMarketingAttributesFilter.get(0);
+		} else {
+			// TODO : throw error ?
+		}
+		
 		return productMarketingAttributeToReturn;
 	}
 	

@@ -65,7 +65,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 	}
 	
 	public String buildChangeLanguageUrl(final RequestData requestData, final Localization localization) throws Exception {
-		return buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
+		return buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
 	}
 	
 	public String buildChangeLanguageUrl(final RequestData requestData) throws Exception {
@@ -75,7 +75,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 		final Localization localization = requestData.getLocalization();
 		final Retailer retailer = requestData.getRetailer();
 		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?";
+		String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE_URL + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());

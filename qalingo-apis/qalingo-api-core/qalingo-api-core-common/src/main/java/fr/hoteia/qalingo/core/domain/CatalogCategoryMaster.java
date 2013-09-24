@@ -11,9 +11,12 @@ package fr.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +46,7 @@ import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
 
+import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
@@ -251,6 +255,28 @@ public class CatalogCategoryMaster implements Serializable {
 		return catalogCategories;
 	}
 	
+	public List<CatalogCategoryMaster> getCatalogCategories(final Long marketAreaId) {
+		List<CatalogCategoryMaster> sortedObjects = new LinkedList<CatalogCategoryMaster>(catalogCategories);
+		Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
+			@Override
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+				if(o1 != null
+						&& o2 != null){
+					Integer order1 = o1.getOrder(marketAreaId);
+					Integer order2 = o2.getOrder(marketAreaId);
+					if(order1 != null
+							&& order2 != null){
+						return order1.compareTo(order2);				
+					} else {
+						return o1.getId().compareTo(o2.getId());	
+					}
+				}
+				return 0;
+			}
+		});
+		return sortedObjects;
+	}
+	
 	public void setCatalogCategories(Set<CatalogCategoryMaster> catalogCategories) {
 		this.catalogCategories = catalogCategories;
 	}
@@ -311,32 +337,28 @@ public class CatalogCategoryMaster implements Serializable {
 	
 	public CatalogCategoryMasterAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
-		List<CatalogCategoryMasterAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryMasterAttribute>();
-		if(catalogCategoryMarketAreaAttributes != null) {
-			for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
-				CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-				if(attributeDefinition != null
-						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
-				}
-			}
-			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-					CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-							iterator.remove();
-						}
-					}
-				}
-			}
+
+		// 1: GET THE GLOBAL VALUE
+		CatalogCategoryMasterAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(catalogCategoryGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+
+		// 2: GET THE MARKET AREA VALUE
+		CatalogCategoryMasterAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(catalogCategoryMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		
+		if(catalogCategoryMarketAreaAttribute != null){
+			catalogCategoryAttributeToReturn = catalogCategoryMarketAreaAttribute;
+		} else if (catalogCategoryGlobalAttribute != null){
+			catalogCategoryAttributeToReturn = catalogCategoryGlobalAttribute;
 		}
-		if(catalogCategoryGlobalAttributes != null) {
-			for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryGlobalAttributes.iterator(); iterator.hasNext();) {
+		
+		return catalogCategoryAttributeToReturn;
+	}
+	
+	private CatalogCategoryMasterAttribute getCatalogCategoryAttribute(Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+		CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
+		List<CatalogCategoryMasterAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryMasterAttribute>();
+		if(catalogCategoryAttributes != null) {
+			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
 				CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
@@ -344,6 +366,7 @@ public class CatalogCategoryMaster implements Serializable {
 					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
 				}
 			}
+			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
 					CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
@@ -356,32 +379,51 @@ public class CatalogCategoryMaster implements Serializable {
 					}
 				}
 			}
+			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
 					CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-					String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-					if(StringUtils.isNotEmpty(attributeLocalizationCode)
-							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-						iterator.remove();
+					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
+					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
+						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
+						if(StringUtils.isNotEmpty(attributeLocalizationCode)
+								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+							iterator.remove();
+						}
+					}
+				}
+				if(catalogCategoryAttributesFilter.size() == 0){
+					// TODO : warning ?
+
+					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+						CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
+						
+						// TODO : get a default locale code from setting database ?
+						
+						if(catalogCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
+							catalogCategoryAttributeToReturn = catalogCategoryAttribute;
+						}
 					}
 				}
 			}
 		}
+		
 		if(catalogCategoryAttributesFilter.size() == 1){
 			catalogCategoryAttributeToReturn = catalogCategoryAttributesFilter.get(0);
 		} else {
 			// TODO : throw error ?
 		}
-				
+		
 		return catalogCategoryAttributeToReturn;
 	}
 	
 	public Object getValue(String attributeCode) {
-		return getValue(attributeCode, null);
+		return getValue(attributeCode, null, null);
 	}
 	
-	public Object getValue(String attributeCode, String localizationCode) {
-		CatalogCategoryMasterAttribute productCategoryAttribute = getCatalogCategoryAttribute(attributeCode, localizationCode);
+	public Object getValue(String attributeCode, Long marketAreaId, String localizationCode) {
+		CatalogCategoryMasterAttribute productCategoryAttribute = getCatalogCategoryAttribute(attributeCode, marketAreaId, localizationCode);
 		if(productCategoryAttribute != null) {
 			return productCategoryAttribute.getValue();
 		}
@@ -389,15 +431,15 @@ public class CatalogCategoryMaster implements Serializable {
 	}
 	
 	public String getI18nName(String localizationCode) {
-		String i18nName = (String) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, localizationCode);
+		String i18nName = (String) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
 		if(StringUtils.isEmpty(i18nName)){
 			i18nName = getBusinessName();
 		}
 		return i18nName;
 	}
 	
-	public Integer getOrder() {
-		return (Integer) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, null);
+	public Integer getOrder(Long marketAreaId) {
+		return (Integer) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
 
 	// ASSET

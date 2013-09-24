@@ -333,9 +333,28 @@ public class CatalogCategoryVirtual implements Serializable {
 	
 	public CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
+
+		// 1: GET THE GLOBAL VALUE
+		CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(catalogCategoryGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+
+		// 2: GET THE MARKET AREA VALUE
+		CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(catalogCategoryMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		
+		if(catalogCategoryMarketAreaAttribute != null){
+			catalogCategoryAttributeToReturn = catalogCategoryMarketAreaAttribute;
+		} else if (catalogCategoryGlobalAttribute != null){
+			catalogCategoryAttributeToReturn = catalogCategoryGlobalAttribute;
+		}
+		
+		return catalogCategoryAttributeToReturn;
+	}
+	
+	private CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+		CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
 		List<CatalogCategoryVirtualAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryVirtualAttribute>();
-		if(catalogCategoryMarketAreaAttributes != null) {
-			for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+		if(catalogCategoryAttributes != null) {
+			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
 				CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
@@ -343,6 +362,7 @@ public class CatalogCategoryVirtual implements Serializable {
 					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
 				}
 			}
+			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
 					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
@@ -355,59 +375,21 @@ public class CatalogCategoryVirtual implements Serializable {
 					}
 				}
 			}
+			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
 					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-							iterator.remove();
-						}
+					String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
+					if(StringUtils.isNotEmpty(attributeLocalizationCode)
+							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+						iterator.remove();
 					}
 				}
 				if(catalogCategoryAttributesFilter.size() == 0){
-					// TODO : throw error ?
-					
-					for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
-						CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-						
-						// TODO : get a default locale code from setting database ?
-						
-						if(catalogCategoryAttribute.getLocalizationCode().equals(Constants.DEFAULT_LOCALE_CODE)){
-							catalogCategoryAttributeToReturn = catalogCategoryAttribute;
-						}
-					}
-				}
-			}
-		}
-		
-		if(catalogCategoryGlobalAttributes != null) {
-			for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryGlobalAttributes.iterator(); iterator.hasNext();) {
-				CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-				AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-				if(attributeDefinition != null
-						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
-				}
-			}
-			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
-					CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-							iterator.remove();
-						}
-					}
-				}
-				if(catalogCategoryAttributesFilter.size() == 0){
-					// TODO : throw error ?
-					
-					for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext();) {
+					// TODO : warning ?
+
+					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
 						CatalogCategoryVirtualAttribute catalogCategoryAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
@@ -607,4 +589,5 @@ public class CatalogCategoryVirtual implements Serializable {
 				+ productMarketings + ", dateCreate=" + dateCreate
 				+ ", dateUpdate=" + dateUpdate + "]";
 	}
+	
 }

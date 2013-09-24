@@ -94,7 +94,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		List<CatalogCategoryMaster> productCategories = productCategoryService.findRootCatalogCategories();
+		List<CatalogCategoryMaster> productCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId());
 		CatalogViewBean catalogViewBean = viewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, productCategories);
 		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
 

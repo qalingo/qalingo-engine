@@ -24,10 +24,12 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, Long retailerId, String catalogCategoryCode);
 
-	List<CatalogCategoryMaster> findRootCatalogCategories();
+	List<CatalogCategoryMaster> findRootCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId);
-	
+	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId, Long retailerId);
+
+	List<CatalogCategoryMaster> orderCategoryMasterList(Long marketAreaId, List<CatalogCategoryMaster> categories);
+
 	void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 	
 	void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
@@ -47,7 +49,9 @@ public interface CatalogCategoryService {
 	List<CatalogCategoryVirtual> findVirtualCategories(Long marketAreaId, Long retailerId);
 
 	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, Long retailerId, Long productMarketingId);
-	
+
+	List<CatalogCategoryVirtual> orderCategoryVirtualList(Long marketAreaId, List<CatalogCategoryVirtual> categories);
+
 	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 	
 	void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory);

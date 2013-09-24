@@ -276,9 +276,9 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 			CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId(), retailer.getId());
 			if(catalogVirtual != null){
-				final List<CatalogCategoryVirtual> productCategoies = catalogVirtual.getProductCategories(marketArea.getId());
-				if (productCategoies != null) {
-					for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategoies.iterator(); iteratorProductCategory.hasNext();) {
+				final List<CatalogCategoryVirtual> productCategories = catalogVirtual.getProductCategories(marketArea.getId());
+				if (productCategories != null) {
+					for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategories.iterator(); iteratorProductCategory.hasNext();) {
 						final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();
 						menu = new MenuViewBean();
 						final String seoProductCategoryName = productCategory.getI18nName(localeCode);
@@ -315,15 +315,17 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		String currentUrl = requestUtil.getLastRequestUrl(request);
 		for (Iterator<MenuViewBean> iteratorMenu = menuViewBeans.iterator(); iteratorMenu.hasNext();) {
 			MenuViewBean menu = (MenuViewBean) iteratorMenu.next();
+			menu.setActive(false);
 			if(currentUrl != null 
 					&& currentUrl.contains(menu.getUrl())){
 				menu.setActive(true);
 				for (Iterator<MenuViewBean> iteratorSubMenu = menu.getSubMenus().iterator(); iteratorSubMenu.hasNext();) {
 					MenuViewBean subMenu = (MenuViewBean) iteratorSubMenu.next();
+					subMenu.setActive(false);
 					if(currentUrl != null 
 							&& currentUrl.contains(subMenu.getUrl())){
 						subMenu.setActive(true);
-					}			
+					}
 				}
 			}			
 		}

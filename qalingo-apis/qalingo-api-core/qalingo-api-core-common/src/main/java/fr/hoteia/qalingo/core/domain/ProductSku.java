@@ -291,9 +291,28 @@ public class ProductSku implements Serializable {
 	
 	public ProductSkuAttribute getProductSkuAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
-		if(productSkuMarketAreaAttributes != null) {
-			List<ProductSkuAttribute> productSkuAttributesFilter = new ArrayList<ProductSkuAttribute>();
-			for (Iterator<ProductSkuAttribute> iterator = productSkuMarketAreaAttributes.iterator(); iterator.hasNext();) {
+
+		// 1: GET THE GLOBAL VALUE
+		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(productSkuGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+
+		// 2: GET THE MARKET AREA VALUE
+		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(productSkuMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		
+		if(productSkuMarketAreaAttribute != null){
+			productSkuAttributeToReturn = productSkuMarketAreaAttribute;
+		} else if (productSkuGlobalAttribute != null){
+			productSkuAttributeToReturn = productSkuGlobalAttribute;
+		}
+		
+		return productSkuAttributeToReturn;
+	}
+	
+	private ProductSkuAttribute getProductSkuAttribute(Set<ProductSkuAttribute> productSkuAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+		ProductSkuAttribute productSkuAttributeToReturn = null;
+		List<ProductSkuAttribute> productSkuAttributesFilter = new ArrayList<ProductSkuAttribute>();
+		if(productSkuAttributes != null) {
+			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
 				ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
@@ -301,6 +320,7 @@ public class ProductSku implements Serializable {
 					productSkuAttributesFilter.add(productSkuAttribute);
 				}
 			}
+			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
@@ -312,26 +332,22 @@ public class ProductSku implements Serializable {
 						}
 					}
 				}
-				if(productSkuAttributesFilter.size() == 0){
-					// TODO : throw error ?
-				}
 			}
+			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-					AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
-					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
-						String attributeLocalizationCode = productSkuAttribute.getLocalizationCode();
-						if(StringUtils.isNotEmpty(attributeLocalizationCode)
-								&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
-							iterator.remove();
-						}
+					String attributeLocalizationCode = productSkuAttribute.getLocalizationCode();
+					if(StringUtils.isNotEmpty(attributeLocalizationCode)
+							&& BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))){
+						iterator.remove();
 					}
 				}
 				if(productSkuAttributesFilter.size() == 0){
-					// TODO : throw error ?
-					
-					for (Iterator<ProductSkuAttribute> iterator = productSkuMarketAreaAttributes.iterator(); iterator.hasNext();) {
+					// TODO : warning ?
+
+					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
 						ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
@@ -340,15 +356,16 @@ public class ProductSku implements Serializable {
 							productSkuAttributeToReturn = productSkuAttribute;
 						}
 					}
-					
 				}
 			}
-			if(productSkuAttributesFilter.size() == 1){
-				productSkuAttributeToReturn = productSkuAttributesFilter.get(0);
-			} else {
-				// TODO : throw error ?
-			}
 		}
+		
+		if(productSkuAttributesFilter.size() == 1){
+			productSkuAttributeToReturn = productSkuAttributesFilter.get(0);
+		} else {
+			// TODO : throw error ?
+		}
+		
 		return productSkuAttributeToReturn;
 	}
 	

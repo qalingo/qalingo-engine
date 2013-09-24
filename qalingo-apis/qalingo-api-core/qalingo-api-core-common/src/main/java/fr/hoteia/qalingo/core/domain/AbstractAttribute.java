@@ -32,7 +32,10 @@ public abstract class AbstractAttribute implements Serializable {
 
 	public static String PRODUCT_SKU_ATTRIBUTE_I18N_NAME = "PRODUCT_SKU_ATTRIBUTE_I18N_NAME";
 	public static String PRODUCT_SKU_ATTRIBUTE_ORDER = "PRODUCT_SKU_ATTRIBUTE_ORDER";
-	
+
+	public static String RETAILER_ATTRIBUTE_I18N_NAME = "RETAILER_ATTRIBUTE_I18N_NAME";
+	public static String RETAILER_ATTRIBUTE_ORDER = "RETAILER_ATTRIBUTE_ORDER";
+
 	public abstract AttributeDefinition getAttributeDefinition();
 	
 	public abstract String getStringValue();

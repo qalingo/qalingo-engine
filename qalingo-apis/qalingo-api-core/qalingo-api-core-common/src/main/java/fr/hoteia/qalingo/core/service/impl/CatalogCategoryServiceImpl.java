@@ -51,13 +51,35 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryDao.getMasterCatalogCategoryByCode(marketAreaId, retailerId, catalogCategoryCode);
 	}
 	
-	public List<CatalogCategoryMaster> findRootCatalogCategories() {
+	public List<CatalogCategoryMaster> findRootCatalogCategories(final Long marketAreaId) {
 		List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootCatalogCategories();
-		return orderList(categories);
+		return orderCategoryMasterList(marketAreaId, categories);
 	}
 	
 	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId) {
 		return catalogCategoryDao.findMasterCategoriesByMarketIdAndRetailerId(marketAreaId, retailerId);
+	}
+	
+	public List<CatalogCategoryMaster> orderCategoryMasterList(final Long marketAreaId, final List<CatalogCategoryMaster> categories){
+		List<CatalogCategoryMaster> sortedObjects = new LinkedList<CatalogCategoryMaster>(categories);
+		Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
+			@Override
+			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+				if(o1 != null
+						&& o2 != null){
+					Integer order1 = o1.getOrder(marketAreaId);
+					Integer order2 = o2.getOrder(marketAreaId);
+					if(order1 != null
+							&& order2 != null){
+						return order1.compareTo(order2);				
+					} else {
+						return o1.getId().compareTo(o2.getId());	
+					}
+				}
+				return 0;
+			}
+		});
+		return sortedObjects;
 	}
 	
 	public void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
@@ -107,27 +129,19 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 	
 	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, final Long retailerId) {
 		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootCatalogCategories(marketAreaId, retailerId);
-		return orderList(marketAreaId, categories);
+		return orderCategoryVirtualList(marketAreaId, categories);
 	}
 	
 	public List<CatalogCategoryVirtual> findVirtualCategories(final Long marketAreaId, final Long retailerId) {
 		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategories(marketAreaId, retailerId);
-		return orderList(marketAreaId, categories);
+		return orderCategoryVirtualList(marketAreaId, categories);
 	}
 
 	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final Long retailerId, final Long productMarketingId) {
 		return catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketingId);
 	}
 	
-	public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
-		catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
-	}
-
-	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
-		catalogCategoryDao.deleteCatalogCategory(catalogCategory);
-	}
-
-	protected List<CatalogCategoryVirtual> orderList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories){
+	public List<CatalogCategoryVirtual> orderCategoryVirtualList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories){
 		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(categories);
 		Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
 			@Override
@@ -149,25 +163,12 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return sortedObjects;
 	}
 	
-	protected List<CatalogCategoryMaster> orderList(final List<CatalogCategoryMaster> categories){
-		List<CatalogCategoryMaster> sortedObjects = new LinkedList<CatalogCategoryMaster>(categories);
-		Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
-			@Override
-			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-				if(o1 != null
-						&& o2 != null){
-					Integer order1 = o1.getOrder();
-					Integer order2 = o2.getOrder();
-					if(order1 != null
-							&& order2 != null){
-						return order1.compareTo(order2);				
-					} else {
-						return o1.getId().compareTo(o2.getId());	
-					}
-				}
-				return 0;
-			}
-		});
-		return sortedObjects;
+	public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+		catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
 	}
+
+	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+		catalogCategoryDao.deleteCatalogCategory(catalogCategory);
+	}
+
 }
