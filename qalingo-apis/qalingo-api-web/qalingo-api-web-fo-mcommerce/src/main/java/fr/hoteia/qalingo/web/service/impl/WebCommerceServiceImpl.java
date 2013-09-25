@@ -105,7 +105,7 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
 	}
 	
 	public Customer activeNewCustomer(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception {
-		customer.setActive(true);
+		customer.setValidated(true);
 		return super.updateCurrentCustomer(request, requestData, customer);
 	}
 	
