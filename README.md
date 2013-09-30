@@ -95,3 +95,4 @@ Example in your root pom :
 * If you can do more -> create an issue, or make a pull request on Qalingo :D
 
 
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a4b531544e9d501a94053f08e6337817 "githalytics.com")](http://githalytics.com/qalingo/qalingo-b2c-engine)
