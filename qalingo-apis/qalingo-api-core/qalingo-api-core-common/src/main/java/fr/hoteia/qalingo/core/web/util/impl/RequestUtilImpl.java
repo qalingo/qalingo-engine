@@ -474,8 +474,12 @@ public class RequestUtilImpl implements RequestUtil {
      */
 	@SuppressWarnings("unchecked")
 	protected List<ClickstreamRequest> getClickStreamRequests(final HttpServletRequest request) {
-		final List<ClickstreamRequest> clickstreams = getClickStream(request).getStream();
-		return clickstreams;
+		Clickstream clickstream = getClickStream(request);
+		if(clickstream != null){
+			final List<ClickstreamRequest> clickstreams = getClickStream(request).getStream();
+			return clickstreams;
+		}
+		return null;
 	}
 	
 	/**
