@@ -37,7 +37,7 @@ public class StoreRestServiceImpl implements StoreRestService {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected RetailerService storeService;
+	protected RetailerService retailerService;
 	
 	@Autowired
 	protected JsonFactory jsonFactory;
@@ -45,7 +45,7 @@ public class StoreRestServiceImpl implements StoreRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<StoreJsonPojo> getStores() {
-		List<Store> stores = storeService.findStores();
+		List<Store> stores = retailerService.findStores();
 		List<StoreJsonPojo> storeStoreJsonBeans = jsonFactory.buildJsonStores(stores);
 		return storeStoreJsonBeans;
 	}
@@ -54,7 +54,7 @@ public class StoreRestServiceImpl implements StoreRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public StoreJsonPojo getStore(@PathParam("id") String id) {
-		Store store = storeService.getStoreById(id);
+		Store store = retailerService.getStoreById(id);
 		StoreJsonPojo storeJsonBean = jsonFactory.buildJsonStore(store);
 		return storeJsonBean;
 	}
@@ -63,7 +63,7 @@ public class StoreRestServiceImpl implements StoreRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void saveSomeBean(StoreJsonPojo storeJsonBean) {
 		Store store = jsonFactory.buildStore(storeJsonBean);
-		storeService.saveOrUpdateStore(store);
+		retailerService.saveOrUpdateStore(store);
 	}
 
 }

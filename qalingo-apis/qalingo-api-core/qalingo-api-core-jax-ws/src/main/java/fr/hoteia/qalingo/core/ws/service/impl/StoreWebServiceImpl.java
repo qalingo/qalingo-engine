@@ -28,10 +28,10 @@ public class StoreWebServiceImpl implements StoreWebService {
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected RetailerService storeService;
+	protected RetailerService retailerService;
 	
 	public StoreWsPojo getStoreById(String storeId){
-		Store store = storeService.getStoreById(storeId);
+		Store store = retailerService.getStoreById(storeId);
 		StoreWsPojo storeWsPojo = buildStoreWsPojo(store);
 		return storeWsPojo;
 	}
