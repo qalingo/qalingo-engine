@@ -51,14 +51,9 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	@Autowired
 	private RuleReferentialService ruleReferentialService;
 
-	@RequestMapping(value = BoUrls.RULE_URL, method = RequestMethod.GET)
-	public ModelAndView rule(final HttpServletRequest request, final Model model) throws Exception {
-		return ruleList(request, model);
-	}
-
 	@RequestMapping(value = BoUrls.RULE_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView ruleList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.RULE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

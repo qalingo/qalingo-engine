@@ -67,7 +67,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 
 	@RequestMapping(value = BoUrls.RETAILER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView retailerList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.RETAILER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -80,7 +80,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	
 	@RequestMapping(value = BoUrls.RETAILER_LIST_URL, method = RequestMethod.POST)
 	public ModelAndView searchRetailerList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getRetailer();

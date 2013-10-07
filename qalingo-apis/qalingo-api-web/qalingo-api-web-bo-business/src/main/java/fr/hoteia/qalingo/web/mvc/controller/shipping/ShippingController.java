@@ -50,14 +50,9 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	@Autowired
 	private ShippingService shippingService;
 
-	@RequestMapping(value = BoUrls.SHIPPING_URL, method = RequestMethod.GET)
-	public ModelAndView shipping(final HttpServletRequest request, final Model model) throws Exception {
-		return shippingList(request, model);
-	}
-
 	@RequestMapping(value = BoUrls.SHIPPING_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView shippingList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.SHIPPING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

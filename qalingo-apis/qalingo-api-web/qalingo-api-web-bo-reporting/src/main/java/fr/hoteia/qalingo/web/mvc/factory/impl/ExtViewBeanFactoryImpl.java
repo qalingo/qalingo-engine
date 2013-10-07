@@ -53,19 +53,19 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion stats");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping stats");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders stats");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();

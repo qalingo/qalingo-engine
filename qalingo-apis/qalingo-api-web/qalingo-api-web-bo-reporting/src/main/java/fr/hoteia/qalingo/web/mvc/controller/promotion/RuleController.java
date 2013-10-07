@@ -30,9 +30,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 @Controller("ruleController")
 public class RuleController extends AbstractReportingBackofficeController {
 
-	@RequestMapping(value = BoUrls.RULE_URL, method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.RULE_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView promotion(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.RULE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

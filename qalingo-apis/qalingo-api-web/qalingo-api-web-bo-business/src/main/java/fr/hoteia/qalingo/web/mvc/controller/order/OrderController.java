@@ -46,14 +46,9 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	@Autowired
 	private OrderService orderService;
 
-	@RequestMapping(value = BoUrls.ORDER_URL, method = RequestMethod.GET)
-	public ModelAndView order(final HttpServletRequest request, final Model model) throws Exception {
-		return orderList(request, model);
-	}
-
 	@RequestMapping(value = BoUrls.ORDER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView orderList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ORDER.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ORDER_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.ORDER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

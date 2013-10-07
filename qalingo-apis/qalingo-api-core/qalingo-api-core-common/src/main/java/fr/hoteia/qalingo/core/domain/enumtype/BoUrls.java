@@ -24,21 +24,21 @@ public enum BoUrls {
     REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE),
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE),
     
-    RULE(BoUrls.RULE_URL, BoUrls.RULE_KEY, BoUrls.RULE_VELOCITY_PAGE),
+    RULE_LIST(BoUrls.RULE_LIST_URL, BoUrls.RULE_LIST_KEY, BoUrls.RULE_LIST_VELOCITY_PAGE),
     RULE_DETAILS(BoUrls.RULE_DETAILS_URL, BoUrls.RULE_DETAILS_KEY, BoUrls.RULE_DETAILS_VELOCITY_PAGE),
     RULE_EDIT(BoUrls.RULE_EDIT_URL, BoUrls.RULE_EDIT_KEY, BoUrls.RULE_EDIT_VELOCITY_PAGE),
 
-    ORDER(BoUrls.ORDER_URL, BoUrls.ORDER_KEY, BoUrls.ORDER_VELOCITY_PAGE),
+    ORDER_LIST(BoUrls.ORDER_LIST_URL, BoUrls.ORDER_LIST_KEY, BoUrls.ORDER_LIST_VELOCITY_PAGE),
     ORDER_DETAILS(BoUrls.ORDER_DETAILS_URL, BoUrls.ORDER_DETAILS_KEY, BoUrls.ORDER_DETAILS_VELOCITY_PAGE),
     
-    SHIPPING(BoUrls.SHIPPING_URL, BoUrls.SHIPPING_KEY, BoUrls.SHIPPING_VELOCITY_PAGE),
+    SHIPPING_LIST(BoUrls.SHIPPING_LIST_URL, BoUrls.SHIPPING_LIST_KEY, BoUrls.SHIPPING_LIST_VELOCITY_PAGE),
     SHIPPING_DETAILS(BoUrls.SHIPPING_DETAILS_URL, BoUrls.SHIPPING_DETAILS_KEY, BoUrls.SHIPPING_DETAILS_VELOCITY_PAGE),
     SHIPPING_EDIT(BoUrls.SHIPPING_EDIT_URL, BoUrls.SHIPPING_EDIT_KEY, BoUrls.SHIPPING_EDIT_VELOCITY_PAGE),
     
     CATALOG(BoUrls.CATALOG_URL, BoUrls.CATALOG_KEY, BoUrls.CATALOG_VELOCITY_PAGE),
     CUSTOMER(BoUrls.CUSTOMER_URL, BoUrls.CUSTOMER_KEY, BoUrls.CUSTOMER_VELOCITY_PAGE),
 
-    RETAILER(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE),
+    RETAILER_LIST(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE),
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE),
     RETAILER_EDIT(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_EDIT_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE),
 
@@ -99,9 +99,9 @@ public enum BoUrls {
 	public static final String TIMEOUT_URL				= "/timeout.html";
 	public static final String TIMEOUT_VELOCITY_PAGE	= "security/timeout";
 	
-	public static final String FORGOTTEN_PASSWORD_KEY				= "forgotten-password";
-	public static final String FORGOTTEN_PASSWORD_URL				= "/forgotten-password.html";
-	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE		= "security/forgotten-password-form";
+	public static final String FORGOTTEN_PASSWORD_KEY			= "forgotten-password";
+	public static final String FORGOTTEN_PASSWORD_URL			= "/forgotten-password.html";
+	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE	= "security/forgotten-password-form";
 
 	public static final String RESET_PASSWORD_KEY				= "reset-password";
 	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
@@ -124,21 +124,19 @@ public enum BoUrls {
 	public static final String MONITORING_VELOCITY_PAGE		= "monitoring/monitoring";
 
 	// REFERENCE DATAS
-	public static final String REFERENCE_DATAS_KEY					= "reference-datas";
-	public static final String REFERENCE_DATAS_URL					= "/reference-datas.html";
-	public static final String REFERENCE_DATAS_VELOCITY_PAGE		= "reference-data/reference-data";
+	public static final String REFERENCE_DATAS_KEY				= "reference-datas";
+	public static final String REFERENCE_DATAS_URL				= "/reference-datas-list.html";
+	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data";
 
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
-	public static final String REPORTING_URL				= "/reporting.html";
-	public static final String REPORTING_VELOCITY_PAGE		= "reporting/reporting";
+	public static final String REPORTING_URL				= "/reporting-list.html";
+	public static final String REPORTING_VELOCITY_PAGE		= "reporting/reporting-list";
 
 	// RULE
-	public static final String RULE_KEY				= "rule";
-	public static final String RULE_URL				= "/rule.html";
-	public static final String RULE_VELOCITY_PAGE	= "rule/rule-list";
-
+	public static final String RULE_LIST_KEY				= "rule";
 	public static final String RULE_LIST_URL				= "/rule-list.html";
+	public static final String RULE_LIST_VELOCITY_PAGE		= "rule/rule-list";
 
 	public static final String RULE_DETAILS_KEY				= "rule-details";
 	public static final String RULE_DETAILS_URL				= "/rule-details.html";
@@ -149,22 +147,18 @@ public enum BoUrls {
 	public static final String RULE_EDIT_VELOCITY_PAGE		= "rule/rule-edit";
 
 	// ORDER
-	public static final String ORDER_KEY				= "order";
-	public static final String ORDER_URL				= "/order.html";
-	public static final String ORDER_VELOCITY_PAGE		= "order/order-list";
-
-	public static final String ORDER_LIST_URL				= "/order-list.html";
+	public static final String ORDER_LIST_KEY					= "order";
+	public static final String ORDER_LIST_URL					= "/order-list.html";
+	public static final String ORDER_LIST_VELOCITY_PAGE			= "order/order-list";
 
 	public static final String ORDER_DETAILS_KEY				= "order-details";
 	public static final String ORDER_DETAILS_URL				= "/order-details.html";
 	public static final String ORDER_DETAILS_VELOCITY_PAGE		= "order/order-details";
 	
 	// SHIPPING
-	public static final String SHIPPING_KEY				= "shipping";
-	public static final String SHIPPING_URL				= "/shipping.html";
-	public static final String SHIPPING_VELOCITY_PAGE	= "shipping/shipping";
-
+	public static final String SHIPPING_LIST_KEY				= "shipping";
 	public static final String SHIPPING_LIST_URL				= "/shipping-list.html";
+	public static final String SHIPPING_LIST_VELOCITY_PAGE		= "shipping/shipping-list";
 
 	public static final String SHIPPING_DETAILS_KEY				= "shipping-details";
 	public static final String SHIPPING_DETAILS_URL				= "/shipping-details.html";
@@ -249,9 +243,9 @@ public enum BoUrls {
 	public static final String USER_SEARCH_URL				= "/search-user.html";
 	public static final String USER_SEARCH_VELOCITY_PAGE	= "user/user-list";
 
-	public static final String USER_LIST_KEY			= "users";
-	public static final String USER_LIST_URL			= "/users.html";
-	public static final String USER_LIST_VELOCITY_PAGE	= "user/user-list";
+	public static final String USER_LIST_KEY				= "users";
+	public static final String USER_LIST_URL				= "/user-list.html";
+	public static final String USER_LIST_VELOCITY_PAGE		= "user/user-list";
 
 	public static final String USER_DETAILS_KEY				= "user-details";
 	public static final String USER_DETAILS_URL				= "/user-details.html";

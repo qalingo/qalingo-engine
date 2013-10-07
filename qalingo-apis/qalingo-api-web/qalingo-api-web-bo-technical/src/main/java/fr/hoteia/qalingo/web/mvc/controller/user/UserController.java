@@ -68,7 +68,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = BoUrls.USER_SEARCH_URL, method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.USER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView userList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_LIST.getVelocityPage());
 		

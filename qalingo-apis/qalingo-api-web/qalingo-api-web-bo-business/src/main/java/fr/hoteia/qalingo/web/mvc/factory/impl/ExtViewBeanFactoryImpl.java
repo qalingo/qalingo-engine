@@ -72,19 +72,19 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-truck");
 		menu.setName("Shipping");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-shopping-cart");
 		menu.setName("Orders");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		// CUSTOMERS / RETAILERS
@@ -105,7 +105,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		
 		subMenu = new MenuViewBean();
 		subMenu.setName("Retailers");
-		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER, requestData));
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
 		menu.getSubMenus().add(subMenu);
 		
 		return menuViewBeans;
