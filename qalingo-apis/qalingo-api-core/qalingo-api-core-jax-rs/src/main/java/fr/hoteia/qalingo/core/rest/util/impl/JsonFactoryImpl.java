@@ -16,7 +16,7 @@ import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductCategoryJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductMarketingJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductSkuJsonPojo;
@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.rest.util.JsonFactory;
 public class JsonFactoryImpl implements JsonFactory {
 
     @Override
-    public Customer buildCustomer(final CustomerJsonPojo customerJsonPojo) {
+    public Customer buildCustomer(final CustomerPojo customerJsonPojo) {
         final Customer customer = new Customer();
 
         customer.setId(customerJsonPojo.getId());
@@ -54,12 +54,12 @@ public class JsonFactoryImpl implements JsonFactory {
     }
 
     @Override
-    public List<CustomerJsonPojo> buildJsonCustomers(final List<Customer> customers) {
-        final List<CustomerJsonPojo> customerCustomerJsonPojos = new ArrayList<CustomerJsonPojo>();
+    public List<CustomerPojo> buildJsonCustomers(final List<Customer> customers) {
+        final List<CustomerPojo> customerCustomerJsonPojos = new ArrayList<CustomerPojo>();
         if (customers != null) {
             for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
                 Customer customer = iterator.next();
-                CustomerJsonPojo customerJsonPojo = buildJsonCustomer(customer);
+                CustomerPojo customerJsonPojo = buildJsonCustomer(customer);
                 customerCustomerJsonPojos.add(customerJsonPojo);
             }
         }
@@ -67,8 +67,8 @@ public class JsonFactoryImpl implements JsonFactory {
     }
 
     @Override
-    public CustomerJsonPojo buildJsonCustomer(final Customer customer) {
-        final CustomerJsonPojo customerJsonPojo = new CustomerJsonPojo();
+    public CustomerPojo buildJsonCustomer(final Customer customer) {
+        final CustomerPojo customerJsonPojo = new CustomerPojo();
 
         customerJsonPojo.setId(customer.getId());
         customerJsonPojo.setVersion(customer.getVersion());

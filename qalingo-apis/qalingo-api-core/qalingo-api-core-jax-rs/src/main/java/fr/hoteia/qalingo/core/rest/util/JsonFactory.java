@@ -10,7 +10,7 @@ import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductCategoryJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductMarketingJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductSkuJsonPojo;
@@ -18,11 +18,11 @@ import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
 
 public interface JsonFactory {
 
-    Customer buildCustomer(final CustomerJsonPojo customerJsonPojo);
+    Customer buildCustomer(final CustomerPojo customerJsonPojo);
 
-    List<CustomerJsonPojo> buildJsonCustomers(final List<Customer> customers);
+    List<CustomerPojo> buildJsonCustomers(final List<Customer> customers);
 
-    CustomerJsonPojo buildJsonCustomer(final Customer customer);
+    CustomerPojo buildJsonCustomer(final Customer customer);
 
     Store buildStore(final StoreJsonPojo storeJsonPojo);
 

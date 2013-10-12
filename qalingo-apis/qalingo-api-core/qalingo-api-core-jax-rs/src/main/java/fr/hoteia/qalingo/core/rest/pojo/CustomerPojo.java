@@ -10,17 +10,14 @@
 package fr.hoteia.qalingo.core.rest.pojo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
-import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
 /**
  * 
@@ -32,7 +29,7 @@ import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
  * 
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomerJsonPojo extends AbstractJsonPojo {
+public class CustomerPojo {
 
     private Long id;
     private int version;
@@ -47,13 +44,13 @@ public class CustomerJsonPojo extends AbstractJsonPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private List<CustomerAddressJsonPojo> addresses = new ArrayList<CustomerAddressJsonPojo>();
-    private List<CustomerConnectionLog> connectionLogs = new ArrayList<CustomerConnectionLog>();
-    private List<CustomerMarketArea> customerMarketAreas = new ArrayList<CustomerMarketArea>();
-    private List<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>();
-    private List<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
+    private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
+    private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
+    private Collection<CustomerMarketArea> customerMarketAreas = new ArrayList<CustomerMarketArea>();
+    private Collection<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>();
+    private Collection<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
 
-    public CustomerJsonPojo() {}
+    public CustomerPojo() {}
 
     public Long getId() {
         return id;
@@ -151,49 +148,43 @@ public class CustomerJsonPojo extends AbstractJsonPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public List<CustomerAddressJsonPojo> getAddresses() {
+    public Collection<CustomerAddressPojo> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(final List<CustomerAddressJsonPojo> addresses) {
-        this.addresses = new ArrayList<CustomerAddressJsonPojo>(addresses);
+    public void setAddresses(final Collection<CustomerAddressPojo> addresses) {
+        this.addresses = new ArrayList<CustomerAddressPojo>(addresses);
     }
 
-    public List<CustomerConnectionLog> getConnectionLogs() {
+    public Collection<CustomerConnectionLogPojo> getConnectionLogs() {
         return connectionLogs;
     }
 
-    public void setConnectionLogs(final List<CustomerConnectionLog> connectionLogs) {
-        this.connectionLogs = new ArrayList<CustomerConnectionLog>(connectionLogs);
+    public void setConnectionLogs(final Collection<CustomerConnectionLogPojo> connectionLogs) {
+        this.connectionLogs = new ArrayList<CustomerConnectionLogPojo>(connectionLogs);
     }
 
-    public List<CustomerMarketArea> getCustomerMarketAreas() {
+    public Collection<CustomerMarketArea> getCustomerMarketAreas() {
         return customerMarketAreas;
     }
 
-    public void setCustomerMarketAreas(final List<CustomerMarketArea> customerMarketAreas) {
+    public void setCustomerMarketAreas(final Collection<CustomerMarketArea> customerMarketAreas) {
         this.customerMarketAreas = new ArrayList<CustomerMarketArea>(customerMarketAreas);
     }
 
-    public List<CustomerAttribute> getCustomerAttributes() {
+    public Collection<CustomerAttribute> getCustomerAttributes() {
         return customerAttributes;
     }
 
-    public void setCustomerAttributes(final List<CustomerAttribute> customerAttributes) {
+    public void setCustomerAttributes(final Collection<CustomerAttribute> customerAttributes) {
         this.customerAttributes = new ArrayList<CustomerAttribute>(customerAttributes);
     }
 
-    public List<CustomerGroup> getCustomerGroups() {
+    public Collection<CustomerGroup> getCustomerGroups() {
         return customerGroups;
     }
 
-    public void setCustomerGroups(final List<CustomerGroup> customerGroups) {
+    public void setCustomerGroups(final Collection<CustomerGroup> customerGroups) {
         this.customerGroups = new ArrayList<CustomerGroup>(customerGroups);
-    }
-
-    @JsonAnySetter
-    @Override
-    public void handleUnknown(final String key, final Object value) {
-        super.handleUnknown(key, value);
     }
 }

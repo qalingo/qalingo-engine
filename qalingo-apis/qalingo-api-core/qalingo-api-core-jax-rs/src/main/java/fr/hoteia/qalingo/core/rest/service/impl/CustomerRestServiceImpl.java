@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.core.rest.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.PathParam;
@@ -21,9 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
-import fr.hoteia.qalingo.core.rest.util.JsonBuilder;
+import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
 @Service("customerRestService")
@@ -34,7 +35,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
 
     @Autowired private CustomerService customerService;
 
-    @Autowired @Qualifier("customerJsonBuilder") private JsonBuilder<Customer, CustomerJsonPojo> jsonFactory;
+    @Autowired @Qualifier("customerMapper") private PojoMapper<Customer, CustomerPojo> pojoMapper;
 
     /*
      * (non-Javadoc)
@@ -42,10 +43,9 @@ public class CustomerRestServiceImpl implements CustomerRestService {
      * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getAllCustomers()
      */
     @Override
-    public List<CustomerJsonPojo> getAllCustomers() {
+    public List<CustomerPojo> getAllCustomers() {
         List<Customer> customers = customerService.findCustomers();
-        List<CustomerJsonPojo> customerCustomerJsonPojos = jsonFactory.toPojo(customers);
-        return customerCustomerJsonPojos;
+        return new ArrayList<CustomerPojo>(pojoMapper.toPojo(customers));
     }
 
     /*
@@ -54,12 +54,10 @@ public class CustomerRestServiceImpl implements CustomerRestService {
      * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getCustomerById(java.lang.String)
      */
     @Override
-    public CustomerJsonPojo getCustomerById(@PathParam("id") final String id) {
+    public CustomerPojo getCustomerById(@PathParam("id") final String id) {
         LOG.debug("Fetching customer with id {}", id);
-
         Customer customer = customerService.getCustomerById(id);
-        CustomerJsonPojo customerJsonPojo = jsonFactory.toPojo(customer);
-        return customerJsonPojo;
+        return pojoMapper.toPojo(customer);
     }
 
     /*
@@ -69,8 +67,8 @@ public class CustomerRestServiceImpl implements CustomerRestService {
      */
     @Override
     @Transactional
-    public void saveOrUpdate(final CustomerJsonPojo customerJsonPojo) throws Exception {
-        Customer customer = jsonFactory.fromPojo(customerJsonPojo);
+    public void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception {
+        Customer customer = pojoMapper.fromPojo(customerJsonPojo);
         LOG.debug("Saving customer {}", customer);
         customerService.saveOrUpdateCustomer(customer);
     }

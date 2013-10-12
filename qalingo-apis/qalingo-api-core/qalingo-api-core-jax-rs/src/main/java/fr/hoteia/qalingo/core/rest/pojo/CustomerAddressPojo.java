@@ -4,7 +4,7 @@ import java.util.Date;
 
 import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
-public class CustomerAddressJsonPojo extends AbstractJsonPojo {
+public class CustomerAddressPojo extends AbstractJsonPojo {
 
     private Long id;
     private String addressName;

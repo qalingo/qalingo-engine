@@ -2,14 +2,14 @@ package fr.hoteia.qalingo.core.rest.service;
 
 import java.util.List;
 
-import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 
 public interface CustomerRestService {
 
-    List<CustomerJsonPojo> getAllCustomers();
+    List<CustomerPojo> getAllCustomers();
 
-    CustomerJsonPojo getCustomerById(final String id);
+    CustomerPojo getCustomerById(final String id);
 
-    void saveOrUpdate(final CustomerJsonPojo customerJsonPojo) throws Exception;
+    void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception;
 
 }

@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
 
 @Path("/customer/")
@@ -24,20 +24,20 @@ public class CustomerRestController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CustomerJsonPojo> getAllCustomers() {
+    public List<CustomerPojo> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public CustomerJsonPojo getCustomerById(@PathParam("id") final String id) {
+    public CustomerPojo getCustomerById(@PathParam("id") final String id) {
         return customerService.getCustomerById(id);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void saveOrUpdate(final CustomerJsonPojo customerJsonPojo) throws Exception {
+    public void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception {
         customerService.saveOrUpdate(customerJsonPojo);
     }
 

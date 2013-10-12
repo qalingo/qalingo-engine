@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.core.rest.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -22,11 +23,12 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
-import fr.hoteia.qalingo.core.rest.util.JsonBuilder;
+import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 import fr.hoteia.qalingo.core.service.RetailerService;
 
 @Service("storeRestService")
@@ -37,14 +39,13 @@ public class StoreRestServiceImpl {
 
     @Autowired private RetailerService retailerService;
 
-    @Autowired private JsonBuilder<Store, StoreJsonPojo> jsonFactory;
+    @Autowired @Qualifier("storeMapper") private PojoMapper<Store, StoreJsonPojo> pojoMapper;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<StoreJsonPojo> getAllStores() {
         List<Store> stores = retailerService.findStores();
-        List<StoreJsonPojo> storeStoreJsonBeans = jsonFactory.toPojo(stores);
-        return storeStoreJsonBeans;
+        return new ArrayList<StoreJsonPojo>(pojoMapper.toPojo(stores));
     }
 
     @GET
@@ -52,14 +53,13 @@ public class StoreRestServiceImpl {
     @Path("{id}")
     public StoreJsonPojo getStoreById(@PathParam("id") final String id) {
         Store store = retailerService.getStoreById(id);
-        StoreJsonPojo storeJsonBean = jsonFactory.toPojo(store);
-        return storeJsonBean;
+        return pojoMapper.toPojo(store);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void saveOrUpdate(final StoreJsonPojo storeJsonBean) {
-        Store store = jsonFactory.fromPojo(storeJsonBean);
+        Store store = pojoMapper.fromPojo(storeJsonBean);
         retailerService.saveOrUpdateStore(store);
     }
 

@@ -1,15 +1,15 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.objenesis.ObjenesisStd;
 import org.springframework.beans.BeanUtils;
 
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
-import fr.hoteia.qalingo.core.rest.util.JsonBuilder;
+import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
-public abstract class AbstractJsonBuilder<O, T extends AbstractJsonPojo> implements JsonBuilder<O, T> {
+public abstract class AbstractPojoMapper<O, T> implements PojoMapper<O, T> {
 
     public abstract Class<O> getObjectType();
 
@@ -35,7 +35,7 @@ public abstract class AbstractJsonBuilder<O, T extends AbstractJsonPojo> impleme
     protected void mapAdditionalPropertiesFromPojo(final T jsonPojo, final O object) {}
 
     @Override
-    public List<O> fromPojo(final List<T> pojosToMap) {
+    public Collection<O> fromPojo(final Collection<T> pojosToMap) {
         final List<O> mappedObjects = new ArrayList<O>();
         for (T objectToMap : pojosToMap) {
             mappedObjects.add(fromPojo(objectToMap));
@@ -44,12 +44,22 @@ public abstract class AbstractJsonBuilder<O, T extends AbstractJsonPojo> impleme
     }
 
     @Override
-    public List<T> toPojo(final List<O> objectsToMap) {
+    public Collection<T> toPojo(final Collection<O> objectsToMap) {
         final List<T> jsonPojos = new ArrayList<T>();
         for (O objectToMap : objectsToMap) {
             jsonPojos.add(toPojo(objectToMap));
         }
         return jsonPojos;
     }
+
+    @Override
+    public T toPojo(final O objectToMap) {
+        final T jsonPojo = instantiate(getPojoType());
+        BeanUtils.copyProperties(objectToMap, jsonPojo, getIgnoredProperties());
+        mapAdditionalPropertiesToPojo(objectToMap, jsonPojo);
+        return jsonPojo;
+    }
+
+    protected void mapAdditionalPropertiesToPojo(final O object, final T jsonPojo) {}
 
 }
