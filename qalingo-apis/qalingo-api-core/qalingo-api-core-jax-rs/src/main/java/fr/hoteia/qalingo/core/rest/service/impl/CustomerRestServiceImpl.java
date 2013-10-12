@@ -11,59 +11,68 @@ package fr.hoteia.qalingo.core.rest.service.impl;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
-import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+import fr.hoteia.qalingo.core.rest.util.JsonBuilder;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
 @Service("customerRestService")
-@Path("/customer/")
+@Transactional(readOnly = true)
 public class CustomerRestServiceImpl implements CustomerRestService {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	protected CustomerService customerService;
-	
-	@Autowired
-	protected JsonFactory jsonFactory;
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<CustomerJsonPojo> getCustomers() {
-		List<Customer> customers = customerService.findCustomers();
-		List<CustomerJsonPojo> customerCustomerJsonPojos = jsonFactory.buildJsonCustomers(customers);
-		return customerCustomerJsonPojos;
-	}
- 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
-	public CustomerJsonPojo getCustomer(@PathParam("id") String id) {
-		Customer customer = customerService.getCustomerById(id);
-		CustomerJsonPojo customerJsonPojo = jsonFactory.buildJsonCustomer(customer);
-		return customerJsonPojo;
-	}
- 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveSomeBean(CustomerJsonPojo customerJsonPojo) throws Exception {
-		Customer customer = jsonFactory.buildCustomer(customerJsonPojo);
-		customerService.saveOrUpdateCustomer(customer);
-	}
-	
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+    @Autowired private CustomerService customerService;
+
+    @Autowired @Qualifier("customerJsonBuilder") private JsonBuilder<Customer, CustomerJsonPojo> jsonFactory;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getAllCustomers()
+     */
+    @Override
+    public List<CustomerJsonPojo> getAllCustomers() {
+        List<Customer> customers = customerService.findCustomers();
+        List<CustomerJsonPojo> customerCustomerJsonPojos = jsonFactory.toPojo(customers);
+        return customerCustomerJsonPojos;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getCustomerById(java.lang.String)
+     */
+    @Override
+    public CustomerJsonPojo getCustomerById(@PathParam("id") final String id) {
+        LOG.debug("Fetching customer with id {}", id);
+
+        Customer customer = customerService.getCustomerById(id);
+        CustomerJsonPojo customerJsonPojo = jsonFactory.toPojo(customer);
+        return customerJsonPojo;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#saveOrUpdate(fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo)
+     */
+    @Override
+    @Transactional
+    public void saveOrUpdate(final CustomerJsonPojo customerJsonPojo) throws Exception {
+        Customer customer = jsonFactory.fromPojo(customerJsonPojo);
+        LOG.debug("Saving customer {}", customer);
+        customerService.saveOrUpdateCustomer(customer);
+    }
+
 }

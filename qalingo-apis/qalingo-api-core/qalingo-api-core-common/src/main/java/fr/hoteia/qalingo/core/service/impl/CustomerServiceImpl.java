@@ -20,51 +20,58 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
-@Service("customerService")
 @Transactional
+@Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
 
-	@Autowired
-	private CustomerDao customerDao;
+    @Autowired private CustomerDao customerDao;
 
-	public Customer getCustomerById(final String rawCustomerId) {
-		long customerId = -1;
-		try {
-			customerId = Long.parseLong(rawCustomerId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return customerDao.getCustomerById(customerId);
-	}
-	
-	public Customer getCustomerByCode(final String code) {
-		return customerDao.getCustomerByCode(code);
-	}
+    @Override
+    public Customer getCustomerById(final String rawCustomerId) {
+        long customerId = -1;
+        try {
+            customerId = Long.parseLong(rawCustomerId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return customerDao.getCustomerById(customerId);
+    }
 
-	public Customer getCustomerByPermalink(final String permalink) {
-		return customerDao.getCustomerByPermalink(permalink);
-	}
+    @Override
+    public Customer getCustomerByCode(final String code) {
+        return customerDao.getCustomerByCode(code);
+    }
 
-	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
-		return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
-	}
+    @Override
+    public Customer getCustomerByPermalink(final String permalink) {
+        return customerDao.getCustomerByPermalink(permalink);
+    }
 
-	public List<Customer> findCustomers() {
-		return customerDao.findCustomers();
-	}
-	
-	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
-		customerDao.saveOrUpdateCustomer(customer);
-	}
+    @Override
+    public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
+        return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
+    }
 
-	public void deleteCustomer(final Customer customer) {
-		customerDao.deleteCustomer(customer);
-	}
-	
-	// CREDENTIAL
-	
-	public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
-		customerDao.saveOrUpdateCustomerCredential(customerCredential);
-	}
-	
+    @Override
+    public List<Customer> findCustomers() {
+        return customerDao.findCustomers();
+    }
+
+    @Override
+    public void saveOrUpdateCustomer(final Customer customer) throws Exception {
+        customerDao.saveOrUpdateCustomer(customer);
+    }
+
+    @Override
+    public void deleteCustomer(final Customer customer) {
+        customerDao.deleteCustomer(customer);
+    }
+
+    // CREDENTIAL
+
+    @Override
+    public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+        customerDao.saveOrUpdateCustomerCredential(customerCredential);
+    }
+
 }

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.hoteia.qalingo</groupId>
@@ -20,9 +21,9 @@
 		<url>scm:git:git@github.com:qalingo/qalingo-b2c-engine.git</url>
 		<tag>HEAD</tag>
 	</scm>
-	
+
 	<properties>
-		<root.basedir>${project.basedir}</root.basedir> 
+		<root.basedir>${project.basedir}</root.basedir>
 		<packaging.excludes>WEB-INF/classes/*.properties</packaging.excludes>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<env.name>developpement</env.name>
@@ -45,7 +46,7 @@
 		<!-- DROOLS -->
 		<drools.version>5.4.0.Final</drools.version>
 		<!-- LOGS -->
-		<logback.version>1.0.6</logback.version>	
+		<logback.version>1.0.6</logback.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<jackson-version>1.8.0</jackson-version>
 	</properties>
@@ -143,7 +144,7 @@
 				<artifactId>qalingo-api-web-remote-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<!-- Hoteia libs -->
 			<dependency>
 				<groupId>org.hoteia.tools</groupId>
@@ -155,7 +156,7 @@
 				<artifactId>scribe-mapping</artifactId>
 				<version>0.1-SNAPSHOT</version>
 			</dependency>
-			
+
 			<!-- Commons libs -->
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -197,7 +198,12 @@
 				<artifactId>commons-codec</artifactId>
 				<version>1.8</version>
 			</dependency>
-            
+			<dependency>
+				<groupId>org.objenesis</groupId>
+				<artifactId>objenesis</artifactId>
+				<version>1.3</version>
+			</dependency>
+			
 			<!-- Springs libs -->
 			<!-- Core utilities used by other modules. Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
 			<dependency>
@@ -221,8 +227,8 @@
 				<artifactId>spring-context-support</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, JiBX, Castor, XStream, and XML Beans. (depends on core, 
-				beans, context) Define this if you need OXM (org.springframework.oxm.*) -->
+			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, JiBX, Castor, XStream, and XML Beans. (depends 
+				on core, beans, context) Define this if you need OXM (org.springframework.oxm.*) -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-oxm</artifactId>
@@ -238,9 +244,9 @@
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			<dependency> 
-				<groupId>org.springframework</groupId> 
-				<artifactId>spring-aspects</artifactId> 
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -273,13 +279,13 @@
 				<artifactId>spring-jms</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-support</artifactId>
 				<version>2.0.8</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-core</artifactId>
@@ -295,7 +301,7 @@
 				<artifactId>spring-security-web</artifactId>
 				<version>${spring-security.version}</version>
 			</dependency>
-            
+
 			<!-- Spring Batch -->
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
@@ -322,8 +328,8 @@
 				<artifactId>spring-batch-admin-resources</artifactId>
 				<version>${spring.batch.admin.version}</version>
 			</dependency>
-			
-			<!-- AspectJ framework -->	
+
+			<!-- AspectJ framework -->
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>
@@ -334,7 +340,7 @@
 				<artifactId>aspectjweaver</artifactId>
 				<version>${aspectj.version}</version>
 			</dependency>
-		
+
 			<!-- Hibernate framework -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -367,7 +373,7 @@
 				<artifactId>antlr</artifactId>
 				<version>2.7.7</version>
 			</dependency>
-			
+
 			<!-- CXF framework -->
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
@@ -411,7 +417,7 @@
 				<artifactId>jsr311-api</artifactId>
 				<version>1.1.1</version>
 			</dependency>
-		
+
 			<!-- JaxB libs -->
 			<dependency>
 				<groupId>com.sun.xml.bind</groupId>
@@ -423,14 +429,14 @@
 				<artifactId>jaxb-api</artifactId>
 				<version>2.1</version>
 			</dependency>
-			
+
 			<!-- SOLR -->
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>
 				<version>${solr.version}</version>
 			</dependency>
-			
+
 			<!-- DROOLS -->
 			<dependency>
 				<groupId>org.drools</groupId>
@@ -469,7 +475,7 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>4.2.0.Final</version>
 			</dependency>
-			
+
 			<!-- JSON -->
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
@@ -490,7 +496,7 @@
 				<artifactId>scribe</artifactId>
 				<version>1.3.5</version>
 			</dependency>
-	
+
 			<!-- Cache dependencies -->
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
@@ -502,7 +508,7 @@
 				<artifactId>ehcache-web</artifactId>
 				<version>2.0.4</version>
 			</dependency>
-		
+
 			<!-- Quartz -->
 			<dependency>
 				<groupId>quartz</groupId>
@@ -516,18 +522,8 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>5.1.9</version>
 			</dependency>
-		
+
 			<!-- Logs dependencies -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -540,47 +536,52 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
+				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-		
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>1.7</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.tuckey</groupId>
 				<artifactId>urlrewrite</artifactId>
 				<version>3.2.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>net.sourceforge.wurfl</groupId>
 				<artifactId>wurfl</artifactId>
 				<version>1.4.2</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>opensymphony</groupId>
 				<artifactId>clickstream</artifactId>
 				<version>1.0.3</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
 				<version>1.4.5</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.apache.tomcat</groupId>
 				<artifactId>tomcat-servlet-api</artifactId>
 				<version>7.0.22</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -611,8 +612,8 @@
 				<artifactId>jdom</artifactId>
 				<version>1.1</version>
 			</dependency>
-			<!-- Support for testing Spring applications with tools such as JUnit and TestNG This artifact is generally always defined with 
-				a 'test' scope for the integration testing framework and unit testing stubs -->
+			<!-- Support for testing Spring applications with tools such as JUnit and TestNG This artifact is generally always defined 
+				with a 'test' scope for the integration testing framework and unit testing stubs -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
@@ -625,7 +626,7 @@
 				<version>${cxf.version}</version>
 				<scope>test</scope>
 			</dependency>
-            
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -639,7 +640,15 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -672,7 +681,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -688,7 +697,7 @@
 						<include>src/**</include>
 						<include>**/test/**</include>
 					</includes>
-					<excludes> 
+					<excludes>
 						<exclude>target/**</exclude>
 						<exclude>.clover/**</exclude>
 						<exclude>**/library/**</exclude>
@@ -735,13 +744,13 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<extensions> 
-			<extension> 
-				<groupId>org.apache.maven.wagon</groupId> 
-				<artifactId>wagon-ftp</artifactId> 
-				<version>2.2</version> 
-			</extension> 
-		</extensions> 
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>2.2</version>
+			</extension>
+		</extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -787,7 +796,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
@@ -801,5 +810,5 @@
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 </project>

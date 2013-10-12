@@ -26,44 +26,41 @@ import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.Store;
 import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
-import fr.hoteia.qalingo.core.rest.service.StoreRestService;
-import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+import fr.hoteia.qalingo.core.rest.util.JsonBuilder;
 import fr.hoteia.qalingo.core.service.RetailerService;
 
 @Service("storeRestService")
 @Path("/store/")
-public class StoreRestServiceImpl implements StoreRestService {
+public class StoreRestServiceImpl {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	protected RetailerService retailerService;
-	
-	@Autowired
-	protected JsonFactory jsonFactory;
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<StoreJsonPojo> getStores() {
-		List<Store> stores = retailerService.findStores();
-		List<StoreJsonPojo> storeStoreJsonBeans = jsonFactory.buildJsonStores(stores);
-		return storeStoreJsonBeans;
-	}
- 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
-	public StoreJsonPojo getStore(@PathParam("id") String id) {
-		Store store = retailerService.getStoreById(id);
-		StoreJsonPojo storeJsonBean = jsonFactory.buildJsonStore(store);
-		return storeJsonBean;
-	}
- 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveSomeBean(StoreJsonPojo storeJsonBean) {
-		Store store = jsonFactory.buildStore(storeJsonBean);
-		retailerService.saveOrUpdateStore(store);
-	}
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+    @Autowired private RetailerService retailerService;
+
+    @Autowired private JsonBuilder<Store, StoreJsonPojo> jsonFactory;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<StoreJsonPojo> getAllStores() {
+        List<Store> stores = retailerService.findStores();
+        List<StoreJsonPojo> storeStoreJsonBeans = jsonFactory.toPojo(stores);
+        return storeStoreJsonBeans;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public StoreJsonPojo getStoreById(@PathParam("id") final String id) {
+        Store store = retailerService.getStoreById(id);
+        StoreJsonPojo storeJsonBean = jsonFactory.toPojo(store);
+        return storeJsonBean;
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void saveOrUpdate(final StoreJsonPojo storeJsonBean) {
+        Store store = jsonFactory.fromPojo(storeJsonBean);
+        retailerService.saveOrUpdateStore(store);
+    }
 
 }

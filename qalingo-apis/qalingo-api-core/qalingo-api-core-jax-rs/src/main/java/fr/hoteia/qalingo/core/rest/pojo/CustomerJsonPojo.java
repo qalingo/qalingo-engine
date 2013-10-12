@@ -16,7 +16,6 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
@@ -24,178 +23,177 @@ import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
 /**
- *
+ * 
  * <p>
  * <a href="CustomerJsonPojo.java.html"><i>View Source</i></a>
  * </p>
- *
+ * 
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerJsonPojo extends AbstractJsonPojo {
-	
-	private Long id;
-	private int version;
-	private String login;
+
+    private Long id;
+    private int version;
+    private String login;
     private String title;
-	private String firstname;
-	private String lastname;
-	private String email;
-	private String password;
-	private String defaultLocale;
-	private boolean active;
-	private Date dateCreate;
-	private Date dateUpdate;
-	
-	private List<CustomerAddress> addresses = new ArrayList<CustomerAddress>(); 
-	private List<CustomerConnectionLog> connectionLogs = new ArrayList<CustomerConnectionLog>(); 
-	private List<CustomerMarketArea> customerMarketAreas = new ArrayList<CustomerMarketArea>(); 
-	private List<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>(); 
-	private List<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>(); 
-	
-	public CustomerJsonPojo() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
+    private String defaultLocale;
+    private boolean active;
+    private Date dateCreate;
+    private Date dateUpdate;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    private List<CustomerAddressJsonPojo> addresses = new ArrayList<CustomerAddressJsonPojo>();
+    private List<CustomerConnectionLog> connectionLogs = new ArrayList<CustomerConnectionLog>();
+    private List<CustomerMarketArea> customerMarketAreas = new ArrayList<CustomerMarketArea>();
+    private List<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>();
+    private List<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
 
-	public String getLogin() {
-		return login;
-	}
+    public CustomerJsonPojo() {}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public String getFirstname() {
-		return firstname;
-	}
+    public void setVersion(final int version) {
+        this.version = version;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public String getLogin() {
+        return login;
+    }
 
-	public String getLastname() {
-		return lastname;
-	}
+    public void setLogin(final String login) {
+        this.login = login;
+    }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setTitle(final String title) {
+        this.title = title;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getFirstname() {
+        return firstname;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setFirstname(final String firstname) {
+        this.firstname = firstname;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getLastname() {
+        return lastname;
+    }
 
-	public String getDefaultLocale() {
-		return defaultLocale;
-	}
+    public void setLastname(final String lastname) {
+        this.lastname = lastname;
+    }
 
-	public void setDefaultLocale(String defaultLocale) {
-		this.defaultLocale = defaultLocale;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public boolean isActive() {
-		return active;
-	}
+    public void setEmail(final String email) {
+        this.email = email;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public void setPassword(final String password) {
+        this.password = password;
+    }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public String getDefaultLocale() {
+        return defaultLocale;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setDefaultLocale(final String defaultLocale) {
+        this.defaultLocale = defaultLocale;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public List<CustomerAddress> getAddresses() {
-		return addresses;
-	}
+    public void setActive(final boolean active) {
+        this.active = active;
+    }
 
-	public void setAddresses(List<CustomerAddress> addresses) {
-		this.addresses = addresses;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public List<CustomerConnectionLog> getConnectionLogs() {
-		return connectionLogs;
-	}
+    public void setDateCreate(final Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public void setConnectionLogs(List<CustomerConnectionLog> connectionLogs) {
-		this.connectionLogs = connectionLogs;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
 
-	public List<CustomerMarketArea> getCustomerMarketAreas() {
-		return customerMarketAreas;
-	}
+    public void setDateUpdate(final Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
-	public void setCustomerMarketAreas(List<CustomerMarketArea> customerMarketAreas) {
-		this.customerMarketAreas = customerMarketAreas;
-	}
+    public List<CustomerAddressJsonPojo> getAddresses() {
+        return addresses;
+    }
 
-	public List<CustomerAttribute> getCustomerAttributes() {
-		return customerAttributes;
-	}
+    public void setAddresses(final List<CustomerAddressJsonPojo> addresses) {
+        this.addresses = new ArrayList<CustomerAddressJsonPojo>(addresses);
+    }
 
-	public void setCustomerAttributes(List<CustomerAttribute> customerAttributes) {
-		this.customerAttributes = customerAttributes;
-	}
+    public List<CustomerConnectionLog> getConnectionLogs() {
+        return connectionLogs;
+    }
 
-	public List<CustomerGroup> getCustomerGroups() {
-		return customerGroups;
-	}
+    public void setConnectionLogs(final List<CustomerConnectionLog> connectionLogs) {
+        this.connectionLogs = new ArrayList<CustomerConnectionLog>(connectionLogs);
+    }
 
-	public void setCustomerGroups(List<CustomerGroup> customerGroups) {
-		this.customerGroups = customerGroups;
-	}
+    public List<CustomerMarketArea> getCustomerMarketAreas() {
+        return customerMarketAreas;
+    }
 
-	@JsonAnySetter
-	@Override
-	public void handleUnknown(String key, Object value) {
-		super.handleUnknown(key, value);
-	}
+    public void setCustomerMarketAreas(final List<CustomerMarketArea> customerMarketAreas) {
+        this.customerMarketAreas = new ArrayList<CustomerMarketArea>(customerMarketAreas);
+    }
+
+    public List<CustomerAttribute> getCustomerAttributes() {
+        return customerAttributes;
+    }
+
+    public void setCustomerAttributes(final List<CustomerAttribute> customerAttributes) {
+        this.customerAttributes = new ArrayList<CustomerAttribute>(customerAttributes);
+    }
+
+    public List<CustomerGroup> getCustomerGroups() {
+        return customerGroups;
+    }
+
+    public void setCustomerGroups(final List<CustomerGroup> customerGroups) {
+        this.customerGroups = new ArrayList<CustomerGroup>(customerGroups);
+    }
+
+    @JsonAnySetter
+    @Override
+    public void handleUnknown(final String key, final Object value) {
+        super.handleUnknown(key, value);
+    }
 }
