@@ -9,16 +9,15 @@
  */
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 
-import fr.hoteia.qalingo.core.domain.CustomerOAuth;
-import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
-import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.CustomerGroup;
-
-import javax.persistence.*;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 /**
  * 
@@ -157,7 +156,7 @@ public class CustomerPojo {
         return platformOrigin;
     }
 
-    public void setPlatformOrigin(CustomerPlatformOrigin platformOrigin) {
+    public void setPlatformOrigin(final CustomerPlatformOrigin platformOrigin) {
         this.platformOrigin = platformOrigin;
     }
 
@@ -165,7 +164,7 @@ public class CustomerPojo {
         return networkOrigin;
     }
 
-    public void setNetworkOrigin(CustomerNetworkOrigin networkOrigin) {
+    public void setNetworkOrigin(final CustomerNetworkOrigin networkOrigin) {
         this.networkOrigin = networkOrigin;
     }
 
@@ -213,7 +212,7 @@ public class CustomerPojo {
         return oauthAccesses;
     }
 
-    public void setOauthAccesses(Collection<CustomerOAuthPojo> oauthAccesses) {
+    public void setOauthAccesses(final Collection<CustomerOAuthPojo> oauthAccesses) {
         this.oauthAccesses = oauthAccesses;
     }
 }
