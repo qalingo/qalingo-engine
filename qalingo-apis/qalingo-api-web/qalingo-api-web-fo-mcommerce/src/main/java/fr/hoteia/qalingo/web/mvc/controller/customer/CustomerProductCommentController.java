@@ -32,8 +32,13 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
 		
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(requestUtil.getRequestData(request), customer);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;

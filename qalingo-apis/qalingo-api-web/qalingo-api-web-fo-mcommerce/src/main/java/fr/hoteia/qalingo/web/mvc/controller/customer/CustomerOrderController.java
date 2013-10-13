@@ -48,9 +48,13 @@ public class CustomerOrderController extends AbstractCustomerController {
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_LIST.getVelocityPage());
 		
-		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
 		
-		List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		
+		List<Order> orders = orderService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
 		if(orders != null
 				&& orders.size() > 0){
 			String url = requestUtil.getCurrentRequestUrl(request);
@@ -94,12 +98,18 @@ public class CustomerOrderController extends AbstractCustomerController {
 			final Order order = orderService.getOrderById(orderId);
 			if(order != null){
 				// SANITY CHECK
-				final Customer customer = requestUtil.getCurrentCustomer(request);
-				List<Order> orders = orderService.findOrdersByCustomerId(customer.getId().toString());
+
+				final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+				
+				// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+				// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+				final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+				
+				List<Order> orders = orderService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
 				if(orders.contains(order)){
 			        return modelAndView;
 				} else {
-					LOG.warn("Customer, " + customer.getId() + "/" + customer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
+					LOG.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
 				}
 			}
 		}

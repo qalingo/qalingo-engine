@@ -60,19 +60,17 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
     	// Find the current customer
     	Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
 
-    	// Persit only the new CustomerConnectionLog
-    	CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
-    	customerConnectionLog.setCustomerId(customer.getId());
-    	customerConnectionLog.setLoginDate(new Date());
-    	customerConnectionLog.setApp(Constants.APP_NAME_FO_MCOMMERCE_CODE);
-    	customerConnectionLog.setHost(request.getRemoteHost());
-    	customerConnectionLog.setAddress(request.getRemoteAddr());
-    	customerConnectionLogService.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
-    	
 		try {
-	    	// Update the Customer in Session
+	    	// Persit the new CustomerConnectionLog
+	    	CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
+	    	customerConnectionLog.setCustomerId(customer.getId());
+	    	customerConnectionLog.setLoginDate(new Date());
+	    	customerConnectionLog.setApp(Constants.APP_NAME_FO_MCOMMERCE_CODE);
+	    	customerConnectionLog.setHost(request.getRemoteHost());
+	    	customerConnectionLog.setAddress(request.getRemoteAddr());
 	    	customer.getConnectionLogs().add(customerConnectionLog);
-	    	requestUtil.updateCurrentCustomer(request, customer);
+	    	customerConnectionLogService.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
+
 	    	setUseReferer(false);
 			String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
 			

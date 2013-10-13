@@ -52,8 +52,13 @@ public class CustomerAddressController extends AbstractCustomerController {
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADDRESS_LIST.getVelocityPage());
 		
-		final Customer customer = requestUtil.getCurrentCustomer(request);
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), customer);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 
         return modelAndView;
@@ -79,7 +84,12 @@ public class CustomerAddressController extends AbstractCustomerController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADD_ADDRESS.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), currentCustomer);
+		
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
         return modelAndView;
@@ -107,8 +117,12 @@ public class CustomerAddressController extends AbstractCustomerController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT_ADDRESS.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), currentCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
 
@@ -119,8 +133,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		
 		CustomerAddress customerAddress = null;
 		try {
-			final Customer customer = requestUtil.getCurrentCustomer(request);
-			customerAddress = customer.getAddress(new Long(customerAddressId));
+			customerAddress = reloadedCustomer.getAddress(new Long(customerAddressId));
 			
 		} catch (Exception e) {
 			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);

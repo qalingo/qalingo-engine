@@ -828,7 +828,7 @@ public class RequestUtilImpl implements RequestUtil {
 				String username = SecurityContextHolder.getContext().getAuthentication().getName();
 				if (StringUtils.isNotEmpty(username) && !username.equalsIgnoreCase("anonymousUser")) {
 					customer = customerService.getCustomerByLoginOrEmail(username);
-					engineEcoSession.setCurrentCustomer(customer);
+					updateCurrentCustomer(request, customer);
 				}
 			}
 		}
@@ -1421,8 +1421,9 @@ public class RequestUtilImpl implements RequestUtil {
 		requestData.setLocalization(getCurrentLocalization(request));
 		requestData.setRetailer(getCurrentRetailer(request));
 		
-		if(getCurrentCustomer(request) != null){
-			requestData.setCustomer(getCurrentCustomer(request));
+		Customer customer = getCurrentCustomer(request);
+		if(customer != null){
+			requestData.setCustomer(customer);
 		}
 		
 		return requestData;
