@@ -3,7 +3,7 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerWishlistPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerWishlistPojo;
 
 @Component("customerWishlistMapper")
 public class CustomerWishlistMapper extends AbstractPojoMapper<CustomerWishlist, CustomerWishlistPojo> {

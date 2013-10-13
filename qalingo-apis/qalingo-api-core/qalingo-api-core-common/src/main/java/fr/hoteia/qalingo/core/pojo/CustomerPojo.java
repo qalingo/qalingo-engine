@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
 import java.util.ArrayList;
 import java.util.Collection;

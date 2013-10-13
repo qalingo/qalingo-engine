@@ -11,10 +11,10 @@ import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.domain.CustomerOptin;
 import fr.hoteia.qalingo.core.domain.CustomerProductComment;
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerMarketAreaPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerOptinPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerProductCommentPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerWishlistPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerMarketAreaPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerOptinPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerProductCommentPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerWishlistPojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
 @Component("customerMarketAreaMapper")

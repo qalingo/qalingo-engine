@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
-import fr.hoteia.qalingo.core.rest.pojo.AttributeDefinitionPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAttributePojo;
+import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerAttributePojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
 @Component("customerAttributeMapper")

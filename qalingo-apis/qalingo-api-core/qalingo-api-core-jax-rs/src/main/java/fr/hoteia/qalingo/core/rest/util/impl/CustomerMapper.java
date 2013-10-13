@@ -14,13 +14,13 @@ import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.domain.CustomerOAuth;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAddressPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAttributePojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerConnectionLogPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerGroupPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerMarketAreaPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerOAuthPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerAddressPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerAttributePojo;
+import fr.hoteia.qalingo.core.pojo.CustomerConnectionLogPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerGroupPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerMarketAreaPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerOAuthPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
 @Component("customerMapper")

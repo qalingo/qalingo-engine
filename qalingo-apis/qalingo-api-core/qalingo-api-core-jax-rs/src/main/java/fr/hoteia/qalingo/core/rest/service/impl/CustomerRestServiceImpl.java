@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;

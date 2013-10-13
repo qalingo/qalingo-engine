@@ -2,9 +2,10 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 
 import fr.hoteia.qalingo.core.domain.CustomerPermission;
 import fr.hoteia.qalingo.core.domain.CustomerRole;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerPermissionPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerRolePojo;
+import fr.hoteia.qalingo.core.pojo.CustomerPermissionPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerRolePojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

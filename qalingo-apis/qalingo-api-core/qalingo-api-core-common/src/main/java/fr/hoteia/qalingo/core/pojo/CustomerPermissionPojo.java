@@ -1,10 +1,8 @@
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
-public class CustomerRolePojo {
+public class CustomerPermissionPojo {
 
     private Long id;
     private int version;
@@ -13,7 +11,6 @@ public class CustomerRolePojo {
     private String code;
     private Date dateCreate;
     private Date dateUpdate;
-    private Collection<CustomerPermissionPojo> rolePermissions;
 
     public Long getId() {
         return id;
@@ -69,13 +66,5 @@ public class CustomerRolePojo {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
-    }
-
-    public Collection<CustomerPermissionPojo> getRolePermissions() {
-        return rolePermissions;
-    }
-
-    public void setRolePermissions(Collection<CustomerPermissionPojo> rolePermissions) {
-        this.rolePermissions = new ArrayList<CustomerPermissionPojo>(rolePermissions);
     }
 }

@@ -3,7 +3,7 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAddressPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerAddressPojo;
 
 @Component("customerAddressMapper")
 public class CustomerAddressMapper extends AbstractPojoMapper<CustomerAddress, CustomerAddressPojo> {

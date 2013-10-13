@@ -1,14 +1,12 @@
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
 import java.util.Date;
 
-public class CustomerProductCommentPojo {
+public class CustomerOptinPojo {
 
     private Long id;
-    private int version;
-    private int position;
-    private String comment;
-    private String productSkuCode;
+    private String type;
+    private String origin;
     private Long customerMarketAreaId;
     private Date dateCreate;
     private Date dateUpdate;
@@ -21,36 +19,20 @@ public class CustomerProductCommentPojo {
         this.id = id;
     }
 
-    public int getVersion() {
-        return version;
+    public String getType() {
+        return type;
     }
 
-    public void setVersion(final int version) {
-        this.version = version;
+    public void setType(final String type) {
+        this.type = type;
     }
 
-    public int getPosition() {
-        return position;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setPosition(final int position) {
-        this.position = position;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    public String getProductSkuCode() {
-        return productSkuCode;
-    }
-
-    public void setProductSkuCode(final String productSkuCode) {
-        this.productSkuCode = productSkuCode;
+    public void setOrigin(final String origin) {
+        this.origin = origin;
     }
 
     public Long getCustomerMarketAreaId() {

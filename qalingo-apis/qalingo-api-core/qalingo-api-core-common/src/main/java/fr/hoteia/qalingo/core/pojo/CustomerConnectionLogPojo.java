@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
 import java.util.Date;
 

@@ -1,7 +1,8 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
 import fr.hoteia.qalingo.core.domain.CustomerPermission;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerPermissionPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerPermissionPojo;
+
 import org.springframework.stereotype.Component;
 
 @Component("customerPermissionMapper")

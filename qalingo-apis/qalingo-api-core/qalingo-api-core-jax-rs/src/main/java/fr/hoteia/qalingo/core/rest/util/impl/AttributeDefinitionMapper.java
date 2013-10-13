@@ -3,7 +3,7 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
-import fr.hoteia.qalingo.core.rest.pojo.AttributeDefinitionPojo;
+import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 
 @Component("attributeDefinitionMapper")
 public class AttributeDefinitionMapper extends AbstractPojoMapper<AttributeDefinition, AttributeDefinitionPojo> {

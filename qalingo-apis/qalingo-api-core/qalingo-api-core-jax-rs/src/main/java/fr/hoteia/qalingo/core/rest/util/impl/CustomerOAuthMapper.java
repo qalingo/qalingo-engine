@@ -1,7 +1,8 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
 import fr.hoteia.qalingo.core.domain.CustomerOAuth;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerOAuthPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerOAuthPojo;
+
 import org.springframework.stereotype.Component;
 
 @Component("customerOAuthMapper")
