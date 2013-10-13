@@ -1,5 +1,8 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -40,14 +43,46 @@ public class CustomerMarketAreaMapper extends AbstractPojoMapper<CustomerMarketA
 
     @Override
     protected void mapAdditionalPropertiesFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
-        // TODO Auto-generated method stub
-        super.mapAdditionalPropertiesFromPojo(jsonPojo, object);
+        mapOptinsPropertyFromPojo(jsonPojo, object);
+        mapWishlistProductsPropertyFromPojo(jsonPojo, object);
+        mapProductCommentsPropertyFromPojo(jsonPojo, object);
+    }
+
+    private void mapOptinsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
+        Collection<CustomerOptin> optins = customerOptinMapper.fromPojo(jsonPojo.getOptins());
+        object.setOptins(new HashSet<CustomerOptin>(optins));
+    }
+
+    private void mapWishlistProductsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
+        Collection<CustomerWishlist> wishlist = customerWishlistMapper.fromPojo(jsonPojo.getWishlistProducts());
+        object.setWishlistProducts(new HashSet<CustomerWishlist>(wishlist));
+    }
+
+    private void mapProductCommentsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
+        Collection<CustomerProductComment> marketAreas = customerProductCommentMapper.fromPojo(jsonPojo.getProductComments());
+        object.setProductComments(new HashSet<CustomerProductComment>(marketAreas));
     }
 
     @Override
     protected void mapAdditionalPropertiesToPojo(final CustomerMarketArea object, final CustomerMarketAreaPojo jsonPojo) {
-        // TODO Auto-generated method stub
-        super.mapAdditionalPropertiesToPojo(object, jsonPojo);
+        mapOptinsPropertyToPojo(object, jsonPojo);
+        mapWishlistProductsPropertyToPojo(object, jsonPojo);
+        mapProductCommentsPropertyToPojo(object, jsonPojo);
+    }
+
+    private void mapOptinsPropertyToPojo(final CustomerMarketArea object, final CustomerMarketAreaPojo jsonPojo) {
+        Collection<CustomerOptinPojo> optins = customerOptinMapper.toPojo(object.getOptins());
+        jsonPojo.setOptins(optins);
+    }
+
+    private void mapWishlistProductsPropertyToPojo(final CustomerMarketArea object, final CustomerMarketAreaPojo jsonPojo) {
+        Collection<CustomerWishlistPojo> wishlist = customerWishlistMapper.toPojo(object.getWishlistProducts());
+        jsonPojo.setWishlistProducts(wishlist);
+    }
+
+    private void mapProductCommentsPropertyToPojo(final CustomerMarketArea object, final CustomerMarketAreaPojo jsonPojo) {
+        Collection<CustomerProductCommentPojo> productComments = customerProductCommentMapper.toPojo(object.getProductComments());
+        jsonPojo.setProductComments(productComments);
     }
 
 }
