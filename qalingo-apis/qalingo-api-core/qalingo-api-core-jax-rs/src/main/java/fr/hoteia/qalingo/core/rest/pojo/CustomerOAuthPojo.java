@@ -1,9 +1,8 @@
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
-
-import javax.persistence.*;
 import java.util.Date;
+
+import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
 
 public class CustomerOAuthPojo {
 

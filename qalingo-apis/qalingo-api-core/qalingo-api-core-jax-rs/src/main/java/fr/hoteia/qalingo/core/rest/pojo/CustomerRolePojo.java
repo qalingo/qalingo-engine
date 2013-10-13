@@ -1,12 +1,8 @@
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import fr.hoteia.qalingo.core.domain.CustomerPermission;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 public class CustomerRolePojo {
 

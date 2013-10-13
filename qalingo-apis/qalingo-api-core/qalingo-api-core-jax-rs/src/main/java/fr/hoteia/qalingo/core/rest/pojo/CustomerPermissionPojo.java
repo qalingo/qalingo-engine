@@ -1,6 +1,5 @@
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class CustomerPermissionPojo {

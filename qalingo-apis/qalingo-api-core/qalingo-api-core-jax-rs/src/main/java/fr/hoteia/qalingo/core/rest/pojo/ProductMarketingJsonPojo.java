@@ -16,9 +16,9 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.ProductBrand;
-import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
 import fr.hoteia.qalingo.core.domain.Asset;
+import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
+import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 
