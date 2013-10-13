@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.impl;
 
 import fr.hoteia.qalingo.core.domain.CustomerPermission;
 import fr.hoteia.qalingo.core.pojo.CustomerPermissionPojo;

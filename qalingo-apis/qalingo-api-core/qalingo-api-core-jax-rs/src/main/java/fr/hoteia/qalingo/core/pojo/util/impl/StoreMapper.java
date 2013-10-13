@@ -1,8 +1,9 @@
-package fr.hoteia.qalingo.core.rest.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.impl;
 
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.Store;
+import fr.hoteia.qalingo.core.pojo.util.impl.AbstractPojoMapper;
 import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
 
 @Component("storeMapper")

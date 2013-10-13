@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>fr.hoteia.qalingo</groupId>
@@ -16,20 +17,38 @@
 		<url>http://www.hoteia.com</url>
 	</organization>
 
-	<properties> 
-		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
+	<properties>
+		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir>
 		<xsd.working.directory>target/work/xsd</xsd.working.directory>
 	</properties>
-	
+
 	<build>
-		<!--
 		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>customer-web-service</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>fr.hoteia.qalingo.core.ws.service.CustomerWebService</className>
+							<outputFile>${project.build.directory}/generated-sources/wsdl/CustomerWebService.wsdl</outputFile>
+							<genWsdl>true</genWsdl>
+							<verbose>false</verbose>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-		-->
 	</build>
 
 	<dependencies>
-		<!-- Qalingo libs-->
+		<!-- Qalingo libs -->
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
 			<artifactId>qalingo-api-core-common</artifactId>

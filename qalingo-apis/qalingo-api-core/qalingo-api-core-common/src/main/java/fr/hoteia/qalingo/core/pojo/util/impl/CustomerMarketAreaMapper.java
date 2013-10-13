@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.impl;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import fr.hoteia.qalingo.core.pojo.CustomerMarketAreaPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerOptinPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerProductCommentPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerWishlistPojo;
-import fr.hoteia.qalingo.core.rest.util.PojoMapper;
+import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 
 @Component("customerMarketAreaMapper")
 public class CustomerMarketAreaMapper extends AbstractPojoMapper<CustomerMarketArea, CustomerMarketAreaPojo> {

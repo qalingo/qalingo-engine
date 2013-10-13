@@ -9,16 +9,24 @@
  */
 package fr.hoteia.qalingo.core.ws.service;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import fr.hoteia.qalingo.core.ws.pojo.CustomerWsPojo;
+import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 
-@WebService(name="customerWsClient", targetNamespace="http://www.qalingo.com")
+@WebService(name = "customerWsClient", targetNamespace = "http://www.qalingo.com")
 public interface CustomerWebService {
 
-	@WebMethod(operationName="getCustomer")
-	CustomerWsPojo getCustomerById(@WebParam(name="id") String customerId);
-	
+    @WebMethod(operationName = "getAllCustomers")
+    List<CustomerPojo> getAllCustomers();
+
+    @WebMethod(operationName = "getCustomer")
+    CustomerPojo getCustomerById(@WebParam(name = "id") final String customerId);
+
+    @WebMethod(operationName = "saveOrUpdateCustomer")
+    void saveOrUpdateCustomer(@WebParam(name = "customer") final CustomerPojo customer) throws Exception;
+
 }

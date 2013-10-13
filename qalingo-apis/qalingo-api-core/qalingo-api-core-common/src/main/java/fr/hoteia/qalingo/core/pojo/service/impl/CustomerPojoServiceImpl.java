@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.rest.service.impl;
+package fr.hoteia.qalingo.core.pojo.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
-import fr.hoteia.qalingo.core.rest.service.CustomerPojoService;
-import fr.hoteia.qalingo.core.rest.util.PojoMapper;
+import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
+import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
 @Service("customerPojoService")

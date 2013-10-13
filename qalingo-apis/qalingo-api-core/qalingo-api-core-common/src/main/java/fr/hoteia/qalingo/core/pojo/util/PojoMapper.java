@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.util;
+package fr.hoteia.qalingo.core.pojo.util;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.service;
+package fr.hoteia.qalingo.core.pojo.service;
 
 import java.util.List;
 

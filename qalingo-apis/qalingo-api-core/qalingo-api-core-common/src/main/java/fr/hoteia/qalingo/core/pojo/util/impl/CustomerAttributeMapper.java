@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.rest.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,7 +8,7 @@ import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerAttributePojo;
-import fr.hoteia.qalingo.core.rest.util.PojoMapper;
+import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 
 @Component("customerAttributeMapper")
 public class CustomerAttributeMapper extends AbstractPojoMapper<CustomerAttribute, CustomerAttributePojo> {
