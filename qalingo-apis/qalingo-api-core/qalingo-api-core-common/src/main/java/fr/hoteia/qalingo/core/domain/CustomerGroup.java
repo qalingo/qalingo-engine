@@ -136,14 +136,12 @@ public class CustomerGroup implements Serializable {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-	
-    public Set<CustomerRole> getGroupRoles() {
+
+    public Set<CustomerRole> getCustomerRoles() {
         return customerRoles;
     }
-	
-	public void setCustomerGroups(Set<CustomerRole> customerRoles) {
-		this.customerRoles = customerRoles;
-	}
 
-	
+    public void setCustomerRoles(Set<CustomerRole> customerRoles) {
+        this.customerRoles = customerRoles;
+    }
 }

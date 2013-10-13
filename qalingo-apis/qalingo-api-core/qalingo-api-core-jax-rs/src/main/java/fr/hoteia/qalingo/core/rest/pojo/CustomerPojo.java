@@ -9,13 +9,16 @@
  */
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
+import fr.hoteia.qalingo.core.domain.CustomerOAuth;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
+
+import javax.persistence.*;
 
 /**
  * 
@@ -24,6 +27,7 @@ import fr.hoteia.qalingo.core.domain.CustomerGroup;
  * </p>
  * 
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
+ * @author Fingy
  * 
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,12 +45,15 @@ public class CustomerPojo {
     private boolean active;
     private Date dateCreate;
     private Date dateUpdate;
+    private CustomerPlatformOrigin platformOrigin;
+    private CustomerNetworkOrigin networkOrigin;
 
     private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
     private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
     private Collection<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
     private Collection<CustomerAttributePojo> customerAttributes = new ArrayList<CustomerAttributePojo>();
-    private Collection<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
+    private Collection<CustomerGroupPojo> customerGroups = new ArrayList<CustomerGroupPojo>();
+    private Collection<CustomerOAuthPojo> oauthAccesses = new HashSet<CustomerOAuthPojo>();
 
     public CustomerPojo() {}
 
@@ -146,6 +153,22 @@ public class CustomerPojo {
         this.dateUpdate = dateUpdate;
     }
 
+    public CustomerPlatformOrigin getPlatformOrigin() {
+        return platformOrigin;
+    }
+
+    public void setPlatformOrigin(CustomerPlatformOrigin platformOrigin) {
+        this.platformOrigin = platformOrigin;
+    }
+
+    public CustomerNetworkOrigin getNetworkOrigin() {
+        return networkOrigin;
+    }
+
+    public void setNetworkOrigin(CustomerNetworkOrigin networkOrigin) {
+        this.networkOrigin = networkOrigin;
+    }
+
     public Collection<CustomerAddressPojo> getAddresses() {
         return addresses;
     }
@@ -178,11 +201,19 @@ public class CustomerPojo {
         this.customerAttributes = new ArrayList<CustomerAttributePojo>(customerAttributes);
     }
 
-    public Collection<CustomerGroup> getCustomerGroups() {
+    public Collection<CustomerGroupPojo> getCustomerGroups() {
         return customerGroups;
     }
 
-    public void setCustomerGroups(final Collection<CustomerGroup> customerGroups) {
-        this.customerGroups = new ArrayList<CustomerGroup>(customerGroups);
+    public void setCustomerGroups(final Collection<CustomerGroupPojo> customerGroups) {
+        this.customerGroups = new ArrayList<CustomerGroupPojo>(customerGroups);
+    }
+
+    public Collection<CustomerOAuthPojo> getOauthAccesses() {
+        return oauthAccesses;
+    }
+
+    public void setOauthAccesses(Collection<CustomerOAuthPojo> oauthAccesses) {
+        this.oauthAccesses = oauthAccesses;
     }
 }

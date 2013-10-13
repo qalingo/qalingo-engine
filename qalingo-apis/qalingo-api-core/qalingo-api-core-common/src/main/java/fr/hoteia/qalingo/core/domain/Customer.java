@@ -442,7 +442,7 @@ public class Customer implements Serializable {
 		Iterator<CustomerGroup> it = customerGroups.iterator();
 		while (it.hasNext()) {
 			CustomerGroup customerGroup = (CustomerGroup) it.next();
-			roles.addAll(customerGroup.getGroupRoles());
+			roles.addAll(customerGroup.getCustomerRoles());
 		}
 		return roles;
 	}

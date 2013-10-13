@@ -3,32 +3,26 @@ package fr.hoteia.qalingo.core.rest.util.impl;
 import java.util.Collection;
 import java.util.HashSet;
 
+import fr.hoteia.qalingo.core.domain.*;
+import fr.hoteia.qalingo.core.rest.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.domain.CustomerAttribute;
-import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
-import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAddressPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerAttributePojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerConnectionLogPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerMarketAreaPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
 @Component("customerMapper")
 public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
 
-    private static final String[] IGNORED_PROPERTIES = new String[] { "addresses", "connectionLogs", "customerMarketAreas",
-            "customerAttributes", "customerGroups" };
+    private static final String[] IGNORED_PROPERTIES = new String[] { "platformOrigin", "networkOrigin", "addresses", "connectionLogs", "customerMarketAreas",
+            "customerAttributes", "customerGroups", "oauthAccesses" };
 
     @Autowired @Qualifier("customerAddressMapper") private PojoMapper<CustomerAddress, CustomerAddressPojo> addressMapper;
     @Autowired @Qualifier("customerConnectionLogMapper") private PojoMapper<CustomerConnectionLog, CustomerConnectionLogPojo> connectionLogMapper;
     @Autowired @Qualifier("customerMarketAreaMapper") private PojoMapper<CustomerMarketArea, CustomerMarketAreaPojo> customerMarketAreaMapper;
     @Autowired @Qualifier("customerAttributeMapper") private PojoMapper<CustomerAttribute, CustomerAttributePojo> customerAttributeMapper;
+    @Autowired @Qualifier("customerGroupMapper") private PojoMapper<CustomerGroup, CustomerGroupPojo> customerGroupMapper;
+    @Autowired @Qualifier("customerOAuthMapper") private PojoMapper<CustomerOAuth, CustomerOAuthPojo> customerOAuthMapper;
 
     @Override
     public Class<Customer> getObjectType() {
@@ -46,6 +40,8 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
         mapConnectionLogsPropertyFromPojo(customerPojo, customer);
         mapCustomerMarketAreasPropertyFromPojo(customerPojo, customer);
         mapCustomerAttributesPropertyFromPojo(customerPojo, customer);
+        mapCustomerGroupsPropertyFromPojo(customerPojo, customer);
+        mapOauthAccessesPropertyFromPojo(customerPojo, customer);
     }
 
     private void mapAddressesPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
@@ -68,6 +64,16 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
         customer.setCustomerAttributes(new HashSet<CustomerAttribute>(attributes));
     }
 
+    private void mapCustomerGroupsPropertyFromPojo(CustomerPojo customerPojo, Customer customer) {
+        Collection<CustomerGroup> customerGroups = customerGroupMapper.fromPojo(customerPojo.getCustomerGroups());
+        customer.setCustomerGroups(new HashSet<CustomerGroup>(customerGroups));
+    }
+
+    private void mapOauthAccessesPropertyFromPojo(CustomerPojo customerPojo, Customer customer) {
+        Collection<CustomerOAuth> customerOAuths = customerOAuthMapper.fromPojo(customerPojo.getOauthAccesses());
+        customer.setOauthAccesses(new HashSet<CustomerOAuth>(customerOAuths));
+    }
+
     @Override
     protected String[] getIgnoredProperties() {
         return IGNORED_PROPERTIES;
@@ -79,6 +85,8 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
         mapConnectionLogsPropertyToPojo(customer, customerPojo);
         mapCustomerMarketAreasPropertyToPojo(customer, customerPojo);
         mapCustomerAttributesPropertyToPojo(customer, customerPojo);
+        mapCustomerGroupsPropertyToPojo(customer, customerPojo);
+        mapOauthAccessesPropertyToPojo(customer, customerPojo);
     }
 
     private void mapAddressesPropertyToPojo(final Customer customer, final CustomerPojo customerPojo) {
@@ -99,6 +107,16 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
     private void mapCustomerAttributesPropertyToPojo(final Customer customer, final CustomerPojo customerPojo) {
         Collection<CustomerAttributePojo> attributes = customerAttributeMapper.toPojo(customer.getCustomerAttributes());
         customerPojo.setCustomerAttributes(attributes);
+    }
+
+    private void mapCustomerGroupsPropertyToPojo(Customer customer, CustomerPojo customerPojo) {
+        Collection<CustomerGroupPojo> customerGroups = customerGroupMapper.toPojo(customer.getCustomerGroups());
+        customerPojo.setCustomerGroups(customerGroups);
+    }
+
+    private void mapOauthAccessesPropertyToPojo(Customer customer, CustomerPojo customerPojo) {
+        Collection<CustomerOAuthPojo> oauthAccesses = customerOAuthMapper.toPojo(customer.getOauthAccesses());
+        customerPojo.setOauthAccesses(oauthAccesses);
     }
 
 }
