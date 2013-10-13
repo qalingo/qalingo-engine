@@ -17,7 +17,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
-import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 
 /**
  * 
@@ -46,7 +45,7 @@ public class CustomerPojo {
 
     private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
     private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
-    private Collection<CustomerMarketArea> customerMarketAreas = new ArrayList<CustomerMarketArea>();
+    private Collection<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
     private Collection<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>();
     private Collection<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
 
@@ -164,12 +163,12 @@ public class CustomerPojo {
         this.connectionLogs = new ArrayList<CustomerConnectionLogPojo>(connectionLogs);
     }
 
-    public Collection<CustomerMarketArea> getCustomerMarketAreas() {
+    public Collection<CustomerMarketAreaPojo> getCustomerMarketAreas() {
         return customerMarketAreas;
     }
 
-    public void setCustomerMarketAreas(final Collection<CustomerMarketArea> customerMarketAreas) {
-        this.customerMarketAreas = new ArrayList<CustomerMarketArea>(customerMarketAreas);
+    public void setCustomerMarketAreas(final Collection<CustomerMarketAreaPojo> customerMarketAreas) {
+        this.customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>(customerMarketAreas);
     }
 
     public Collection<CustomerAttribute> getCustomerAttributes() {

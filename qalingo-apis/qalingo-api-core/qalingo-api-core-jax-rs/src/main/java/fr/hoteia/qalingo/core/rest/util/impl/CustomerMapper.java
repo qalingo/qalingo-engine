@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAddress;
 import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
+import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.rest.pojo.CustomerAddressPojo;
 import fr.hoteia.qalingo.core.rest.pojo.CustomerConnectionLogPojo;
+import fr.hoteia.qalingo.core.rest.pojo.CustomerMarketAreaPojo;
 import fr.hoteia.qalingo.core.rest.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 
@@ -23,6 +25,7 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
 
     @Autowired @Qualifier("customerAddressMapper") private PojoMapper<CustomerAddress, CustomerAddressPojo> addressMapper;
     @Autowired @Qualifier("customerConnectionLogMapper") private PojoMapper<CustomerConnectionLog, CustomerConnectionLogPojo> connectionLogMapper;
+    @Autowired @Qualifier("customerMarketAreaMapper") private PojoMapper<CustomerMarketArea, CustomerMarketAreaPojo> customerMarketAreaMapper;
 
     @Override
     public Class<Customer> getObjectType() {
@@ -37,8 +40,8 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
     @Override
     protected void mapAdditionalPropertiesFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         mapAddressesPropertyFromPojo(customerPojo, customer);
-        mapConnectionLogsFromPojo(customerPojo, customer);
-
+        mapConnectionLogsPropertyFromPojo(customerPojo, customer);
+        mapCustomerMarketAreasPropertyFromPojo(customerPojo, customer);
     }
 
     private void mapAddressesPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
@@ -46,9 +49,14 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
         customer.setAddresses(new HashSet<CustomerAddress>(addresses));
     }
 
-    private void mapConnectionLogsFromPojo(final CustomerPojo customerPojo, final Customer customer) {
+    private void mapConnectionLogsPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerConnectionLog> logs = connectionLogMapper.fromPojo(customerPojo.getConnectionLogs());
         customer.setConnectionLogs(new HashSet<CustomerConnectionLog>(logs));
+    }
+
+    private void mapCustomerMarketAreasPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
+        Collection<CustomerMarketArea> marketAreas = customerMarketAreaMapper.fromPojo(customerPojo.getCustomerMarketAreas());
+        customer.setCustomerMarketAreas(new HashSet<CustomerMarketArea>(marketAreas));
     }
 
     @Override
@@ -59,7 +67,8 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
     @Override
     protected void mapAdditionalPropertiesToPojo(final Customer customer, final CustomerPojo customerPojo) {
         mapAddressesPropertyToPojo(customer, customerPojo);
-        mapConnectionLogsToPojo(customer, customerPojo);
+        mapConnectionLogsPropertyToPojo(customer, customerPojo);
+        mapCustomerMarketAreasPropertyToPojo(customer, customerPojo);
     }
 
     private void mapAddressesPropertyToPojo(final Customer customer, final CustomerPojo customerPojo) {
@@ -67,9 +76,14 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
         customerPojo.setAddresses(mappedAddresses);
     }
 
-    private void mapConnectionLogsToPojo(final Customer customer, final CustomerPojo customerPojo) {
+    private void mapConnectionLogsPropertyToPojo(final Customer customer, final CustomerPojo customerPojo) {
         Collection<CustomerConnectionLogPojo> logs = connectionLogMapper.toPojo(customer.getConnectionLogs());
         customerPojo.setConnectionLogs(logs);
+    }
+
+    private void mapCustomerMarketAreasPropertyToPojo(final Customer customer, final CustomerPojo customerPojo) {
+        Collection<CustomerMarketAreaPojo> marketAreas = customerMarketAreaMapper.toPojo(customer.getCustomerMarketAreas());
+        customerPojo.setCustomerMarketAreas(marketAreas);
     }
 
 }
