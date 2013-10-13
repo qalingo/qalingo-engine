@@ -131,6 +131,12 @@
 			<groupId>net.sourceforge.wurfl</groupId>
 			<artifactId>wurfl</artifactId>
 		</dependency>
+
+        <!-- Objenesis -->
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+        </dependency>
 		
 		<!-- JSON -->
 		<dependency>
