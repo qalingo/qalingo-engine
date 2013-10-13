@@ -15,7 +15,6 @@ import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.CustomerAttribute;
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 
 /**
@@ -46,7 +45,7 @@ public class CustomerPojo {
     private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
     private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
     private Collection<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
-    private Collection<CustomerAttribute> customerAttributes = new ArrayList<CustomerAttribute>();
+    private Collection<CustomerAttributePojo> customerAttributes = new ArrayList<CustomerAttributePojo>();
     private Collection<CustomerGroup> customerGroups = new ArrayList<CustomerGroup>();
 
     public CustomerPojo() {}
@@ -171,12 +170,12 @@ public class CustomerPojo {
         this.customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>(customerMarketAreas);
     }
 
-    public Collection<CustomerAttribute> getCustomerAttributes() {
+    public Collection<CustomerAttributePojo> getCustomerAttributes() {
         return customerAttributes;
     }
 
-    public void setCustomerAttributes(final Collection<CustomerAttribute> customerAttributes) {
-        this.customerAttributes = new ArrayList<CustomerAttribute>(customerAttributes);
+    public void setCustomerAttributes(final Collection<CustomerAttributePojo> customerAttributes) {
+        this.customerAttributes = new ArrayList<CustomerAttributePojo>(customerAttributes);
     }
 
     public Collection<CustomerGroup> getCustomerGroups() {
