@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 
-public interface CustomerRestService {
+public interface CustomerPojoService {
 
     List<CustomerPojo> getAllCustomers();
 

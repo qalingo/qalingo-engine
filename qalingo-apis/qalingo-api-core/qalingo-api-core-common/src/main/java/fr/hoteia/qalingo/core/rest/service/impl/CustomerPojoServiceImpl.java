@@ -12,8 +12,6 @@ package fr.hoteia.qalingo.core.rest.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.PathParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
-import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
+import fr.hoteia.qalingo.core.rest.service.CustomerPojoService;
 import fr.hoteia.qalingo.core.rest.util.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;
 
-@Service("customerRestService")
+@Service("customerPojoService")
 @Transactional(readOnly = true)
-public class CustomerRestServiceImpl implements CustomerRestService {
+public class CustomerPojoServiceImpl implements CustomerPojoService {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -54,7 +52,7 @@ public class CustomerRestServiceImpl implements CustomerRestService {
      * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getCustomerById(java.lang.String)
      */
     @Override
-    public CustomerPojo getCustomerById(@PathParam("id") final String id) {
+    public CustomerPojo getCustomerById(final String id) {
         LOG.debug("Fetching customer with id {}", id);
         Customer customer = customerService.getCustomerById(id);
         return pojoMapper.toPojo(customer);

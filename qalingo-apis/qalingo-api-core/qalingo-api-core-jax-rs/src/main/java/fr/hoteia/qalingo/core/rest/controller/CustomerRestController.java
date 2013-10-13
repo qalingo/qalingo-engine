@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
-import fr.hoteia.qalingo.core.rest.service.CustomerRestService;
+import fr.hoteia.qalingo.core.rest.service.CustomerPojoService;
 
 @Path("/customer/")
 @Component("customerRestController")
 public class CustomerRestController {
 
-    @Autowired private CustomerRestService customerService;
+    @Autowired private CustomerPojoService customerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,8 +29,8 @@ public class CustomerRestController {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public CustomerPojo getCustomerById(@PathParam("id") final String id) {
         return customerService.getCustomerById(id);
     }
