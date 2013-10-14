@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asSet;
 
 @Component("customerMarketAreaMapper")
 public class CustomerMarketAreaMapper extends AbstractPojoMapper<CustomerMarketArea, CustomerMarketAreaPojo> {
@@ -48,17 +49,17 @@ public class CustomerMarketAreaMapper extends AbstractPojoMapper<CustomerMarketA
 
     private void mapOptinsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
         Collection<CustomerOptin> optins = customerOptinMapper.fromPojo(jsonPojo.getOptins());
-        object.setOptins(new HashSet<CustomerOptin>(optins));
+        object.setOptins(asSet(optins));
     }
 
     private void mapWishlistProductsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
         Collection<CustomerWishlist> wishlist = customerWishlistMapper.fromPojo(jsonPojo.getWishlistProducts());
-        object.setWishlistProducts(new HashSet<CustomerWishlist>(wishlist));
+        object.setWishlistProducts(asSet(wishlist));
     }
 
     private void mapProductCommentsPropertyFromPojo(final CustomerMarketAreaPojo jsonPojo, final CustomerMarketArea object) {
         Collection<CustomerProductComment> marketAreas = customerProductCommentMapper.fromPojo(jsonPojo.getProductComments());
-        object.setProductComments(new HashSet<CustomerProductComment>(marketAreas));
+        object.setProductComments(asSet(marketAreas));
     }
 
     @Override

@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asSet;
 
 @Component("customerMapper")
 public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
@@ -44,32 +45,32 @@ public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {
 
     private void mapAddressesPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerAddress> addresses = addressMapper.fromPojo(customerPojo.getAddresses());
-        customer.setAddresses(new HashSet<CustomerAddress>(addresses));
+        customer.setAddresses(asSet(addresses));
     }
 
     private void mapConnectionLogsPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerConnectionLog> logs = connectionLogMapper.fromPojo(customerPojo.getConnectionLogs());
-        customer.setConnectionLogs(new HashSet<CustomerConnectionLog>(logs));
+        customer.setConnectionLogs(asSet(logs));
     }
 
     private void mapCustomerMarketAreasPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerMarketArea> marketAreas = customerMarketAreaMapper.fromPojo(customerPojo.getCustomerMarketAreas());
-        customer.setCustomerMarketAreas(new HashSet<CustomerMarketArea>(marketAreas));
+        customer.setCustomerMarketAreas(asSet(marketAreas));
     }
 
     private void mapCustomerAttributesPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerAttribute> attributes = customerAttributeMapper.fromPojo(customerPojo.getCustomerAttributes());
-        customer.setCustomerAttributes(new HashSet<CustomerAttribute>(attributes));
+        customer.setCustomerAttributes(asSet(attributes));
     }
 
     private void mapCustomerGroupsPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerGroup> customerGroups = customerGroupMapper.fromPojo(customerPojo.getCustomerGroups());
-        customer.setCustomerGroups(new HashSet<CustomerGroup>(customerGroups));
+        customer.setCustomerGroups(asSet(customerGroups));
     }
 
     private void mapOauthAccessesPropertyFromPojo(final CustomerPojo customerPojo, final Customer customer) {
         Collection<CustomerOAuth> customerOAuths = customerOAuthMapper.fromPojo(customerPojo.getOauthAccesses());
-        customer.setOauthAccesses(new HashSet<CustomerOAuth>(customerOAuths));
+        customer.setOauthAccesses(asSet(customerOAuths));
     }
 
     @Override

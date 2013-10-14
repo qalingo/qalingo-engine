@@ -1,5 +1,7 @@
 package fr.hoteia.qalingo.core.pojo;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -123,6 +125,7 @@ public class ProductMarketingPojo {
         this.productMarketingMarketAreaAttributes = asList(productMarketingMarketAreaAttributes);
     }
 
+    @JsonManagedReference
     public Collection<ProductSkuPojo> getProductSkus() {
         return productSkus;
     }
@@ -131,6 +134,7 @@ public class ProductMarketingPojo {
         this.productSkus = asList(productSkus);
     }
 
+    @JsonManagedReference
     public Collection<ProductAssociationLinkPojo> getProductAssociationLinks() {
         return productAssociationLinks;
     }

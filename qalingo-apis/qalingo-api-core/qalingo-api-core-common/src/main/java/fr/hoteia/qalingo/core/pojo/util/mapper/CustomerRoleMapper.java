@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asSet;
 
 @Component("customerRoleMapper")
 public class CustomerRoleMapper extends AbstractPojoMapper<CustomerRole, CustomerRolePojo> {
@@ -36,7 +37,7 @@ public class CustomerRoleMapper extends AbstractPojoMapper<CustomerRole, Custome
     @Override
     protected void mapAdditionalPropertiesFromPojo(CustomerRolePojo jsonPojo, CustomerRole object) {
         Collection<CustomerPermission> customerPermissions = customerPermissionMapper.fromPojo(jsonPojo.getRolePermissions());
-        object.setRolePermissions(new HashSet<CustomerPermission>(customerPermissions));
+        object.setRolePermissions(asSet(customerPermissions));
     }
 
     @Override

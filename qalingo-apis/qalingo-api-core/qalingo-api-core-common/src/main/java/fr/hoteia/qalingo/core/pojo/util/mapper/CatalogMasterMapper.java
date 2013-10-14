@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asSet;
 
 @Component("catalogMasterMapper")
 public class CatalogMasterMapper extends AbstractPojoMapper<CatalogMaster, CatalogMasterPojo> {
@@ -36,7 +37,7 @@ public class CatalogMasterMapper extends AbstractPojoMapper<CatalogMaster, Catal
     @Override
     protected void mapAdditionalPropertiesFromPojo(CatalogMasterPojo jsonPojo, CatalogMaster object) {
         Collection<CatalogCategoryMaster> catalogCategoryMasters = categoryMasterMapper.fromPojo(jsonPojo.getProductCategories());
-        object.setProductCategories(new HashSet<CatalogCategoryMaster>(catalogCategoryMasters));
+        object.setProductCategories(asSet(catalogCategoryMasters));
     }
 
     @Override

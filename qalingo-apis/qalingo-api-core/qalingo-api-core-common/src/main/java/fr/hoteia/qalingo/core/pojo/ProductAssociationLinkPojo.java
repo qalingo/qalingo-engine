@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.pojo;
 
 import fr.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import java.util.Date;
 
@@ -80,6 +81,7 @@ public class ProductAssociationLinkPojo {
         this.type = type;
     }
 
+    @JsonBackReference
     public ProductMarketingPojo getProductMarketing() {
         return productMarketing;
     }
