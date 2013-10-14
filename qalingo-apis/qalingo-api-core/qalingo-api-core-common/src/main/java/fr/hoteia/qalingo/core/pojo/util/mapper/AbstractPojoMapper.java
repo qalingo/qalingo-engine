@@ -1,11 +1,11 @@
 package fr.hoteia.qalingo.core.pojo.util.mapper;
 
+import org.objenesis.ObjenesisStd;
+import org.springframework.beans.BeanUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.objenesis.ObjenesisStd;
-import org.springframework.beans.BeanUtils;
 
 public abstract class AbstractPojoMapper<O, T> implements PojoMapper<O, T> {
 

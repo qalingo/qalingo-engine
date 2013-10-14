@@ -1,8 +1,5 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import fr.hoteia.qalingo.core.domain.AttributeDefinition;
-
-import javax.persistence.*;
 import java.util.Date;
 
 public class ProductMarketingAttributePojo {

@@ -3,10 +3,6 @@ package fr.hoteia.qalingo.core.pojo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-
-import fr.hoteia.qalingo.core.domain.Asset;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryType;
 
 public class CatalogCategoryMasterPojo {
 

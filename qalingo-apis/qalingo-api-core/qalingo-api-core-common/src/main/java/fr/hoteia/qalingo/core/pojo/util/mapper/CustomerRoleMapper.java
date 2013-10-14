@@ -1,8 +1,5 @@
 package fr.hoteia.qalingo.core.pojo.util.mapper;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import fr.hoteia.qalingo.core.domain.CustomerPermission;
 import fr.hoteia.qalingo.core.domain.CustomerRole;
 import fr.hoteia.qalingo.core.pojo.CustomerPermissionPojo;
@@ -10,6 +7,9 @@ import fr.hoteia.qalingo.core.pojo.CustomerRolePojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 @Component("customerRoleMapper")
 public class CustomerRoleMapper extends AbstractPojoMapper<CustomerRole, CustomerRolePojo> {

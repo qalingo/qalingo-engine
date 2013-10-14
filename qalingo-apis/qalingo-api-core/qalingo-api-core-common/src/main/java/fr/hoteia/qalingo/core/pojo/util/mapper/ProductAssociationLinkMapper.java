@@ -1,12 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.util.mapper;
 
-import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
-import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 import fr.hoteia.qalingo.core.pojo.ProductAssociationLinkPojo;
-import fr.hoteia.qalingo.core.pojo.ProductMarketingAttributePojo;
 import fr.hoteia.qalingo.core.pojo.ProductMarketingPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,11 +1,10 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import javax.persistence.*;
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.domain.enumtype.AssetScope;
 import fr.hoteia.qalingo.core.domain.enumtype.AssetType;
 import fr.hoteia.qalingo.core.domain.enumtype.ImageSize;
+
+import java.util.Date;
 
 public class AssetPojo {
 

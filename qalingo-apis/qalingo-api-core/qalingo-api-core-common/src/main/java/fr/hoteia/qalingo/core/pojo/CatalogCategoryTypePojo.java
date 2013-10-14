@@ -1,9 +1,8 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import javax.persistence.*;
-import java.util.*;
-
-import fr.hoteia.qalingo.core.domain.CatalogCategoryTypeAttribute;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class CatalogCategoryTypePojo {
 

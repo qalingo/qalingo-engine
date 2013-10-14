@@ -1,8 +1,5 @@
 package fr.hoteia.qalingo.core.pojo.util.mapper;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import fr.hoteia.qalingo.core.domain.CatalogCategoryType;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryTypeAttribute;
 import fr.hoteia.qalingo.core.pojo.CatalogCategoryTypeAttributePojo;
@@ -10,6 +7,9 @@ import fr.hoteia.qalingo.core.pojo.CatalogCategoryTypePojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 @Component("catalogCategoryTypeMapper")
 public class CatalogCategoryTypeMapper extends AbstractPojoMapper<CatalogCategoryType, CatalogCategoryTypePojo> {

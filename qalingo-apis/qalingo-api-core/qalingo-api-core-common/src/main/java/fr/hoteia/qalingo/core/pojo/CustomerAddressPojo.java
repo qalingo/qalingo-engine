@@ -1,8 +1,8 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
+
+import java.util.Date;
 
 public class CustomerAddressPojo extends AbstractJsonPojo {
 

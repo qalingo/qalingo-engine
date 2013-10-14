@@ -9,9 +9,6 @@
  */
 package fr.hoteia.qalingo.core.pojo.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
@@ -23,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("customerPojoService")
 @Transactional(readOnly = true)

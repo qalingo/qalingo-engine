@@ -1,8 +1,8 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
+
+import java.util.Date;
 
 public class CustomerOAuthPojo {
 
