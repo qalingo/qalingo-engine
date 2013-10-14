@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
+import fr.hoteia.qalingo.core.pojo.util.mapper.PojoMapper;
 import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
 import fr.hoteia.qalingo.core.service.RetailerService;
 

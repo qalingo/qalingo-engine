@@ -1,10 +1,9 @@
-package fr.hoteia.qalingo.core.pojo.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 import org.objenesis.ObjenesisStd;
 import org.springframework.beans.BeanUtils;
 

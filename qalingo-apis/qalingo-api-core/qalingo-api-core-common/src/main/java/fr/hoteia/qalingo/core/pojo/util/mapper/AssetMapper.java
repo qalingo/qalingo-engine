@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.pojo.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.pojo.AssetPojo;

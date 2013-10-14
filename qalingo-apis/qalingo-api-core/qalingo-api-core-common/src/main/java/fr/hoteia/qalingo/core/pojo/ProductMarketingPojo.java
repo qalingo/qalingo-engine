@@ -18,10 +18,11 @@ public class ProductMarketingPojo {
     private ProductMarketingType productMarketingType;
     private Date dateCreate;
     private Date dateUpdate;
-    private Collection<ProductMarketingAttribute> productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttribute>();
-    private Collection<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttribute>();
+
+    private Collection<ProductMarketingAttributePojo> productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttributePojo>();
+    private Collection<ProductMarketingAttributePojo> productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttributePojo>();
     private Collection<ProductSku> productSkus = new ArrayList<ProductSku>();
     private Collection<ProductAssociationLink> productAssociationLinks = new ArrayList<ProductAssociationLink>();
-    private Collection<Asset> assetsIsGlobal = new ArrayList<Asset>();
-    private Collection<Asset> assetsByMarketArea = new ArrayList<Asset>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 }

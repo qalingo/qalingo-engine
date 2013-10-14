@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.pojo.util;
+package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import java.util.Collection;
 

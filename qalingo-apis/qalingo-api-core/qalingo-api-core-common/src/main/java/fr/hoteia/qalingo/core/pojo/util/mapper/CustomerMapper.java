@@ -1,11 +1,10 @@
-package fr.hoteia.qalingo.core.pojo.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import fr.hoteia.qalingo.core.domain.*;
 import fr.hoteia.qalingo.core.pojo.*;
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

@@ -15,7 +15,7 @@ import java.util.List;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
+import fr.hoteia.qalingo.core.pojo.util.mapper.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

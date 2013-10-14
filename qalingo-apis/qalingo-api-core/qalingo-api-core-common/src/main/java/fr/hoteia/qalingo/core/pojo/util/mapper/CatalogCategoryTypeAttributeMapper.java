@@ -1,10 +1,9 @@
-package fr.hoteia.qalingo.core.pojo.util.impl;
+package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryTypeAttribute;
 import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 import fr.hoteia.qalingo.core.pojo.CatalogCategoryTypeAttributePojo;
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
