@@ -3,25 +3,12 @@ package fr.hoteia.qalingo.core.pojo.util.impl;
 import java.util.Collection;
 import java.util.HashSet;
 
+import fr.hoteia.qalingo.core.domain.*;
+import fr.hoteia.qalingo.core.pojo.*;
+import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.CustomerAddress;
-import fr.hoteia.qalingo.core.domain.CustomerAttribute;
-import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
-import fr.hoteia.qalingo.core.domain.CustomerGroup;
-import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
-import fr.hoteia.qalingo.core.domain.CustomerOAuth;
-import fr.hoteia.qalingo.core.pojo.CustomerAddressPojo;
-import fr.hoteia.qalingo.core.pojo.CustomerAttributePojo;
-import fr.hoteia.qalingo.core.pojo.CustomerConnectionLogPojo;
-import fr.hoteia.qalingo.core.pojo.CustomerGroupPojo;
-import fr.hoteia.qalingo.core.pojo.CustomerMarketAreaPojo;
-import fr.hoteia.qalingo.core.pojo.CustomerOAuthPojo;
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
-import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
 
 @Component("customerMapper")
 public class CustomerMapper extends AbstractPojoMapper<Customer, CustomerPojo> {

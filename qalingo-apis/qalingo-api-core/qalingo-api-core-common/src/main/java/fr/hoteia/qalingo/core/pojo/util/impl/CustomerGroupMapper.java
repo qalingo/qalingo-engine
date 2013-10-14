@@ -1,17 +1,16 @@
 package fr.hoteia.qalingo.core.pojo.util.impl;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerRole;
 import fr.hoteia.qalingo.core.pojo.CustomerGroupPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerRolePojo;
 import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 @Component("customerGroupMapper")
 public class CustomerGroupMapper extends AbstractPojoMapper<CustomerGroup, CustomerGroupPojo> {

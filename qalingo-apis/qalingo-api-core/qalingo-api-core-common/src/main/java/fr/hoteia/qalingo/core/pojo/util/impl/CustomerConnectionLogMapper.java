@@ -1,9 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.util.impl;
 
-import org.springframework.stereotype.Component;
-
 import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import fr.hoteia.qalingo.core.pojo.CustomerConnectionLogPojo;
+import org.springframework.stereotype.Component;
 
 @Component("customerConnectionLogMapper")
 public class CustomerConnectionLogMapper extends AbstractPojoMapper<CustomerConnectionLog, CustomerConnectionLogPojo> {

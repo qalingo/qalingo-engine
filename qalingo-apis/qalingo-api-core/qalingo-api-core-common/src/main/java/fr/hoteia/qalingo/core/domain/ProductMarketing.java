@@ -88,7 +88,7 @@ public class ProductMarketing implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_TYPE_ID", insertable=false, updatable=false)
-	private ProductMarketingType productMargetingType;
+	private ProductMarketingType productMarketingType;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETTING_ID")
@@ -187,12 +187,12 @@ public class ProductMarketing implements Serializable {
 		this.productBrand = productBrand;
 	}
 	
-	public ProductMarketingType getProductMargetingType() {
-		return productMargetingType;
+	public ProductMarketingType getProductMarketingType() {
+		return productMarketingType;
 	}
 	
-	public void setProductMargetingType(ProductMarketingType productMargetingType) {
-		this.productMargetingType = productMargetingType;
+	public void setProductMarketingType(ProductMarketingType productMargetingType) {
+		this.productMarketingType = productMargetingType;
 	}
 	
 	public Set<ProductMarketingAttribute> getProductMarketingGlobalAttributes() {

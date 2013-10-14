@@ -3,10 +3,6 @@ package fr.hoteia.qalingo.core.pojo.util.impl;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.domain.CustomerOptin;
 import fr.hoteia.qalingo.core.domain.CustomerProductComment;
@@ -16,6 +12,9 @@ import fr.hoteia.qalingo.core.pojo.CustomerOptinPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerProductCommentPojo;
 import fr.hoteia.qalingo.core.pojo.CustomerWishlistPojo;
 import fr.hoteia.qalingo.core.pojo.util.PojoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 @Component("customerMarketAreaMapper")
 public class CustomerMarketAreaMapper extends AbstractPojoMapper<CustomerMarketArea, CustomerMarketAreaPojo> {

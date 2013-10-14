@@ -14,10 +14,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * 

@@ -1,9 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.util.impl;
 
-import org.springframework.stereotype.Component;
-
 import fr.hoteia.qalingo.core.domain.CustomerProductComment;
 import fr.hoteia.qalingo.core.pojo.CustomerProductCommentPojo;
+import org.springframework.stereotype.Component;
 
 @Component("customerProductCommentMapper")
 public class CustomerProductCommentMapper extends AbstractPojoMapper<CustomerProductComment, CustomerProductCommentPojo> {
