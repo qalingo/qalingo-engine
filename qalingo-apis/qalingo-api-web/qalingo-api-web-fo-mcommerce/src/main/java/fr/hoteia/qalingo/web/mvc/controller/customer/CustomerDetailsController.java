@@ -47,9 +47,13 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_DETAILS.getVelocityPage());
 		
 		final String permalink = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_PERMALINK);
-		Customer customer = customerService.getCustomerByPermalink(permalink);
+		final Customer customer = customerService.getCustomerByPermalink(permalink);
 		
-		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer);
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
+		
+		final CustomerViewBean customerView = viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
         return modelAndView;
@@ -68,11 +72,15 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT.getVelocityPage());
 		
-		final Customer customer = requestUtil.getCurrentCustomer(request);
+		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		
+		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
+		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
+		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 
 		if(customerEditForm == null 
         		|| customerEditForm.equals(new CustomerEditForm())){
-			customerEditForm = formFactory.buildCustomerEditForm(request, customer);
+			customerEditForm = formFactory.buildCustomerEditForm(request, reloadedCustomer);
 			model.addAttribute("customerEditForm", customerEditForm);
 		}
 		
