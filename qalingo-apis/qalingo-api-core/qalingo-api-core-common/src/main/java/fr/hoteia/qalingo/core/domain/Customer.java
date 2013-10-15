@@ -33,6 +33,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -142,6 +143,10 @@ public class Customer implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_ID")
+	private CustomerOrderAudit customerOrderAudit;
 	
 	@Column(name="PLATFORM_ORIGN")
 	@Enumerated(EnumType.STRING) 
@@ -402,6 +407,14 @@ public class Customer implements Serializable {
 	
 	public void setOauthAccesses(Set<CustomerOAuth> oauthAccesses) {
 	    this.oauthAccesses = oauthAccesses;
+    }
+	
+	public CustomerOrderAudit getCustomerOrderAudit() {
+	    return customerOrderAudit;
+    }
+	
+	public void setCustomerOrderAudit(CustomerOrderAudit customerOrderAudit) {
+	    this.customerOrderAudit = customerOrderAudit;
     }
 	
 	public CustomerPlatformOrigin getPlatformOrigin() {
