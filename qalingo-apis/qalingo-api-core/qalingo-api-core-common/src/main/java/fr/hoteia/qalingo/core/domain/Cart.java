@@ -30,7 +30,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-
 @Entity
 @Table(name="TECO_CART")
 public class Cart implements Serializable {
