@@ -15,7 +15,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 
 @WebService(name = "customerWsClient", targetNamespace = "http://www.qalingo.com")
 public interface CustomerWebService {

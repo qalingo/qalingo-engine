@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
 
 @Path("/customer/")

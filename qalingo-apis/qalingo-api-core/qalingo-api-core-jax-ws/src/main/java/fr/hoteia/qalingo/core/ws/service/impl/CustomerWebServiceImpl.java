@@ -16,7 +16,7 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
 import fr.hoteia.qalingo.core.ws.service.CustomerWebService;
 

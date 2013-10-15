@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
 import fr.hoteia.qalingo.core.pojo.util.mapper.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;

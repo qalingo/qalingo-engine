@@ -2,7 +2,7 @@ package fr.hoteia.qalingo.core.pojo.service;
 
 import java.util.List;
 
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 
 public interface CustomerPojoService {
 

@@ -9,7 +9,7 @@ import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.pojo.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductCategoryJsonPojo;
 import fr.hoteia.qalingo.core.rest.pojo.ProductMarketingJsonPojo;
