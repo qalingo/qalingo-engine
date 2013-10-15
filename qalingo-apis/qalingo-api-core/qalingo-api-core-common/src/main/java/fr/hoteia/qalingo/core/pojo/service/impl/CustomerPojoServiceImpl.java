@@ -9,6 +9,9 @@
  */
 package fr.hoteia.qalingo.core.pojo.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
@@ -21,9 +24,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service("customerPojoService")
 @Transactional(readOnly = true)
 public class CustomerPojoServiceImpl implements CustomerPojoService {
@@ -34,22 +34,12 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
 
     @Autowired @Qualifier("customerMapper") private PojoMapper<Customer, CustomerPojo> pojoMapper;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getAllCustomers()
-     */
     @Override
     public List<CustomerPojo> getAllCustomers() {
         List<Customer> customers = customerService.findCustomers();
         return new ArrayList<CustomerPojo>(pojoMapper.toPojo(customers));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#getCustomerById(java.lang.String)
-     */
     @Override
     public CustomerPojo getCustomerById(final String id) {
         LOG.debug("Fetching customer with id {}", id);
@@ -57,11 +47,6 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
         return pojoMapper.toPojo(customer);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.hoteia.qalingo.core.rest.service.impl.CustomerRestService#saveOrUpdate(fr.hoteia.qalingo.core.rest.pojo.CustomerJsonPojo)
-     */
     @Override
     @Transactional
     public void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception {
