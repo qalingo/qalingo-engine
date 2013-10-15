@@ -1,12 +1,12 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import fr.hoteia.qalingo.core.domain.ProductSkuPrice;
-import fr.hoteia.qalingo.core.domain.ProductSkuStock;
-import fr.hoteia.qalingo.core.domain.Retailer;
-
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+
+import org.codehaus.jackson.annotate.JsonBackReference;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
 
 public class ProductSkuPojo {
 
@@ -21,11 +21,140 @@ public class ProductSkuPojo {
 
     private ProductMarketingPojo productMarketing;
 
-    private Collection<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
-    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
-    private Collection<ProductSkuPrice> prices = new ArrayList<ProductSkuPrice>();
-    private Collection<ProductSkuStock> stocks = new ArrayList<ProductSkuStock>();
-    private Collection<Retailer> retailers = new ArrayList<Retailer>();
+    private Collection<ProductSkuAttributePojo> productSkuGlobalAttributes = Collections.emptyList();
+    private Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes = Collections.emptyList();
+    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
+    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
+    private Collection<ProductSkuPricePojo> prices = Collections.emptyList();
+    private Collection<ProductSkuStockPojo> stocks = Collections.emptyList();
+    private Collection<RetailerPojo> retailers = Collections.emptyList();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    @JsonBackReference
+    public ProductMarketingPojo getProductMarketing() {
+        return productMarketing;
+    }
+
+    public void setProductMarketing(ProductMarketingPojo productMarketing) {
+        this.productMarketing = productMarketing;
+    }
+
+    public Collection<ProductSkuAttributePojo> getProductSkuGlobalAttributes() {
+        return productSkuGlobalAttributes;
+    }
+
+    public void setProductSkuGlobalAttributes(Collection<ProductSkuAttributePojo> productSkuGlobalAttributes) {
+        this.productSkuGlobalAttributes = asList(productSkuGlobalAttributes);
+    }
+
+    public Collection<ProductSkuAttributePojo> getProductSkuMarketAreaAttributes() {
+        return productSkuMarketAreaAttributes;
+    }
+
+    public void setProductSkuMarketAreaAttributes(Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes) {
+        this.productSkuMarketAreaAttributes = asList(productSkuMarketAreaAttributes);
+    }
+
+    public Collection<AssetPojo> getAssetsIsGlobal() {
+        return assetsIsGlobal;
+    }
+
+    public void setAssetsIsGlobal(Collection<AssetPojo> assetsIsGlobal) {
+        this.assetsIsGlobal = asList(assetsIsGlobal);
+    }
+
+    public Collection<AssetPojo> getAssetsByMarketArea() {
+        return assetsByMarketArea;
+    }
+
+    public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
+        this.assetsByMarketArea = asList(assetsByMarketArea);
+    }
+
+    public Collection<ProductSkuPricePojo> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(Collection<ProductSkuPricePojo> prices) {
+        this.prices = asList(prices);
+    }
+
+    public Collection<ProductSkuStockPojo> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(Collection<ProductSkuStockPojo> stocks) {
+        this.stocks = asList(stocks);
+    }
+
+    public Collection<RetailerPojo> getRetailers() {
+        return retailers;
+    }
+
+    public void setRetailers(Collection<RetailerPojo> retailers) {
+        this.retailers = asList(retailers);
+    }
 }
