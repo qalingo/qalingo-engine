@@ -12,7 +12,11 @@ package fr.hoteia.qalingo.core.service;
 import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 
+import java.util.List;
+
 public interface CatalogService {
+
+    List<CatalogMaster> findAllCatalogMasters();
 
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	

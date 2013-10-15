@@ -9,15 +9,14 @@
  */
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
+import fr.hoteia.qalingo.core.domain.StoreAttribute;
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.StoreAttribute;
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *

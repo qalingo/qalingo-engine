@@ -136,10 +136,10 @@
 			<artifactId>wurfl</artifactId>
 		</dependency>
 
-        <!-- Objenesis -->
+        <!-- Dozer Bean Mapping -->
         <dependency>
-            <groupId>org.objenesis</groupId>
-            <artifactId>objenesis</artifactId>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
         </dependency>
 		
 		<!-- JSON -->

@@ -1,9 +1,7 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class CatalogCategoryVirtualAttributePojo {

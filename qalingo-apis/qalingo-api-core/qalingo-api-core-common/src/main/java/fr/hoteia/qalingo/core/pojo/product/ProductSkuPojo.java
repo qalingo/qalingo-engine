@@ -1,12 +1,12 @@
 package fr.hoteia.qalingo.core.pojo.product;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import org.codehaus.jackson.annotate.JsonBackReference;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
 
@@ -23,13 +23,13 @@ public class ProductSkuPojo {
 
     private ProductMarketingPojo productMarketing;
 
-    private Collection<ProductSkuAttributePojo> productSkuGlobalAttributes = Collections.emptyList();
-    private Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes = Collections.emptyList();
-    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
-    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
-    private Collection<ProductSkuPricePojo> prices = Collections.emptyList();
-    private Collection<ProductSkuStockPojo> stocks = Collections.emptyList();
-    private Collection<RetailerPojo> retailers = Collections.emptyList();
+    private Collection<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
+    private Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    private Collection<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
+    private Collection<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
+    private Collection<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
 
     public Long getId() {
         return id;

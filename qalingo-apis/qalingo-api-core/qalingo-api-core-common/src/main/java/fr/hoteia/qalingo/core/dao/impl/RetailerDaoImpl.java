@@ -32,7 +32,12 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	// RETAILER
-	
+
+    @Override
+    public List<Retailer> findAllRetailers() {
+        return em.createQuery("SELECT r FROM Retailer r").getResultList();
+    }
+
 	public Retailer getRetailerById(final Long retailerId) {
 		return em.find(Retailer.class, retailerId);
 	}
@@ -46,8 +51,8 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		Retailer retailer = (Retailer) query.uniqueResult();
 		return retailer;
 	}
-	
-	public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
+
+    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
 		Session session = (Session) em.getDelegate();
 		initRetailerFilter(session, marketAreaId, retailerId);
 		String sql = "FROM Retailer ORDER BY code";

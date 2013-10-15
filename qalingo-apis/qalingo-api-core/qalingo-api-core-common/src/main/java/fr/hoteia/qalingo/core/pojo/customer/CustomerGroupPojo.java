@@ -13,7 +13,7 @@ public class CustomerGroupPojo {
     private String code;
     private Date dateCreate;
     private Date dateUpdate;
-    private Collection<CustomerRolePojo> customerRoles;
+    private Collection<CustomerRolePojo> customerRoles = new ArrayList<CustomerRolePojo>();
 
     public Long getId() {
         return id;

@@ -1,19 +1,13 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.domain.Asset;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
-import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.hibernate.annotations.*;
 
-import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.OrderBy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class CatalogCategoryVirtualPojo {
 
@@ -29,12 +23,12 @@ public class CatalogCategoryVirtualPojo {
     private CatalogCategoryVirtualPojo defaultParentCatalogCategory;
     private CatalogCategoryMasterPojo categoryMaster;
 
-    private Collection<CatalogCategoryVirtualAttributePojo> catalogCategoryGlobalAttributes = Collections.emptyList();
-    private Collection<CatalogCategoryVirtualAttributePojo> catalogCategoryMarketAreaAttributes = Collections.emptyList();
-    private Collection<CatalogCategoryVirtualPojo> catalogCategories = Collections.emptyList();
-    private Collection<ProductMarketingPojo> productMarketings = Collections.emptyList();
-    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
-    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
+    private Collection<CatalogCategoryVirtualAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttributePojo>();
+    private Collection<CatalogCategoryVirtualAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttributePojo>();
+    private Collection<CatalogCategoryVirtualPojo> catalogCategories = new ArrayList<CatalogCategoryVirtualPojo>();
+    private Collection<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
     public Long getId() {
         return id;

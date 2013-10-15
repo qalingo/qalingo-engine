@@ -1,10 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.product;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-
-import fr.hoteia.qalingo.core.domain.CurrencyReferential;
 import fr.hoteia.qalingo.core.pojo.CurrencyReferentialPojo;
+
+import java.math.BigDecimal;
 
 public class ProductSkuPricePojo {
 

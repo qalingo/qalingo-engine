@@ -1,13 +1,13 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class CatalogCategoryMasterPojo {
 
@@ -23,12 +23,12 @@ public class CatalogCategoryMasterPojo {
     private CatalogCategoryTypePojo catalogCategoryType;
     private CatalogCategoryMasterPojo defaultParentCatalogCategory;
 
-    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryGlobalAttributes = Collections.emptyList();
-    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryMarketAreaAttributes = Collections.emptyList();
-    private Collection<CatalogCategoryMasterPojo> catalogCategories = Collections.emptyList();
-    private Collection<ProductMarketingPojo> productMarketings = Collections.emptyList();
-    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
-    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
+    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttributePojo>();
+    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttributePojo>();
+    private Collection<CatalogCategoryMasterPojo> catalogCategories = new ArrayList<CatalogCategoryMasterPojo>();
+    private Collection<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
     public Long getId() {
         return id;

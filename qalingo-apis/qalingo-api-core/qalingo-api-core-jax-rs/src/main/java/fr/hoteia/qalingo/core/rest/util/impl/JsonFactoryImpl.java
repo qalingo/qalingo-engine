@@ -1,27 +1,15 @@
 package fr.hoteia.qalingo.core.rest.util.impl;
 
+import fr.hoteia.qalingo.core.domain.*;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
+import fr.hoteia.qalingo.core.rest.pojo.*;
+import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.stereotype.Service;
-
-import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
-import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import fr.hoteia.qalingo.core.domain.CatalogMaster;
-import fr.hoteia.qalingo.core.domain.CatalogVirtual;
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.ProductSku;
-import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.ProductCategoryJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.ProductMarketingJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.ProductSkuJsonPojo;
-import fr.hoteia.qalingo.core.rest.pojo.StoreJsonPojo;
-import fr.hoteia.qalingo.core.rest.util.JsonFactory;
 
 @Service("jsonFactory")
 public class JsonFactoryImpl implements JsonFactory {

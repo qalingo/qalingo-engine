@@ -9,20 +9,14 @@
  */
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import fr.hoteia.qalingo.core.domain.*;
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.domain.Asset;
-import fr.hoteia.qalingo.core.domain.ProductMarketing;
-import fr.hoteia.qalingo.core.domain.ProductSkuAttribute;
-import fr.hoteia.qalingo.core.domain.ProductSkuPrice;
-import fr.hoteia.qalingo.core.domain.ProductSkuStock;
-import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *

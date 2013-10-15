@@ -1,7 +1,7 @@
 package fr.hoteia.qalingo.core.pojo.store;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
@@ -26,7 +26,7 @@ public class StorePojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private Collection<StoreAttributePojo> storeAttributes = Collections.emptyList();
+    private Collection<StoreAttributePojo> storeAttributes = new ArrayList<StoreAttributePojo>();
 
     public Long getId() {
         return id;

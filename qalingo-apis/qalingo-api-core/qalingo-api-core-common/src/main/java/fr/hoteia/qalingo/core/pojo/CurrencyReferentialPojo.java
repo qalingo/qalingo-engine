@@ -1,6 +1,5 @@
 package fr.hoteia.qalingo.core.pojo;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class CurrencyReferentialPojo {

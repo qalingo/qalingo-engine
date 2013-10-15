@@ -3,8 +3,8 @@ package fr.hoteia.qalingo.core.pojo.product;
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
@@ -23,12 +23,12 @@ public class ProductMarketingPojo {
     private ProductBrandPojo productBrand;
     private ProductMarketingTypePojo productMarketingType;
 
-    private Collection<ProductMarketingAttributePojo> productMarketingGlobalAttributes = Collections.emptyList();
-    private Collection<ProductMarketingAttributePojo> productMarketingMarketAreaAttributes = Collections.emptyList();
-    private Collection<ProductSkuPojo> productSkus = Collections.emptyList();
-    private Collection<ProductAssociationLinkPojo> productAssociationLinks = Collections.emptyList();
-    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
-    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
+    private Collection<ProductMarketingAttributePojo> productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttributePojo>();
+    private Collection<ProductMarketingAttributePojo> productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttributePojo>();
+    private Collection<ProductSkuPojo> productSkus = new ArrayList<ProductSkuPojo>();
+    private Collection<ProductAssociationLinkPojo> productAssociationLinks = new ArrayList<ProductAssociationLinkPojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
     public Long getId() {
         return id;

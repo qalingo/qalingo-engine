@@ -1,8 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.product;
 
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
+
+import java.util.Date;
 
 public class ProductMarketingAttributePojo {
 

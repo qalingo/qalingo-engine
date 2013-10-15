@@ -1,11 +1,11 @@
 package fr.hoteia.qalingo.core.pojo.retailer;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.store.StorePojo;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
 
@@ -27,16 +27,16 @@ public class RetailerPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private Collection<RetailerLinkPojo> links = Collections.emptyList();
-    private Collection<RetailerAddressPojo> addresses = Collections.emptyList();
-    private Collection<StorePojo> stores = Collections.emptyList();
-    private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
-    private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
-    private Collection<RetailerAttributePojo> retailerGlobalAttributes = Collections.emptyList();
-    private Collection<RetailerAttributePojo> retailerMarketAreaAttributes = Collections.emptyList();
-    private Collection<RetailerCustomerRatePojo> customerRates = Collections.emptyList();
-    private Collection<RetailerCustomerCommentPojo> customerComments = Collections.emptyList();
-    private Collection<RetailerTagPojo> retailerTags = Collections.emptyList();
+    private Collection<RetailerLinkPojo> links = new ArrayList<RetailerLinkPojo>();
+    private Collection<RetailerAddressPojo> addresses = new ArrayList<RetailerAddressPojo>();
+    private Collection<StorePojo> stores = new ArrayList<StorePojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    private Collection<RetailerAttributePojo> retailerGlobalAttributes = new ArrayList<RetailerAttributePojo>();
+    private Collection<RetailerAttributePojo> retailerMarketAreaAttributes = new ArrayList<RetailerAttributePojo>();
+    private Collection<RetailerCustomerRatePojo> customerRates = new ArrayList<RetailerCustomerRatePojo>();
+    private Collection<RetailerCustomerCommentPojo> customerComments = new ArrayList<RetailerCustomerCommentPojo>();
+    private Collection<RetailerTagPojo> retailerTags = new ArrayList<RetailerTagPojo>();
 
     public Long getId() {
         return id;

@@ -9,20 +9,20 @@
  */
 package fr.hoteia.qalingo.core.pojo.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
-import fr.hoteia.qalingo.core.pojo.util.mapper.PojoMapper;
 import fr.hoteia.qalingo.core.service.CustomerService;
+import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
 
 @Service("customerPojoService")
 @Transactional(readOnly = true)
@@ -30,27 +30,26 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
+    @Autowired private DozerBeanMapper mapper;
     @Autowired private CustomerService customerService;
-
-    @Autowired @Qualifier("customerMapper") private PojoMapper<Customer, CustomerPojo> pojoMapper;
 
     @Override
     public List<CustomerPojo> getAllCustomers() {
         List<Customer> customers = customerService.findCustomers();
-        return new ArrayList<CustomerPojo>(pojoMapper.toPojo(customers));
+        return mapAll(mapper, customers, CustomerPojo.class);
     }
 
     @Override
     public CustomerPojo getCustomerById(final String id) {
         LOG.debug("Fetching customer with id {}", id);
         Customer customer = customerService.getCustomerById(id);
-        return pojoMapper.toPojo(customer);
+        return customer == null ? null : mapper.map(customer, CustomerPojo.class);
     }
 
     @Override
     @Transactional
     public void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception {
-        Customer customer = pojoMapper.fromPojo(customerJsonPojo);
+        Customer customer = mapper.map(customerJsonPojo, Customer.class);
         LOG.debug("Saving customer {}", customer);
         customerService.saveOrUpdateCustomer(customer);
     }

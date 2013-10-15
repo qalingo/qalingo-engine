@@ -13,7 +13,7 @@ public class CustomerRolePojo {
     private String code;
     private Date dateCreate;
     private Date dateUpdate;
-    private Collection<CustomerPermissionPojo> rolePermissions;
+    private Collection<CustomerPermissionPojo> rolePermissions = new ArrayList<CustomerPermissionPojo>();
 
     public Long getId() {
         return id;

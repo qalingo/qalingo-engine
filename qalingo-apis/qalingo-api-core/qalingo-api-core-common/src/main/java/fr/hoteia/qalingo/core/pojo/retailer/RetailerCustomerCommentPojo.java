@@ -1,10 +1,10 @@
 package fr.hoteia.qalingo.core.pojo.retailer;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import fr.hoteia.qalingo.core.domain.Customer;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
 
@@ -18,7 +18,7 @@ public class RetailerCustomerCommentPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private Collection<RetailerCustomerCommentPojo> customerComments = Collections.emptyList();
+    private Collection<RetailerCustomerCommentPojo> customerComments = new ArrayList<RetailerCustomerCommentPojo>();
 
     public Long getId() {
         return id;

@@ -2,11 +2,9 @@ package fr.hoteia.qalingo.core.pojo.catalog;
 
 import fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-
-import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
 
 public class CatalogVirtualPojo {
 
@@ -20,7 +18,7 @@ public class CatalogVirtualPojo {
     private Date dateUpdate;
 
     private CatalogMasterPojo catalogMaster;
-    private Collection<CatalogCategoryVirtualPojo> productCategories = Collections.emptyList();
+    private Collection<CatalogCategoryVirtualPojo> productCategories = new ArrayList<CatalogCategoryVirtualPojo>();
 
     public Long getId() {
         return id;
@@ -99,6 +97,6 @@ public class CatalogVirtualPojo {
     }
 
     public void setProductCategories(Collection<CatalogCategoryVirtualPojo> productCategories) {
-        this.productCategories = asList(productCategories);
+        this.productCategories = PojoUtil.asList(productCategories);
     }
 }

@@ -1,6 +1,5 @@
 package fr.hoteia.qalingo.core.pojo.retailer;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class RetailerTagPojo {
