@@ -1,17 +1,19 @@
 package fr.hoteia.qalingo.core.pojo.util.mapper;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.lang.ArrayUtils;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
+import static org.apache.commons.collections.CollectionUtils.intersection;
 
 public class PojoUtil {
 
@@ -26,14 +28,28 @@ public class PojoUtil {
         return new HashSet<T>(collection);
     }
 
+    public static void copyProperties(Object source, Object destination) {
+        try {
+            Set<String> commonProperties = getCommonProperties(source, destination);
+            for (String property : commonProperties) {
+
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private static Set<String> getCommonProperties(Object source, Object destination) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Set<String> sourceProperties = BeanUtils.describe(source).keySet();
+        Set<String> destinationProperties = BeanUtils.describe(destination).keySet();
+        return asSet(intersection(sourceProperties, destinationProperties));
+    }
 
     public static Map<String, String> recursiveDescribe(Object object) {
-        Set cache = new HashSet();
-        return recursiveDescribe(object, null, cache);
+        return recursiveDescribe(object, null, new HashSet());
     }
 
     private static Map<String, String> recursiveDescribe(Object object, String prefix, Set cache) {
-        if (object == null || cache.contains(object)) return Collections.EMPTY_MAP;
+        if (object == null || cache.contains(object)) return Collections.emptyMap();
         cache.add(object);
         prefix = (prefix != null) ? prefix + "." : "";
 
@@ -143,19 +159,17 @@ public class PojoUtil {
 
     private static Map<String, String> convertObject(Object value, String key, Set cache) {
         if (hasRegisteredConverter(value)) {
-            return ArrayUtils.toMap(new Object[] {key, convertValueToString(value)});
+            return ArrayUtils.toMap(new Object[]{key, convertValueToString(value)});
         } else {
             return recursiveDescribe(value, key, cache);
         }
     }
 
     private static String convertValueToString(Object value) {
-        ConvertUtilsBean converter = BeanUtilsBean.getInstance().getConvertUtils();
-        return converter.convert(value);
+        return ConvertUtils.convert(value);
     }
 
     private static boolean hasRegisteredConverter(Object value) {
-        ConvertUtilsBean converter = BeanUtilsBean.getInstance().getConvertUtils();
-        return converter.lookup(value.getClass()) != null;
+        return ConvertUtils.lookup(value.getClass()) != null;
     }
 }

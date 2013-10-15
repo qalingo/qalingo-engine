@@ -6,6 +6,8 @@ import fr.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -98,6 +100,7 @@ public class CatalogCategoryVirtualPojo {
         this.dateUpdate = dateUpdate;
     }
 
+    @JsonBackReference
     public CatalogCategoryVirtualPojo getDefaultParentCatalogCategory() {
         return defaultParentCatalogCategory;
     }
@@ -130,6 +133,7 @@ public class CatalogCategoryVirtualPojo {
         this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
     }
 
+    @JsonManagedReference
     public Collection<CatalogCategoryVirtualPojo> getCatalogCategories() {
         return catalogCategories;
     }

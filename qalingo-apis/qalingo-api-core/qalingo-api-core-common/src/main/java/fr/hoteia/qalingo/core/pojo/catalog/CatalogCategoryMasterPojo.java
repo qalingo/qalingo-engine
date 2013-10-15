@@ -6,6 +6,8 @@ import java.util.Date;
 
 import fr.hoteia.qalingo.core.pojo.AssetPojo;
 import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 public class CatalogCategoryMasterPojo {
 
@@ -100,6 +102,7 @@ public class CatalogCategoryMasterPojo {
         this.catalogCategoryType = catalogCategoryType;
     }
 
+    @JsonBackReference
     public CatalogCategoryMasterPojo getDefaultParentCatalogCategory() {
         return defaultParentCatalogCategory;
     }
@@ -124,6 +127,7 @@ public class CatalogCategoryMasterPojo {
         this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
     }
 
+    @JsonManagedReference
     public Collection<CatalogCategoryMasterPojo> getCatalogCategories() {
         return catalogCategories;
     }
