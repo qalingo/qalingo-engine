@@ -74,9 +74,9 @@ INSERT INTO teco_retailer
 INSERT INTO teco_retailer_address 
 (id, version, address1, address2, additional_information, postal_code, city, country_code, email, fax, mobile, phone, retailer_id, latitude, longitude, is_default)
  VALUES 
-(1, 1, 'address r1', '', '', '92300', 'Levallois-Perret', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 1, '48.833', '2.333', 1), 
-(2, 1, 'address r2', '', '', '75000', 'Paris', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 2, '48.833', '2.333', 1), 
-(3, 1, 'address r3', '', '', '75000', 'Paris', 'FR', 'email@opentailor.com', '0000000000', '0000000000', '0000000000', 3, '48.833', '2.333', 1);
+(1, 1, 'address r1', '', '', '92300', 'Levallois-Perret', 'FR', 'email@qalingo.com', '0000000000', '0000000000', '0000000000', 1, '48.833', '2.333', 1), 
+(2, 1, 'address r2', '', '', '75000', 'Paris', 'FR', 'email@qalingo.com', '0000000000', '0000000000', '0000000000', 2, '48.833', '2.333', 1), 
+(3, 1, 'address r3', '', '', '75000', 'Paris', 'FR', 'email@qalingo.com', '0000000000', '0000000000', '0000000000', 3, '48.833', '2.333', 1);
 
 INSERT INTO teco_marketplace 
 (id, description, code, theme, is_default, name, version, master_catalog_id)
