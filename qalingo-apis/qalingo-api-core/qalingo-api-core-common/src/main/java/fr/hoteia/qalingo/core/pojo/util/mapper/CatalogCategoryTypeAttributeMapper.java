@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("catalogCategoryTypeAttributeMapper")
-public class CatalogCategoryTypeAttributeMapper extends AbstractPojoMapper<CatalogCategoryTypeAttribute, CatalogCategoryTypeAttributePojo> {
-
-    private static final String[] IGNORED_PROPERTIES = new String[] { "attributeDefinition" };
-
-    @Autowired @Qualifier("attributeDefinitionMapper") private PojoMapper<AttributeDefinition, AttributeDefinitionPojo> attributeDefinitionMapper;
+public class CatalogCategoryTypeAttributeMapper extends AbstractAttributeDefinitionContainingPojoMapper<CatalogCategoryTypeAttribute, CatalogCategoryTypeAttributePojo> {
 
     @Override
     public Class<CatalogCategoryTypeAttribute> getObjectType() {
@@ -26,19 +22,14 @@ public class CatalogCategoryTypeAttributeMapper extends AbstractPojoMapper<Catal
     }
 
     @Override
-    protected String[] getIgnoredProperties() {
-        return IGNORED_PROPERTIES;
-    }
-
-    @Override
     protected void mapAdditionalPropertiesFromPojo(final CatalogCategoryTypeAttributePojo jsonPojo, final CatalogCategoryTypeAttribute object) {
-        AttributeDefinition attributeDefinition = attributeDefinitionMapper.fromPojo(jsonPojo.getAttributeDefinition());
+        AttributeDefinition attributeDefinition = getAttributeDefinitionMapper().fromPojo(jsonPojo.getAttributeDefinition());
         object.setAttributeDefinition(attributeDefinition);
     }
 
     @Override
     protected void mapAdditionalPropertiesToPojo(final CatalogCategoryTypeAttribute object, final CatalogCategoryTypeAttributePojo jsonPojo) {
-        AttributeDefinitionPojo attributeDefinition = attributeDefinitionMapper.toPojo(object.getAttributeDefinition());
+        AttributeDefinitionPojo attributeDefinition = getAttributeDefinitionMapper().toPojo(object.getAttributeDefinition());
         jsonPojo.setAttributeDefinition(attributeDefinition);
     }
 }

@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("customerAttributeMapper")
-public class CustomerAttributeMapper extends AbstractPojoMapper<CustomerAttribute, CustomerAttributePojo> {
-
-    private static final String[] IGNORED_PROPERTIES = new String[] { "attributeDefinition" };
-
-    @Autowired @Qualifier("attributeDefinitionMapper") private PojoMapper<AttributeDefinition, AttributeDefinitionPojo> attributeDefinitionMapper;
+public class CustomerAttributeMapper extends AbstractAttributeDefinitionContainingPojoMapper<CustomerAttribute, CustomerAttributePojo> {
 
     @Override
     public Class<CustomerAttribute> getObjectType() {
@@ -26,19 +22,14 @@ public class CustomerAttributeMapper extends AbstractPojoMapper<CustomerAttribut
     }
 
     @Override
-    protected String[] getIgnoredProperties() {
-        return IGNORED_PROPERTIES;
-    }
-
-    @Override
     protected void mapAdditionalPropertiesFromPojo(final CustomerAttributePojo jsonPojo, final CustomerAttribute object) {
-        AttributeDefinition attributeDefinition = attributeDefinitionMapper.fromPojo(jsonPojo.getAttributeDefinition());
+        AttributeDefinition attributeDefinition = getAttributeDefinitionMapper().fromPojo(jsonPojo.getAttributeDefinition());
         object.setAttributeDefinition(attributeDefinition);
     }
 
     @Override
     protected void mapAdditionalPropertiesToPojo(final CustomerAttribute object, final CustomerAttributePojo jsonPojo) {
-        AttributeDefinitionPojo attributeDefinition = attributeDefinitionMapper.toPojo(object.getAttributeDefinition());
+        AttributeDefinitionPojo attributeDefinition = getAttributeDefinitionMapper().toPojo(object.getAttributeDefinition());
         jsonPojo.setAttributeDefinition(attributeDefinition);
     }
 

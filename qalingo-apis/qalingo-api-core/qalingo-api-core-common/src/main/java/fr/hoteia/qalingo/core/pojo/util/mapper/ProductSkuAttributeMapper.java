@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("productSkuAttributeMapper")
-public class ProductSkuAttributeMapper extends AbstractPojoMapper<ProductSkuAttribute, ProductSkuAttributePojo> {
-
-    private static final String[] IGNORED_PROPERTIES = new String[] { "attributeDefinition" };
-
-    @Autowired @Qualifier("attributeDefinitionMapper") private PojoMapper<AttributeDefinition, AttributeDefinitionPojo> attributeDefinitionMapper;
+public class ProductSkuAttributeMapper extends AbstractAttributeDefinitionContainingPojoMapper<ProductSkuAttribute, ProductSkuAttributePojo> {
 
     @Override
     public Class<ProductSkuAttribute> getObjectType() {
@@ -26,19 +22,14 @@ public class ProductSkuAttributeMapper extends AbstractPojoMapper<ProductSkuAttr
     }
 
     @Override
-    protected String[] getIgnoredProperties() {
-        return IGNORED_PROPERTIES;
-    }
-
-    @Override
     protected void mapAdditionalPropertiesFromPojo(final ProductSkuAttributePojo jsonPojo, final ProductSkuAttribute object) {
-        AttributeDefinition attributeDefinition = attributeDefinitionMapper.fromPojo(jsonPojo.getAttributeDefinition());
+        AttributeDefinition attributeDefinition = getAttributeDefinitionMapper().fromPojo(jsonPojo.getAttributeDefinition());
         object.setAttributeDefinition(attributeDefinition);
     }
 
     @Override
     protected void mapAdditionalPropertiesToPojo(final ProductSkuAttribute object, final ProductSkuAttributePojo jsonPojo) {
-        AttributeDefinitionPojo attributeDefinition = attributeDefinitionMapper.toPojo(object.getAttributeDefinition());
+        AttributeDefinitionPojo attributeDefinition = getAttributeDefinitionMapper().toPojo(object.getAttributeDefinition());
         jsonPojo.setAttributeDefinition(attributeDefinition);
     }
 }
