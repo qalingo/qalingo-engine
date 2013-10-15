@@ -32,8 +32,8 @@ public class RetailerPojo {
     private Collection<StorePojo> stores = Collections.emptyList();
     private Collection<AssetPojo> assetsIsGlobal = Collections.emptyList();
     private Collection<AssetPojo> assetsByMarketArea = Collections.emptyList();
-    private Collection<RetailerAttribute> retailerGlobalAttributes = Collections.emptyList();
-    private Collection<RetailerAttribute> retailerMarketAreaAttributes = Collections.emptyList();
+    private Collection<RetailerAttributePojo> retailerGlobalAttributes = Collections.emptyList();
+    private Collection<RetailerAttributePojo> retailerMarketAreaAttributes = Collections.emptyList();
     private Collection<RetailerCustomerRate> customerRates = Collections.emptyList();
     private Collection<RetailerCustomerComment> customerComments = Collections.emptyList();
     private Collection<RetailerTag> retailerTags = Collections.emptyList();
