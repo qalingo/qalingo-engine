@@ -2,11 +2,11 @@ package fr.hoteia.qalingo.core.pojo.util.mapper;
 
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.RetailerAttribute;
-import fr.hoteia.qalingo.core.domain.StoreAttribute;
 import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 import fr.hoteia.qalingo.core.pojo.RetailerAttributePojo;
-import fr.hoteia.qalingo.core.pojo.StoreAttributePojo;
+import org.springframework.stereotype.Component;
 
+@Component("retailerAttributeMapper")
 public class RetailerAttributeMapper extends AbstractAttributeDefinitionContainingPojoMapper<RetailerAttribute, RetailerAttributePojo> {
     @Override
     public Class<RetailerAttribute> getObjectType() {
