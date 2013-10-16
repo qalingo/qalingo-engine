@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.pojo.service;
+package fr.hoteia.qalingo.core.service.pojo;
 
 import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 

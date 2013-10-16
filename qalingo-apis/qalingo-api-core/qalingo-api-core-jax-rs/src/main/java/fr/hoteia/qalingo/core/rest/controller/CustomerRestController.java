@@ -1,7 +1,7 @@
 package fr.hoteia.qalingo.core.rest.controller;
 
 import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import fr.hoteia.qalingo.core.pojo.service.CustomerPojoService;
+import fr.hoteia.qalingo.core.service.pojo.CustomerPojoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -4,36 +4,31 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+import fr.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import fr.hoteia.qalingo.core.pojo.store.StorePojo;
-import fr.hoteia.qalingo.core.service.pojo.StorePojoService;
+import fr.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Path("/store/")
+@Path("/retailer/")
 @Component("storeRestController")
-public class StoreRestController {
+public class RetailerRestController {
 
-    @Autowired private StorePojoService storeService;
+    @Autowired private RetailerPojoService retailerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StorePojo> getAllStores() {
-        return storeService.getAllStores();
+    public List<RetailerPojo> getAllRetailers() {
+        return retailerService.findAllRetailers();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public StorePojo getStoreById(@PathParam("id") final String id) {
-        return storeService.getStoreById(id);
-    }
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void saveOrUpdate(final StorePojo storeJsonBean) {
-        storeService.saveOrUpdate(storeJsonBean);
+    public RetailerPojo getStoreById(@PathParam("id") final String id) {
+        return retailerService.getRetailerById(id);
     }
 }

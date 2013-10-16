@@ -24,6 +24,8 @@ public interface RetailerService {
 
 	Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
 
+    List<Retailer> findAllRetailers();
+
 	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
 
 	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag);
