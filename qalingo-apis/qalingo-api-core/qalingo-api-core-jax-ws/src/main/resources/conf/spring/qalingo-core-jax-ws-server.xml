@@ -36,4 +36,12 @@
 	<jaxws:endpoint id="storeWebServiceEndpoint"
 					implementor="#storeWebService"
 					address="/store" />
+
+    <jaxws:endpoint id="catalogWebServiceEndpoint"
+                    implementor="#customerWebService"
+                    address="/catalog" />
+
+    <jaxws:endpoint id="retailerWebServiceEndpoint"
+                    implementor="#retailerWebService"
+                    address="/retailer" />
 </beans>

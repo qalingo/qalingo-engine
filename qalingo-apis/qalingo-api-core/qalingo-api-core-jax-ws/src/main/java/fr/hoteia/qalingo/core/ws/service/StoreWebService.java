@@ -13,12 +13,21 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import java.util.List;
+
+import fr.hoteia.qalingo.core.pojo.store.StorePojo;
 import fr.hoteia.qalingo.core.ws.pojo.StoreWsPojo;
 
 @WebService(name="storeWsClient", targetNamespace="http://www.qalingo.com")
 public interface StoreWebService {
 
-	@WebMethod(operationName="getStore")
-	StoreWsPojo getStoreById(@WebParam(name="id") String storeId);
+	@WebMethod(operationName="getStores")
+    List<StorePojo> getStores();
+
+    @WebMethod(operationName="getStoreById")
+    StorePojo getStoreById(@WebParam(name = "id") String storeId);
+
+    @WebMethod(operationName="saveOrUpdateStore")
+    void saveOrUpdate(@WebParam(name = "store") StorePojo storeBean);
 	
 }
