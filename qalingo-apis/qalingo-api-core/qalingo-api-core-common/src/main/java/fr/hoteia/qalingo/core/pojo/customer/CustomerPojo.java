@@ -9,6 +9,7 @@
  */
 package fr.hoteia.qalingo.core.pojo.customer;
 
+import fr.hoteia.qalingo.core.domain.CustomerOrderAudit;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -45,6 +46,7 @@ public class CustomerPojo {
     private Date dateUpdate;
     private CustomerPlatformOrigin platformOrigin;
     private CustomerNetworkOrigin networkOrigin;
+    private CustomerOrderAuditPojo customerOrderAudit;
 
     private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
     private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
@@ -165,6 +167,14 @@ public class CustomerPojo {
 
     public void setNetworkOrigin(final CustomerNetworkOrigin networkOrigin) {
         this.networkOrigin = networkOrigin;
+    }
+
+    public CustomerOrderAuditPojo getCustomerOrderAudit() {
+        return customerOrderAudit;
+    }
+
+    public void setCustomerOrderAudit(CustomerOrderAuditPojo customerOrderAudit) {
+        this.customerOrderAudit = customerOrderAudit;
     }
 
     public Collection<CustomerAddressPojo> getAddresses() {
