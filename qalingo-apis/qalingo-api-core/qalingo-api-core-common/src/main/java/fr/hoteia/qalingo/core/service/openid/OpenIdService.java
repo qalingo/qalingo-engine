@@ -357,9 +357,9 @@ public class OpenIdService {
     	checkMap();
     	if(StringUtils.isNotEmpty(name)){
         	String provider = name.toLowerCase();
-        	if(name.contains("-") || name.contains("_")){
-        		name = name.replace("-", ".");
-        		name = name.replace("_", ".");
+        	if(provider.contains("-") || provider.contains("_")){
+        		provider = provider.replace("-", ".");
+        		provider = provider.replace("_", ".");
         	}
     		if(urlMap.get(provider) != null){
     			return urlMap.get(provider);
