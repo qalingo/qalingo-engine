@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Path("/retailer/")
-@Component("storeRestController")
+@Component("retailerRestController")
 public class RetailerRestController {
 
     @Autowired private RetailerPojoService retailerService;

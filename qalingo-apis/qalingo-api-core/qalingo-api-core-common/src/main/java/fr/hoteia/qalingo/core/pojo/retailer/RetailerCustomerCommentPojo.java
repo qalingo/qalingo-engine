@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.pojo.retailer;
 
 import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +14,7 @@ public class RetailerCustomerCommentPojo {
     private Long id;
     private String comment;
     private Long retailerCustomerCommentId;
-    private Customer customer;
+    private CustomerPojo customer;
     private Long retailerId;
     private Date dateCreate;
     private Date dateUpdate;
@@ -44,11 +45,11 @@ public class RetailerCustomerCommentPojo {
         this.retailerCustomerCommentId = retailerCustomerCommentId;
     }
 
-    public Customer getCustomer() {
+    public CustomerPojo getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerPojo customer) {
         this.customer = customer;
     }
 

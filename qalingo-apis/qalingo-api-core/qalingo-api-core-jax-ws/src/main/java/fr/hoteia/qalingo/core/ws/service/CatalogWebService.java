@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.ws.service;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface CatalogWebService {
     List<CatalogMasterPojo> getAllCatalogMasters();
 
     @WebMethod(operationName = "getProductCatalogById")
-    CatalogMasterPojo getProductCatalogById(String productCatalogId);
+    CatalogMasterPojo getProductCatalogById(@WebParam(name = "id") String productCatalogId);
 }
