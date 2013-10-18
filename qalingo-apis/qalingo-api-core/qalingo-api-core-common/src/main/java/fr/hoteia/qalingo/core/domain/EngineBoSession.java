@@ -23,6 +23,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import fr.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+
 @Entity
 @Table(name="TBO_ENGINE_SESSION")
 public class EngineBoSession implements Serializable {
@@ -44,6 +46,12 @@ public class EngineBoSession implements Serializable {
 	@Column(name="JSESSION_ID")
 	private String jSessionId;
 	
+    @Transient
+    private boolean environmentStagingModeEnabled;
+    
+    @Transient
+    private EnvironmentType environmentType;
+    
 	@Transient 
 	private MarketPlace currentMarketPlace;
 
@@ -105,6 +113,22 @@ public class EngineBoSession implements Serializable {
 	public void setjSessionId(String jSessionId) {
 		this.jSessionId = jSessionId;
 	}
+	
+    public boolean isEnvironmentStagingModeEnabled() {
+        return environmentStagingModeEnabled;
+    }
+
+    public void setEnvironmentStagingModeEnabled(boolean environmentStagingModeEnabled) {
+        this.environmentStagingModeEnabled = environmentStagingModeEnabled;
+    }
+    
+    public EnvironmentType getEnvironmentType() {
+        return environmentType;
+    }
+    
+    public void setEnvironmentType(EnvironmentType environmentType) {
+        this.environmentType = environmentType;
+    }
 
 	public MarketPlace getCurrentMarketPlace() {
 		return currentMarketPlace;

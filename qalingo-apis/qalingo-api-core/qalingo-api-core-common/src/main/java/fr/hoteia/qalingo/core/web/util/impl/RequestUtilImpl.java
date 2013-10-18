@@ -57,6 +57,7 @@ import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
+import fr.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import fr.hoteia.qalingo.core.service.CustomerService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.LocalizationService;
@@ -1434,6 +1435,28 @@ public class RequestUtilImpl implements RequestUtil {
 	 */
 	protected EngineEcoSession initEcoSession(final HttpServletRequest request) throws Exception {
 		final EngineEcoSession engineEcoSession = new EngineEcoSession();
+        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getEnvironmentStagingModeEnabled();
+        if(engineSettingEnvironmentStagingModeEnabled != null){
+            engineEcoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
+        } else {
+            engineEcoSession.setEnvironmentStagingModeEnabled(false);
+            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
+        }
+	    EngineSetting engineSettingEnvironmentType = engineSettingService.getEnvironmentType();
+	    if(engineSettingEnvironmentType != null){
+            String environmentType  = engineSettingEnvironmentType.getDefaultValue();
+            try {
+                engineEcoSession.setEnvironmentType(EnvironmentType.valueOf(environmentType));
+            } catch (Exception e) {
+                LOG.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+            }
+        } else {
+            engineEcoSession.setEnvironmentType(EnvironmentType.REEL);
+            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+        }
+
+		// INIT STAGING OR REEL ENVIRONMENT
+		
 		setCurrentEcoSession(request, engineEcoSession);
 		String jSessionId = request.getSession().getId();
 		engineEcoSession.setjSessionId(jSessionId);
@@ -1509,29 +1532,49 @@ public class RequestUtilImpl implements RequestUtil {
 		updateCurrentBoSession(request, engineBoSession);
 	}
 	
-	/**
+    /**
 	 * 
 	 */
-	protected EngineBoSession initBoSession(final HttpServletRequest request) throws Exception {
-		final EngineBoSession engineBoSession = new EngineBoSession();
-		setCurrentBoSession(request, engineBoSession);
-		String jSessionId = request.getSession().getId();
-		engineBoSession.setjSessionId(jSessionId);
-		initDefaultBoMarketPlace(request);
-		
-		// Default Localization
-		Company company = getCurrentCompany(request);
-		if(company != null){
-			// USER IS LOGGED
-			engineBoSession.setCurrentLocalization(company.getDefaultLocalization());
-		} else {
-			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
-			engineBoSession.setCurrentLocalization(defaultLocalization);
-		}
-		
-		updateCurrentBoSession(request, engineBoSession);
-		return engineBoSession;
-	}
+    protected EngineBoSession initBoSession(final HttpServletRequest request) throws Exception {
+        final EngineBoSession engineBoSession = new EngineBoSession();
+        EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getEnvironmentStagingModeEnabled();
+        if(engineSettingEnvironmentStagingModeEnabled != null){
+            engineBoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
+        } else {
+            engineBoSession.setEnvironmentStagingModeEnabled(false);
+            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
+        }
+        EngineSetting engineSetting = engineSettingService.getEnvironmentType();
+        if (engineSetting != null) {
+            String environmentType = engineSetting.getDefaultValue();
+            try {
+                engineBoSession.setEnvironmentType(EnvironmentType.valueOf(environmentType));
+            } catch (Exception e) {
+                LOG.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+            }
+        } else {
+            engineBoSession.setEnvironmentType(EnvironmentType.REEL);
+            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+        }
+
+        setCurrentBoSession(request, engineBoSession);
+        String jSessionId = request.getSession().getId();
+        engineBoSession.setjSessionId(jSessionId);
+        initDefaultBoMarketPlace(request);
+
+        // Default Localization
+        Company company = getCurrentCompany(request);
+        if (company != null) {
+            // USER IS LOGGED
+            engineBoSession.setCurrentLocalization(company.getDefaultLocalization());
+        } else {
+            Localization defaultLocalization = localizationService.getLocalizationByCode("en");
+            engineBoSession.setCurrentLocalization(defaultLocalization);
+        }
+
+        updateCurrentBoSession(request, engineBoSession);
+        return engineBoSession;
+    }
 	
 	/**
      * 

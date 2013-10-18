@@ -95,7 +95,15 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	
 	// Common Engine Setting Value
 	
-	public EngineSetting getAssetFileRootPath() {
+    public EngineSetting getEnvironmentStagingModeEnabled() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED);
+    }
+    
+    public EngineSetting getEnvironmentType() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE);
+    }
+
+    public EngineSetting getAssetFileRootPath() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH);
 	}
 	

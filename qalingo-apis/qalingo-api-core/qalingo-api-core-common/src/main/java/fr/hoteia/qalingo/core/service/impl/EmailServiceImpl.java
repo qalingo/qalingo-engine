@@ -61,6 +61,10 @@ public class EmailServiceImpl implements EmailService {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
 
+    public static final String CURRENT_DATE = "currentDate";
+    public static final String WORDING      = "wording";
+    public static final String CUSTOMER     = "customer";
+
 	@Autowired
 	protected EmailDao emailDao;
 
@@ -113,20 +117,21 @@ public class EmailServiceImpl implements EmailService {
         	checkEmailAddresses(contactEmailBean);
         	
         	Map<String, Object> model = new HashMap<String, Object>();
-        	String fromEmail = contactEmailBean.getFromEmail();
-        	String toEmail = contactEmailBean.getToEmail();
-          
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
         	model.put("contactEmailBean", contactEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+
+            String fromAddress = handleFromAddress(contactEmailBean.getFromAddress(), locale);
+            String fromName = handleFromAddress(contactEmailBean.getFromAddress(), locale);
+            String toEmail = contactEmailBean.getToEmail();
 
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_CONTACT, model);
         	mimeMessagePreparator.setTo(toEmail);
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {contactEmailBean.getLastname(), contactEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.contact.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "contact-html-content.vm", model));
@@ -163,21 +168,22 @@ public class EmailServiceImpl implements EmailService {
         	checkEmailAddresses(retailerContactEmailBean);
         	
         	Map<String, Object> model = new HashMap<String, Object>();
-        	String fromEmail = retailerContactEmailBean.getFromEmail();
-        	String toEmail = retailerContactEmailBean.getToEmail();
-          
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("retailerContactEmailBean", retailerContactEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
+            String fromAddress = handleFromAddress(retailerContactEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(retailerContactEmailBean.getFromName(), locale);
+            String toEmail = retailerContactEmailBean.getToEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_RETAILER_CONTACT, model);
         	mimeMessagePreparator.setTo(toEmail);
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {retailerContactEmailBean.getLastname(), retailerContactEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.retailer_contact.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "retailer-contact-html-content.vm", model));
@@ -217,9 +223,9 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
         	model.put("newsletterEmailBean", newsletterEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
     		Map<String, String> urlParams = new HashMap<String, String>();
     		urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, URLEncoder.encode(newsletterEmailBean.getToEmail(), Constants.ANSI));
@@ -229,13 +235,16 @@ public class EmailServiceImpl implements EmailService {
     		
         	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
 
-        	String fromEmail = newsletterEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(newsletterEmailBean.getFromName(), locale);
+            String toEmail = newsletterEmailBean.getToEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION, model);
         	mimeMessagePreparator.setUnsubscribeUrlOrEmail(fullUnsubscribeUrl);
-        	mimeMessagePreparator.setTo(newsletterEmailBean.getToEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_subscription.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-subscription-confirmation-html-content.vm", model));
@@ -274,9 +283,9 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
         	model.put("newsletterEmailBean", newsletterEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			Map<String, String> urlParams = new HashMap<String, String>();
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL, URLEncoder.encode(newsletterEmailBean.getToEmail(), Constants.ANSI));
@@ -288,13 +297,16 @@ public class EmailServiceImpl implements EmailService {
     		
         	model.put("unsubscribeUrlOrEmail", fullUnsubscribeUrl);
         	
-        	String fromEmail = newsletterEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(newsletterEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(newsletterEmailBean.getFromName(), locale);
+            String toEmail = newsletterEmailBean.getToEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEWSLETTER_SUBSCRIPTION, model);
-        	mimeMessagePreparator.setUnsubscribeUrlOrEmail(fullUnsubscribeUrl);
-        	mimeMessagePreparator.setTo(newsletterEmailBean.getToEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+//        	mimeMessagePreparator.setUnsubscribeUrlOrEmail(fullUnsubscribeUrl);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.newsletter_unsubscription.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "newsletter-unsubscription-confirmation-html-content.vm", model));
@@ -333,9 +345,9 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
         	model.put("customerNewAccountConfirmationEmailBean", customerNewAccountConfirmationEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			Map<String, String> urlParams = new HashMap<String, String>();
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL, URLEncoder.encode(customerNewAccountConfirmationEmailBean.getEmail(), Constants.ANSI));
@@ -343,12 +355,15 @@ public class EmailServiceImpl implements EmailService {
 			String resetPasswordUrl = urlService.generateUrl(FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION, requestData, urlParams);
         	model.put("newCustomerValidationUrl", urlService.buildAbsoluteUrl(requestData, resetPasswordUrl));
 
-        	String fromEmail = customerNewAccountConfirmationEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(customerNewAccountConfirmationEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(customerNewAccountConfirmationEmailBean.getFromName(), locale);
+            String toEmail = customerNewAccountConfirmationEmailBean.getToEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION, model);
-        	mimeMessagePreparator.setTo(customerNewAccountConfirmationEmailBean.getToEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customerNewAccountConfirmationEmailBean.getLastname(), customerNewAccountConfirmationEmailBean.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.new_account.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "new-account-confirmation-html-content.vm", model));
@@ -388,10 +403,10 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			Map<String, String> urlParams = new HashMap<String, String>();
 			urlParams.put(RequestConstants.REQUEST_PARAMETER_PASSWORD_RESET_EMAIL, URLEncoder.encode(customer.getEmail(), Constants.ANSI));
@@ -404,12 +419,15 @@ public class EmailServiceImpl implements EmailService {
         	
         	model.put("customerForgottenPasswordEmailBean", customerForgottenPasswordEmailBean);
 
-        	String fromEmail = customerForgottenPasswordEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(customerForgottenPasswordEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(customerForgottenPasswordEmailBean.getFromName(), locale);
+            String toEmail = customer.getEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_FORGOTTEN_PASSWORD, model);
-        	mimeMessagePreparator.setTo(customer.getEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.forgotten_password.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "forgotten-password-html-content.vm", model));
@@ -448,20 +466,23 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("customerResetPasswordConfirmationEmailBean", customerResetPasswordConfirmationEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
 			String loginUrl = urlService.generateUrl(FoUrls.LOGIN, requestData);
         	model.put("loginUrl", urlService.buildAbsoluteUrl(requestData, loginUrl));
         	
-        	String fromEmail = customerResetPasswordConfirmationEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(customerResetPasswordConfirmationEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(customerResetPasswordConfirmationEmailBean.getFromName(), locale);
+            String toEmail = customer.getEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION, model);
-        	mimeMessagePreparator.setTo(customer.getEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.reset_password_confirmation.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "reset-password-confirmation-html-content.vm", model));
@@ -500,17 +521,20 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("orderConfirmationEmailBean", orderConfirmationEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromEmail = orderConfirmationEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(orderConfirmationEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(orderConfirmationEmailBean.getFromName(), locale);
+            String toEmail = customer.getEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_ORDER_CONFIRMATION, model);
-        	mimeMessagePreparator.setTo(customer.getEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order.confirmation_email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-confirmation-html-content.vm", model));
@@ -549,17 +573,20 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("orderSentConfirmationEmailBean", orderSentConfirmationEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromEmail = orderSentConfirmationEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(orderSentConfirmationEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(orderSentConfirmationEmailBean.getFromName(), locale);
+            String toEmail = customer.getEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_ORDER_SHIPPED, model);
-        	mimeMessagePreparator.setTo(customer.getEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.order_shipped.shipped_email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "order-shipped-html-content.vm", model));
@@ -598,17 +625,20 @@ public class EmailServiceImpl implements EmailService {
           
         	DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         	java.sql.Timestamp currentDate = new java.sql.Timestamp((new java.util.Date()).getTime());
-        	model.put("currentDate", dateFormatter.format(currentDate));
-        	model.put("customer", customer);
+        	model.put(CURRENT_DATE, dateFormatter.format(currentDate));
+        	model.put(CUSTOMER, customer);
         	model.put("abandonedShoppingCartEmailBean", abandonedShoppingCartEmailBean);
-        	model.put("wording", coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
+        	model.put(WORDING, coreMessageSource.loadWording(Email.WORDING_SCOPE_EMAIL, locale));
 
-        	String fromEmail = abandonedShoppingCartEmailBean.getFromEmail();
+        	String fromAddress = handleFromAddress(abandonedShoppingCartEmailBean.getFromAddress(), locale);
+            String fromName = handleFromName(abandonedShoppingCartEmailBean.getFromName(), locale);
+            String toEmail = customer.getEmail();
+            
         	MimeMessagePreparatorImpl mimeMessagePreparator = getMimeMessagePreparator(requestData, Email.EMAIl_TYPE_ABANDONED_SHOPPING_CART, model);
-        	mimeMessagePreparator.setTo(customer.getEmail());
-        	mimeMessagePreparator.setFrom(fromEmail);
-        	mimeMessagePreparator.setFromName(coreMessageSource.getMessage("email.common.from_name", locale));
-        	mimeMessagePreparator.setReplyTo(fromEmail);
+        	mimeMessagePreparator.setTo(toEmail);
+        	mimeMessagePreparator.setFrom(fromAddress);
+        	mimeMessagePreparator.setFromName(fromName);
+        	mimeMessagePreparator.setReplyTo(fromAddress);
         	Object[] parameters = {customer.getLastname(), customer.getFirstname()};
         	mimeMessagePreparator.setSubject(coreMessageSource.getMessage("email.abandoned_shopping_cart.email_subject", parameters, locale));
         	mimeMessagePreparator.setHtmlContent(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityPath + "abandoned-shopping-cart-html-content.vm", model));
@@ -631,7 +661,21 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    private MimeMessagePreparatorImpl getMimeMessagePreparator(final RequestData requestData, final String emailType, final Map<String, Object> model) throws Exception{
+    protected String handleFromAddress(String fromAddress, Locale locale){
+        if(StringUtils.isEmpty(fromAddress)){
+            fromAddress = coreMessageSource.getMessage("email.common.from_address", locale);
+        }
+        return fromAddress;
+    }
+    
+    protected String handleFromName(String fromName, Locale locale){
+        if(StringUtils.isEmpty(fromName)){
+            fromName = coreMessageSource.getMessage("email.common.from_name", locale);
+        }
+        return fromName;
+    }
+    
+    protected MimeMessagePreparatorImpl getMimeMessagePreparator(final RequestData requestData, final String emailType, final Map<String, Object> model) throws Exception{
     	MimeMessagePreparatorImpl mimeMessagePreparator = new MimeMessagePreparatorImpl();
     	boolean emailFileMirroringActivated = engineSettingService.getEmailFileMirroringActivated(emailType);
     	if(emailFileMirroringActivated){
@@ -657,9 +701,8 @@ public class EmailServiceImpl implements EmailService {
     	return mimeMessagePreparator;
     }
 
-    	
     private void checkEmailAddresses(AbstractEmailBean emailBean) throws EmailProcessException{
-		if(StringUtils.isEmpty(emailBean.getFromEmail())){
+		if(StringUtils.isEmpty(emailBean.getFromAddress())){
 			throw new EmailProcessException(EmailProcessException.EMAIl_FROM_ADDRESS_IS_EMPTY);
 		}
 		

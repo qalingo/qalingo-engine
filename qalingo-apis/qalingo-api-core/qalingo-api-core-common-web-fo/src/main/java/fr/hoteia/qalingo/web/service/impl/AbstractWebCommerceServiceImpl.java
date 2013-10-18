@@ -30,6 +30,7 @@ import fr.hoteia.qalingo.core.domain.CustomerGroup;
 import fr.hoteia.qalingo.core.domain.CustomerMarketArea;
 import fr.hoteia.qalingo.core.domain.CustomerOptin;
 import fr.hoteia.qalingo.core.domain.CustomerWishlist;
+import fr.hoteia.qalingo.core.domain.Email;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Order;
@@ -300,7 +301,6 @@ public class AbstractWebCommerceServiceImpl {
 		Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		MarketArea marketArea = requestData.getMarketArea();
 		HttpServletRequest request = requestData.getRequest();
-		Market market = requestData.getMarket();
 		
 		// SANITY CHECK : CHECK IF THE OPTIN ALREADY EXIST FOR THE MARKET AREA
 		if(customer != null){
@@ -346,7 +346,6 @@ public class AbstractWebCommerceServiceImpl {
 		Customer customer = customerService.getCustomerByLoginOrEmail(email);
 		MarketArea marketArea = requestData.getMarketArea();
 		HttpServletRequest request = requestData.getRequest();
-		Market market = requestData.getMarket();
 		
 		// SANITY CHECK : CHECK IF THE OPTIN ALREADY EXIST FOR THE MARKET AREA
 		if(customer != null){
@@ -414,8 +413,9 @@ public class AbstractWebCommerceServiceImpl {
 		final String contextNameValue = requestData.getContextNameValue();
 
 		final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean = new CustomerResetPasswordConfirmationEmailBean();
-		customerResetPasswordConfirmationEmailBean.setFromEmail(marketArea.getEmailFrom(contextNameValue));
-		customerResetPasswordConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFrom(contextNameValue));
+		customerResetPasswordConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        customerResetPasswordConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+		customerResetPasswordConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
 		customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
 		
 		customerResetPasswordConfirmationEmailBean.setTitle(customer.getTitle());

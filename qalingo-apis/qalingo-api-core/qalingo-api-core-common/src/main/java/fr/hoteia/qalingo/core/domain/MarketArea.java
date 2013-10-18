@@ -45,10 +45,11 @@ public class MarketArea implements Serializable {
 	 */
 	private static final long serialVersionUID = -6237479836764154416L;
 
-	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM			= "MARKET_AREA_EMAIL_FROM";
-	public final static String MARKET_AREA_ATTRIBUTE_EMAIL_CONTACT		= "MARKET_AREA_EMAIL_CONTACT";
-	public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME		= "MARKET_AREA_DOMAIN_NAME";
-	public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS		= "MARKET_AREA_SHARE_OPTIONS";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS = "MARKET_AREA_EMAIL_FROM_ADDRESS";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME    = "MARKET_AREA_EMAIL_FROM_NAME";
+    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT   = "MARKET_AREA_EMAIL_CONTACT";
+    public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME        = "MARKET_AREA_DOMAIN_NAME";
+    public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS      = "MARKET_AREA_SHARE_OPTIONS";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -348,12 +349,16 @@ public class MarketArea implements Serializable {
 	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
     }
 	
-	public String getEmailFrom(String contextNameValue) {
-	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM, contextNameValue);
+	public String getEmailFromAddress(String contextNameValue, String emailType) {
+	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, contextNameValue + "/" + emailType);
     }
 	
-	public String getEmailContact(String contextNameValue) {
-	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_CONTACT, contextNameValue);
+    public String getEmailFromName(String contextNameValue, String emailType) {
+        return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME, contextNameValue + "/" + emailType);
+    }
+	
+	public String getEmailToContact(String contextNameValue) {
+	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT, contextNameValue);
     }
 	
 	public List<String> getShareOptions(String contextNameValue) {

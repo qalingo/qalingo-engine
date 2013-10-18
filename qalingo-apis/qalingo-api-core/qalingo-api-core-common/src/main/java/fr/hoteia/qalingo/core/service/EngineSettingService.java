@@ -16,8 +16,12 @@ import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 
 public interface EngineSettingService {
 
-	// TODO : enum or not ?
-	public final String ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH				= "ASSET_FILE_ROOT_PATH";
+	// TODO : enum or not for tall this key ?
+    
+    public final String ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED         = "ENVIRONMENT_STAGING_MODE_ENABLED";
+    public final String ENGINE_SETTING_ENVIRONMENT_TYPE                         = "ENVIRONMENT_TYPE";
+
+    public final String ENGINE_SETTING_CODE_ASSET_FILE_ROOT_PATH				= "ASSET_FILE_ROOT_PATH";
 	public final String ENGINE_SETTING_CODE_ASSET_WEB_ROOT_PATH					= "ASSET_WEB_ROOT_PATH";
 	public final String ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH				= "ASSET_CATALOG_FILE_PATH";
 	public final String ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH	= "ASSET_PRODUCT_MARKETING_FILE_PATH";
@@ -34,8 +38,8 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CONTEXT_ERP				= "ERP";
 	public final String ENGINE_SETTING_CONTEXT_NOTIFICATION		= "NOTIFICATION";
 
-	public final String ENGINE_SETTING_CODE_SOLR		= "SOLR";
-	public final String ENGINE_SETTING_CONTEXT_MASTER	= "MASTER";
+	public final String ENGINE_SETTING_CODE_SOLR           = "SOLR";
+	public final String ENGINE_SETTING_SOLR_MASTER_CONTEXT = "MASTER";
 	
 	// Email file mirroring
 	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_ACTIVATED			= "EMAIL_FILE_MIRRORING_ACTIVATED";
@@ -95,7 +99,11 @@ public interface EngineSettingService {
 
 	// Common Engine Setting Value
 	
-	EngineSetting getAssetFileRootPath();
+	EngineSetting getEnvironmentStagingModeEnabled();
+	
+    EngineSetting getEnvironmentType();
+
+    EngineSetting getAssetFileRootPath();
 
 	EngineSetting getAssetWebRootPath();
 

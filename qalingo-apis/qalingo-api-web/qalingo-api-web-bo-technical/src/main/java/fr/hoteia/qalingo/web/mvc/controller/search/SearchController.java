@@ -42,7 +42,7 @@ public class SearchController extends AbstractTechnicalBackofficeController {
 		final String titleKeyPrefixSufix = "solr";
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SOLR);
-		String solrUrl = springBatchUrlEngineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_CONTEXT_MASTER).getValue();
+		String solrUrl = springBatchUrlEngineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_SOLR_MASTER_CONTEXT).getValue();
 		modelAndView.addObject("solrUrl", solrUrl);
 		
         return modelAndView;

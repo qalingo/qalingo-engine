@@ -18,16 +18,25 @@ public abstract class AbstractEmailBean implements Serializable {
      */
     private static final long serialVersionUID = 5417215634608783739L;
     
-	private String fromEmail;
+	private String fromAddress;
+    private String fromName;
 	private String replyToEmail;
 	private String toEmail;
 	
-	public String getFromEmail() {
-	    return fromEmail;
+	public String getFromAddress() {
+	    return fromAddress;
     }
 	
-	public void setFromEmail(String fromEmail) {
-	    this.fromEmail = fromEmail;
+	public void setFromAddress(String fromAddress) {
+	    this.fromAddress = fromAddress;
+    }
+	
+	public String getFromName() {
+        return fromName;
+    }
+	
+	public void setFromName(String fromName) {
+        this.fromName = fromName;
     }
 	
 	public String getReplyToEmail() {
