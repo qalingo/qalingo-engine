@@ -34,6 +34,9 @@ public class CustomerOrderAudit implements Serializable {
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 
+	@Column(name="LAST_ORDER_DATE")
+	private Date lastOrderDate;
+
 	@Column(name="DAY_PRODUCT_AUDIT")
 	private String dayProductAudit;
 	
@@ -98,6 +101,14 @@ public class CustomerOrderAudit implements Serializable {
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
+	
+	public Date getLastOrderDate() {
+	    return lastOrderDate;
+    }
+	
+	public void setLastOrderDate(Date lastOrderDate) {
+	    this.lastOrderDate = lastOrderDate;
+    }
 
 	public String getDayProductAudit() {
     	return dayProductAudit;
