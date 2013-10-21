@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,7 +29,12 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	public CatalogMaster getProductCatalogById(final Long catalogMasterId) {
+    @Override
+    public List<CatalogMaster> findAllCatalogMasters() {
+        return em.createQuery("SELECT cm FROM CatalogMaster cm").getResultList();
+    }
+
+    public CatalogMaster getProductCatalogById(final Long catalogMasterId) {
 		return em.find(CatalogMaster.class, catalogMasterId);
 	}
 

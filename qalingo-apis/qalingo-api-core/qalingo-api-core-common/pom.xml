@@ -23,13 +23,17 @@
 	<dependencies>
 		<!-- Commons libs -->
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
 			
 		<!-- Spring framework -->
 		<dependency>
@@ -111,16 +115,6 @@
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>clickstream</artifactId>
@@ -141,6 +135,12 @@
 			<groupId>net.sourceforge.wurfl</groupId>
 			<artifactId>wurfl</artifactId>
 		</dependency>
+
+        <!-- Dozer Bean Mapping -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
 		
 		<!-- JSON -->
 		<dependency>

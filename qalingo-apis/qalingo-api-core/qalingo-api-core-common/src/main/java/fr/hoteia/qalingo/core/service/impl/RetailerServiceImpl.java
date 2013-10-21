@@ -30,7 +30,12 @@ public class RetailerServiceImpl implements RetailerService {
 	@Autowired
 	private RetailerDao retailerDao;
 
-	// RETAILER
+    @Override
+    public List<Retailer> findAllRetailers() {
+        return retailerDao.findAllRetailers();
+    }
+
+    // RETAILER
 	public Retailer getRetailerById(final String rawRetailerId) {
 		long retailerId = -1;
 		try {

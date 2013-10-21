@@ -9,39 +9,34 @@
  */
 package fr.hoteia.qalingo.core.ws.service.impl;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
+import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import fr.hoteia.qalingo.core.pojo.store.StorePojo;
+import fr.hoteia.qalingo.core.service.pojo.StorePojoService;
+import fr.hoteia.qalingo.core.ws.service.StoreWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.service.RetailerService;
-import fr.hoteia.qalingo.core.ws.pojo.StoreWsPojo;
-import fr.hoteia.qalingo.core.ws.service.StoreWebService;
-
-@WebService(endpointInterface="fr.hoteia.qalingo.core.ws.service.StoreWebService")
 @Service("storeWebService")
+@WebService(endpointInterface="fr.hoteia.qalingo.core.ws.service.StoreWebService")
 public class StoreWebServiceImpl implements StoreWebService {
-	
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	protected RetailerService retailerService;
-	
-	public StoreWsPojo getStoreById(String storeId){
-		Store store = retailerService.getStoreById(storeId);
-		StoreWsPojo storeWsPojo = buildStoreWsPojo(store);
-		return storeWsPojo;
+
+    @Autowired private StorePojoService storeService;
+
+    @Override
+    public List<StorePojo> getStores() {
+        return storeService.getAllStores();
+    }
+
+    public StorePojo getStoreById(String storeId){
+		return storeService.getStoreById(storeId);
 	}
-	
-	protected StoreWsPojo buildStoreWsPojo(Store store){
-		StoreWsPojo storeWsPojo = new StoreWsPojo();
-		storeWsPojo.setBusinessName(store.getBusinessName());
-	
-		// TODO : ...
-	
-		return storeWsPojo;
-	}
+
+    @Override
+    public void saveOrUpdate(@WebParam(name = "store") StorePojo storeBean) {
+        storeService.saveOrUpdate(storeBean);
+    }
+
 }

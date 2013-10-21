@@ -1,54 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>fr.hoteia.qalingo</groupId>
-		<artifactId>qalingo-api-core</artifactId>
-		<version>0.7.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>qalingo-api-core-jax-ws</artifactId>
-	<packaging>jar</packaging>
-	<name>{Q} Commerce Solution Core Jax-WS API</name>
-	<description>{Q} Commerce Solution Core Jax-WS API</description>
-	<url>http://www.hoteia.com</url>
-	<organization>
-		<name>Hoteia</name>
-		<url>http://www.hoteia.com</url>
-	</organization>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fr.hoteia.qalingo</groupId>
+        <artifactId>qalingo-api-core</artifactId>
+        <version>0.7.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>qalingo-api-core-jax-ws</artifactId>
+    <packaging>jar</packaging>
+    <name>{Q} Commerce Solution Core Jax-WS API</name>
+    <description>{Q} Commerce Solution Core Jax-WS API</description>
+    <url>http://www.hoteia.com</url>
+    <organization>
+        <name>Hoteia</name>
+        <url>http://www.hoteia.com</url>
+    </organization>
 
-	<properties> 
-		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
-		<xsd.working.directory>target/work/xsd</xsd.working.directory>
-	</properties>
-	
-	<build>
-		<!--
-		<plugins>
-		</plugins>
-		-->
-	</build>
+    <properties>
+        <root.basedir>${project.parent.parent.parent.basedir}</root.basedir>
+        <xsd.working.directory>target/work/xsd</xsd.working.directory>
+    </properties>
 
-	<dependencies>
-		<!-- Qalingo libs-->
-		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-xml-binding</artifactId>
-		</dependency>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <executions>
+                    <execution>
+                        <id>customer-web-service</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>fr.hoteia.qalingo.core.ws.service.CustomerWebService</className>
+                            <outputFile>${project.build.directory}/generated-sources/wsdl/CustomerWebService.wsdl</outputFile>
+                            <genWsdl>true</genWsdl>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>store-web-service</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>fr.hoteia.qalingo.core.ws.service.StoreWebService</className>
+                            <outputFile>${project.build.directory}/generated-sources/wsdl/StoreWebService.wsdl</outputFile>
+                            <genWsdl>true</genWsdl>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>catalog-web-service</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>fr.hoteia.qalingo.core.ws.service.CatalogWebService</className>
+                            <outputFile>${project.build.directory}/generated-sources/wsdl/CatalogWebService.wsdl</outputFile>
+                            <genWsdl>true</genWsdl>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>retailer-web-service</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>fr.hoteia.qalingo.core.ws.service.RetailerWebService</className>
+                            <outputFile>${project.build.directory}/generated-sources/wsdl/RetailerWebService.wsdl</outputFile>
+                            <genWsdl>true</genWsdl>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-		<!-- CXF framework -->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-		</dependency>
+    <dependencies>
+        <!-- Qalingo libs -->
+        <dependency>
+            <groupId>fr.hoteia.qalingo</groupId>
+            <artifactId>qalingo-api-core-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.hoteia.qalingo</groupId>
+            <artifactId>qalingo-api-core-xml-binding</artifactId>
+        </dependency>
 
-	</dependencies>
+        <!-- CXF framework -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

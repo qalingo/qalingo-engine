@@ -18,6 +18,8 @@ import fr.hoteia.qalingo.core.domain.CatalogMaster;
 import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 import fr.hoteia.qalingo.core.service.CatalogService;
 
+import java.util.List;
+
 @Service("catalogMasterService")
 @Transactional
 public class CatalogServiceImpl implements CatalogService {
@@ -25,7 +27,12 @@ public class CatalogServiceImpl implements CatalogService {
 	@Autowired
 	private CatalogDao catalogMasterDao;
 
-	public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
+    @Override
+    public List<CatalogMaster> findAllCatalogMasters() {
+        return catalogMasterDao.findAllCatalogMasters();
+    }
+
+    public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
 		long catalogMasterId = -1;
 		try {
 			catalogMasterId = Long.parseLong(rawProductCatalogId);

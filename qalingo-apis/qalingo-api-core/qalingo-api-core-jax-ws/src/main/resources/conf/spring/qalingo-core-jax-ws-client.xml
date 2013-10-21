@@ -11,15 +11,9 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/context
-						http://www.springframework.org/schema/context/spring-context.xsd
-						http://cxf.apache.org/jaxws
-						http://cxf.apache.org/schemas/jaxws.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="customerWsClient" class="fr.hoteia.qalingo.core.ws.service.CustomerWebService" factory-bean="customerWsClientFactory" factory-method="create"/>
 
@@ -34,5 +28,19 @@
 		<property name="serviceClass" value="fr.hoteia.qalingo.core.ws.service.StoreWebService" />
 		<property name="address" value="${qalingo.webservice.url}/store" />
 	</bean>
+
+    <bean id="catalogWsClient" class="fr.hoteia.qalingo.core.ws.service.StoreWebService" factory-bean="catalogWsClientFactory" factory-method="create"/>
+
+    <bean id="catalogWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="fr.hoteia.qalingo.core.ws.service.CatalogWebService" />
+        <property name="address" value="${qalingo.webservice.url}/catalog" />
+    </bean>
+
+    <bean id="retailerWsClient" class="fr.hoteia.qalingo.core.ws.service.StoreWebService" factory-bean="retailerWsClientFactory" factory-method="create"/>
+
+    <bean id="retailerWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="fr.hoteia.qalingo.core.ws.service.RetailerWebService" />
+        <property name="address" value="${qalingo.webservice.url}/retailer" />
+    </bean>
 
 </beans>

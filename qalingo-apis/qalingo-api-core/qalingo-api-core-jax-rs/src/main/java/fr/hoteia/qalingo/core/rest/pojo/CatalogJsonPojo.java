@@ -9,14 +9,13 @@
  */
 package fr.hoteia.qalingo.core.rest.pojo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
