@@ -16,7 +16,7 @@ import java.util.Locale;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
 import fr.hoteia.qalingo.web.mvc.viewbean.MenuViewBean;
 

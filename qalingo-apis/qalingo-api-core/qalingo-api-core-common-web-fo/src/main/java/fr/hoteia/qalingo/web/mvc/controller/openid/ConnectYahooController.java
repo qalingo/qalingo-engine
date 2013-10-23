@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.service.openid.Association;
 import fr.hoteia.qalingo.core.service.openid.Endpoint;
 import fr.hoteia.qalingo.core.service.openid.OpenProvider;
 import fr.hoteia.qalingo.core.service.openid.Utils;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
 
 /**
  * 

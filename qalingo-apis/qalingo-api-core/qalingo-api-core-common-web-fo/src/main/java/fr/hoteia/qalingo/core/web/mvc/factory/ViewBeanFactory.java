@@ -30,7 +30,7 @@ import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;

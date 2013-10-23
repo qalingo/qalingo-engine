@@ -7,27 +7,34 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
-import org.codehaus.jackson.annotate.JsonAnySetter;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import fr.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
 
 /**
  *
  * <p>
- * <a href="ProductSkuJsonPojo.java.html"><i>View Source</i></a>
+ * <a href="BoProductCategoryJsonPojo.java.html"><i>View Source</i></a>
  * </p>
  *
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class BoProductSkuJsonPojo extends ProductSkuJsonPojo {
+public class BoCatalogCategoryPojo extends CatalogCategoryPojo {
 	
+	private String addChildCategoryUrl;
 	private String detailsUrl;
 	private String editUrl;
 
-	public BoProductSkuJsonPojo() {
+	public BoCatalogCategoryPojo() {
+	}
+	
+	public String getAddChildCategoryUrl() {
+		return addChildCategoryUrl;
+	}
+	
+	public void setAddChildCategoryUrl(String addChildCategoryUrl) {
+		this.addChildCategoryUrl = addChildCategoryUrl;
 	}
 	
 	public String getDetailsUrl() {
@@ -46,9 +53,4 @@ public class BoProductSkuJsonPojo extends ProductSkuJsonPojo {
 		this.editUrl = editUrl;
 	}
 	
-	@JsonAnySetter
-	@Override
-	public void handleUnknown(String key, Object value) {
-		super.handleUnknown(key, value);
-	}
 }

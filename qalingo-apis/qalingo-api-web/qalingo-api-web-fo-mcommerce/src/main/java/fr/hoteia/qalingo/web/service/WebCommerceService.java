@@ -16,7 +16,7 @@ import fr.hoteia.qalingo.core.domain.CustomerCredential;
 import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.Order;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.web.mvc.form.ContactForm;
 import fr.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerAddressForm;

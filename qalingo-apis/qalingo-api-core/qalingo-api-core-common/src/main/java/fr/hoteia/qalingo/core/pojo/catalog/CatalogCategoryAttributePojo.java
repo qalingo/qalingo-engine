@@ -1,13 +1,14 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
-
 import java.util.Date;
 
-public class CatalogCategoryVirtualAttributePojo {
+import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
+
+public class CatalogCategoryAttributePojo {
 
     private Long id;
     private int version;
+    private AttributeDefinitionPojo attributeDefinition;
     private String stringValue;
     private Integer integerValue;
     private Double doubleValue;
@@ -23,8 +24,6 @@ public class CatalogCategoryVirtualAttributePojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private AttributeDefinitionPojo attributeDefinition;
-
     public Long getId() {
         return id;
     }
@@ -39,6 +38,14 @@ public class CatalogCategoryVirtualAttributePojo {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public AttributeDefinitionPojo getAttributeDefinition() {
+        return attributeDefinition;
+    }
+
+    public void setAttributeDefinition(AttributeDefinitionPojo attributeDefinition) {
+        this.attributeDefinition = attributeDefinition;
     }
 
     public String getStringValue() {
@@ -151,13 +158,5 @@ public class CatalogCategoryVirtualAttributePojo {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
-    }
-
-    public AttributeDefinitionPojo getAttributeDefinition() {
-        return attributeDefinition;
-    }
-
-    public void setAttributeDefinition(AttributeDefinitionPojo attributeDefinition) {
-        this.attributeDefinition = attributeDefinition;
     }
 }

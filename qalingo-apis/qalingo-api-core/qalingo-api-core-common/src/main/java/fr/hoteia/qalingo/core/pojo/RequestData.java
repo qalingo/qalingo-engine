@@ -1,4 +1,4 @@
-package fr.hoteia.qalingo.core.service.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
 import java.io.Serializable;
 

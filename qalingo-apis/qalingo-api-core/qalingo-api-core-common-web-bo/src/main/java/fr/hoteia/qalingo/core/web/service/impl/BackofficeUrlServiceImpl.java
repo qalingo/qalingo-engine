@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.mvc.service.impl.AbstractUrlServiceImpl;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 

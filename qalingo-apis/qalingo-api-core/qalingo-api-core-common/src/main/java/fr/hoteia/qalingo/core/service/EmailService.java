@@ -22,7 +22,7 @@ import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 
 public interface EmailService {
 

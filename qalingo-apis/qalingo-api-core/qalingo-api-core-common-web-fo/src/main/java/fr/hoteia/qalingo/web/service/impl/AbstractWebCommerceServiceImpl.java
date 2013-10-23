@@ -44,6 +44,7 @@ import fr.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailB
 import fr.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import fr.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.CustomerGroupService;
 import fr.hoteia.qalingo.core.service.CustomerService;
@@ -51,7 +52,6 @@ import fr.hoteia.qalingo.core.service.EmailService;
 import fr.hoteia.qalingo.core.service.OrderService;
 import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UrlService;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class AbstractWebCommerceServiceImpl {

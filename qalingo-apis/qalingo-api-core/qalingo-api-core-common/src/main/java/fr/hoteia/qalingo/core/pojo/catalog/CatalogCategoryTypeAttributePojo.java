@@ -1,8 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
-
 import java.util.Date;
+
+import fr.hoteia.qalingo.core.pojo.AttributeDefinitionPojo;
 
 public class CatalogCategoryTypeAttributePojo {
 

@@ -70,7 +70,7 @@ public class CatalogMaster implements Serializable {
 	        joinColumns=@JoinColumn(name="MASTER_CATALOG_ID"),
 	        inverseJoinColumns=@JoinColumn(name="MASTER_CATEGORY_ID")
 	    )
-	private Set<CatalogCategoryMaster> productCategories = new HashSet<CatalogCategoryMaster>(); 
+	private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -131,12 +131,12 @@ public class CatalogMaster implements Serializable {
 		this.code = code;
 	}
 	
-	public Set<CatalogCategoryMaster> getProductCategories() {
-		return productCategories;
+	public Set<CatalogCategoryMaster> getCatalogCategories() {
+		return catalogCategories;
 	}
 	
-	public void setProductCategories(Set<CatalogCategoryMaster> productCategories) {
-		this.productCategories = productCategories;
+	public void setCatalogCategories(Set<CatalogCategoryMaster> catalogCategories) {
+		this.catalogCategories = catalogCategories;
 	}
 	
 	public Date getDateCreate() {

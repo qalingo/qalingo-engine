@@ -49,10 +49,10 @@ import fr.hoteia.qalingo.core.email.bean.OrderSentConfirmationEmailBean;
 import fr.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import fr.hoteia.qalingo.core.exception.EmailProcessException;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.service.EmailService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.UrlService;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 
 @Service("emailService")

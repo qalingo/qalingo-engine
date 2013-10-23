@@ -11,7 +11,7 @@ package fr.hoteia.qalingo.core.web.service;
 
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 
 public interface BackofficeUrlService {
 

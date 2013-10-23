@@ -9,12 +9,10 @@
  */
 package fr.hoteia.qalingo.core.service.pojo.impl;
 
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
+
 import java.util.List;
 
-import fr.hoteia.qalingo.core.domain.Store;
-import fr.hoteia.qalingo.core.pojo.store.StorePojo;
-import fr.hoteia.qalingo.core.service.RetailerService;
-import fr.hoteia.qalingo.core.service.pojo.StorePojoService;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
+import fr.hoteia.qalingo.core.domain.Store;
+import fr.hoteia.qalingo.core.pojo.store.StorePojo;
+import fr.hoteia.qalingo.core.service.RetailerService;
+import fr.hoteia.qalingo.core.service.pojo.StorePojoService;
 
 
 @Service("storePojoService")
@@ -31,8 +32,11 @@ public class StorePojoServiceImpl implements StorePojoService {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    @Autowired private DozerBeanMapper mapper;
-    @Autowired private RetailerService retailerService;
+    @Autowired 
+    private DozerBeanMapper mapper;
+    
+    @Autowired 
+    private RetailerService retailerService;
 
     @Override
     public List<StorePojo> getAllStores() {

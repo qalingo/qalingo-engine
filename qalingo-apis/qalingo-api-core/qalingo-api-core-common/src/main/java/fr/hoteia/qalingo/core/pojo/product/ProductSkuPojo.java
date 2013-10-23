@@ -159,4 +159,5 @@ public class ProductSkuPojo {
     public void setRetailers(Collection<RetailerPojo> retailers) {
         this.retailers = asList(retailers);
     }
+    
 }

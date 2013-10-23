@@ -159,4 +159,5 @@ public class ProductMarketingPojo {
     public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = asList(assetsByMarketArea);
     }
+    
 }

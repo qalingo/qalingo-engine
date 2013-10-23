@@ -9,14 +9,13 @@
  */
 package fr.hoteia.qalingo.core.ws.service;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.pojo.store.StorePojo;
-import fr.hoteia.qalingo.core.ws.pojo.StoreWsPojo;
 
 @WebService(name="storeWsClient", targetNamespace="http://www.qalingo.com")
 public interface StoreWebService {

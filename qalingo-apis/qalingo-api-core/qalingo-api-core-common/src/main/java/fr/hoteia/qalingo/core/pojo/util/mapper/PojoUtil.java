@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class PojoUtil {
+    
     public static <T> List<T> asList(Collection<T> collection) {
         return new ArrayList<T>(collection);
     }
@@ -20,4 +21,5 @@ public class PojoUtil {
 
         return result;
     }
+
 }

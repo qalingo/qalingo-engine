@@ -47,10 +47,10 @@ import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import fr.hoteia.qalingo.core.rest.pojo.CatalogJsonPojo;
-import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+import fr.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.CatalogService;
+import fr.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
@@ -67,9 +67,9 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	protected JsonFactory jsonFactory;
-
+    @Autowired
+    private CatalogPojoService catalogPojoService;
+	   
 	@Autowired
 	protected CatalogService catalogService;
 	
@@ -94,22 +94,23 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		List<CatalogCategoryMaster> productCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId());
-		CatalogViewBean catalogViewBean = viewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, productCategories);
+		List<CatalogCategoryMaster> catalogCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId());
+		CatalogViewBean catalogViewBean = viewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
 		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
 
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			CatalogJsonPojo catalogJsonPojo = jsonFactory.buildJsonCatalog(catalogMaster);
-			String catalog = mapper.writeValueAsString(catalogJsonPojo);
-			modelAndView.addObject("catalogJson", catalog);
-		} catch (JsonGenerationException e) {
-			LOG.error(e.getMessage());
-		} catch (JsonMappingException e) {
-			LOG.error(e.getMessage());
-		} catch (IOException e) {
-			LOG.error(e.getMessage());
-		}
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getCatalog(catalogMaster);
+            String catalog = mapper.writeValueAsString(catalogPojo);
+            modelAndView.addObject("catalogJson", catalog);
+        } catch (JsonGenerationException e) {
+            LOG.error(e.getMessage());
+        } catch (JsonMappingException e) {
+            LOG.error(e.getMessage());
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
+        }
+		
         return modelAndView;
 	}
 	
@@ -127,22 +128,22 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		
-		List<CatalogCategoryVirtual> productCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId(), currentRetailer.getId());
-		CatalogViewBean catalogViewBean = viewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, productCategories);
+		List<CatalogCategoryVirtual> catalogCategories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId(), currentRetailer.getId());
+		CatalogViewBean catalogViewBean = viewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, catalogCategories);
 		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			CatalogJsonPojo catalogJsonPojo = jsonFactory.buildJsonCatalog(catalogVirtual, currentMarketArea.getId());
-			String catalog = mapper.writeValueAsString(catalogJsonPojo);
-			modelAndView.addObject("catalogJson", catalog);
-		} catch (JsonGenerationException e) {
-			LOG.error(e.getMessage());
-		} catch (JsonMappingException e) {
-			LOG.error(e.getMessage());
-		} catch (IOException e) {
-			LOG.error(e.getMessage());
-		}
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getCatalog(catalogVirtual);
+            String catalog = mapper.writeValueAsString(catalogPojo);
+            modelAndView.addObject("catalogJson", catalog);
+        } catch (JsonGenerationException e) {
+            LOG.error(e.getMessage());
+        } catch (JsonMappingException e) {
+            LOG.error(e.getMessage());
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
+        }
         return modelAndView;
 	}
 	

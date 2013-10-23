@@ -71,6 +71,7 @@ import fr.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.service.CatalogCategoryService;
 import fr.hoteia.qalingo.core.service.CatalogService;
 import fr.hoteia.qalingo.core.service.CustomerProductCommentService;
@@ -82,7 +83,6 @@ import fr.hoteia.qalingo.core.service.ReferentialDataService;
 import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.service.openid.OpenProvider;
-import fr.hoteia.qalingo.core.service.pojo.RequestData;
 import fr.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 import fr.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
@@ -277,7 +277,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 			CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId(), retailer.getId());
 			if(catalogVirtual != null){
-				final List<CatalogCategoryVirtual> productCategories = catalogVirtual.getProductCategories(marketArea.getId());
+				final List<CatalogCategoryVirtual> productCategories = catalogVirtual.getCatalogCategories(marketArea.getId());
 				if (productCategories != null) {
 					for (Iterator<CatalogCategoryVirtual> iteratorProductCategory = productCategories.iterator(); iteratorProductCategory.hasNext();) {
 						final CatalogCategoryVirtual productCategory = (CatalogCategoryVirtual) iteratorProductCategory.next();

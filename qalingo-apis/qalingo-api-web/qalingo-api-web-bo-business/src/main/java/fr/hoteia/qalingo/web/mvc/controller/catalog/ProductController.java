@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
-import fr.hoteia.qalingo.core.rest.util.JsonFactory;
+//import fr.hoteia.qalingo.core.rest.util.JsonFactory;
 import fr.hoteia.qalingo.core.service.ProductMarketingService;
 import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -53,8 +53,8 @@ public class ProductController extends AbstractBusinessBackofficeController {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	protected JsonFactory jsonFactory;
+//	@Autowired
+//	protected JsonFactory jsonFactory;
 	
 	@Autowired
 	protected ProductMarketingService productMarketingService;

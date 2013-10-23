@@ -16,15 +16,16 @@ import java.io.UnsupportedEncodingException;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.hoteia.qalingo.binding.jaxb.helper.StoreUnmarshalXmlHelper;
 import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreUnmarshalXmlHelperImpl implements StoreUnmarshalXmlHelper {
 	
-	private static final Logger LOG = Logger.getLogger(StoreUnmarshalXmlHelperImpl.class);
-	
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    
 	private Unmarshaller unmarshaller;
 
 	public Store getStore(String xml) throws UnsupportedEncodingException {

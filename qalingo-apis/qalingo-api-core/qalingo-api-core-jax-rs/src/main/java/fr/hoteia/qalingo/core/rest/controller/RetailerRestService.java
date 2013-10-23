@@ -1,23 +1,25 @@
 package fr.hoteia.qalingo.core.rest.controller;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-import fr.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
-import fr.hoteia.qalingo.core.pojo.store.StorePojo;
-import fr.hoteia.qalingo.core.service.pojo.RetailerPojoService;
-import org.dozer.DozerBeanMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Path("/retailer/")
-@Component("retailerRestController")
-public class RetailerRestController {
+import fr.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
+import fr.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 
-    @Autowired private RetailerPojoService retailerService;
+@Path("/retailer/")
+@Component("retailerRestService")
+public class RetailerRestService {
+
+    @Autowired
+    private RetailerPojoService retailerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,4 +33,5 @@ public class RetailerRestController {
     public RetailerPojo getStoreById(@PathParam("id") final String id) {
         return retailerService.getRetailerById(id);
     }
+
 }

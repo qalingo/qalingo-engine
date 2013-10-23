@@ -82,7 +82,7 @@ public class CatalogVirtual implements Serializable {
 	        joinColumns=@JoinColumn(name="VIRTUAL_CATALOG_ID"),
 	        inverseJoinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	    )	
-	private Set<CatalogCategoryVirtual> productCategories = new HashSet<CatalogCategoryVirtual>(); 
+	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -159,12 +159,12 @@ public class CatalogVirtual implements Serializable {
 		this.catalogMaster = catalogMaster;
 	}
 	
-	public Set<CatalogCategoryVirtual> getProductCategories() {
-		return productCategories;
+	public Set<CatalogCategoryVirtual> getCatalogCategories() {
+		return catalogCategories;
 	}
 	
-	public List<CatalogCategoryVirtual> getProductCategories(final Long marketAreaId) {
-		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(productCategories);
+	public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
+		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
 		Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
 			@Override
 			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
@@ -184,8 +184,8 @@ public class CatalogVirtual implements Serializable {
 		});
 		return sortedObjects;
 	}
-	public void setProductCategories(Set<CatalogCategoryVirtual> productCategories) {
-		this.productCategories = productCategories;
+	public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
+		this.catalogCategories = catalogCategories;
 	}
 	
 	public Date getDateCreate() {

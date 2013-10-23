@@ -9,15 +9,15 @@
  */
 package fr.hoteia.qalingo.core.pojo.customer;
 
-import fr.hoteia.qalingo.core.domain.CustomerOrderAudit;
-import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
-import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import fr.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 /**
  * 

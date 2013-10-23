@@ -7,25 +7,25 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.rest.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import fr.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 
 /**
  *
  * <p>
- * <a href="BoCatalogJsonPojo.java.html"><i>View Source</i></a>
+ * <a href="ProductSkuJsonPojo.java.html"><i>View Source</i></a>
  * </p>
  *
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class BoCatalogJsonPojo extends CatalogJsonPojo {
+public class BoProductSkuPojo extends ProductSkuPojo {
 	
 	private String detailsUrl;
+	private String editUrl;
 
-	public BoCatalogJsonPojo() {
+	public BoProductSkuPojo() {
 	}
 	
 	public String getDetailsUrl() {
@@ -35,4 +35,13 @@ public class BoCatalogJsonPojo extends CatalogJsonPojo {
 	public void setDetailsUrl(String detailsUrl) {
 		this.detailsUrl = detailsUrl;
 	}
+	
+	public String getEditUrl() {
+		return editUrl;
+	}
+	
+	public void setEditUrl(String editUrl) {
+		this.editUrl = editUrl;
+	}
+	
 }

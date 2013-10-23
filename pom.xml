@@ -30,24 +30,24 @@
 		<qalingo.webservice.url>http://localhost:21080/remote-ws</qalingo.webservice.url>
 
 		<!-- Spring -->
-		<spring.version>3.1.2.RELEASE</spring.version>
+		<spring.version>3.2.4.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
 		<!-- Spring-security -->
-		<spring-security.version>3.1.2.RELEASE</spring-security.version>
+		<spring-security.version>3.1.4.RELEASE</spring-security.version>
 		<!-- Spring-batch -->
 		<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.1.RELEASE</spring.batch.admin.version>
 		<!-- Datas -->
-		<hibernate.version>4.1.7.Final</hibernate.version>
+		<hibernate.version>4.2.6.Final</hibernate.version>
 		<!-- CXF -->
 		<cxf.version>2.7.0</cxf.version>
 		<!-- SOLR -->
-		<solr.version>4.0.0-BETA</solr.version>
+		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
 		<drools.version>5.4.0.Final</drools.version>
 		<!-- LOGS -->
-		<logback.version>1.0.6</logback.version>
-		<slf4j.version>1.6.6</slf4j.version>
+		<logback.version>1.0.13</logback.version>
+		<slf4j.version>1.7.5</slf4j.version>
 		<jackson-version>1.8.0</jackson-version>
 	</properties>
 
@@ -63,6 +63,12 @@
 				<groupId>fr.hoteia.qalingo</groupId>
 				<artifactId>qalingo-api-core-common</artifactId>
 				<version>${project.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
@@ -81,7 +87,7 @@
 			</dependency>
 			<dependency>
 				<groupId>fr.hoteia.qalingo</groupId>
-				<artifactId>qalingo-api-core-drools</artifactId>
+				<artifactId>qalingo-api-core-rule-engine</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -208,6 +214,12 @@
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>5.4.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
 			
 			<!-- Springs libs -->
@@ -413,8 +425,8 @@
 						<artifactId>jettison</artifactId>
 					</exclusion>
 					<exclusion>
-						<artifactId>cxf-rt-databinding-aegis</artifactId>
 						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-databinding-aegis</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -448,6 +460,12 @@
 				<groupId>org.drools</groupId>
 				<artifactId>drools-core</artifactId>
 				<version>${drools.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.drools</groupId>
@@ -458,6 +476,12 @@
 				<groupId>org.drools</groupId>
 				<artifactId>drools-spring</artifactId>
 				<version>${drools.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.drools</groupId>
@@ -537,11 +561,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
@@ -550,6 +569,11 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
 
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
@@ -641,10 +665,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

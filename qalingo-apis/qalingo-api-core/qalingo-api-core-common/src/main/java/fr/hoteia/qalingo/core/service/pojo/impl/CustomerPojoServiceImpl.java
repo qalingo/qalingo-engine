@@ -9,10 +9,10 @@
  */
 package fr.hoteia.qalingo.core.service.pojo.impl;
 
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import fr.hoteia.qalingo.core.service.pojo.CustomerPojoService;
-import fr.hoteia.qalingo.core.service.CustomerService;
+import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
+
+import java.util.List;
+
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
+import fr.hoteia.qalingo.core.domain.Customer;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
+import fr.hoteia.qalingo.core.service.CustomerService;
+import fr.hoteia.qalingo.core.service.pojo.CustomerPojoService;
 
 @Service("customerPojoService")
 @Transactional(readOnly = true)
@@ -30,8 +31,11 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    @Autowired private DozerBeanMapper mapper;
-    @Autowired private CustomerService customerService;
+    @Autowired
+    private DozerBeanMapper mapper;
+    
+    @Autowired
+    private CustomerService customerService;
 
     @Override
     public List<CustomerPojo> getAllCustomers() {

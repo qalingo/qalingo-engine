@@ -16,7 +16,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.hoteia.qalingo.binding.common.store.ObjectFactory;
 import fr.hoteia.qalingo.binding.common.store.XmlStore;
@@ -25,8 +26,8 @@ import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreMarshalXmlHelperImpl implements StoreMarshalXmlHelper {
 
-	private static final Logger LOG = Logger.getLogger(StoreMarshalXmlHelperImpl.class);
-
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    
 	private Marshaller marshaller;
 
 	public String getXMLAsString(Store store) throws UnsupportedEncodingException, JAXBException {

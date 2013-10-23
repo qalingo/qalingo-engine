@@ -1,6 +1,5 @@
 package fr.hoteia.qalingo.core.pojo.customer;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class CustomerOrderAuditPojo {
@@ -140,4 +139,5 @@ public class CustomerOrderAuditPojo {
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
+    
 }

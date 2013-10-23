@@ -1,31 +1,33 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.pojo.AssetPojo;
-import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class CatalogCategoryMasterPojo {
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import fr.hoteia.qalingo.core.pojo.AssetPojo;
+import fr.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
+
+public class CatalogCategoryPojo {
 
     private Long id;
     private int version;
+    private String code;
     private String businessName;
     private String description;
-    private String code;
     private boolean isDefault;
+    private boolean isRoot;
     private Date dateCreate;
     private Date dateUpdate;
 
     private CatalogCategoryTypePojo catalogCategoryType;
-    private CatalogCategoryMasterPojo defaultParentCatalogCategory;
+    private CatalogCategoryPojo defaultParentCatalogCategory;
 
-    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttributePojo>();
-    private Collection<CatalogCategoryMasterAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttributePojo>();
-    private Collection<CatalogCategoryMasterPojo> catalogCategories = new ArrayList<CatalogCategoryMasterPojo>();
+    private Collection<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryAttributePojo>();
+    private Collection<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryAttributePojo>();
+    private Collection<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
     private Collection<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
     private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
     private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
@@ -46,6 +48,14 @@ public class CatalogCategoryMasterPojo {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getBusinessName() {
         return businessName;
     }
@@ -62,20 +72,20 @@ public class CatalogCategoryMasterPojo {
         this.description = description;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public boolean isDefault() {
         return isDefault;
     }
 
     public void setDefault(boolean aDefault) {
         isDefault = aDefault;
+    }
+
+    public boolean isRoot() {
+        return isRoot;
+    }
+
+    public void setRoot(boolean isRoot) {
+        this.isRoot = isRoot;
     }
 
     public Date getDateCreate() {
@@ -103,36 +113,36 @@ public class CatalogCategoryMasterPojo {
     }
 
     @JsonBackReference
-    public CatalogCategoryMasterPojo getDefaultParentCatalogCategory() {
+    public CatalogCategoryPojo getDefaultParentCatalogCategory() {
         return defaultParentCatalogCategory;
     }
 
-    public void setDefaultParentCatalogCategory(CatalogCategoryMasterPojo defaultParentCatalogCategory) {
+    public void setDefaultParentCatalogCategory(CatalogCategoryPojo defaultParentCatalogCategory) {
         this.defaultParentCatalogCategory = defaultParentCatalogCategory;
     }
 
-    public Collection<CatalogCategoryMasterAttributePojo> getCatalogCategoryGlobalAttributes() {
+    public Collection<CatalogCategoryAttributePojo> getCatalogCategoryGlobalAttributes() {
         return catalogCategoryGlobalAttributes;
     }
 
-    public void setCatalogCategoryGlobalAttributes(Collection<CatalogCategoryMasterAttributePojo> catalogCategoryGlobalAttributes) {
+    public void setCatalogCategoryGlobalAttributes(Collection<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes) {
         this.catalogCategoryGlobalAttributes = catalogCategoryGlobalAttributes;
     }
 
-    public Collection<CatalogCategoryMasterAttributePojo> getCatalogCategoryMarketAreaAttributes() {
+    public Collection<CatalogCategoryAttributePojo> getCatalogCategoryMarketAreaAttributes() {
         return catalogCategoryMarketAreaAttributes;
     }
 
-    public void setCatalogCategoryMarketAreaAttributes(Collection<CatalogCategoryMasterAttributePojo> catalogCategoryMarketAreaAttributes) {
+    public void setCatalogCategoryMarketAreaAttributes(Collection<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes) {
         this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
     }
 
     @JsonManagedReference
-    public Collection<CatalogCategoryMasterPojo> getCatalogCategories() {
+    public Collection<CatalogCategoryPojo> getCatalogCategories() {
         return catalogCategories;
     }
 
-    public void setCatalogCategories(Collection<CatalogCategoryMasterPojo> catalogCategories) {
+    public void setCatalogCategories(Collection<CatalogCategoryPojo> catalogCategories) {
         this.catalogCategories = catalogCategories;
     }
 
@@ -159,4 +169,5 @@ public class CatalogCategoryMasterPojo {
     public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = assetsByMarketArea;
     }
+
 }

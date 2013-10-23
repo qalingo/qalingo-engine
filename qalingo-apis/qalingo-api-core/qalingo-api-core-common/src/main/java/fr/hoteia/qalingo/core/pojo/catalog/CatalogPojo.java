@@ -1,24 +1,22 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
-import fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class CatalogVirtualPojo {
+public class CatalogPojo {
 
     private Long id;
     private int version;
+    private String code;
     private String businessName;
     private String description;
-    private boolean isDefault;
-    private String code;
+    private boolean isDefault = false;
+    private boolean isMaster = false;
     private Date dateCreate;
     private Date dateUpdate;
 
-    private CatalogMasterPojo catalogMaster;
-    private Collection<CatalogCategoryVirtualPojo> productCategories = new ArrayList<CatalogCategoryVirtualPojo>();
+    private Collection<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
 
     public Long getId() {
         return id;
@@ -34,6 +32,14 @@ public class CatalogVirtualPojo {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getBusinessName() {
@@ -60,12 +66,12 @@ public class CatalogVirtualPojo {
         isDefault = aDefault;
     }
 
-    public String getCode() {
-        return code;
+    public boolean isMaster() {
+        return isMaster;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setMaster(boolean isMaster) {
+        this.isMaster = isMaster;
     }
 
     public Date getDateCreate() {
@@ -84,19 +90,12 @@ public class CatalogVirtualPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public CatalogMasterPojo getCatalogMaster() {
-        return catalogMaster;
+    public Collection<CatalogCategoryPojo> getCatalogCategories() {
+        return catalogCategories;
     }
 
-    public void setCatalogMaster(CatalogMasterPojo catalogMaster) {
-        this.catalogMaster = catalogMaster;
+    public void setCatalogCategories(Collection<CatalogCategoryPojo> catalogCategories) {
+        this.catalogCategories = new ArrayList<CatalogCategoryPojo>(catalogCategories);
     }
-
-    public Collection<CatalogCategoryVirtualPojo> getProductCategories() {
-        return productCategories;
-    }
-
-    public void setProductCategories(Collection<CatalogCategoryVirtualPojo> productCategories) {
-        this.productCategories = PojoUtil.asList(productCategories);
-    }
+    
 }

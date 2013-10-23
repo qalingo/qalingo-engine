@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-drools</artifactId>
+			<artifactId>qalingo-api-core-rule-engine</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>fr.hoteia.qalingo</groupId>
