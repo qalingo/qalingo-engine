@@ -7,22 +7,22 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.json.pojo;
+package fr.hoteia.qalingo.core.pojo;
 
 import org.codehaus.jackson.annotate.JsonAnySetter;
 
 /**
  *
  * <p>
- * <a href="AbstractJsonBean.java.html"><i>View Source</i></a>
+ * <a href="AbstractPojo.java.html"><i>View Source</i></a>
  * </p>
  *
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-public abstract class AbstractJsonPojo {
+public abstract class AbstractPojo {
 
-	public AbstractJsonPojo() {
+	public AbstractPojo() {
 	}
 	
 	@JsonAnySetter

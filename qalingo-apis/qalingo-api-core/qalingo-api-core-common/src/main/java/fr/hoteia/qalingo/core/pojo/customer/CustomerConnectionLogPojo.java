@@ -1,10 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.customer;
 
-import fr.hoteia.qalingo.core.json.pojo.AbstractJsonPojo;
-
 import java.util.Date;
 
-public class CustomerConnectionLogPojo extends AbstractJsonPojo {
+public class CustomerConnectionLogPojo {
 
     private Long id;
     private Date loginDate;

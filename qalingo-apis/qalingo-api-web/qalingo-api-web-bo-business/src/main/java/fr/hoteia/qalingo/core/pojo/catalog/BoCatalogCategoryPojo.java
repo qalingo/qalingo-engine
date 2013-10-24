@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.pojo;
+package fr.hoteia.qalingo.core.pojo.catalog;
 
 import fr.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
 

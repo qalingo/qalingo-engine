@@ -7,14 +7,14 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package fr.hoteia.qalingo.core.pojo;
+package fr.hoteia.qalingo.core.pojo.product;
 
 import fr.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 
 /**
  *
  * <p>
- * <a href="ProductSkuJsonPojo.java.html"><i>View Source</i></a>
+ * <a href="BoProductSkuPojo.java.html"><i>View Source</i></a>
  * </p>
  *
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
