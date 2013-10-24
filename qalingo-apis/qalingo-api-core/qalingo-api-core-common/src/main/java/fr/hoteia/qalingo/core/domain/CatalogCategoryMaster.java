@@ -559,7 +559,7 @@ public class CatalogCategoryMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "ProductCategoryMaster [id=" + id + ", version=" + version
+        return "CatalogCategoryMaster [id=" + id + ", version=" + version
                 + ", businessName=" + businessName + ", description="
                 + description + ", code=" + code + ", isDefault=" + isDefault
                 + ", defaultParentProductCategory="
