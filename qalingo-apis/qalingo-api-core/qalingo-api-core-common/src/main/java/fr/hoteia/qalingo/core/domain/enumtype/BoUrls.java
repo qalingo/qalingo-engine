@@ -126,7 +126,7 @@ public enum BoUrls {
 	// REFERENCE DATAS
 	public static final String REFERENCE_DATAS_KEY				= "reference-datas";
 	public static final String REFERENCE_DATAS_URL				= "/reference-datas-list.html";
-	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data";
+	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-datas-list";
 
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
@@ -170,7 +170,7 @@ public enum BoUrls {
 
 	// BATCH
 	public static final String BATCH_KEY				= "batch";
-	public static final String BATCH_URL				= "/batch.html";
+	public static final String BATCH_URL				= "/batch-list.html";
 	public static final String BATCH_VELOCITY_PAGE		= "batch/batch-list";
 
 	public static final String BATCH_CUSTOMER_KEY		= "batch-customer";
@@ -203,7 +203,7 @@ public enum BoUrls {
 	public static final String ENGINE_SETTING_DETAILS_VELOCITY_PAGE	= "engine-setting/engine-setting-details";
 
 	public static final String ENGINE_SETTING_EDIT_KEY				= "engine-setting-edit";
-	public static final String ENGINE_SETTING_EDIT_URL				= "/engine-setting-edit.html";
+	public static final String ENGINE_SETTING_EDIT_URL				= "/engine-setting-value-edit.html";//modified by daniel yao 2013/10/16
 	public static final String ENGINE_SETTING_EDIT_VELOCITY_PAGE	= "engine-setting/engine-setting-value-edit";
 
 	// CATALOG

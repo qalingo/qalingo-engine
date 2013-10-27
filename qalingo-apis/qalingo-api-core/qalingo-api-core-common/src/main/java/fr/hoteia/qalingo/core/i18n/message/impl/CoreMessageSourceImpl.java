@@ -157,7 +157,7 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 					&& code.contains("javax")){
 				LOG.warn("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
 			} else {
-				LOG.warn("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+				LOG.error("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
 			}
 			if(BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))){
 				return getMessage(code, args, defaultMessage, new Locale(Constants.DEFAULT_LOCALE_CODE));
@@ -183,7 +183,7 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 		try {
 			return messageSource.getMessage(code, args, locale);
 		} catch (Exception e) {
-			LOG.warn("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+			LOG.error("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
 			if(BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))){
 				return getMessage(code, args, new Locale(Constants.DEFAULT_LOCALE_CODE));
 			}
@@ -199,7 +199,7 @@ public class CoreMessageSourceImpl implements CoreMessageSource {
 		try {
 			return messageSource.getMessage(resolvable, locale);
 		} catch (Exception e) {
-			LOG.warn("This message key doesn't exist: " + resolvable.getCodes() + ", for this locale: " + locale.toString());
+			LOG.error("This message key doesn't exist: " + resolvable.getCodes() + ", for this locale: " + locale.toString());
 			if(BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))){
 				return getMessage(resolvable, new Locale(Constants.DEFAULT_LOCALE_CODE));
 			}

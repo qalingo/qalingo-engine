@@ -1,8 +1,8 @@
 package fr.hoteia.qalingo.core.pojo.catalog;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -25,12 +25,12 @@ public class CatalogCategoryPojo {
     private CatalogCategoryTypePojo catalogCategoryType;
     private CatalogCategoryPojo defaultParentCatalogCategory;
 
-    private List<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryAttributePojo>();
-    private List<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryAttributePojo>();
-    private List<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
-    private List<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
-    private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
-    private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    private Collection<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryAttributePojo>();
+    private Collection<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryAttributePojo>();
+    private Collection<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
+    private Collection<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
+    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
     public Long getId() {
         return id;
@@ -121,52 +121,52 @@ public class CatalogCategoryPojo {
         this.defaultParentCatalogCategory = defaultParentCatalogCategory;
     }
 
-    public List<CatalogCategoryAttributePojo> getCatalogCategoryGlobalAttributes() {
+    public Collection<CatalogCategoryAttributePojo> getCatalogCategoryGlobalAttributes() {
         return catalogCategoryGlobalAttributes;
     }
 
-    public void setCatalogCategoryGlobalAttributes(List<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes) {
+    public void setCatalogCategoryGlobalAttributes(Collection<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes) {
         this.catalogCategoryGlobalAttributes = catalogCategoryGlobalAttributes;
     }
 
-    public List<CatalogCategoryAttributePojo> getCatalogCategoryMarketAreaAttributes() {
+    public Collection<CatalogCategoryAttributePojo> getCatalogCategoryMarketAreaAttributes() {
         return catalogCategoryMarketAreaAttributes;
     }
 
-    public void setCatalogCategoryMarketAreaAttributes(List<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes) {
+    public void setCatalogCategoryMarketAreaAttributes(Collection<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes) {
         this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
     }
 
     @JsonManagedReference
-    public List<CatalogCategoryPojo> getCatalogCategories() {
+    public Collection<CatalogCategoryPojo> getCatalogCategories() {
         return catalogCategories;
     }
 
-    public void setCatalogCategories(List<CatalogCategoryPojo> catalogCategories) {
+    public void setCatalogCategories(Collection<CatalogCategoryPojo> catalogCategories) {
         this.catalogCategories = catalogCategories;
     }
 
-    public List<ProductMarketingPojo> getProductMarketings() {
+    public Collection<ProductMarketingPojo> getProductMarketings() {
         return productMarketings;
     }
 
-    public void setProductMarketings(List<ProductMarketingPojo> productMarketings) {
+    public void setProductMarketings(Collection<ProductMarketingPojo> productMarketings) {
         this.productMarketings = productMarketings;
     }
 
-    public List<AssetPojo> getAssetsIsGlobal() {
+    public Collection<AssetPojo> getAssetsIsGlobal() {
         return assetsIsGlobal;
     }
 
-    public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
+    public void setAssetsIsGlobal(Collection<AssetPojo> assetsIsGlobal) {
         this.assetsIsGlobal = assetsIsGlobal;
     }
 
-    public List<AssetPojo> getAssetsByMarketArea() {
+    public Collection<AssetPojo> getAssetsByMarketArea() {
         return assetsByMarketArea;
     }
 
-    public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
+    public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = assetsByMarketArea;
     }
 
