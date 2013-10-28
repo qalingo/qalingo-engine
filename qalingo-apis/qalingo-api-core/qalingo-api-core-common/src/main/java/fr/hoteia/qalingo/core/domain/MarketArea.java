@@ -50,6 +50,7 @@ public class MarketArea implements Serializable {
     public final static String MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT   = "MARKET_AREA_EMAIL_CONTACT";
     public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME        = "MARKET_AREA_DOMAIN_NAME";
     public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS      = "MARKET_AREA_SHARE_OPTIONS";
+    public final static String MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT    = "DEFAULT_CONTEXT";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -350,7 +351,11 @@ public class MarketArea implements Serializable {
     }
 	
 	public String getEmailFromAddress(String contextNameValue, String emailType) {
-	    return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, contextNameValue + "/" + emailType);
+	    String emailFromAddress = getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, contextNameValue + "/" + emailType);
+	    if(StringUtils.isEmpty(emailFromAddress)){
+	        emailFromAddress = getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+	    }
+	    return emailFromAddress;
     }
 	
     public String getEmailFromName(String contextNameValue, String emailType) {

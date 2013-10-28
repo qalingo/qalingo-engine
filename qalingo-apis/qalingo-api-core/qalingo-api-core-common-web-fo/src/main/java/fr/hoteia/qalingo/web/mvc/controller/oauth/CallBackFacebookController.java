@@ -41,7 +41,7 @@ import fr.hoteia.qalingo.core.service.AttributeService;
 @Controller("callBackFacebookController")
 public class CallBackFacebookController extends AbstractOAuthFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	protected AttributeService attributeService;
@@ -99,16 +99,16 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 					    if(responseCode == 200){
 					    	handleAuthenticationData(request, response, requestData, OAuthType.FACEBOOK, responseBody);
 					    } else {
-							LOG.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
+							logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 					    }
 					} else {
-						LOG.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
+						logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 					}
 					
 			    }
 					
 			} catch (Exception e) {
-				LOG.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
+				logger.error("Callback With " + OAuthType.FACEBOOK.name() + " failed!");
 			}
 		}
 		
@@ -126,9 +126,9 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 		try {
 			userPojo = mapper.readValue(jsonData, UserPojo.class);
 		} catch (JsonGenerationException e) {
-			LOG.error(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (JsonMappingException e) {
-			LOG.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		if(userPojo != null){
 			final String email = userPojo.getEmail();

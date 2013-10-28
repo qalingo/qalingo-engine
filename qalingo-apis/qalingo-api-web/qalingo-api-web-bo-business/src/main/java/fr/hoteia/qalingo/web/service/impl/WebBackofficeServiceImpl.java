@@ -42,7 +42,7 @@ import fr.hoteia.qalingo.core.service.ProductSkuService;
 import fr.hoteia.qalingo.core.service.RetailerService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
-import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
+import fr.hoteia.qalingo.web.mvc.form.CatalogCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
 import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
@@ -57,7 +57,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	protected UserService userService;
 	
 	@Autowired
-	protected CatalogCategoryService productCategoryService;
+	protected CatalogCategoryService catalogCategoryService;
 
 	@Autowired
 	protected ProductMarketingService productMarketingService;
@@ -79,46 +79,46 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		userService.saveOrUpdateUser(user);
 	}
 	
-	public void createProductCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster productCategory, final ProductCategoryForm productCategoryForm) throws UniqueConstraintCodeCategoryException {
-		String productCategoryCode = productCategoryForm.getCode();
-		productCategory.setBusinessName(productCategoryForm.getName());
-		productCategory.setCode(productCategoryForm.getCode());
-		productCategory.setDescription(productCategoryForm.getDescription());
-		productCategory.setDefaultParentCatalogCategory(parentProductCategory);
+	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentCatalogCategory, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
+		String catalogCategoryCode = catalogCategoryForm.getCode();
+		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setCode(catalogCategoryForm.getCode());
+		catalogCategory.setDescription(catalogCategoryForm.getDescription());
+		catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
 		
-		if(productCategoryForm != null
-				&& productCategoryForm.getMarketAreaAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getMarketAreaAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getMarketAreaAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
 				String value = attributes.get(attributeKey);
 				if(StringUtils.isNotEmpty(value)){
-					productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+					catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 				}
 			}
 		}
 		
-		if(productCategoryForm != null
-				&& productCategoryForm.getGlobalAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getGlobalAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getGlobalAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
 				String value = attributes.get(attributeKey);
 				if(StringUtils.isNotEmpty(value)){
-					productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+					catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 				}
 			}
 		}
 		
 		try {
-			productCategoryService.saveOrUpdateCatalogCategory(productCategory);
+			catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 			
-			if(parentProductCategory != null){
-				if(!parentProductCategory.getCatalogCategories().contains(productCategory)){
+			if(parentCatalogCategory != null){
+				if(!parentCatalogCategory.getCatalogCategories().contains(catalogCategory)){
 					// PARENT DOESN'T CONTAIN THE NEW CATEGORY - ADD IT IN THE MANY TO MANY
-					CatalogCategoryMaster reloadedProductCategory = productCategoryService.getMasterCatalogCategoryByCode(productCategoryCode);
-					parentProductCategory.getCatalogCategories().add(reloadedProductCategory);
-					productCategoryService.saveOrUpdateCatalogCategory(parentProductCategory);
+					CatalogCategoryMaster reloadedCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode);
+					parentCatalogCategory.getCatalogCategories().add(reloadedCatalogCategory);
+					catalogCategoryService.saveOrUpdateCatalogCategory(parentCatalogCategory);
 				}
 			}
 			
@@ -132,239 +132,239 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		
 	}
 	
-	public void updateProductCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryMaster productCategory, final ProductCategoryForm productCategoryForm){
-		productCategory.setBusinessName(productCategoryForm.getName());
-		productCategory.setCode(productCategoryForm.getCode());
-		productCategory.setDescription(productCategoryForm.getDescription());
-		if(StringUtils.isNotEmpty(productCategoryForm.getDefaultParentCategoryCode())){
-			if(productCategory.getDefaultParentCatalogCategory() == null
-					|| (productCategory.getDefaultParentCatalogCategory() != null
-						&& !productCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(productCategory.getDefaultParentCatalogCategory().getCode()))){
-				final CatalogCategoryMaster parentProductCategory = productCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryForm.getDefaultParentCategoryCode());
-				productCategory.setDefaultParentCatalogCategory(parentProductCategory);
+	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm){
+		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setCode(catalogCategoryForm.getCode());
+		catalogCategory.setDescription(catalogCategoryForm.getDescription());
+		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())){
+			if(catalogCategory.getDefaultParentCatalogCategory() == null
+					|| (catalogCategory.getDefaultParentCatalogCategory() != null
+						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))){
+				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), catalogCategoryForm.getDefaultParentCategoryCode());
+				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
 			}
 		}
 
-		if(productCategoryForm != null
-				&& productCategoryForm.getGlobalAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getGlobalAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getGlobalAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryGlobalAttributes = productCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
-					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryGlobalAttributes.next();
-					if(productCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
-						updateProductCategoryMasterAttribute(productCategoryMasterAttribute, productCategoryForm.getGlobalAttributes().get(attributeKey));
+				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
+					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryGlobalAttributes.next();
+					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
+						updateCatalogCategoryMasterAttribute(catalogCategoryMasterAttribute, catalogCategoryForm.getGlobalAttributes().get(attributeKey));
 						doesntExist = false;
 					}
 				}
 				if(doesntExist){
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)){
-						productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+						catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 					}
 				}
 			}
 		}
 		
-		if(productCategoryForm != null
-				&& productCategoryForm.getMarketAreaAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getMarketAreaAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getMarketAreaAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryMarketAttributes = productCategory.getCatalogCategoryMarketAreaAttributes().iterator(); iteratorCategoryMarketAttributes.hasNext();) {
-					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryMarketAttributes.next();
-					if(productCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
-						updateProductCategoryMasterAttribute(productCategoryMasterAttribute, productCategoryForm.getMarketAreaAttributes().get(attributeKey));
+				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryMarketAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes().iterator(); iteratorCategoryMarketAttributes.hasNext();) {
+					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryMarketAttributes.next();
+					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
+						updateCatalogCategoryMasterAttribute(catalogCategoryMasterAttribute, catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
 						doesntExist = false;
 					}
 				}
 				if(doesntExist){
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)){
-						productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+						catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 					}
 				}
 			}
 		}
 		
-		productCategoryService.saveOrUpdateCatalogCategory(productCategory);
+		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 	
-	public void createProductCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryVirtual productCategory, final ProductCategoryForm productCategoryForm){
-		productCategory.setBusinessName(productCategoryForm.getName());
-		productCategory.setCode(productCategoryForm.getCode());
-		productCategory.setDescription(productCategoryForm.getDescription());
-		productCategoryService.saveOrUpdateCatalogCategory(productCategory);
+	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm){
+		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setCode(catalogCategoryForm.getCode());
+		catalogCategory.setDescription(catalogCategoryForm.getDescription());
+		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 	
-	public void updateProductCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryVirtual productCategory, final ProductCategoryForm productCategoryForm){
-		productCategory.setBusinessName(productCategoryForm.getName());
-		productCategory.setCode(productCategoryForm.getCode());
-		productCategory.setDescription(productCategoryForm.getDescription());
-		if(StringUtils.isNotEmpty(productCategoryForm.getDefaultParentCategoryCode())){
-			if(productCategory.getDefaultParentCatalogCategory() == null
-					|| (productCategory.getDefaultParentCatalogCategory() != null
-						&& !productCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(productCategory.getDefaultParentCatalogCategory().getCode()))){
-				final CatalogCategoryVirtual parentProductCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), productCategoryForm.getDefaultParentCategoryCode());
-				productCategory.setDefaultParentCatalogCategory(parentProductCategory);
+	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm){
+		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setCode(catalogCategoryForm.getCode());
+		catalogCategory.setDescription(catalogCategoryForm.getDescription());
+		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())){
+			if(catalogCategory.getDefaultParentCatalogCategory() == null
+					|| (catalogCategory.getDefaultParentCatalogCategory() != null
+						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))){
+				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), catalogCategoryForm.getDefaultParentCategoryCode());
+				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
 			}
 		}
 		
-//		for (Iterator<String> iterator = productCategoryForm.getGlobalAttributes().keySet().iterator(); iterator.hasNext();) {
+//		for (Iterator<String> iterator = catalogCategoryForm.getGlobalAttributes().keySet().iterator(); iterator.hasNext();) {
 //			String key = (String) iterator.next();
-//			for (Iterator<ProductCategoryVirtualAttribute> iteratorGlobalAttributes = productCategory.getProductCategoryGlobalAttributes().iterator(); iteratorGlobalAttributes.hasNext();) {
-//				ProductCategoryVirtualAttribute productCategoryVirtualAttribute = (ProductCategoryVirtualAttribute) iteratorGlobalAttributes.next();
-//				if(productCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(key)){
-//					updateProductCategoryVirtualAttribute(productCategoryVirtualAttribute, productCategoryForm.getGlobalAttributes().get(key));
+//			for (Iterator<CatalogCategoryVirtualAttribute> iteratorGlobalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorGlobalAttributes.hasNext();) {
+//				CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorGlobalAttributes.next();
+//				if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(key)){
+//					updateCatalogCategoryVirtualAttribute(catalogCategoryVirtualAttribute, catalogCategoryForm.getGlobalAttributes().get(key));
 //				}
 //			}
 //		}
 //			
-//		for (Iterator<String> iterator = productCategoryForm.getMarketAreaAttributes().keySet().iterator(); iterator.hasNext();) {
+//		for (Iterator<String> iterator = catalogCategoryForm.getMarketAreaAttributes().keySet().iterator(); iterator.hasNext();) {
 //			String key = (String) iterator.next();
-//			for (Iterator<ProductCategoryVirtualAttribute> iteratorMarketAreaAttribute = productCategory.getProductCategoryMarketAreaAttributes().iterator(); iteratorMarketAreaAttribute.hasNext();) {
-//				ProductCategoryVirtualAttribute productCategoryVirtualAttribute = (ProductCategoryVirtualAttribute) iteratorMarketAreaAttribute.next();
-//				if(productCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(key)){
-//					updateProductCategoryVirtualAttribute(productCategoryVirtualAttribute, productCategoryForm.getMarketAreaAttributes().get(key));
+//			for (Iterator<CatalogCategoryVirtualAttribute> iteratorMarketAreaAttribute = catalogCategory.getCatalogCategoryMarketAreaAttributes().iterator(); iteratorMarketAreaAttribute.hasNext();) {
+//				CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorMarketAreaAttribute.next();
+//				if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(key)){
+//					updateCatalogCategoryVirtualAttribute(catalogCategoryVirtualAttribute, catalogCategoryForm.getMarketAreaAttributes().get(key));
 //				}
 //			}
 //		}
 		
-		if(productCategoryForm != null
-				&& productCategoryForm.getGlobalAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getGlobalAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getGlobalAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getGlobalAttributes();
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryGlobalAttributes = productCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
-					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryGlobalAttributes.next();
-					if(productCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
-						updateProductCategoryVirtualAttribute(productCategoryVirtualAttribute, productCategoryForm.getGlobalAttributes().get(attributeKey));
+				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
+					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryGlobalAttributes.next();
+					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
+						updateCatalogCategoryVirtualAttribute(catalogCategoryVirtualAttribute, catalogCategoryForm.getGlobalAttributes().get(attributeKey));
 						doesntExist = false;
 					}
 				}
 				if(doesntExist){
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)){
-						productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+						catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 					}
 				}
 			}
 		}
 		
-		if(productCategoryForm != null
-				&& productCategoryForm.getMarketAreaAttributes() != null){
-			Map<String, String> attributes = productCategoryForm.getMarketAreaAttributes();
+		if(catalogCategoryForm != null
+				&& catalogCategoryForm.getMarketAreaAttributes() != null){
+			Map<String, String> attributes = catalogCategoryForm.getMarketAreaAttributes();
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryMarketAttributes = productCategory.getCatalogCategoryMarketAreaAttributes().iterator(); iteratorCategoryMarketAttributes.hasNext();) {
-					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryMarketAttributes.next();
-					if(productCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
-						updateProductCategoryVirtualAttribute(productCategoryVirtualAttribute, productCategoryForm.getMarketAreaAttributes().get(attributeKey));
+				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryMarketAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes().iterator(); iteratorCategoryMarketAttributes.hasNext();) {
+					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryMarketAttributes.next();
+					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)){
+						updateCatalogCategoryVirtualAttribute(catalogCategoryVirtualAttribute, catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
 						doesntExist = false;
 					}
 				}
 				if(doesntExist){
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)){
-						productCategory.getCatalogCategoryMarketAreaAttributes().add(buildProductCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+						catalogCategory.getCatalogCategoryMarketAreaAttributes().add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 					}
 				}
 			}
 		}
 		
-		productCategoryService.saveOrUpdateCatalogCategory(productCategory);
+		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
-	private void updateProductCategoryMasterAttribute(final CatalogCategoryMasterAttribute productCategoryMasterAttribute, final String attributeValue){
-		AttributeDefinition attributeDefinition = productCategoryMasterAttribute.getAttributeDefinition();
+	private void updateCatalogCategoryMasterAttribute(final CatalogCategoryMasterAttribute catalogCategoryMasterAttribute, final String attributeValue){
+		AttributeDefinition attributeDefinition = catalogCategoryMasterAttribute.getAttributeDefinition();
 		if(AttributeDefinition.ATTRIBUTE_TYPE_STRING == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setStringValue(attributeValue);
+			catalogCategoryMasterAttribute.setStringValue(attributeValue);
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setDoubleValue(Double.parseDouble(attributeValue));
+			catalogCategoryMasterAttribute.setDoubleValue(Double.parseDouble(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_FLOAT == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setFloatValue(Float.parseFloat(attributeValue));
+			catalogCategoryMasterAttribute.setFloatValue(Float.parseFloat(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_INTEGER == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setIntegerValue(Integer.parseInt(attributeValue));
+			catalogCategoryMasterAttribute.setIntegerValue(Integer.parseInt(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BLOB == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setBlobValue(attributeValue.getBytes());
+			catalogCategoryMasterAttribute.setBlobValue(attributeValue.getBytes());
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
+			catalogCategoryMasterAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
 		}
 	}
 	
-	private CatalogCategoryMasterAttribute buildProductCategoryMasterAttribute(final MarketArea currentMarketArea, final Localization currentLocalization, final String attributeKey, final String attributeValue, boolean isGlobal){
+	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea currentMarketArea, final Localization currentLocalization, final String attributeKey, final String attributeValue, boolean isGlobal){
 		
 		//TODO : denis : 20130125 : add cache
 		
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
-		CatalogCategoryMasterAttribute productCategoryMasterAttribute = new CatalogCategoryMasterAttribute();
-		productCategoryMasterAttribute.setAttributeDefinition(attributeDefinition);
-		productCategoryMasterAttribute.setLocalizationCode(currentLocalization.getCode());
-		productCategoryMasterAttribute.setMarketAreaId(currentMarketArea.getId());
-		productCategoryMasterAttribute.setStartDate(new Date());
+		CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = new CatalogCategoryMasterAttribute();
+		catalogCategoryMasterAttribute.setAttributeDefinition(attributeDefinition);
+		catalogCategoryMasterAttribute.setLocalizationCode(currentLocalization.getCode());
+		catalogCategoryMasterAttribute.setMarketAreaId(currentMarketArea.getId());
+		catalogCategoryMasterAttribute.setStartDate(new Date());
 		
 		if(AttributeDefinition.ATTRIBUTE_TYPE_STRING == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setStringValue(attributeValue);
+			catalogCategoryMasterAttribute.setStringValue(attributeValue);
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setDoubleValue(Double.parseDouble(attributeValue));
+			catalogCategoryMasterAttribute.setDoubleValue(Double.parseDouble(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_FLOAT == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setFloatValue(Float.parseFloat(attributeValue));
+			catalogCategoryMasterAttribute.setFloatValue(Float.parseFloat(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_INTEGER == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setIntegerValue(Integer.parseInt(attributeValue));
+			catalogCategoryMasterAttribute.setIntegerValue(Integer.parseInt(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BLOB == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setBlobValue(attributeValue.getBytes());
+			catalogCategoryMasterAttribute.setBlobValue(attributeValue.getBytes());
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN == attributeDefinition.getAttributeType()){
-			productCategoryMasterAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
+			catalogCategoryMasterAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
 		}
-		return productCategoryMasterAttribute;
+		return catalogCategoryMasterAttribute;
 	}
 	
-	private void updateProductCategoryVirtualAttribute(final CatalogCategoryVirtualAttribute productCategoryVirtualAttribute, final String attributeValue){
-		AttributeDefinition attributeDefinition = productCategoryVirtualAttribute.getAttributeDefinition();
+	private void updateCatalogCategoryVirtualAttribute(final CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute, final String attributeValue){
+		AttributeDefinition attributeDefinition = catalogCategoryVirtualAttribute.getAttributeDefinition();
 		if(AttributeDefinition.ATTRIBUTE_TYPE_STRING == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setStringValue(attributeValue);
+			catalogCategoryVirtualAttribute.setStringValue(attributeValue);
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setDoubleValue(Double.parseDouble(attributeValue));
+			catalogCategoryVirtualAttribute.setDoubleValue(Double.parseDouble(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_FLOAT == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setFloatValue(Float.parseFloat(attributeValue));
+			catalogCategoryVirtualAttribute.setFloatValue(Float.parseFloat(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_INTEGER == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setIntegerValue(Integer.parseInt(attributeValue));
+			catalogCategoryVirtualAttribute.setIntegerValue(Integer.parseInt(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BLOB == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setBlobValue(attributeValue.getBytes());
+			catalogCategoryVirtualAttribute.setBlobValue(attributeValue.getBytes());
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
+			catalogCategoryVirtualAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
 		}
 	}
 	
-	private CatalogCategoryVirtualAttribute buildProductCategoryVirtualAttribute(final MarketArea currentMarketArea, final Localization currentLocalization, final String attributeKey, final String attributeValue, boolean isGlobal){
+	private CatalogCategoryVirtualAttribute buildCatalogCategoryVirtualAttribute(final MarketArea currentMarketArea, final Localization currentLocalization, final String attributeKey, final String attributeValue, boolean isGlobal){
 		
 		//TODO : denis : 20130125 : add cache
 		
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
-		CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = new CatalogCategoryVirtualAttribute();
-		productCategoryVirtualAttribute.setAttributeDefinition(attributeDefinition);
-		productCategoryVirtualAttribute.setLocalizationCode(currentLocalization.getCode());
-		productCategoryVirtualAttribute.setMarketAreaId(currentMarketArea.getId());
-		productCategoryVirtualAttribute.setStartDate(new Date());
+		CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = new CatalogCategoryVirtualAttribute();
+		catalogCategoryVirtualAttribute.setAttributeDefinition(attributeDefinition);
+		catalogCategoryVirtualAttribute.setLocalizationCode(currentLocalization.getCode());
+		catalogCategoryVirtualAttribute.setMarketAreaId(currentMarketArea.getId());
+		catalogCategoryVirtualAttribute.setStartDate(new Date());
 		
 		if(AttributeDefinition.ATTRIBUTE_TYPE_STRING == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setStringValue(attributeValue);
+			catalogCategoryVirtualAttribute.setStringValue(attributeValue);
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setDoubleValue(Double.parseDouble(attributeValue));
+			catalogCategoryVirtualAttribute.setDoubleValue(Double.parseDouble(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_FLOAT == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setFloatValue(Float.parseFloat(attributeValue));
+			catalogCategoryVirtualAttribute.setFloatValue(Float.parseFloat(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_INTEGER == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setIntegerValue(Integer.parseInt(attributeValue));
+			catalogCategoryVirtualAttribute.setIntegerValue(Integer.parseInt(attributeValue));
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BLOB == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setBlobValue(attributeValue.getBytes());
+			catalogCategoryVirtualAttribute.setBlobValue(attributeValue.getBytes());
 		} else if(AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN == attributeDefinition.getAttributeType()){
-			productCategoryVirtualAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
+			catalogCategoryVirtualAttribute.setBooleanValue(BooleanUtils.toBooleanObject(attributeValue));
 		}
-		return productCategoryVirtualAttribute;
+		return catalogCategoryVirtualAttribute;
 	}
 	
 	public void updateProductMarketing(final ProductMarketing productMarketing, final ProductMarketingForm productMarketingForm){

@@ -24,7 +24,7 @@ import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreUnmarshalXmlHelperImpl implements StoreUnmarshalXmlHelper {
 	
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	private Unmarshaller unmarshaller;
 
@@ -51,7 +51,7 @@ public class StoreUnmarshalXmlHelperImpl implements StoreUnmarshalXmlHelper {
 			try {
 				store = ((JAXBElement<Store>)unmarshaller.unmarshal(xsdInputStream)).getValue();
 			} catch (javax.xml.bind.JAXBException e) {
-				LOG.error("something is wrong with jaxb", e);
+				logger.error("something is wrong with jaxb", e);
 			}
 		}
 		return store;

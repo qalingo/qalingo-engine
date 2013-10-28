@@ -23,7 +23,7 @@ import fr.hoteia.qalingo.core.domain.Cart;
 @Repository("cartDao")
 public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Cart getCartById(Long cartId) {
 		return em.find(Cart.class, cartId);

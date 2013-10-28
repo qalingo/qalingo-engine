@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
  */
 public abstract class AbstractCustomerController extends AbstractMCommerceController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @ModelAttribute(ModelConstants.TITLES)
     public List<ValueBean> getTitles(HttpServletRequest request) throws Exception {
@@ -57,7 +57,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
 				});
 			}
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return titlesValues;
     }
@@ -82,7 +82,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
 				});
 			}
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return countriesValues;
     }

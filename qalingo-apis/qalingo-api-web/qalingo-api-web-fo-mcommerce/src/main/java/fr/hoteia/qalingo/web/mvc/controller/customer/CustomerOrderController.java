@@ -39,7 +39,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.OrderViewBean;
 @Controller("customerOrderController")
 public class CustomerOrderController extends AbstractCustomerController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     protected OrderService orderService;
@@ -109,7 +109,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 				if(orders.contains(order)){
 			        return modelAndView;
 				} else {
-					LOG.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
+					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
 				}
 			}
 		}

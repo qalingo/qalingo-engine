@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.context.MessageSource;
 
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.domain.Localization;
+import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -49,6 +52,44 @@ public abstract class AbstractUrlServiceImpl {
             return url + queryString.replaceFirst("&", "?");
     	}
         return url;
+    }
+    
+    public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
+        String absoluteUrl = buildDomainePathUrl(requestData);
+        if(!relativeUrl.startsWith("/")){
+            absoluteUrl = absoluteUrl + "/" + relativeUrl;
+        } else {
+            absoluteUrl = absoluteUrl + relativeUrl;
+        }
+        if(!absoluteUrl.startsWith("http://")){
+            absoluteUrl = "http://" + absoluteUrl;
+        }
+        return absoluteUrl;
+    }
+    
+    public String buildDomainePathUrl(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final String contextNameValue = requestData.getContextNameValue();
+        
+        String domainePathUrl = "";
+        if(marketArea != null){
+            String domainName = marketArea.getDomainName(contextNameValue);
+            if(StringUtils.isNotEmpty(domainName)){
+                domainePathUrl = domainName;
+            }
+        }
+        if(StringUtils.isEmpty(domainePathUrl)){
+            String requestUrl = request.getRequestURL().toString();
+            requestUrl = requestUrl.replace("http://", "");
+            String[] urlBlock = requestUrl.split("/");
+            domainePathUrl = urlBlock[0];
+        }
+        if(!domainePathUrl.startsWith("http")){
+            String scheme = request.getScheme();
+            domainePathUrl = scheme + "://" + domainePathUrl;
+        }
+        return domainePathUrl;
     }
     
 	protected String encodeString(String url) throws Exception {

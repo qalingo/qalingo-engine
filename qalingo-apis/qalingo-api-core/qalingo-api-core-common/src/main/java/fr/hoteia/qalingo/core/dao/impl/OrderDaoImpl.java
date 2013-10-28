@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.OrderNumber;
 @Repository("orderDao")
 public class OrderDaoImpl extends AbstractGenericDaoImpl implements OrderDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Order getOrderById(Long orderId) {
 		return em.find(Order.class, orderId);
@@ -95,7 +95,7 @@ public class OrderDaoImpl extends AbstractGenericDaoImpl implements OrderDao {
 	        }
 			
 		} catch (Exception e) {
-			LOG.error("Failed to create a new Order with a specific OrderNumber increment", e);
+		    logger.error("Failed to create a new Order with a specific OrderNumber increment", e);
 		}
 		return order;
 	}

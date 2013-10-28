@@ -102,41 +102,6 @@ public class OrderController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-//	@RequestMapping(value = "/order-edit.html*", method = RequestMethod.GET)
-//	public ModelAndView orderEdit(final HttpServletRequest request, final Model model, ModelMap modelMap) throws Exception {
-//		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ORDER_FORM_VELOCITY_PAGE);
-//		
-//		// "order.edit";
-//
-//		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
-//		final Order order = orderService.getOrderByCode(currentOrderCode);
-//		
-//		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-//		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, viewBeanFactory.buildOrderViewBean(request, currentLocalization, order));
-//		modelAndView.addObject(Constants.ORDER_FORM, formFactory.buildOrderForm(request, order));
-//		return modelAndView;
-//	}
-//	
-//	@RequestMapping(value = "/order-edit.html*", method = RequestMethod.POST)
-//	public ModelAndView submitOrderEdit(final HttpServletRequest request, final Model model, @Valid OrderForm orderForm,
-//								BindingResult result, ModelMap modelMap) throws Exception {
-//
-//		// "order.edit";
-//		
-//		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAM_ORDER_CODE);
-//		final Order order = orderService.getOrderByCode(currentOrderCode);
-//		
-//		if (result.hasErrors()) {
-//			return submitOrderEdit(request, response, orderForm, result, modelMap);
-//		}
-//		
-//		// UPDATE ORDER
-////		webBackofficeService.updateOrder(order, orderForm);
-//		
-//		final String urlRedirect = backofficeUrlService.buildOrderDetailsUrl(currentOrderCode);
-//        return new ModelAndView(new RedirectView(urlRedirect));
-//	}
-
 	private PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, String sessionKey) throws Exception{
 		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>();
 		

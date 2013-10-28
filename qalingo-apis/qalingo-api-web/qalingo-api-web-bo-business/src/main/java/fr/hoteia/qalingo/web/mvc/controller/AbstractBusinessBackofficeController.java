@@ -19,7 +19,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
 /**
  * 
  * <p>
- * <a href="AbstractBackofficeQalingoController.java.html"><i>View Source</i></a>
+ * <a href="AbstractBusinessBackofficeController.java.html"><i>View Source</i></a>
  * </p>
  * 
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.web.service.WebBackofficeService;
  */
 public abstract class AbstractBusinessBackofficeController extends AbstractBackofficeQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected FormFactory formFactory;

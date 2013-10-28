@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class UrlParamsFilter implements Filter {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected ApplicationContext ctx;
     protected FilterConfig filterConfig;
@@ -51,7 +51,7 @@ public class UrlParamsFilter implements Filter {
     	try {
 			requestUtil.handleFrontofficeUrlParameters(httpServletRequest);
 		} catch (Exception e) {
-			LOG.error("UrlParams Filter & HandleUrlParameters failed, e");
+			logger.error("UrlParams Filter & HandleUrlParameters failed, e");
 		}
 		
         // pass the servletRequest on

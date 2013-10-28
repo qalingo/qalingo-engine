@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.EngineEcoSession;
 @Repository("engineSessionDao")
 public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements EngineSessionDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// ECO SESSION
 	public EngineEcoSession getEngineEcoSessionById(Long engineSessionId) {

@@ -79,7 +79,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 @Transactional
 public class RequestUtilImpl implements RequestUtil {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected EngineSettingService engineSettingService;
@@ -433,7 +433,7 @@ public class RequestUtilImpl implements RequestUtil {
 			if(engineSettingValue != null){
 				prefixPath  = engineSettingValue.getValue();
 			} else {
-				LOG.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + contextValue);
+				logger.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + contextValue);
 			}
 			String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(request);
 			if(currentThemeResourcePrefixPath.endsWith("/")){
@@ -442,7 +442,7 @@ public class RequestUtilImpl implements RequestUtil {
 			return currentThemeResourcePrefixPath;
 			 
 		 } catch (Exception e) {
-		 	LOG.error("Context name, " + getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
+		 	logger.error("Context name, " + getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
 		 }
 		return null;
 	}
@@ -768,7 +768,7 @@ public class RequestUtilImpl implements RequestUtil {
 		if (localization != null) {
 			return localization.getLocale();
 		} else {
-			LOG.warn("Current Locale is null and it is not possible. Need to reset session.");
+			logger.warn("Current Locale is null and it is not possible. Need to reset session.");
 			if(isBackoffice()){
 				initDefaultBoMarketPlace(request);
 			} else {
@@ -1440,7 +1440,7 @@ public class RequestUtilImpl implements RequestUtil {
             engineEcoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
         } else {
             engineEcoSession.setEnvironmentStagingModeEnabled(false);
-            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
+            logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
         }
 	    EngineSetting engineSettingEnvironmentType = engineSettingService.getEnvironmentType();
 	    if(engineSettingEnvironmentType != null){
@@ -1448,11 +1448,11 @@ public class RequestUtilImpl implements RequestUtil {
             try {
                 engineEcoSession.setEnvironmentType(EnvironmentType.valueOf(environmentType));
             } catch (Exception e) {
-                LOG.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+                logger.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
             }
         } else {
             engineEcoSession.setEnvironmentType(EnvironmentType.REEL);
-            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+            logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
         }
 
 		// INIT STAGING OR REEL ENVIRONMENT
@@ -1542,7 +1542,7 @@ public class RequestUtilImpl implements RequestUtil {
             engineBoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
         } else {
             engineBoSession.setEnvironmentStagingModeEnabled(false);
-            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
+            logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_STAGING_MODE_ENABLED + " value in settings table.");
         }
         EngineSetting engineSetting = engineSettingService.getEnvironmentType();
         if (engineSetting != null) {
@@ -1550,11 +1550,11 @@ public class RequestUtilImpl implements RequestUtil {
             try {
                 engineBoSession.setEnvironmentType(EnvironmentType.valueOf(environmentType));
             } catch (Exception e) {
-                LOG.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+                logger.error("Environment Type has wrong value define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
             }
         } else {
             engineBoSession.setEnvironmentType(EnvironmentType.REEL);
-            LOG.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
+            logger.warn("Environment Type is not define in your database. Check the " + EngineSettingService.ENGINE_SETTING_ENVIRONMENT_TYPE + " value in settings table.");
         }
 
         setCurrentBoSession(request, engineBoSession);

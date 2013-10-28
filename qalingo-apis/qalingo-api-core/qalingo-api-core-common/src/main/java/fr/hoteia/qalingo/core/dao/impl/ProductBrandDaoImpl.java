@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.ProductBrand;
 @Repository("productBrandDao")
 public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements ProductBrandDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductBrand getProductBrandById(final Long productBrandId) {
 		return em.find(ProductBrand.class, productBrandId);

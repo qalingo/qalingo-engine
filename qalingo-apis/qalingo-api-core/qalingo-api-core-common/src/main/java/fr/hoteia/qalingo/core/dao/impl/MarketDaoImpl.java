@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.MarketArea;
 @Transactional
 public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// MARKET
 	

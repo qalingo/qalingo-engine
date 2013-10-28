@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 @Repository("batchProcessObjectDao")
 public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements BatchProcessObjectDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId) {
 		return em.find(BatchProcessObject.class, batchProcessObjectId);

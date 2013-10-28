@@ -12,7 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
  */
 public class AlertMailSender {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AlertMailSender.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     private MailSender mailSender;
     
@@ -61,7 +61,7 @@ public class AlertMailSender {
             this.mailSender.send(message);
 
         } catch(MailException e) {
-        	LOG.error("erro with the email MailSender", e); 
+        	logger.error("erro with the email MailSender", e); 
         }
     }
     

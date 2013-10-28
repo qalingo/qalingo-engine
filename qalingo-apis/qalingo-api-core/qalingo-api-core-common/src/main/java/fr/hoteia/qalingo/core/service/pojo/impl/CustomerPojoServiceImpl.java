@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.service.pojo.CustomerPojoService;
 @Transactional(readOnly = true)
 public class CustomerPojoServiceImpl implements CustomerPojoService {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected Mapper mapper;
@@ -40,14 +40,14 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
     @Override
     public List<CustomerPojo> getAllCustomers() {
         List<Customer> customers = customerService.findCustomers();
-        LOG.debug("Found {} customers", customers.size());
+        logger.debug("Found {} customers", customers.size());
         return mapAll(mapper, customers, CustomerPojo.class);
     }
 
     @Override
     public CustomerPojo getCustomerById(final String id) {
         Customer customer = customerService.getCustomerById(id);
-        LOG.debug("Found customer {} for id {}", customer, id);
+        logger.debug("Found customer {} for id {}", customer, id);
         return customer == null ? null : mapper.map(customer, CustomerPojo.class);
     }
 
@@ -55,7 +55,7 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
     @Transactional
     public void saveOrUpdate(final CustomerPojo customerJsonPojo) throws Exception {
         Customer customer = mapper.map(customerJsonPojo, Customer.class);
-        LOG.info("Saving customer {}", customer);
+        logger.info("Saving customer {}", customer);
         customerService.saveOrUpdateCustomer(customer);
     }
 

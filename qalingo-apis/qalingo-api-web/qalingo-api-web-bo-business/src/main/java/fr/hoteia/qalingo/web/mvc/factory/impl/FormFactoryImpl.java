@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerForm;
 import fr.hoteia.qalingo.web.mvc.form.OrderForm;
-import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
+import fr.hoteia.qalingo.web.mvc.form.CatalogCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
 import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
@@ -67,8 +67,8 @@ public class FormFactoryImpl implements FormFactory {
 	@Autowired
 	protected AttributeService attributeService;
 	
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request) throws Exception {
-		final ProductCategoryForm catalogCategoryForm = new ProductCategoryForm();
+	public CatalogCategoryForm buildCatalogCategoryForm(final HttpServletRequest request) throws Exception {
+		final CatalogCategoryForm catalogCategoryForm = new CatalogCategoryForm();
 		List<AttributeDefinition> attributeDefinitions = attributeService.findCatalogCategoryAttributeDefinitions();
 		for (Iterator<AttributeDefinition> iterator = attributeDefinitions.iterator(); iterator.hasNext();) {
 			AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
@@ -81,13 +81,13 @@ public class FormFactoryImpl implements FormFactory {
 		return catalogCategoryForm;
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster catalogCategory) throws Exception {
+	public CatalogCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster catalogCategory) throws Exception {
 		CatalogCategoryMaster parentProductCategory = catalogCategory.getDefaultParentCatalogCategory();
-		return buildProductCategoryForm(request, parentProductCategory, catalogCategory);
+		return buildCatalogCategoryForm(request, parentProductCategory, catalogCategory);
 	}
 
-	public ProductCategoryForm buildProductCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
-		final ProductCategoryForm catalogCategoryForm = buildProductCategoryForm(request);
+	public CatalogCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
+		final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(request);
 		if(parentProductCategory != null){
 			catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
 		}
@@ -113,13 +113,13 @@ public class FormFactoryImpl implements FormFactory {
 		return catalogCategoryForm;
 	}
 	
-	public ProductCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual catalogCategory) throws Exception {
+	public CatalogCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual catalogCategory) throws Exception {
 		CatalogCategoryVirtual parentProductCategory = catalogCategory.getDefaultParentCatalogCategory();
 		return buildCatalogCategoryForm(request, parentProductCategory, parentProductCategory);
 	}
 	
-	public ProductCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
-		final ProductCategoryForm catalogCategoryForm = buildProductCategoryForm(request);
+	public CatalogCategoryForm buildCatalogCategoryForm(final HttpServletRequest request, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
+		final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(request);
 		if(parentProductCategory != null){
 			catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
 		}

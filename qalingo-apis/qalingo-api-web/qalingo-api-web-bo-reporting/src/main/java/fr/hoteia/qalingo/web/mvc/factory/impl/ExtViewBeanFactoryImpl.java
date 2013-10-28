@@ -71,7 +71,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-group");
 		menu.setName("Customers stats");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();

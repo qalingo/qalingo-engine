@@ -47,7 +47,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressViewBean;
 @Controller("cartDeliveryOrderInformationController")
 public class CartDeliveryOrderInformationController extends AbstractMCommerceController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(value = FoUrls.CART_DELIVERY_URL, method = RequestMethod.GET)
 	public ModelAndView displayOrderDelivery(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -100,7 +100,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 				}
 			});
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return addressesValues;
     }

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DispatcherServlet extends fr.hoteia.qalingo.core.web.servlet.DispatcherServlet {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Generated UID

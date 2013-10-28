@@ -23,7 +23,7 @@ import fr.hoteia.qalingo.core.domain.CmsContent;
 @Repository("cmsContentDao")
 public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsContentDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CmsContent getCmsContentById(Long cmsContentId) {
 		return em.find(CmsContent.class, cmsContentId);

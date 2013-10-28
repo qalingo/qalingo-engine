@@ -44,7 +44,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.SearchViewBean;
 @Controller("searchController")
 public class SearchController extends AbstractMCommerceController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	public ProductMarketingService productMarketingService;
@@ -111,7 +111,7 @@ public class SearchController extends AbstractMCommerceController {
 			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, accountsViewBeanPagedListHolder);
 			
 		} catch (Exception e) {
-			LOG.error("SOLR Error", e);
+			logger.error("SOLR Error", e);
 		}
 		
         return modelAndView;

@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.CustomerConnectionLog;
 @Repository("customerConnectionLogDao")
 public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl implements CustomerConnectionLogDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId) {
 		return em.find(CustomerConnectionLog.class, customerConnectionLogId);

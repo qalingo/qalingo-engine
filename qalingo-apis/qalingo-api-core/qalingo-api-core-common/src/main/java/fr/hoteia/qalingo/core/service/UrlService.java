@@ -9,7 +9,6 @@
  */
 package fr.hoteia.qalingo.core.service;
 
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.pojo.RequestData;
 

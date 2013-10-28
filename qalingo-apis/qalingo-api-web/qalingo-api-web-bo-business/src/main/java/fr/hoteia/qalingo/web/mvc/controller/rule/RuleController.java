@@ -31,10 +31,10 @@ import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.service.RuleReferentialService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -98,7 +98,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 		
 		if(rule != null){
-			initRuleDetailsPage(request, model, modelAndView, rule);
+			initRuleDetailsPage(requestUtil.getRequestData(request), model, modelAndView, rule);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -133,7 +133,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		// UPDATE RULE
 //		webBackofficeService.updateRule(rule, ruleForm);
 		
-		final String urlRedirect = backofficeUrlService.buildRuleDetailsUrl(currentRuleCode);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RULE_DETAILS, requestUtil.getRequestData(request), rule);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -154,10 +154,9 @@ public class RuleController extends AbstractBusinessBackofficeController {
         return ruleViewBeanPagedListHolder;
 	}
     
-	protected void initRuleDetailsPage(final HttpServletRequest request, final Model model, 
+	protected void initRuleDetailsPage(final RequestData requestData, final Model model, 
 											final ModelAndViewThemeDevice modelAndView, final AbstractRuleReferential rule) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, viewBeanFactory.buildRuleViewBean(requestData, rule));
 	}
 
 }

@@ -9,53 +9,10 @@
  */
 package fr.hoteia.qalingo.core.web.service;
 
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.pojo.RequestData;
 
 public interface BackofficeUrlService {
-
-	String buildProductMasterCategoryDetailsUrl(String productCategoryCode) throws Exception;
-
-	String buildProductVirtualCategoryDetailsUrl(String productCategoryCode) throws Exception;
-
-	String buildAddMasterProductCategoryUrl(String productCategoryCode) throws Exception;
-
-	String buildAddVirtualProductCategoryUrl(String productCategoryCode) throws Exception;
-	
-	String buildMasterProductCategoryEditUrl(String productCategoryCode) throws Exception;
-
-	String buildVirtualProductCategoryEditUrl(String productCategoryCode) throws Exception;
-
-	String buildProductMarketingDetailsUrl(String productMarketingCode) throws Exception;
-	
-	String buildProductMarketingEditUrl(String productMarketingCode) throws Exception;
-
-	String buildProductSkuDetailsUrl(String productSkuCode) throws Exception;
-	
-	String buildProductSkuEditUrl(String productSkuCode) throws Exception;
-
-	String buildAssetDetailsUrl(String assetCode) throws Exception;
-	
-	String buildAssetEditUrl(String assetCode) throws Exception;
-
-	String buildRuleDetailsUrl(String promotionCode) throws Exception;
-	
-	String buildRuleEditUrl(String promotionCode) throws Exception;
-	
-	String buildShippingDetailsUrl(String shippingCode) throws Exception;
-	
-	String buildShippingEditUrl(String shippingCode) throws Exception;
-	
-	String buildOrderDetailsUrl(String orderNum) throws Exception;
-	
-	String buildOrderEditUrl(String orderNum) throws Exception;
-	
-	String buildCustomerDetailsUrl(String customerCode) throws Exception;
-	
-	String buildCustomerEditUrl(String customerCode) throws Exception;
-
-	// KEEP
 
 	String buildChangeLanguageUrl(RequestData requestData) throws Exception;
 	

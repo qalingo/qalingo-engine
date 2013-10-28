@@ -21,7 +21,7 @@ import fr.hoteia.qalingo.core.domain.Tax;
 @Repository("taxDao")
 public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Tax getTaxById(Long taxId) {
 		return em.find(Tax.class, taxId);

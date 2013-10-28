@@ -38,7 +38,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 @Transactional
 public class SecurityUtilImpl implements SecurityUtil {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private EngineSessionService engineSessionService;
@@ -74,7 +74,7 @@ public class SecurityUtilImpl implements SecurityUtil {
 			engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
 			
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		
 	}
@@ -94,7 +94,7 @@ public class SecurityUtilImpl implements SecurityUtil {
 			engineSessionService.saveOrUpdateEngineBoSession(engineBoSession);
 			
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 	}
 	

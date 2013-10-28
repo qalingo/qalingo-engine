@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.CustomerGroup;
 @Repository("customerGroupDao")
 public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements CustomerGroupDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerGroup getCustomerGroupById(Long customerGroupId) {
 		return em.find(CustomerGroup.class, customerGroupId);

@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.Notification;
 @Repository("notificationDao")
 public class NotificationDaoImpl extends AbstractGenericDaoImpl implements NotificationDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Notification getNotificationById(Long id) {
 		return em.find(Notification.class, id);

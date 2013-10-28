@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.Asset;
@@ -48,14 +47,14 @@ import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 @Controller("assetController")
 public class AssetController extends AbstractBusinessBackofficeController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private ProductMarketingService productMarketingService;
 	
-	@RequestMapping(value = "/asset-details.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.ASSET_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView assetDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ASSET_DETAILS_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_DETAILS.getVelocityPage());
 
 		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_CODE);
 		final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
@@ -70,11 +69,9 @@ public class AssetController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/asset-edit.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.ASSET_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.ASSET_FORM_VELOCITY_PAGE);
-
-		// "asset.edit";
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_EDIT.getVelocityPage());
 
 		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_CODE);
 		if(StringUtils.isNotEmpty(currentAssetCode)){
@@ -89,7 +86,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		}
 	}
 	
-	@RequestMapping(value = "/asset-form.html*", method = RequestMethod.POST)
+	@RequestMapping(value = BoUrls.ASSET_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView assetEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid AssetForm assetForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
@@ -149,10 +146,10 @@ public class AssetController extends AbstractBusinessBackofficeController {
 			webBackofficeService.updateProductMarketingAsset(asset, assetForm);
 
 		} catch (Exception e) {
-			LOG.error("Can't save/update asset file!", e);
+			logger.error("Can't save/update asset file!", e);
 		}
 		
-		final String urlRedirect = backofficeUrlService.buildAssetDetailsUrl(currentAssetCode);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestUtil.getRequestData(request), asset);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

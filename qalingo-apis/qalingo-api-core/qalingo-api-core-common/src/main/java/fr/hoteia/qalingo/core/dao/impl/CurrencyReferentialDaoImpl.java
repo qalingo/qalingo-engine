@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.CurrencyReferential;
 @Repository("currencyReferentialDao")
 public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implements CurrencyReferentialDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId) {
 		return em.find(CurrencyReferential.class, currencyReferentialId);

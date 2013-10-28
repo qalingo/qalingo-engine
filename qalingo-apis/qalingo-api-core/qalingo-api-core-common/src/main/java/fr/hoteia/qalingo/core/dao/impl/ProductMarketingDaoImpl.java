@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.Asset;
 @Repository("productMarketingDao")
 public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements ProductMarketingDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductMarketing getProductMarketingById(final Long productMarketingId) {
 		return em.find(ProductMarketing.class, productMarketingId);

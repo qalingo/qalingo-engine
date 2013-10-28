@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.Store;
 
 public class StoreMarshalXmlHelperImpl implements StoreMarshalXmlHelper {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	private Marshaller marshaller;
 

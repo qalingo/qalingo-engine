@@ -24,7 +24,7 @@ import fr.hoteia.qalingo.core.pojo.RequestData;
 @Controller("connectFacebookController")
 public class ConnectFacebookController extends AbstractOAuthFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/connect-oauth-facebook.html*")
 	public ModelAndView connectFacebook(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -69,7 +69,7 @@ public class ConnectFacebookController extends AbstractOAuthFrontofficeControlle
 			    }
 
 			} catch (Exception e) {
-				LOG.error("Connect With " + OAuthType.FACEBOOK.name() + " failed!");
+				logger.error("Connect With " + OAuthType.FACEBOOK.name() + " failed!");
 			}
 		}
 

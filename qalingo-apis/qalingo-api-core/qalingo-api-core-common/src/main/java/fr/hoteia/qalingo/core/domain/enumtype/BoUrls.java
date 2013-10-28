@@ -19,6 +19,8 @@ public enum BoUrls {
     
     SEARCH(BoUrls.SEARCH_URL, BoUrls.SEARCH_KEY, BoUrls.SEARCH_VELOCITY_PAGE),
     SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE),
+    GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null),
+    CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null),
 
     MONITORING(BoUrls.MONITORING_URL, BoUrls.MONITORING_KEY, BoUrls.MONITORING_VELOCITY_PAGE),
     REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE),
@@ -35,8 +37,11 @@ public enum BoUrls {
     SHIPPING_DETAILS(BoUrls.SHIPPING_DETAILS_URL, BoUrls.SHIPPING_DETAILS_KEY, BoUrls.SHIPPING_DETAILS_VELOCITY_PAGE),
     SHIPPING_EDIT(BoUrls.SHIPPING_EDIT_URL, BoUrls.SHIPPING_EDIT_KEY, BoUrls.SHIPPING_EDIT_VELOCITY_PAGE),
     
+    CUSTOMER_LIST(BoUrls.CUSTOMER_LIST_URL, BoUrls.CUSTOMER_LIST_KEY, BoUrls.CUSTOMER_LIST_VELOCITY_PAGE),
+    CUSTOMER_DETAILS(BoUrls.CUSTOMER_DETAILS_URL, BoUrls.CUSTOMER_DETAILS_KEY, BoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE),
+    CUSTOMER_EDIT(BoUrls.CUSTOMER_EDIT_URL, BoUrls.CUSTOMER_EDIT_KEY, BoUrls.CUSTOMER_EDIT_VELOCITY_PAGE),
+
     CATALOG(BoUrls.CATALOG_URL, BoUrls.CATALOG_KEY, BoUrls.CATALOG_VELOCITY_PAGE),
-    CUSTOMER(BoUrls.CUSTOMER_URL, BoUrls.CUSTOMER_KEY, BoUrls.CUSTOMER_VELOCITY_PAGE),
 
     RETAILER_LIST(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE),
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE),
@@ -56,18 +61,29 @@ public enum BoUrls {
     BATCH_STOCK(BoUrls.BATCH_STOCK_URL, BoUrls.BATCH_STOCK_KEY, BoUrls.BATCH_VELOCITY_PAGE),
 
     MASTER_CATALOG(BoUrls.MASTER_CATALOG_URL, BoUrls.MASTER_CATALOG_KEY, BoUrls.MASTER_CATALOG_VELOCITY_PAGE),
+    MASTER_CATEGORY_DETAILS(BoUrls.MASTER_CATEGORY_DETAILS_URL, BoUrls.MASTER_CATEGORY_DETAILS_KEY, BoUrls.MASTER_CATEGORY_DETAILS_VELOCITY_PAGE),
+    MASTER_CATEGORY_EDIT(BoUrls.MASTER_CATEGORY_EDIT_URL, BoUrls.MASTER_CATEGORY_EDIT_KEY, BoUrls.MASTER_CATEGORY_EDIT_VELOCITY_PAGE),
+    MASTER_CATEGORY_ADD(BoUrls.MASTER_CATEGORY_ADD_URL, BoUrls.MASTER_CATEGORY_ADD_KEY, BoUrls.MASTER_CATEGORY_ADD_VELOCITY_PAGE),
+
     VIRTUAL_CATALOG(BoUrls.VIRTUAL_CATALOG_URL, BoUrls.VIRTUAL_CATALOG_KEY, BoUrls.VIRTUAL_CATALOG_VELOCITY_PAGE),
     VIRTUAL_CATEGORY_DETAILS(BoUrls.VIRTUAL_CATEGORY_DETAILS_URL, BoUrls.VIRTUAL_CATEGORY_DETAILS_KEY, BoUrls.VIRTUAL_CATEGORY_DETAILS_VELOCITY_PAGE),
+    VIRTUAL_CATEGORY_EDIT(BoUrls.VIRTUAL_CATEGORY_EDIT_URL, BoUrls.VIRTUAL_CATEGORY_EDIT_KEY, BoUrls.VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE),
+    VIRTUAL_CATEGORY_ADD(BoUrls.VIRTUAL_CATEGORY_ADD_URL, BoUrls.VIRTUAL_CATEGORY_ADD_KEY, BoUrls.VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE),
+
+    PRODUCT_MARKETING_DETAILS(BoUrls.PRODUCT_MARKETING_DETAILS_URL, BoUrls.PRODUCT_MARKETING_DETAILS_KEY, BoUrls.PRODUCT_MARKETING_DETAILS_VELOCITY_PAGE),
+    PRODUCT_MARKETING_EDIT(BoUrls.PRODUCT_MARKETING_EDIT_URL, BoUrls.PRODUCT_MARKETING_EDIT_KEY, BoUrls.PRODUCT_MARKETING_EDIT_VELOCITY_PAGE),
+
+    PRODUCT_SKU_DETAILS(BoUrls.PRODUCT_SKU_DETAILS_URL, BoUrls.PRODUCT_SKU_DETAILS_KEY, BoUrls.PRODUCT_SKU_DETAILS_VELOCITY_PAGE),
+    PRODUCT_SKU_EDIT(BoUrls.PRODUCT_SKU_EDIT_URL, BoUrls.PRODUCT_SKU_EDIT_KEY, BoUrls.PRODUCT_SKU_EDIT_VELOCITY_PAGE),
+
+    ASSET_DETAILS(BoUrls.ASSET_DETAILS_URL, BoUrls.ASSET_DETAILS_KEY, BoUrls.ASSET_DETAILS_VELOCITY_PAGE),
+    ASSET_EDIT(BoUrls.ASSET_EDIT_URL, BoUrls.ASSET_EDIT_KEY, BoUrls.ASSET_EDIT_VELOCITY_PAGE),
 
     USER_SEARCH(BoUrls.USER_SEARCH_URL, BoUrls.USER_SEARCH_KEY, BoUrls.USER_SEARCH_VELOCITY_PAGE),
     USER_LIST(BoUrls.USER_LIST_URL, BoUrls.USER_LIST_KEY, BoUrls.USER_LIST_VELOCITY_PAGE),
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE),
-    USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE),
+    USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE);
 
-    GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null),
-    
-    CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null);
-    
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/home.html";
 	public static final String INDEX_URL			= "/index.html";
@@ -212,9 +228,17 @@ public enum BoUrls {
 	public static final String CATALOG_VELOCITY_PAGE	= "catalog/catalog";
 	
 	// CUSTOMER
-	public static final String CUSTOMER_KEY				= "customer";
-	public static final String CUSTOMER_URL				= "/customer.html";
-	public static final String CUSTOMER_VELOCITY_PAGE	= "customer/customer";
+	public static final String CUSTOMER_LIST_KEY           = "customer-list";
+	public static final String CUSTOMER_LIST_URL           = "/customer-list.html";
+	public static final String CUSTOMER_LIST_VELOCITY_PAGE = "customer/customer-list";
+
+    public static final String CUSTOMER_DETAILS_KEY            = "customer-details";
+    public static final String CUSTOMER_DETAILS_URL            = "/customer-details.html";
+    public static final String CUSTOMER_DETAILS_VELOCITY_PAGE  = "customer/customer-details";
+
+    public static final String CUSTOMER_EDIT_KEY            = "customer-edit";
+    public static final String CUSTOMER_EDIT_URL            = "/customer-edit.html";
+    public static final String CUSTOMER_EDIT_VELOCITY_PAGE  = "customer/customer-edit";
 
 	// RETAILER
 	public static final String RETAILER_LIST_KEY			= "retailer";
@@ -238,27 +262,22 @@ public enum BoUrls {
 	public static final String SEARCH_CONFIG_URL			= "/search-config.html";
 	public static final String SEARCH_CONFIG_VELOCITY_PAGE	= "search/search-config";
 
-	// USER
-	public static final String USER_SEARCH_KEY				= "search-user";
-	public static final String USER_SEARCH_URL				= "/search-user.html";
-	public static final String USER_SEARCH_VELOCITY_PAGE	= "user/user-list";
-
-	public static final String USER_LIST_KEY				= "users";
-	public static final String USER_LIST_URL				= "/user-list.html";
-	public static final String USER_LIST_VELOCITY_PAGE		= "user/user-list";
-
-	public static final String USER_DETAILS_KEY				= "user-details";
-	public static final String USER_DETAILS_URL				= "/user-details.html";
-	public static final String USER_DETAILS_VELOCITY_PAGE	= "user/user-details";
-
-	public static final String USER_EDIT_KEY				= "user-edit";
-	public static final String USER_EDIT_URL				= "/user-edit.html";
-	public static final String USER_EDIT_VELOCITY_PAGE		= "user/user-edit";
-	
 	// CATALOG
 	public static final String MASTER_CATALOG_KEY				= "master-catalog";
 	public static final String MASTER_CATALOG_URL				= "/master-catalog.html";
 	public static final String MASTER_CATALOG_VELOCITY_PAGE		= "catalog/catalog";
+
+    public static final String MASTER_CATEGORY_DETAILS_KEY              = "master-category-details";
+    public static final String MASTER_CATEGORY_DETAILS_URL              = "/catalog-master-category-details.html";
+    public static final String MASTER_CATEGORY_DETAILS_VELOCITY_PAGE    = "catalog/catalog-category-details";
+
+    public static final String MASTER_CATEGORY_EDIT_KEY              = "master-category-edit";
+    public static final String MASTER_CATEGORY_EDIT_URL              = "/catalog-master-category-edit.html";
+    public static final String MASTER_CATEGORY_EDIT_VELOCITY_PAGE    = "catalog/catalog-category-form";
+
+    public static final String MASTER_CATEGORY_ADD_KEY              = "master-category-add";
+    public static final String MASTER_CATEGORY_ADD_URL              = "/add-master-catalog-category.html*";
+    public static final String MASTER_CATEGORY_ADD_VELOCITY_PAGE    = "catalog/catalog-category-form";
 
 	public static final String VIRTUAL_CATALOG_KEY				= "virtual-catalog";
 	public static final String VIRTUAL_CATALOG_URL				= "/virtual-catalog.html";
@@ -268,6 +287,55 @@ public enum BoUrls {
 	public static final String VIRTUAL_CATEGORY_DETAILS_URL				= "/catalog-virtual-category-details.html";
 	public static final String VIRTUAL_CATEGORY_DETAILS_VELOCITY_PAGE	= "catalog/catalog-category-details";
 
+    public static final String VIRTUAL_CATEGORY_EDIT_KEY            = "virtual-category-edit";
+    public static final String VIRTUAL_CATEGORY_EDIT_URL            = "/catalog-virtual-category-edit.html";
+    public static final String VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE  = "catalog/catalog-category-form";
+
+    public static final String VIRTUAL_CATEGORY_ADD_KEY            = "virtual-category-add";
+    public static final String VIRTUAL_CATEGORY_ADD_URL            = "/add-virtual-catalog-category.html*";
+    public static final String VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE  = "catalog/catalog-category-form";
+
+    public static final String PRODUCT_MARKETING_DETAILS_KEY            = "product-marketing-details";
+    public static final String PRODUCT_MARKETING_DETAILS_URL            = "/product-marketing-details.html";
+    public static final String PRODUCT_MARKETING_DETAILS_VELOCITY_PAGE  = "catalog/product-marketing-details";
+
+    public static final String PRODUCT_MARKETING_EDIT_KEY            = "product-marketing-edit";
+    public static final String PRODUCT_MARKETING_EDIT_URL            = "/product-marketing-edit.html";
+    public static final String PRODUCT_MARKETING_EDIT_VELOCITY_PAGE  = "catalog/product-marketing-edit";
+
+    public static final String PRODUCT_SKU_DETAILS_KEY            = "product-sku-details";
+    public static final String PRODUCT_SKU_DETAILS_URL            = "/product-sku-details.html";
+    public static final String PRODUCT_SKU_DETAILS_VELOCITY_PAGE  = "catalog/product-sku-details";
+
+    public static final String PRODUCT_SKU_EDIT_KEY            = "product-sku-edit";
+    public static final String PRODUCT_SKU_EDIT_URL            = "/product-sku-edit.html";
+    public static final String PRODUCT_SKU_EDIT_VELOCITY_PAGE  = "catalog/product-sku-edit";
+    
+    public static final String ASSET_DETAILS_KEY            = "asset-details";
+    public static final String ASSET_DETAILS_URL            = "/asset-details.html";
+    public static final String ASSET_DETAILS_VELOCITY_PAGE  = "catalog/asset-details";
+
+    public static final String ASSET_EDIT_KEY            = "asset-edit";
+    public static final String ASSET_EDIT_URL            = "/asset-edit.html";
+    public static final String ASSET_EDIT_VELOCITY_PAGE  = "catalog/asset-edit";
+    
+    // USER
+    public static final String USER_SEARCH_KEY              = "search-user";
+    public static final String USER_SEARCH_URL              = "/search-user.html";
+    public static final String USER_SEARCH_VELOCITY_PAGE    = "user/user-list";
+
+    public static final String USER_LIST_KEY                = "users";
+    public static final String USER_LIST_URL                = "/user-list.html";
+    public static final String USER_LIST_VELOCITY_PAGE      = "user/user-list";
+
+    public static final String USER_DETAILS_KEY             = "user-details";
+    public static final String USER_DETAILS_URL             = "/user-details.html";
+    public static final String USER_DETAILS_VELOCITY_PAGE   = "user/user-details";
+
+    public static final String USER_EDIT_KEY                = "user-edit";
+    public static final String USER_EDIT_URL                = "/user-edit.html";
+    public static final String USER_EDIT_VELOCITY_PAGE      = "user/user-edit";
+    
     private final String url;
     private final String key; // CODE IS USE TO GET THE ASSOCIATED MENU AND THE SEO VALUE
     private final String velocityPage;

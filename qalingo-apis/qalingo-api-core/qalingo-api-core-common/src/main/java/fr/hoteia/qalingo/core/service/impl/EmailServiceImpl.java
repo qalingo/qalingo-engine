@@ -59,7 +59,7 @@ import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 @Transactional
 public class EmailServiceImpl implements EmailService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static final String CURRENT_DATE = "currentDate";
     public static final String WORDING      = "wording";
@@ -145,13 +145,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -195,13 +195,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -256,13 +256,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -318,13 +318,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -375,13 +375,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -439,13 +439,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -494,13 +494,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -546,13 +546,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -598,13 +598,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }
@@ -650,13 +650,13 @@ public class EmailServiceImpl implements EmailService {
         	saveOrUpdateEmail(email, mimeMessagePreparator);
         	
         } catch (MailException e) {
-        	LOG.error("Error, can't save the message :", e);
+        	logger.error("Error, can't save the message :", e);
         	throw e;
         } catch (VelocityException e) {
-        	LOG.error("Error, can't build the message :", e);
+        	logger.error("Error, can't build the message :", e);
         	throw e;
         } catch (IOException e) {
-        	LOG.error("Error, can't serializable the message :", e);
+        	logger.error("Error, can't serializable the message :", e);
         	throw e;
         }
     }

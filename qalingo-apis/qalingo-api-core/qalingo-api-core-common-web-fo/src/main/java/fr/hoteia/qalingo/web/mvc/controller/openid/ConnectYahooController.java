@@ -22,7 +22,7 @@ import fr.hoteia.qalingo.core.service.openid.Utils;
 @Controller("connectYahooController")
 public class ConnectYahooController extends AbstractOpenIdFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/connect-openid-yahoo.html*")
 	public ModelAndView connectGoogle(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -43,7 +43,7 @@ public class ConnectYahooController extends AbstractOpenIdFrontofficeController 
 	            response.sendRedirect(url);
 					
 			} catch (Exception e) {
-				LOG.error("Connect With " + OpenProvider.YAHOO.getPropertyKey() + " failed!");
+				logger.error("Connect With " + OpenProvider.YAHOO.getPropertyKey() + " failed!");
 			}
 		}
 

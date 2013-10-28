@@ -90,17 +90,17 @@ public interface ViewBeanFactory {
 	
 	RetailerViewBean buildRetailerViewBean(RequestData requestData, Retailer retailer) throws Exception;
 	
-	CatalogViewBean buildMasterCatalogViewBean(RequestData requestData, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> productCategories) throws Exception;
+	CatalogViewBean buildMasterCatalogViewBean(RequestData requestData, CatalogMaster catalogVirtual, List<CatalogCategoryMaster> catalogCategories) throws Exception;
 
-	CatalogViewBean buildVirtualCatalogViewBean(RequestData requestData, CatalogVirtual catalogVirtual, List<CatalogCategoryVirtual> productCategories) throws Exception;
+	CatalogViewBean buildVirtualCatalogViewBean(RequestData requestData, CatalogVirtual catalogVirtual, List<CatalogCategoryVirtual> catalogCategories) throws Exception;
 
-	List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(RequestData requestData, List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception;
+	List<CatalogCategoryViewBean> buildMasterCatalogCategoryViewBeans(RequestData requestData, List<CatalogCategoryMaster> catalogCategories, boolean fullPopulate) throws Exception;
 
-	List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(RequestData requestData, List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception;
+	List<CatalogCategoryViewBean> buildVirtualCatalogCategoryViewBeans(RequestData requestData, List<CatalogCategoryVirtual> catalogCategories, boolean fullPopulate) throws Exception;
 	
-	CatalogCategoryViewBean buildMasterProductCategoryViewBean(RequestData requestData, CatalogCategoryMaster productCategory, boolean fullPopulate) throws Exception;
+	CatalogCategoryViewBean buildMasterCatalogCategoryViewBean(RequestData requestData, CatalogCategoryMaster catalogCategory, boolean fullPopulate) throws Exception;
 
-	CatalogCategoryViewBean buildVirtualProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, boolean fullPopulate) throws Exception;
+	CatalogCategoryViewBean buildVirtualCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual catalogCategory, boolean fullPopulate) throws Exception;
 
 	List<ProductMarketingViewBean> buildProductMarketingViewBeans(RequestData requestData, List<ProductMarketing> productMarketings, boolean withDependency) throws Exception;
 	

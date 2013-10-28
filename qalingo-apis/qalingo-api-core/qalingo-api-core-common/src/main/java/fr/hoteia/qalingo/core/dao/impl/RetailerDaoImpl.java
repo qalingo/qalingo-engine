@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.domain.Store;
 @Repository("retailerDao")
 public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// RETAILER
 

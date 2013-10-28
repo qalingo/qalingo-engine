@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.web.mvc.form.AssetForm;
 import fr.hoteia.qalingo.web.mvc.form.CustomerForm;
 import fr.hoteia.qalingo.web.mvc.form.OrderForm;
-import fr.hoteia.qalingo.web.mvc.form.ProductCategoryForm;
+import fr.hoteia.qalingo.web.mvc.form.CatalogCategoryForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import fr.hoteia.qalingo.web.mvc.form.ProductSkuForm;
 import fr.hoteia.qalingo.web.mvc.form.RetailerForm;
@@ -38,15 +38,15 @@ import fr.hoteia.qalingo.web.mvc.form.UserForm;
  */
 public interface FormFactory {
 
-	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request) throws Exception;
+	CatalogCategoryForm buildCatalogCategoryForm(HttpServletRequest request) throws Exception;
 
-	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, CatalogCategoryMaster productCategory) throws Exception;
+	CatalogCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryMaster catalogCategory) throws Exception;
 
-	ProductCategoryForm buildProductCategoryForm(HttpServletRequest request, CatalogCategoryMaster parentProductCategory, CatalogCategoryMaster productCategory) throws Exception;
+	CatalogCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryMaster parentProductCategory, CatalogCategoryMaster catalogCategory) throws Exception;
 
-	ProductCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryVirtual catalogCategory) throws Exception;
 
-	ProductCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryVirtual parentProductCategory, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryForm buildCatalogCategoryForm(HttpServletRequest request, CatalogCategoryVirtual parentProductCategory, CatalogCategoryVirtual catalogCategory) throws Exception;
 
 	ProductMarketingForm buildProductMarketingForm(HttpServletRequest request, ProductMarketing productMarketing) throws Exception;
 	

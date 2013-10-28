@@ -30,9 +30,9 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeControlle
 @Controller("customerController")
 public class CustomerController extends AbstractReportingBackofficeController {
 
-	@RequestMapping(value = BoUrls.CUSTOMER_URL, method = RequestMethod.GET)
-	public ModelAndView orderList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER.getVelocityPage());
+	@RequestMapping(value = BoUrls.CUSTOMER_LIST_URL, method = RequestMethod.GET)
+	public ModelAndView customerList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.CUSTOMER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);

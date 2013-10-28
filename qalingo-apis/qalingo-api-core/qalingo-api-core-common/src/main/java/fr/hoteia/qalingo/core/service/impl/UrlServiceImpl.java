@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +44,7 @@ import fr.hoteia.qalingo.core.web.mvc.service.impl.AbstractUrlServiceImpl;
 @Transactional
 public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public String buildCustomerDetailsUrl(final RequestData requestData, String permalink) throws Exception {
 		return buildContextPath(requestData) + "/customer/" + permalink;
@@ -58,7 +56,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 			try {
 				url = "http://api.addthis.com/oexchange/0.8/forward/" + shareCode + "/offer?url=" + URLEncoder.encode(absoluteUrl, Constants.ANSI);
 			} catch (Exception e) {
-				LOG.error("SocialNetwork AddThis URL can't be encode!", e);
+				logger.error("SocialNetwork AddThis URL can't be encode!", e);
 			}
 		}
 		return url;
@@ -116,44 +114,6 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 		return buildContextPath(requestData) + "/sc/callback-openid.html";
 	}
 	
-	public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
-		String absoluteUrl = buildDomainePathUrl(requestData);
-		if(!relativeUrl.startsWith("/")){
-			absoluteUrl = absoluteUrl + "/" + relativeUrl;
-		} else {
-			absoluteUrl = absoluteUrl + relativeUrl;
-		}
-		if(!absoluteUrl.startsWith("http://")){
-			absoluteUrl = "http://" + absoluteUrl;
-		}
-		return absoluteUrl;
-	}
-	
-	public String buildDomainePathUrl(final RequestData requestData) throws Exception {
-		final HttpServletRequest request = requestData.getRequest();
-		final MarketArea marketArea = requestData.getMarketArea();
-		final String contextNameValue = requestData.getContextNameValue();
-		
-		String domainePathUrl = "";
-		if(marketArea != null){
-			String domainName = marketArea.getDomainName(contextNameValue);
-			if(StringUtils.isNotEmpty(domainName)){
-				domainePathUrl = domainName;
-			}
-		}
-		if(StringUtils.isEmpty(domainePathUrl)){
-			String requestUrl = request.getRequestURL().toString();
-			requestUrl = requestUrl.replace("http://", "");
-			String[] urlBlock = requestUrl.split("/");
-			domainePathUrl = urlBlock[0];
-		}
-		if(!domainePathUrl.startsWith("http")){
-			String scheme = request.getScheme();
-			domainePathUrl = scheme + "://" + domainePathUrl;
-		}
-		return domainePathUrl;
-	}
-	
     @SuppressWarnings("unchecked")
     public String generateUrl(final FoUrls url, final RequestData requestData, Object... params) {
     	String urlStr = null;
@@ -203,7 +163,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                         getParams = (Map<String, String>) param;
                         break;
                     } else {
-                        LOG.warn("Unknowned url parameter : [{}]", param);
+                        logger.warn("Unknowned url parameter : [{}]", param);
                     }
                 }    		
         	}
@@ -215,7 +175,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
         	urlStr = urlStr + url.getUrl();
 	        
         } catch (Exception e) {
-        	LOG.error("Can't build Url!", e);
+        	logger.error("Can't build Url!", e);
         }
     	return handleUrlParameters(urlStr, urlParams, getParams);
     }

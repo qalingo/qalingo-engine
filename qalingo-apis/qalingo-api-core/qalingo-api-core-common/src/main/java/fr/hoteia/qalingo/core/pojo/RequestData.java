@@ -36,6 +36,10 @@ public class RequestData implements Serializable {
 	
 	public RequestData() {
     }
+	
+    public RequestData(String contextPath) {
+        this.contextPath = contextPath;
+    }
 
 	public RequestData(MarketPlace marketPlace, Market market, MarketArea marketArea, Localization localization, Retailer retailer) {
 		this.marketPlace = marketPlace;

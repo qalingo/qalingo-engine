@@ -41,7 +41,7 @@ import fr.hoteia.qalingo.core.service.AttributeService;
 @Controller("callBackTwitterController")
 public class CallBackTwitterController extends AbstractOAuthFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	protected AttributeService attributeService;
@@ -99,16 +99,16 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 					    if(responseCode == 200){
 					    	handleAuthenticationData(request, response, requestData, OAuthType.TWITTER, responseBody);
 					    } else {
-							LOG.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+							logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
 					    }
 					} else {
-						LOG.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+						logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
 					}
 					
 			    }
 					
 			} catch (Exception e) {
-				LOG.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
+				logger.error("Callback With " + OAuthType.TWITTER.name() + " failed!");
 			}
 		}
 		
@@ -126,9 +126,9 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 		try {
 			userPojo = mapper.readValue(jsonData, UserPojo.class);
 		} catch (JsonGenerationException e) {
-			LOG.error(e.getMessage());
+			logger.error(e.getMessage());
 		} catch (JsonMappingException e) {
-			LOG.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		if(userPojo != null){
 			// TWITTER DOESN'T WANT TO SHARE EMAIL -> WE DON'T EXPOSE THIS CONNECT OPTION - WITHOUT EMAIL WE WILL SAVE DUPLICATES WITH CORE CREATE ACCOUNT PROCESS 

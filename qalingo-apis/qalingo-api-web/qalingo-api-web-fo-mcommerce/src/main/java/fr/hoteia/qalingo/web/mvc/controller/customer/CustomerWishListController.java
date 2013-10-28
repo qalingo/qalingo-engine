@@ -31,7 +31,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerWishlistViewBean;
 @Controller("customerWishListController")
 public class CustomerWishListController extends AbstractCustomerController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(FoUrls.PERSONAL_WISHLIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
@@ -66,7 +66,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 			webCommerceService.addProductSkuToWishlist(request, requestUtil.getRequestData(request), skuCode);
 			
 		} catch (Exception e) {
-			LOG.error("Error with the wishlist, skuCode:" + skuCode, e);
+			logger.error("Error with the wishlist, skuCode:" + skuCode, e);
 		}
 		
 		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));

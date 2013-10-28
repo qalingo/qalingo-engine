@@ -55,7 +55,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.RetailerViewBean;
  */
 public abstract class AbstractBackofficeQalingoController extends AbstractQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected BackofficeUrlService backofficeUrlService;
@@ -240,7 +240,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 //	        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, mainContentTitle);
 //		} catch (Exception e) {
 //			// DOESN'T NEED WARNING OR ERROR LOG
-//			LOG.debug("mainContentTitle with key header.title doesn't exist for:" + pageKey);
+//			logger.debug("mainContentTitle with key header.title doesn't exist for:" + pageKey);
 //		}
 		if(StringUtils.isNotEmpty(title)){
 			 modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, title);
@@ -260,7 +260,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(contextValue, locale));
 	        
         } catch (Exception e) {
-        	LOG.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
+        	logger.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);
         }
 	}
 	

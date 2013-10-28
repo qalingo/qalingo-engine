@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.Shipping;
 @Repository("shippingDao")
 public class ShippingDaoImpl extends AbstractGenericDaoImpl implements ShippingDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Shipping getShippingById(Long shippingId) {
 		return em.find(Shipping.class, shippingId);

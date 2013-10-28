@@ -21,7 +21,7 @@ import org.springframework.context.MessageSourceAware;
 
 public class SpringMessageSourceMessageInterpolator implements MessageInterpolator, MessageSourceAware, InitializingBean {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SpringMessageSourceMessageInterpolator.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private CoreMessageSource coreMessageSource;
 	private MessageSource messageSource;
@@ -32,7 +32,7 @@ public class SpringMessageSourceMessageInterpolator implements MessageInterpolat
 		try {
 			message = coreMessageSource.getMessage(messageTemplate, new Object[] {}, Locale.getDefault());
 		} catch (Exception e) {
-			LOG.error("this key doesn't exist: " + messageTemplate);
+			logger.error("this key doesn't exist: " + messageTemplate);
 		}
 		return message;
 	}
@@ -43,7 +43,7 @@ public class SpringMessageSourceMessageInterpolator implements MessageInterpolat
 		try {
 			message = coreMessageSource.getMessage(messageTemplate, new Object[] {}, locale);
 		} catch (Exception e) {
-			LOG.error("this key doesn't exist: " + messageTemplate);
+			logger.error("this key doesn't exist: " + messageTemplate);
 		}
 		return message;
 	}

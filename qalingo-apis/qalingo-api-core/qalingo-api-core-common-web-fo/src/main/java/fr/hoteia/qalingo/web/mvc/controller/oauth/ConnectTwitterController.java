@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.pojo.RequestData;
 @Controller("connectTwitterController")
 public class ConnectTwitterController extends AbstractOAuthFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/connect-oauth-twitter.html*")
 	public ModelAndView connectTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -71,7 +71,7 @@ public class ConnectTwitterController extends AbstractOAuthFrontofficeController
 			    }
 
 			} catch (Exception e) {
-				LOG.error("Connect With " + OAuthType.TWITTER.name() + " failed!");
+				logger.error("Connect With " + OAuthType.TWITTER.name() + " failed!");
 			}
 		}
 

@@ -45,6 +45,8 @@
 		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
 		<drools.version>5.4.0.Final</drools.version>
+		<!-- ACTIVEMQ -->
+		<activemq.version>5.9.0</activemq.version>
 		<!-- LOGS -->
 		<logback.version>1.0.13</logback.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -60,7 +62,7 @@
 		<dependencies>
 			<!-- Qalingo libs -->
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-common</artifactId>
 				<version>${project.version}</version>
 				<exclusions>
@@ -71,82 +73,87 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-common-web-bo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-common-web-fo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
-				<artifactId>qalingo-api-core-rule-engine</artifactId>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>qalingo-api-core-drools</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-xml-binding</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-jax-rs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-jax-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-solr</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>qalingo-api-core-jms</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-core-batch</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-bo-technical</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-bo-business</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-bo-reporting</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-fo-prehome</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-fo-mcommerce</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-remote-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fr.hoteia.qalingo</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>qalingo-api-web-remote-ws</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -222,7 +229,7 @@
 				</exclusions>
             </dependency>
 			
-			<!-- Springs libs -->
+			<!-- Spring libs -->
 			<!-- Core utilities used by other modules. Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -320,15 +327,16 @@
 				<version>${spring-security.version}</version>
 			</dependency>
 
-			<!-- Spring Batch -->
-			<dependency>
-				<groupId>org.springframework.batch</groupId>
-				<artifactId>spring-batch-infrastructure</artifactId>
-				<version>${spring.batch.version}</version>
-			</dependency>
+			<!-- Spring Batch libs -->
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
 				<artifactId>spring-batch-core</artifactId>
+				<version>${spring.batch.version}</version>
+			</dependency>
+			<!--
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-infrastructure</artifactId>
 				<version>${spring.batch.version}</version>
 			</dependency>
 			<dependency>
@@ -346,6 +354,7 @@
 				<artifactId>spring-batch-admin-resources</artifactId>
 				<version>${spring.batch.admin.version}</version>
 			</dependency>
+			-->
 
 			<!-- AspectJ framework -->
 			<dependency>
@@ -499,6 +508,18 @@
 				<version>1.1</version>
 			</dependency>
 
+            <!-- JMS -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-client</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-spring</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+			
 			<!-- Form Validation -->
 			<dependency>
 				<groupId>org.hibernate</groupId>

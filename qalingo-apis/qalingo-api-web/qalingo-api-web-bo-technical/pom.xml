@@ -23,19 +23,19 @@
 	<dependencies>
 		<!-- Qalingo libs -->
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>qalingo-api-core-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>qalingo-api-core-common-web-bo</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
-			<artifactId>qalingo-api-core-rule-engine</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>qalingo-api-core-drools</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>qalingo-api-core-solr</artifactId>
 		</dependency>
 		

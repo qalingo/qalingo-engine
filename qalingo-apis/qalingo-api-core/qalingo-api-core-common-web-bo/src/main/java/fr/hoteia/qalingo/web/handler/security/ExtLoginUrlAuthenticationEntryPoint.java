@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 	
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     protected BackofficeUrlService backofficeUrlService;
 	
@@ -54,7 +54,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return null;
 	}
@@ -98,7 +98,7 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request));
 			return url;
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return null;
 	}

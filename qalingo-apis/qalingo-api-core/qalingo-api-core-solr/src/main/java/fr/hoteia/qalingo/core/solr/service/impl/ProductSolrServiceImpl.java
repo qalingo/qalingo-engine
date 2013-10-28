@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.core.solr.service.ProductSolrService;
 @Transactional
 public class ProductSolrServiceImpl extends AbstractSolrService implements ProductSolrService {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
      * 

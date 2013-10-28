@@ -28,7 +28,7 @@ import fr.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 @Transactional(readOnly = true)
 public class CatalogPojoServiceImpl implements CatalogPojoService {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected Mapper mapper;
@@ -39,53 +39,53 @@ public class CatalogPojoServiceImpl implements CatalogPojoService {
     @Override
     public List<CatalogPojo> getAllCatalogMasters() {
         final List<CatalogMaster> allCatalogMasters = catalogService.findAllCatalogMasters();
-        LOG.debug("Found {} catalogs", allCatalogMasters.size());
+        logger.debug("Found {} catalogs", allCatalogMasters.size());
         return mapAll(mapper, allCatalogMasters, CatalogPojo.class);
     }
 
     @Override
     public CatalogPojo getCatalogById(String catalogId) {
         final CatalogMaster catalog = catalogService.getProductCatalogById(catalogId);
-        LOG.debug("Found catalog {} for id {}", catalog, catalogId);
+        logger.debug("Found catalog {} for id {}", catalog, catalogId);
         return mapper.map(catalog, CatalogPojo.class);
     }
     
     @Override
     public CatalogPojo getCatalog(CatalogMaster catalogMaster) {
         final CatalogPojo catalogPojo = mapper.map(catalogMaster, CatalogPojo.class);
-        LOG.debug("Load {} catalog", catalogMaster.getCode());
+        logger.debug("Load {} catalog", catalogMaster.getCode());
         return catalogPojo;
     }
 
     @Override
     public CatalogPojo getCatalog(CatalogVirtual catalogVirtual) {
         final CatalogPojo catalogPojo = mapper.map(catalogVirtual, CatalogPojo.class);
-        LOG.debug("Load {} catalog", catalogVirtual.getCode());
+        logger.debug("Load {} catalog", catalogVirtual.getCode());
         return catalogPojo;
     }
     
     public CatalogCategoryPojo buildCatalogCategory(final CatalogCategoryMaster catalogCategory) {
         final CatalogCategoryPojo catalogCategoryPojo = mapper.map(catalogCategory, CatalogCategoryPojo.class);
-        LOG.debug("Load {} category", catalogCategory.getCode());
+        logger.debug("Load {} category", catalogCategory.getCode());
         return catalogCategoryPojo;
     }
     
     public CatalogCategoryPojo buildCatalogCategory(final CatalogCategoryVirtual catalogCategory) {
         final CatalogCategoryPojo catalogCategoryPojo = mapper.map(catalogCategory, CatalogCategoryPojo.class);
-        LOG.debug("Load {} category", catalogCategory.getCode());
+        logger.debug("Load {} category", catalogCategory.getCode());
         return catalogCategoryPojo;
     }
     
     public ProductMarketingPojo buildProductMarketing(final ProductMarketing productMarketing) {
         final ProductMarketingPojo productMarketingPojo = mapper.map(productMarketing, ProductMarketingPojo.class);
-        LOG.debug("Load {} product marketing", productMarketing.getCode());
+        logger.debug("Load {} product marketing", productMarketing.getCode());
         return productMarketingPojo;
     }
     
     
     public ProductSkuPojo buildProductSku(final ProductSku productSku) {
         final ProductSkuPojo productSkuPojo = mapper.map(productSku, ProductSkuPojo.class);
-        LOG.debug("Load {} sku", productSku.getCode());
+        logger.debug("Load {} sku", productSku.getCode());
         return productSkuPojo;
     }
     

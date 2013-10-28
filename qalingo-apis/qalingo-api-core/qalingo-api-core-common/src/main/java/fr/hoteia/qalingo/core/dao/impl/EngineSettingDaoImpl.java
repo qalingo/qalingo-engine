@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 @Repository("engineSettingDao")
 public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements EngineSettingDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// Engine Setting
 	public EngineSetting getEngineSettingById(Long id) {

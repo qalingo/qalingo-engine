@@ -27,7 +27,7 @@ import fr.hoteia.qalingo.core.domain.CatalogVirtual;
 @Repository("productCatalogDao")
 public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<CatalogMaster> findAllCatalogMasters() {

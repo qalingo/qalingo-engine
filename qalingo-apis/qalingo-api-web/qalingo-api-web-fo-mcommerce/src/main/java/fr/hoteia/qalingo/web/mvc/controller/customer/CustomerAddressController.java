@@ -43,7 +43,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CustomerAddressListViewBean;
 @Controller("customerAddressController")
 public class CustomerAddressController extends AbstractCustomerController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     protected CustomerService customerService;
@@ -72,7 +72,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 			webCommerceService.deleteAddressCustomer(request, requestUtil.getRequestData(request), customerAddressId);
 			
 		} catch (Exception e) {
-			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
+			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
 		}
 
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestUtil.getRequestData(request));
@@ -136,7 +136,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 			customerAddress = reloadedCustomer.getAddress(new Long(customerAddressId));
 			
 		} catch (Exception e) {
-			LOG.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
+			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
 			final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}

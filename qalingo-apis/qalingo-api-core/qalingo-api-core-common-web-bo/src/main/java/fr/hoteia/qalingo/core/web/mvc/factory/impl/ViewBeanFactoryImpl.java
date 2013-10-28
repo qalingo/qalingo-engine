@@ -541,16 +541,16 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * 
 	 */
 	public CatalogViewBean buildMasterCatalogViewBean(final RequestData requestData, 
-													  final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> productCategories) throws Exception {
+													  final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogMaster.getBusinessName());
 		catalogViewBean.setCode(catalogMaster.getCode());
 		
-		if(productCategories != null){
-			catalogViewBean.setCategories(buildMasterProductCategoryViewBeans(requestData, productCategories, true));
+		if(catalogCategories != null){
+			catalogViewBean.setCategories(buildMasterCatalogCategoryViewBeans(requestData, catalogCategories, true));
 		}
 
-		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.buildAddMasterProductCategoryUrl(null));
+		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData));
 //		catalogViewBean.setAddRootCategoryUrlLabel(getSpecificMessage("business.catalog.add.master.category.label", locale));
 
 		return catalogViewBean;
@@ -561,16 +561,16 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * 
 	 */
 	public CatalogViewBean buildVirtualCatalogViewBean(final RequestData requestData, 
-													   final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> productCategories) throws Exception {
+													   final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
 		final CatalogViewBean catalogViewBean = new CatalogViewBean();
 		catalogViewBean.setBusinessName(catalogVirtual.getBusinessName());
 		catalogViewBean.setCode(catalogVirtual.getCode());
 		
-		if(productCategories != null){
-			catalogViewBean.setCategories(buildVirtualProductCategoryViewBeans(requestData, productCategories, true));
+		if(catalogCategories != null){
+			catalogViewBean.setCategories(buildVirtualCatalogCategoryViewBeans(requestData, catalogCategories, true));
 		}
 
-		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.buildAddVirtualProductCategoryUrl(null));
+		catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_ADD, requestData));
 //		catalogViewBean.setAddRootCategoryUrlLabel(getSpecificMessage("business.catalog.add.virtual.category.label", locale));
 
 		return catalogViewBean;
@@ -580,12 +580,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<CatalogCategoryViewBean> buildMasterProductCategoryViewBeans(final RequestData requestData, 
-																			 final List<CatalogCategoryMaster> productCategories, boolean fullPopulate) throws Exception {
+	public List<CatalogCategoryViewBean> buildMasterCatalogCategoryViewBeans(final RequestData requestData, 
+																			 final List<CatalogCategoryMaster> catalogCategories, boolean fullPopulate) throws Exception {
 		List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-		for (Iterator<CatalogCategoryMaster> iterator = productCategories.iterator(); iterator.hasNext();) {
+		for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
 			final CatalogCategoryMaster category = (CatalogCategoryMaster) iterator.next();
-			categoryViewBeans.add(buildMasterProductCategoryViewBean(requestData, category, fullPopulate));
+			categoryViewBeans.add(buildMasterCatalogCategoryViewBean(requestData, category, fullPopulate));
 		}
 		return categoryViewBeans;
 	}
@@ -594,12 +594,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public List<CatalogCategoryViewBean> buildVirtualProductCategoryViewBeans(final RequestData requestData, 
-																			  final List<CatalogCategoryVirtual> productCategories, boolean fullPopulate) throws Exception {
+	public List<CatalogCategoryViewBean> buildVirtualCatalogCategoryViewBeans(final RequestData requestData, 
+																			  final List<CatalogCategoryVirtual> catalogCategories, boolean fullPopulate) throws Exception {
 		List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-		for (Iterator<CatalogCategoryVirtual> iterator = productCategories.iterator(); iterator.hasNext();) {
+		for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
 			final CatalogCategoryVirtual category = (CatalogCategoryVirtual) iterator.next();
-			categoryViewBeans.add(buildVirtualProductCategoryViewBean(requestData, category, fullPopulate));
+			categoryViewBeans.add(buildVirtualCatalogCategoryViewBean(requestData, category, fullPopulate));
 		}
 		return categoryViewBeans;
 	}
@@ -608,110 +608,110 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogCategoryViewBean buildMasterProductCategoryViewBean(final RequestData requestData, 
+	public CatalogCategoryViewBean buildMasterCatalogCategoryViewBean(final RequestData requestData, 
 																	  final CatalogCategoryMaster category, boolean fullPopulate) throws Exception {
 		final HttpServletRequest request = requestData.getRequest();
-		final CatalogCategoryViewBean productCategoryViewBean = new CatalogCategoryViewBean();
+		final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 		
 //		// VIEW/FORM LABELS
-//		productCategoryViewBean.setBusinessNameLabel(getSpecificMessage("business.catalog.category.details.business.name.label", locale));
-//		productCategoryViewBean.setBusinessNameInformation(getSpecificMessage("business.catalog.category.details.business.name.information", locale));
-//		productCategoryViewBean.setDescriptionLabel(getSpecificMessage("business.catalog.category.details.description.label", locale));
-//		productCategoryViewBean.setDescriptionInformation(getSpecificMessage("business.catalog.category.details.description.information", locale));
-//		productCategoryViewBean.setIsDefaultLabel(getSpecificMessage("business.catalog.category.details.is.default.label", locale));
-//		productCategoryViewBean.setCodeLabel(getSpecificMessage("business.catalog.category.details.code.label", locale));
-//		productCategoryViewBean.setDefaultParentCategoryLabel(getSpecificMessage("business.catalog.category.details.default.parent.category.label", locale));
-//		productCategoryViewBean.setProductBrandLabel(getSpecificMessage("business.catalog.category.details.product.brand.label", locale));
-//		productCategoryViewBean.setProductMarketingGlobalAttributesLabel(getSpecificMessage("business.catalog.category.details.global.attribute.list.label", locale)); 
-//		productCategoryViewBean.setProductMarketingMarketAreaAttributesLabel(getSpecificMessage("business.catalog.category.details.area.attribute.list.label", locale)); 
-//		productCategoryViewBean.setProductMarketingLabel(getSpecificMessage("business.catalog.category.details.product.marketing.list.label", locale));
-//		productCategoryViewBean.setSubCategoriesLabel(getSpecificMessage("business.catalog.category.details.sub.category.list.label", locale));
-//		productCategoryViewBean.setDateCreateLabel(getSpecificMessage("business.catalog.category.details.created.date.label", locale));
-//		productCategoryViewBean.setDateUpdateLabel(getSpecificMessage("business.catalog.category.details.updated.date.label", locale));
+//		catalogCategoryViewBean.setBusinessNameLabel(getSpecificMessage("business.catalog.category.details.business.name.label", locale));
+//		catalogCategoryViewBean.setBusinessNameInformation(getSpecificMessage("business.catalog.category.details.business.name.information", locale));
+//		catalogCategoryViewBean.setDescriptionLabel(getSpecificMessage("business.catalog.category.details.description.label", locale));
+//		catalogCategoryViewBean.setDescriptionInformation(getSpecificMessage("business.catalog.category.details.description.information", locale));
+//		catalogCategoryViewBean.setIsDefaultLabel(getSpecificMessage("business.catalog.category.details.is.default.label", locale));
+//		catalogCategoryViewBean.setCodeLabel(getSpecificMessage("business.catalog.category.details.code.label", locale));
+//		catalogCategoryViewBean.setDefaultParentCategoryLabel(getSpecificMessage("business.catalog.category.details.default.parent.category.label", locale));
+//		catalogCategoryViewBean.setProductBrandLabel(getSpecificMessage("business.catalog.category.details.product.brand.label", locale));
+//		catalogCategoryViewBean.setProductMarketingGlobalAttributesLabel(getSpecificMessage("business.catalog.category.details.global.attribute.list.label", locale)); 
+//		catalogCategoryViewBean.setProductMarketingMarketAreaAttributesLabel(getSpecificMessage("business.catalog.category.details.area.attribute.list.label", locale)); 
+//		catalogCategoryViewBean.setProductMarketingLabel(getSpecificMessage("business.catalog.category.details.product.marketing.list.label", locale));
+//		catalogCategoryViewBean.setSubCategoriesLabel(getSpecificMessage("business.catalog.category.details.sub.category.list.label", locale));
+//		catalogCategoryViewBean.setDateCreateLabel(getSpecificMessage("business.catalog.category.details.created.date.label", locale));
+//		catalogCategoryViewBean.setDateUpdateLabel(getSpecificMessage("business.catalog.category.details.updated.date.label", locale));
 
 		if(category != null){
 			final String categoryCode = category.getCode();
 
-			productCategoryViewBean.setBusinessName(category.getBusinessName());
-			productCategoryViewBean.setCode(categoryCode);
-			productCategoryViewBean.setDescription(category.getDescription());
+			catalogCategoryViewBean.setBusinessName(category.getBusinessName());
+			catalogCategoryViewBean.setCode(categoryCode);
+			catalogCategoryViewBean.setDescription(category.getDescription());
 			
 			if(category.getDefaultParentCatalogCategory() != null){
-				productCategoryViewBean.setDefaultParentCategory(buildMasterProductCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
+				catalogCategoryViewBean.setDefaultParentCategory(buildMasterCatalogCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
 			Date createdDate = category.getDateCreate();
 			if(createdDate != null){
-				productCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
+				catalogCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
 			} else {
-				productCategoryViewBean.setCreatedDate("NA");
+				catalogCategoryViewBean.setCreatedDate("NA");
 			}
 			Date updatedDate = category.getDateUpdate();
 			if(updatedDate != null){
-				productCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+				catalogCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
 			} else {
-				productCategoryViewBean.setUpdatedDate("NA");
+				catalogCategoryViewBean.setUpdatedDate("NA");
 			}
 
 			if(fullPopulate){
 				if(category.getCatalogCategories() != null){
-					productCategoryViewBean.setSubCategories(buildMasterProductCategoryViewBeans(requestData, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
+					catalogCategoryViewBean.setSubCategories(buildMasterCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
 				}
 				
 				Set<CatalogCategoryMasterAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
 				for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-					productCategoryViewBean.getGlobalAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
+					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
+					catalogCategoryViewBean.getGlobalAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
 				}
 				
 				Set<CatalogCategoryMasterAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes();
 				for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-					CatalogCategoryMasterAttribute productCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-					productCategoryViewBean.getMarketAreaAttributes().put(productCategoryMasterAttribute.getAttributeDefinition().getCode(), productCategoryMasterAttribute.getValueAsString());
+					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
+					catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
 				}
 				
 				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
-				productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
+				catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
 				int countProduct = category.getProductMarketings().size();
-				for (Iterator<CatalogCategoryViewBean> iterator = productCategoryViewBean.getSubCategories().iterator(); iterator.hasNext();) {
+				for (Iterator<CatalogCategoryViewBean> iterator = catalogCategoryViewBean.getSubCategories().iterator(); iterator.hasNext();) {
 					CatalogCategoryViewBean subCategoryViewBean = (CatalogCategoryViewBean) iterator.next();
 					countProduct = countProduct + subCategoryViewBean.getCountProduct();
 				}
-				productCategoryViewBean.setCountProduct(countProduct);
+				catalogCategoryViewBean.setCountProduct(countProduct);
 				
 				Set<Asset> assets = category.getAssetsIsGlobal();
 				for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
 					Asset asset = (Asset) iterator.next();
-					productCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
+					catalogCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
 				}
 			}
 
-//			productCategoryViewBean.setCategoryDetailsLabel(getSpecificMessage("business.catalog.category.details.url.label", locale));
-			productCategoryViewBean.setCategoryDetailsUrl(backofficeUrlService.buildProductMasterCategoryDetailsUrl(categoryCode));
+//			catalogCategoryViewBean.setCategoryDetailsLabel(getSpecificMessage("business.catalog.category.details.url.label", locale));
+			catalogCategoryViewBean.setCategoryDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, category));
 
-//			productCategoryViewBean.setCategoryEditLabel(getSpecificMessage("business.catalog.category.edit.url.label", locale));
-			productCategoryViewBean.setCategoryEditUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(categoryCode));
+//			catalogCategoryViewBean.setCategoryEditLabel(getSpecificMessage("business.catalog.category.edit.url.label", locale));
+			catalogCategoryViewBean.setCategoryEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, category));
 			
-			productCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildMasterProductCategoryEditUrl(categoryCode));
+			catalogCategoryViewBean.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, category));
 		}
 		
-//		productCategoryViewBean.setSubmitLabel(getSpecificMessage("business.catalog.category.edit.submit.label", locale));
+//		catalogCategoryViewBean.setSubmitLabel(getSpecificMessage("business.catalog.category.edit.submit.label", locale));
 
-//		productCategoryViewBean.setCancelLabel(getSpecificMessage("business.catalog.category.edit.cancel.label", locale));
+//		catalogCategoryViewBean.setCancelLabel(getSpecificMessage("business.catalog.category.edit.cancel.label", locale));
 		final List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add("form");
-		productCategoryViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
+		catalogCategoryViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
 
-		return productCategoryViewBean;
+		return catalogCategoryViewBean;
 	}
 	
 	/**
 	 * @throws Exception 
 	 * 
 	 */
-	public CatalogCategoryViewBean buildVirtualProductCategoryViewBean(final RequestData requestData, 
+	public CatalogCategoryViewBean buildVirtualCatalogCategoryViewBean(final RequestData requestData, 
 																	   final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
 		final HttpServletRequest request = requestData.getRequest();
 		
@@ -741,7 +741,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 //			catalogCategoryViewBean.setDescriptionInformation(category.getDescription());
 
 			if(category.getDefaultParentCatalogCategory() != null){
-				catalogCategoryViewBean.setDefaultParentCategory(buildVirtualProductCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
+				catalogCategoryViewBean.setDefaultParentCategory(buildVirtualCatalogCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
 			}
 			
 			DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -760,19 +760,19 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 			if(fullPopulate){
 				if(category.getCatalogCategories() != null){
-					catalogCategoryViewBean.setSubCategories(buildVirtualProductCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
+					catalogCategoryViewBean.setSubCategories(buildVirtualCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
 				}
 
 				Set<CatalogCategoryVirtualAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
 				for (Iterator<CatalogCategoryVirtualAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-					catalogCategoryViewBean.getGlobalAttributes().put(productCategoryVirtualAttribute.getAttributeDefinition().getCode(), productCategoryVirtualAttribute.getValueAsString());
+					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+					catalogCategoryViewBean.getGlobalAttributes().put(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode(), catalogCategoryVirtualAttribute.getValueAsString());
 				}
 				
 				Set<CatalogCategoryVirtualAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes();
 				for (Iterator<CatalogCategoryVirtualAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-					CatalogCategoryVirtualAttribute productCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
-					catalogCategoryViewBean.getMarketAreaAttributes().put(productCategoryVirtualAttribute.getAttributeDefinition().getCode(), productCategoryVirtualAttribute.getValueAsString());
+					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
+					catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode(), catalogCategoryVirtualAttribute.getValueAsString());
 				}
 	
 				List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
@@ -793,12 +793,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			}
 
 //			catalogCategoryViewBean.setCategoryDetailsLabel(getSpecificMessage("business.catalog.category.details.url.label", locale));
-			catalogCategoryViewBean.setCategoryDetailsUrl(backofficeUrlService.buildProductVirtualCategoryDetailsUrl(categoryCode));
+			catalogCategoryViewBean.setCategoryDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, category));
 
 //			catalogCategoryViewBean.setCategoryEditLabel(getSpecificMessage("business.catalog.category.edit.url.label", locale));
-			catalogCategoryViewBean.setCategoryEditUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(categoryCode));
+			catalogCategoryViewBean.setCategoryEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, category));
 			
-			catalogCategoryViewBean.setFormSubmitUrl(backofficeUrlService.buildVirtualProductCategoryEditUrl(categoryCode));
+			catalogCategoryViewBean.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, category));
 		}
 		
 //		catalogCategoryViewBean.setCancelLabel(getSpecificMessage("business.catalog.category.edit.cancel.label", locale));
@@ -916,10 +916,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 //		productMarketingViewBean.setIconImage(productMarketing.geticonImage);
 
 //		productMarketingViewBean.setProductDetailsLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "business.product.marketing.details.url.label", locale));
-		productMarketingViewBean.setProductDetailsUrl(backofficeUrlService.buildProductMarketingDetailsUrl(productCode));
+		productMarketingViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 
 //		productMarketingViewBean.setProductEditLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "business.product.marketing.edit.url.label", locale));
-		productMarketingViewBean.setProductEditUrl(backofficeUrlService.buildProductMarketingEditUrl(productCode));
+		productMarketingViewBean.setProductEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
 
 //		productMarketingViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "business.product.marketing.edit.cancel.label", locale));
 		final List<String> excludedPatterns = new ArrayList<String>();
@@ -927,7 +927,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		productMarketingViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
 
 //		productMarketingViewBean.setSubmitLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "business.product.marketing.edit.submit.label", locale));
-		productMarketingViewBean.setFormSubmitUrl(backofficeUrlService.buildProductMarketingEditUrl(productCode));
+		productMarketingViewBean.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
 		
 		return productMarketingViewBean;
 	}
@@ -944,8 +944,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		productCrossLinkViewBean.setName(productAssociationLink.getProductMarketing().getBusinessName());
 		productCrossLinkViewBean.setType(productAssociationLink.getType().name());
 		productCrossLinkViewBean.setDescription(productAssociationLink.getType().name());
-		final String productCode = productAssociationLink.getProductMarketing().getCode();
-		productCrossLinkViewBean.setProductDetailsUrl(backofficeUrlService.buildProductMarketingDetailsUrl(productCode));
+		productCrossLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductMarketing()));
 		
 		return productCrossLinkViewBean;
 	}
@@ -1042,10 +1041,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 //		productSkuViewBean.setIconImage(productMarketing.geticonImage);
 
 //		productSkuViewBean.setProductSkuDetailsLabel(getSpecificMessage("business.product.sku.details.url.label", locale));
-		productSkuViewBean.setProductSkuDetailsUrl(backofficeUrlService.buildProductSkuDetailsUrl(productSkuCode));
+		productSkuViewBean.setProductSkuDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
 
 //		productSkuViewBean.setProductSkuEditLabel(getSpecificMessage("business.product.sku.edit.url.label", locale));
-		productSkuViewBean.setProductSkuEditUrl(backofficeUrlService.buildProductSkuEditUrl(productSkuCode));
+		productSkuViewBean.setProductSkuEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
 
 //		productSkuViewBean.setCancelLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "business.product.sku.edit.cancel.label", locale));
 		final List<String> excludedPatterns = new ArrayList<String>();
@@ -1053,7 +1052,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		productSkuViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
 
 //		productSkuViewBean.setSubmitLabel(getSpecificMessage(ScopeWebMessage.PRODUCT_SKU, "business.product.sku.edit.submit.label", locale));
-		productSkuViewBean.setFormSubmitUrl(backofficeUrlService.buildProductSkuEditUrl(productSkuCode));
+		productSkuViewBean.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
 		
 		return productSkuViewBean;
 	}
@@ -1114,9 +1113,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			assetViewBean.setUpdatedDate("NA");
 		}
 		
-		assetViewBean.setDetailsUrl(backofficeUrlService.buildAssetDetailsUrl(assetCode));
-		assetViewBean.setEditUrl(backofficeUrlService.buildAssetEditUrl(assetCode));
-		assetViewBean.setFormSubmitUrl(backofficeUrlService.buildAssetEditUrl(assetCode));
+		assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));
+		assetViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_EDIT, requestData, asset));
+		assetViewBean.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_EDIT, requestData, asset));
 
 		return assetViewBean;
 	}
@@ -1270,8 +1269,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			shippingViewBean.setDateUpdate("NA");
 		}
 		
-		shippingViewBean.setDetailsUrl(backofficeUrlService.buildCustomerDetailsUrl(shipping.getCode()));
-		shippingViewBean.setEditUrl(backofficeUrlService.buildCustomerEditUrl(shipping.getCode()));
+		shippingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_DETAILS, requestData, shipping));
+		shippingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_EDIT, requestData, shipping));
 
 		return shippingViewBean;
 	}
@@ -1303,8 +1302,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			orderViewBean.setDateUpdate("NA");
 		}
 		
-		orderViewBean.setDetailsUrl(backofficeUrlService.buildOrderDetailsUrl(order.getOrderNum()));
-		orderViewBean.setEditUrl(backofficeUrlService.buildOrderEditUrl(order.getOrderNum()));
+		orderViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_DETAILS, requestData, order));
 
 		return orderViewBean;
 	}
@@ -1334,8 +1332,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			ruleViewBean.setDateUpdate("NA");
 		}
 		
-		ruleViewBean.setDetailsUrl(backofficeUrlService.buildRuleDetailsUrl(rule.getCode()));
-		ruleViewBean.setEditUrl(backofficeUrlService.buildRuleEditUrl(rule.getCode()));
+		ruleViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.RULE_DETAILS, requestData, rule));
+		ruleViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.RULE_EDIT, requestData, rule));
 
 		return ruleViewBean;
 	}
@@ -1370,8 +1368,8 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			customerViewBean.setDateUpdate("NA");
 		}
 		
-		customerViewBean.setDetailsUrl(backofficeUrlService.buildCustomerDetailsUrl(customer.getCode()));
-		customerViewBean.setEditUrl(backofficeUrlService.buildCustomerEditUrl(customer.getCode()));
+		customerViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestData, customer));
+		customerViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_EDIT, requestData, customer));
 
 		return customerViewBean;
 	}
@@ -1393,7 +1391,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			final GlobalSearchViewBean globalSearchViewBean = new GlobalSearchViewBean();
 			globalSearchViewBean.setValue(productMarketing.getBusinessName() + " : " + productMarketing.getCode());
 			globalSearchViewBean.setType("ProductMarketing");
-			globalSearchViewBean.setUrl(backofficeUrlService.buildProductMarketingDetailsUrl(productMarketing.getCode()));
+			globalSearchViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 
 			globalSearchViewBeans.add(globalSearchViewBean);
 		}
@@ -1405,7 +1403,7 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 			final GlobalSearchViewBean globalSearchViewBean = new GlobalSearchViewBean();
 			globalSearchViewBean.setValue(productSku.getBusinessName() + " : " + productSku.getCode());
 			globalSearchViewBean.setType("ProductSku");
-			globalSearchViewBean.setUrl(backofficeUrlService.buildProductSkuDetailsUrl(productSku.getCode()));
+			globalSearchViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
 
 			globalSearchViewBeans.add(globalSearchViewBean);
 		}

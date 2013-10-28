@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 @Repository("emailDao")
 public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Email getEmailById(final Long id) {
 		return em.find(Email.class, id);
@@ -79,8 +79,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
 	/**
 	 * @throws IOException
-	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email,
-	 *      MimeMessagePreparatorImpl mimeMessagePreparator)
+	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email,  MimeMessagePreparatorImpl mimeMessagePreparator)
 	 */
 	public void saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
 		Session session = (Session) em.getDelegate();

@@ -25,7 +25,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	private String dateUpdate;
 
 	private String detailsUrl;
-	private String editUrl;
 
 	public Long getId() {
 		return id;
@@ -105,14 +104,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 
 	public void setDetailsUrl(String detailsUrl) {
 		this.detailsUrl = detailsUrl;
-	}
-
-	public String getEditUrl() {
-		return editUrl;
-	}
-
-	public void setEditUrl(String editUrl) {
-		this.editUrl = editUrl;
 	}
 
 }

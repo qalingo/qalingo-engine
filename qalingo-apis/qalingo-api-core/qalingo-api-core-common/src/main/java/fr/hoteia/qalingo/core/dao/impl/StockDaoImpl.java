@@ -21,7 +21,7 @@ import fr.hoteia.qalingo.core.domain.ProductSkuStock;
 @Repository("stockDao")
 public class StockDaoImpl extends AbstractGenericDaoImpl implements StockDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductSkuStock getStockById(Long productSkuStockId) {
 		return em.find(ProductSkuStock.class, productSkuStockId);

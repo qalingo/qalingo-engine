@@ -9,8 +9,6 @@
  */
 package fr.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import fr.hoteia.qalingo.core.domain.Tax;
 
 public interface TaxDao {

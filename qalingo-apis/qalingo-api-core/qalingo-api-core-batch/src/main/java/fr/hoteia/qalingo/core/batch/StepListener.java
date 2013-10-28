@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  */
 public class StepListener extends StepListenerSupport<Long, Long> implements InitializingBean {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private AlertMailSender alertMailSender;
 
@@ -36,7 +36,7 @@ public class StepListener extends StepListenerSupport<Long, Long> implements Ini
 		
 		if(stepExecution.getStatus().equals(BatchStatus.FAILED)){
 			alertMailSender.alertEmail(stepExecution);
-			LOG.error("Step " + stepExecution.getStepName() + " failed, execution Id: " + stepExecution.getJobExecutionId(), 
+			logger.error("Step " + stepExecution.getStepName() + " failed, execution Id: " + stepExecution.getJobExecutionId(), 
 					stepExecution.toString());
 		}
 		

@@ -100,7 +100,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		
 		subMenu = new MenuViewBean();
 		subMenu.setName("Customers");
-		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER, requestData));
+		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menu.getSubMenus().add(subMenu);
 		
 		subMenu = new MenuViewBean();

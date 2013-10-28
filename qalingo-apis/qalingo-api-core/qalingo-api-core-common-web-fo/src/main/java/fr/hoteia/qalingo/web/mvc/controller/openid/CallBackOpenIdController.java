@@ -20,7 +20,7 @@ import fr.hoteia.qalingo.core.service.openid.Utils;
 @Controller("callBackOpenIdController")
 public class CallBackOpenIdController extends AbstractOpenIdFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping("/callback-openid.html*")
 	public ModelAndView callBackGoogleContact(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -37,7 +37,7 @@ public class CallBackOpenIdController extends AbstractOpenIdFrontofficeControlle
 		    	response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
 
 			} catch (Exception e) {
-				LOG.error("Callback With " + OAuthType.YAHOO.getPropertyKey() + " failed!");
+				logger.error("Callback With " + OAuthType.YAHOO.getPropertyKey() + " failed!");
 			}
 		}
 		

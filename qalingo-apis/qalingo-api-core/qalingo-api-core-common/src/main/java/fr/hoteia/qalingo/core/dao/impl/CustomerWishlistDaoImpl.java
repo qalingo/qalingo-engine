@@ -21,7 +21,7 @@ import fr.hoteia.qalingo.core.domain.CustomerWishlist;
 @Repository("customerWishlistDao")
 public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements CustomerWishlistDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerWishlist getCustomerWishlistById(Long customerWishlistId) {
 		return em.find(CustomerWishlist.class, customerWishlistId);

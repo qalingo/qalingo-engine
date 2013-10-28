@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 @Component(value="extSimpleUrlAuthenticationFailureHandler")
 public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     protected BackofficeUrlService backofficeUrlService;
@@ -54,7 +54,7 @@ public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentic
 	        saveException(request, exception);
 	        redirectStrategy.sendRedirect(request, response, url);
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 	}
 	

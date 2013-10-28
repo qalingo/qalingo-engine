@@ -14,6 +14,6 @@ import org.slf4j.LoggerFactory;
 
 public class VelocityViewResolver extends org.springframework.web.servlet.view.velocity.VelocityViewResolver {
 	
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 }

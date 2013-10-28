@@ -35,7 +35,7 @@ import fr.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
  */
 public abstract class AbstractOpenIdFrontofficeController extends AbstractQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	protected OpenIdService openIdService;

@@ -47,7 +47,7 @@ import fr.hoteia.qalingo.core.service.RuleRepositoryService;
 @Transactional
 public class RuleUtilImpl implements RuleUtil {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	protected RuleRepositoryService ruleRepositoryService;
@@ -76,7 +76,7 @@ public class RuleUtilImpl implements RuleUtil {
 				if(errors != null){
 					for (Iterator<KnowledgeBuilderError> iterator = errors.iterator(); iterator.hasNext();) {
 						KnowledgeBuilderError knowledgeBuilderError = (KnowledgeBuilderError) iterator.next();
-						LOG.error(knowledgeBuilderError.getMessage());
+						logger.error(knowledgeBuilderError.getMessage());
 					}
 				}
 	            throw new RuntimeException("Unable to compile drl"); 
@@ -91,7 +91,7 @@ public class RuleUtilImpl implements RuleUtil {
     		ksession.fireAllRules();
         		
 		} catch (Exception e) {
-			LOG.error("UrlParams Filter & HandleUrlParameters failed, e");
+			logger.error("UrlParams Filter & HandleUrlParameters failed, e");
 		}
 	}
 }

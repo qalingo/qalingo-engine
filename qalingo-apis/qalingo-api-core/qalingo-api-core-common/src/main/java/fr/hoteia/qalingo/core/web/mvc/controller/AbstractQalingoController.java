@@ -39,7 +39,7 @@ import fr.hoteia.qalingo.core.web.viewbean.TrackingViewBean;
  */
 public abstract class AbstractQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	protected CoreMessageSource coreMessageSource;
@@ -153,9 +153,9 @@ public abstract class AbstractQalingoController {
         result.addError(error);
         result.rejectValue(error.getField(), "");
         if(e != null){
-            LOG.error(errorMessage, e);
+            logger.error(errorMessage, e);
         } else {
-            LOG.warn(errorMessage);
+            logger.warn(errorMessage);
         }
     }
 	

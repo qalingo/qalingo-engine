@@ -32,7 +32,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.CartViewBean;
 @Controller("cartDetailsController")
 public class CartDetailsController extends AbstractMCommerceController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(FoUrls.CART_ADD_PRODUCT_URL)
 	public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -41,7 +41,7 @@ public class CartDetailsController extends AbstractMCommerceController {
 			requestUtil.updateCurrentCart(request, skuCode, 1);
 			
 		} catch (Exception e) {
-			LOG.error("Error to add product sku to cart, skuCode:" + skuCode, e);
+			logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
 		}
 		
 		final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));

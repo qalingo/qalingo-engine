@@ -85,11 +85,11 @@
     <dependencies>
         <!-- Qalingo libs -->
         <dependency>
-            <groupId>fr.hoteia.qalingo</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>qalingo-api-core-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>fr.hoteia.qalingo</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>qalingo-api-core-xml-binding</artifactId>
         </dependency>
 

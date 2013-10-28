@@ -33,7 +33,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class RulesFilter implements Filter {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected ApplicationContext ctx;
     protected FilterConfig filterConfig;
@@ -58,7 +58,7 @@ public class RulesFilter implements Filter {
 			EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(httpServletRequest);
 			objects.add(engineEcoSession);
 		} catch (Exception e) {
-			LOG.error("Failed to load EngineEcoSession from Request", e);
+			logger.error("Failed to load EngineEcoSession from Request", e);
 		}
     	ruleUtil.handleRuleSession(objects);
 		

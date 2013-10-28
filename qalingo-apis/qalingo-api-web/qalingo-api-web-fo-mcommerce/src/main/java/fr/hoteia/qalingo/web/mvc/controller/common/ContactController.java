@@ -45,7 +45,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 @Controller("contactController")
 public class ContactController extends AbstractMCommerceController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(value = FoUrls.CONTACT_URL, method = RequestMethod.GET)
 	public ModelAndView displayContactForm(final HttpServletRequest request, Model model, @ModelAttribute("contactForm") ContactForm contactForm) throws Exception {
@@ -72,7 +72,7 @@ public class ContactController extends AbstractMCommerceController {
 			webCommerceService.buildAndSaveContactMail(requestUtil.getRequestData(request), contactForm);
 	        
         } catch (Exception e) {
-        	LOG.error("Can't send contact email!", e);
+        	logger.error("Can't send contact email!", e);
 	        displayContactForm(request, model, contactForm);
         }
 		
@@ -105,7 +105,7 @@ public class ContactController extends AbstractMCommerceController {
 				}
 			});
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return countriesValues;
     }

@@ -23,9 +23,10 @@
 		<module>qalingo-api-core-xml-binding</module>
 		<module>qalingo-api-core-jax-rs</module>
 		<module>qalingo-api-core-jax-ws</module>
-		<module>qalingo-api-core-rule-engine</module>
+		<module>qalingo-api-core-drools</module>
 		<module>qalingo-api-core-batch</module>
 		<module>qalingo-api-core-solr</module>
+		<module>qalingo-api-core-jms</module>
 	</modules>
 	
 	<properties>

@@ -55,7 +55,7 @@ import fr.hoteia.qalingo.web.service.WebCommerceService;
  */
 public abstract class AbstractMCommerceController extends AbstractFrontofficeQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
     protected WebCommerceService webCommerceService;

@@ -31,7 +31,7 @@
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
 			
-		<!-- Spring framework -->
+		<!-- Spring libs -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -58,14 +58,10 @@
 			<artifactId>spring-support</artifactId>
 		</dependency>
 
-		<!-- Spring Batch -->
+		<!-- Spring Batch libs -->
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.batch</groupId>
-			<artifactId>spring-batch-infrastructure</artifactId>
 		</dependency>
 		
 		<!-- Quartz -->

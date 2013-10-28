@@ -22,7 +22,7 @@ import fr.hoteia.qalingo.core.service.openid.Utils;
 @Controller("connectGoogleAccountController")
 public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/connect-openid-google-account.html*")
 	public ModelAndView connectGoogle(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -43,7 +43,7 @@ public class ConnectGoogleAccountController extends AbstractOpenIdFrontofficeCon
 	            response.sendRedirect(url);                
 
 			} catch (Exception e) {
-				LOG.error("Connect With " + OpenProvider.GOOGLE_ACCOUNT.getPropertyKey() + " failed!");
+				logger.error("Connect With " + OpenProvider.GOOGLE_ACCOUNT.getPropertyKey() + " failed!");
 			}
 		}
 		

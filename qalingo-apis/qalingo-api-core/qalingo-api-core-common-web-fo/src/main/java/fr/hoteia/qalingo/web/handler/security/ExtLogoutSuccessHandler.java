@@ -29,7 +29,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 @Component(value="extLogoutSuccessHandler")
 public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     protected UrlService urlService;
@@ -54,7 +54,7 @@ public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 	        String url = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
 	        setDefaultTargetUrl(url);
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
         
         String targetUrl = determineTargetUrl(request, response);

@@ -29,11 +29,11 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.Shipping;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.service.ShippingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -97,7 +97,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		final Shipping shipping = shippingService.getShippingById(currentShippingCode);
 		
 		if(shipping != null){
-			initShippingDetailsPage(request, model, modelAndView, shipping);
+			initShippingDetailsPage(requestUtil.getRequestData(request), model, modelAndView, shipping);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -132,12 +132,11 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		// UPDATE SHIPPING
 //		webBackofficeService.updateShipping(shipping, shippingForm);
 		
-		final String urlRedirect = backofficeUrlService.buildShippingDetailsUrl(currentShippingId);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.SHIPPING_DETAILS, requestUtil.getRequestData(request), shipping);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
 	private PagedListHolder<ShippingViewBean> initList(final HttpServletRequest request, String sessionKey) throws Exception{
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		PagedListHolder<ShippingViewBean> shippingViewBeanPagedListHolder = new PagedListHolder<ShippingViewBean>();
 		
 		final List<ShippingViewBean> shippingViewBeans = new ArrayList<ShippingViewBean>();
@@ -154,8 +153,8 @@ public class ShippingController extends AbstractBusinessBackofficeController {
         return shippingViewBeanPagedListHolder;
 	}
     
-	protected void initShippingDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(requestUtil.getRequestData(request), user));
+	protected void initShippingDetailsPage(final RequestData requestData, final Model model, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, viewBeanFactory.buildShippingViewBean(requestData, user));
 	}
 
 }

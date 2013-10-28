@@ -58,7 +58,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.ValueBean;
 @Controller("retailerController")
 public class RetailerController extends AbstractBusinessBackofficeController {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public static final String SESSION_KEY = "PagedListHolder_Retailers";
 
@@ -146,7 +146,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			webBackofficeService.createOrUpdateRetailer(retailerEdit, retailerForm);
 	        
         } catch (Exception e) {
-        	LOG.error("Can't save or update Retailer:" + retailerForm.getId() + "/" + retailerForm.getCode(), e);
+        	logger.error("Can't save or update Retailer:" + retailerForm.getId() + "/" + retailerForm.getCode(), e);
 			return retailerEdit(request, model, retailerForm);
         }
 		
@@ -255,7 +255,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 				});
 			}
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 		return countriesValues;
     }

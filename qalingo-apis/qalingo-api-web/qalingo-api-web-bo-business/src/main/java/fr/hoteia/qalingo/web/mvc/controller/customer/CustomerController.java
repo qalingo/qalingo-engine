@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.hoteia.qalingo.core.BoPageConstants;
 import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
@@ -51,14 +50,9 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	@Autowired
 	private CustomerService customerService;
 
-	@RequestMapping(value = BoUrls.CUSTOMER_URL, method = RequestMethod.GET)
-	public ModelAndView customerUniver(final HttpServletRequest request, final Model model) throws Exception {
-		return customerList(request, model);
-	}
-
-	@RequestMapping(value = "/customer-list.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.CUSTOMER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView customerList(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_LIST_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_LIST.getVelocityPage());
 		
 		final String contentText = getSpecificMessage(ScopeWebMessage.CUSTOMER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
@@ -95,9 +89,9 @@ public class CustomerController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-details.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.CUSTOMER_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView customerDetails(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_DETAILS_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_DETAILS.getVelocityPage());
 
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerByCode(currentCustomerCode);
@@ -112,9 +106,9 @@ public class CustomerController extends AbstractBusinessBackofficeController {
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.CUSTOMER_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView customerEdit(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_FORM_VELOCITY_PAGE);
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_EDIT.getVelocityPage());
 		
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
@@ -123,25 +117,20 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/customer-edit.html*", method = RequestMethod.POST)
+	@RequestMapping(value = BoUrls.CUSTOMER_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView customerEdit(final HttpServletRequest request, final Model model, @Valid CustomerForm customerForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-
-		// "customer.edit";
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
 		
 		if (result.hasErrors()) {
-			ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoPageConstants.CUSTOMER_FORM_VELOCITY_PAGE);
-			modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
-			modelAndView.addObject(Constants.CUSTOMER_FORM, formFactory.buildCustomerForm(request, customer));
-			return modelAndView;
+			return customerEdit(request, model);
 		}
 		
 		// UPDATE CUSTOMER
 //		webBackofficeService.updateCustomer(customer, customerForm);
 		
-		final String urlRedirect = backofficeUrlService.buildCustomerDetailsUrl(currentCustomerCode);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestUtil.getRequestData(request), customer);;
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 

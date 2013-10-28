@@ -34,7 +34,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Generated UID
@@ -89,7 +89,7 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 			}
 			
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 	}
 	
@@ -117,7 +117,7 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 			requestUtil.updateCurrentDevice(request, deviceFolder);
 			
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 	}
 }

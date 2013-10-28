@@ -66,6 +66,19 @@
 	<import resource="classpath:conf/spring/qalingo-core-service.xml" />
 	
 	<!-- COMMON -->
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="isolationLevelForCreate" value="ISOLATION_DEFAULT" />
+ 		<!--
+        <property name="databaseType" value="POSTGRES" />
+		-->
+	</bean>
+
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
 	<bean id="stepListener" class="fr.hoteia.qalingo.core.batch.StepListener">
 		<property name="alertMailSender" ref="alertMailSender" />
 	</bean>

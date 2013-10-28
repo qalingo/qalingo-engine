@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 @Repository("paymentGatewayDao")
 public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements PaymentGatewayDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId) {
 		return em.find(AbstractPaymentGateway.class, paymentGatewayId);

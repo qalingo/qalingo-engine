@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.User;
 @Repository("userDao")
 public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public User getUserById(Long userId) {
 		return em.find(User.class, userId);

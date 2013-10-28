@@ -20,7 +20,7 @@ import fr.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 @Transactional(readOnly = true)
 public class RetailerPojoServiceImpl implements RetailerPojoService {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected Mapper mapper;
@@ -31,14 +31,14 @@ public class RetailerPojoServiceImpl implements RetailerPojoService {
     @Override
     public List<RetailerPojo> findAllRetailers() {
         List<Retailer> allRetailers = retailerService.findAllRetailers();
-        LOG.debug("Found {} retailers", allRetailers.size());
+        logger.debug("Found {} retailers", allRetailers.size());
         return mapAll(mapper, allRetailers, RetailerPojo.class);
     }
 
     @Override
     public RetailerPojo getRetailerById(String retailerId) {
         final Retailer retailer = retailerService.getRetailerById(retailerId);
-        LOG.debug("Found {} retailer for id {}", retailer, retailerId);
+        logger.debug("Found {} retailer for id {}", retailer, retailerId);
         return retailer == null ? null : mapper.map(retailer, RetailerPojo.class);
     }
     

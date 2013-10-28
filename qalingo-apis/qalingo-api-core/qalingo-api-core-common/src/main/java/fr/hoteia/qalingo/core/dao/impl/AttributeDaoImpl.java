@@ -25,7 +25,7 @@ import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 @Repository("attributeDao")
 public class AttributeDaoImpl extends AbstractGenericDaoImpl implements AttributeDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public AttributeDefinition getAttributeDefinitionById(Long attributeDefinitionId) {
 		return em.find(AttributeDefinition.class, attributeDefinitionId);

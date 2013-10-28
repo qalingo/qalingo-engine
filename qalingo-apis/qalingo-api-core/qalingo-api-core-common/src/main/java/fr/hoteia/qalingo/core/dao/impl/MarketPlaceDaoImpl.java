@@ -26,7 +26,7 @@ import fr.hoteia.qalingo.core.domain.MarketPlace;
 @Transactional
 public class MarketPlaceDaoImpl extends AbstractGenericDaoImpl implements MarketPlaceDao {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public MarketPlace getDefaultMarketPlace() {
 		Session session = (Session) em.getDelegate();

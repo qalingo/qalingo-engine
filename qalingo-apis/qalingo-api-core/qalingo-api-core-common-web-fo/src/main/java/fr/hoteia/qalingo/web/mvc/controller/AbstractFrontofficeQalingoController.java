@@ -38,7 +38,7 @@ import fr.hoteia.qalingo.web.mvc.viewbean.FollowUsViewBean;
  */
 public abstract class AbstractFrontofficeQalingoController extends AbstractQalingoController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	protected CustomerService customerService;
@@ -146,7 +146,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		try {
 			return getWordingMap(request);
         } catch (Exception e) {
-        	LOG.error("Context name, " + requestUtil.getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
+        	logger.error("Context name, " + requestUtil.getContextName() + " can't be resolve by EngineSettingWebAppContext class.", e);
         }
 		return null;
 	}
@@ -160,7 +160,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 			return coreMessageSource.loadWording(contextValue, locale);
 	        
         } catch (Exception e) {
-        	LOG.error("Failed to load wording map.", e);
+        	logger.error("Failed to load wording map.", e);
         }
 		return null;
 	}

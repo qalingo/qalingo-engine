@@ -24,7 +24,7 @@ import fr.hoteia.qalingo.core.pojo.RequestData;
 @Controller("connectWindowsLiveController")
 public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeController {
 
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/connect-oauth-windows-live.html*")
 	public ModelAndView connectWindowsLive(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -70,7 +70,7 @@ public class ConnectWindowsLiveController extends AbstractOAuthFrontofficeContro
 			    }
 
 			} catch (Exception e) {
-				LOG.error("Connect With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
+				logger.error("Connect With " + OAuthType.WINDOWS_LIVE.name() + " failed!");
 			}
 		}
 

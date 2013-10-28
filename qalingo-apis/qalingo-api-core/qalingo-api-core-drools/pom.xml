@@ -6,10 +6,10 @@
 		<artifactId>qalingo-api-core</artifactId>
 		<version>0.7.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>qalingo-api-core-rule-engine</artifactId>
+	<artifactId>qalingo-api-core-drools</artifactId>
 	<packaging>jar</packaging>
-	<name>{Q} Commerce Solution Core Rule Engine API</name>
-	<description>{Q} Commerce Solution Core Rule Engine API</description>
+	<name>{Q} Commerce Solution Core Drools Rule Engine API</name>
+	<description>{Q} Commerce Solution Core Drools Rule Engine API</description>
 	<url>http://www.hoteia.com</url>
 	<organization>
 		<name>Hoteia</name>
@@ -23,7 +23,7 @@
 	<dependencies>
 		<!-- Qalingo libs-->
 		<dependency>
-			<groupId>fr.hoteia.qalingo</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>qalingo-api-core-common</artifactId>
 		</dependency>
 		

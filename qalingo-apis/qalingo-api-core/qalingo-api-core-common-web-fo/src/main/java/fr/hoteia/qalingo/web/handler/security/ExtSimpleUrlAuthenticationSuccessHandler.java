@@ -36,7 +36,7 @@ import fr.hoteia.qalingo.core.web.util.RequestUtil;
 @Component(value="extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	private final Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
     @Autowired
     private CustomerService customerService;
@@ -88,7 +88,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	        redirectStrategy.sendRedirect(request, response, url);
 	        
 		} catch (Exception e) {
-			LOG.error("", e);
+			logger.error("", e);
 		}
 
     }
