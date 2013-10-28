@@ -30,7 +30,7 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 public class MonitoringController extends AbstractTechnicalBackofficeController {
 
 	@RequestMapping(BoUrls.MONITORING_URL)
-	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView searchMonitoring(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MONITORING.getVelocityPage());
 
 		final String contentText = getSpecificMessage(ScopeWebMessage.MONITORING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));

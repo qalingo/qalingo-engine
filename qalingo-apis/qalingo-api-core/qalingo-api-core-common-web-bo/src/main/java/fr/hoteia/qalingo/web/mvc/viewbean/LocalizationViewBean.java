@@ -19,6 +19,9 @@ public class LocalizationViewBean implements Serializable {
 	private static final long serialVersionUID = -1578033330874108569L;
 	
 	protected String name;
+	protected String code;
+	protected String country;
+	protected String language;
 	protected String img;
 	protected String changeContextUrl;
 
@@ -44,6 +47,30 @@ public class LocalizationViewBean implements Serializable {
 
 	public void setChangeContextUrl(String changeContextUrl) {
 		this.changeContextUrl = changeContextUrl;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 	
 }

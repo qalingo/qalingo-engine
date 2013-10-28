@@ -13,7 +13,7 @@ import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
 
 import java.util.List;
 
-import org.dozer.Mapper;
+import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class CustomerPojoServiceImpl implements CustomerPojoService {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected Mapper mapper;
+    private DozerBeanMapper mapper;
     
     @Autowired
     private CustomerService customerService;

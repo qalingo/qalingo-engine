@@ -251,7 +251,28 @@ public class RequestUtilImpl implements RequestUtil {
 		excludedPatterns.add("forbidden");
 		return getRequestUrl(request, excludedPatterns, 0);
 	}
-	
+	/**
+	 * Get the Effective URL
+	 * @param url
+	 * @return String
+	 * */
+	public static String getEffectiveURL(String url){
+		String rtnStr = url;
+		if(RequestConstants.URL_PRESERVE_PATHS){
+			return rtnStr;
+		}
+		if(null != url){
+			int lastIndex = url.lastIndexOf("/");
+			if(0>lastIndex){
+				lastIndex = url.lastIndexOf("\\");
+			}
+			if(lastIndex >= 0){
+				rtnStr = url.substring(lastIndex+1);
+			}
+			
+		}
+		return rtnStr;
+	}
 	/**
     * 
     */

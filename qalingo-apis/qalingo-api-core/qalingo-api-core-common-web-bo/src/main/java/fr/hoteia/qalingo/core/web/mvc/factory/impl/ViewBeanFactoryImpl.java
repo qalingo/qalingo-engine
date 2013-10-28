@@ -75,6 +75,7 @@ import fr.hoteia.qalingo.core.web.cache.util.WebElementType;
 import fr.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import fr.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
+import fr.hoteia.qalingo.core.web.util.impl.RequestUtilImpl;
 import fr.hoteia.qalingo.web.mvc.viewbean.AssetViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.BrandViewBean;
@@ -372,6 +373,11 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		} else {
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
+		//add by daniel yao 2013/10/11
+		localizationViewBean.setCode(localization.getCode());
+		localizationViewBean.setCountry(localization.getCountry());
+		localizationViewBean.setLanguage(localization.getLanguage());
+		
 		
 		localizationViewBean.setChangeContextUrl(backofficeUrlService.buildChangeContextUrl(requestDataChangecontext));
 		
@@ -424,6 +430,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		} else {
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
+		//add by daniel yao 2013/10/23
+		localizationViewBean.setCode(localization.getCode());
+		localizationViewBean.setCountry(localization.getCountry());
+		localizationViewBean.setLanguage(localization.getLanguage());
 		
 		RequestData requestDataChangecontext = new RequestData();
 		BeanUtils.copyProperties(requestData, requestDataChangecontext);
@@ -1220,7 +1230,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 
 		final List<String> excludedPatterns = new ArrayList<String>();
 		excludedPatterns.add("form");
-		userViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
+		String url = RequestUtilImpl.getEffectiveURL(BoUrls.USER_LIST_URL);
+		//get correct url for page, modified by daniel yao 2013-10-15
+		userViewBean.setBackUrl(url);
 
 		Map<String, String> urlParams = new HashMap<String, String>();
 		urlParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, user.getId().toString());
@@ -1432,7 +1444,10 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		final EngineSettingViewBean engineSettingViewBean = new EngineSettingViewBean();
 		engineSettingViewBean.setName(engineSetting.getName());
 		engineSettingViewBean.setDescription(engineSetting.getDescription());
-		
+		String backUrl = RequestUtilImpl.getEffectiveURL(requestUtil.getLastRequestUrl(requestData.getRequest()));
+		//get correct url for page, modified by daniel yao 2013-10-25
+
+		engineSettingViewBean.setBackUrl(backUrl);
 		Map<String, String> urlParams = new HashMap<String, String>();
 		urlParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID, engineSetting.getId().toString());
 		engineSettingViewBean.setEngineSettingDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, urlParams));

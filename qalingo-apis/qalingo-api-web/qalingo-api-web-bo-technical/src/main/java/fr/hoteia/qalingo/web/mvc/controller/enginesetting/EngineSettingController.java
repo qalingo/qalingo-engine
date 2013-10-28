@@ -40,6 +40,7 @@ import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import fr.hoteia.qalingo.core.web.util.impl.RequestUtilImpl;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.EngineSettingViewBean;
@@ -73,8 +74,8 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		
 		List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
 		
-		String url = requestUtil.getCurrentRequestUrl(request);
-		
+		String url = RequestUtilImpl.getEffectiveURL(requestUtil.getCurrentRequestUrl(request));
+		//get correct url for page, modified by daniel yao 2013-10-22
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder;
@@ -110,7 +111,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-details");
 
-		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID);
+		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
