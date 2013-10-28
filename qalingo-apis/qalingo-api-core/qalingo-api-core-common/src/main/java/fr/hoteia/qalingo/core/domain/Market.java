@@ -41,7 +41,7 @@ public class Market implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
+    @Column(name="ID", nullable=false)
 	private Long id;
 	
 	@Version

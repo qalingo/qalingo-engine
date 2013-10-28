@@ -44,7 +44,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 	protected PaymentGatewayService paymentGatewayService;
 	
 	@RequestMapping(BoUrls.REFERENCE_DATAS_URL)
-	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	public ModelAndView searchReferenceDatas(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.REFERENCE_DATAS.getVelocityPage());
 
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();

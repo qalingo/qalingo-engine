@@ -15,16 +15,21 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.BatchProcessObject;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.Localization;
@@ -34,6 +39,7 @@ import fr.hoteia.qalingo.core.service.BatchProcessObjectService;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
+import fr.hoteia.qalingo.web.mvc.form.BatchValueForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.BatchViewBean;
 import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
 
@@ -59,8 +65,52 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	}
 	
 	@RequestMapping(value = BoUrls.BATCH_URL, method = RequestMethod.GET)
-	public ModelAndView batch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        return batchCustomer(request, response);
+	public ModelAndView batchSuccessAndError(final HttpServletRequest request, final Model model) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
+		
+		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+		final Locale locale = currentLocalization.getLocale();
+		
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjects();//batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
+		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initLinks(request, modelAndView, locale);
+		
+		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
+		String springBatchUrl = springBatchUrlEngineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_CONTEXT_CRM).getValue();
+		modelAndView.addObject("springBatchUrl", springBatchUrl);
+		
+		String tab =  request.getParameter(RequestConstants.REQUEST_PARAMETER_TAB);
+		/**
+		 * Save the user selected Tab page, when reset, still stuck in this tag page
+		 * so that the user experience better. That is, when user can click 
+		 * one time mouse to complete an action, do not let user more than a few 
+		 * mouse clicks to complete the action
+		 * */
+		if(null == tab){
+			tab = "0";
+		}
+		modelAndView.addObject("tab", tab);
+		
+        return modelAndView;
+	}
+	
+	@RequestMapping(value = BoUrls.BATCH_URL, method = RequestMethod.POST)
+	public ModelAndView batchReset(final HttpServletRequest request, final Model model, @Valid BatchValueForm batchValueForm,
+			BindingResult result, ModelMap modelMap) throws Exception {
+
+
+		final String id = batchValueForm.getId();
+		
+		final BatchProcessObject batchProcessObject = batchProcessObjectService.getBatchProcessObjectById(id);
+		if (null != batchProcessObject) {
+			batchProcessObject.setProcessedCount(0);
+			// UPDATE PROCESSED_COUNT
+			batchProcessObjectService.saveOrUpdateBatchProcessObject(batchProcessObject);
+
+		}
+		
+
+        return batchSuccessAndError(request,model);
 	}
 	
 	@RequestMapping(value = "/batch-customer.html*", method = RequestMethod.GET)
@@ -70,7 +120,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
 		
-		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
+		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjects();//batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
 		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		

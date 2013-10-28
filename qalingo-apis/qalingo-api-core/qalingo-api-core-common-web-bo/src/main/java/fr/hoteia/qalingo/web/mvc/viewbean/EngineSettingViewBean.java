@@ -24,6 +24,8 @@ public class EngineSettingViewBean extends AbstractViewBean implements Serializa
 	protected String description;
 	protected String code;
 	
+	protected String backUrl;//add by daniel yao 2013/10/19
+	
 	protected String engineSettingDetailsUrl;
 	
 	protected List<EngineSettingValueViewBean> engineSettingValues = new ArrayList<EngineSettingValueViewBean>();
@@ -68,5 +70,14 @@ public class EngineSettingViewBean extends AbstractViewBean implements Serializa
 		this.engineSettingValues = engineSettingValues;
 	}
 
+	public String getBackUrl() {
+		return backUrl;
+	}
+
+	public void setBackUrl(String backUrl) {
+		this.backUrl = backUrl;
+	}
+
+	
 	
 }

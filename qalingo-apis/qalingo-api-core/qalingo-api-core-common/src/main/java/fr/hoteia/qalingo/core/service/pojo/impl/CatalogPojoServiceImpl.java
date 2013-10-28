@@ -2,6 +2,8 @@ package fr.hoteia.qalingo.core.service.pojo.impl;
 
 import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.dozer.Mapper;
