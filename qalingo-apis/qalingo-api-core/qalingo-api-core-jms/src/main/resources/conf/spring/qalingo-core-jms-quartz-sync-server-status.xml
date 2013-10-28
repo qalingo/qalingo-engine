@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://cxf.apache.org/jaxrs
+						http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <context:component-scan base-package="fr.hoteia.qalingo.core.quartz" />
+    <context:component-scan base-package="fr.hoteia.qalingo.core.jms.syncserveur.producer" />
+  
+    <!-- SYNC SERVEUR STATUS -->
+    <bean id="syncServeurStatusCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="syncServeurStatusJobDetail" />
+        <property name="cronExpression" value="${sync.serveur.status.cron.trigger}" />
+    </bean>
+    
+    <bean id="syncServeurStatusJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncServeurStatusTargetObject"/>
+        <property name="targetMethod" value="syncServeurStatus"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+</beans>
