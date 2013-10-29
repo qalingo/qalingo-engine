@@ -22,7 +22,9 @@ public interface EmailDao {
 
 	List<Email> findEmailByStatus(String status);
 	
-	List<Long> findIdsForEmailSync(String type);
+    List<Long> findIdsForEmailSync();
+
+    List<Long> findIdsForEmailSync(String type);
 	
 	void saveOrUpdateEmail(Email email);
 

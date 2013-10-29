@@ -35,121 +35,134 @@ import fr.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 @Repository("emailDao")
 public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Email getEmailById(final Long id) {
-		return em.find(Email.class, id);
-	}
+    public Email getEmailById(final Long id) {
+        return em.find(Email.class, id);
+    }
 
-	public List<Email> findEmailByStatus(final String status) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Email WHERE status = :status";
-		Query query = session.createQuery(sql);
-		query.setString("status", status);
-		List<Email> emails = (List<Email>) query.list();
-		return emails;
-	}
+    public List<Email> findEmailByStatus(final String status) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM Email WHERE status = :status";
+        Query query = session.createQuery(sql);
+        query.setString("status", status);
+        List<Email> emails = (List<Email>) query.list();
+        return emails;
+    }
 
-	public List<Long> findIdsForEmailSync(String type) {
-		Session session = (Session) em.getDelegate();
-		String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
-		Query query = session.createQuery(sql);
-		query.setString("status", Email.EMAIl_STATUS_PENDING);
-		query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
-		query.setString("type", type);
-		List<Long> emailIds = (List<Long>) query.list();
-		return emailIds;
-	}
+    public List<Long> findIdsForEmailSync() {
+        Session session = (Session) em.getDelegate();
+        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND processedCount <= 5";
+        Query query = session.createQuery(sql);
+        query.setString("status", Email.EMAIl_STATUS_PENDING);
+        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
+        List<Long> emailIds = (List<Long>) query.list();
+        return emailIds;
+    }
 
-	public void saveOrUpdateEmail(final Email email) {
-		if(email.getDateCreate() == null){
-			email.setDateCreate(new Timestamp(new Date().getTime()));
-		}
-		if(StringUtils.isEmpty(email.getStatus())){
-			email.setStatus(Email.EMAIl_STATUS_PENDING);
-		}
-		email.setDateUpdate(new Timestamp(new Date().getTime()));
-		
-		if(email.getId() == null){
-			em.persist(email);
-		} else {
-			em.merge(email);
-		}
-	}
+    public List<Long> findIdsForEmailSync(String type) {
+        Session session = (Session) em.getDelegate();
+        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
+        Query query = session.createQuery(sql);
+        query.setString("status", Email.EMAIl_STATUS_PENDING);
+        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
+        query.setString("type", type);
+        List<Long> emailIds = (List<Long>) query.list();
+        return emailIds;
+    }
 
-	/**
-	 * @throws IOException
-	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email,  MimeMessagePreparatorImpl mimeMessagePreparator)
-	 */
-	public void saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
-		Session session = (Session) em.getDelegate();
+    public void saveOrUpdateEmail(final Email email) {
+        if (email.getDateCreate() == null) {
+            email.setDateCreate(new Timestamp(new Date().getTime()));
+        }
+        if (StringUtils.isEmpty(email.getStatus())) {
+            email.setStatus(Email.EMAIl_STATUS_PENDING);
+        }
+        email.setDateUpdate(new Timestamp(new Date().getTime()));
 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(bos);
+        if (email.getId() == null) {
+            em.persist(email);
+        } else {
+            em.merge(email);
+        }
+    }
 
-		oos.writeObject(mimeMessagePreparator);
-		oos.flush();
-		oos.close();
-		bos.close();
+    /**
+     * @throws IOException
+     * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email,
+     *      MimeMessagePreparatorImpl mimeMessagePreparator)
+     */
+    public void saveEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+        Session session = (Session) em.getDelegate();
 
-		byte[] data = bos.toByteArray();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-		Blob blob = Hibernate.getLobCreator(session).createBlob(data);
+        oos.writeObject(mimeMessagePreparator);
+        oos.flush();
+        oos.close();
+        bos.close();
 
-		email.setEmailContent(blob);
+        byte[] data = bos.toByteArray();
 
-		saveOrUpdateEmail(email);
-	}
-	
-	/**
-	 * @throws IOException
-	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email, Exception e)
-	 */
-	public void saveEmail(final Email email, final Exception exception) throws IOException {
-		handleEmailException(email, exception);
-		saveOrUpdateEmail(email);
-	}
-	
-	/**
-	 * @throws IOException
-	 * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#handleEmailException(Email email, Exception e)
-	 */
-	public void handleEmailException(final Email email, final Exception exception) throws IOException {
-		Session session = (Session) em.getDelegate();
+        Blob blob = Hibernate.getLobCreator(session).createBlob(data);
 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(bos);
+        email.setEmailContent(blob);
 
-		oos.writeObject(exception);
-		oos.flush();
-		oos.close();
-		bos.close();
+        saveOrUpdateEmail(email);
+    }
 
-		byte[] data = bos.toByteArray();
+    /**
+     * @throws IOException
+     * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#saveEmail(Email email,
+     *      Exception e)
+     */
+    public void saveEmail(final Email email, final Exception exception) throws IOException {
+        handleEmailException(email, exception);
+        saveOrUpdateEmail(email);
+    }
 
-		Blob blob = Hibernate.getLobCreator(session).createBlob(data);
+    /**
+     * @throws IOException
+     * @see fr.hoteia.qalingo.core.dao.impl.EmailDao#handleEmailException(Email
+     *      email, Exception e)
+     */
+    public void handleEmailException(final Email email, final Exception exception) throws IOException {
+        Session session = (Session) em.getDelegate();
 
-		email.setExceptionContent(blob);
-	}
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-	public void deleteEmail(final Email email) {
-		em.remove(email);
-	}
-	
-	public int deleteSendedEmail(Timestamp before) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Email WHERE dateCreate <= :before AND status = '" + Email.EMAIl_STATUS_SENDED + "'";
-		Query query = session.createQuery(sql);
-		query.setTimestamp("before", before);
-		List<Email> emails = (List<Email>) query.list();
-		if(emails != null){
-			for (Iterator<Email> iterator = emails.iterator(); iterator.hasNext();) {
-		        Email email = (Email) iterator.next();
-		        deleteEmail(email);
-	        }
-			return emails.size();
-		}
-		return 0;
-	}
+        oos.writeObject(exception);
+        oos.flush();
+        oos.close();
+        bos.close();
+
+        byte[] data = bos.toByteArray();
+
+        Blob blob = Hibernate.getLobCreator(session).createBlob(data);
+
+        email.setExceptionContent(blob);
+    }
+
+    public void deleteEmail(final Email email) {
+        em.remove(email);
+    }
+
+    public int deleteSendedEmail(Timestamp before) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM Email WHERE dateCreate <= :before AND status = '" + Email.EMAIl_STATUS_SENDED + "'";
+        Query query = session.createQuery(sql);
+        query.setTimestamp("before", before);
+        List<Email> emails = (List<Email>) query.list();
+        if (emails != null) {
+            for (Iterator<Email> iterator = emails.iterator(); iterator.hasNext();) {
+                Email email = (Email) iterator.next();
+                deleteEmail(email);
+            }
+            return emails.size();
+        }
+        return 0;
+    }
 
 }
