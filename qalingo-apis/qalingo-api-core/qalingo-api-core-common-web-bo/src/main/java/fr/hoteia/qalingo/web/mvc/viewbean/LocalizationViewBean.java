@@ -19,6 +19,7 @@ public class LocalizationViewBean implements Serializable {
 	private static final long serialVersionUID = -1578033330874108569L;
 	
 	protected String name;
+	private String description;
 	protected String code;
 	protected String country;
 	protected String language;
@@ -33,6 +34,14 @@ public class LocalizationViewBean implements Serializable {
 		this.name = name;
 	}
 
+	public String getDescription() {
+        return description;
+    }
+	
+	public void setDescription(String description) {
+        this.description = description;
+    }
+	
 	public String getImg() {
 		return img;
 	}

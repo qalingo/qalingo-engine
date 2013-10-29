@@ -49,7 +49,7 @@ public enum BoUrls {
 
     CACHE(BoUrls.CACHE_URL, BoUrls.CACHE_KEY, BoUrls.CACHE_VELOCITY_PAGE),
 
-    ENGINE_SETTING(BoUrls.ENGINE_SETTING_URL, BoUrls.ENGINE_SETTING_KEY, BoUrls.ENGINE_SETTING_VELOCITY_PAGE),
+    ENGINE_SETTING_LIST(BoUrls.ENGINE_SETTING_LIST_URL, BoUrls.ENGINE_SETTING_LIST_KEY, BoUrls.ENGINE_SETTING_LIST_VELOCITY_PAGE),
     ENGINE_SETTING_DETAILS(BoUrls.ENGINE_SETTING_DETAILS_URL, BoUrls.ENGINE_SETTING_DETAILS_KEY, BoUrls.ENGINE_SETTING_DETAILS_VELOCITY_PAGE),
     ENGINE_SETTING_EDIT(BoUrls.ENGINE_SETTING_EDIT_URL, BoUrls.ENGINE_SETTING_EDIT_KEY, BoUrls.ENGINE_SETTING_EDIT_VELOCITY_PAGE),
 
@@ -142,7 +142,7 @@ public enum BoUrls {
 	// REFERENCE DATAS
 	public static final String REFERENCE_DATAS_KEY				= "reference-datas";
 	public static final String REFERENCE_DATAS_URL				= "/reference-datas-list.html";
-	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data";
+	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data-list";
 
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
@@ -210,9 +210,9 @@ public enum BoUrls {
 	public static final String CACHE_VELOCITY_PAGE	= "cache/cache";
 	
 	// ENGINE SETTING
-	public static final String ENGINE_SETTING_KEY			= "engine-setting";
-	public static final String ENGINE_SETTING_URL			= "/engine-setting.html";
-	public static final String ENGINE_SETTING_VELOCITY_PAGE	= "engine-setting/engine-setting-list";
+	public static final String ENGINE_SETTING_LIST_KEY             = "engine-setting";
+	public static final String ENGINE_SETTING_LIST_URL             = "/engine-setting.html";
+	public static final String ENGINE_SETTING_LIST_VELOCITY_PAGE   = "engine-setting/engine-setting-list";
 
 	public static final String ENGINE_SETTING_DETAILS_KEY			= "engine-setting-details";
 	public static final String ENGINE_SETTING_DETAILS_URL			= "/engine-setting-details.html";

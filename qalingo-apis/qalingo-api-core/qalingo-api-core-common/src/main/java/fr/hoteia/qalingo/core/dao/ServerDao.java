@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.dao;
 
 import java.io.IOException;
+import java.util.List;
 
 import fr.hoteia.qalingo.core.domain.ServerStatus;
 
@@ -17,6 +18,10 @@ public interface ServerDao {
 
     ServerStatus getServerStatusById(Long serverStatusId);
 
+    List<ServerStatus> findServerStatus(String serverName);
+    
+    List<ServerStatus> findServerStatus();
+    
     void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
     
 	void saveOrUpdateServerStatus(ServerStatus serverStatus);

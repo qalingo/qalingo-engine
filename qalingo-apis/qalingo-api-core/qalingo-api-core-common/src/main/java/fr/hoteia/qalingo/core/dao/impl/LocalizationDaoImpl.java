@@ -46,7 +46,7 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 
 	public List<Localization> findLocalizations() {
 		Session session = (Session) em.getDelegate();
-		String sql = "FROM Localization ORDER BY localeCode";
+		String sql = "FROM Localization ORDER BY language";
 		Query query = session.createQuery(sql);
 		List<Localization> localizations = (List<Localization>) query.list();
 		return localizations;

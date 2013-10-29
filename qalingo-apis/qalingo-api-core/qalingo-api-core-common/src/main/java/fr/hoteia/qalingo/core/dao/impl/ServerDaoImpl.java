@@ -13,8 +13,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,23 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 	public ServerStatus getServerStatusById(Long serverStatusId) {
 		return em.find(ServerStatus.class, serverStatusId);
 	}
+	
+    public List<ServerStatus> findServerStatus(final String serverName) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM ServerStatus WHERE serverName = :serverName ORDER BY lastCheckReceived";
+        Query query = session.createQuery(sql);
+        query.setString("serverName", serverName);
+        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+        return serverStatus;
+    }
+    
+    public List<ServerStatus> findServerStatus() {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM ServerStatus ORDER BY serverName, lastCheckReceived";
+        Query query = session.createQuery(sql);
+        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+        return serverStatus;
+    }
 
     /**
      * @throws IOException

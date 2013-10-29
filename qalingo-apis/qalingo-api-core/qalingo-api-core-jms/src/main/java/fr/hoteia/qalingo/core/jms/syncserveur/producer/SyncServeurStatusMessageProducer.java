@@ -8,6 +8,7 @@ import javax.jms.TextMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,15 @@ public class SyncServeurStatusMessageProducer {
 
     @Resource(name="syncServeurStatusJmsTemplate")
     private JmsTemplate jmsTemplate;
+    
+    @Value("${env.name}")  
+    protected String environmentName;
+    
+    @Value("${env.id}")  
+    protected String environmentId;
+    
+    @Value("${app.name}")  
+    protected String applicationName;
     
     /**
      * Generates JMS messages

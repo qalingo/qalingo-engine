@@ -29,14 +29,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.Constants;
-import fr.hoteia.qalingo.core.ModelConstants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import fr.hoteia.qalingo.core.i18n.BoMessageKey;
-import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -52,21 +49,9 @@ import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
 @Controller("engineSettingController")
 public class EngineSettingController extends AbstractTechnicalBackofficeController {
 
-	@RequestMapping("/search-engine-setting.html*")
-	public ModelAndView searchEngineSetting(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING.getVelocityPage());
-
-		final String contentText = getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
-		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
-		
-		formFactory.buildEngineSettingQuickSearchForm(request, modelAndView);
-		
-        return modelAndView;
-	}
-	
-	@RequestMapping(value = BoUrls.ENGINE_SETTING_URL, method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.ENGINE_SETTING_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView engineSettingList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_LIST.getVelocityPage());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
@@ -107,9 +92,9 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/engine-setting-details.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.ENGINE_SETTING_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-details");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_DETAILS.getVelocityPage());
 
 		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
 		if(StringUtils.isNotEmpty(engineSettingId)){
@@ -137,9 +122,9 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         return modelAndView;
 	}
 	
-	@RequestMapping(value = "/engine-setting-value-edit.html*", method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.ENGINE_SETTING_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView engineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), "engine-setting/engine-setting-value-edit");
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_EDIT.getVelocityPage());
 		
 		final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
 		if(StringUtils.isNotEmpty(engineSettingValueId)){
@@ -152,11 +137,11 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 			}
 		}
 
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING, requestUtil.getRequestData(request));
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
-	@RequestMapping(value = "/engine-setting-value-edit.html*", method = RequestMethod.POST)
+	@RequestMapping(value = BoUrls.ENGINE_SETTING_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView submitEngineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid EngineSettingValueForm engineSettingValueForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 
@@ -195,7 +180,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 
 		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
 		linkMenuViewBean.setName(coreMessageSource.getMessage("header.menu.engine.setting.list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING, requestUtil.getRequestData(request)));
+		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestUtil.getRequestData(request)));
 		customerLinks.add(linkMenuViewBean);
 
 		if(engineSetting != null){

@@ -424,7 +424,13 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
 		} else {
 			localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
 		}
-		
+
+        localizationViewBean.setCode(localization.getCode());
+        localizationViewBean.setCountry(localization.getCountry());
+        localizationViewBean.setLanguage(localization.getLanguage());
+        localizationViewBean.setDescription(localization.getDescription());
+        localizationViewBean.setImg(localization.getCode());
+
 		RequestData requestDataChangecontext = new RequestData();
 		BeanUtils.copyProperties(requestData, requestDataChangecontext);
 		requestDataChangecontext.setLocalization(localization);

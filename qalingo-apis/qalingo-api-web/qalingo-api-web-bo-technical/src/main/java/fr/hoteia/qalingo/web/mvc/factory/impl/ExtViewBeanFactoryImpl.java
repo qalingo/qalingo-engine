@@ -45,7 +45,7 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-cogs");
 		menu.setName("Engine Setting");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING, requestData));
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();

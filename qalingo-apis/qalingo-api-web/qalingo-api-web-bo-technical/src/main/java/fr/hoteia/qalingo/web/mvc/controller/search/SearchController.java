@@ -39,8 +39,6 @@ public class SearchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView searchConfig(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH_CONFIG.getVelocityPage());
 
-		final String titleKeyPrefixSufix = "solr";
-		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SOLR);
 		String solrUrl = springBatchUrlEngineSetting.getEngineSettingValue(EngineSettingService.ENGINE_SETTING_SOLR_MASTER_CONTEXT).getValue();
 		modelAndView.addObject("solrUrl", solrUrl);

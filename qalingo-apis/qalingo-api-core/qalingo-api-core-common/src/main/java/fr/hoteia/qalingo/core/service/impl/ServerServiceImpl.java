@@ -10,6 +10,7 @@
 package fr.hoteia.qalingo.core.service.impl;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,14 @@ public class ServerServiceImpl implements ServerService {
         return serverStatusDao.getServerStatusById(serverStatusId);
     }
 
+    public List<ServerStatus> findServerStatus(String serverName) {
+        return serverStatusDao.findServerStatus(serverName);
+    }
+    
+    public List<ServerStatus> findServerStatus() {
+        return serverStatusDao.findServerStatus();
+    }
+    
     public void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException {
         serverStatusDao.saveOrUpdateServerStatus(serverStatus, message);
     }
