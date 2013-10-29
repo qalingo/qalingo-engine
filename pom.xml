@@ -50,7 +50,7 @@
 		<!-- LOGS -->
 		<logback.version>1.0.13</logback.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<jackson-version>1.8.0</jackson-version>
+		<jackson.version>2.1.0</jackson.version>
 	</properties>
 
 	<modules>
@@ -527,20 +527,37 @@
 				<version>4.2.0.Final</version>
 			</dependency>
 
-			<!-- JSON -->
+			<!-- JACKSON Libs -->
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-jaxrs</artifactId>
-				<version>${jackson-version}</version>
-				<type>jar</type>
-				<scope>compile</scope>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>${jackson-version}</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			
+			<!-- JACKSON Libs : JSON -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${jackson.version}</version>
 			</dependency>
 
+			<!-- JACKSON Libs : XML -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.dataformat</groupId>
+				<artifactId>jackson-dataformat-xml</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.woodstox</groupId>
+				<artifactId>woodstox-core-asl</artifactId>
+				<version>4.1.4</version>
+			</dependency>
+		
 			<!-- OAuth -->
 			<dependency>
 				<groupId>org.scribe</groupId>

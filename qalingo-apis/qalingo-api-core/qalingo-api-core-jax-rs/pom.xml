@@ -49,10 +49,12 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-        </dependency>
+		
+		<!-- JACKSON Libs : JSON 
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>-->
     </dependencies>
 
 </project>

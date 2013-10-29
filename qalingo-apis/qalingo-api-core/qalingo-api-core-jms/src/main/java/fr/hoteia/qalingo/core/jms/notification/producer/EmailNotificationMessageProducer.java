@@ -10,9 +10,12 @@ import javax.jms.TextMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
+
+import fr.hoteia.qalingo.core.mapper.XmlMapper;
 
 @Component(value = "emailNotificationTriggerQueueProducer")
 public class EmailNotificationMessageProducer {
@@ -22,13 +25,18 @@ public class EmailNotificationMessageProducer {
     @Resource(name="emailNotificationJmsTemplate")
     private JmsTemplate jmsTemplate;
 
+    @Autowired
+    protected XmlMapper xmlMapper;
+    
     /**
      * Generates JMS messages
      * 
      * @throws UnsupportedEncodingException
      */
-    public void generateMessages(final String valueJMSMessage) throws JMSException, UnsupportedEncodingException {
+    public void generateMessages(final EmailnotificationMessageJms emailnotificationMessageJms) throws JMSException, UnsupportedEncodingException {
         try {
+            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(emailnotificationMessageJms);
+
             jmsTemplate.send(new MessageCreator() {
                 public Message createMessage(Session session) throws JMSException {
                     TextMessage message = session.createTextMessage(valueJMSMessage);

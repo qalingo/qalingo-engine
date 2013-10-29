@@ -16,7 +16,7 @@
         <name>Hoteia</name>
         <url>http://www.hoteia.com</url>
     </organization>
-
+    
     <properties>
         <root.basedir>${project.parent.parent.parent.basedir}</root.basedir>
     </properties>
@@ -53,6 +53,24 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-spring</artifactId>
         </dependency>
+		
+		<!-- JACKSON Libs : XML -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+		</dependency>
 		
 		<!-- Quartz -->
 		<dependency>

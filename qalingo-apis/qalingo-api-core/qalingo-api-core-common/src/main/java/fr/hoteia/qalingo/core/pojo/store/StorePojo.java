@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
+import fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class StorePojo {
 
@@ -169,6 +169,6 @@ public class StorePojo {
     }
 
     public void setStoreAttributes(Collection<StoreAttributePojo> storeAttributes) {
-        this.storeAttributes = asList(storeAttributes);
+        this.storeAttributes = PojoUtil.asList(storeAttributes);
     }
 }

@@ -33,7 +33,7 @@
 		<property name="applicationTitle" value="CXF Rest Qalingo" />
 	</bean>
 	
-	<bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
 	</bean>
 
 	<jaxrs:server id="restContainer" transportId="http://cxf.apache.org/transports/http">

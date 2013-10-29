@@ -4,7 +4,7 @@ import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
 
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class RetailerPojoServiceImpl implements RetailerPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired 
-    private DozerBeanMapper mapper;
+    private Mapper dozerBeanMapper;
     
     @Autowired 
     private RetailerService retailerService;
@@ -32,14 +32,14 @@ public class RetailerPojoServiceImpl implements RetailerPojoService {
     public List<RetailerPojo> findAllRetailers() {
         List<Retailer> allRetailers = retailerService.findAllRetailers();
         logger.debug("Found {} retailers", allRetailers.size());
-        return mapAll(mapper, allRetailers, RetailerPojo.class);
+        return mapAll(dozerBeanMapper, allRetailers, RetailerPojo.class);
     }
 
     @Override
     public RetailerPojo getRetailerById(String retailerId) {
         final Retailer retailer = retailerService.getRetailerById(retailerId);
         logger.debug("Found {} retailer for id {}", retailer, retailerId);
-        return retailer == null ? null : mapper.map(retailer, RetailerPojo.class);
+        return retailer == null ? null : dozerBeanMapper.map(retailer, RetailerPojo.class);
     }
     
 }

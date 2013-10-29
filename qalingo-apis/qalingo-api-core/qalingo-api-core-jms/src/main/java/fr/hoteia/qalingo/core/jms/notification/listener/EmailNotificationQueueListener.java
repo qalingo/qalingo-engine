@@ -1,6 +1,7 @@
 package fr.hoteia.qalingo.core.jms.notification.listener;
 
 import java.beans.ExceptionListener;
+import java.io.IOException;
 import java.util.Date;
 
 import javax.jms.JMSException;
@@ -8,6 +9,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.core.Job;
@@ -21,6 +23,9 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.hoteia.qalingo.core.jms.notification.producer.EmailnotificationMessageJms;
+import fr.hoteia.qalingo.core.mapper.XmlMapper;
+
 @Component(value = "emailNotificationMessageListener")
 public class EmailNotificationQueueListener implements MessageListener, ExceptionListener {
 
@@ -32,6 +37,9 @@ public class EmailNotificationQueueListener implements MessageListener, Exceptio
     @Autowired
     protected Job emailSyncJob;
     
+    @Autowired
+    protected XmlMapper xmlMapper;
+    
     /**
      * Implementation of <code>MessageListener</code>.
      */
@@ -40,19 +48,29 @@ public class EmailNotificationQueueListener implements MessageListener, Exceptio
             if (message instanceof TextMessage) {
                 TextMessage tm = (TextMessage) message;
                 String valueJMSMessage = tm.getText();
+
                 if (logger.isDebugEnabled()) {
                     logger.debug("Processed message, value: " + valueJMSMessage);
                 }
+
+                if(StringUtils.isNotEmpty(valueJMSMessage)){
+                    final EmailnotificationMessageJms emailnotificationMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, EmailnotificationMessageJms.class);
+                    
+                    // TRIGGER A BATCH TO PROCESS THE EMAIL
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Trigger a new job for a new email, type: " + emailnotificationMessageJms.getEmailType());
+                    }
+
+                    JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+                    jobParametersBuilder.addDate("date", new Date());
+                    JobParameters params = jobParametersBuilder.toJobParameters();
+                    jobLauncher.run(emailSyncJob, params);
+                }
             }
             
-            // TRIGGER A BATCH TO PROCESS THE EMAIL
-            JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
-//            jobParametersBuilder.addString("inputFile", "file:./products.txt");
-            jobParametersBuilder.addDate("date", new Date());
-            JobParameters params = jobParametersBuilder.toJobParameters();
-            jobLauncher.run(emailSyncJob, params);
-            
         } catch (JMSException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
             logger.error(e.getMessage(), e);
         } catch (JobExecutionAlreadyRunningException e) {
             logger.error(e.getMessage(), e);

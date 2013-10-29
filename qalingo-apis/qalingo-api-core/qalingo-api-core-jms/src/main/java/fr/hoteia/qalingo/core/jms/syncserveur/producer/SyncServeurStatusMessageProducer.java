@@ -6,12 +6,18 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import fr.hoteia.qalingo.core.mapper.XmlMapper;
 
 @Component(value = "syncServeurStatusMessageProducer")
 public class SyncServeurStatusMessageProducer {
@@ -21,33 +27,36 @@ public class SyncServeurStatusMessageProducer {
     @Resource(name="syncServeurStatusJmsTemplate")
     private JmsTemplate jmsTemplate;
     
-    @Value("${env.name}")  
-    protected String environmentName;
-    
-    @Value("${env.id}")  
-    protected String environmentId;
-    
-    @Value("${app.name}")  
-    protected String applicationName;
+    @Autowired
+    protected XmlMapper xmlMapper;
     
     /**
      * Generates JMS messages
      * 
      */
-    public void generateAndSendMessages(final String valueJMSMessage) {
+    public void generateAndSendMessages(final SyncServeurMessageJms syncServeurMessageJms) {
         try {
-            jmsTemplate.send( new MessageCreator() {
-                public Message createMessage(Session session) throws JMSException {
-                    TextMessage message = session.createTextMessage(valueJMSMessage);
-                    if (logger.isDebugEnabled()) {
-                        logger.info("Sending JMS message: " + valueJMSMessage);
-                    }
-                    return message;
-                }
-            });
-        } catch (Exception e) {
-            logger.error("Exception during create/send message process");
-        }
-    }
+            final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(syncServeurMessageJms);
 
+            if(StringUtils.isNotEmpty(valueJMSMessage)){
+                jmsTemplate.send( new MessageCreator() {
+                    public Message createMessage(Session session) throws JMSException {
+                        TextMessage message = session.createTextMessage(valueJMSMessage);
+                        if (logger.isDebugEnabled()) {
+                            logger.info("Sending JMS message: " + valueJMSMessage);
+                        }
+                        return message;
+                    }
+                });                
+            } else {
+                logger.warn("SyncServeur Jms Message is empty");
+            }
+
+        } catch (JmsException e) {
+            logger.error("Exception during create/send message process");
+        } catch (JsonProcessingException e) {
+            logger.error("Exception during build message process");
+        } 
+    }
+    
 }

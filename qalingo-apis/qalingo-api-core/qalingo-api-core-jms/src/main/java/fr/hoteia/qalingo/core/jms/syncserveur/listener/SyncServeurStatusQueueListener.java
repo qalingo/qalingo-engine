@@ -9,12 +9,15 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.hoteia.qalingo.core.domain.ServerStatus;
+import fr.hoteia.qalingo.core.jms.syncserveur.producer.SyncServeurMessageJms;
+import fr.hoteia.qalingo.core.mapper.XmlMapper;
 import fr.hoteia.qalingo.core.service.ServerService;
 
 @Component(value = "syncServeurStatusQueueListener")
@@ -25,6 +28,9 @@ public class SyncServeurStatusQueueListener implements MessageListener, Exceptio
     @Autowired
     protected ServerService serverService;
     
+    @Autowired
+    protected XmlMapper xmlMapper;
+    
     /**
      * Implementation of <code>MessageListener</code>.
      */
@@ -34,15 +40,21 @@ public class SyncServeurStatusQueueListener implements MessageListener, Exceptio
                 TextMessage tm = (TextMessage) message;
                 String valueJMSMessage = tm.getText();
                 
-                ServerStatus serverStatus = new ServerStatus();
-                serverStatus.setLastCheckReceived(new Date());
-                serverStatus.setServerName("");
-                serverStatus.setServerIp("");
-                
-                serverService.saveOrUpdateServerStatus(serverStatus, valueJMSMessage);
-                
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Processed message, value: " + valueJMSMessage);
+                if(StringUtils.isNotEmpty(valueJMSMessage)){
+                    final SyncServeurMessageJms syncServeurMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, SyncServeurMessageJms.class);
+                    
+                    ServerStatus serverStatus = new ServerStatus();
+                    serverStatus.setLastCheckReceived(new Date());
+                    serverStatus.setServerName(syncServeurMessageJms.getServerName());
+                    serverStatus.setServerIp(syncServeurMessageJms.getServerIp());
+                    
+                    serverService.saveOrUpdateServerStatus(serverStatus, valueJMSMessage);
+                    
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Processed message, value: " + valueJMSMessage);
+                    }
+                } else {
+                    logger.warn("SyncServeur Jms Message is empty");
                 }
             }
         } catch (JMSException e) {

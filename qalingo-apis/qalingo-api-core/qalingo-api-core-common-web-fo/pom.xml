@@ -45,15 +45,11 @@
 			<artifactId>scribe-mapping</artifactId>
 		</dependency>
 			
-		<!-- JSON -->
+		<!-- JACKSON Libs : JSON 
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-		</dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>-->
 		
 		<!-- OAuth -->
 		<dependency>

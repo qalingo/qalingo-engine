@@ -13,7 +13,7 @@ import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
 
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class StorePojoServiceImpl implements StorePojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired 
-    private DozerBeanMapper mapper;
+    private Mapper dozerBeanMapper;
     
     @Autowired 
     private RetailerService retailerService;
@@ -42,19 +42,19 @@ public class StorePojoServiceImpl implements StorePojoService {
     public List<StorePojo> getAllStores() {
         List<Store> stores = retailerService.findStores();
         logger.debug("Found {} stores", stores.size());
-        return mapAll(mapper, stores, StorePojo.class);
+        return mapAll(dozerBeanMapper, stores, StorePojo.class);
     }
 
     @Override
     public StorePojo getStoreById(final String id) {
         Store store = retailerService.getStoreById(id);
         logger.debug("Found {} store for id {}", store, id);
-        return store == null ? null : mapper.map(store, StorePojo.class);
+        return store == null ? null : dozerBeanMapper.map(store, StorePojo.class);
     }
 
     @Override
     public void saveOrUpdate(final StorePojo storeJsonBean) {
-        Store store = mapper.map(storeJsonBean, Store.class);
+        Store store = dozerBeanMapper.map(storeJsonBean, Store.class);
         logger.info("Saving store {}", store);
         retailerService.saveOrUpdateStore(store);
     }

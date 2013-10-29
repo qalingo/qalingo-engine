@@ -9,7 +9,7 @@
  */
 package fr.hoteia.qalingo.core.pojo;
 
-import org.codehaus.jackson.annotate.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
  *

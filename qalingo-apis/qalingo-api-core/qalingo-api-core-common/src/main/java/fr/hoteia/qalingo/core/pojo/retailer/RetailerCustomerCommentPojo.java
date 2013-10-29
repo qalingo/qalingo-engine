@@ -1,13 +1,11 @@
 package fr.hoteia.qalingo.core.pojo.retailer;
 
-import fr.hoteia.qalingo.core.domain.Customer;
-import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import static fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.asList;
+import fr.hoteia.qalingo.core.pojo.customer.CustomerPojo;
+import fr.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class RetailerCustomerCommentPojo {
 
@@ -82,6 +80,6 @@ public class RetailerCustomerCommentPojo {
     }
 
     public void setCustomerComments(Collection<RetailerCustomerCommentPojo> customerComments) {
-        this.customerComments = asList(customerComments);
+        this.customerComments = PojoUtil.asList(customerComments);
     }
 }

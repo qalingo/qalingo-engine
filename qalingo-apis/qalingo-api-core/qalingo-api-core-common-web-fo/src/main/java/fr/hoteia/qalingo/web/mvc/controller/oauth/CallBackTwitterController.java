@@ -4,9 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.hoteia.tools.scribe.mapping.oauth.twitter.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
@@ -23,6 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import fr.hoteia.qalingo.core.domain.AttributeDefinition;
 import fr.hoteia.qalingo.core.domain.Customer;
 import fr.hoteia.qalingo.core.domain.CustomerAttribute;
@@ -31,6 +31,7 @@ import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import fr.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import fr.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import fr.hoteia.qalingo.core.mapper.JsonMapper;
 import fr.hoteia.qalingo.core.pojo.RequestData;
 import fr.hoteia.qalingo.core.security.util.SecurityUtil;
 import fr.hoteia.qalingo.core.service.AttributeService;
@@ -48,7 +49,10 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 	
 	@Autowired
     protected SecurityUtil securityUtil;
-	
+
+    @Autowired
+    protected JsonMapper jsonMapper;
+    
 	@RequestMapping("/callback-oauth-twitter.html*")
 	public ModelAndView callBackTwitter(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
@@ -121,10 +125,9 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 	}
 	
 	protected void handleAuthenticationData(HttpServletRequest request, HttpServletResponse response, RequestData requestData, OAuthType type, String jsonData) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
 		UserPojo userPojo = null;
 		try {
-			userPojo = mapper.readValue(jsonData, UserPojo.class);
+			userPojo = jsonMapper.getJsonMapper().readValue(jsonData, UserPojo.class);
 		} catch (JsonGenerationException e) {
 			logger.error(e.getMessage());
 		} catch (JsonMappingException e) {
