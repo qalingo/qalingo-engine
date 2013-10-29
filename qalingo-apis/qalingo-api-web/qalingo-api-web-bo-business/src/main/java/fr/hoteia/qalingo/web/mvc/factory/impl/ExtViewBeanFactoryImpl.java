@@ -69,6 +69,18 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 		menu.getSubMenus().add(subMenu);
 		
+        menu = new MenuViewBean();
+        menu.setCssIcon("icon-truck");
+        menu.setName("Warehouse");
+        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setCssIcon("icon-money");
+        menu.setName("Price");
+        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PRICE_LIST, requestData));
+        menuViewBeans.add(menu);
+        
 		menu = new MenuViewBean();
 		menu.setCssIcon("icon-money");
 		menu.setName("Promotion");
@@ -87,26 +99,17 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
-		// CUSTOMERS / RETAILERS
 		menu = new MenuViewBean();
-		if(currentUrl.contains("catalog")){
-			menu.setCssClass("dropdown active");
-		} else {
-			menu.setCssClass("dropdown");
-		}
 		menu.setCssIcon("icon-group");
-		menu.setName("Entities");
+		menu.setName("Customers");
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
-		subMenu = new MenuViewBean();
-		subMenu.setName("Customers");
-		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
-		menu.getSubMenus().add(subMenu);
-		
-		subMenu = new MenuViewBean();
-		subMenu.setName("Retailers");
-		subMenu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
-		menu.getSubMenus().add(subMenu);
+		menu = new MenuViewBean();
+        menu.setCssIcon(" icon-map-marker");
+		menu.setName("Retailers");
+		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
+        menuViewBeans.add(menu);
 		
 		return menuViewBeans;
 	}

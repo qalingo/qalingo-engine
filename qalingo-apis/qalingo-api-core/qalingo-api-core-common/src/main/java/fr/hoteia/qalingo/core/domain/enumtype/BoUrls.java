@@ -26,6 +26,14 @@ public enum BoUrls {
     REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE),
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE),
     
+    WAREHOUSE_LIST(BoUrls.WAREHOUSE_LIST_URL, BoUrls.WAREHOUSE_LIST_KEY, BoUrls.WAREHOUSE_LIST_VELOCITY_PAGE),
+    WAREHOUSE_DETAILS(BoUrls.WAREHOUSE_DETAILS_URL, BoUrls.WAREHOUSE_DETAILS_KEY, BoUrls.WAREHOUSE_DETAILS_VELOCITY_PAGE),
+    WAREHOUSE_EDIT(BoUrls.WAREHOUSE_EDIT_URL, BoUrls.WAREHOUSE_EDIT_KEY, BoUrls.WAREHOUSE_EDIT_VELOCITY_PAGE),
+
+    PRICE_LIST(BoUrls.PRICE_LIST_URL, BoUrls.PRICE_LIST_KEY, BoUrls.PRICE_LIST_VELOCITY_PAGE),
+    PRICE_DETAILS(BoUrls.PRICE_DETAILS_URL, BoUrls.PRICE_DETAILS_KEY, BoUrls.PRICE_DETAILS_VELOCITY_PAGE),
+    PRICE_EDIT(BoUrls.PRICE_EDIT_URL, BoUrls.PRICE_EDIT_KEY, BoUrls.PRICE_EDIT_VELOCITY_PAGE),
+
     RULE_LIST(BoUrls.RULE_LIST_URL, BoUrls.RULE_LIST_KEY, BoUrls.RULE_LIST_VELOCITY_PAGE),
     RULE_DETAILS(BoUrls.RULE_DETAILS_URL, BoUrls.RULE_DETAILS_KEY, BoUrls.RULE_DETAILS_VELOCITY_PAGE),
     RULE_EDIT(BoUrls.RULE_EDIT_URL, BoUrls.RULE_EDIT_KEY, BoUrls.RULE_EDIT_VELOCITY_PAGE),
@@ -36,7 +44,7 @@ public enum BoUrls {
     SHIPPING_LIST(BoUrls.SHIPPING_LIST_URL, BoUrls.SHIPPING_LIST_KEY, BoUrls.SHIPPING_LIST_VELOCITY_PAGE),
     SHIPPING_DETAILS(BoUrls.SHIPPING_DETAILS_URL, BoUrls.SHIPPING_DETAILS_KEY, BoUrls.SHIPPING_DETAILS_VELOCITY_PAGE),
     SHIPPING_EDIT(BoUrls.SHIPPING_EDIT_URL, BoUrls.SHIPPING_EDIT_KEY, BoUrls.SHIPPING_EDIT_VELOCITY_PAGE),
-    
+
     CUSTOMER_LIST(BoUrls.CUSTOMER_LIST_URL, BoUrls.CUSTOMER_LIST_KEY, BoUrls.CUSTOMER_LIST_VELOCITY_PAGE),
     CUSTOMER_DETAILS(BoUrls.CUSTOMER_DETAILS_URL, BoUrls.CUSTOMER_DETAILS_KEY, BoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE),
     CUSTOMER_EDIT(BoUrls.CUSTOMER_EDIT_URL, BoUrls.CUSTOMER_EDIT_KEY, BoUrls.CUSTOMER_EDIT_VELOCITY_PAGE),
@@ -184,6 +192,32 @@ public enum BoUrls {
 	public static final String SHIPPING_EDIT_URL				= "/shipping-edit.html";
 	public static final String SHIPPING_EDIT_VELOCITY_PAGE		= "shipping/shipping-edit";
 
+    // WAREHOUSE
+    public static final String WAREHOUSE_LIST_KEY                = "warehouse";
+    public static final String WAREHOUSE_LIST_URL                = "/warehouse-list.html";
+    public static final String WAREHOUSE_LIST_VELOCITY_PAGE      = "warehouse/warehouse-list";
+
+    public static final String WAREHOUSE_DETAILS_KEY             = "warehouse-details";
+    public static final String WAREHOUSE_DETAILS_URL             = "/warehouse-details.html";
+    public static final String WAREHOUSE_DETAILS_VELOCITY_PAGE   = "warehouse/warehouse-details";
+
+    public static final String WAREHOUSE_EDIT_KEY                = "warehouse-edit";
+    public static final String WAREHOUSE_EDIT_URL                = "/warehouse-edit.html";
+    public static final String WAREHOUSE_EDIT_VELOCITY_PAGE      = "warehouse/warehouse-edit";
+
+    // PRICE
+    public static final String PRICE_LIST_KEY                = "price";
+    public static final String PRICE_LIST_URL                = "/price-list.html";
+    public static final String PRICE_LIST_VELOCITY_PAGE      = "price/price-list";
+
+    public static final String PRICE_DETAILS_KEY             = "price-details";
+    public static final String PRICE_DETAILS_URL             = "/price-details.html";
+    public static final String PRICE_DETAILS_VELOCITY_PAGE   = "price/price-details";
+
+    public static final String PRICE_EDIT_KEY                = "price-edit";
+    public static final String PRICE_EDIT_URL                = "/price-edit.html";
+    public static final String PRICE_EDIT_VELOCITY_PAGE      = "price/price-edit";
+    
 	// BATCH
 	public static final String BATCH_KEY				= "batch";
 	public static final String BATCH_URL				= "/batch.html";
