@@ -17,25 +17,37 @@ public class ProductSolr {
 
 	@Field
 	private Long id;
-	
-    @Field
+
+	@Field
 	private String name;
 
-    @Field
+	@Field
 	private String description;
-	
+
 	private Boolean isDefault;
-	
-    @Field
+
+	@Field
 	private String code;
 
-    private String defaultCategoryCode;
+	@Field
+	private String businessname;
 
-    private String defaultProductSkuCode;
-	
-    private Date dateCreate;
-	
-    private Date dateUpdate;
+
+	private String defaultCategoryCode;
+
+	private String defaultProductSkuCode;
+
+	private Date dateCreate;
+
+	private Date dateUpdate;
+
+	public String getBusinessname() {
+		return businessname;
+	}
+
+	public void setBusinessname(String businessname) {
+		this.businessname = businessname;
+	}
 
 	public Long getId() {
 		return id;
@@ -80,7 +92,7 @@ public class ProductSolr {
 	public String getDefaultCategoryCode() {
 		return defaultCategoryCode;
 	}
-	
+
 	public void setDefaultCategoryCode(String defaultCategoryCode) {
 		this.defaultCategoryCode = defaultCategoryCode;
 	}
@@ -88,11 +100,11 @@ public class ProductSolr {
 	public String getDefaultProductSkuCode() {
 		return defaultProductSkuCode;
 	}
-	
+
 	public void setDefaultProductSkuCode(String defaultProductSkuCode) {
 		this.defaultProductSkuCode = defaultProductSkuCode;
 	}
-	
+
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -108,6 +120,6 @@ public class ProductSolr {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-    
-    
+
+
 }

@@ -19,11 +19,55 @@ public class StoreSolr {
 	private Long id;
 	
     @Field
-	private String businessName;
+	private String businessname;
 
+    @Field
+   	private String city;
+    
+    @Field
+   	private String countryCode;
+    
+    @Field
+   	private String postalCode;
+    @Field
+   	private String type;
+    
     private Date dateCreate;
 	
     private Date dateUpdate;
+
+    
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Long getId() {
 		return id;
@@ -33,12 +77,12 @@ public class StoreSolr {
 		this.id = id;
 	}
 
-	public String getBusinessName() {
-		return businessName;
+	public String getBusinessname() {
+		return businessname;
 	}
 	
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
+	public void setBusinessname(String businessname) {
+		this.businessname = businessname;
 	}
 	
 	public Date getDateCreate() {

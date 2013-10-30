@@ -20,7 +20,9 @@ public class EngineSettingValueViewBean extends AbstractViewBean implements Seri
 	
 	protected String context;
 	protected String value;
-	protected String editUrl;
+
+    protected String detailsUrl;
+    protected String editUrl;
 	
 	public String getContext() {
 		return context;
@@ -37,6 +39,14 @@ public class EngineSettingValueViewBean extends AbstractViewBean implements Seri
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public String getDetailsUrl() {
+        return detailsUrl;
+    }
+	
+	public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 	
 	public String getEditUrl() {
 		return editUrl;

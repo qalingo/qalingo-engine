@@ -98,7 +98,6 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchReset(final HttpServletRequest request, final Model model, @Valid BatchValueForm batchValueForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 
-
 		final String id = batchValueForm.getId();
 		
 		final BatchProcessObject batchProcessObject = batchProcessObjectService.getBatchProcessObjectById(id);
@@ -108,7 +107,6 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 			batchProcessObjectService.saveOrUpdateBatchProcessObject(batchProcessObject);
 
 		}
-		
 
         return batchSuccessAndError(request,model);
 	}

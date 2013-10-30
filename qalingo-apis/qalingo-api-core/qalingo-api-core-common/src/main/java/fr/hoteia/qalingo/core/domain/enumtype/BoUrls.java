@@ -59,7 +59,7 @@ public enum BoUrls {
 
     ENGINE_SETTING_LIST(BoUrls.ENGINE_SETTING_LIST_URL, BoUrls.ENGINE_SETTING_LIST_KEY, BoUrls.ENGINE_SETTING_LIST_VELOCITY_PAGE),
     ENGINE_SETTING_DETAILS(BoUrls.ENGINE_SETTING_DETAILS_URL, BoUrls.ENGINE_SETTING_DETAILS_KEY, BoUrls.ENGINE_SETTING_DETAILS_VELOCITY_PAGE),
-    ENGINE_SETTING_EDIT(BoUrls.ENGINE_SETTING_EDIT_URL, BoUrls.ENGINE_SETTING_EDIT_KEY, BoUrls.ENGINE_SETTING_EDIT_VELOCITY_PAGE),
+    ENGINE_SETTING_VALUE_EDIT(BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, BoUrls.ENGINE_SETTING_VALUE_EDIT_KEY, BoUrls.ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE),
 
     BATCH(BoUrls.BATCH_URL, BoUrls.BATCH_KEY, BoUrls.BATCH_VELOCITY_PAGE),
     BATCH_CUSTOMER(BoUrls.BATCH_CUSTOMER_URL, BoUrls.BATCH_CUSTOMER_KEY, BoUrls.BATCH_VELOCITY_PAGE),
@@ -125,11 +125,11 @@ public enum BoUrls {
 	
 	public static final String FORGOTTEN_PASSWORD_KEY			= "forgotten-password";
 	public static final String FORGOTTEN_PASSWORD_URL			= "/forgotten-password.html";
-	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE	= "security/forgotten-password-form";
+	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE	= "security/forgotten-password-edit";
 
 	public static final String RESET_PASSWORD_KEY				= "reset-password";
 	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
-	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-form";
+	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-edit";
 	
 	public static final String LOGOUT_SESSION_URL		= "/logout-session.html";
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
@@ -252,10 +252,10 @@ public enum BoUrls {
 	public static final String ENGINE_SETTING_DETAILS_URL			= "/engine-setting-details.html";
 	public static final String ENGINE_SETTING_DETAILS_VELOCITY_PAGE	= "engine-setting/engine-setting-details";
 
-	public static final String ENGINE_SETTING_EDIT_KEY				= "engine-setting-edit";
-	public static final String ENGINE_SETTING_EDIT_URL				= "/engine-setting-edit.html";
-	public static final String ENGINE_SETTING_EDIT_VELOCITY_PAGE	= "engine-setting/engine-setting-value-edit";
-
+    public static final String ENGINE_SETTING_VALUE_EDIT_KEY = "engine-setting-value-edit";
+    public static final String ENGINE_SETTING_VALUE_EDIT_URL = "/engine-setting-value-edit.html";
+    public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE = "engine-setting/engine-setting-value-edit";
+	    
 	// CATALOG
 	public static final String CATALOG_KEY				= "catalog";
 	public static final String CATALOG_URL				= "/catalog.html";
@@ -307,11 +307,11 @@ public enum BoUrls {
 
     public static final String MASTER_CATEGORY_EDIT_KEY              = "master-category-edit";
     public static final String MASTER_CATEGORY_EDIT_URL              = "/catalog-master-category-edit.html";
-    public static final String MASTER_CATEGORY_EDIT_VELOCITY_PAGE    = "catalog/catalog-category-form";
+    public static final String MASTER_CATEGORY_EDIT_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
     public static final String MASTER_CATEGORY_ADD_KEY              = "master-category-add";
     public static final String MASTER_CATEGORY_ADD_URL              = "/add-master-catalog-category.html*";
-    public static final String MASTER_CATEGORY_ADD_VELOCITY_PAGE    = "catalog/catalog-category-form";
+    public static final String MASTER_CATEGORY_ADD_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
 	public static final String VIRTUAL_CATALOG_KEY				= "virtual-catalog";
 	public static final String VIRTUAL_CATALOG_URL				= "/virtual-catalog.html";
@@ -323,11 +323,11 @@ public enum BoUrls {
 
     public static final String VIRTUAL_CATEGORY_EDIT_KEY            = "virtual-category-edit";
     public static final String VIRTUAL_CATEGORY_EDIT_URL            = "/catalog-virtual-category-edit.html";
-    public static final String VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE  = "catalog/catalog-category-form";
+    public static final String VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String VIRTUAL_CATEGORY_ADD_KEY            = "virtual-category-add";
     public static final String VIRTUAL_CATEGORY_ADD_URL            = "/add-virtual-catalog-category.html*";
-    public static final String VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE  = "catalog/catalog-category-form";
+    public static final String VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String PRODUCT_MARKETING_DETAILS_KEY            = "product-marketing-details";
     public static final String PRODUCT_MARKETING_DETAILS_URL            = "/product-marketing-details.html";

@@ -12,9 +12,25 @@ package fr.hoteia.qalingo.core.solr.service.impl;
 import org.apache.solr.client.solrj.SolrServer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * The Class AbstractSolrService.
+ */
 public abstract class AbstractSolrService {
 
-	@Autowired
-	public SolrServer solrServer;
-	
+    /** The product solr server. */
+    @Autowired
+    public SolrServer productSolrServer;
+
+    /** The customer solr server. */
+    @Autowired
+    public SolrServer customerSolrServer;
+
+    /** The category solr server. */
+    @Autowired
+    public SolrServer categorySolrServer;
+
+    /** The store solr server. */
+    @Autowired
+    public SolrServer storeSolrServer;
+
 }

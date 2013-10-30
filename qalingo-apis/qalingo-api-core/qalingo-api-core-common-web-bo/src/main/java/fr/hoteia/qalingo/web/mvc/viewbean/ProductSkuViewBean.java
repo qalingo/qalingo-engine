@@ -42,16 +42,8 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
 
 	protected String addToWishlistUrl;
 	protected String removeFromWishlistUrl;
-	
-	protected String productSkuDetailsUrl;
-
-	protected String productSkuEditUrl;
-	
-	private String backUrl;
-	private String cancelLabel;
-	private String formSubmitUrl;
-	private String submitLabel;
-	
+	protected String detailsUrl;
+	protected String editUrl;
 	
 	public int getPositionItem() {
 		return positionItem;
@@ -173,51 +165,20 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
 		this.removeFromWishlistUrl = removeFromWishlistUrl;
 	}
 
-	public String getProductSkuDetailsUrl() {
-		return productSkuDetailsUrl;
-	}
-	
-	public void setProductSkuDetailsUrl(String productSkuDetailsUrl) {
-		this.productSkuDetailsUrl = productSkuDetailsUrl;
-	}
-	
-	public String getProductSkuEditUrl() {
-		return productSkuEditUrl;
-	}
-	
-	public void setProductSkuEditUrl(String productSkuEditUrl) {
-		this.productSkuEditUrl = productSkuEditUrl;
-	}
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
-	public String getBackUrl() {
-		return backUrl;
-	}
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
+    public String getEditUrl() {
+        return editUrl;
+    }
 
-	public String getCancelLabel() {
-		return cancelLabel;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
 
-	public void setCancelLabel(String cancelLabel) {
-		this.cancelLabel = cancelLabel;
-	}
-
-	public String getFormSubmitUrl() {
-		return formSubmitUrl;
-	}
-
-	public void setFormSubmitUrl(String formSubmitUrl) {
-		this.formSubmitUrl = formSubmitUrl;
-	}
-
-	public String getSubmitLabel() {
-		return submitLabel;
-	}
-
-	public void setSubmitLabel(String submitLabel) {
-		this.submitLabel = submitLabel;
-	}
 }

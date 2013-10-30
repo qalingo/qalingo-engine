@@ -39,12 +39,8 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 	private String createdDate;
 	private String updatedDate;
 	
-	protected String categoryDetailsUrl;
-
-	protected String categoryEditUrl;
-	
-	private String backUrl;
-	private String formSubmitUrl;
+	protected String detailsUrl;
+	protected String editUrl;
 	
 	public CatalogCategoryViewBean() {
 	}
@@ -145,36 +141,20 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 		this.updatedDate = updatedDate;
 	}
 
-	public String getCategoryDetailsUrl() {
-		return categoryDetailsUrl;
-	}
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
-	public void setCategoryDetailsUrl(String categoryDetailsUrl) {
-		this.categoryDetailsUrl = categoryDetailsUrl;
-	}
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
-	public String getCategoryEditUrl() {
-		return categoryEditUrl;
-	}
+    public String getEditUrl() {
+        return editUrl;
+    }
 
-	public void setCategoryEditUrl(String categoryEditUrl) {
-		this.categoryEditUrl = categoryEditUrl;
-	}
-
-	public String getBackUrl() {
-		return backUrl;
-	}
-
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
-
-	public String getFormSubmitUrl() {
-		return formSubmitUrl;
-	}
-
-	public void setFormSubmitUrl(String formSubmitUrl) {
-		this.formSubmitUrl = formSubmitUrl;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
 
 }

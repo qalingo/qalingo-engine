@@ -18,8 +18,6 @@ public final class RequestConstants {
 	public static final String HTTP		= "Http";
 	public static final String HTTP_COLON_SLASH_SLASH = "http://";
 
-	public static final String LOCALHOST_ROOT_URL = "http://localhost:8080";
-
 	// SESSION
 	public static final String ENGINE_ECO_SESSION_OBJECT	= "ENGINE_ECO_SESSION_OBJECT";
 	public static final String ENGINE_BO_SESSION_OBJECT		= "ENGINE_BO_SESSION_OBJECT";
@@ -66,6 +64,7 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_NEWSLETTER_EMAIL			= "newsletter-email";
 
 	public static final String REQUEST_PARAMETER_TAB						= "tab"; 
+	
 	// SPRING URL REWRITE
 	public static final String URL_PATTERN_CART_ITEM_CODE					= "cartItemCode";
 	public static final String URL_PATTERN_RETAILER_CODE					= "retailerCode";
@@ -76,5 +75,5 @@ public final class RequestConstants {
 
 	// SEARCH PAGINATION
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
-	public static final boolean URL_PRESERVE_PATHS = false; //Preserve Paths in URL
+	
 }

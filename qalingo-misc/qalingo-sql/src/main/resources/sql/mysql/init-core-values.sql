@@ -198,15 +198,15 @@ VALUES
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(1050, 'Setting items by list ', 'Setting items by list', 'COUNT_ITEM_BY_PAGE', '20', 1);
+(1050, 'Setting items by list ', 'Setting items by list', 'COUNT_ITEM_BY_PAGE', '15', 1);
 
 INSERT INTO teco_engine_setting_value  
 (id, context, value, engine_setting_id)
 VALUES 
-(1050, 'BO_TECHNICAL_ENGINE_SETTING_LIST',  '20', 1050),
-(1051, 'BO_TECHNICAL_USER_LIST',  '20', 1050),
-(1052, 'BO_TECHNICAL_CACHE_LIST',  '20', 1050),
-(1053, 'BO_TECHNICAL_BATCH_LIST',  '20', 1050);
+(1050, 'BO_TECHNICAL_ENGINE_SETTING_LIST',  '15', 1050),
+(1051, 'BO_TECHNICAL_USER_LIST',  '15', 1050),
+(1052, 'BO_TECHNICAL_CACHE_LIST',  '15', 1050),
+(1053, 'BO_TECHNICAL_BATCH_LIST',  '15', 1050);
 
 -- MarketArea support checkout as guest settings
 INSERT INTO teco_engine_setting 

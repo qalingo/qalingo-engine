@@ -42,7 +42,6 @@ import fr.hoteia.qalingo.core.service.EngineSettingService;
 import fr.hoteia.qalingo.core.service.UserService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import fr.hoteia.qalingo.core.web.util.impl.RequestUtilImpl;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 import fr.hoteia.qalingo.web.mvc.viewbean.LinkMenuViewBean;
@@ -79,8 +78,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 		
 		List<User> users = userService.findUsers();
 		
-		String url = RequestUtilImpl.getEffectiveURL(requestUtil.getCurrentRequestUrl(request));
-		//get correct url for page, modified by daniel yao 2013-10-22
+		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);

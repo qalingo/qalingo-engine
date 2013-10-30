@@ -43,6 +43,7 @@ public class FormFactoryImpl implements FormFactory {
 	public void buildEngineSettingValueEditForm(final HttpServletRequest request, final ModelAndView modelAndView, final EngineSettingValue engineSettingValue) throws Exception {
 		final EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
 		engineSettingValueForm.setId(engineSettingValue.getId().toString());
+        engineSettingValueForm.setContext(engineSettingValue.getContext());
 		engineSettingValueForm.setValue(engineSettingValue.getValue());
 		modelAndView.addObject("engineSettingValueForm", engineSettingValueForm);
 	}

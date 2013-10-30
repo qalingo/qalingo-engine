@@ -40,21 +40,13 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 	private String createdDate;
 	private String updatedDate;
 	
-	protected String productDetailsLabel;
-	protected String productDetailsUrl;
-
-	protected String productEditLabel;
-	protected String productEditUrl;
-
 	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
 	protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
 	protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 	
-	private String backUrl;
-	private String cancelLabel;
-	private String formSubmitUrl;
-	private String submitLabel;
-	
+    protected String detailsUrl;
+    protected String editUrl;
+	    
 	public int getPositionItem() {
 		return positionItem;
 	}
@@ -135,38 +127,6 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 		this.updatedDate = updatedDate;
 	}
 	
-	public String getProductDetailsLabel() {
-		return productDetailsLabel;
-	}
-	
-	public void setProductDetailsLabel(String productDetailsLabel) {
-		this.productDetailsLabel = productDetailsLabel;
-	}
-	
-	public String getProductDetailsUrl() {
-		return productDetailsUrl;
-	}
-	
-	public void setProductDetailsUrl(String productDetailsUrl) {
-		this.productDetailsUrl = productDetailsUrl;
-	}
-	
-	public String getProductEditLabel() {
-		return productEditLabel;
-	}
-	
-	public void setProductEditLabel(String productEditLabel) {
-		this.productEditLabel = productEditLabel;
-	}
-	
-	public String getProductEditUrl() {
-		return productEditUrl;
-	}
-	
-	public void setProductEditUrl(String productEditUrl) {
-		this.productEditUrl = productEditUrl;
-	}
-	
 	public List<ProductSkuViewBean> getProductSkus() {
 		return productSkus;
 	}
@@ -190,37 +150,21 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 	public void setAssets(List<AssetViewBean> assets) {
 		this.assets = assets;
 	}
-	
-	public String getBackUrl() {
-		return backUrl;
-	}
 
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
-	public String getCancelLabel() {
-		return cancelLabel;
-	}
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
-	public void setCancelLabel(String cancelLabel) {
-		this.cancelLabel = cancelLabel;
-	}
+    public String getEditUrl() {
+        return editUrl;
+    }
 
-	public String getFormSubmitUrl() {
-		return formSubmitUrl;
-	}
-
-	public void setFormSubmitUrl(String formSubmitUrl) {
-		this.formSubmitUrl = formSubmitUrl;
-	}
-
-	public String getSubmitLabel() {
-		return submitLabel;
-	}
-
-	public void setSubmitLabel(String submitLabel) {
-		this.submitLabel = submitLabel;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
 	
 }

@@ -24,6 +24,38 @@ public class CustomerSolr {
     private Date dateCreate;
 	
     private Date dateUpdate;
+    @Field
+    private String email;
+    @Field
+    private String gender ;
+    @Field
+    private String title;
+    
+    
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public Long getId() {
 		return id;

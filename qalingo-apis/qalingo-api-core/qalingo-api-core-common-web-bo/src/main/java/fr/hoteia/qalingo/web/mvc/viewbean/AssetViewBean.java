@@ -36,7 +36,6 @@ public class AssetViewBean extends AbstractViewBean implements Serializable {
 	protected String detailsUrl;
 	protected String editUrl;
 	private String backUrl;
-	private String formSubmitUrl;
 
 	public String getName() {
 		return name;
@@ -156,14 +155,6 @@ public class AssetViewBean extends AbstractViewBean implements Serializable {
 
 	public void setBackUrl(String backUrl) {
 		this.backUrl = backUrl;
-	}
-
-	public String getFormSubmitUrl() {
-		return formSubmitUrl;
-	}
-
-	public void setFormSubmitUrl(String formSubmitUrl) {
-		this.formSubmitUrl = formSubmitUrl;
 	}
 
 }

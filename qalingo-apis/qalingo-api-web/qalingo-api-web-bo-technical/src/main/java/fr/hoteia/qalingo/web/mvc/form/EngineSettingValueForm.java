@@ -18,6 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class EngineSettingValueForm {
 	
     private String id;
+    private String context;
     private String value;
     
 	@NotEmpty(message = "error.form.engine.setting.id.is.empty")
@@ -28,6 +29,15 @@ public class EngineSettingValueForm {
     public void setId(String id) {
 		this.id = id;
 	}
+    
+    @NotEmpty(message = "error.form.engine.setting.context.is.empty")
+    public String getContext() {
+        return context;
+    }
+    
+    public void setContext(String context) {
+        this.context = context;
+    }
     
 	@NotEmpty(message = "error.form.engine.setting.value.is.empty")
 	public String getValue() {

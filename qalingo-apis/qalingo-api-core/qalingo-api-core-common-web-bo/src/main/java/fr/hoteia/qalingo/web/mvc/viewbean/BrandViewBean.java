@@ -18,8 +18,8 @@ public class BrandViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1947200664388789049L;
 	
-	private String businessName;
-	private String code;
+	protected String businessName;
+	protected String code;
 	protected String brandDetailsUrl;
 	protected String brandLineDetailsUrl;
 

@@ -117,6 +117,14 @@ public abstract class AbstractQalingoController {
 	    }
 		return trackingViewBean;
 	}
+	
+    /**
+     * 
+     */
+    @ModelAttribute(ModelConstants.URL_BACK)
+    protected String initBackUrl(final HttpServletRequest request, final Model model) throws Exception {
+        return requestUtil.getLastRequestUrl(request);
+    }
 
 	/**
 	 * 

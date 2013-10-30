@@ -16,9 +16,39 @@ import org.apache.solr.client.solrj.SolrServerException;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
 import fr.hoteia.qalingo.core.solr.response.ProductResponseBean;
 
+
+/**
+ * The Interface ProductSolrService.
+ */
 public interface ProductSolrService {
 
+	/**
+	 * Adds the or update product.
+	 *
+	 * @param productMarketing the product marketing
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	void addOrUpdateProduct(ProductMarketing productMarketing) throws SolrServerException, IOException;
 	
+	/**
+	 * Search product.
+	 *
+	 * @param searchBy the search by
+	 * @param searchText the search text
+	 * @param facetField the facet field
+	 * @return the product response bean
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	ProductResponseBean searchProduct(String searchBy,String searchText, String facetField) throws SolrServerException, IOException;
+	
+	/**
+	 * Search product.
+	 *
+	 * @return the product response bean
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	ProductResponseBean searchProduct() throws SolrServerException, IOException;
 }
