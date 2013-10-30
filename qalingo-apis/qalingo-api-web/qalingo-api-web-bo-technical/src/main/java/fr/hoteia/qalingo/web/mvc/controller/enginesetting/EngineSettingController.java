@@ -10,10 +10,8 @@
 package fr.hoteia.qalingo.web.mvc.controller.enginesetting;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +30,6 @@ import fr.hoteia.qalingo.core.Constants;
 import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.EngineSetting;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
-import fr.hoteia.qalingo.core.domain.Localization;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import fr.hoteia.qalingo.core.service.EngineSettingService;
@@ -53,8 +50,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_LIST.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+		final Locale locale = requestUtil.getCurrentLocale(request);
 		initLinks(request, modelAndView, locale, null);
 		
 		List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
@@ -100,12 +96,9 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
-				final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-				final Locale locale = currentLocalization.getLocale();
-
-				initLinks(request, modelAndView, locale, engineSetting);
-				
+				final Locale locale = requestUtil.getCurrentLocale(request);
 				modelAndView.addObject("engineSetting", viewBeanFactory.buildEngineSettingViewBean(requestUtil.getRequestData(request), engineSetting));
+                initLinks(request, modelAndView, locale, engineSetting);
 			} else {
 				final String url = requestUtil.getLastRequestUrl(request);
 				return new ModelAndView(new RedirectView(url));
@@ -128,8 +121,10 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(engineSettingValueId)){
             final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
             if(engineSettingValue != null){
+                final Locale locale = requestUtil.getCurrentLocale(request);
                 modelAndView.addObject("engineSetting", viewBeanFactory.buildEngineSettingViewBean(requestUtil.getRequestData(request), engineSettingValue.getEngineSetting()));
                 formFactory.buildEngineSettingValueEditForm(request, modelAndView, engineSettingValue);
+                initLinks(request, modelAndView, locale, engineSettingValue.getEngineSetting());
                 return modelAndView;
             }
         }
