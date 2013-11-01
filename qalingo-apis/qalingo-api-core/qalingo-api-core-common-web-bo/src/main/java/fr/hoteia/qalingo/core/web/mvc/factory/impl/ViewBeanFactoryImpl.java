@@ -47,6 +47,7 @@ import fr.hoteia.qalingo.core.domain.Market;
 import fr.hoteia.qalingo.core.domain.MarketArea;
 import fr.hoteia.qalingo.core.domain.MarketPlace;
 import fr.hoteia.qalingo.core.domain.Order;
+import fr.hoteia.qalingo.core.domain.PaymentGatewayAttribute;
 import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
@@ -1413,6 +1414,12 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
             paymentGatewayViewBean.setDescription(paymentGateway.getDescription());
             paymentGatewayViewBean.setCode(paymentGateway.getCode());
 
+            Set<PaymentGatewayAttribute> paymentGatewayAttributes = paymentGateway.getPaymentGatewayAttributes();
+            for (Iterator<PaymentGatewayAttribute> iterator = paymentGatewayAttributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute paymentGatewayAttribute = (PaymentGatewayAttribute) iterator.next();
+                paymentGatewayViewBean.getPaymentGatewayAttributes().put(paymentGatewayAttribute.getAttributeDefinition().getCode(), paymentGatewayAttribute.getValueAsString());
+            }
+            
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             Date dateCreate = paymentGateway.getDateCreate();
             if (dateCreate != null) {
@@ -1427,6 +1434,9 @@ public class ViewBeanFactoryImpl extends AbstractBackofficeViewBeanFactory imple
             } else {
                 paymentGatewayViewBean.setDateUpdate("NA");
             }
+
+            paymentGatewayViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_DETAILS, requestData, paymentGateway));
+            paymentGatewayViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_EDIT, requestData, paymentGateway));
 
         }
         return paymentGatewayViewBean;

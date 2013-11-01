@@ -217,6 +217,5 @@ public class EngineBoSession implements Serializable {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-
 	
 }

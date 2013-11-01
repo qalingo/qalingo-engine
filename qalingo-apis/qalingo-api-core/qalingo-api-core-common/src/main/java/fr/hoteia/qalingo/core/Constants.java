@@ -105,9 +105,10 @@ public final class Constants {
 
 	public static final String GOOGLE_OAUTH_SIGNATURE_METHOD = "RSA-SHA1";
 
-	// SESSION
-	public static final String ENGINE_ECO_SESSION_OBJECT = "ENGINE_ECO_SESSION_OBJECT";
-	public static final String ENGINE_BO_SESSION_OBJECT = "ENGINE_BO_SESSION_OBJECT";
+    // SESSION
+    public static final String ENGINE_ECO_SESSION_OBJECT    = "ENGINE_ECO_SESSION_OBJECT";
+    public static final String ENGINE_BO_SESSION_OBJECT     = "ENGINE_BO_SESSION_OBJECT";
+    public static final String ENGINE_CLICKSTREAM           = "ENGINE_CLICKSTREAM";
 
 	// SEARCH PAGINATION
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";

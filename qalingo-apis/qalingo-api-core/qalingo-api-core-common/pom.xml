@@ -125,11 +125,6 @@
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>clickstream</artifactId>
-		</dependency>
-		
 		<!-- Email -->
 		<dependency>
 			<groupId>javax.mail</groupId>

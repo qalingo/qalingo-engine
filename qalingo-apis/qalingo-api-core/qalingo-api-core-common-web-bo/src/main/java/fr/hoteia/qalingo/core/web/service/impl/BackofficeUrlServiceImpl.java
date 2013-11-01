@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.hoteia.qalingo.core.RequestConstants;
+import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import fr.hoteia.qalingo.core.domain.Asset;
 import fr.hoteia.qalingo.core.domain.CatalogCategoryMaster;
@@ -135,6 +136,10 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                     } else if (param instanceof EngineSettingValue) {
                         EngineSettingValue engineSettingValue = (EngineSettingValue) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID, handleParamValue(engineSettingValue.getId().toString()));
+                        break;
+                    } else if (param instanceof AbstractPaymentGateway) {
+                        AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID, handleParamValue(paymentGateway.getId().toString()));
                         break;
                     } else if (param instanceof User) {
                         User user = (User) param;

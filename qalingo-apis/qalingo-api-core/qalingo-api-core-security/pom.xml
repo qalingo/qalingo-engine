@@ -114,11 +114,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>clickstream</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
 		</dependency>

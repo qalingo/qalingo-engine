@@ -32,6 +32,7 @@ import fr.hoteia.qalingo.core.domain.Order;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.pojo.RequestData;
+import fr.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
 
 /**
  * 
@@ -93,6 +94,17 @@ public interface RequestUtil {
 	 */
 	NumberFormat getNumberFormat(RequestData requestData, String currencyCode, RoundingMode roundingMode, int maximumFractionDigits,
 			int minimumFractionDigits, int maximumIntegerDigits, int minimumIntegerDigits) throws Exception;
+	
+    /**
+     * 
+     */
+	ClickstreamSession getClickstreamSession(HttpServletRequest request) throws Exception;
+        
+    /**
+     * 
+     */
+    void addClickstream(HttpServletRequest request) throws Exception;
+
 	/**
      * 
      */

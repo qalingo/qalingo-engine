@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.User;
 import fr.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -22,6 +23,7 @@ import fr.hoteia.qalingo.core.service.UrlService;
 import fr.hoteia.qalingo.core.web.util.RequestUtil;
 import fr.hoteia.qalingo.web.mvc.factory.FormFactory;
 import fr.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
+import fr.hoteia.qalingo.web.mvc.form.PaymentGatewayForm;
 import fr.hoteia.qalingo.web.mvc.form.QuickSearchForm;
 import fr.hoteia.qalingo.web.mvc.form.UserForm;
 
@@ -31,47 +33,53 @@ import fr.hoteia.qalingo.web.mvc.form.UserForm;
 @Service("formFactory")
 public class FormFactoryImpl implements FormFactory {
 
-	@Autowired
-	protected CoreMessageSource coreMessageSource;
-	
-	@Autowired
+    @Autowired
+    protected CoreMessageSource coreMessageSource;
+
+    @Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
+
+    @Autowired
     protected UrlService urlService;
-	
-	public void buildEngineSettingValueEditForm(final HttpServletRequest request, final ModelAndView modelAndView, final EngineSettingValue engineSettingValue) throws Exception {
-		final EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
-		engineSettingValueForm.setId(engineSettingValue.getId().toString());
+
+    public void buildEngineSettingValueEditForm(final HttpServletRequest request, final ModelAndView modelAndView, final EngineSettingValue engineSettingValue) throws Exception {
+        final EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
+        engineSettingValueForm.setId(engineSettingValue.getId().toString());
         engineSettingValueForm.setContext(engineSettingValue.getContext());
-		engineSettingValueForm.setValue(engineSettingValue.getValue());
-		modelAndView.addObject("engineSettingValueForm", engineSettingValueForm);
-	}
-	
-	public void buildUserForm(final HttpServletRequest request, final ModelAndView modelAndView, final User user) throws Exception {
-		final UserForm userForm = new UserForm();
-		userForm.setId(user.getId().toString());
-		userForm.setLogin(user.getLogin());
-		userForm.setFirstname(user.getFirstname());
-		userForm.setLastname(user.getLastname());
-		userForm.setEmail(user.getEmail());
-		userForm.setActive(user.isActive());
-		modelAndView.addObject("userForm", userForm);
-	}
-	
-	public void buildEngineSettingQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
-		final QuickSearchForm engineSettingQuickSearchForm = new QuickSearchForm();
-		modelAndView.addObject("engineSettingQuickSearchForm", engineSettingQuickSearchForm);
-	}
-	
-	public void buildUserQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
-		final QuickSearchForm userQuickSearchForm = new QuickSearchForm();
-		modelAndView.addObject("userQuickSearchForm", userQuickSearchForm);
-	}
-	
-	public void buildBatchQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
-		final QuickSearchForm batchQuickSearchForm = new QuickSearchForm();
-		modelAndView.addObject("batchQuickSearchForm", batchQuickSearchForm);
-	}
-	
+        engineSettingValueForm.setValue(engineSettingValue.getValue());
+        modelAndView.addObject("engineSettingValueForm", engineSettingValueForm);
+    }
+
+    public void buildPaymentGatewayForm(final HttpServletRequest request, final ModelAndView modelAndView, final AbstractPaymentGateway paymentGateway) throws Exception {
+        final PaymentGatewayForm paymentGatewayForm = new PaymentGatewayForm();
+        paymentGatewayForm.setId(paymentGateway.getId().toString());
+        modelAndView.addObject("paymentGatewayForm", paymentGatewayForm);
+    }
+
+    public void buildUserForm(final HttpServletRequest request, final ModelAndView modelAndView, final User user) throws Exception {
+        final UserForm userForm = new UserForm();
+        userForm.setId(user.getId().toString());
+        userForm.setLogin(user.getLogin());
+        userForm.setFirstname(user.getFirstname());
+        userForm.setLastname(user.getLastname());
+        userForm.setEmail(user.getEmail());
+        userForm.setActive(user.isActive());
+        modelAndView.addObject("userForm", userForm);
+    }
+
+    public void buildEngineSettingQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+        final QuickSearchForm engineSettingQuickSearchForm = new QuickSearchForm();
+        modelAndView.addObject("engineSettingQuickSearchForm", engineSettingQuickSearchForm);
+    }
+
+    public void buildUserQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+        final QuickSearchForm userQuickSearchForm = new QuickSearchForm();
+        modelAndView.addObject("userQuickSearchForm", userQuickSearchForm);
+    }
+
+    public void buildBatchQuickSearchForm(final HttpServletRequest request, final ModelAndView modelAndView) throws Exception {
+        final QuickSearchForm batchQuickSearchForm = new QuickSearchForm();
+        modelAndView.addObject("batchQuickSearchForm", batchQuickSearchForm);
+    }
+
 }

@@ -34,6 +34,9 @@ public class PaymentGatewayFake extends AbstractPaymentGateway implements Serial
 	public void authorizationAndCapture() {
 	}
 	
+    /**
+     * 
+     */
 	@Override
 	public void authorizationOnly(){
 	}

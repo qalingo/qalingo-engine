@@ -23,8 +23,11 @@ public enum BoUrls {
     CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null),
 
     MONITORING(BoUrls.MONITORING_URL, BoUrls.MONITORING_KEY, BoUrls.MONITORING_VELOCITY_PAGE),
-    REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE),
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE),
+
+    REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE),
+    PAYMENT_GATEWAY_DETAILS(BoUrls.PAYMENT_GATEWAY_DETAILS_URL, BoUrls.PAYMENT_GATEWAY_DETAILS_KEY, BoUrls.PAYMENT_GATEWAY_DETAILS_VELOCITY_PAGE),
+    PAYMENT_GATEWAY_EDIT(BoUrls.PAYMENT_GATEWAY_EDIT_URL, BoUrls.PAYMENT_GATEWAY_EDIT_KEY, BoUrls.PAYMENT_GATEWAY_EDIT_VELOCITY_PAGE),
     
     WAREHOUSE_LIST(BoUrls.WAREHOUSE_LIST_URL, BoUrls.WAREHOUSE_LIST_KEY, BoUrls.WAREHOUSE_LIST_VELOCITY_PAGE),
     WAREHOUSE_DETAILS(BoUrls.WAREHOUSE_DETAILS_URL, BoUrls.WAREHOUSE_DETAILS_KEY, BoUrls.WAREHOUSE_DETAILS_VELOCITY_PAGE),
@@ -152,6 +155,14 @@ public enum BoUrls {
 	public static final String REFERENCE_DATAS_URL				= "/reference-datas-list.html";
 	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data-list";
 
+    public static final String PAYMENT_GATEWAY_DETAILS_KEY           = "payment-gateway-details";
+    public static final String PAYMENT_GATEWAY_DETAILS_URL           = "/payment-gateway-details.html";
+    public static final String PAYMENT_GATEWAY_DETAILS_VELOCITY_PAGE = "reference-data/payment-gateway-details";
+
+    public static final String PAYMENT_GATEWAY_EDIT_KEY           = "payment-gateway-attribute-edit";
+    public static final String PAYMENT_GATEWAY_EDIT_URL           = "/payment-gateway-edit.html";
+    public static final String PAYMENT_GATEWAY_EDIT_VELOCITY_PAGE = "reference-data/payment-gateway-edit";
+
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
 	public static final String REPORTING_URL				= "/reporting-list.html";
@@ -252,9 +263,9 @@ public enum BoUrls {
 	public static final String ENGINE_SETTING_DETAILS_URL			= "/engine-setting-details.html";
 	public static final String ENGINE_SETTING_DETAILS_VELOCITY_PAGE	= "engine-setting/engine-setting-details";
 
-    public static final String ENGINE_SETTING_VALUE_EDIT_KEY = "engine-setting-value-edit";
-    public static final String ENGINE_SETTING_VALUE_EDIT_URL = "/engine-setting-value-edit.html";
-    public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE = "engine-setting/engine-setting-value-edit";
+    public static final String ENGINE_SETTING_VALUE_EDIT_KEY            = "engine-setting-value-edit";
+    public static final String ENGINE_SETTING_VALUE_EDIT_URL            = "/engine-setting-value-edit.html";
+    public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE  = "engine-setting/engine-setting-value-edit";
 	    
 	// CATALOG
 	public static final String CATALOG_KEY				= "catalog";

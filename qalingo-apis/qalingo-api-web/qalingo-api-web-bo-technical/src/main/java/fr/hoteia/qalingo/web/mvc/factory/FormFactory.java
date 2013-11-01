@@ -13,12 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import fr.hoteia.qalingo.core.domain.EngineSettingValue;
 import fr.hoteia.qalingo.core.domain.User;
 
 public interface FormFactory {
 
 	void buildEngineSettingValueEditForm(HttpServletRequest request, ModelAndView modelAndView, EngineSettingValue engineSettingValue) throws Exception;
+
+    void buildPaymentGatewayForm(HttpServletRequest request, ModelAndView modelAndView, AbstractPaymentGateway paymentGateway) throws Exception;
 
 	void buildUserForm(HttpServletRequest request, ModelAndView modelAndView, User user) throws Exception;
 

@@ -47,6 +47,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";
 	public static final String REQUEST_PARAMETER_SEARCH_TXT					= "search-txt";
 
+    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_ID          = "payment-gateway-id";
+
 	public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID		= "customer-address-id";
 	public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_ID			= "customer-order-id";
 	public static final String REQUEST_PARAMETER_ENGINE_SETTING_ID			= "engine-setting-id";

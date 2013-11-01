@@ -1,5 +1,7 @@
 package fr.hoteia.qalingo.core.web.mvc.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -123,7 +125,10 @@ public abstract class AbstractQalingoController {
      */
     @ModelAttribute(ModelConstants.URL_BACK)
     protected String initBackUrl(final HttpServletRequest request, final Model model) throws Exception {
-        return requestUtil.getLastRequestUrl(request);
+        String url = requestUtil.getCurrentRequestUrl(request);
+        List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(url);
+        return requestUtil.getLastRequestUrl(request, excludedPatterns);
     }
 
 	/**

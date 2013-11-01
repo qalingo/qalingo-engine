@@ -228,7 +228,7 @@ public class EngineEcoSession implements Serializable {
     public void setDevice(String device) {
         this.device = device;
     }
-
+    
     public Date getDateCreate() {
         return dateCreate;
     }
