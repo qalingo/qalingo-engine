@@ -267,6 +267,23 @@ CREATE TABLE `tbo_role_permission_rel` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbo_server_status`
+--
+
+DROP TABLE IF EXISTS `tbo_server_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbo_server_status` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `LAST_CHECK_RECEIVED` datetime DEFAULT NULL,
+  `MESSAGE_CONTENT` longblob,
+  `SERVER_IP` varchar(255) DEFAULT NULL,
+  `SERVER_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbo_user`
 --
 
@@ -356,11 +373,11 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `RETAILER_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK475D66AE85628CB7` (`PRODUCT_MARKETING_ID`),
   KEY `FK475D66AECF0A1A38` (`VIRTUAL_CATEGORY_ID`),
@@ -853,8 +870,12 @@ CREATE TABLE `teco_customer` (
   `PLATFORM_ORIGN` varchar(255) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
   `VALIDATED` tinyint(1) NOT NULL DEFAULT '0',
+  `VALIDATION_TOKEN` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ID`)
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK8910740D3147563` (`CUSTOMER_ID`),
+  CONSTRAINT `FK8910740D3147563` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer_order_audit` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1031,6 +1052,34 @@ CREATE TABLE `teco_customer_optin` (
   PRIMARY KEY (`ID`),
   KEY `FKC399DD39BF633D8E` (`CUSTOMER_MARKET_AREA_ID`),
   CONSTRAINT `FKC399DD39BF633D8E` FOREIGN KEY (`CUSTOMER_MARKET_AREA_ID`) REFERENCES `teco_customer_market_area` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_customer_order_audit`
+--
+
+DROP TABLE IF EXISTS `teco_customer_order_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_customer_order_audit` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CALENDAR_YEAR_ORDER_AMOUNT_AUDIT` varchar(255) DEFAULT NULL,
+  `CALENDAR_YEAR_PRODUCT_AUDIT` varchar(255) DEFAULT NULL,
+  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DAY_ORDER_AMOUNT_AUDIT` varchar(255) DEFAULT NULL,
+  `DAY_PRODUCT_AUDIT` varchar(255) DEFAULT NULL,
+  `LAST_ORDER_DATE` datetime DEFAULT NULL,
+  `MONTH_ORDER_AMOUNT_AUDIT` varchar(255) DEFAULT NULL,
+  `MONTH_PRODUCT_AUDIT` varchar(255) DEFAULT NULL,
+  `SPECIFIC_YEAR_ORDER_AMOUNT_AUDIT` varchar(255) DEFAULT NULL,
+  `SPECIFIC_YEAR_PRODUCT_AUDIT` varchar(255) DEFAULT NULL,
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  `WEEK_ORDER_AMOUNT_AUDIT` varchar(255) DEFAULT NULL,
+  `WEEK_PRODUCT_AUDIT` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1874,6 +1923,7 @@ CREATE TABLE `teco_retailer` (
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   `IS_BRAND` tinyint(1) NOT NULL DEFAULT '0',
+  `IS_CORNER` tinyint(1) NOT NULL DEFAULT '0',
   `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `IS_ECOMMERCE` tinyint(1) NOT NULL DEFAULT '0',
   `IS_OFFICIAL_RETAILER` tinyint(1) NOT NULL DEFAULT '0',
@@ -1990,7 +2040,7 @@ CREATE TABLE `teco_retailer_customer_rate` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   `PROCESSED` tinyint(1) NOT NULL DEFAULT '0',
-  `rate` int(11) DEFAULT NULL,
+  `RATE` int(11) DEFAULT NULL,
   `RETAILER_ID` bigint(20) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
@@ -2193,8 +2243,8 @@ CREATE TABLE `teco_rule_repository_attribute_rel` (
   `RULE_REPOSITORY_ID` bigint(20) NOT NULL,
   `RULE_REPOSITORY_ATTRIBUTE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`RULE_REPOSITORY_ID`,`RULE_REPOSITORY_ATTRIBUTE_ID`),
-  KEY `FK8FA169C2FB22202F` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C2A6274FFC` (`RULE_REPOSITORY_ID`),
+  KEY `FK8FA169C2FB22202F` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C29191B6EA` (`RULE_REPOSITORY_ATTRIBUTE_ID`),
   CONSTRAINT `FK8FA169C29191B6EA` FOREIGN KEY (`RULE_REPOSITORY_ATTRIBUTE_ID`) REFERENCES `teco_rule_repository_attribute` (`ID`),
   CONSTRAINT `FK8FA169C2A6274FFC` FOREIGN KEY (`RULE_REPOSITORY_ID`) REFERENCES `teco_rule_referential` (`ID`),
@@ -2403,4 +2453,4 @@ CREATE TABLE `teco_tax_state` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-19 17:32:56
+-- Dump completed on 2013-11-01  9:44:03
