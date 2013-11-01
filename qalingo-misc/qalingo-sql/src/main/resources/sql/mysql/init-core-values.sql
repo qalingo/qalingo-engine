@@ -82,7 +82,7 @@ VALUES
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(10, 'Environment Staging Mode enabled setting', 'Environment Staging Mode enabled setting', 'ENVIRONMENT_STAGING_MODE_ENABLED', 'false', 1);
+(10, 'Environment Staging Mode enabled setting', 'Environment Staging Mode enabled setting', 'ENVIRONMENT_STAGING_MODE_ENABLED', 'false', 1),
 (11, 'Environment Type setting', 'Environment Type setting', 'ENVIRONMENT_TYPE', 'REEL', 1);
 
 -- Save Email file mirroring setting
