@@ -21,9 +21,9 @@
         <root.basedir>${project.parent.parent.parent.basedir}</root.basedir>
     </properties>
 
-    <build>
-        <!-- <plugins> </plugins> -->
-    </build>
+	<build>
+		<finalName>qalingo-api-core-jms</finalName>
+	</build>
 
     <dependencies>
         <!-- Qalingo libs -->

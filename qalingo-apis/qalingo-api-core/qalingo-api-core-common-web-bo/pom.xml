@@ -20,6 +20,10 @@
 		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
 	</properties>
 
+	<build>
+		<finalName>qalingo-api-core-common-web-bo</finalName>
+	</build>
+	
 	<dependencies>
 		<!-- Qalingo libs -->
 		<dependency>

@@ -19,6 +19,10 @@
 	<properties>
 		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
 	</properties>
+	
+	<build>
+		<finalName>qalingo-api-web-bo-reporting</finalName>
+	</build>
 
 	<dependencies>
 		<!-- Qalingo libs -->
