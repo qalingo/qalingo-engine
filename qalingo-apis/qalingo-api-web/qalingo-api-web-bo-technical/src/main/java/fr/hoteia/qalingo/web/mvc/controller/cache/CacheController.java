@@ -9,6 +9,8 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.cache;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.hoteia.qalingo.core.RequestConstants;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
+
+
 
 /**
  * 
@@ -33,5 +38,46 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 		
         return modelAndView;
 	}
-    
+	@RequestMapping(value = "/flushCache.html", method = RequestMethod.POST)
+	public ModelAndView flushCache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CACHE.getVelocityPage());
+		String flag = request.getParameter(RequestConstants.REQUEST_PARAMETER_FLAG);
+
+		String responseString = "";
+		try{
+		if(FLUSH_SCOPE.equals(flag)){
+		//flush all of servers,all of caches and send JMS
+		}
+		if(FLUSH_SCOPE_ALLSERVER.equals(flag)){
+		//flush all of server which include specify cache
+			String serverName = request.getParameter(RequestConstants.REQUEST_PARAMETER_SERVERNAME);
+			
+			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CECHE_NAME);
+		}
+		
+		//flush specify server and send JMS
+		if(FLUSH_SCOPE_SINGLE.equals(flag)){
+			String serverName = request.getParameter(RequestConstants.REQUEST_PARAMETER_SERVERNAME);
+			
+			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CECHE_NAME);
+		}}catch(Exception e){
+			responseString = e.getMessage();
+		}finally{
+			responseString = RESULT_SUCCESS;
+		}
+		
+		
+        //return modelAndView;
+		PrintWriter out = response.getWriter(); 
+		out.print(responseString);
+		out.close();
+		response.flushBuffer();	
+		
+        return null;
+	}
+	private String RESULT_SUCCESS = "SUCCESS";
+	private String FLUSH_SCOPE ="ALL";//all of servers and all of caches
+	private String FLUSH_SCOPE_ALLSERVER ="ALLSERVER";// specified cache in all of servers
+	private String FLUSH_SCOPE_SINGLE ="SINGLE";// specified cache in single server
+
 }
