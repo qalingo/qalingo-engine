@@ -9,17 +9,22 @@
  */
 package fr.hoteia.qalingo.web.mvc.controller.monitoring;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.ModelConstants;
+import fr.hoteia.qalingo.core.domain.ServerStatus;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import fr.hoteia.qalingo.core.i18n.BoMessageKey;
 import fr.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import fr.hoteia.qalingo.core.service.ServerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
@@ -29,10 +34,17 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 @Controller("monitoringController")
 public class MonitoringController extends AbstractTechnicalBackofficeController {
 
+    @Autowired
+    protected ServerService serverService;
+	
 	@RequestMapping(BoUrls.MONITORING_URL)
 	public ModelAndView searchMonitoring(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MONITORING.getVelocityPage());
-
+		List<ServerStatus> severList = serverService.getServerList();
+		modelAndView.addObject("severList", severList);
+		
+		List<ServerStatus> severStatusList = serverService.findServerStatus();
+		modelAndView.addObject("severStatusList", severStatusList);
 		final String contentText = getSpecificMessage(ScopeWebMessage.MONITORING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		

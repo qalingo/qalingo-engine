@@ -60,6 +60,7 @@ public enum BoUrls {
     ENGINE_SETTING_LIST(BoUrls.ENGINE_SETTING_LIST_URL, BoUrls.ENGINE_SETTING_LIST_KEY, BoUrls.ENGINE_SETTING_LIST_VELOCITY_PAGE),
     ENGINE_SETTING_DETAILS(BoUrls.ENGINE_SETTING_DETAILS_URL, BoUrls.ENGINE_SETTING_DETAILS_KEY, BoUrls.ENGINE_SETTING_DETAILS_VELOCITY_PAGE),
     ENGINE_SETTING_VALUE_EDIT(BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, BoUrls.ENGINE_SETTING_VALUE_EDIT_KEY, BoUrls.ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE),
+    ENGINE_SETTING_VALUE_ADD(BoUrls.ENGINE_SETTING_VALUE_ADD_URL, BoUrls.ENGINE_SETTING_VALUE_ADD_KEY, BoUrls.ENGINE_SETTING_VALUE_ADD_VELOCITY_PAGE),
 
     BATCH(BoUrls.BATCH_URL, BoUrls.BATCH_KEY, BoUrls.BATCH_VELOCITY_PAGE),
     BATCH_CUSTOMER(BoUrls.BATCH_CUSTOMER_URL, BoUrls.BATCH_CUSTOMER_KEY, BoUrls.BATCH_VELOCITY_PAGE),
@@ -150,8 +151,7 @@ public enum BoUrls {
 	// REFERENCE DATAS
 	public static final String REFERENCE_DATAS_KEY				= "reference-datas";
 	public static final String REFERENCE_DATAS_URL				= "/reference-datas-list.html";
-	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-data-list";
-
+	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-datas-list";
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
 	public static final String REPORTING_URL				= "/reporting-list.html";
@@ -255,7 +255,10 @@ public enum BoUrls {
     public static final String ENGINE_SETTING_VALUE_EDIT_KEY = "engine-setting-value-edit";
     public static final String ENGINE_SETTING_VALUE_EDIT_URL = "/engine-setting-value-edit.html";
     public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE = "engine-setting/engine-setting-value-edit";
-	    
+    
+    public static final String ENGINE_SETTING_VALUE_ADD_KEY = "engine-setting-value-add";
+    public static final String ENGINE_SETTING_VALUE_ADD_URL = "/engine-setting-value-add.html";
+    public static final String ENGINE_SETTING_VALUE_ADD_VELOCITY_PAGE = "engine-setting/engine-setting-value-add";	  
 	// CATALOG
 	public static final String CATALOG_KEY				= "catalog";
 	public static final String CATALOG_URL				= "/catalog.html";
