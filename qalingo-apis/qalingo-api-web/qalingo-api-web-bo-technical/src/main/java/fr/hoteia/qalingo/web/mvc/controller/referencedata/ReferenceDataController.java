@@ -51,6 +51,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
 		modelAndView.addObject("currencyReferentials", currencyReferentialViewBeans);
 		
+		//get the local referenced data
 		List<Localization> localizations = localizationService.findLocalizations();
 		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
 		modelAndView.addObject("localizations", localizationViewBeans);
@@ -61,5 +62,4 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 		
         return modelAndView;
 	}
-	
 }

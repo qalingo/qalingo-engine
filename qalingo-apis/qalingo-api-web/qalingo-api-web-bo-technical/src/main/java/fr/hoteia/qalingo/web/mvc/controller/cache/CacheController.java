@@ -10,17 +10,21 @@
 package fr.hoteia.qalingo.web.mvc.controller.cache;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.hoteia.qalingo.core.RequestConstants;
+import fr.hoteia.qalingo.core.domain.ServerStatus;
 import fr.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import fr.hoteia.qalingo.core.service.ServerService;
 import fr.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 
@@ -32,9 +36,14 @@ import fr.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeControlle
 @Controller("cacheController")
 public class CacheController extends AbstractTechnicalBackofficeController {
 
+    @Autowired
+    protected ServerService serverService;
+    
 	@RequestMapping(value = BoUrls.CACHE_URL, method = RequestMethod.GET)
 	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CACHE.getVelocityPage());
+		List<ServerStatus> severList = serverService.getServerList();
+		modelAndView.addObject("severList", severList);
 		
         return modelAndView;
 	}
@@ -48,7 +57,7 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 		if(FLUSH_SCOPE.equals(flag)){
 		//flush all of servers,all of caches and send JMS
 		}
-		if(FLUSH_SCOPE_ALLSERVER.equals(flag)){
+		if("FLUSH_SCOPE_ALLSERVER".equals(flag)){
 		//flush all of server which include specify cache
 			String serverName = request.getParameter(RequestConstants.REQUEST_PARAMETER_SERVERNAME);
 			
@@ -80,4 +89,12 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 	private String FLUSH_SCOPE_ALLSERVER ="ALLSERVER";// specified cache in all of servers
 	private String FLUSH_SCOPE_SINGLE ="SINGLE";// specified cache in single server
 
+	public ServerService getServerService() {
+		return serverService;
+	}
+	public void setServerService(ServerService serverService) {
+		this.serverService = serverService;
+	}
+
+	
 }
