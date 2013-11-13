@@ -1333,6 +1333,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				}
 			}
 		}
+		
+		Object isFeaturedValue = productMarketing.getProductMarketingAttribute("PRODUCT_ATTRIBUTE_FEATURED");
+		if(isFeaturedValue == null){
+			productMarketingViewBean.setFeatured(Boolean.FALSE);
+		}else{
+			Boolean objectValue = Boolean.valueOf(isFeaturedValue.toString());
+			productMarketingViewBean.setFeatured(objectValue.booleanValue());
+		}
 
 		return productMarketingViewBean;
 	}
