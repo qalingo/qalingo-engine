@@ -45,6 +45,10 @@ public class ServerServiceImpl implements ServerService {
         return serverStatusDao.findServerStatus();
     }
     
+    public List<ServerStatus> getServerList() {
+        return serverStatusDao.getServerList();
+    }
+    
     public void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException {
         serverStatusDao.saveOrUpdateServerStatus(serverStatus, message);
     }
