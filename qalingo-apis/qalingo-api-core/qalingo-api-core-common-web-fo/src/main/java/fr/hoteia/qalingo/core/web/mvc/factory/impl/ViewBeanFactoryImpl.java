@@ -56,6 +56,7 @@ import fr.hoteia.qalingo.core.domain.OrderTax;
 import fr.hoteia.qalingo.core.domain.ProductAssociationLink;
 import fr.hoteia.qalingo.core.domain.ProductBrand;
 import fr.hoteia.qalingo.core.domain.ProductMarketing;
+import fr.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import fr.hoteia.qalingo.core.domain.ProductSku;
 import fr.hoteia.qalingo.core.domain.Retailer;
 import fr.hoteia.qalingo.core.domain.RetailerAddress;
@@ -1334,11 +1335,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 			}
 		}
 		
-		Object isFeaturedValue = productMarketing.getProductMarketingAttribute("PRODUCT_ATTRIBUTE_FEATURED");
+		ProductMarketingAttribute isFeaturedValue = productMarketing.getProductMarketingAttribute("PRODUCT_ATTRIBUTE_FEATURED");
 		if(isFeaturedValue == null){
 			productMarketingViewBean.setFeatured(Boolean.FALSE);
 		}else{
-			Boolean objectValue = Boolean.valueOf(isFeaturedValue.toString());
+			Boolean objectValue = Boolean.valueOf(isFeaturedValue.getBooleanValue());
 			productMarketingViewBean.setFeatured(objectValue.booleanValue());
 		}
 
