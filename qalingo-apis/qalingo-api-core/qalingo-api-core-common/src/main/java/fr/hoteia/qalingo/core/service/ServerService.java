@@ -22,6 +22,8 @@ public interface ServerService {
     
     List<ServerStatus> findServerStatus();
     
+    List<ServerStatus> getServerList();
+    
     void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
 
 	void saveOrUpdateServerStatus(ServerStatus serverStatus);
