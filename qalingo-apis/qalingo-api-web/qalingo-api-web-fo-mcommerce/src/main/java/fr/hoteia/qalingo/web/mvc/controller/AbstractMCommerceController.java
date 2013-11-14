@@ -188,6 +188,12 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 		return viewBeanFactory.buildFooterMenuViewBeans(requestUtil.getRequestData(request));
 	}
 	
+	@ModelAttribute(ModelConstants.FOOTER_PAYMENT_METHODS_VIEW_BEAN)
+	protected List<FooterMenuViewBean> initFooterPaymentMethods(final HttpServletRequest request, final Model model) throws Exception {
+		// FOOTER
+		return viewBeanFactory.buildFooterMenuViewBeans(requestUtil.getRequestData(request));
+	}
+	
 	/**
 	 * @throws Exception 
 	 * 

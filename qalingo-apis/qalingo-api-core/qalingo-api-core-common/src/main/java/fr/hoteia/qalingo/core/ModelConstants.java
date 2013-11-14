@@ -63,6 +63,7 @@ public final class ModelConstants {
 	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
 	public static final String CONDITIONS_OF_USE_VIEW_BEAN = "conditions";
 	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
+	public static final String FOOTER_PAYMENT_METHODS_VIEW_BEAN = "footerPaymentMethods";
 	public static final String FOLLOW_US_VIEW_BEAN = "followUs";
 	public static final String FAQ_VIEW_BEAN = "faq";
 	public static final String OUR_COMPANY_VIEW_BEAN = "ourCompany";

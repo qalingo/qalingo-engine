@@ -335,7 +335,15 @@ INSERT INTO teco_product_marketing
 (1, 'product marketing 1', 'PROD1', 1, 'Produit l', 1, 10), 
 (2, 'product marketing 2', 'PROD2', 0, 'Produit 2', 1, 10), 
 (3, 'product marketing 3', 'PROD3', 0, 'Produit 3', 1, 10), 
-(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20);
+(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20),
+(5, 'product marketing 5', 'PROD1', 1, 'Produit 5', 1, 10), 
+(6, 'product marketing 6', 'PROD2', 0, 'Produit 6', 1, 10), 
+(7, 'product marketing 7', 'PROD3', 0, 'Produit 7', 1, 10), 
+(8, 'product marketing 8', 'PROD4', 0, 'Produit 8', 1, 20),
+(9, 'product marketing 9', 'PROD1', 1, 'Produit 9', 1, 10), 
+(10, 'product marketing 10', 'PROD2', 0, 'Produit 10', 1, 10), 
+(11, 'product marketing 11', 'PROD3', 0, 'Produit 11', 1, 10), 
+(12, 'product marketing 12', 'PROD4', 0, 'Produit 12', 1, 20);
 
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketting_id, attribute_definition_id, localization_code, market_area_id) 
@@ -343,7 +351,15 @@ VALUES
 (1, null, null, null, null, null, 'PROD1 i18n', 1, 30, null, 1),
 (2, null, null, null, null, null, 'PROD2 i18n', 2, 30, null, 1),
 (3, null, null, null, null, null, 'PROD3 i18n', 3, 30, null, 1),
-(4, null, null, null, null, null, 'PROD4 i18n', 4, 30, null, 1);
+(4, null, null, null, null, null, 'PROD4 i18n', 4, 30, null, 1),
+(5, null, null, null, null, null, 'PROD5 i18n', 1, 30, null, 1),
+(6, null, null, null, null, null, 'PROD6 i18n', 2, 30, null, 1),
+(7, null, null, null, null, null, 'PROD7 i18n', 3, 30, null, 1),
+(8, null, null, null, null, null, 'PROD8 i18n', 4, 30, null, 1),
+(9, null, null, null, null, null, 'PROD9 i18n', 1, 30, null, 1),
+(10, null, null, null, null, null, 'PROD10 i18n', 2, 30, null, 1),
+(11, null, null, null, null, null, 'PROD11 i18n', 3, 30, null, 1),
+(12, null, null, null, null, null, 'PROD12 i18n', 4, 30, null, 1);
 
 INSERT INTO teco_product_sku 
 (id, description, code, is_default, business_name, version, product_marketing_id)
