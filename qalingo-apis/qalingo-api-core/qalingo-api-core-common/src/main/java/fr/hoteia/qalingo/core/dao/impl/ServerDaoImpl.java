@@ -13,11 +13,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -50,6 +54,34 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
         String sql = "FROM ServerStatus ORDER BY serverName, lastCheckReceived";
         Query query = session.createQuery(sql);
         List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+        return serverStatus;
+    }
+
+    public List<ServerStatus> getServerList(){
+        Session session = (Session) em.getDelegate();
+        String sql = " select serverName FROM ServerStatus group  BY serverName ";
+        
+        Query query = session.createQuery(sql);
+        Criteria criteria = session.createCriteria(ServerStatus.class);
+        ProjectionList projectionList = Projections.projectionList();
+        projectionList.add(Projections.groupProperty("serverName"));
+ 
+        criteria.setProjection(projectionList);
+        
+        List<String> serverNames = (List<String>) criteria.list();
+   
+        List<ServerStatus> serverStatus = new ArrayList<ServerStatus>();
+        if(null !=serverNames){
+        	for(int i=0;i<serverNames.size();i++){
+        		ServerStatus status = new ServerStatus();
+        		status.setServerName(serverNames.get(i));
+        		serverStatus.add(status);
+        		
+        	}
+        }
+        
+       
+        
         return serverStatus;
     }
 
