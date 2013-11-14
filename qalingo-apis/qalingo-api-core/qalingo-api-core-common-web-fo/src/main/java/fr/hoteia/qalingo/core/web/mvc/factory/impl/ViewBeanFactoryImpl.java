@@ -1261,14 +1261,25 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		productCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
 
 		List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
+		List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
 		Set<ProductMarketing> productMarketings = productCategory.getProductMarketings();
 		if (productMarketings != null) {
 			for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
 				final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
-				productMarketingViewBeans.add(buildProductMarketingViewBean(requestData, productCategory, productMarketing));
+				ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productCategory, productMarketing); 
+				productMarketingViewBeans.add(productMarketingViewBean);
+				if(productMarketingViewBean.isFeatured()){
+					featuredProductMarketings.add(productMarketingViewBean);
+				}
 			}
 		}
+		
 		productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
+		
+		for(ProductCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
+			featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
+		}
+		productCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
 
 		return productCategoryViewBean;
 	}
