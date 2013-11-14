@@ -150,7 +150,8 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         EngineSettingValue engineSettingValue = new EngineSettingValue();
         if(null == engineSettingValueId){
         	
-        	webBackofficeService.saveEngineSettingValue(engineSettingValue, engineSettingValueForm);
+        	webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
+        	
         }else{
             engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
 

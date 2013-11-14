@@ -239,24 +239,24 @@ public enum FoUrls {
 	public static final String PRODUCT_DETAILS_URL					= "/product-details-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9\\-]+}-pm-{" + RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE + ":[a-zA-Z0-9\\-]+}-sku-{" + RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE + ":[a-zA-Z0-9\\-]+}.html";
 	public static final String PRODUCT_DETAILS_VELOCITY_PAGE		= "catalog/product-details";
 	
-	public static final String WISHLIST_ADD_PRODUCT_URL				= "add-to-wishlist";
-	public static final String WISHLIST_ADD_PRODUCT_KEY				= "/add-to-wishlist.html";
+	public static final String WISHLIST_ADD_PRODUCT_KEY				= "add-to-wishlist";
+	public static final String WISHLIST_ADD_PRODUCT_URL				= "/add-to-wishlist.html";
 	public static final String WISHLIST_ADD_PRODUCT_VELOCITY_PAGE	= "";
 
-	public static final String WISHLIST_REMOVE_ITEM_URL				= "remove-from-wishlist";
-	public static final String WISHLIST_REMOVE_ITEM_KEY				= "/remove-from-wishlist.html";
+	public static final String WISHLIST_REMOVE_ITEM_KEY				= "remove-from-wishlist";
+	public static final String WISHLIST_REMOVE_ITEM_URL				= "/remove-from-wishlist.html";
 	public static final String WISHLIST_REMOVE_ITEM_VELOCITY_PAGE	= "";
 	
-	public static final String CART_DETAILS_URL					= "cart-details";
-	public static final String CART_DETAILS_KEY					= "/cart-details.html";
+	public static final String CART_DETAILS_KEY					= "cart-details";
+	public static final String CART_DETAILS_URL					= "/cart-details.html";
 	public static final String CART_DETAILS_VELOCITY_PAGE		= "cart/cart-details";
 
-	public static final String CART_ADD_PRODUCT_URL				= "add-to-cart";
-	public static final String CART_ADD_PRODUCT_KEY				= "/add-to-cart.html";
+	public static final String CART_ADD_PRODUCT_KEY				= "add-to-cart";
+	public static final String CART_ADD_PRODUCT_URL				= "/add-to-cart.html";
 	public static final String CART_ADD_PRODUCT_VELOCITY_PAGE	= "";
 
-	public static final String CART_REMOVE_ITEM_URL				= "remove-from-cart";
-	public static final String CART_REMOVE_ITEM_KEY				= "/remove-from-cart.html";
+	public static final String CART_REMOVE_ITEM_KEY				= "remove-from-cart";
+	public static final String CART_REMOVE_ITEM_URL				= "/remove-from-cart.html";
 	public static final String CART_REMOVE_ITEM_VELOCITY_PAGE	= "";
 
 	public static final String CART_AUTH_KEY					= "cart-auth";

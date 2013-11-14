@@ -65,6 +65,10 @@ public final class RequestConstants {
 
 	public static final String REQUEST_PARAMETER_NEWSLETTER_EMAIL			= "newsletter-email";
 
+    public static final String REQUEST_PARAMETER_FLAG                       = "flag";
+    public static final String REQUEST_PARAMETER_SERVERNAME                 = "serverName";
+    public static final String REQUEST_PARAMETER_CACHE_NAME                 = "cacheName";
+
 	public static final String REQUEST_PARAMETER_TAB						= "tab"; 
 	
 	// SPRING URL REWRITE

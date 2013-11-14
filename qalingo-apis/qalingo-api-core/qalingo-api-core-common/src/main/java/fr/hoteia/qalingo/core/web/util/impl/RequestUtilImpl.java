@@ -570,7 +570,7 @@ public class RequestUtilImpl implements RequestUtil {
         }
 
         // SANITY CHECK : quantity is equal zero : no sense
-        if (StringUtils.isEmpty(skuCode)) {
+        if (quantity == 0) {
             throw new Exception("");
         }
 

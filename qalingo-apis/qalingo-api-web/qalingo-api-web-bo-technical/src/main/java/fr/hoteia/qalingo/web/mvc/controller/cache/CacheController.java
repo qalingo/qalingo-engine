@@ -61,14 +61,14 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 		//flush all of server which include specify cache
 			String serverName = request.getParameter(RequestConstants.REQUEST_PARAMETER_SERVERNAME);
 			
-			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CECHE_NAME);
+			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CACHE_NAME);
 		}
 		
 		//flush specify server and send JMS
 		if(FLUSH_SCOPE_SINGLE.equals(flag)){
 			String serverName = request.getParameter(RequestConstants.REQUEST_PARAMETER_SERVERNAME);
 			
-			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CECHE_NAME);
+			String cacheName = request.getParameter(RequestConstants.REQUEST_PARAMETER_CACHE_NAME);
 		}}catch(Exception e){
 			responseString = e.getMessage();
 		}finally{
@@ -89,12 +89,4 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 	private String FLUSH_SCOPE_ALLSERVER ="ALLSERVER";// specified cache in all of servers
 	private String FLUSH_SCOPE_SINGLE ="SINGLE";// specified cache in single server
 
-	public ServerService getServerService() {
-		return serverService;
-	}
-	public void setServerService(ServerService serverService) {
-		this.serverService = serverService;
-	}
-
-	
 }

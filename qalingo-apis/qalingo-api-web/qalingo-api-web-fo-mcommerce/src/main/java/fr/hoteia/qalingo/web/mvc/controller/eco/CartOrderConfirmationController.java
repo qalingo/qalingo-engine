@@ -34,12 +34,12 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_CONFIRMATION.getVelocityPage());
 
 		// SANITY CHECK
-		final Order lastOrder = requestUtil.getLastOrder(request);;
-		if(lastOrder == null){
-			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
-		}
+//		final Order lastOrder = requestUtil.getLastOrder(request);;
+//		if(lastOrder == null){
+//			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
+//		}
 		
-		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), lastOrder);
+		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), null);
 		modelAndView.addObject("order", orderViewBean);
 		
         return modelAndView;

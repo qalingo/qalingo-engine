@@ -86,12 +86,12 @@ public class ProductSku implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<ProductSkuAttribute> productSkuGlobalAttributes = new HashSet<ProductSkuAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<ProductSkuAttribute> productSkuMarketAreaAttributes = new HashSet<ProductSkuAttribute>(); 

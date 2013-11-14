@@ -1372,49 +1372,49 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		BigDecimal cartShippingTotal = new BigDecimal("0");
 		BigDecimal cartFeesTotal = new BigDecimal("0");
 		BigDecimal carTotal = new BigDecimal("0");
-		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-			final CartItem cartItem = (CartItem) iterator.next();
-			if (cartItem.getPrice() != null) {
-				cartItemsTotal = cartItemsTotal.add(cartItem.getPrice());
-			}
-		}
+//		for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+//			final CartItem cartItem = (CartItem) iterator.next();
+//			if (cartItem.getPrice() != null) {
+//				cartItemsTotal = cartItemsTotal.add(cartItem.getPrice());
+//			}
+//		}
 
 		// SUB PART : Shippings
-		final List<CartShippingViewBean> cartShippingViewBeans = new ArrayList<CartShippingViewBean>();
-		final Set<Shipping> shippings = cart.getShippings();
-		if (shippings != null) {
-			for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
-				final Shipping shipping = (Shipping) iterator.next();
-				final CartShippingViewBean cartShippingViewBean = new CartShippingViewBean();
-				if (shipping.getPrice() != null) {
-					cartShippingTotal = cartShippingTotal.add(shipping.getPrice());
-					cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
-				}
-				Object[] params = { shipping.getName() };
-				cartShippingViewBean.setCartShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
-				cartShippingViewBeans.add(cartShippingViewBean);
-			}
-			cartViewBean.setCartShippings(cartShippingViewBeans);
-		}
+//		final List<CartShippingViewBean> cartShippingViewBeans = new ArrayList<CartShippingViewBean>();
+//		final Set<Shipping> shippings = cart.getShippings();
+//		if (shippings != null) {
+//			for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
+//				final Shipping shipping = (Shipping) iterator.next();
+//				final CartShippingViewBean cartShippingViewBean = new CartShippingViewBean();
+//				if (shipping.getPrice() != null) {
+//					cartShippingTotal = cartShippingTotal.add(shipping.getPrice());
+//					cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
+//				}
+//				Object[] params = { shipping.getName() };
+//				cartShippingViewBean.setCartShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
+//				cartShippingViewBeans.add(cartShippingViewBean);
+//			}
+//			cartViewBean.setCartShippings(cartShippingViewBeans);
+//		}
 
 		// SUB PART : Taxes
-		final List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
-		final Set<Tax> taxes = cart.getTaxes();
-		if (taxes != null) {
-			for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
-				final Tax tax = (Tax) iterator.next();
-				final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
-				BigDecimal taxesCalc = cartItemsTotal;
-				taxesCalc = taxesCalc.multiply(tax.getPercent());
-				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
-				cartFeesTotal = cartFeesTotal.add(taxesCalc);
-				Object[] params = { tax.getName() };
-				cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
-				cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
-				cartTaxViewBeans.add(cartTaxViewBean);
-			}
-			cartViewBean.setCartTaxes(cartTaxViewBeans);
-		}
+//		final List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
+//		final Set<Tax> taxes = cart.getTaxes();
+//		if (taxes != null) {
+//			for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
+//				final Tax tax = (Tax) iterator.next();
+//				final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
+//				BigDecimal taxesCalc = cartItemsTotal;
+//				taxesCalc = taxesCalc.multiply(tax.getPercent());
+//				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+//				cartFeesTotal = cartFeesTotal.add(taxesCalc);
+//				Object[] params = { tax.getName() };
+//				cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
+//				cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
+//				cartTaxViewBeans.add(cartTaxViewBean);
+//			}
+//			cartViewBean.setCartTaxes(cartTaxViewBeans);
+//		}
 		carTotal = carTotal.add(cartItemsTotal);
 		carTotal = carTotal.add(cartShippingTotal);
 		carTotal = carTotal.add(cartFeesTotal);
@@ -1437,21 +1437,23 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
 		cartItemViewBean.setSkuCode(cartItem.getProductSkuCode());
-		cartItemViewBean.setName(cartItem.getProductSku().getI18nName(localizationCode));
+//		cartItemViewBean.setName(cartItem.getProductSku().getI18nName(localizationCode));
 		cartItemViewBean.setQuantity(cartItem.getQuantity());
 
 		final String currencyCode = marketArea.getCurrency().getCode();
 		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
-		final BigDecimal price = cartItem.getPrice();
-		if (price != null) {
-			cartItemViewBean.setPrice(formatter.format(price));
-		}
-		final BigDecimal totalAmountCartItem = cartItem.getTotalAmountCartItem();
-		if (totalAmountCartItem != null) {
-			cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
-		}
+//		final BigDecimal price = cartItem.getPrice();
+//		if (price != null) {
+//			cartItemViewBean.setPrice(formatter.format(price));
+//		}
+//		final BigDecimal totalAmountCartItem = cartItem.getTotalAmountCartItem();
+//		if (totalAmountCartItem != null) {
+//			cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
+//		}
 
-		cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, cartItem));
+		Map<String, String> getParams = new HashMap<String, String>();
+		getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
+		cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
 		return cartItemViewBean;
 	}
@@ -1475,84 +1477,81 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Localization localization = requestData.getLocalization();
 		final Locale locale = localization.getLocale();
-		final String orderId = order.getId().toString();
 		final OrderViewBean orderViewBean = new OrderViewBean();
 
-		// ITEMS PART
-		final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
-		final Set<OrderItem> orderItems = order.getOrderItems();
-		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-			OrderItem orderItem = (OrderItem) iterator.next();
-			orderItemViewBeans.add(buildOrderItemViewBean(requestData, orderItem));
+		if(order != null){
+		      // ITEMS PART
+	        final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
+	        final Set<OrderItem> orderItems = order.getOrderItems();
+	        for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
+	            OrderItem orderItem = (OrderItem) iterator.next();
+	            orderItemViewBeans.add(buildOrderItemViewBean(requestData, orderItem));
+	        }
+	        orderViewBean.setOrderItems(orderItemViewBeans);
+
+	        // SUB PART : Subtotal
+	        final String currencyCode = marketArea.getCurrency().getCode();
+	        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+	        BigDecimal orderItemsTotal = new BigDecimal("0");
+	        BigDecimal orderShippingTotal = new BigDecimal("0");
+	        BigDecimal orderFeesTotal = new BigDecimal("0");
+	        BigDecimal orderTotal = new BigDecimal("0");
+	        for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
+	            final OrderItem orderItem = (OrderItem) iterator.next();
+	            if (orderItem.getPrice() != null) {
+	                orderItemsTotal = orderItemsTotal.add(orderItem.getPrice());
+	            }
+	        }
+
+	        // SUB PART : Shippings
+	        final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
+	        final Set<OrderShipment> orderShipments = order.getOrderShipments();
+	        if (orderShipments != null) {
+	            for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
+	                final OrderShipment orderShipment = (OrderShipment) iterator.next();
+	                final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
+	                if (orderShipment.getPrice() != null) {
+	                    orderShippingTotal = orderShippingTotal.add(orderShipment.getPrice());
+	                    orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
+	                }
+	                Object[] params = { orderShipment.getName() };
+	                orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
+	                orderShippingViewBeans.add(orderShippingViewBean);
+	            }
+	            orderViewBean.setOrderShippings(orderShippingViewBeans);
+	        }
+
+	        // SUB PART : Taxes
+	        final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
+	        final Set<OrderTax> orderTaxes = order.getOrderTaxes();
+	        if (orderTaxes != null) {
+	            for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
+	                final OrderTax orderTax = (OrderTax) iterator.next();
+	                final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
+	                BigDecimal taxesCalc = orderItemsTotal;
+	                taxesCalc = taxesCalc.multiply(orderTax.getPercent());
+	                taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+	                orderFeesTotal = orderFeesTotal.add(taxesCalc);
+	                Object[] params = { orderTax.getName() };
+	                orderTaxViewBean.setOrderTaxTotal(formatter.format(taxesCalc));
+	                orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
+	                orderTaxViewBeans.add(orderTaxViewBean);
+	            }
+	            orderViewBean.setOrderTaxes(orderTaxViewBeans);
+	        }
+	        orderTotal = orderTotal.add(orderItemsTotal);
+	        orderTotal = orderTotal.add(orderShippingTotal);
+	        orderTotal = orderTotal.add(orderFeesTotal);
+	        orderViewBean.setOrderItemsTotal(formatter.format(orderItemsTotal));
+	        orderViewBean.setOrderShippingTotal(formatter.format(orderShippingTotal));
+	        orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
+	        orderViewBean.setOrderTotal(formatter.format(orderTotal));
+
+	        Map<String, String> getParams = new HashMap<String, String>();
+	        getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, order.getId().toString());
+
+	        orderViewBean.setOrderDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, getParams));
 		}
-		orderViewBean.setOrderItems(orderItemViewBeans);
-
-		// SUB PART : Subtotal
-		final String currencyCode = marketArea.getCurrency().getCode();
-		final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
-		BigDecimal orderItemsTotal = new BigDecimal("0");
-		BigDecimal orderShippingTotal = new BigDecimal("0");
-		BigDecimal orderFeesTotal = new BigDecimal("0");
-		BigDecimal orderTotal = new BigDecimal("0");
-		for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-			final OrderItem orderItem = (OrderItem) iterator.next();
-			if (orderItem.getPrice() != null) {
-				orderItemsTotal = orderItemsTotal.add(orderItem.getPrice());
-			}
-		}
-
-		// SUB PART : Shippings
-		final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
-		final Set<OrderShipment> orderShipments = order.getOrderShipments();
-		if (orderShipments != null) {
-			for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
-				final OrderShipment orderShipment = (OrderShipment) iterator.next();
-				final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
-				if (orderShipment.getPrice() != null) {
-					orderShippingTotal = orderShippingTotal.add(orderShipment.getPrice());
-					orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
-				}
-				Object[] params = { orderShipment.getName() };
-				orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
-				orderShippingViewBeans.add(orderShippingViewBean);
-			}
-			orderViewBean.setOrderShippings(orderShippingViewBeans);
-		}
-
-		// SUB PART : Taxes
-		final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
-		final Set<OrderTax> orderTaxes = order.getOrderTaxes();
-		if (orderTaxes != null) {
-			for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
-				final OrderTax orderTax = (OrderTax) iterator.next();
-				final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
-				BigDecimal taxesCalc = orderItemsTotal;
-				taxesCalc = taxesCalc.multiply(orderTax.getPercent());
-				taxesCalc = taxesCalc.divide(new BigDecimal("100"));
-				orderFeesTotal = orderFeesTotal.add(taxesCalc);
-				Object[] params = { orderTax.getName() };
-				orderTaxViewBean.setOrderTaxTotal(formatter.format(taxesCalc));
-				orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
-				orderTaxViewBeans.add(orderTaxViewBean);
-			}
-			orderViewBean.setOrderTaxes(orderTaxViewBeans);
-		}
-		orderTotal = orderTotal.add(orderItemsTotal);
-		orderTotal = orderTotal.add(orderShippingTotal);
-		orderTotal = orderTotal.add(orderFeesTotal);
-		orderViewBean.setOrderItemsTotal(formatter.format(orderItemsTotal));
-		orderViewBean.setOrderShippingTotal(formatter.format(orderShippingTotal));
-		orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
-		orderViewBean.setOrderTotal(formatter.format(orderTotal));
-
-		// final Object[] params = {order.getOrderNum()};
-		// orderViewBean.setConfirmationMessage(getSpecificMessage(ScopeWebMessage.COMMON,
-		// "order.confirmation.message", params, locale));
-		
-		Map<String, String> urlParams = new HashMap<String, String>();
-		urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, orderId.toString());
-
-		orderViewBean.setOrderDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, urlParams));
 
 		return orderViewBean;
 	}
@@ -1664,11 +1663,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		productSkuViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productSku));
 		
-		productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, productCategory, productMarketing, productSku));
-		productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, productSku));
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        
+        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 		
-		productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, productCategory, productMarketing, productSku));
-		productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, productSku));
+		productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
+		productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
 
 		return productSkuViewBean;
 	}
@@ -1718,7 +1720,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
 		final String productName = productMarketing.getCode();
 		final String categoryName = productCategory.getI18nName(localeCode);
-		final String categoryCode = productCategory.getCode();
 		final String productSkuName = productMarketing.getDefaultProductSku().getI18nName(localeCode);
 
 		final SearchProductItemViewBean searchProductItemViewBean = new SearchProductItemViewBean();
@@ -1727,7 +1728,11 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		searchProductItemViewBean.setCode(productSkuCode);
 
 		searchProductItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, productCategory, productMarketing, productSku));
-		searchProductItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, productCategory, productMarketing, productSku));
+		
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        
+		searchProductItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
 
 		return searchProductItemViewBean;
 	}
