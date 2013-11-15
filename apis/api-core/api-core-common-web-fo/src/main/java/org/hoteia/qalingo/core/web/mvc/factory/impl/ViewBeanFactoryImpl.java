@@ -1212,7 +1212,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		final String localeCode = localization.getCode();
 		final ProductCategoryViewBean productCategoryViewBean = new ProductCategoryViewBean();
 
-		productCategoryViewBean.setName(productCategory.getI18nName(localeCode));
+//		productCategoryViewBean.setName(productCategory.getI18nName(localeCode));
 		productCategoryViewBean.setDescription(productCategory.getDescription());
 		productCategoryViewBean.setRoot(productCategory.isRoot());
 

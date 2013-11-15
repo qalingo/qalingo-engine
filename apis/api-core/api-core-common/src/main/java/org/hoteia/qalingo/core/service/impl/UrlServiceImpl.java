@@ -15,14 +15,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
@@ -38,6 +34,10 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "urlService")
 @Transactional
@@ -115,74 +115,74 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 	
     @SuppressWarnings("unchecked")
     public String generateUrl(final FoUrls url, final RequestData requestData, Object... params) {
-    	String urlStr = null;
-    	Map<String, String> getParams = new HashMap<String, String>();
-    	Map<String, String> urlParams = new HashMap<String, String>();
-    	try {
-        	if(params != null){
+        String urlStr = null;
+        Map<String, String> getParams = new HashMap<String, String>();
+        Map<String, String> urlParams = new HashMap<String, String>();
+        try {
+            if (params != null) {
                 for (Object param : params) {
-                    if (param == null) continue;
+                    if (param == null)
+                        continue;
                     if (param instanceof Retailer) {
-                    	Retailer retailer = (Retailer) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
-                    	urlStr = getFullPrefixUrl(requestData) + handleString(retailer.getName());
-                    	break;
+                        Retailer retailer = (Retailer) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_RETAILER_CODE, handleParamValue(retailer.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleString(retailer.getName());
                     } else if (param instanceof ProductSku) {
-                    	ProductSku productSku = (ProductSku) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE, handleParamValue(productSku.getCode()));
-                    	urlStr = getFullPrefixUrl(requestData);
-                    	for (Object subParam : params) {
-                    		if (subParam instanceof CatalogCategoryVirtual) {
-                            	CatalogCategoryVirtual category = (CatalogCategoryVirtual) subParam;
-                            	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                            	urlStr = urlStr + handleString(category.getBusinessName()) + "/";
-                            } else if (subParam instanceof ProductMarketing) {
-                            	ProductMarketing productMarketing = (ProductMarketing) subParam;
-                            	urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                            	urlStr = urlStr + handleString(productMarketing.getBusinessName());
-                            	break;
-                            } 
-                    	}
-                    	break;
+                        ProductSku productSku = (ProductSku) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE, handleParamValue(productSku.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr);
+                    } else if (param instanceof ProductMarketing) {
+                        ProductMarketing productMarketing = (ProductMarketing) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleString(productMarketing.getBusinessName());
                     } else if (param instanceof CatalogCategoryVirtual) {
-                    	CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                    	urlStr = getFullPrefixUrl(requestData) + handleString(category.getBusinessName());
-                    	break;
+                        CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleString(category.getBusinessName());
+                    } else if (param instanceof CatalogCategoryMaster) {
+                        CatalogCategoryMaster category = (CatalogCategoryMaster) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleString(category.getBusinessName());
                     } else if (param instanceof ProductBrand) {
-                    	ProductBrand productBrand = (ProductBrand) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
-                    	urlStr = getFullPrefixUrl(requestData) + handleString(productBrand.getName());
-                    	break;
+                        ProductBrand productBrand = (ProductBrand) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + handleString(productBrand.getName());
                     } else if (param instanceof CartItem) {
-                    	CartItem cartItem = (CartItem) param;
-                    	urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));
-                    	break;
+                        CartItem cartItem = (CartItem) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
-                        break;
                     } else {
                         logger.warn("Unknowned url parameter : [{}]", param);
                     }
-                }    		
-        	}
-        	
-        	if(StringUtils.isEmpty(urlStr)){
-        		urlStr = buildDefaultPrefix(requestData);
-        	}
-        	
-        	urlStr = urlStr + url.getUrl();
-	        
+                }
+            }
+
+            if (StringUtils.isEmpty(urlStr)) {
+                urlStr = buildDefaultPrefix(requestData);
+            }
+
+            urlStr = urlStr + url.getUrl();
+
         } catch (Exception e) {
-        	logger.error("Can't build Url!", e);
+            logger.error("Can't build Url!", e);
         }
-    	return handleUrlParameters(urlStr, urlParams, getParams);
+        return handleUrlParameters(urlStr, urlParams, getParams);
     }
     
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {
 		return buildContextPath(requestData) + FoUrls.SPRING_SECURITY_URL;
 	}
 	
+    protected String addFullPrefixUrl(final RequestData requestData, String url) throws Exception {
+        String fullPrefixUrl = getFullPrefixUrl(requestData);
+        if (url == null
+                || !url.contains(fullPrefixUrl)){
+            url = fullPrefixUrl;
+        }
+        return url;
+    }
+	   
 	protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
 		String fullPrefixUrl = getSeoPrefixUrl(requestData) + "/";
 		return fullPrefixUrl;

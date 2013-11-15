@@ -113,10 +113,10 @@ INSERT INTO teco_market_area
 (102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 3, 10, 102, 1, '40.260', '3.420'),	
 (201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 1, 20, 201, 2, '40.000', '-90.000'),
 (202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 1, 20, 202, 4, '55.000', '-90.000'),
-(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 9, 21, 210, 2, '-22.570', '-43.120'),
+(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 8, 21, 210, 2, '-22.570', '-43.120'),
 (211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 3, 21, 211, 2, '-34.350', '-58.220'),
-(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 7, 30, 301, 5, '121.280', '31.100'),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 8, 30, 302, 6, '35.400', '139.450');
+(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 9, 30, 301, 5, '121.280', '31.100'),
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 7, 30, 302, 6, '35.400', '139.450');
 
 /*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
