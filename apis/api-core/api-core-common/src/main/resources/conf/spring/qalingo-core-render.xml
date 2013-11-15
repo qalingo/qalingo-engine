@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:context="http://www.springframework.org/schema/context" 
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    ">
+
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<!--     
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+		-->
+        <property name="velocityPropertiesMap" ref="velocityPropertiesMap" />
+    </bean>
+
+	<!-- 
+	  This bean sets up the Velocity environment for us based on a root path for templates.
+	  Optionally, a properties file can be specified for more control over the Velocity
+	  environment, but the defaults are pretty sane for file based template loading.
+	-->
+	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<!-- 
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+		-->
+		<property name="velocityPropertiesMap" ref="velocityPropertiesMap" />
+	</bean>
+	
+	<bean id="velocityPropertiesMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="resource.loader"><value>${velocity.resource.loader}</value></entry>
+				<entry key="resource.manager.defaultcache.size"><value>${velocity.resource.manager.defaultcache.size}</value></entry>
+
+				<entry key="file.resource.loader.path"><value>${velocity.file.resource.loader.path}</value></entry>
+				<entry key="file.resource.loader.class"><value>${velocity.file.resource.loader.class}</value></entry>
+				<entry key="file.resource.loader.cache"><value>${velocity.file.resource.loader.cache}</value></entry>
+				<entry key="file.resource.loader.modificationCheckInterval"><value>${velocity.file.resource.loader.modificationCheckInterval}</value></entry>
+				
+				<entry key="velocimacro.library"><value>${velocity.velocimacro.library}</value></entry>
+				<entry key="velocimacro.library.autoreload"><value>${velocity.velocimacro.library.autoreload}</value></entry>
+				<entry key="velocimacro.permissions.allow.inline"><value>${velocity.velocimacro.permissions.allow.inline}</value></entry>
+				<entry key="velocimacro.permissions.allow.inline.to.replace.global"><value>${velocity.velocimacro.permissions.allow.inline.to.replace.global}</value></entry>
+				<entry key="velocimacro.permissions.allow.inline.local.scope"><value>${velocity.velocimacro.permissions.allow.inline.local.scope}</value></entry>
+				<entry key="velocimacro.context.localscope"><value>${velocity.velocimacro.context.localscope}</value></entry>
+				<entry key="velocimacro.messages.on"><value>${velocity.velocimacro.messages.on}</value></entry>
+
+				<entry key="template.encoding"><value>${velocity.template.encoding}</value></entry>
+				<entry key="input.encoding"><value>${velocity.input.encoding}</value></entry>
+				<entry key="output.encoding"><value>${velocity.output.encoding}</value></entry>
+
+				<entry key="class.resource.loader.class"><value>${velocity.class.resource.loader.class}</value></entry>
+				
+				<entry key="eventhandler.include.class"><value>${velocity.eventhandler.include.class}</value></entry>
+				<entry key="eventhandler.referenceinsertion.class"><value>${velocity.eventhandler.referenceinsertion.class}</value></entry>
+				<entry key="eventhandler.escape.html.match"><value>${velocity.eventhandler.escape.html.match}</value></entry>				
+			</map>
+		</constructor-arg>
+	</bean>
+
+</beans>

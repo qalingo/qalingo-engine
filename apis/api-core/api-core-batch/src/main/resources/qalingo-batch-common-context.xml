@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<import resource="classpath:conf/spring/qalingo-core-persistence.xml" />
+	
+	<import resource="classpath:conf/spring/qalingo-core-dao.xml" />
+
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+				<prop key="resource.loader">${velocity.resource.loader}</prop>
+				<!--
+				<prop key="file.resource.loader.path">${velocity.file.resource.loader.path}</prop>
+				-->
+				<prop key="file.resource.loader.class">${velocity.file.resource.loader.class}</prop>
+				<prop key="file.resource.loader.cache">${velocity.file.resource.loader.cache}</prop>
+				<prop key="eventhandler.include.class">${velocity.eventhandler.include.class}</prop>
+				
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host"		value="${conf.smtp.host}" />
+		<property name="username"	value="${conf.smtp.username}" />
+		<property name="password"	value="${conf.smtp.password}" />
+		
+	    <property name="javaMailProperties">
+	        <props>
+				<prop key="mail.smtp.host">${conf.smtp.mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${conf.smtp.mail.smtp.port}</prop>
+				
+				<prop key="mail.smtps.auth">${conf.smtp.mail.smtps.auth}</prop>
+				<prop key="mail.smtp.auth">${conf.smtp.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${conf.smtp.mail.smtp.starttls.enable}</prop>
+				
+				<prop key="mail.smtp.debug">${conf.smtp.mail.smtp.debug}</prop>
+				<prop key="mail.debug">${conf.smtp.mail.debug}</prop>
+				<!--
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				-->
+	        </props>
+	    </property>
+	</bean>
+
+	<import resource="classpath:conf/spring/qalingo-core-i18n.xml" />
+
+	<import resource="classpath:conf/spring/qalingo-core-service.xml" />
+	
+	<!-- COMMON -->
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="isolationLevelForCreate" value="ISOLATION_DEFAULT" />
+ 		<!--
+        <property name="databaseType" value="POSTGRES" />
+		-->
+	</bean>
+
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="stepListener" class="org.hoteia.qalingo.core.batch.StepListener">
+		<property name="alertMailSender" ref="alertMailSender" />
+	</bean>
+	
+	<bean id="alertMailSender" class="org.hoteia.qalingo.core.batch.AlertMailSender">
+		<property name="mailSender" ref="mailSender"/>
+		<property name="templateMessage" ref="alertMailTemplateMessage"/>
+		<property name="urlPrefix" value="${tomcat.context.url}"/>		
+		<property name="emailTo" value="${batch.email.alert.to}"/>	
+	</bean>
+	
+	<bean id="alertMailTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="${batch.email.alert.from}" />
+		<property name="subject" value="${batch.email.alert.subject}" />
+	</bean>
+
+</beans>

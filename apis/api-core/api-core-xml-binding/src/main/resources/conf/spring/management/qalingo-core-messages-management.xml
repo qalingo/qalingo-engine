@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+                           
+   <bean id="xmlhandlerExporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="server">
+			<bean class="java.lang.management.ManagementFactory" factory-method="getPlatformMBeanServer" />
+		</property>
+		<property name="beans">
+			<map>
+				<entry key="org.hoteia.qalingo.pool.xml:name=storeMarshaller" value-ref="storeMarshallerTarget" />
+				<entry key="org.hoteia.qalingo.pool.xml:name=storeUnmarshaller" value-ref="storeUnmarshallerTarget" />
+			</map>
+		</property>
+		<property name="assembler">
+			<bean id="assembler" class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+				<property name="attributeSource">
+					<bean class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+				</property>
+			</bean>
+		</property>
+		<property name="registrationBehaviorName" value="REGISTRATION_REPLACE_EXISTING" />
+	</bean>
+	
+</beans>

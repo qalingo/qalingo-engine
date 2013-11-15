@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://cxf.apache.org/jaxrs
+						http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<!-- Enable @Autowired -->
+	<context:annotation-config />
+
+	<context:component-scan base-package="org.hoteia.qalingo.core.rest.controller" />
+	
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+		
+	<bean id="wadlProvider" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+		<property name="applicationTitle" value="CXF Rest Qalingo" />
+	</bean>
+	
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+	</bean>
+
+	<jaxrs:server id="restContainer" transportId="http://cxf.apache.org/transports/http">
+		<jaxrs:providers>
+			<ref bean="jsonProvider" />
+			<ref bean="wadlProvider" />
+		</jaxrs:providers>
+		<jaxrs:serviceBeans>
+			<ref bean="customerRestService"/>
+            <ref bean="catalogRestService"/>
+            <ref bean="retailerRestService"/>
+			<ref bean="storeRestService"/>
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+
+</beans>

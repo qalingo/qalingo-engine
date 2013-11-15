@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="classpath:conf/spring/management/qalingo-core-messages-management.xml" />
+
+	<!-- Store XML Factory -->
+	<bean id="storeJaxbContext" class="javax.xml.bind.JAXBContext" factory-method="newInstance">
+		<constructor-arg>
+			<value type="java.lang.String">org.hoteia.qalingo.binding.common.store</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="storeMarshallerFactory" class="org.hoteia.qalingo.binding.jaxb.factory.MarshallerFactory">
+		<property name="context" ref="storeJaxbContext" />
+		<property name="xsdPath" value="classpath:xsd/store.xsd" />
+	</bean>
+
+	<bean id="storeMarshallerTargetSource" class="javax.xml.bind.Marshaller" factory-bean="storeMarshallerFactory"
+		factory-method="createMarshaller" scope="prototype" />
+
+	<bean id="storeUnmarshallerTargetSource" class="javax.xml.bind.Unmarshaller" factory-bean="storeJaxbContext"
+		factory-method="createUnmarshaller" scope="prototype" />
+
+	<bean id="storeMarshallerTarget" class="org.hoteia.qalingo.pool.ManagedCommonsPoolTargetSource">
+		<property name="targetBeanName" value="storeMarshallerTargetSource" />
+		<property name="maxSize" value="100" />
+	</bean>
+
+	<bean id="storeMarshaller" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="targetSource" ref="storeMarshallerTarget" />
+	</bean>
+
+	<bean id="storeUnmarshallerTarget" class="org.hoteia.qalingo.pool.ManagedCommonsPoolTargetSource">
+		<property name="targetBeanName" value="storeUnmarshallerTargetSource" />
+		<property name="maxSize" value="100" />
+	</bean>
+
+	<bean id="storeUnmarshaller" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="targetSource" ref="storeUnmarshallerTarget" />
+	</bean>
+
+	<bean id="storeUnmarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.impl.StoreUnmarshalXmlHelperImpl">
+		<property name="unmarshaller" ref="storeUnmarshaller" />
+	</bean>
+
+	<bean id="storeMarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.impl.StoreMarshalXmlHelperImpl">
+		<property name="marshaller" ref="storeMarshaller" />
+	</bean>
+
+</beans>

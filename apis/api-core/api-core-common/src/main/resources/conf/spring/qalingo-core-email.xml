@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:context="http://www.springframework.org/schema/context" 
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    ">
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host"		value="${conf.smtp.host}" />
+		<property name="username"	value="${conf.smtp.username}" />
+		<property name="password"	value="${conf.smtp.password}" />
+		
+	    <property name="javaMailProperties">
+	        <props>
+				<prop key="mail.smtp.host">${conf.smtp.mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${conf.smtp.mail.smtp.port}</prop>
+				
+				<prop key="mail.smtps.auth">${conf.smtp.mail.smtps.auth}</prop>
+				<prop key="mail.smtp.auth">${conf.smtp.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${conf.smtp.mail.smtp.starttls.enable}</prop>
+				
+				<prop key="mail.smtp.debug">${conf.smtp.mail.smtp.debug}</prop>
+				<prop key="mail.debug">${conf.smtp.mail.debug}</prop>
+				<!--
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				-->
+	        </props>
+	    </property>
+	</bean>
+	
+	<!-- 
+	<bean id="viewResolver" class="org.hoteia.qalingo.core.web.servlet.VelocityLayoutViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
+        <property name="layoutUrl" value="default/www/default/layout/default.vm" />
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".vm" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="velocityConfigurer" value="velocityConfigurer" />
+	</bean>
+	 -->
+
+</beans>

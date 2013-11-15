@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.hoteia.qalingo</groupId>
+		<artifactId>qalingo-b2c-engine</artifactId>
+		<version>0.7.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>qalingo-apis</artifactId>
+	<packaging>pom</packaging>
+	<name>{Q} Commerce Solution APIs **********************</name>
+	<description>{Q} Commerce Solution APIs</description>
+	<url>http://www.hoteia.com</url>
+	<organization>
+		<name>Hoteia</name>
+		<url>http://www.hoteia.com</url>
+	</organization>
+
+	<modules>
+		<module>api-core</module>
+		<module>api-web</module>
+	</modules>
+	
+	<properties>
+		<root.basedir>${project.parent.basedir}</root.basedir> 
+	</properties>
+	
+</project>
