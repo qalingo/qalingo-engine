@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Component(value="extSimpleUrlAuthenticationFailureHandler")

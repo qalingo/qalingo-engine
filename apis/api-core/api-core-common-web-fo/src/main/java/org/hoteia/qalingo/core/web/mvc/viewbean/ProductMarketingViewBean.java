@@ -32,6 +32,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 	protected String brandDetailsUrl;
 	protected String brandLineDetailsUrl;
 
+	protected boolean featured;
+	
 	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
 	protected List<ProductCrossLinkViewBean> productCrossLinks = new ArrayList<ProductCrossLinkViewBean>();
 	
@@ -107,7 +109,15 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
 		this.brandLineDetailsUrl = brandLineDetailsUrl;
 	}
 
-	public List<ProductSkuViewBean> getProductSkus() {
+	public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+
+    public List<ProductSkuViewBean> getProductSkus() {
 		return productSkus;
 	}
 	

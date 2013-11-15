@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.web.mvc.form.UserForm;
-import org.hoteia.qalingo.web.service.WebBackofficeService;
 
 @Service("webCommerceService")
 @Transactional

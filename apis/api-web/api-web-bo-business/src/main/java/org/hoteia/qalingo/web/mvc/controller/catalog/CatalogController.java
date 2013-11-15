@@ -50,6 +50,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
+import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
@@ -57,7 +58,6 @@ import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.hoteia.qalingo.web.mvc.form.CatalogCategoryForm;
-import org.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 

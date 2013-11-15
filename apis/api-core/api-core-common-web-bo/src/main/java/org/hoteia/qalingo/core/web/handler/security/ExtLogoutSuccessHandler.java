@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 import org.springframework.stereotype.Component;
 
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Component(value="extLogoutSuccessHandler")

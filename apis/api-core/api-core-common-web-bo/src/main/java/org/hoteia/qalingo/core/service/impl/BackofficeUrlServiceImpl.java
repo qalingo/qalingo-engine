@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +39,7 @@ import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.service.impl.AbstractUrlServiceImpl;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 
 @Service("backofficeUrlService")
 @Transactional

@@ -1,4 +1,4 @@
-package org.hoteia.qalingo.core.web.mvc.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import java.net.URLEncoder;
 import java.util.Locale;

@@ -38,7 +38,7 @@ import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 import org.hoteia.qalingo.web.mvc.form.AssetForm;

@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.pojo.catalog.BoCatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.pojo.product.BoProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.product.BoProductSkuPojo;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Component(value = "backofficePojoEventListener")

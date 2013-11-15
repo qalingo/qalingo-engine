@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.service;
+package org.hoteia.qalingo.core.service;
 
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;

@@ -67,6 +67,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.MarketPlaceService;
 import org.hoteia.qalingo.core.service.ProductMarketingService;
 import org.hoteia.qalingo.core.service.ProductSkuService;
@@ -103,7 +104,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 /**

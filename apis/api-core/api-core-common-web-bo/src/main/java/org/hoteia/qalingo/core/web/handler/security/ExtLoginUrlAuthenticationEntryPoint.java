@@ -22,7 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {

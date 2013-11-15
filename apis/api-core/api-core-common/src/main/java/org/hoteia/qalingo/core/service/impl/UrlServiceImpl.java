@@ -38,7 +38,6 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
-import org.hoteia.qalingo.core.web.mvc.service.impl.AbstractUrlServiceImpl;
 
 @Service(value = "urlService")
 @Transactional

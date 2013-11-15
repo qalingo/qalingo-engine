@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.web.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;

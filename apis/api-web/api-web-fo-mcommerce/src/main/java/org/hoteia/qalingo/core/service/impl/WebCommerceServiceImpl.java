@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,7 +35,8 @@ import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmail
 import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.service.impl.AbstractWebCommerceServiceImpl;
+import org.hoteia.qalingo.core.service.WebCommerceService;
+import org.hoteia.qalingo.core.service.impl.AbstractWebCommerceServiceImpl;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
@@ -43,7 +44,6 @@ import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
-import org.hoteia.qalingo.web.service.WebCommerceService;
 
 @Service("webCommerceService")
 @Transactional

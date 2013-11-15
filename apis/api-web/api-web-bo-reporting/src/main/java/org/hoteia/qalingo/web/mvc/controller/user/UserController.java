@@ -24,11 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 import org.hoteia.qalingo.web.mvc.form.UserForm;
-import org.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 

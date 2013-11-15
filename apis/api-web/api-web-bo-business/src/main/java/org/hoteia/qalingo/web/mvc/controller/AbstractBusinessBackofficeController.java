@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
-import org.hoteia.qalingo.web.service.WebBackofficeService;
 
 /**
  * 

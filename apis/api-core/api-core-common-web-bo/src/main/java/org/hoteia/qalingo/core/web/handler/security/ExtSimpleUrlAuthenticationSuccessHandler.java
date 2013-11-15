@@ -28,9 +28,9 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.UserConnectionLogService;
 import org.hoteia.qalingo.core.service.UserService;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Component(value="extSimpleUrlAuthenticationSuccessHandler")

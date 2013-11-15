@@ -26,12 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -61,9 +55,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
-import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -89,8 +81,6 @@ import org.hoteia.qalingo.core.web.cache.util.WebCacheHelper;
 import org.hoteia.qalingo.core.web.cache.util.WebElementType;
 import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartShippingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
@@ -134,6 +124,11 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -1260,15 +1255,26 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 		productCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
 
 		List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
+		List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
 		Set<ProductMarketing> productMarketings = productCategory.getProductMarketings();
 		if (productMarketings != null) {
 			for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
 				final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
-				productMarketingViewBeans.add(buildProductMarketingViewBean(requestData, productCategory, productMarketing));
-			}
+				ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productCategory, productMarketing); 
+                productMarketingViewBeans.add(productMarketingViewBean);
+                if (productMarketingViewBean.isFeatured()) {
+                    featuredProductMarketings.add(productMarketingViewBean);
+                }
+            }
 		}
 		productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
+        for (ProductCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
+            featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
+        }
+
+        productCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
+		    
 		return productCategoryViewBean;
 	}
 	
@@ -1333,6 +1339,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 				}
 			}
 		}
+
+		 Object isFeaturedValue = productMarketing.getProductMarketingAttribute("PRODUCT_ATTRIBUTE_FEATURED");
+         if(isFeaturedValue == null){
+                 productMarketingViewBean.setFeatured(Boolean.FALSE);
+         }else{
+                 Boolean objectValue = Boolean.valueOf(isFeaturedValue.toString());
+                 productMarketingViewBean.setFeatured(objectValue.booleanValue());
+         }
 
 		return productMarketingViewBean;
 	}

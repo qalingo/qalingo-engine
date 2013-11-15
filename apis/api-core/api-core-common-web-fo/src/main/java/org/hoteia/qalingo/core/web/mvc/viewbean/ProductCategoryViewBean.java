@@ -32,7 +32,8 @@ public class ProductCategoryViewBean extends AbstractViewBean implements Seriali
 	
 	protected List<ProductCategoryViewBean> subCategories = new ArrayList<ProductCategoryViewBean>();
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
-
+	protected List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
+	
 	public String getName() {
 		return name;
 	}
@@ -114,5 +115,12 @@ public class ProductCategoryViewBean extends AbstractViewBean implements Seriali
 		this.productMarketings = productMarketings;
 	}
 	
+	public List<ProductMarketingViewBean> getFeaturedProductMarketings() {
+        return featuredProductMarketings;
+    }
+	
+	public void setFeaturedProductMarketings(List<ProductMarketingViewBean> featuredProductMarketings) {
+        this.featuredProductMarketings = featuredProductMarketings;
+    }
 	
 }

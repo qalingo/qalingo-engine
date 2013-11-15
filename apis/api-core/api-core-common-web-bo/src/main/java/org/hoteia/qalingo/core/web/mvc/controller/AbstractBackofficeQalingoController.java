@@ -29,6 +29,7 @@ import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.UserService;
@@ -42,7 +43,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
-import org.hoteia.qalingo.core.web.service.BackofficeUrlService;
 
 /**
  * 

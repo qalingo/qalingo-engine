@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.service.impl;
+package org.hoteia.qalingo.core.service.impl;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -41,13 +41,13 @@ import org.hoteia.qalingo.core.service.ProductMarketingService;
 import org.hoteia.qalingo.core.service.ProductSkuService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.web.mvc.form.UserForm;
-import org.hoteia.qalingo.web.service.WebBackofficeService;
 
 @Service("webCommerceService")
 @Transactional
