@@ -388,6 +388,10 @@ INSERT INTO teco_catalog_virtual_category_product_marketing_rel
 (302, 3),
 (401, 4);
 
+INSERT INTO teco_product_marketing_attribute
+(BOOLEAN_VALUE,IS_GLOBAL,MARKET_AREA_ID,ORDERING,VERSION,ATTRIBUTE_DEFINITION_ID,PRODUCT_MARKETING_ID)
+VALUES (1,0,1,0,1,52,1), (1,0,1,0,1,52,2), (1,0,1,0,1,52,3), (1,0,1,0,1,52,4);
+
 -- PRICE
 
 -- MARKET PLACE INT

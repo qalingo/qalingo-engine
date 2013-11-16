@@ -91,12 +91,12 @@ public class ProductMarketing implements Serializable {
 	private ProductMarketingType productMarketingType;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
 	@Filter(name="filterProductMarketingAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<ProductMarketingAttribute> productMarketingGlobalAttributes = new HashSet<ProductMarketingAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETTING_ID")
+    @JoinColumn(name="PRODUCT_MARKETING_ID")
 	@Filter(name="filterProductMarketingAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new HashSet<ProductMarketingAttribute>(); 
 	
