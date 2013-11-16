@@ -357,7 +357,7 @@ INSERT INTO teco_product_marketing
 (4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20);
 
 INSERT INTO teco_product_marketing_attribute 
-(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketting_id, attribute_definition_id, localization_code, market_area_id) 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
 (1, null, null, null, null, null, 'PROD1 i18n', 1, 30, null, 1),
 (2, null, null, null, null, null, 'PROD2 i18n', 2, 30, null, 1),

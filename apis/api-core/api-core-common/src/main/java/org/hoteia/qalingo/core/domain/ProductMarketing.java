@@ -382,7 +382,7 @@ public class ProductMarketing implements Serializable {
 	}
 	
 	public String getI18nName(String localizationCode) {
-		String i18nName = (String) getValue(ProductSkuAttribute.PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME, null, localizationCode);
+		String i18nName = (String) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME, null, localizationCode);
 		if(StringUtils.isEmpty(i18nName)){
 			i18nName = getBusinessName();
 		}
@@ -390,8 +390,17 @@ public class ProductMarketing implements Serializable {
 	}
 	
 	public Integer getOrder(Long marketAreaId) {
-		return (Integer) getValue(ProductSkuAttribute.PRODUCT_MARKETING_ATTRIBUTE_ORDER, marketAreaId, null);
+		return (Integer) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
+	
+   public Boolean isFeatured(){
+       Boolean isFeatured = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_MARKETING_ATTRIBUTE_FEATURED, null, null);
+        if (isFeatured == null) {
+            return Boolean.FALSE;
+        } else {
+            return isFeatured;
+        }
+    }
 
 	// ASSET
 	public Asset getDefaultPaskshotImage(ImageSize size) {
@@ -456,4 +465,5 @@ public class ProductMarketing implements Serializable {
 		}
 		return defaultProductImage;
 	}
+	
 }

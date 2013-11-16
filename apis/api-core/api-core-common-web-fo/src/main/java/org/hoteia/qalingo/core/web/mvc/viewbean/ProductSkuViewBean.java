@@ -13,110 +13,120 @@ import java.io.Serializable;
 
 public class ProductSkuViewBean extends AbstractViewBean implements Serializable {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -5163066749293135126L;
-	
-	protected int positionItem;
-	protected String name;
-	protected String description;
-	protected String backgroundImage;
-	protected String carouselImage;
-	protected String iconImage;
-	
-	protected String addToCartUrl;
-	protected String removeFromCartUrl;
-	protected String addToWishlistUrl;
-	protected String removeFromWishlistUrl;
-	protected String productDetailsUrl;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -5163066749293135126L;
 
-	public int getPositionItem() {
-		return positionItem;
-	}
+    protected int positionItem;
+    protected String name;
+    protected String description;
+    protected String backgroundImage;
+    protected String carouselImage;
+    protected String iconImage;
 
-	public void setPositionItem(int positionItem) {
-		this.positionItem = positionItem;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    protected boolean isDefault;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+    protected String addToCartUrl;
+    protected String removeFromCartUrl;
+    protected String addToWishlistUrl;
+    protected String removeFromWishlistUrl;
+    protected String productDetailsUrl;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
+    public int getPositionItem() {
+        return positionItem;
+    }
 
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
+    public void setPositionItem(int positionItem) {
+        this.positionItem = positionItem;
+    }
 
-	public String getCarouselImage() {
-		return carouselImage;
-	}
-	
-	public void setCarouselImage(String carouselImage) {
-		this.carouselImage = carouselImage;
-	}
-	
-	public String getIconImage() {
-		return iconImage;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAddToCartUrl() {
-		return addToCartUrl;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setAddToCartUrl(String addToCartUrl) {
-		this.addToCartUrl = addToCartUrl;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getRemoveFromCartUrl() {
-		return removeFromCartUrl;
-	}
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
 
-	public void setRemoveFromCartUrl(String removeFromCartUrl) {
-		this.removeFromCartUrl = removeFromCartUrl;
-	}
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 
-	public String getAddToWishlistUrl() {
-		return addToWishlistUrl;
-	}
+    public String getCarouselImage() {
+        return carouselImage;
+    }
 
-	public void setAddToWishlistUrl(String addToWishlistUrl) {
-		this.addToWishlistUrl = addToWishlistUrl;
-	}
+    public void setCarouselImage(String carouselImage) {
+        this.carouselImage = carouselImage;
+    }
 
-	public String getRemoveFromWishlistUrl() {
-		return removeFromWishlistUrl;
-	}
+    public String getIconImage() {
+        return iconImage;
+    }
 
-	public void setRemoveFromWishlistUrl(String removeFromWishlistUrl) {
-		this.removeFromWishlistUrl = removeFromWishlistUrl;
-	}
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
+    }
 
-	public String getProductDetailsUrl() {
-		return productDetailsUrl;
-	}
+    public boolean isDefault() {
+        return isDefault;
+    }
 
-	public void setProductDetailsUrl(String productDetailsUrl) {
-		this.productDetailsUrl = productDetailsUrl;
-	}
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getAddToCartUrl() {
+        return addToCartUrl;
+    }
+
+    public void setAddToCartUrl(String addToCartUrl) {
+        this.addToCartUrl = addToCartUrl;
+    }
+
+    public String getRemoveFromCartUrl() {
+        return removeFromCartUrl;
+    }
+
+    public void setRemoveFromCartUrl(String removeFromCartUrl) {
+        this.removeFromCartUrl = removeFromCartUrl;
+    }
+
+    public String getAddToWishlistUrl() {
+        return addToWishlistUrl;
+    }
+
+    public void setAddToWishlistUrl(String addToWishlistUrl) {
+        this.addToWishlistUrl = addToWishlistUrl;
+    }
+
+    public String getRemoveFromWishlistUrl() {
+        return removeFromWishlistUrl;
+    }
+
+    public void setRemoveFromWishlistUrl(String removeFromWishlistUrl) {
+        this.removeFromWishlistUrl = removeFromWishlistUrl;
+    }
+
+    public String getProductDetailsUrl() {
+        return productDetailsUrl;
+    }
+
+    public void setProductDetailsUrl(String productDetailsUrl) {
+        this.productDetailsUrl = productDetailsUrl;
+    }
 
 }

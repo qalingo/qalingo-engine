@@ -11,105 +11,138 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProductMarketingViewBean extends AbstractViewBean implements Serializable {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 9190853998911450184L;
-	
-	protected int positionItem;
-	protected String name;
-	protected String description;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 9190853998911450184L;
 
-	protected String backgroundImage;
-	protected String carouselImage;
-	protected String iconImage;
+    protected int positionItem;
+    protected String name;
+    protected String description;
 
-	protected String productDetailsUrl;
-	protected String brandDetailsUrl;
-	protected String brandLineDetailsUrl;
+    protected String backgroundImage;
+    protected String carouselImage;
+    protected String iconImage;
 
-	protected boolean featured;
-	
-	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
-	protected List<ProductCrossLinkViewBean> productCrossLinks = new ArrayList<ProductCrossLinkViewBean>();
-	
-	public int getPositionItem() {
-		return positionItem;
-	}
+    protected String productDetailsUrl;
+    protected String brandDetailsUrl;
+    protected String brandLineDetailsUrl;
 
-	public void setPositionItem(int positionItem) {
-		this.positionItem = positionItem;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    protected boolean featured;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+    protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
+    protected List<ProductCrossLinkViewBean> productCrossLinks = new ArrayList<ProductCrossLinkViewBean>();
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
+    public int getPositionItem() {
+        return positionItem;
+    }
 
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
+    public void setPositionItem(int positionItem) {
+        this.positionItem = positionItem;
+    }
 
-	public String getCarouselImage() {
-		return carouselImage;
-	}
-	
-	public void setCarouselImage(String carouselImage) {
-		this.carouselImage = carouselImage;
-	}
-	
-	public String getIconImage() {
-		return iconImage;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getProductDetailsUrl() {
-		return productDetailsUrl;
-	}
-	
-	public void setProductDetailsUrl(String productDetailsUrl) {
-		this.productDetailsUrl = productDetailsUrl;
-	}
-	
-	public String getBrandDetailsUrl() {
-		return brandDetailsUrl;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setBrandDetailsUrl(String brandDetailsUrl) {
-		this.brandDetailsUrl = brandDetailsUrl;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getBrandLineDetailsUrl() {
-		return brandLineDetailsUrl;
-	}
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
 
-	public void setBrandLineDetailsUrl(String brandLineDetailsUrl) {
-		this.brandLineDetailsUrl = brandLineDetailsUrl;
-	}
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 
-	public boolean isFeatured() {
+    public String getCarouselImage() {
+        return carouselImage;
+    }
+
+    public void setCarouselImage(String carouselImage) {
+        this.carouselImage = carouselImage;
+    }
+
+    public String getIconImage() {
+        return iconImage;
+    }
+
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
+    }
+
+    public String getProductDetailsUrl() {
+        return productDetailsUrl;
+    }
+
+    public void setProductDetailsUrl(String productDetailsUrl) {
+        this.productDetailsUrl = productDetailsUrl;
+    }
+
+    public String getBrandDetailsUrl() {
+        return brandDetailsUrl;
+    }
+
+    public void setBrandDetailsUrl(String brandDetailsUrl) {
+        this.brandDetailsUrl = brandDetailsUrl;
+    }
+
+    public String getBrandLineDetailsUrl() {
+        return brandLineDetailsUrl;
+    }
+
+    public void setBrandLineDetailsUrl(String brandLineDetailsUrl) {
+        this.brandLineDetailsUrl = brandLineDetailsUrl;
+    }
+
+    public String getAddToCartUrl() {
+        if(productSkus != null){
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if(productSkuViewBean.isDefault()){
+                    return productSkuViewBean.getAddToCartUrl();
+                }
+            }
+            if(!productSkus.isEmpty()){
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                return productSkuViewBean.getAddToCartUrl();
+            }
+        }
+        return null;
+    }
+
+    public String getAddToWishlistUrl() {
+        if(productSkus != null){
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if(productSkuViewBean.isDefault()){
+                    return productSkuViewBean.getAddToWishlistUrl();
+                }
+            }
+            if(!productSkus.isEmpty()){
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                return productSkuViewBean.getAddToWishlistUrl();
+            }
+        }
+        return null;
+    }
+    
+    public boolean isFeatured() {
         return featured;
     }
 
@@ -118,19 +151,19 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
     }
 
     public List<ProductSkuViewBean> getProductSkus() {
-		return productSkus;
-	}
-	
-	public void setProductSkus(List<ProductSkuViewBean> productSkus) {
-		this.productSkus = productSkus;
-	}
-	
-	public List<ProductCrossLinkViewBean> getProductCrossLinks() {
-		return productCrossLinks;
-	}
-	
-	public void setProductCrossLinks(List<ProductCrossLinkViewBean> productCrossLinks) {
-		this.productCrossLinks = productCrossLinks;
-	}
-	
+        return productSkus;
+    }
+
+    public void setProductSkus(List<ProductSkuViewBean> productSkus) {
+        this.productSkus = productSkus;
+    }
+
+    public List<ProductCrossLinkViewBean> getProductCrossLinks() {
+        return productCrossLinks;
+    }
+
+    public void setProductCrossLinks(List<ProductCrossLinkViewBean> productCrossLinks) {
+        this.productCrossLinks = productCrossLinks;
+    }
+
 }
