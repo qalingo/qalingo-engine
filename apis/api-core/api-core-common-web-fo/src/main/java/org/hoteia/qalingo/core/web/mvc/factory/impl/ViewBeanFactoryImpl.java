@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,6 @@ import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
@@ -1251,7 +1252,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         productCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
 
         List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
-        List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
+        SortedSet<ProductMarketingViewBean> featuredProductMarketings = new TreeSet<ProductMarketingViewBean>();
         Set<ProductMarketing> productMarketings = productCategory.getProductMarketings();
         if (productMarketings != null) {
             for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
@@ -1269,7 +1270,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
             featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
         }
 
-        productCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
+        productCategoryViewBean.setFeaturedProductMarketings(new ArrayList<ProductMarketingViewBean>(featuredProductMarketings));
 
         return productCategoryViewBean;
     }
