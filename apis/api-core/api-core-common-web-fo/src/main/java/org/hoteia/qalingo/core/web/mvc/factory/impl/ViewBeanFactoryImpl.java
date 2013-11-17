@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1252,7 +1253,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         productCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
 
         List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
-        SortedSet<ProductMarketingViewBean> featuredProductMarketings = new TreeSet<ProductMarketingViewBean>();
+        SortedSet<ProductMarketingViewBean> featuredProductMarketings = new TreeSet<ProductMarketingViewBean>(new Comparator<ProductMarketingViewBean>() {
+        	@Override
+        	public int compare(ProductMarketingViewBean o1,
+        			ProductMarketingViewBean o2) {
+        		return o1.getProductDetailsUrl().compareTo(o2.getProductDetailsUrl());
+        	}
+		});
+        
         Set<ProductMarketing> productMarketings = productCategory.getProductMarketings();
         if (productMarketings != null) {
             for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
@@ -1267,7 +1275,14 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         productCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
         for (ProductCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
-            featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
+        	if(subProductCategoryViewBean.getFeaturedProductMarketings() != null &&
+        			subProductCategoryViewBean.getFeaturedProductMarketings().size() > 0){
+	        	for (ProductMarketingViewBean featuredProductMarketing : subProductCategoryViewBean.getFeaturedProductMarketings()) {
+					if(!featuredProductMarketings.contains(featuredProductMarketing)){
+						featuredProductMarketings.add(featuredProductMarketing);
+					}
+				}
+        	}
         }
 
         productCategoryViewBean.setFeaturedProductMarketings(new ArrayList<ProductMarketingViewBean>(featuredProductMarketings));
