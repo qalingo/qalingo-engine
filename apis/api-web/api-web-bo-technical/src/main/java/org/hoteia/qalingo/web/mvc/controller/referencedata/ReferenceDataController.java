@@ -56,16 +56,16 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.REFERENCE_DATAS.getVelocityPage());
 
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();
-		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
+		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = backofficeViewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
 		modelAndView.addObject("currencyReferentials", currencyReferentialViewBeans);
 		
 		//get the local referenced data
 		List<Localization> localizations = localizationService.findLocalizations();
-		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
+		List<LocalizationViewBean> localizationViewBeans = backofficeViewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
 		modelAndView.addObject("localizations", localizationViewBeans);
 		
 		List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways();
-		List<PaymentGatewayViewBean> paymentGatewayViewBeans = viewBeanFactory.buildPaymentGatewayViewBeans(requestUtil.getRequestData(request), paymentGateways);
+		List<PaymentGatewayViewBean> paymentGatewayViewBeans = backofficeViewBeanFactory.buildPaymentGatewayViewBeans(requestUtil.getRequestData(request), paymentGateways);
 		modelAndView.addObject("paymentGateways", paymentGatewayViewBeans);
 		
         return modelAndView;
@@ -79,7 +79,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){
-                modelAndView.addObject("paymentGateway", viewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
+                modelAndView.addObject("paymentGateway", backofficeViewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
                 return modelAndView;
             }
         }
@@ -96,7 +96,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){
-                modelAndView.addObject("paymentGateway", viewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
+                modelAndView.addObject("paymentGateway", backofficeViewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
                 formFactory.buildPaymentGatewayForm(request, modelAndView, paymentGateway);
                 return modelAndView;
             }

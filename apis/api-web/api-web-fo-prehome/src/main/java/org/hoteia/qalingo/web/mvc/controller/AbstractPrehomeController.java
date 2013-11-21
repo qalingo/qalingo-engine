@@ -9,18 +9,9 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
-import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LegalTermsViewBean;
-import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * 
@@ -35,27 +26,4 @@ public abstract class AbstractPrehomeController extends AbstractFrontofficeQalin
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-    protected RequestUtil requestUtil;
-	
-	@Autowired
-    protected ViewBeanFactory viewBeanFactory;
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initCommon(final HttpServletRequest request, final Model model) throws Exception {
-		model.addAttribute(ModelConstants.COMMON_VIEW_BEAN, viewBeanFactory.buildCommonViewBean(requestUtil.getRequestData(request)));
-	}
-	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initLegalTerms(final HttpServletRequest request, final Model model) throws Exception {
-		LegalTermsViewBean legalTermsViewBean = viewBeanFactory.buildLegalTermsViewBean(requestUtil.getRequestData(request));
-		model.addAttribute(ModelConstants.LEGAl_TERMS_VIEW_BEAN, legalTermsViewBean);
-	}
-	
 }

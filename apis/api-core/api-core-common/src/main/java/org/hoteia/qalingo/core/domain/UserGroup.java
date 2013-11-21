@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_GROUP")
-public class UserGroup implements Serializable {
+public class UserGroup extends AbstractEntity {
 
 	/**
 	 * Generated UID

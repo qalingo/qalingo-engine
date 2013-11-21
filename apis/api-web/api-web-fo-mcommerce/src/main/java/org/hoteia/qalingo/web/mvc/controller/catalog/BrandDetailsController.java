@@ -36,14 +36,14 @@ public class BrandDetailsController extends AbstractMCommerceController {
 	@Autowired
 	protected ProductBrandService productBrandService;
 	
-	@RequestMapping(FoUrls.BRAND_DETAILS_URL)
+	@RequestMapping("**" + FoUrls.BRAND_DETAILS_URL)
 	public ModelAndView brandDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_DETAILS.getVelocityPage());
 
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		final ProductBrandViewBean productBrandViewBean = viewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand);
+		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
         return modelAndView;

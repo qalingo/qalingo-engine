@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
@@ -26,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU_PRICE")
-public class ProductSkuPrice implements Serializable {
+public class ProductSkuPrice extends AbstractEntity {
 
 	/**
 	 * Generated UID

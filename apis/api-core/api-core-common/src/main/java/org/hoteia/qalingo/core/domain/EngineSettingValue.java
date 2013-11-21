@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -27,7 +26,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_ENGINE_SETTING_VALUE")
-public class EngineSettingValue implements Serializable {
+public class EngineSettingValue extends AbstractEntity {
 
 	/**
 	 * Generated UID

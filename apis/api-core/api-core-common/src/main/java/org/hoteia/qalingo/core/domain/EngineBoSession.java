@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,7 +26,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
 @Table(name="TBO_ENGINE_SESSION")
-public class EngineBoSession implements Serializable {
+public class EngineBoSession extends AbstractEntity {
 
 	/**
 	 * Generated UID

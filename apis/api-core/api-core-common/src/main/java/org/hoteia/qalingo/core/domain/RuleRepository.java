@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,7 +32,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_RULE_REPOSITORY")
-public class RuleRepository implements Serializable {
+public class RuleRepository extends AbstractEntity {
 
 	/**
 	 * Generated UID

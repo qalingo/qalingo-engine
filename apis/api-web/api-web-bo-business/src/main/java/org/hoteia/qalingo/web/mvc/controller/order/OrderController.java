@@ -110,7 +110,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		final List<Order> orders = orderService.findOrders();
 		for (Iterator<Order> iterator = orders.iterator(); iterator.hasNext();) {
 			Order order = (Order) iterator.next();
-			orderViewBeans.add(viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), order));
+			orderViewBeans.add(backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), order));
 		}
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -119,6 +119,6 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Order user) throws Exception{
-		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
 	}
 }

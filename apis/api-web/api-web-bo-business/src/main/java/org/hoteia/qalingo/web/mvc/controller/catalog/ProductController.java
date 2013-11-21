@@ -213,7 +213,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductMarketing productMarketing) throws Exception {
 		
-		ProductMarketingViewBean productMarketingViewBean = viewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
+		ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
 		
 		modelAndView.addObject(Constants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 	}
@@ -224,7 +224,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductSkuModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductSku productSku) throws Exception {
 		
-		ProductSkuViewBean productSkuViewBean = viewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
+		ProductSkuViewBean productSkuViewBean = backofficeViewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
 		
 		modelAndView.addObject(Constants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
 	}

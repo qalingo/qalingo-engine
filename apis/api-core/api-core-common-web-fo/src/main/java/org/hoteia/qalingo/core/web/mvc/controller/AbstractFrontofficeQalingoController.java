@@ -16,14 +16,13 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
+import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -42,8 +41,11 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	protected CustomerService customerService;
 
 	@Autowired
-    protected ViewBeanFactory viewBeanFactory;
+    protected FrontofficeViewBeanFactory frontofficeViewBeanFactory;
 	
+    @Autowired
+    protected RequestUtil requestUtil;
+
 	/**
 	 * 
 	 */
@@ -80,7 +82,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
+		final FollowUsViewBean followUs = frontofficeViewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
 		return followUs;
 	}
 	
@@ -195,6 +197,22 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		return requestUtil.getCurrentDevice(request);
 	}
 	
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected String getCurrentTheme(HttpServletRequest request) throws Exception {
+        return requestUtil.getCurrentTheme(request);
+    }
+    
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected String getCurrentDevice(HttpServletRequest request) throws Exception {
+        return requestUtil.getCurrentDevice(request);
+    }
+    
 	/**
 	 * @throws Exception 
 	 * 

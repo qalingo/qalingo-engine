@@ -149,7 +149,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 		if(StringUtils.isNotEmpty(userId)){
 			final User user = userService.getUserById(userId);
 			if(user != null){
-				modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
+				modelAndView.addObject("userEdit", backofficeViewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 
 				formFactory.buildUserForm(request, modelAndView, user);
 				return modelAndView;
@@ -158,7 +158,7 @@ public class UserController extends AbstractTechnicalBackofficeController {
 			final Long currentUserId = requestUtil.getCurrentUserId(request);
 			final User user = userService.getUserById(currentUserId.toString());
 			
-			modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
+			modelAndView.addObject("userEdit", backofficeViewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 
 			formFactory.buildUserForm(request, modelAndView, user);
 			return modelAndView;
@@ -208,12 +208,12 @@ public class UserController extends AbstractTechnicalBackofficeController {
 
 		initLinks(request, modelAndView, locale, user);
 		
-		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject("userDetails", backofficeViewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 	}
 	
 	protected PagedListHolder<UserViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, final List<User> users,
 			PagedListHolder<UserViewBean> userViewBeanPagedListHolder) throws Exception {
-		List<UserViewBean> userViewBeans = viewBeanFactory.buildUserViewBeans(requestUtil.getRequestData(request), users);
+		List<UserViewBean> userViewBeans = backofficeViewBeanFactory.buildUserViewBeans(requestUtil.getRequestData(request), users);
 		userViewBeanPagedListHolder = new PagedListHolder<UserViewBean>(userViewBeans);
 
 		userViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 

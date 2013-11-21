@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +44,6 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
@@ -58,7 +56,7 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 			@FilterDef(name="filterCatalogVirtualCategoryAssetIsGlobal"),
 			@FilterDef(name="filterCatalogVirtualCategoryAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
-public class CatalogCategoryVirtual implements Serializable {
+public class CatalogCategoryVirtual extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -110,7 +108,7 @@ public class CatalogCategoryVirtual implements Serializable {
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -122,7 +120,7 @@ public class CatalogCategoryVirtual implements Serializable {
 	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.ProductMarketing.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -133,13 +131,13 @@ public class CatalogCategoryVirtual implements Serializable {
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogVirtualCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'VIRTUAL_CATEGORY'")
 	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogVirtualCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'VIRTUAL_CATEGORY'")
 	@OrderBy(clause = "ordering asc")

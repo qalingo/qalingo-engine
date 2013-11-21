@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -32,7 +31,7 @@ import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 
 @Entity
 @Table(name="TECO_PRODUCT_ASSOCIATION_LINK")
-public class ProductAssociationLink implements Serializable {
+public class ProductAssociationLink extends AbstractEntity {
 
 	/**
 	 * Generated UID

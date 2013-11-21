@@ -20,8 +20,6 @@ public enum FoUrls {
     SEARCH(FoUrls.SEARCH_URL, FoUrls.SEARCH_KEY, FoUrls.SEARCH_VELOCITY_PAGE),
     CHANGE_LANGUAGE(FoUrls.HOME_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE),
 
-    VELOCITY_CACHE(FoUrls.VELOCITY_CACHE_URL, FoUrls.VELOCITY_CACHE_KEY, FoUrls.VELOCITY_CACHE_VELOCITY_PAGE),
-
     LOGIN(FoUrls.LOGIN_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE),
     LOGIN_CHECK(FoUrls.LOGIN_CHECK_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE),
     LOGOUT(FoUrls.LOGOUT_URL, FoUrls.LOGOUT_KEY, FoUrls.LOGOUT_VELOCITY_PAGE),
@@ -72,7 +70,13 @@ public enum FoUrls {
     CANCEL_RESET_PASSWORD(FoUrls.CANCEL_RESET_PASSWORD_URL, FoUrls.CANCEL_RESET_PASSWORD_KEY, FoUrls.CANCEL_RESET_PASSWORD_VELOCITY_PAGE),
     TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE),
 
-    XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE);
+    ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE),
+    ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE),
+    ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE),
+    ERROR_404(FoUrls.ERROR_404_URL, FoUrls.ERROR_404_KEY, FoUrls.ERROR_404_VELOCITY_PAGE),
+
+    XRDS(FoUrls.XRDS_URL, FoUrls.XRDS_KEY, FoUrls.XRDS_VELOCITY_PAGE),
+    VELOCITY_CACHE(FoUrls.VELOCITY_CACHE_URL, FoUrls.VELOCITY_CACHE_KEY, FoUrls.VELOCITY_CACHE_VELOCITY_PAGE);
 
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/home.html";
@@ -124,10 +128,6 @@ public enum FoUrls {
 	public static final String SEARCH_URL				= "/search.html";
 	public static final String SEARCH_VELOCITY_PAGE		= "search/search-result";
 
-	public static final String VELOCITY_CACHE_KEY			= "flush-cache-ihm";
-	public static final String VELOCITY_CACHE_URL			= "/flush-cache-ihm.html";
-	public static final String VELOCITY_CACHE_VELOCITY_PAGE	= "tools/flush-cache-ihm";
-	
 	public static final String LOGIN_KEY				= "login";
 	public static final String LOGIN_URL				= "/login.html";
 	public static final String LOGIN_VELOCITY_PAGE		= "security/login";
@@ -299,10 +299,30 @@ public enum FoUrls {
 
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 
+    public static final String ERROR_500_KEY            = "error-500";
+    public static final String ERROR_500_URL            = "/500.html";
+    public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";
+
+    public static final String ERROR_400_KEY            = "error-400";
+    public static final String ERROR_400_URL            = "/400.html";
+    public static final String ERROR_400_VELOCITY_PAGE  = "error/error-400";
+
+    public static final String ERROR_403_KEY            = "error-403";
+    public static final String ERROR_403_URL            = "/403.html";
+    public static final String ERROR_403_VELOCITY_PAGE  = "error/error-403";
+
+    public static final String ERROR_404_KEY            = "error-404";
+    public static final String ERROR_404_URL            = "/404.html";
+    public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
+
 	public static final String XRDS_KEY				= "xrds";
 	public static final String XRDS_URL				= "/xrds.html";
 	public static final String XRDS_VELOCITY_PAGE	= "";
-	
+
+    public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
+    public static final String VELOCITY_CACHE_URL           = "/flush-cache-ihm.html";
+    public static final String VELOCITY_CACHE_VELOCITY_PAGE = "tools/flush-cache-ihm";
+	    
 	// TOOLS
 //	public static final String XRDS_CACHE_VELOCITY_PAGE = "openid/xrds";
 	

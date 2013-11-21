@@ -60,7 +60,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
 		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
@@ -90,7 +90,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 			Set<CustomerAddress> addresses = customer.getAddresses();
 			for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
 				final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-				addressesValues.add(viewBeanFactory.buildCustomeAddressViewBean(requestUtil.getRequestData(request), customerAddress));
+				addressesValues.add(frontofficeViewBeanFactory.buildCustomeAddressViewBean(requestUtil.getRequestData(request), customerAddress));
 			}
 			
 			Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {

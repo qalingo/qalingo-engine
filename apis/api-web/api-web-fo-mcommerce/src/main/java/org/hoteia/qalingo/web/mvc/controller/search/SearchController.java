@@ -56,7 +56,7 @@ public class SearchController extends AbstractMCommerceController {
 	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
 		
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
+		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		modelAndView.addObject("searchForm", formFactory.buildSearchForm(request));
@@ -74,12 +74,12 @@ public class SearchController extends AbstractMCommerceController {
 			return displaySearch(request, response, modelMap);
 		}
 
-		final SearchViewBean search = viewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
+		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
 		try {
 			ProductResponseBean productResponseBean = productSolrService.searchProduct();
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, viewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productResponseBean));
+			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productResponseBean));
 			
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
@@ -119,7 +119,7 @@ public class SearchController extends AbstractMCommerceController {
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductResponseBean productResponseBean,
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{
-		List<SearchProductItemViewBean> searchProductItems = viewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productResponseBean);
+		List<SearchProductItemViewBean> searchProductItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
 		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);

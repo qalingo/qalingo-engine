@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -40,14 +39,13 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name = "TECO_RETAILER")
 @FilterDefs(value = { @FilterDef(name = "filterRetailerAttributeIsGlobal"), @FilterDef(name = "filterRetailerAttributeByMarketArea", parameters = { @ParamDef(name = "marketAreaId", type = "long") }),
         @FilterDef(name = "filterRetailerAssetIsGlobal"), @FilterDef(name = "filterRetailerAssetByMarketArea", parameters = { @ParamDef(name = "marketAreaId", type = "long") }) })
-public class Retailer implements Serializable {
+public class Retailer extends AbstractEntity {
 
     /**
      * Generated UID

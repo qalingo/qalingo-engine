@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 
@@ -26,7 +25,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_EMAIL")
-public class Email implements Serializable {
+public class Email extends AbstractEntity {
 
 	/**
 	 * Generated UID

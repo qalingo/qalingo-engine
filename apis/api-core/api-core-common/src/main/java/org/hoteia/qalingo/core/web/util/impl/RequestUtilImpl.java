@@ -920,15 +920,37 @@ public class RequestUtilImpl implements RequestUtil {
 	  * 
 	  */
     public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
-        String marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-        String marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
-        String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-        String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
-        String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+        String marketPlaceCode = null;
+        String marketCode = null;
+        String marketAreaCode = null;
+        String localizationCode = null;
+        String retailerCode = null;
+        
+        // TEMP
+        String requestUri = request.getRequestURI();
+        requestUri = requestUri.replace(request.getContextPath(), "");
+        if(requestUri.startsWith("/")){
+            requestUri = requestUri.substring(1, requestUri.length());
+        }
+        String[] uriSegments = requestUri.toString().split("/");
+        if(uriSegments.length > 4){
+            marketPlaceCode = uriSegments[0];
+            marketCode = uriSegments[1];
+            marketAreaCode = uriSegments[2];
+            localizationCode = uriSegments[3];
+            retailerCode = uriSegments[4];
+        } else {
+          marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+          marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+          marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+          localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
+          retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+        }
+
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 
         MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();
-        if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localeCode)) {
+        if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 resetCart(request);
@@ -960,7 +982,7 @@ public class RequestUtilImpl implements RequestUtil {
                     engineEcoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
 
                     // LOCALE
-                    Localization localization = marketArea.getLocalization(localeCode);
+                    Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
                         Localization defaultLocalization = marketArea.getDefaultLocalization();
                         engineEcoSession.setCurrentLocalization(defaultLocalization);
@@ -1003,7 +1025,7 @@ public class RequestUtilImpl implements RequestUtil {
                     engineEcoSession.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
 
                     // LOCALE
-                    Localization localization = marketArea.getLocalization(localeCode);
+                    Localization localization = marketArea.getLocalization(localizationCode);
                     if (localization == null) {
                         Localization defaultLocalization = marketArea.getDefaultLocalization();
                         engineEcoSession.setCurrentLocalization(defaultLocalization);
@@ -1037,7 +1059,7 @@ public class RequestUtilImpl implements RequestUtil {
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE
-                        Localization localization = newMarketArea.getLocalization(localeCode);
+                        Localization localization = newMarketArea.getLocalization(localizationCode);
                         if (localization == null) {
                             Localization defaultLocalization = marketArea.getDefaultLocalization();
                             engineEcoSession.setCurrentLocalization(defaultLocalization);
@@ -1055,9 +1077,9 @@ public class RequestUtilImpl implements RequestUtil {
                         }
                     } else {
                         Localization localization = engineEcoSession.getCurrentLocalization();
-                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(localeCode)) {
+                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(localizationCode)) {
                             // CHANGE THE LOCALE
-                            Localization newLocalization = marketArea.getLocalization(localeCode);
+                            Localization newLocalization = marketArea.getLocalization(localizationCode);
                             if (newLocalization == null) {
                                 Localization defaultLocalization = marketArea.getDefaultLocalization();
                                 engineEcoSession.setCurrentLocalization(defaultLocalization);
@@ -1308,11 +1330,11 @@ public class RequestUtilImpl implements RequestUtil {
         }
 
         // CHECK BACKOFFICE LANGUAGES
-        String localeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
+        String localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
         // LOCALIZATIONS
         Company company = getCurrentCompany(request);
         if (company != null) {
-            Localization localization = company.getLocalization(localeCode);
+            Localization localization = company.getLocalization(localizationCode);
             if (localization != null) {
                 engineBoSession.setCurrentLocalization(localization);
             }

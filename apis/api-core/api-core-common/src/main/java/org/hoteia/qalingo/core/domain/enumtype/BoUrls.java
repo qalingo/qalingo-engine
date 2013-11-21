@@ -7,8 +7,6 @@ public enum BoUrls {
     FAQ(BoUrls.FAQ_URL, BoUrls.FAQ_KEY, BoUrls.FAQ_VELOCITY_PAGE),
     LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE),
     
-    VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE),
-
     LOGIN(BoUrls.LOGIN_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE),
     LOGIN_CHECK(BoUrls.LOGIN_CHECK_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE),
     LOGOUT(BoUrls.LOGOUT_URL, BoUrls.LOGOUT_KEY, BoUrls.LOGOUT_VELOCITY_PAGE),
@@ -94,7 +92,14 @@ public enum BoUrls {
     USER_SEARCH(BoUrls.USER_SEARCH_URL, BoUrls.USER_SEARCH_KEY, BoUrls.USER_SEARCH_VELOCITY_PAGE),
     USER_LIST(BoUrls.USER_LIST_URL, BoUrls.USER_LIST_KEY, BoUrls.USER_LIST_VELOCITY_PAGE),
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE),
-    USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE);
+    USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE),
+    
+    ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE),
+    ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE),
+    ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE),
+    ERROR_404(FoUrls.ERROR_404_URL, FoUrls.ERROR_404_KEY, FoUrls.ERROR_404_VELOCITY_PAGE),
+    
+    VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE);
 
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/home.html";
@@ -142,10 +147,6 @@ public enum BoUrls {
 	public static final String CHANGE_LANGUAGE_URL		= "/change-language.html";
 	public static final String CHANGE_CONTEXT_URL		= "/change-context.html";
 	
-	public static final String VELOCITY_CACHE_KEY			= "flush-cache-ihm";
-	public static final String VELOCITY_CACHE_URL			= "/flush-cache-ihm.html";
-	public static final String VELOCITY_CACHE_PAGE			= "tools/flush-cache-ihm";
-
 	// MONITORING
 	public static final String MONITORING_KEY				= "monitoring";
 	public static final String MONITORING_URL				= "/monitoring.html";
@@ -384,6 +385,26 @@ public enum BoUrls {
     public static final String USER_EDIT_KEY                = "user-edit";
     public static final String USER_EDIT_URL                = "/user-edit.html";
     public static final String USER_EDIT_VELOCITY_PAGE      = "user/user-edit";
+    
+    public static final String ERROR_500_KEY            = "error-500";
+    public static final String ERROR_500_URL            = "/500.html";
+    public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";
+
+    public static final String ERROR_400_KEY            = "error-400";
+    public static final String ERROR_400_URL            = "/400.html";
+    public static final String ERROR_400_VELOCITY_PAGE  = "error/error-400";
+
+    public static final String ERROR_403_KEY            = "error-403";
+    public static final String ERROR_403_URL            = "/403.html";
+    public static final String ERROR_403_VELOCITY_PAGE  = "error/error-403";
+
+    public static final String ERROR_404_KEY            = "error-404";
+    public static final String ERROR_404_URL            = "/404.html";
+    public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
+    
+    public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
+    public static final String VELOCITY_CACHE_URL           = "/flush-cache-ihm.html";
+    public static final String VELOCITY_CACHE_PAGE          = "tools/flush-cache-ihm";
     
     private final String url;
     private final String key; // CODE IS USE TO GET THE ASSOCIATED MENU AND THE SEO VALUE

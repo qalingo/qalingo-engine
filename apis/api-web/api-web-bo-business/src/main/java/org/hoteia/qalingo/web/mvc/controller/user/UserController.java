@@ -61,7 +61,7 @@ public class UserController extends AbstractBusinessBackofficeController {
 		
 		final Long currentUserId = requestUtil.getCurrentUserId(request);
 		final User user = userService.getUserById(currentUserId.toString());
-		modelAndView.addObject("userEdit", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject("userEdit", backofficeViewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 		modelAndView.addObject("userForm", formFactory.buildUserForm(request, user));
 		// BoPageConstants.USER_KEY
 		return modelAndView;
@@ -103,7 +103,7 @@ public class UserController extends AbstractBusinessBackofficeController {
 	}
 	
 	protected void initUserDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final User user) throws Exception{
-		modelAndView.addObject("userDetails", viewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject("userDetails", backofficeViewBeanFactory.buildUserViewBean(requestUtil.getRequestData(request), user));
 	}
     
 }

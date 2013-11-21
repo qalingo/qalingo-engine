@@ -4,6 +4,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.AttributeDefinition;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAttribute;
+import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import org.hoteia.qalingo.core.mapper.JsonMapper;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.tools.scribe.mapping.oauth.windowslive.json.pojo.UserPojo;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LiveApi;
@@ -17,24 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
-import org.hoteia.qalingo.core.domain.AttributeDefinition;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerAttribute;
-import org.hoteia.qalingo.core.domain.EngineSetting;
-import org.hoteia.qalingo.core.domain.EngineSettingValue;
-import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import org.hoteia.qalingo.core.mapper.JsonMapper;
-import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
-import org.hoteia.qalingo.core.service.AttributeService;
 
 /**
  * 

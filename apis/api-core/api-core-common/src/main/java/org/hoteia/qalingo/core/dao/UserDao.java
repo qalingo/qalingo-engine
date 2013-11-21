@@ -13,14 +13,12 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.domain.User;
 
-public interface UserDao {
+public interface UserDao extends GenericDao<User, Long> {
 
 	User getUserById(Long userId);
 
 	User getUserByLoginOrEmail(String usernameOrEmail);
 	 
-//	List<User> findByExample(User userExample);
-
 	List<User> findUsers();
 	
 	void saveOrUpdateUser(User user);

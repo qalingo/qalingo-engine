@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -42,7 +41,6 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
@@ -58,7 +56,7 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 		@FilterDef(name="filterProductSkuStockByMarketAreaAndRetailer", parameters= { @ParamDef(name="marketAreaId", type="long"),  @ParamDef(name="retailerId", type="long") })
 	}
 )
-public class ProductSku implements Serializable {
+public class ProductSku extends AbstractEntity {
 
 	/**
 	 * Generated UID

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -37,7 +36,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_USER")
-public class User implements Serializable {
+public class User extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -71,16 +70,16 @@ public class User implements Serializable {
 	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
 	private boolean active;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="COMPANY_ID", insertable=false, updatable=false)
 	private Company company;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.UserGroup.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -91,7 +90,7 @@ public class User implements Serializable {
 	    )
 	private Set<UserGroup> userGroups = new HashSet<UserGroup>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="USER_ID")
 	@OrderBy("LOGIN_DATE DESC") 
 	private Set<UserConnectionLog> connectionLogs = new HashSet<UserConnectionLog>(); 

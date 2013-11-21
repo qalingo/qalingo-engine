@@ -9,14 +9,12 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("shippingPromotion")
-public class RuleReferentialShippingPromotion extends AbstractRuleReferential implements Serializable {
+public class RuleReferentialShippingPromotion extends AbstractRuleReferential {
 
 	/**
 	 * Generated UID

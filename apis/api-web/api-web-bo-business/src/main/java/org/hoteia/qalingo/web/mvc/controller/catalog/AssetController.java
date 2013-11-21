@@ -77,7 +77,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		if(StringUtils.isNotEmpty(currentAssetCode)){
 			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 
-			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
+			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
 			modelAndView.addObject(Constants.ASSET_FORM, formFactory.buildProductMarketingAssetForm(request, asset));
 			return modelAndView;
 		} else {
@@ -155,6 +155,6 @@ public class AssetController extends AbstractBusinessBackofficeController {
 
 	protected void initRuleDetailsPage(final HttpServletRequest request, final HttpServletResponse response, 
 											final ModelAndViewThemeDevice modelAndView, final Asset asset) throws Exception {
-		modelAndView.addObject(Constants.ASSET_VIEW_BEAN, viewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
+		modelAndView.addObject(Constants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
 	}
 }

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +28,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +38,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_MARKET_AREA")
-public class MarketArea implements Serializable {
+public class MarketArea extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -79,9 +79,9 @@ public class MarketArea implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-//	@OneToOne
-    @Column(name="VIRTUAL_CATALOG_ID")
-	private Long virtualCatalogId;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="VIRTUAL_CATALOG_ID")
+	private CatalogVirtual virtualCatalog;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
@@ -204,21 +204,21 @@ public class MarketArea implements Serializable {
 		this.theme = theme;
 	}
 	
-//	public CatalogVirtual getVirtualCatalog() {
-//		return virtualCatalog;
-//	}
+	public CatalogVirtual getVirtualCatalog() {
+		return virtualCatalog;
+	}
+	
+	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
+		this.virtualCatalog = virtualCatalog;
+	}
+	
+//	public Long getVirtualCatalogId() {
+//	    return virtualCatalogId;
+//    }
 //	
-//	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
-//		this.virtualCatalog = virtualCatalog;
-//	}
-	
-	public Long getVirtualCatalogId() {
-	    return virtualCatalogId;
-    }
-	
-	public void setVirtualCatalogId(Long virtualCatalogId) {
-	    this.virtualCatalogId = virtualCatalogId;
-    }
+//	public void setVirtualCatalogId(Long virtualCatalogId) {
+//	    this.virtualCatalogId = virtualCatalogId;
+//    }
 	
 	public Market getMarket() {
 		return market;

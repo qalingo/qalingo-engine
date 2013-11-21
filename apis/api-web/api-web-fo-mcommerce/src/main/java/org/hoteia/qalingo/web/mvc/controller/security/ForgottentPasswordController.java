@@ -202,7 +202,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
     
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurity(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
+		return frontofficeViewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 	}
 	
 }

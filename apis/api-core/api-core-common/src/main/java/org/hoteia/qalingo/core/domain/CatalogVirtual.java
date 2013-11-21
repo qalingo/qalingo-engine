@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -29,6 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,7 +37,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-public class CatalogVirtual implements Serializable {
+public class CatalogVirtual extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -65,8 +65,8 @@ public class CatalogVirtual implements Serializable {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
-//	@OneToOne(mappedBy="virtualCatalog")
-//	private MarketArea marketArea;
+	@OneToOne(mappedBy="virtualCatalog")
+	private MarketArea marketArea;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MASTER_CATALOG_ID", insertable=false, updatable=false)
@@ -143,13 +143,13 @@ public class CatalogVirtual implements Serializable {
 		this.code = code;
 	}
 	
-//	public MarketArea getMarketArea() {
-//		return marketArea;
-//	}
-//	
-//	public void setMarketArea(MarketArea marketArea) {
-//		this.marketArea = marketArea;
-//	}
+	public MarketArea getMarketArea() {
+		return marketArea;
+	}
+	
+	public void setMarketArea(MarketArea marketArea) {
+		this.marketArea = marketArea;
+	}
 	
 	public CatalogMaster getCatalogMaster() {
 		return catalogMaster;

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_MARKET")
-public class Market implements Serializable {
+public class Market extends AbstractEntity {
 
 	/**
 	 * Generated UID

@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core.web.handler.security;
 
-import org.springframework.security.web.DefaultRedirectStrategy;
+import org.apache.http.impl.client.DefaultRedirectStrategy;
 
 public class ExtRedirectStrategy extends DefaultRedirectStrategy {
 

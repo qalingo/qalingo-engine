@@ -40,7 +40,7 @@ public class ProductAxeController extends AbstractMCommerceController {
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
 	
-	@RequestMapping(FoUrls.CATEGORY_AS_AXE_URL)
+	@RequestMapping("**" + FoUrls.CATEGORY_AS_AXE_URL)
 	public ModelAndView productAxe(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_AXE.getVelocityPage());
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -60,7 +60,7 @@ public class ProductAxeController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
+		final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
 		
         return modelAndView;

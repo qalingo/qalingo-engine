@@ -58,7 +58,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 
         return modelAndView;
@@ -89,7 +89,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
         return modelAndView;
@@ -122,7 +122,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
 

@@ -95,7 +95,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		overrideSeoTitle(request, modelAndView, title);
 
 		List<CatalogCategoryMaster> catalogCategories = catalogCategoryService.findRootCatalogCategories(currentMarketArea.getId());
-		CatalogViewBean catalogViewBean = viewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
+		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
 		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -129,7 +129,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		overrideSeoTitle(request, modelAndView, title);
 		
 		List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findRootCatalogCategories(currentMarketArea.getId(), currentRetailer.getId());
-		CatalogViewBean catalogViewBean = viewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, catalogCategories);
+		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, catalogCategories);
 		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
         ObjectMapper mapper = new ObjectMapper();
@@ -558,7 +558,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster catalogCategory) throws Exception {
 		
-		CatalogCategoryViewBean catalogCategoryViewBean = viewBeanFactory.buildMasterCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildMasterCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
 		
 		modelAndView.addObject(Constants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
@@ -569,7 +569,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual catalogCategory) throws Exception {
 		
-		CatalogCategoryViewBean catalogCategoryViewBean = viewBeanFactory.buildVirtualCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildVirtualCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
 		
 		modelAndView.addObject(Constants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}

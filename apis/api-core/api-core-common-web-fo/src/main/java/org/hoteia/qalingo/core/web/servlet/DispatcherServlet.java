@@ -16,22 +16,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.wurfl.core.Device;
-import net.sourceforge.wurfl.core.WURFLHolder;
-import net.sourceforge.wurfl.core.WURFLManager;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.View;
-
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
 
@@ -53,13 +46,15 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 		View view =  super.resolveViewName(viewName, model, locale, request);
 		if(view == null){
 			String fullViewNameSplit[] = viewName.split("/");
-			String theme = fullViewNameSplit[1];
-			String deviceDefaultViewName = "/" + theme + "/www/default";
-			for (int i = 4; i < fullViewNameSplit.length; i++) {
-				String string = fullViewNameSplit[i];
-				deviceDefaultViewName = deviceDefaultViewName + "/" + string;
+			if(fullViewNameSplit.length > 1){
+                String theme = fullViewNameSplit[1];
+                String deviceDefaultViewName = "/" + theme + "/www/default";
+                for (int i = 4; i < fullViewNameSplit.length; i++) {
+                    String string = fullViewNameSplit[i];
+                    deviceDefaultViewName = deviceDefaultViewName + "/" + string;
+                }
+                view = super.resolveViewName(deviceDefaultViewName, model, locale, request);
 			}
-			view = super.resolveViewName(deviceDefaultViewName, model, locale, request);
 			if(view == null){
 				String fullDefaultViewName = "/default/www/default";
 				for (int i = 4; i < fullViewNameSplit.length; i++) {

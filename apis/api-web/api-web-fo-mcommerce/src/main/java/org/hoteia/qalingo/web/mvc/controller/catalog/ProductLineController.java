@@ -40,7 +40,7 @@ public class ProductLineController extends AbstractMCommerceController {
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
 	
-	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
+	@RequestMapping("**" + FoUrls.CATEGORY_AS_LINE_URL)
 	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
 		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
@@ -61,7 +61,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
+		final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
 		
         return modelAndView;

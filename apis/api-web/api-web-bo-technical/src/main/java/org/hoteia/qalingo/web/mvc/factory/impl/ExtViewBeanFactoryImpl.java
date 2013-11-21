@@ -17,13 +17,13 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.impl.BackofficeViewBeanFactoryImpl;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 
 /**
  * 
  */
-public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
+public class ExtViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl {
 
 	/**
      * 

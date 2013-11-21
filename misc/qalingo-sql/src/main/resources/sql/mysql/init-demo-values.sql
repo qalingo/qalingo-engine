@@ -370,7 +370,9 @@ INSERT INTO teco_product_sku
 (1, 'prod 1 product sku 1', 'SKU11', 1, 'Sku 11', 1, 1), 
 (2, 'prod 1 product sku 2', 'SKU12', 0, 'Sku 12', 1, 1),
 (3, 'prod 1 product sku 3', 'SKU13', 0, 'Sku 13', 1, 1),
-(4, 'prod 2 product sku 1', 'SKU21', 0, 'Sku 21', 1, 2);
+(4, 'prod 2 product sku 1', 'SKU21', 0, 'Sku 21', 1, 2),
+(5, 'prod 3 product sku 1', 'SKU31', 0, 'Sku 31', 1, 3),
+(6, 'prod 4 product sku 1', 'SKU41', 0, 'Sku 41', 1, 4);
 
 INSERT INTO teco_catalog_master_category_product_marketing_rel  
 (master_category_id, product_marketing_id)

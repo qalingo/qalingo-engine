@@ -20,5 +20,6 @@
 	<context:component-scan base-package="org.hoteia.qalingo.core.web.cache" />
     <context:component-scan base-package="org.hoteia.qalingo.core.web.util" />
     <context:component-scan base-package="org.hoteia.qalingo.core.web.validation" />
-		
+    <context:component-scan base-package="org.hoteia.qalingo.core.web.mvc.interceptor" />
+
 </beans>

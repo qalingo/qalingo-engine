@@ -43,7 +43,7 @@ public class CustomerWishListController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerWishlistViewBean customerWishListViewBean = viewBeanFactory.buildCustomerWishlistViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerWishlistViewBean customerWishListViewBean = frontofficeViewBeanFactory.buildCustomerWishlistViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerWishList", customerWishListViewBean);
 
         return modelAndView;

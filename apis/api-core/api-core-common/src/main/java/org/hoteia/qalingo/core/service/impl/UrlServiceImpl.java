@@ -98,19 +98,19 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
     }
 
     public String buildOAuthConnectUrl(final RequestData requestData, final String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/connect-oauth-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/connect-oauth-" + socialNetworkCode + ".html";
     }
 
     public String buildOAuthCallBackUrl(final RequestData requestData, String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/callback-oauth-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/callback-oauth-" + socialNetworkCode + ".html";
     }
 
     public String buildOpenIdConnectUrl(final RequestData requestData, final String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/connect-openid-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/connect-openid-" + socialNetworkCode + ".html";
     }
 
     public String buildOpenIdCallBackUrl(final RequestData requestData) throws Exception {
-        return buildContextPath(requestData) + "/sc/callback-openid.html";
+        return buildContextPath(requestData) + "/callback-openid.html";
     }
 
     @SuppressWarnings("unchecked")
@@ -159,7 +159,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             }
 
             if (StringUtils.isEmpty(urlStr)) {
-                // AD THE DEFAULT PREFIX - DEFAULT PATH IS /sc
+                // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
             } else {
                 // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment

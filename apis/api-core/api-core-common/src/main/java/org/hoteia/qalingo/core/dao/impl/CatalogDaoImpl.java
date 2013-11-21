@@ -12,8 +12,11 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
+import org.hoteia.qalingo.core.domain.User;
 
 @Transactional
 @Repository("productCatalogDao")
@@ -39,12 +43,37 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	}
 
 	public CatalogVirtual getCatalogVirtual(final Long marketAreaId, final Long retailerId) {
-		Session session = (Session) em.getDelegate();
-		initCatalogVirtual(session, marketAreaId, retailerId);
-		String sql = "SELECT cv FROM CatalogVirtual cv, MarketArea ma WHERE cv.id = ma.virtualCatalogId AND ma.id = :marketAreaId";
-		Query query = session.createQuery(sql);
-		query.setLong("marketAreaId", marketAreaId);
-		CatalogVirtual catalogVirtual = (CatalogVirtual) query.uniqueResult();
+	    
+	     initCatalogVirtual(getSession(), marketAreaId, retailerId);
+
+        Criteria criteria = getSession().createCriteria(CatalogVirtual.class);
+        criteria.createAlias("marketArea", "ma");
+        criteria.add( Restrictions.eq("ma.id", marketAreaId));
+        
+        criteria.setFetchMode("catalogMaster", FetchMode.JOIN);        
+        criteria.setFetchMode("catalogCategories", FetchMode.JOIN);        
+
+        CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
+        
+//        catalogMaster
+//        catalogCategories
+        
+//        catalogCategories : defaultParentCatalogCategory
+//        catalogCategories : categoryMaster
+//        catalogCategories : catalogCategoryGlobalAttributes
+//        catalogCategories : catalogCategoryMarketAreaAttributes
+//        catalogCategories : catalogCategories
+//        catalogCategories : productMarketings
+//        catalogCategories : assetsIsGlobal
+//        catalogCategories : assetsByMarketArea
+        
+//		Session session = (Session) em.getDelegate();
+//		initCatalogVirtual(session, marketAreaId, retailerId);
+//		String sql = "SELECT cv FROM CatalogVirtual cv, MarketArea ma WHERE cv.id = ma.virtualCatalogId AND ma.id = :marketAreaId";
+//		Query query = session.createQuery(sql);
+//		query.setLong("marketAreaId", marketAreaId);
+//		CatalogVirtual catalogVirtual = (CatalogVirtual) query.uniqueResult();
+		
 		return catalogVirtual;
 	}
 	

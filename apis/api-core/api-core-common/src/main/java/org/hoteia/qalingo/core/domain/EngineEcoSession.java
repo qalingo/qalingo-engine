@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -31,7 +30,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
-public class EngineEcoSession implements Serializable {
+public class EngineEcoSession extends AbstractEntity {
 
     /**
      * Generated UID

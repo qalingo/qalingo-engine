@@ -6,10 +6,6 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -23,6 +19,9 @@ import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.service.openid.OpenIdService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 

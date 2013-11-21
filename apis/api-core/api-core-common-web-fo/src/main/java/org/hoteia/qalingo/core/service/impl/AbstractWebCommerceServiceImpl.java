@@ -19,8 +19,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -53,6 +51,7 @@ import org.hoteia.qalingo.core.service.OrderService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractWebCommerceServiceImpl {
 

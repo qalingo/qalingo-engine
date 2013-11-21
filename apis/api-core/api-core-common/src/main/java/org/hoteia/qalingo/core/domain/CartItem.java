@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
@@ -25,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_CART_ITEM")
-public class CartItem implements Serializable {
+public class CartItem extends AbstractEntity {
 
 	/**
 	 * Generated UID

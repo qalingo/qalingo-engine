@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_SHIPPING_COUNTY")
-public class ShippingCounty implements Serializable {
+public class ShippingCounty extends AbstractEntity {
 
 	/**
 	 * Generated UID

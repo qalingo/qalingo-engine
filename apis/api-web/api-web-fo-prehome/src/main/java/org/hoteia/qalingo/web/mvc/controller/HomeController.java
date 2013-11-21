@@ -63,7 +63,7 @@ public class HomeController extends AbstractPrehomeController {
 	@ModelAttribute
 	protected void initMarketPlaces(final HttpServletRequest request, final Model model) throws Exception {
 		// Markets
-		model.addAttribute("marketPlaces", viewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request)));
+		model.addAttribute("marketPlaces", frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request)));
 	}
     
 }

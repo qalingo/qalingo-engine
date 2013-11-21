@@ -42,10 +42,6 @@
 		<!-- Hoteia libs -->
 		<dependency>
 			<groupId>org.hoteia.tools</groupId>
-			<artifactId>rich-snippets-mapping</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hoteia.tools</groupId>
 			<artifactId>scribe-mapping</artifactId>
 		</dependency>
 			

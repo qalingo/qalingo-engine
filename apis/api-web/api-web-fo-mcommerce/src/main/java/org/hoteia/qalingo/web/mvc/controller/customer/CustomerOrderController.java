@@ -119,7 +119,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 
 	protected PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<Order> orders,
 			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder) throws Exception {
-		List<OrderViewBean> orderViewBeans = viewBeanFactory.buildOrderViewBeans(requestUtil.getRequestData(request), orders);
+		List<OrderViewBean> orderViewBeans = frontofficeViewBeanFactory.buildOrderViewBeans(requestUtil.getRequestData(request), orders);
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, orderViewBeanPagedListHolder);

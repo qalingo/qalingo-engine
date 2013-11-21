@@ -9,12 +9,12 @@
  */
 package org.hoteia.qalingo.web.mvc.factory.impl;
 
-import org.hoteia.qalingo.core.web.mvc.factory.impl.ViewBeanFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.impl.FrontofficeViewBeanFactoryImpl;
 
 /**
  * 
  */
-public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl {
+public class ExtViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
 
 	
 }

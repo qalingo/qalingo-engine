@@ -32,8 +32,8 @@
 		<!-- Spring -->
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
-		<!-- Spring-security -->
-		<spring-security.version>3.1.4.RELEASE</spring-security.version>
+		<!-- spring.security -->
+		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<!-- Spring-batch -->
 		<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.1.RELEASE</spring.batch.admin.version>
@@ -313,18 +313,18 @@
 
 			<dependency>
 				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-core</artifactId>
-				<version>${spring-security.version}</version>
+				<artifactId>spring.security-core</artifactId>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-config</artifactId>
-				<version>${spring-security.version}</version>
+				<artifactId>spring.security-config</artifactId>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-web</artifactId>
-				<version>${spring-security.version}</version>
+				<artifactId>spring.security-web</artifactId>
+				<version>${spring.security.version}</version>
 			</dependency>
 
 			<!-- Spring Batch libs -->
@@ -354,7 +354,7 @@
 				<artifactId>spring-batch-admin-resources</artifactId>
 				<version>${spring.batch.admin.version}</version>
 			</dependency>
-			-->
+			-->		
 
 			<!-- AspectJ framework -->
 			<dependency>
@@ -458,6 +458,11 @@
 			</dependency>
 
 			<!-- SOLR -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-core</artifactId>
+				<version>${solr.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>

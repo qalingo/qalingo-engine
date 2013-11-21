@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -40,7 +39,6 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
@@ -54,7 +52,7 @@ import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 		@FilterDef(name="filterProductMarketingAssetIsGlobal"),
 		@FilterDef(name="filterProductMarketingAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
 	})
-public class ProductMarketing implements Serializable {
+public class ProductMarketing extends AbstractEntity {
 
 	/**
 	 * Generated UID

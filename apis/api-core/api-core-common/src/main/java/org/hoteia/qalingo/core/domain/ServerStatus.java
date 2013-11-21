@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 
@@ -23,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TBO_SERVER_STATUS")
-public class ServerStatus implements Serializable {
+public class ServerStatus extends AbstractEntity {
 
     /**
      * Generated UID

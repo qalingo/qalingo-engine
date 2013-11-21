@@ -112,7 +112,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 		modelAndView.addObject(Constants.CUSTOMER_FORM, formFactory.buildCustomerForm(request, customer));
 		return modelAndView;
 	}
@@ -142,7 +142,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final List<Customer> customers = customerService.findCustomers();
 		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
 			Customer customer = (Customer) iterator.next();
-			customerViewBeans.add(viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
+			customerViewBeans.add(backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 		}
 		customerViewBeanPagedListHolder = new PagedListHolder<CustomerViewBean>(customerViewBeans);
 		customerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -152,6 +152,6 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initCustomerDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Customer user) throws Exception{
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
 	}
 }

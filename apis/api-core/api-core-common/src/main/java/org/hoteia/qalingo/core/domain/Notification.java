@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_NOTIFICATION")
-public class Notification implements Serializable {
+public class Notification extends AbstractEntity {
 
 	/**
 	 * Generated UID
