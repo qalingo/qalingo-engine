@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class CategoryViewBean extends AbstractViewBean implements Serializable {
 
@@ -19,6 +20,37 @@ public class CategoryViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -8131324754265831293L;
 	
 	protected String name;
+	
+	protected String categoryUrl;
+	
+	protected String code;
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	protected List<CategoryViewBean> subCategories;
+	
+	public String getCategoryUrl() {
+		return categoryUrl;
+	}
+
+	public void setCategoryUrl(String categoryUrl) {
+		this.categoryUrl = categoryUrl;
+	}
+
+	public List<CategoryViewBean> getSubCategories() {
+		return subCategories;
+	}
+
+	public void setSubCategories(List<CategoryViewBean> subCategories) {
+		this.subCategories = subCategories;
+	}
+
 
 	public String getName() {
 		return name;
