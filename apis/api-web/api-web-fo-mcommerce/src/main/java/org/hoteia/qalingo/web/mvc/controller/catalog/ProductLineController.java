@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -39,7 +40,7 @@ public class ProductLineController extends AbstractMCommerceController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
-	
+
 	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
 	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
@@ -47,6 +48,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
 
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), currentRetailer.getId(), categoryCode);
+		final List<CatalogCategoryVirtual> categories = productCategoryService.findRootCatalogCategories(currentMarketArea.getId(), currentRetailer.getId());
 		
 		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
 		final Locale locale = currentLocalization.getLocale();
@@ -63,6 +65,9 @@ public class ProductLineController extends AbstractMCommerceController {
         
 		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
+		
+		final List<CategoryViewBean> categoryViewBeans = extendViewBeanFactory.buildVirtualCategoryViewBeans(requestUtil.getRequestData(request), categories,true);
+		model.addAttribute("categories", categoryViewBeans);
 		
         return modelAndView;
 	}
