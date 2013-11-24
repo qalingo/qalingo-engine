@@ -1277,11 +1277,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         for (ProductCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
         	if(subProductCategoryViewBean.getFeaturedProductMarketings() != null &&
         			subProductCategoryViewBean.getFeaturedProductMarketings().size() > 0){
-	        	for (ProductMarketingViewBean featuredProductMarketing : subProductCategoryViewBean.getFeaturedProductMarketings()) {
-					if(!featuredProductMarketings.contains(featuredProductMarketing)){
-						featuredProductMarketings.add(featuredProductMarketing);
-					}
-				}
+        		featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
         	}
         }
 
