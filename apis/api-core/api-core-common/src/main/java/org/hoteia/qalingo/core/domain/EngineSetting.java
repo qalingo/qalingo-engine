@@ -59,7 +59,7 @@ public class EngineSetting extends AbstractEntity {
 	@Column(name="DEFAULT_VALUE")
 	private String defaultValue;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="ENGINE_SETTING_ID")
 	@OrderBy("CONTEXT") 
 	private Set<EngineSettingValue> engineSettingValues = new HashSet<EngineSettingValue>(); 

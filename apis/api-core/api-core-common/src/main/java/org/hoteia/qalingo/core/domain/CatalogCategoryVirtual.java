@@ -95,13 +95,13 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	private CatalogCategoryMaster categoryMaster;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	@OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
 	@Filter(name="filterCatalogCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
 	@OrderBy(clause = "ordering asc")

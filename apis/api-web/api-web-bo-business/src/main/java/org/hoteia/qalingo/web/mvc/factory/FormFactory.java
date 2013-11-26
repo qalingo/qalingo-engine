@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -56,7 +56,7 @@ public interface FormFactory {
 	
 	CustomerForm buildCustomerForm(HttpServletRequest request, Customer customer) throws Exception;
 	
-	OrderForm buildOrderForm(HttpServletRequest request, Order order) throws Exception;
+	OrderForm buildOrderForm(HttpServletRequest request, OrderCustomer order) throws Exception;
 	
 	RuleForm buildRuleForm(HttpServletRequest request, AbstractRuleReferential promotion) throws Exception;
 	

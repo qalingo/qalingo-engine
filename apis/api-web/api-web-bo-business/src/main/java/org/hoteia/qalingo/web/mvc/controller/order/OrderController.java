@@ -16,6 +16,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.service.OrderCustomerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -24,19 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Order;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.service.OrderService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-
 /**
  * 
  */
@@ -44,7 +43,7 @@ import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeControlle
 public class OrderController extends AbstractBusinessBackofficeController {
 
 	@Autowired
-	private OrderService orderService;
+	private OrderCustomerService orderCustomerService;
 
 	@RequestMapping(value = BoUrls.ORDER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView orderList(final HttpServletRequest request, final Model model) throws Exception {
@@ -90,10 +89,10 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ORDER_DETAILS.getVelocityPage());
 
 		final String currentOrderCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_CODE);
-		final Order order = orderService.getOrderById(currentOrderCode);
+		final OrderCustomer orderCustomer = orderCustomerService.getOrderById(currentOrderCode);
 		
-		if(order != null){
-			initOrderDetailsPage(request, model, modelAndView, order);
+		if(orderCustomer != null){
+			initOrderDetailsPage(request, model, modelAndView, orderCustomer);
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -107,10 +106,10 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
 		final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
 
-		final List<Order> orders = orderService.findOrders();
-		for (Iterator<Order> iterator = orders.iterator(); iterator.hasNext();) {
-			Order order = (Order) iterator.next();
-			orderViewBeans.add(backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), order));
+		final List<OrderCustomer> orderCustomers = orderCustomerService.findOrders();
+		for (Iterator<OrderCustomer> iterator = orderCustomers.iterator(); iterator.hasNext();) {
+			OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+			orderViewBeans.add(backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), orderCustomer));
 		}
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);
 		orderViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -118,7 +117,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
         return orderViewBeanPagedListHolder;
 	}
     
-	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Order user) throws Exception{
+	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final OrderCustomer user) throws Exception{
 		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
 	}
 }

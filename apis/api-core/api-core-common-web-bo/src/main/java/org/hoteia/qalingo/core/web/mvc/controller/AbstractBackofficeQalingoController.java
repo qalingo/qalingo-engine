@@ -110,16 +110,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		return backofficeUrlService.generateUrl(BoUrls.GLOBAL_SEARCH, requestUtil.getRequestData(request));
 	}
 	
-	/**
-	 * 
-	 */
-	@ModelAttribute
-	protected void initHeader(final HttpServletRequest request, final Model model) throws Exception {
-		// HEADER
-		model.addAttribute(ModelConstants.MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildMenuViewBeans(requestUtil.getRequestData(request)));
-		model.addAttribute(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildMorePageMenuViewBeans(requestUtil.getRequestData(request)));
-	}
-	
 //	/**
 //	 * 
 //	 */

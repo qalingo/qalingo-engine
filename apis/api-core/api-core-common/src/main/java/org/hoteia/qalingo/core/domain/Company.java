@@ -70,7 +70,7 @@ public class Company extends AbstractEntity {
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

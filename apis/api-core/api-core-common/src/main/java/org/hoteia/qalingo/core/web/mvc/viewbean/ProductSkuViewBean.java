@@ -10,6 +10,10 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProductSkuViewBean extends AbstractViewBean implements Serializable {
 
@@ -18,37 +22,60 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
      */
     private static final long serialVersionUID = -5163066749293135126L;
 
-    protected int positionItem;
-    protected String name;
+    protected Long id;
+    protected String code;
+    protected String businessName;
     protected String description;
     protected String backgroundImage;
     protected String carouselImage;
     protected String iconImage;
 
+    protected String i18nName;
+    
+    protected int positionItem;
     protected boolean isDefault;
 
+    protected Map<String, String> globalAttributes = new HashMap<String, String>();
+    protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    
+    protected ProductMarketingViewBean productMarketing;
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    
     protected String addToCartUrl;
     protected String removeFromCartUrl;
     protected String addToWishlistUrl;
     protected String removeFromWishlistUrl;
-    protected String productDetailsUrl;
 
-    public int getPositionItem() {
-        return positionItem;
+    protected String detailsUrl;
+    protected String editUrl;
+    
+    protected String createdDate;
+    protected String updatedDate;
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public void setPositionItem(int positionItem) {
-        this.positionItem = positionItem;
+    public String getBusinessName() {
+        return businessName;
     }
-
-    public String getName() {
-        return name;
+    
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    
     public String getDescription() {
         return description;
     }
@@ -80,7 +107,23 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
     public void setIconImage(String iconImage) {
         this.iconImage = iconImage;
     }
+    
+    public String getI18nName() {
+        return i18nName;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
 
+    public int getPositionItem() {
+        return positionItem;
+    }
+
+    public void setPositionItem(int positionItem) {
+        this.positionItem = positionItem;
+    }
+    
     public boolean isDefault() {
         return isDefault;
     }
@@ -89,6 +132,38 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
         this.isDefault = isDefault;
     }
 
+    public Map<String, String> getGlobalAttributes() {
+        return globalAttributes;
+    }
+    
+    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+        this.globalAttributes = globalAttributes;
+    }
+    
+    public Map<String, String> getMarketAreaAttributes() {
+        return marketAreaAttributes;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+        this.marketAreaAttributes = marketAreaAttributes;
+    }
+    
+    public ProductMarketingViewBean getProductMarketing() {
+        return productMarketing;
+    }
+    
+    public void setProductMarketing(ProductMarketingViewBean productMarketing) {
+        this.productMarketing = productMarketing;
+    }
+    
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
+    
     public String getAddToCartUrl() {
         return addToCartUrl;
     }
@@ -121,12 +196,36 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
         this.removeFromWishlistUrl = removeFromWishlistUrl;
     }
 
-    public String getProductDetailsUrl() {
-        return productDetailsUrl;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 
-    public void setProductDetailsUrl(String productDetailsUrl) {
-        this.productDetailsUrl = productDetailsUrl;
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+
+    public String getEditUrl() {
+        return editUrl;
+    }
+
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+    
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
 }

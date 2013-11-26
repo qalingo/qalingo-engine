@@ -18,7 +18,7 @@ import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.service.openid.OpenIdService;
-import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-public abstract class AbstractOpenIdFrontofficeController extends AbstractQalingoController {
+public abstract class AbstractOpenIdFrontofficeController extends AbstractFrontofficeQalingoController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 

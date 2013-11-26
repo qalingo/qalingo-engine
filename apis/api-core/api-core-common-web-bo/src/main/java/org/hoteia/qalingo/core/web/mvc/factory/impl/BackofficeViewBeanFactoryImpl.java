@@ -41,7 +41,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.PaymentGatewayAttribute;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -62,7 +62,6 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
-import org.hoteia.qalingo.core.web.cache.util.WebElementType;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
@@ -435,7 +434,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                 retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
                 retailerViewBean.getDefaultAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
                 retailerViewBean.getDefaultAddress().setPostalCode(defaultAddress.getPostalCode());
-                retailerViewBean.getDefaultAddress().setCityLabel(defaultAddress.getCity());
+                retailerViewBean.getDefaultAddress().setCity(defaultAddress.getCity());
                 retailerViewBean.getDefaultAddress().setStateCode(defaultAddress.getStateCode());
                 retailerViewBean.getDefaultAddress().setStateLabel(defaultAddress.getStateCode());
                 retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
@@ -746,8 +745,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                 productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, productSku));
             }
 
-            Set<ProductAssociationLink> productCrossLinks = productMarketing.getProductAssociationLinks();
-            for (Iterator<ProductAssociationLink> iterator = productCrossLinks.iterator(); iterator.hasNext();) {
+            Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
+            for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
                 ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, productAssociationLink));
             }
@@ -785,15 +784,15 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final ProductAssociationLink productAssociationLink) throws Exception {
-        final ProductAssociationLinkViewBean productCrossLinkViewBean = new ProductAssociationLinkViewBean();
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
 
-        productCrossLinkViewBean.setOrderItem(productAssociationLink.getRankPosition());
-        productCrossLinkViewBean.setName(productAssociationLink.getProductMarketing().getBusinessName());
-        productCrossLinkViewBean.setType(productAssociationLink.getType().name());
-        productCrossLinkViewBean.setDescription(productAssociationLink.getType().name());
-        productCrossLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductMarketing()));
+        productAssociationLinkViewBean.setOrderItem(productAssociationLink.getRankPosition());
+        productAssociationLinkViewBean.setName(productAssociationLink.getProductMarketing().getBusinessName());
+        productAssociationLinkViewBean.setType(productAssociationLink.getType().name());
+        productAssociationLinkViewBean.setDescription(productAssociationLink.getType().name());
+        productAssociationLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductMarketing()));
 
-        return productCrossLinkViewBean;
+        return productAssociationLinkViewBean;
     }
 
     /**
@@ -1086,7 +1085,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public OrderViewBean buildOrderViewBean(final RequestData requestData, final Order order) throws Exception {
+    public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
         OrderViewBean orderViewBean = new OrderViewBean();
         orderViewBean.setId(order.getId());
 

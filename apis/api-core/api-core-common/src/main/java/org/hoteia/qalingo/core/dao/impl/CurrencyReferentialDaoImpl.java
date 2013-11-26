@@ -12,15 +12,15 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CurrencyReferentialDao;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CurrencyReferentialDao;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
 
 @Transactional
 @Repository("currencyReferentialDao")
@@ -28,25 +28,43 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId) {
-		return em.find(CurrencyReferential.class, currencyReferentialId);
+	public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
+//		return em.find(CurrencyReferential.class, currencyReferentialId);
+	    
+        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        criteria.add(Restrictions.eq("id", currencyReferentialId));
+        CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
+        return currencyReferential;
 	}
 
-	public CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CurrencyReferential WHERE code = :currencyReferentialCode";
-		Query query = session.createQuery(sql);
-		query.setString("currencyReferentialCode", currencyReferentialCode);
-		CurrencyReferential currencyReferential = (CurrencyReferential) query.uniqueResult();
-		return currencyReferential;
+	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM CurrencyReferential WHERE code = :currencyReferentialCode";
+//		Query query = session.createQuery(sql);
+//		query.setString("currencyReferentialCode", currencyReferentialCode);
+//		CurrencyReferential currencyReferential = (CurrencyReferential) query.uniqueResult();
+//		return currencyReferential;
+		
+        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        criteria.add(Restrictions.eq("code", currencyReferentialCode));
+        CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
+        return currencyReferential;
 	}
 	
 	public List<CurrencyReferential> findCurrencyReferentials() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CurrencyReferential ORDER BY code";
-		Query query = session.createQuery(sql);
-		List<CurrencyReferential> currencyReferentials = (List<CurrencyReferential>) query.list();
-		return currencyReferentials;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM CurrencyReferential ORDER BY code";
+//		Query query = session.createQuery(sql);
+//		List<CurrencyReferential> currencyReferentials = (List<CurrencyReferential>) query.list();
+//		return currencyReferentials;
+		
+        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<CurrencyReferential> users = criteria.list();
+        return users;
 	}
 
 	public void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential) {

@@ -60,7 +60,7 @@ public class Menu extends AbstractEntity {
 	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
 	private boolean active;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MENU_ID")
 	@OrderBy("POSITION") 
 	private Set<Menu> subMenus = new HashSet<Menu>(); 

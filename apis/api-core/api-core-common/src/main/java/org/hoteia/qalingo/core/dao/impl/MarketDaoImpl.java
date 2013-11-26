@@ -12,16 +12,18 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
+import org.hoteia.qalingo.core.dao.MarketDao;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.MarketDao;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
 
 @Repository("marketDao")
 @Transactional
@@ -32,31 +34,58 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET
 	
 	public Market getDefaultMarket() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Market WHERE isDefault = true";
-		Query query = session.createQuery(sql);
-		Market market = (Market) query.uniqueResult();
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Market WHERE isDefault = true";
+//		Query query = session.createQuery(sql);
+//		Market market = (Market) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Market.class);
+        
+        addDefaultMarketFetch(criteria);
+        
+        criteria.add(Restrictions.eq("isDefault", true));
+        Market market = (Market) criteria.uniqueResult();
 		return market;
 	}
 	
-	public Market getMarketById(Long marketId) {
-		return em.find(Market.class, marketId);
+	public Market getMarketById(final Long marketId) {
+//		return em.find(Market.class, marketId);
+        Criteria criteria = getSession().createCriteria(Market.class);
+
+        addDefaultMarketFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", marketId));
+        Market market = (Market) criteria.uniqueResult();
+        return market;
 	}
 
-	public Market getMarketByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Market WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		Market market = (Market) query.uniqueResult();
+	public Market getMarketByCode(final String code) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Market WHERE upper(code) = upper(:code)";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", code);
+//		Market market = (Market) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Market.class);
+
+        addDefaultMarketFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", code));
+        Market market = (Market) criteria.uniqueResult();
 		return market;
 	}
 	
 	public List<Market> findMarkets() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Market ORDER BY code";
-		Query query = session.createQuery(sql);
-		List<Market> markets = (List<Market>) query.list();
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Market ORDER BY code";
+//		Query query = session.createQuery(sql);
+//		List<Market> markets = (List<Market>) query.list();
+        Criteria criteria = getSession().createCriteria(Market.class);
+        
+        addDefaultMarketFetch(criteria);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Market> markets = criteria.list();
 		return markets;
 	}
 
@@ -78,16 +107,63 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	
 	// MARKET AREA
 
-	public MarketArea getMarketAreaById(Long marketAreaId) {
-		return em.find(MarketArea.class, marketAreaId);
+	public MarketArea getMarketAreaById(final Long marketAreaId) {
+//		return em.find(MarketArea.class, marketAreaId);
+        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        
+        addDefaultMarketAreaFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", marketAreaId));
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+        return marketArea;
 	}
 	
-	public MarketArea getMarketAreaByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM MarketArea WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		MarketArea marketArea = (MarketArea) query.uniqueResult();
+	public MarketArea getMarketAreaByCode(final String code) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM MarketArea WHERE upper(code) = upper(:code)";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", code);
+//		MarketArea marketArea = (MarketArea) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        
+        addDefaultMarketAreaFetch(criteria);
+        
+        criteria.add(Restrictions.eq("code", code));
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 		return marketArea;
 	}
+	
+    private void addDefaultMarketFetch(Criteria criteria) {
+        criteria.setFetchMode("marketPlace", FetchMode.JOIN);
+        criteria.setFetchMode("marketAreas", FetchMode.JOIN);
+        
+        criteria.createAlias("marketAreas.defaultLocalization", "defaultLocalization", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);
+
+        criteria.createAlias("marketAreas.localizations", "localizations", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("localizations", FetchMode.JOIN);
+        
+        criteria.createAlias("marketAreas.retailers", "retailers", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("retailers", FetchMode.JOIN);
+        
+        criteria.createAlias("marketAreas.marketAreaAttributes", "marketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
+        
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+    }
+    
+    private void addDefaultMarketAreaFetch(Criteria criteria) {
+        
+        criteria.setFetchMode("virtualCatalog", FetchMode.JOIN);
+        criteria.setFetchMode("market", FetchMode.JOIN);
+        
+        criteria.setFetchMode("currency", FetchMode.JOIN);
+        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);
+        criteria.setFetchMode("localizations", FetchMode.JOIN);
+        criteria.setFetchMode("retailers", FetchMode.JOIN);
+        criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
+        
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+    }
+	
 }

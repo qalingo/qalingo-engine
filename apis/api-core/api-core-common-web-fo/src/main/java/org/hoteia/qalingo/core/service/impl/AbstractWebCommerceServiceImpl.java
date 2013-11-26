@@ -31,7 +31,7 @@ import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -47,7 +47,7 @@ import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.CustomerGroupService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EmailService;
-import org.hoteia.qalingo.core.service.OrderService;
+import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -65,7 +65,7 @@ public class AbstractWebCommerceServiceImpl {
     protected RetailerService retailerService;
 	
 	@Autowired
-    protected OrderService orderService;
+    protected OrderCustomerService orderCustomerService;
 	
 	@Autowired
     protected CustomerGroupService customerGroupService;
@@ -263,15 +263,15 @@ public class AbstractWebCommerceServiceImpl {
 		return customer;
 	}
 	
-	public Order buildAndSaveNewOrder(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea) throws Exception {
+	public OrderCustomer buildAndSaveNewOrder(final HttpServletRequest request, final RequestData requestData, final Market market, final MarketArea marketArea) throws Exception {
 		Customer customer = requestData.getCustomer();
 		Cart cart = requestUtil.getCurrentCart(request);
 		
-		Order order = new Order();
-		order.setStatus(Order.ORDER_STATUS_PENDING);
-		order.setCustomerId(customer.getId());
-		order.setBillingAddressId(cart.getBillingAddressId());
-		order.setShippingAddressId(cart.getShippingAddressId());
+		OrderCustomer orderCustomer = new OrderCustomer();
+		orderCustomer.setStatus(OrderCustomer.ORDER_STATUS_PENDING);
+		orderCustomer.setCustomerId(customer.getId());
+		orderCustomer.setBillingAddressId(cart.getBillingAddressId());
+		orderCustomer.setShippingAddressId(cart.getShippingAddressId());
 		
 		Set<CartItem> cartItems = cart.getCartItems();
 		Set<OrderItem> orderItems = new HashSet<OrderItem>();
@@ -284,16 +284,16 @@ public class AbstractWebCommerceServiceImpl {
 			orderItem.setQuantity(cartItem.getQuantity());
 			orderItems.add(orderItem);
 		}
-		order.setOrderItems(orderItems);
+		orderCustomer.setOrderItems(orderItems);
 		
-		order = orderService.createNewOrder(order);
+		orderCustomer = orderCustomerService.createNewOrder(orderCustomer);
 		
 		// Clean Cart
 		requestUtil.cleanCurrentCart(request);
 
-		requestUtil.saveLastOrder(request, order);
+		requestUtil.saveLastOrder(request, orderCustomer);
 		
-		return order;
+		return orderCustomer;
 	}
 	
 	public Customer saveNewsletterSubscription(final RequestData requestData, final String email) throws Exception {

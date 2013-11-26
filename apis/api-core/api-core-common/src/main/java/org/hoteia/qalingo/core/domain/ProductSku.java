@@ -84,12 +84,12 @@ public class ProductSku extends AbstractEntity {
 	@Column(name="CODE", nullable=false)
 	private String code;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	private Set<ProductSkuAttribute> productSkuGlobalAttributes = new HashSet<ProductSkuAttribute>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
 	private Set<ProductSkuAttribute> productSkuMarketAreaAttributes = new HashSet<ProductSkuAttribute>(); 
@@ -115,7 +115,7 @@ public class ProductSku extends AbstractEntity {
 	@Filter(name="filterProductSkuPriceByMarketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
 	private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
 	@Filter(name="filterProductSkuStockByMarketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
 	private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>(); 

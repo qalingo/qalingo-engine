@@ -42,7 +42,7 @@ public class CartItem extends AbstractEntity {
 	@Column(name="PRODUCT_SKU_CODE")
 	private String productSkuCode;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
 	private ProductSku productSku;
 	

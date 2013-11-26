@@ -26,6 +26,13 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -5387549593050575454L;
 	
+	   // MENU
+    protected String img;
+    protected String changeContextUrl;
+
+    // ENTITY
+    protected Long id;
+    protected int version;
 	protected String code;
 	protected String name;
 	protected String description;
@@ -36,10 +43,9 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected boolean isBrand;
 	protected boolean isEcommerce;
 	
-	protected String img;
-	protected String changeContextUrl;
 	protected String detailsUrl;
-	
+    protected String editUrl;
+	   
 	protected int qualityOfService = 0;
 	protected int priceScore = 0;
 	protected int ratioQualityPrice = 0;
@@ -56,10 +62,45 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	protected List<StoreViewBean> stores = new ArrayList<StoreViewBean>();
 
-	protected List<ShareOptionViewBean> shareOptions = new ArrayList<ShareOptionViewBean>();
+    protected List<ShareOptionViewBean> shareOptions = new ArrayList<ShareOptionViewBean>();
 
-	public String getCode() {
-    	return code;
+    protected String createdDate;
+    protected String updatedDate;
+    
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getCode() {
+        return code;
     }
 
 	public void setCode(String code) {
@@ -129,32 +170,24 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
     	this.isEcommerce = isEcommerce;
     }
 
-	public String getImg() {
-    	return img;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 
-	public void setImg(String img) {
-    	this.img = img;
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
     }
 
-	public String getChangeContextUrl() {
-    	return changeContextUrl;
+    public String getEditUrl() {
+        return editUrl;
     }
 
-	public void setChangeContextUrl(String changeContextUrl) {
-    	this.changeContextUrl = changeContextUrl;
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
     }
 
-	public String getDetailsUrl() {
-	    return detailsUrl;
-    }
-	
-	public void setDetailsUrl(String detailsUrl) {
-	    this.detailsUrl = detailsUrl;
-    }
-	
-	public int getQualityOfService() {
-    	return qualityOfService;
+    public int getQualityOfService() {
+        return qualityOfService;
     }
 
 	public void setQualityOfService(int qualityOfService) {
@@ -260,8 +293,24 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	    return metaShareDescription;
     }
 	
-	public String getMetaShareImage() {
-		return getImg();
+    public String getMetaShareImage() {
+        return getImg();
     }
-	
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
 }

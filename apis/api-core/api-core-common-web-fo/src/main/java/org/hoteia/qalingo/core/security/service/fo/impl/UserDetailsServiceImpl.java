@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.security.helper.Assembler;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

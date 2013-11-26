@@ -11,15 +11,16 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.LocalizationDao;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.LocalizationDao;
-import org.hoteia.qalingo.core.domain.Localization;
 
 @Transactional
 @Repository("localizationDao")
@@ -27,17 +28,24 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Localization getLocalizationById(Long localizationId) {
-		return em.find(Localization.class, localizationId);
+	public Localization getLocalizationById(final Long localizationId) {
+//		return em.find(Localization.class, localizationId);
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("id", localizationId));
+        Localization localization = (Localization) criteria.uniqueResult();
+        return localization;
 	}
 
-	public Localization getLocalizationByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Localization WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		Localization localization = (Localization) query.uniqueResult();
-		return localization;
+	public Localization getLocalizationByCode(final String code) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Localization WHERE upper(code) = upper(:code)";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", code);
+//		Localization localization = (Localization) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Localization.class);
+        criteria.add(Restrictions.eq("code", code));
+        Localization localization = (Localization) criteria.uniqueResult();
+        return localization;
 	}
 	
 //	public List<Localization> findByExample(Localization localizationExample) {
@@ -45,10 +53,18 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 //	}
 
 	public List<Localization> findLocalizations() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Localization ORDER BY language";
-		Query query = session.createQuery(sql);
-		List<Localization> localizations = (List<Localization>) query.list();
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Localization ORDER BY language";
+//		Query query = session.createQuery(sql);
+//		List<Localization> localizations = (List<Localization>) query.list();
+	    
+        Criteria criteria = getSession().createCriteria(Localization.class);
+        
+        criteria.addOrder(Order.asc("language"));
+
+        @SuppressWarnings("unchecked")
+        List<Localization> localizations = criteria.list();
+        
 		return localizations;
 	}
 	

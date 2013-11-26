@@ -15,7 +15,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -47,7 +47,7 @@ public interface WebCommerceService {
 	
 	Customer removeProductSkuFromWishlist(HttpServletRequest request, RequestData requestData, String skuCode) throws Exception;
 	
-	Order buildAndSaveNewOrder(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode) throws Exception;
+	OrderCustomer buildAndSaveNewOrder(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode) throws Exception;
 	
 	Customer saveNewsletterSubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;
 

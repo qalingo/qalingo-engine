@@ -16,6 +16,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.wurfl.core.Device;
+import net.sourceforge.wurfl.core.WURFLHolder;
+import net.sourceforge.wurfl.core.WURFLManager;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Market;
@@ -25,6 +29,8 @@ import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.View;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
 

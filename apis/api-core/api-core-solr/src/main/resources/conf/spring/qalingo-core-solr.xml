@@ -21,15 +21,6 @@
 
 		<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
 
-		<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-			<property name="locations">
-				<list>
-					<!-- Looks like wildcard classpath:common-qalingo-*.properties doesn't work with catalina.properties shared.loader -->
-					<value>qalingo-config.properties</value>
-				</list>
-			</property>
-		</bean>
-
 		<bean id="customerSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
 			<constructor-arg value="${solr.server.url}/customer" />
 		</bean>

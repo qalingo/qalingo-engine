@@ -28,7 +28,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -218,12 +218,12 @@ public interface RequestUtil {
 	/**
      * 
      */
-	Order getLastOrder(HttpServletRequest request) throws Exception;
+	OrderCustomer getLastOrder(HttpServletRequest request) throws Exception;
 	
 	/**
      * 
      */
-	void saveLastOrder(HttpServletRequest request, Order order) throws Exception;
+	void saveLastOrder(HttpServletRequest request, OrderCustomer order) throws Exception;
 	
 	/**
      * 

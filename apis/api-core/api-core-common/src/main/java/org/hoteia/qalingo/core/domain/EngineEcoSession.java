@@ -81,7 +81,7 @@ public class EngineEcoSession extends AbstractEntity {
     private User currentUser;
 
     @Transient
-    private Order lastOrder;
+    private OrderCustomer lastOrder;
 
     @Transient
     private String theme;
@@ -204,11 +204,11 @@ public class EngineEcoSession extends AbstractEntity {
         this.currentUser = currentUser;
     }
 
-    public Order getLastOrder() {
+    public OrderCustomer getLastOrder() {
         return lastOrder;
     }
 
-    public void setLastOrder(Order lastOrder) {
+    public void setLastOrder(OrderCustomer lastOrder) {
         this.lastOrder = lastOrder;
     }
 

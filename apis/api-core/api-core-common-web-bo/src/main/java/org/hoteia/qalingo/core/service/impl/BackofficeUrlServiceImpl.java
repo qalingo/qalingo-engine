@@ -31,7 +31,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -120,8 +120,8 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         Shipping shipping = (Shipping) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE, handleParamValue(shipping.getId().toString()));
                         break;
-                    } else if (param instanceof Order) {
-                        Order order = (Order) param;
+                    } else if (param instanceof OrderCustomer) {
+                        OrderCustomer order = (OrderCustomer) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_ORDER_CODE, handleParamValue(order.getId().toString()));
                         break;
                     } else if (param instanceof Customer) {

@@ -11,15 +11,15 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CustomerConnectionLogDao;
+import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CustomerConnectionLogDao;
-import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 
 @Transactional
 @Repository("customerConnectionLogDao")
@@ -27,8 +27,12 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId) {
-		return em.find(CustomerConnectionLog.class, customerConnectionLogId);
+	public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId) {
+//		return em.find(CustomerConnectionLog.class, customerConnectionLogId);
+        Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("id", customerConnectionLogId));
+        CustomerConnectionLog customerConnectionLog = (CustomerConnectionLog) criteria.uniqueResult();
+        return customerConnectionLog;
 	}
 
 //	public List<CustomerConnectionLog> findByExample(CustomerConnectionLog customerConnectionLogExample) {
@@ -36,22 +40,40 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 //	}
 
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId){
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId ORDER BY loginDate";
-		Query query = session.createQuery(sql);
-		query.setLong("customerId", customerId);
-		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
-		return customerConnectionLogs;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId ORDER BY loginDate";
+//		Query query = session.createQuery(sql);
+//		query.setLong("customerId", customerId);
+//		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
+		
+        Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
+        
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<CustomerConnectionLog> customerConnectionLogs = criteria.list();
+        return customerConnectionLogs;
 	}
 	
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId AND app = :appCode ORDER BY loginDate";
-		Query query = session.createQuery(sql);
-		query.setLong("customerId", customerId);
-		query.setString("appCode", appCode);
-		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
-		return customerConnectionLogs;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId AND app = :appCode ORDER BY loginDate";
+//		Query query = session.createQuery(sql);
+//		query.setLong("customerId", customerId);
+//		query.setString("appCode", appCode);
+//		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
+//		return customerConnectionLogs;
+		
+        Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
+        criteria.add(Restrictions.eq("appCode", appCode));
+        
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<CustomerConnectionLog> customerConnectionLogs = criteria.list();
+        return customerConnectionLogs;
 	}
 	
 	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {

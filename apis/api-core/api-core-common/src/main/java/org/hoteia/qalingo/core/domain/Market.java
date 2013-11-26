@@ -62,7 +62,7 @@ public class Market extends AbstractEntity {
 	@Column(name="THEME")
 	private String theme;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MARKETPLACE_ID", insertable=false, updatable=false)
 	private MarketPlace marketPlace;
 	

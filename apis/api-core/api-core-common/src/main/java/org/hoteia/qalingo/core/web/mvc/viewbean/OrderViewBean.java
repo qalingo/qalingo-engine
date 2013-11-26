@@ -20,32 +20,63 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -7481342045685333815L;
 	
-	private String orderNum;
-	private String status;
-	private String dateCreate;
-	private String dateUpdate;
-	
-	private String orderItemsTotal;
-	private String orderShippingTotal;
-	private String orderFeesTotal;
-	private String orderTotal;
-	
-	private String cardHolder;
-	private String cardNumber;
-	private String cardCrypto;
-	private String cardExpirationDate;
-	private String cardExpirationMonth;
-	private String cardExpirationYear;
-	
-	private String orderDetailsUrl;
+    private Long id;
+    private int version;
+    private String status;
+    private String orderNum;
 
-	private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
-	private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
-	private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
-	
+    private String orderItemsTotal;
+    private String orderShippingTotal;
+    private String orderFeesTotal;
+    private String orderTotal;
+
+    private String cardHolder;
+    private String cardNumber;
+    private String cardCrypto;
+    private String cardExpirationDate;
+    private String cardExpirationMonth;
+    private String cardExpirationYear;
+
+    private Long customerId;
+    private Long billingAddressId;
+    private Long shippingAddressId;
+
+    private List<OrderItemViewBean> orderItems = new ArrayList<OrderItemViewBean>();
+    private List<OrderShippingViewBean> orderShippings = new ArrayList<OrderShippingViewBean>();
+    private List<OrderTaxViewBean> orderTaxes = new ArrayList<OrderTaxViewBean>();
+
+    private String detailsUrl;
+
+    private String dateCreate;
+    private String dateUpdate;
+	    
 	public OrderViewBean() {
 	}
 	
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+	    
 	public String getOrderNum() {
 		return orderNum;
 	}
@@ -54,30 +85,6 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.orderNum = orderNum;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public String getDateCreate() {
-		return dateCreate;
-	}
-	
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-	
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-	
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-	
 	public String getOrderItemsTotal() {
 		return orderItemsTotal;
 	}
@@ -158,15 +165,31 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.cardExpirationYear = cardExpirationYear;
 	}
 
-	public String getOrderDetailsUrl() {
-		return orderDetailsUrl;
-	}
+	public Long getCustomerId() {
+        return customerId;
+    }
 
-	public void setOrderDetailsUrl(String orderDetailsUrl) {
-		this.orderDetailsUrl = orderDetailsUrl;
-	}
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
-	public List<OrderItemViewBean> getOrderItems() {
+    public Long getBillingAddressId() {
+        return billingAddressId;
+    }
+
+    public void setBillingAddressId(Long billingAddressId) {
+        this.billingAddressId = billingAddressId;
+    }
+
+    public Long getShippingAddressId() {
+        return shippingAddressId;
+    }
+
+    public void setShippingAddressId(Long shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
+
+    public List<OrderItemViewBean> getOrderItems() {
 		return orderItems;
 	}
 
@@ -182,12 +205,35 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.orderShippings = orderShippings;
 	}
 
-	public List<OrderTaxViewBean> getOrderTaxes() {
-		return orderTaxes;
-	}
-	
-	public void setOrderTaxes(List<OrderTaxViewBean> orderTaxes) {
-		this.orderTaxes = orderTaxes;
-	}
-	
+    public List<OrderTaxViewBean> getOrderTaxes() {
+        return orderTaxes;
+    }
+
+    public void setOrderTaxes(List<OrderTaxViewBean> orderTaxes) {
+        this.orderTaxes = orderTaxes;
+    }
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+    
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 }

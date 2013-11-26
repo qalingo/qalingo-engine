@@ -11,13 +11,14 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CmsContentDao;
+import org.hoteia.qalingo.core.domain.CmsContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CmsContentDao;
-import org.hoteia.qalingo.core.domain.CmsContent;
 
 @Transactional
 @Repository("cmsContentDao")
@@ -25,8 +26,13 @@ public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsCont
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CmsContent getCmsContentById(Long cmsContentId) {
-		return em.find(CmsContent.class, cmsContentId);
+	public CmsContent getCmsContentById(final Long cmsContentId) {
+//		return em.find(CmsContent.class, cmsContentId);
+		
+        Criteria criteria = getSession().createCriteria(CmsContent.class);
+        criteria.add(Restrictions.eq("id", cmsContentId));
+        CmsContent cmsContent = (CmsContent) criteria.uniqueResult();
+        return cmsContent;
 	}
 
 	public void saveOrUpdateCmsContent(CmsContent cmsContent) {

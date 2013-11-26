@@ -11,15 +11,15 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CustomerGroupDao;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CustomerGroupDao;
-import org.hoteia.qalingo.core.domain.CustomerGroup;
 
 @Transactional
 @Repository("customerGroupDao")
@@ -27,17 +27,30 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerGroup getCustomerGroupById(Long customerGroupId) {
-		return em.find(CustomerGroup.class, customerGroupId);
+	public CustomerGroup getCustomerGroupById(final Long customerGroupId) {
+//		return em.find(CustomerGroup.class, customerGroupId);
+        Criteria criteria = getSession().createCriteria(CustomerGroup.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.eq("id", customerGroupId));
+        CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        return customerGroup;
 	}
 	
-	public CustomerGroup getCustomerGroupByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CustomerGroup WHERE code = :code";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		CustomerGroup customerGroup = (CustomerGroup) query.uniqueResult();
-		return customerGroup;
+	public CustomerGroup getCustomerGroupByCode(final String code) {
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM CustomerGroup WHERE code = :code";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", code);
+//		CustomerGroup customerGroup = (CustomerGroup) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(CustomerGroup.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.eq("code", code));
+        CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        return customerGroup;
 	}
 	
 	public void saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
@@ -55,5 +68,9 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 	public void deleteCustomerGroup(CustomerGroup customerGroup) {
 		em.remove(customerGroup);
 	}
+	
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("customerRoles", FetchMode.JOIN); 
+    }
 
 }

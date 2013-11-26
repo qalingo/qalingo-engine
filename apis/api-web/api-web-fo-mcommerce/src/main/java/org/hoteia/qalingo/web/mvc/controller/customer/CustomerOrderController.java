@@ -26,9 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.service.OrderService;
+import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -42,7 +42,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-    protected OrderService orderService;
+    protected OrderCustomerService orderCustomerService;
 	
 	@RequestMapping(FoUrls.PERSONAL_ORDER_LIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
@@ -54,9 +54,9 @@ public class CustomerOrderController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		List<Order> orders = orderService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
-		if(orders != null
-				&& orders.size() > 0){
+		List<OrderCustomer> orderCustomers = orderCustomerService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
+		if(orderCustomers != null
+				&& orderCustomers.size() > 0){
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
 			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
@@ -64,11 +64,11 @@ public class CustomerOrderController extends AbstractCustomerController {
 			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder;
 
 	        if(StringUtils.isEmpty(page)){
-	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, new PagedListHolder<OrderViewBean>());
+	        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderCustomers, new PagedListHolder<OrderViewBean>());
 	        } else {
 		        orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 		        if (orderViewBeanPagedListHolder == null) { 
-		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orders, orderViewBeanPagedListHolder);
+		        	orderViewBeanPagedListHolder = initList(request, sessionKey, orderCustomers, orderViewBeanPagedListHolder);
 		        }
 		        int pageTarget = new Integer(page).intValue() - 1;
 		        int pageCurrent = orderViewBeanPagedListHolder.getPage();
@@ -93,10 +93,10 @@ public class CustomerOrderController extends AbstractCustomerController {
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
 		
-		final String orderId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID);
-		if(StringUtils.isNotEmpty(orderId)){
-			final Order order = orderService.getOrderById(orderId);
-			if(order != null){
+		final String orderCustomerId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID);
+		if(StringUtils.isNotEmpty(orderCustomerId)){
+			final OrderCustomer orderCustomer = orderCustomerService.getOrderById(orderCustomerId);
+			if(orderCustomer != null){
 				// SANITY CHECK
 
 				final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
@@ -105,11 +105,11 @@ public class CustomerOrderController extends AbstractCustomerController {
 				// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 				final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 				
-				List<Order> orders = orderService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
-				if(orders.contains(order)){
+				List<OrderCustomer> orderCustomers = orderCustomerService.findOrdersByCustomerId(reloadedCustomer.getId().toString());
+				if(orderCustomers.contains(orderCustomer)){
 			        return modelAndView;
 				} else {
-					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderId + ", which does not belong");
+					logger.warn("Customer, " + reloadedCustomer.getId() + "/" + reloadedCustomer.getEmail() + ", try to acces to a customer order, " + orderCustomerId + ", which does not belong");
 				}
 			}
 		}
@@ -117,7 +117,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 		return new ModelAndView(new RedirectView(url));
 	}
 
-	protected PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<Order> orders,
+	protected PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<OrderCustomer> orders,
 			PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder) throws Exception {
 		List<OrderViewBean> orderViewBeans = frontofficeViewBeanFactory.buildOrderViewBeans(requestUtil.getRequestData(request), orders);
 		orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>(orderViewBeans);

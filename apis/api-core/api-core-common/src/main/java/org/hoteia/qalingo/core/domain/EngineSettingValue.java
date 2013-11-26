@@ -44,7 +44,7 @@ public class EngineSettingValue extends AbstractEntity {
 	@Column(name="VALUE")
 	private String value;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="ENGINE_SETTING_ID")
 	private EngineSetting engineSetting;
 	

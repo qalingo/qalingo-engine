@@ -26,7 +26,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -112,7 +112,7 @@ public interface BackofficeViewBeanFactory extends ViewBeanFactory {
 	
 	ShippingViewBean buildShippingViewBean(RequestData requestData, Shipping shipping) throws Exception;
 	
-	OrderViewBean buildOrderViewBean(RequestData requestData, Order order) throws Exception;
+	OrderViewBean buildOrderViewBean(RequestData requestData, OrderCustomer order) throws Exception;
 	
 	RuleViewBean buildRuleViewBean(RequestData requestData, AbstractRuleReferential rule) throws Exception;
 	

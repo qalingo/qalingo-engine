@@ -97,15 +97,15 @@ public class Retailer extends AbstractEntity {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerLink> links = new HashSet<RetailerLink>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Store> stores = new HashSet<Store>();
 
@@ -126,20 +126,20 @@ public class Retailer extends AbstractEntity {
     @Filter(name = "filterRetailerAttributeIsGlobal", condition = "IS_GLOBAL = '1'")
     private Set<RetailerAttribute> retailerGlobalAttributes = new HashSet<RetailerAttribute>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     @Filter(name = "filterRetailerAttributeByMarketArea", condition = "MARKET_AREA_ID = :marketAreaId")
     private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerRate> customerRates = new HashSet<RetailerCustomerRate>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>();
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_RETAILER_RETAILER_TAG_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_TAG_ID"))
     private Set<RetailerTag> retailerTags;
 

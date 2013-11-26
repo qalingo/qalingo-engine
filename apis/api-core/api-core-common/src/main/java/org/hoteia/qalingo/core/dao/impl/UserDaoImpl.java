@@ -29,17 +29,23 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public User getUserById(Long userId) {
-        return em.find(User.class, userId);
+    public User getUserById(final Long userId) {
+//      return em.find(User.class, userId);
+        Criteria criteria = getSession().createCriteria(User.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.eq("id", userId));
+        User user = (User) criteria.uniqueResult();
+        return user;
     }
 
-    public User getUserByLoginOrEmail(String usernameOrEmail) {
+    public User getUserByLoginOrEmail(final String usernameOrEmail) {
         Criteria criteria = getSession().createCriteria(User.class);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         
-        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);        
-        criteria.setFetchMode("company", FetchMode.JOIN);        
+        addDefaultFetch(criteria);      
 
         criteria.setFetchMode("userGroups", FetchMode.JOIN);        
         criteria.setFetchMode("connectionLogs", FetchMode.JOIN);
@@ -57,11 +63,11 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
 
     public List<User> findUsers() {
         Criteria criteria = getSession().createCriteria(User.class);
-        criteria.addOrder(Order.asc("firstname"));
-        criteria.addOrder(Order.asc("lastname"));
         
-        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);        
-        criteria.setFetchMode("company", FetchMode.JOIN);        
+        addDefaultFetch(criteria);
+
+        criteria.addOrder(Order.asc("lastname"));
+        criteria.addOrder(Order.asc("firstname"));
 
         @SuppressWarnings("unchecked")
         List<User> users = criteria.list();
@@ -87,6 +93,13 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
 
     public void deleteUser(User user) {
         em.remove(user);
+    }
+    
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN); 
+        criteria.setFetchMode("company", FetchMode.JOIN); 
+        criteria.setFetchMode("userGroups", FetchMode.JOIN); 
+        criteria.setFetchMode("connectionLogs", FetchMode.JOIN); 
     }
 
 }

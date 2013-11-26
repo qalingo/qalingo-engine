@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -213,7 +213,7 @@ public class FormFactoryImpl implements FormFactory {
 		return customerForm;
 	}
 	
-	public OrderForm buildOrderForm(final HttpServletRequest request, final Order order) throws Exception {
+	public OrderForm buildOrderForm(final HttpServletRequest request, final OrderCustomer order) throws Exception {
 		final OrderForm orderForm = new OrderForm();
 		if(order != null){
 			orderForm.setId(order.getId());

@@ -11,8 +11,10 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ProductMarketingViewBean extends AbstractViewBean implements Serializable {
 
@@ -21,23 +23,70 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
      */
     private static final long serialVersionUID = 9190853998911450184L;
 
-    protected int positionItem;
-    protected String name;
+    protected Long id;
+    protected String code;
+    protected String businessName;
     protected String description;
+    protected int positionItem;
 
+    protected String i18nName;
+    
     protected String backgroundImage;
     protected String carouselImage;
     protected String iconImage;
 
-    protected String productDetailsUrl;
-    protected String brandDetailsUrl;
-    protected String brandLineDetailsUrl;
-
+    protected boolean isDefault;
     protected boolean featured;
 
+    protected BrandViewBean brand;
+    
+    protected Map<String, String> globalAttributes = new HashMap<String, String>();
+    protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    
     protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
-    protected List<ProductCrossLinkViewBean> productCrossLinks = new ArrayList<ProductCrossLinkViewBean>();
+    protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
+    protected String brandDetailsUrl;
+    protected String brandLineDetailsUrl;
+    protected String detailsUrl;
+    protected String editUrl;
+    
+    protected String createdDate;
+    protected String updatedDate;
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+    
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public int getPositionItem() {
         return positionItem;
     }
@@ -46,22 +95,14 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
         this.positionItem = positionItem;
     }
 
-    public String getName() {
-        return name;
+    public String getI18nName() {
+        return i18nName;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    
     public String getBackgroundImage() {
         return backgroundImage;
     }
@@ -86,12 +127,68 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
         this.iconImage = iconImage;
     }
 
-    public String getProductDetailsUrl() {
-        return productDetailsUrl;
+    public boolean isDefault() {
+        return isDefault;
     }
 
-    public void setProductDetailsUrl(String productDetailsUrl) {
-        this.productDetailsUrl = productDetailsUrl;
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+    
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+    
+    public BrandViewBean getBrand() {
+        return brand;
+    }
+    
+    public void setBrand(BrandViewBean brand) {
+        this.brand = brand;
+    }
+    
+    public Map<String, String> getGlobalAttributes() {
+        return globalAttributes;
+    }
+    
+    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+        this.globalAttributes = globalAttributes;
+    }
+    
+    public Map<String, String> getMarketAreaAttributes() {
+        return marketAreaAttributes;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+        this.marketAreaAttributes = marketAreaAttributes;
+    }
+    
+    public List<ProductSkuViewBean> getProductSkus() {
+        return productSkus;
+    }
+    
+    public void setProductSkus(List<ProductSkuViewBean> productSkus) {
+        this.productSkus = productSkus;
+    }
+    
+    public List<ProductAssociationLinkViewBean> getProductAssociationLinks() {
+        return productAssociationLinks;
+    }
+    
+    public void setProductAssociationLinks(List<ProductAssociationLinkViewBean> productAssociationLinks) {
+        this.productAssociationLinks = productAssociationLinks;
+    }
+    
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
     }
 
     public String getBrandDetailsUrl() {
@@ -142,28 +239,36 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
         return null;
     }
     
-    public boolean isFeatured() {
-        return featured;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 
-    public void setFeatured(boolean featured) {
-        this.featured = featured;
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
     }
 
-    public List<ProductSkuViewBean> getProductSkus() {
-        return productSkus;
+    public String getEditUrl() {
+        return editUrl;
     }
 
-    public void setProductSkus(List<ProductSkuViewBean> productSkus) {
-        this.productSkus = productSkus;
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+    
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public List<ProductCrossLinkViewBean> getProductCrossLinks() {
-        return productCrossLinks;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public void setProductCrossLinks(List<ProductCrossLinkViewBean> productCrossLinks) {
-        this.productCrossLinks = productCrossLinks;
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+    
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
 }

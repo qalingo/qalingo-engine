@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
-import org.hoteia.qalingo.core.solr.response.ProductResponseBean;
+import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -25,11 +25,11 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 	
 	SearchViewBean buildSearchViewBean(RequestData requestData) throws Exception;
 
-	List<SearchProductItemViewBean> buildSearchProductItemViewBeans(RequestData requestData, ProductResponseBean productResponseBean) throws Exception;
+	List<SearchProductItemViewBean> buildSearchProductItemViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 	
-	SearchProductItemViewBean buildSearchProductItemViewBean(RequestData requestData, ProductSkuSolr productSolr) throws Exception;
+	SearchProductItemViewBean buildSearchProductItemViewBean(RequestData requestData, ProductMarketingSolr productMarketingSolr) throws Exception;
 	
-	List<SearchFacetViewBean> buildSearchFacetViewBeans(RequestData requestData, ProductResponseBean productResponseBean) throws Exception;
+	List<SearchFacetViewBean> buildSearchFacetViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 	
 	SearchFacetViewBean buildSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
 

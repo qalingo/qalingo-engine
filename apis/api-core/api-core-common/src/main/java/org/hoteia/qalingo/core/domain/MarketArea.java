@@ -87,16 +87,16 @@ public class MarketArea extends AbstractEntity {
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
 	private Market market;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -108,7 +108,7 @@ public class MarketArea extends AbstractEntity {
 	private Set<Localization> localizations = new HashSet<Localization>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Retailer.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -119,7 +119,7 @@ public class MarketArea extends AbstractEntity {
 	    )
 	private Set<Retailer> retailers = new HashSet<Retailer>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_AREA_ID")
 	private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>(); 
 	

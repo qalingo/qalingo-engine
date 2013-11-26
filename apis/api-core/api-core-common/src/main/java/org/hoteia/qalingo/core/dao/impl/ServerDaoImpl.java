@@ -18,17 +18,16 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.ServerDao;
+import org.hoteia.qalingo.core.domain.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.ServerDao;
-import org.hoteia.qalingo.core.domain.ServerStatus;
 
 @Transactional
 @Repository("serverDao")
@@ -36,51 +35,71 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ServerStatus getServerStatusById(Long serverStatusId) {
-		return em.find(ServerStatus.class, serverStatusId);
+	public ServerStatus getServerStatusById(final Long serverStatusId) {
+//		return em.find(ServerStatus.class, serverStatusId);
+        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        criteria.add(Restrictions.eq("id", serverStatusId));
+        ServerStatus serverStatus = (ServerStatus) criteria.uniqueResult();
+        return serverStatus;
 	}
 	
     public List<ServerStatus> findServerStatus(final String serverName) {
-        Session session = (Session) em.getDelegate();
-        String sql = "FROM ServerStatus WHERE serverName = :serverName ORDER BY lastCheckReceived";
-        Query query = session.createQuery(sql);
-        query.setString("serverName", serverName);
-        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+//        Session session = (Session) em.getDelegate();
+//        String sql = "FROM ServerStatus WHERE serverName = :serverName ORDER BY lastCheckReceived";
+//        Query query = session.createQuery(sql);
+//        query.setString("serverName", serverName);
+//        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        criteria.add(Restrictions.eq("serverName", serverName));
+        
+        criteria.addOrder(Order.asc("lastCheckReceived"));
+
+        @SuppressWarnings("unchecked")
+        List<ServerStatus> serverStatus = criteria.list();
         return serverStatus;
     }
     
     public List<ServerStatus> findServerStatus() {
-        Session session = (Session) em.getDelegate();
-        String sql = "FROM ServerStatus ORDER BY serverName, lastCheckReceived";
-        Query query = session.createQuery(sql);
-        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+//        Session session = (Session) em.getDelegate();
+//        String sql = "FROM ServerStatus ORDER BY serverName, lastCheckReceived";
+//        Query query = session.createQuery(sql);
+//        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
+        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        
+        criteria.addOrder(Order.asc("serverName"));
+        criteria.addOrder(Order.asc("lastCheckReceived"));
+
+        @SuppressWarnings("unchecked")
+        List<ServerStatus> serverStatus = criteria.list();
         return serverStatus;
     }
 
     public List<ServerStatus> getServerList(){
-        Session session = (Session) em.getDelegate();
-        String sql = " select serverName FROM ServerStatus group  BY serverName ";
+//        Session session = (Session) em.getDelegate();
+//        String sql = " select serverName FROM ServerStatus group  BY serverName ";
+//        
+//        Query query = session.createQuery(sql);
+//        Criteria criteria = session.createCriteria(ServerStatus.class);
+//        ProjectionList projectionList = Projections.projectionList();
+//        projectionList.add(Projections.groupProperty("serverName"));
+// 
+//        criteria.setProjection(projectionList);
+//        
         
-        Query query = session.createQuery(sql);
-        Criteria criteria = session.createCriteria(ServerStatus.class);
-        ProjectionList projectionList = Projections.projectionList();
-        projectionList.add(Projections.groupProperty("serverName"));
- 
-        criteria.setProjection(projectionList);
-        
+        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        criteria.setProjection(Projections.groupProperty("serverName").as("serverName"));
+
         List<String> serverNames = (List<String>) criteria.list();
-   
+        
         List<ServerStatus> serverStatus = new ArrayList<ServerStatus>();
         if(null !=serverNames){
-        	for(int i=0;i<serverNames.size();i++){
-        		ServerStatus status = new ServerStatus();
-        		status.setServerName(serverNames.get(i));
-        		serverStatus.add(status);
-        		
-        	}
+            for(int i=0;i<serverNames.size();i++){
+                ServerStatus status = new ServerStatus();
+                status.setServerName(serverNames.get(i));
+                serverStatus.add(status);
+                
+            }
         }
-        
-       
         
         return serverStatus;
     }

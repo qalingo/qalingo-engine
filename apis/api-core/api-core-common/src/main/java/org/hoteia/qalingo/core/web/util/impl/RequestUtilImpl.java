@@ -49,7 +49,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
@@ -625,7 +625,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public Order getLastOrder(final HttpServletRequest request) throws Exception {
+    public OrderCustomer getLastOrder(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         return engineEcoSession.getLastOrder();
     }
@@ -633,7 +633,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public void saveLastOrder(final HttpServletRequest request, final Order order) throws Exception {
+    public void saveLastOrder(final HttpServletRequest request, final OrderCustomer order) throws Exception {
         if (order != null) {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             engineEcoSession.setLastOrder(order);

@@ -123,7 +123,7 @@ public class Customer extends AbstractEntity {
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 
 	
@@ -138,7 +138,7 @@ public class Customer extends AbstractEntity {
 	    )
 	private Set<CustomerGroup> customerGroups = new HashSet<CustomerGroup>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
 	

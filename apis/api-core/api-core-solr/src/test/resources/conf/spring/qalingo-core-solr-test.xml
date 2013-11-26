@@ -25,7 +25,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>qalingo-config.properties</value>
+				<value>classpath:common-qalingo-solr.properties</value>
 			</list>
 		</property>
 	</bean>

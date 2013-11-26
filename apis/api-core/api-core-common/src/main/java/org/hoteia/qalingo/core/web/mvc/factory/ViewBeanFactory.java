@@ -21,7 +21,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -55,7 +55,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCrossLinkViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
@@ -136,14 +136,14 @@ public interface ViewBeanFactory {
 
 	CartViewBean buildCartViewBean(RequestData requestData, Cart cart) throws Exception;
 
-	List<OrderViewBean> buildOrderViewBeans(RequestData requestData,  List<Order> orders) throws Exception;
+	List<OrderViewBean> buildOrderViewBeans(RequestData requestData,  List<OrderCustomer> orders) throws Exception;
 	
-	OrderViewBean buildOrderViewBean(RequestData requestData, Order order) throws Exception;
+	OrderViewBean buildOrderViewBean(RequestData requestData, OrderCustomer order) throws Exception;
 
 
 	OrderItemViewBean buildOrderItemViewBean(RequestData requestData, OrderItem orderItem) throws Exception;
 	
-	ProductCrossLinkViewBean buildProductCrossLinkViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 
+	ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 
 														   ProductMarketing productMarketing) throws Exception;
 	
 	ProductSkuViewBean buildProductSkuViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 

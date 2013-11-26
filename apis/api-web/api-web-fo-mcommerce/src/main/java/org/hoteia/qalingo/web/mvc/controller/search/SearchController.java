@@ -16,6 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.service.ProductMarketingService;
+import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +36,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
-import org.hoteia.qalingo.core.solr.response.ProductResponseBean;
-import org.hoteia.qalingo.core.solr.service.ProductSolrService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.SearchForm;
 
 /**
  * 
@@ -50,7 +49,7 @@ public class SearchController extends AbstractMCommerceController {
 	public ProductMarketingService productMarketingService;
 	
 	@Autowired
-	public ProductSolrService productSolrService;
+	public ProductMarketingSolrService productMarketingSolrService;
 
 	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
@@ -78,22 +77,22 @@ public class SearchController extends AbstractMCommerceController {
 		modelAndView.addObject("search", search);
 		
 		try {
-			ProductResponseBean productResponseBean = productSolrService.searchProduct();
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productResponseBean));
+			ProductMarketingResponseBean productMarketingResponseBean = productMarketingSolrService.searchProductMarketing();
+			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean));
 			
 			String url = requestUtil.getCurrentRequestUrl(request);
 			
-			String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
+			String sessionKey = "PagedListHolder_Search_List_ProductMarketing_" + request.getSession().getId();
 	        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder;
 
 	        if(StringUtils.isEmpty(page)){
-	        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productResponseBean, new PagedListHolder<SearchProductItemViewBean>());
+	        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, new PagedListHolder<SearchProductItemViewBean>());
 	        } else {
 	        	
 		        accountsViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 		        if (accountsViewBeanPagedListHolder == null) { 
-		        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productResponseBean, accountsViewBeanPagedListHolder);
+		        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, accountsViewBeanPagedListHolder);
 		        }
 		        int pageTarget = new Integer(page).intValue() - 1;
 		        int pageCurrent = accountsViewBeanPagedListHolder.getPage();
@@ -117,9 +116,9 @@ public class SearchController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
-	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductResponseBean productResponseBean,
+	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductMarketingResponseBean productMarketingResponseBean,
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{
-		List<SearchProductItemViewBean> searchProductItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productResponseBean);
+		List<SearchProductItemViewBean> searchProductItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean);
 		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
 		accountsViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
         request.getSession().setAttribute(sessionKey, searchProductItems);

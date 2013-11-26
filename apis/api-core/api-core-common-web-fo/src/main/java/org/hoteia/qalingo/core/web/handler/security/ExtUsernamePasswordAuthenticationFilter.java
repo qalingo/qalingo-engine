@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 public class ExtUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 

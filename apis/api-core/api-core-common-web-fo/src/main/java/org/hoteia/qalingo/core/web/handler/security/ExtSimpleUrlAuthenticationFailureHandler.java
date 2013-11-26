@@ -21,9 +21,14 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.hoteia.qalingo.core.web.handler.security.ExtRedirectStrategy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 @Component(value="extSimpleUrlAuthenticationFailureHandler")
