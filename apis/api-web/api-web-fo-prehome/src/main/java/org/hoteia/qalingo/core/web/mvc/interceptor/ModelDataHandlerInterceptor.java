@@ -55,9 +55,6 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             
             modelAndView.getModelMap().put(ModelConstants.HEADER_CART, frontofficeViewBeanFactory.buildHeaderCartViewBean(requestData));
             
-            // FOOTER
-            modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildFooterMenuViewBeans(requestData));
-            
         } catch (Exception e) {
             logger.error("inject common datas failed", e);
         }
