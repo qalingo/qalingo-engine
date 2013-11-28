@@ -37,13 +37,13 @@ public class HomeController extends AbstractPrehomeController {
 	@Autowired
 	protected MarketPlaceService marketPlaceService;
 	
-	@RequestMapping(FoUrls.HOME_URL)
+	@RequestMapping(FoUrls.PREHOME_URL)
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.HOME.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PREHOME.getVelocityPage());
 
 		final Locale locale = requestUtil.getCurrentLocale(request);
 		
-		final String pageKey = FoUrls.HOME.getKey();
+		final String pageKey = FoUrls.PREHOME.getKey();
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
@@ -63,7 +63,7 @@ public class HomeController extends AbstractPrehomeController {
         
         // DEFAULT HOME
         RequestData requestData = requestUtil.getRequestData(request);
-        String defaultUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+        String defaultUrl = urlService.generateUrl(FoUrls.PREHOME, requestData);
         
         // TODO: GEOLOC AND CHOOSE THE GOOD MARKET
         
@@ -76,7 +76,8 @@ public class HomeController extends AbstractPrehomeController {
 	@ModelAttribute
 	protected void initMarketPlaces(final HttpServletRequest request, final Model model) throws Exception {
 		// Markets
-		model.addAttribute("marketPlaces", frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request)));
+        RequestData requestData = requestUtil.getRequestData(request);
+		model.addAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
 	}
     
 }

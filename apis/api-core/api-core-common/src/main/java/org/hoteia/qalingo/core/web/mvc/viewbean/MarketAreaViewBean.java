@@ -33,7 +33,7 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	private String longitude;
 	private String latitude;
 	
-	protected List<LocalizationViewBean> languages = new ArrayList<LocalizationViewBean>();
+	protected List<LocalizationViewBean> localizations = new ArrayList<LocalizationViewBean>();
 
     // MENU
     protected String changeContextUrl;
@@ -111,12 +111,12 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
     	this.latitude = latitude;
     }
 
-	public List<LocalizationViewBean> getLanguages() {
-		return languages;
+	public List<LocalizationViewBean> getLocalizations() {
+		return localizations;
 	}
 	
-	public void setLanguages(List<LocalizationViewBean> languages) {
-		this.languages = languages;
+	public void setLocalizations(List<LocalizationViewBean> localizations) {
+		this.localizations = localizations;
 	}
 	
     public String getChangeContextUrl() {

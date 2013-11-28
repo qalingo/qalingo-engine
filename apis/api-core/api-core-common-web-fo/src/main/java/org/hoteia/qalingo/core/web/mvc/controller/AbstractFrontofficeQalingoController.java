@@ -222,6 +222,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
 		return requestUtil.getCurrentVelocityWebPrefix(request);
 	}
+
 	/**
 	 * 
 	 */
@@ -235,4 +236,5 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale){
 		return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, scope, key, params, locale);
 	}
+
 }

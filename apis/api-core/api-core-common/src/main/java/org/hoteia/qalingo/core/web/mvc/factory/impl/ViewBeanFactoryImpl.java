@@ -457,6 +457,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setRetailer(retailer);
+        
         retailerViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
         retailerViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 

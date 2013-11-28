@@ -154,8 +154,17 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
         	}
         	
         	if(StringUtils.isEmpty(urlStr)){
-        		urlStr = buildDefaultPrefix(requestData);
+                // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
+                urlStr = buildDefaultPrefix(requestData);
+                if(url.withPrefixSEO()){
+                    urlStr = getFullPrefixUrl(requestData);
+                }
         	}
+        	
+            // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
+            if (urlStr.endsWith("/")) {
+                urlStr = urlStr.substring(0, urlStr.length() - 1);
+            }
         	
         	urlStr = urlStr + url.getUrl();
 	        

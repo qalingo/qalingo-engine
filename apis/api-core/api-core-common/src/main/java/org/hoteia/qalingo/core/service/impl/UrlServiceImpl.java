@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.service.impl;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,8 +29,6 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.slf4j.Logger;
@@ -161,11 +158,14 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             if (StringUtils.isEmpty(urlStr)) {
                 // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
-            } else {
-                // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
-                if (urlStr.endsWith("/")) {
-                    urlStr = urlStr.substring(0, urlStr.length() - 1);
+                if(url.withPrefixSEO()){
+                    urlStr = getFullPrefixUrl(requestData);
                 }
+            }
+            
+            // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
+            if (urlStr.endsWith("/")) {
+                urlStr = urlStr.substring(0, urlStr.length() - 1);
             }
 
             urlStr = urlStr + url.getUrl();
@@ -186,54 +186,6 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             url = fullPrefixUrl;
         }
         return url;
-    }
-
-    protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
-        String fullPrefixUrl = getSeoPrefixUrl(requestData) + "/";
-        return fullPrefixUrl;
-    }
-
-    protected String getSeoPrefixUrl(final RequestData requestData) throws Exception {
-        final MarketPlace marketPlace = requestData.getMarketPlace();
-        final Market market = requestData.getMarket();
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
-        final Locale locale = localization.getLocale();
-        String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
-                + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
-
-        seoPrefixUrl = seoPrefixUrl + handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
-        if (StringUtils.isNotEmpty(seoPrefixUrl)) {
-            seoPrefixUrl = seoPrefixUrl.replace(" ", "-");
-        }
-
-        return seoPrefixUrl;
-    }
-
-    protected String getMarketPlacePrefixUrl(final MarketPlace marketPlace) throws Exception {
-        String marketPlacePrefixUrl = marketPlace.getCode().toLowerCase() + "/";
-        return marketPlacePrefixUrl;
-    }
-
-    protected String getMarketPrefixUrl(final Market market) throws Exception {
-        String marketPrefixUrl = market.getCode().toLowerCase() + "/";
-        return marketPrefixUrl;
-    }
-
-    protected String getMarketModePrefixUrl(final MarketArea marketArea) throws Exception {
-        String marketAreaPrefixUrl = marketArea.getCode().toLowerCase() + "/";
-        return marketAreaPrefixUrl;
-    }
-
-    protected String getLocalizationPrefixUrl(final Localization localization) throws Exception {
-        String localizationPrefixUrl = localization.getCode().toLowerCase() + "/";
-        return localizationPrefixUrl;
-    }
-
-    protected String getRetailerPrefixUrl(final Retailer retailer) throws Exception {
-        String retailerPrefixUrl = retailer.getCode().toLowerCase() + "/";
-        return retailerPrefixUrl;
     }
 
 }
