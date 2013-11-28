@@ -25,10 +25,6 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -5387549593050575454L;
-	
-	   // MENU
-    protected String img;
-    protected String changeContextUrl;
 
     // ENTITY
     protected Long id;
@@ -67,22 +63,11 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
     protected String createdDate;
     protected String updatedDate;
     
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getChangeContextUrl() {
-        return changeContextUrl;
-    }
-
-    public void setChangeContextUrl(String changeContextUrl) {
-        this.changeContextUrl = changeContextUrl;
-    }
-
+    // MENU
+    protected String img;
+    protected String changeContextUrl;
+    protected String homeUrl;
+    
     public Long getId() {
         return id;
     }
@@ -313,4 +298,28 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+    
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+    
 }

@@ -19,12 +19,12 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -8350224752431629863L;
-	
+
+	// ENTITY
 	protected String name;
 	protected String description;
 	protected String code;
-	protected String changeContextUrl;
-	
+    
 	private boolean isDefault;
 	private boolean isEcommerce;
 	private String theme;
@@ -34,6 +34,10 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	private String latitude;
 	
 	protected List<LocalizationViewBean> languages = new ArrayList<LocalizationViewBean>();
+
+    // MENU
+    protected String changeContextUrl;
+    protected String homeUrl;
 
 	public String getName() {
 		return name;
@@ -57,14 +61,6 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 
 	public void setCode(String code) {
     	this.code = code;
-    }
-
-	public String getChangeContextUrl() {
-    	return changeContextUrl;
-    }
-
-	public void setChangeContextUrl(String changeContextUrl) {
-    	this.changeContextUrl = changeContextUrl;
     }
 
 	public boolean isDefault() {
@@ -123,4 +119,20 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 		this.languages = languages;
 	}
 	
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+
 }

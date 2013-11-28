@@ -20,12 +20,16 @@ public class MarketPlaceViewBean extends AbstractViewBean implements Serializabl
 	 */
 	private static final long serialVersionUID = 3384673120025052204L;
 	
+    // ENTITY
 	protected String name;
-	protected String img;
-	protected String changeContextUrl;
 	
 	protected List<MarketViewBean> markets = new ArrayList<MarketViewBean>();
 
+    // MENU
+    protected String img;
+    protected String changeContextUrl;
+    protected String homeUrl;
+    
 	public String getName() {
 		return name;
 	}
@@ -34,22 +38,6 @@ public class MarketPlaceViewBean extends AbstractViewBean implements Serializabl
 		this.name = name;
 	}
 
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getChangeContextUrl() {
-		return changeContextUrl;
-	}
-
-	public void setChangeContextUrl(String changeContextUrl) {
-		this.changeContextUrl = changeContextUrl;
-	}
-	
 	public List<MarketViewBean> getMarkets() {
 		return markets;
 	}
@@ -58,4 +46,28 @@ public class MarketPlaceViewBean extends AbstractViewBean implements Serializabl
 		this.markets = markets;
 	}
 	
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+    
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+    
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+    
 }

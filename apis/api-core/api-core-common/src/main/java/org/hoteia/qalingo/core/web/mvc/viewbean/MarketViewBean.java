@@ -20,42 +20,53 @@ public class MarketViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 5215345824277047277L;
 	
+    // ENTITY
 	protected String name;
-	protected String img;
-	protected String changeContextUrl;
 
 	protected List<MarketAreaViewBean> marketAreas = new ArrayList<MarketAreaViewBean>();
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getChangeContextUrl() {
-		return changeContextUrl;
-	}
-
-	public void setChangeContextUrl(String changeContextUrl) {
-		this.changeContextUrl = changeContextUrl;
-	}
+    // MENU
+    protected String img;
+    protected String changeContextUrl;
+    protected String homeUrl;
 	
-	public List<MarketAreaViewBean> getMarketAreas() {
-		return marketAreas;
-	}
-	
-	public void setMarketAreas(List<MarketAreaViewBean> marketAreas) {
-		this.marketAreas = marketAreas;
-	}
-	
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<MarketAreaViewBean> getMarketAreas() {
+        return marketAreas;
+    }
+
+    public void setMarketAreas(List<MarketAreaViewBean> marketAreas) {
+        this.marketAreas = marketAreas;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
 }

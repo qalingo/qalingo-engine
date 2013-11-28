@@ -20,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
@@ -50,5 +53,15 @@ public class HomeController extends AbstractBusinessBackofficeController {
 	public ModelAndView displayIndex(final HttpServletRequest request, final Model model) throws Exception {
         return displayHome(request, model);
 	}
+	
+    @RequestMapping("/")
+    public ModelAndView displayDefaultPage(final HttpServletRequest request, final Model model) throws Exception {
+        
+        // DEFAULT HOME
+        RequestData requestData = requestUtil.getRequestData(request);
+        String defaultUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+        
+        return new ModelAndView(new RedirectView(defaultUrl));
+    }
     
 }

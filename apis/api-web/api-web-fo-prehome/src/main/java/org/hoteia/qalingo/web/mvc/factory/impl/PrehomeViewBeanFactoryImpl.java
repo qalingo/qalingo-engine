@@ -14,7 +14,7 @@ import org.hoteia.qalingo.core.web.mvc.factory.impl.FrontofficeViewBeanFactoryIm
 /**
  * 
  */
-public class ExtViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
+public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
 
 	
 }

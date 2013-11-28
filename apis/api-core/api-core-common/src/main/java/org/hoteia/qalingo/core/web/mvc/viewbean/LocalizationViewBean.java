@@ -17,51 +17,63 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -1578033330874108569L;
-	
+
+    // ENTITY
 	protected String code;
 	protected String name;
-	protected String img;
-	protected String changeContextUrl;
 	protected boolean active = false;
 
-	public String getCode() {
-	    return code;
-    }
-	
-	public void setCode(String code) {
-	    this.code = code;
-    }
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getChangeContextUrl() {
-		return changeContextUrl;
-	}
-
-	public void setChangeContextUrl(String changeContextUrl) {
-		this.changeContextUrl = changeContextUrl;
-	}
-
-	public boolean isActive() {
-    	return active;
+    // MENU
+    protected String img;
+    protected String changeContextUrl;
+    protected String homeUrl;
+    
+    public String getCode() {
+        return code;
     }
 
-	public void setActive(boolean active) {
-    	this.active = active;
+    public void setCode(String code) {
+        this.code = code;
     }
-	
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
+
 }

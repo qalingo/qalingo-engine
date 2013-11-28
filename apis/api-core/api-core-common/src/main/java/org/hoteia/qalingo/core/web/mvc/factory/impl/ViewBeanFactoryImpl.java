@@ -458,6 +458,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setRetailer(retailer);
         retailerViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        retailerViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         retailerViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
 
@@ -625,6 +626,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         requestDataChangecontext.setRetailer(defaultRetailer);
 
         marketPlaceViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        marketPlaceViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         marketPlaceViewBean.setMarkets(buildMarketViewBeans(requestDataChangecontext, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 
@@ -663,6 +665,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         requestDataChangecontext.setRetailer(defaultRetailer);
 
         marketViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        marketViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         marketViewBean.setMarketAreas(buildMarketAreaViewBeans(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 
@@ -708,6 +711,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         requestDataChangecontext.setRetailer(defaultRetailer);
 
         marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         marketAreaViewBean.setLatitude(reloadedMarketArea.getLatitude());
         marketAreaViewBean.setLongitude(reloadedMarketArea.getLongitude());
@@ -756,6 +760,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setLocalization(localization);
         localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
+        localizationViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         if (localization.getCode().equals(currentLocalization.getCode())) {
             localizationViewBean.setActive(true);
