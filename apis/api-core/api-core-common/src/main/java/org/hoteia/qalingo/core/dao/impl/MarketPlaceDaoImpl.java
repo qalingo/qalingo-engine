@@ -110,7 +110,8 @@ public class MarketPlaceDaoImpl extends AbstractGenericDaoImpl implements Market
 
         criteria.setFetchMode("masterCatalog", FetchMode.JOIN);
         criteria.setFetchMode("markets", FetchMode.JOIN);
-
+        criteria.setFetchMode("marketPlaceAttributes", FetchMode.JOIN);
+        
 //        criteria.createAlias("markets.marketAreas", "marketAreas", JoinType.LEFT_OUTER_JOIN);
 //        criteria.setFetchMode("markets.marketAreas", FetchMode.JOIN);
 

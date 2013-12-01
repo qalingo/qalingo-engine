@@ -96,6 +96,18 @@ INSERT INTO teco_marketplace
 (20, 'Market place 3 = Brand, Area ??', 'MARKPL3', null, 0, 'market place 3 (North America,South America)', 1, 1),
 (30, 'Market place 4 = Brand, Area ??', 'MARKPL4', null, 0, 'market place 4 (ASIA)', 1, 1);
 
+INSERT INTO teco_marketplace_attribute   
+(id, context, string_value, market_place_id, attribute_definition_id)
+VALUES 
+(161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 60),
+(162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 60),
+(1161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 10, 60),
+(1162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 10, 60),
+(1261, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 20, 60),
+(1262, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 20, 60),
+(1361, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 30, 60),
+(1362, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 30, 60);
+
 INSERT INTO teco_market 
 (id, description, code, theme, is_default, name, version, marketplace_id)
  VALUES 
@@ -104,6 +116,7 @@ INSERT INTO teco_market
 (20, 'Market 3 = example North America', 'NAM', null, 1, 'North America', 1, 20),
 (21, 'Market 4 = example South America', 'SAM', null, 0, 'South America', 1, 20),
 (30, 'Market 5 = example Asia', 'ASIA', null, 1, 'Asia', 1, 30);
+
 
 INSERT INTO teco_market_area 
 (id, description, name, code, theme, is_default, version, default_localization_id, market_id, virtual_catalog_id, currency_id, latitude, longitude)
@@ -122,12 +135,12 @@ INSERT INTO teco_market_area
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
 (511, 'BO_REPORTING', 'bo-reporting.dev.qalingo.com', 1, 5),
 (512, 'BO_TECHNICAL', 'bo-technical.dev.qalingo.com', 1, 5),
-*/
 INSERT INTO teco_market_area_attribute   
 (id, context, string_value, market_area_id, attribute_definition_id)
 VALUES 
 (513, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 5),
 (514, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 5);
+*/
 
 INSERT INTO teco_market_area_attribute   
 (id, context, string_value, market_area_id, attribute_definition_id)

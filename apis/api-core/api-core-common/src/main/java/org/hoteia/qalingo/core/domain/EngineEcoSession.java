@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION")
-public class EngineEcoSession extends AbstractEntity {
+public class EngineEcoSession extends AbstractEngineSession {
 
     /**
      * Generated UID
@@ -72,7 +72,7 @@ public class EngineEcoSession extends AbstractEntity {
     private MarketArea currentMarketArea;
 
     @Transient
-    private Localization currentLocalization;
+    private Localization currentMarketAreaLocalization;
 
     @Transient
     private Retailer currentRetailer;
@@ -180,12 +180,12 @@ public class EngineEcoSession extends AbstractEntity {
         this.currentMarketArea = currentMarketArea;
     }
 
-    public Localization getCurrentLocalization() {
-        return currentLocalization;
+    public Localization getCurrentMarketAreaLocalization() {
+        return currentMarketAreaLocalization;
     }
 
-    public void setCurrentLocalization(Localization currentLocalization) {
-        this.currentLocalization = currentLocalization;
+    public void setCurrentMarketAreaLocalization(Localization currentMarketAreaLocalization) {
+        this.currentMarketAreaLocalization = currentMarketAreaLocalization;
     }
 
     public Retailer getCurrentRetailer() {

@@ -136,6 +136,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     private void addDefaultMarketFetch(Criteria criteria) {
         criteria.setFetchMode("marketPlace", FetchMode.JOIN);
         criteria.setFetchMode("marketAreas", FetchMode.JOIN);
+        criteria.setFetchMode("marketAttributes", FetchMode.JOIN);
         
         criteria.createAlias("marketAreas.defaultLocalization", "defaultLocalization", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);

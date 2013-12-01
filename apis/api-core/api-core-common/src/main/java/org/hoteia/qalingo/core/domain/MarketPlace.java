@@ -29,190 +29,222 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name="TECO_MARKETPLACE")
 public class MarketPlace extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -8834213059142444939L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -8834213059142444939L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    public final static String MARKET_PLACE_ATTRIBUTE_DOMAIN_NAME = "MARKET_PLACE_DOMAIN_NAME";
 
-	@Column(name="PATH")
-	private String path;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="THEME")
-	private String theme;
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MASTER_CATALOG_ID")
-	private CatalogMaster masterCatalog;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MARKETPLACE_ID")
-	private Set<Market> markets = new HashSet<Market>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	public MarketPlace(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "PATH")
+    private String path;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getPath() {
-		return path;
-	}
+    @Column(name = "CODE")
+    private String code;
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    @Column(name = "THEME")
+    private String theme;
 
-	public boolean isDefault() {
-		return isDefault;
-	}
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MASTER_CATALOG_ID")
+    private CatalogMaster masterCatalog;
 
-	public String getDescription() {
-		return description;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MARKETPLACE_ID")
+    private Set<Market> markets = new HashSet<Market>();
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MARKET_PLACE_ID")
+    private Set<MarketPlaceAttribute> marketPlaceAttributes = new HashSet<MarketPlaceAttribute>();
 
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getTheme() {
-		return theme;
-	}
-	
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-	
-	public CatalogMaster getMasterCatalog() {
-		return masterCatalog;
-	}
-	
-	public void setMasterCatalog(CatalogMaster masterCatalog) {
-		this.masterCatalog = masterCatalog;
-	}
-	
-	public Set<Market> getMarkets() {
-		return markets;
-	}
-	
-	public Market getDefaultMarket() {
-		Market defaultMarket = null;
-		Set<Market> markets = getMarkets();
-		if(markets != null
-				&& markets.size() > 0){
-			for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
-				Market market = (Market) iterator.next();
-				if(market.isDefault()){
-					defaultMarket = market;
-				}
-			}
-			if(defaultMarket == null){
-				Iterator<Market> iterator = markets.iterator();
-				defaultMarket = (Market) iterator.next();
-			}
-		}
-		return defaultMarket;
-	}
-	
-	public Market getMarket(String marketCode) {
-		Market marketToReturn = null;
-		Set<Market> markets = getMarkets();
-		if(markets != null
-				&& markets.size() > 0){
-			for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
-				Market market = (Market) iterator.next();
-				if(market.getCode().equalsIgnoreCase(marketCode)){
-					marketToReturn = market;
-				}
-			}
-		}
-		return marketToReturn;
-	}
-	
-	public void setMarkets(Set<Market> markets) {
-		this.markets = markets;
-	}
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public MarketPlace() {
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public CatalogMaster getMasterCatalog() {
+        return masterCatalog;
+    }
+
+    public void setMasterCatalog(CatalogMaster masterCatalog) {
+        this.masterCatalog = masterCatalog;
+    }
+
+    public Set<Market> getMarkets() {
+        return markets;
+    }
+
+    public Market getDefaultMarket() {
+        Market defaultMarket = null;
+        Set<Market> markets = getMarkets();
+        if (markets != null && markets.size() > 0) {
+            for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
+                Market market = (Market) iterator.next();
+                if (market.isDefault()) {
+                    defaultMarket = market;
+                }
+            }
+            if (defaultMarket == null) {
+                Iterator<Market> iterator = markets.iterator();
+                defaultMarket = (Market) iterator.next();
+            }
+        }
+        return defaultMarket;
+    }
+
+    public Market getMarket(String marketCode) {
+        Market marketToReturn = null;
+        Set<Market> markets = getMarkets();
+        if (markets != null && markets.size() > 0) {
+            for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
+                Market market = (Market) iterator.next();
+                if (market.getCode().equalsIgnoreCase(marketCode)) {
+                    marketToReturn = market;
+                }
+            }
+        }
+        return marketToReturn;
+    }
+
+    public void setMarkets(Set<Market> markets) {
+        this.markets = markets;
+    }
+
+    public Set<MarketPlaceAttribute> getMarketPlaceAttributes() {
+        return marketPlaceAttributes;
+    }
+
+    public void setMarketPlaceAttributes(Set<MarketPlaceAttribute> marketPlaceAttributes) {
+        this.marketPlaceAttributes = marketPlaceAttributes;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    public String getDomainName(String contextNameValue) {
+        return getAttributeValueString(MARKET_PLACE_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
+    }
+
+    private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
+        if (marketPlaceAttributes != null && !marketPlaceAttributes.isEmpty()) {
+            for (Iterator<MarketPlaceAttribute> iterator = marketPlaceAttributes.iterator(); iterator.hasNext();) {
+                MarketPlaceAttribute marketPlaceAttribute = (MarketPlaceAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = marketPlaceAttribute.getAttributeDefinition();
+                if (StringUtils.isNotEmpty(marketPlaceAttribute.getContext()) && marketPlaceAttribute.getContext().equals(contextNameValue)
+                        && attributeDefinition.getCode().equals(attributeDefinitionCode)) {
+                    return (String) marketPlaceAttribute.getValue();
+                }
+            }
+        }
+        return null;
+    }
 
 	@Override
 	public int hashCode() {

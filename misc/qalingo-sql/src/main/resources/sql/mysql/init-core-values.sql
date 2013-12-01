@@ -79,7 +79,9 @@ VALUES
 (41, 'Product Sku attribute order', 'Product Sku attribute order description', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
 (50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
 (51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
-(52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1);
+(52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
+(60, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
+(70, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1);
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting

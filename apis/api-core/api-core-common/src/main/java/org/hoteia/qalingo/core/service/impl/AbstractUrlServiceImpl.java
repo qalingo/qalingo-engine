@@ -73,10 +73,25 @@ public abstract class AbstractUrlServiceImpl {
     
     public String buildDomainePathUrl(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
+        final MarketPlace marketPlace = requestData.getMarketPlace();
+        final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
         
+        // CHOSE DOMAIN PATH FROM MARKET PLACE AND MARKET AND MARKET AREA
         String domainePathUrl = "";
+        if(marketPlace != null){
+            String domainName = marketPlace.getDomainName(contextNameValue);
+            if(StringUtils.isNotEmpty(domainName)){
+                domainePathUrl = domainName;
+            }
+        }
+        if(market != null){
+            String domainName = market.getDomainName(contextNameValue);
+            if(StringUtils.isNotEmpty(domainName)){
+                domainePathUrl = domainName;
+            }
+        }
         if(marketArea != null){
             String domainName = marketArea.getDomainName(contextNameValue);
             if(StringUtils.isNotEmpty(domainName)){
