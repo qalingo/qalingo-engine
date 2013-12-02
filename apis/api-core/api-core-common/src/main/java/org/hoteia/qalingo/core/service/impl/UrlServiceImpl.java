@@ -168,7 +168,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                 urlStr = urlStr.substring(0, urlStr.length() - 1);
             }
 
-            urlStr = urlStr + url.getUrl();
+            urlStr = urlStr + url.getUrlWithoutWildcard();
 
         } catch (Exception e) {
             logger.error("Can't build Url!", e);
