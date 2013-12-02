@@ -26,14 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractEngineSession;
@@ -60,12 +52,18 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
-import org.hoteia.qalingo.core.service.MarketPlaceService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductSkuService;
-import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
 import org.hoteia.qalingo.core.web.clickstream.ClickstreamRequest;
+import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -92,9 +90,6 @@ public class RequestUtilImpl implements RequestUtil {
 
     @Value("${context.name}")
     protected String contextName;
-
-    @Autowired
-    protected MarketPlaceService marketPlaceService;
 
     @Autowired
     protected MarketService marketService;
@@ -956,7 +951,7 @@ public class RequestUtilImpl implements RequestUtil {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 resetCart(request);
                 initEcoSession(request);
-                MarketPlace newMarketPlace = marketPlaceService.getMarketPlaceByCode(marketPlaceCode);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
                 if (newMarketPlace == null) {
                     // INIT A DEFAULT MARKET PLACE
                     initDefaultEcoMarketPlace(request);
@@ -1165,7 +1160,7 @@ public class RequestUtilImpl implements RequestUtil {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 initBoSession(request);
-                MarketPlace newMarketPlace = marketPlaceService.getMarketPlaceByCode(marketPlaceCode);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
                 if (newMarketPlace == null) {
                     // INIT A DEFAULT MARKET PLACE
                     initDefaultBoMarketPlace(request);
@@ -1506,7 +1501,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     protected void initDefaultBoMarketPlace(final HttpServletRequest request) throws Exception {
         final EngineBoSession engineBoSession = getCurrentBoSession(request);
-        MarketPlace marketPlace = marketPlaceService.getDefaultMarketPlace();
+        MarketPlace marketPlace = marketService.getDefaultMarketPlace();
         setSessionMarketPlace(engineBoSession, marketPlace);
 
         Market market = marketPlace.getDefaultMarket();
@@ -1610,7 +1605,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     protected void initDefaultEcoMarketPlace(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        MarketPlace marketPlace = marketPlaceService.getDefaultMarketPlace();
+        MarketPlace marketPlace = marketService.getDefaultMarketPlace();
         setSessionMarketPlace(engineEcoSession, marketPlace);
 
         Market market = marketPlace.getDefaultMarket();

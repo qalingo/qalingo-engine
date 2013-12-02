@@ -15,6 +15,9 @@ public final class Constants {
 
 	public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 
+    public static final String PREFIX_REST_SERVICE  = "/rest";
+    public static final String PREFIX_WS_SERVICE    = "/ws";
+
 	// GLOBAL
 	
 	public static final String APP_NAME = "appName";

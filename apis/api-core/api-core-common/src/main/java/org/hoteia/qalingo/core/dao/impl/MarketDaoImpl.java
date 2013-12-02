@@ -20,6 +20,7 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,80 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	// MARKET PLACE
+	
+    public MarketPlace getDefaultMarketPlace() {
+//      Session session = (Session) em.getDelegate();
+//      String sql = "FROM MarketPlace WHERE isDefault = true";
+//      Query query = session.createQuery(sql);
+//      MarketPlace marketPlace = (MarketPlace) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        
+        addDefaultMarketPlaceFetch(criteria);
+        criteria.add(Restrictions.eq("isDefault", true));
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        return marketPlace;
+    }
+    
+    public MarketPlace getMarketPlaceById(final Long marketPlaceId) {
+//      return em.find(MarketPlace.class, marketPlaceId);
+        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        
+        addDefaultMarketPlaceFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", marketPlaceId));
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        return marketPlace;
+    }
+    
+    public MarketPlace getMarketPlaceByCode(final String code) {
+//      Session session = (Session) em.getDelegate();
+//      String sql = "FROM MarketPlace WHERE upper(code) = upper(:code)";
+//      Query query = session.createQuery(sql);
+//      query.setString("code", code);
+//      MarketPlace marketPlace = (MarketPlace) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        
+        addDefaultMarketPlaceFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", code));
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        return marketPlace;
+    }
+    
+    public List<MarketPlace> findMarketPlaces() {
+//      Session session = (Session) em.getDelegate();
+//      String sql = "FROM MarketPlace ORDER BY code";
+//      Query query = session.createQuery(sql);
+//      List<MarketPlace> marketPlaces = (List<MarketPlace>) query.list();
+        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+
+        addDefaultMarketPlaceFetch(criteria);
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<MarketPlace> marketPlaces = criteria.list();
+        
+        return marketPlaces;
+    }
+
+    public void saveOrUpdateMarketPlace(MarketPlace marketPlace) {
+        if(marketPlace.getDateCreate() == null){
+            marketPlace.setDateCreate(new Date());
+        }
+        marketPlace.setDateUpdate(new Date());
+        if(marketPlace.getId() == null){
+            em.persist(marketPlace);
+        } else {
+            em.merge(marketPlace);
+        }
+    }
+
+    public void deleteMarketPlace(MarketPlace marketPlace) {
+        em.remove(marketPlace);
+    }
+    
 	// MARKET
 	
 	public Market getDefaultMarket() {
@@ -133,6 +208,41 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 		return marketArea;
 	}
 	
+    private void addDefaultMarketPlaceFetch(Criteria criteria) {
+//      ProjectionList projections = Projections.projectionList();
+//      criteria.setProjection(projections);
+
+      criteria.setFetchMode("masterCatalog", FetchMode.JOIN);
+      criteria.setFetchMode("markets", FetchMode.JOIN);
+      criteria.setFetchMode("marketPlaceAttributes", FetchMode.JOIN);
+      
+//      criteria.createAlias("markets.marketAreas", "marketAreas", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("markets.marketAreas", FetchMode.JOIN);
+
+//      criteria.createAlias("markets.marketAreas.defaultLocalization", "defaultLocalization", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);
+//
+//      projections.add(Projections.property("markets.marketAreas.defaultLocalization"));
+//
+//      criteria.createAlias("markets.marketAreas.localizations", "localizations", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("localizations", FetchMode.JOIN);
+//
+//      projections.add(Projections.property("markets.marketAreas.localizations"));
+//
+//      criteria.createAlias("markets.marketAreas.retailers", "retailers", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("retailers", FetchMode.JOIN);
+//      
+//      projections.add(Projections.property("markets.marketAreas.retailers"));
+//      
+//      criteria.createAlias("markets.marketAreas.marketAreaAttributes", "marketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
+//      
+//      projections.add(Projections.property("markets.marketAreas.marketAreaAttributes"));
+      
+      criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+      
+  }
+    
     private void addDefaultMarketFetch(Criteria criteria) {
         criteria.setFetchMode("marketPlace", FetchMode.JOIN);
         criteria.setFetchMode("marketAreas", FetchMode.JOIN);

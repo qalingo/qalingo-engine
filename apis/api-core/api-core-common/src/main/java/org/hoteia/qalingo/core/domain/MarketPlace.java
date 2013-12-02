@@ -51,20 +51,17 @@ public class MarketPlace extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE")
+    private String code;
+    
     @Column(name = "NAME")
     private String name;
-
-    @Column(name = "PATH")
-    private String path;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
-
-    @Column(name = "CODE")
-    private String code;
 
     @Column(name = "THEME")
     private String theme;
@@ -108,20 +105,20 @@ public class MarketPlace extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public boolean isDefault() {
@@ -138,14 +135,6 @@ public class MarketPlace extends AbstractEntity {
 
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getTheme() {
@@ -260,7 +249,6 @@ public class MarketPlace extends AbstractEntity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (isDefault ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + version;
 		return result;
 	}
@@ -306,11 +294,6 @@ public class MarketPlace extends AbstractEntity {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (path == null) {
-			if (other.path != null)
-				return false;
-		} else if (!path.equals(other.path))
-			return false;
 		if (version != other.version)
 			return false;
 		return true;
@@ -318,7 +301,7 @@ public class MarketPlace extends AbstractEntity {
 
 	@Override
     public String toString() {
-	    return "MarketPlace [id=" + id + ", version=" + version + ", name=" + name + ", path=" + path + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", theme="
+	    return "MarketPlace [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", theme="
 	            + theme + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	

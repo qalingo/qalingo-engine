@@ -13,9 +13,24 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.MarketPlace;
 
 public interface MarketDao {
 
+    // MARKET PLACE
+    
+    MarketPlace getDefaultMarketPlace();
+    
+    MarketPlace getMarketPlaceById(Long marketPlaceId);
+
+    MarketPlace getMarketPlaceByCode(String code);
+    
+    List<MarketPlace> findMarketPlaces();
+    
+    void saveOrUpdateMarketPlace(MarketPlace marketPlace);
+
+    void deleteMarketPlace(MarketPlace marketPlace);
+    
 	// MARKET
 	
 	Market getDefaultMarket();

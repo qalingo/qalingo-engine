@@ -63,7 +63,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.CustomerProductCommentService;
-import org.hoteia.qalingo.core.service.MarketPlaceService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductMarketingService;
 import org.hoteia.qalingo.core.service.ProductSkuService;
@@ -128,9 +127,6 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
 
     @Autowired
     protected RequestUtil requestUtil;
-
-    @Autowired
-    protected MarketPlaceService marketPlaceService;
 
     @Autowired
     protected MarketService marketService;
@@ -596,7 +592,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
      */
     public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final RequestData requestData) throws Exception {
         List<MarketPlaceViewBean> marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
-        final List<MarketPlace> marketPlaceList = marketPlaceService.findMarketPlaces();
+        final List<MarketPlace> marketPlaceList = marketService.findMarketPlaces();
         for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
             final MarketPlace marketPlaceNavigation = (MarketPlace) iteratorMarketPlace.next();
             
@@ -687,7 +683,7 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
             // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
             final Market reloadedMarket = marketService.getMarketByCode(marketArea.getMarket().getCode());
             // RELOAD THE MARKETPLACE TO KEEP AN ENTITY WITH RIGHT FETCHS
-            final MarketPlace reloadedMarketPlace = marketPlaceService.getMarketPlaceByCode(reloadedMarket.getMarketPlace().getCode());
+            final MarketPlace reloadedMarketPlace = marketService.getMarketPlaceByCode(reloadedMarket.getMarketPlace().getCode());
             
             final MarketArea reloadedMarketArea = marketService.getMarketAreaByCode(marketArea.getCode());
             final Localization defaultLocalization = reloadedMarketArea.getDefaultLocalization();

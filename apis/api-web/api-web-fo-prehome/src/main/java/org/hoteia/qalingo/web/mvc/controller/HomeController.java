@@ -18,10 +18,8 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.MarketPlaceService;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,9 +32,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("homeController")
 public class HomeController extends AbstractPrehomeController {
 
-	@Autowired
-	protected MarketPlaceService marketPlaceService;
-	
 	@RequestMapping(FoUrls.PREHOME_URL)
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PREHOME.getVelocityPage());
