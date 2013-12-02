@@ -54,7 +54,7 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final Localization localization = requestData.getLocalization();
 		final Retailer retailer = requestData.getRetailer();
 		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?";
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
@@ -70,7 +70,7 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final Localization localization = requestData.getLocalization();
 		final Retailer retailer = requestData.getRetailer();
 		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());

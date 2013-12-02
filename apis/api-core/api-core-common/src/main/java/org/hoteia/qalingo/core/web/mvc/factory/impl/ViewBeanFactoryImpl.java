@@ -751,10 +751,13 @@ public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory impl
         final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
         localizationViewBean.setCode(localeCodeNavigation);
 
-        if (StringUtils.isNotEmpty(localeCodeNavigation) && localeCodeNavigation.length() == 2) {
-            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation.toLowerCase(), locale));
+        String localeCodeTranslation = localeCodeNavigation;
+        if(localeCodeTranslation.contains("-")){
+            String[] split = localeCodeTranslation.split("-");
+            localeCodeTranslation = split[0] + "-" + split[1].toUpperCase();
+            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeTranslation, locale));
         } else {
-            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeNavigation, locale));
+            localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localeCodeTranslation.toLowerCase(), locale));
         }
 
         RequestData requestDataChangecontext = new RequestData();

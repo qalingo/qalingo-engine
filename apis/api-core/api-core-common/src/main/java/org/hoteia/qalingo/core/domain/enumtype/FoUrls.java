@@ -303,7 +303,7 @@ public enum FoUrls {
 	public static final String CANCEL_RESET_PASSWORD_URL					= "/**/cancel-reset-password.html";
 	public static final String CANCEL_RESET_PASSWORD_VELOCITY_PAGE			= "";
 
-	public static final String SPRING_SECURITY_URL		= "/**/j_spring_security_check";
+	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 
     public static final String ERROR_500_KEY            = "error-500";
     public static final String ERROR_500_URL            = "/**/500.html";

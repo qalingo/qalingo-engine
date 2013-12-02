@@ -21,6 +21,7 @@ public enum BoUrls {
     SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE, true),
     GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null, true),
     CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null, true),
+    CHANGE_CONTEXT(BoUrls.CHANGE_CONTEXT_URL, null, null, true),
 
     MONITORING(BoUrls.MONITORING_URL, BoUrls.MONITORING_KEY, BoUrls.MONITORING_VELOCITY_PAGE, true),
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE, true),
@@ -143,7 +144,7 @@ public enum BoUrls {
 	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-edit";
 	
 	public static final String LOGOUT_SESSION_URL		= "/**/logout-session.html";
-	public static final String SPRING_SECURITY_URL		= "/**/j_spring_security_check";
+	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 	public static final String GLOBAL_SEARCH_URL		= "/**/global-search.html";
 	
 	public static final String CHANGE_LANGUAGE_URL		= "/**/change-language.html";
