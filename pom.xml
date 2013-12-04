@@ -40,7 +40,7 @@
 		<!-- Datas -->
 		<hibernate.version>4.2.6.Final</hibernate.version>
 		<!-- CXF -->
-		<cxf.version>2.7.0</cxf.version>
+		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->
 		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
@@ -438,6 +438,21 @@
 						<artifactId>cxf-rt-databinding-aegis</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+			 <groupId>org.apache.cxf</groupId>
+			 <artifactId>cxf-rt-rs-client</artifactId>
+			 <version>3.0.0-milestone1</version>
+			</dependency>
+			<dependency>
+			 <groupId>org.apache.cxf</groupId>
+			 <artifactId>cxf-rt-transports-http-hc</artifactId>
+			 <version>3.0.0-milestone1</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.apache.cxf</groupId>
+			  <artifactId>cxf-rt-rs-service-description</artifactId>
+			  <version>3.0.0-milestone1</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>

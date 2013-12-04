@@ -46,6 +46,16 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         return retailer;
 	}
 
+    public Retailer getRetailerByCode(final String retailerCode) {
+        Criteria criteria = getSession().createCriteria(Retailer.class);
+
+        addDefaultRetailerFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", retailerCode));
+        Retailer retailer = (Retailer) criteria.uniqueResult();
+        return retailer;
+    }
+
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
 //		Session session = (Session) em.getDelegate();
 //		initRetailerFilter(session, marketAreaId, retailerId);

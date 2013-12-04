@@ -10,12 +10,10 @@ import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 public class RequestCms {
 
     protected List<MarketPlacePojo> marketPlaces;
-
-    protected MarketPlacePojo selectedMarketPlace;
-    protected MarketPojo selectedMarket;
-    protected MarketAreaPojo selectedMarketArea;
-    protected RetailerPojo selectedRetailer;
-    protected LocalizationPojo selectedLocalization;
+    protected List<MarketPojo> markets;
+    protected List<MarketAreaPojo> marketAreas;
+    protected List<RetailerPojo> retailers;
+    protected List<LocalizationPojo> localizations;
 
     public List<MarketPlacePojo> getMarketPlaces() {
         return marketPlaces;
@@ -25,44 +23,36 @@ public class RequestCms {
         this.marketPlaces = marketPlaces;
     }
 
-    public MarketPlacePojo getSelectedMarketPlace() {
-        return selectedMarketPlace;
+    public List<MarketPojo> getMarkets() {
+        return markets;
     }
 
-    public void setSelectedMarketPlace(MarketPlacePojo selectedMarketPlace) {
-        this.selectedMarketPlace = selectedMarketPlace;
+    public void setMarkets(List<MarketPojo> markets) {
+        this.markets = markets;
     }
 
-    public MarketPojo getSelectedMarket() {
-        return selectedMarket;
+    public List<MarketAreaPojo> getMarketAreas() {
+        return marketAreas;
     }
 
-    public void setSelectedMarket(MarketPojo selectedMarket) {
-        this.selectedMarket = selectedMarket;
+    public void setMarketAreas(List<MarketAreaPojo> marketAreas) {
+        this.marketAreas = marketAreas;
     }
 
-    public MarketAreaPojo getSelectedMarketArea() {
-        return selectedMarketArea;
+    public List<RetailerPojo> getRetailers() {
+        return retailers;
     }
 
-    public void setSelectedMarketArea(MarketAreaPojo selectedMarketArea) {
-        this.selectedMarketArea = selectedMarketArea;
+    public void setRetailers(List<RetailerPojo> retailers) {
+        this.retailers = retailers;
     }
 
-    public RetailerPojo getSelectedRetailer() {
-        return selectedRetailer;
+    public List<LocalizationPojo> getLocalizations() {
+        return localizations;
     }
 
-    public void setSelectedRetailer(RetailerPojo selectedRetailer) {
-        this.selectedRetailer = selectedRetailer;
-    }
-
-    public LocalizationPojo getSelectedLocalization() {
-        return selectedLocalization;
-    }
-
-    public void setSelectedLocalization(LocalizationPojo selectedLocalization) {
-        this.selectedLocalization = selectedLocalization;
+    public void setLocalizations(List<LocalizationPojo> localizations) {
+        this.localizations = localizations;
     }
 
 }

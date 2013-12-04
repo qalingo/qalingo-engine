@@ -40,6 +40,8 @@ public interface MarketDao {
 	Market getMarketByCode(String code);
 	
 	List<Market> findMarkets();
+	
+    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
 
 	void saveOrUpdateMarket(Market market);
 

@@ -1,8 +1,8 @@
 package org.hoteia.qalingo.core.pojo.retailer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
@@ -16,6 +16,7 @@ public class RetailerPojo {
     private String description;
     private String logo;
     private boolean isDefault;
+    private boolean isSelected = false;
     private boolean isOfficialRetailer;
     private boolean isBrand;
     private boolean isEcommerce;
@@ -26,16 +27,16 @@ public class RetailerPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private Collection<RetailerLinkPojo> links = new ArrayList<RetailerLinkPojo>();
-    private Collection<RetailerAddressPojo> addresses = new ArrayList<RetailerAddressPojo>();
-    private Collection<StorePojo> stores = new ArrayList<StorePojo>();
-    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
-    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
-    private Collection<RetailerAttributePojo> retailerGlobalAttributes = new ArrayList<RetailerAttributePojo>();
-    private Collection<RetailerAttributePojo> retailerMarketAreaAttributes = new ArrayList<RetailerAttributePojo>();
-    private Collection<RetailerCustomerRatePojo> customerRates = new ArrayList<RetailerCustomerRatePojo>();
-    private Collection<RetailerCustomerCommentPojo> customerComments = new ArrayList<RetailerCustomerCommentPojo>();
-    private Collection<RetailerTagPojo> retailerTags = new ArrayList<RetailerTagPojo>();
+    private List<RetailerLinkPojo> links = new ArrayList<RetailerLinkPojo>();
+    private List<RetailerAddressPojo> addresses = new ArrayList<RetailerAddressPojo>();
+    private List<StorePojo> stores = new ArrayList<StorePojo>();
+    private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    private List<RetailerAttributePojo> retailerGlobalAttributes = new ArrayList<RetailerAttributePojo>();
+    private List<RetailerAttributePojo> retailerMarketAreaAttributes = new ArrayList<RetailerAttributePojo>();
+    private List<RetailerCustomerRatePojo> customerRates = new ArrayList<RetailerCustomerRatePojo>();
+    private List<RetailerCustomerCommentPojo> customerComments = new ArrayList<RetailerCustomerCommentPojo>();
+    private List<RetailerTagPojo> retailerTags = new ArrayList<RetailerTagPojo>();
 
     public Long getId() {
         return id;
@@ -85,6 +86,14 @@ public class RetailerPojo {
         isDefault = aDefault;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
     public boolean isOfficialRetailer() {
         return isOfficialRetailer;
     }
@@ -157,83 +166,83 @@ public class RetailerPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public Collection<RetailerLinkPojo> getLinks() {
+    public List<RetailerLinkPojo> getLinks() {
         return links;
     }
 
-    public void setLinks(Collection<RetailerLinkPojo> links) {
+    public void setLinks(List<RetailerLinkPojo> links) {
         this.links = PojoUtil.asList(links);
     }
 
-    public Collection<RetailerAddressPojo> getAddresses() {
+    public List<RetailerAddressPojo> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Collection<RetailerAddressPojo> addresses) {
+    public void setAddresses(List<RetailerAddressPojo> addresses) {
         this.addresses = PojoUtil.asList(addresses);
     }
 
-    public Collection<StorePojo> getStores() {
+    public List<StorePojo> getStores() {
         return stores;
     }
 
-    public void setStores(Collection<StorePojo> stores) {
+    public void setStores(List<StorePojo> stores) {
         this.stores = PojoUtil.asList(stores);
     }
 
-    public Collection<AssetPojo> getAssetsIsGlobal() {
+    public List<AssetPojo> getAssetsIsGlobal() {
         return assetsIsGlobal;
     }
 
-    public void setAssetsIsGlobal(Collection<AssetPojo> assetsIsGlobal) {
+    public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
         this.assetsIsGlobal = PojoUtil.asList(assetsIsGlobal);
     }
 
-    public Collection<AssetPojo> getAssetsByMarketArea() {
+    public List<AssetPojo> getAssetsByMarketArea() {
         return assetsByMarketArea;
     }
 
-    public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
+    public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = PojoUtil.asList(assetsByMarketArea);
     }
 
-    public Collection<RetailerAttributePojo> getRetailerGlobalAttributes() {
+    public List<RetailerAttributePojo> getRetailerGlobalAttributes() {
         return retailerGlobalAttributes;
     }
 
-    public void setRetailerGlobalAttributes(Collection<RetailerAttributePojo> retailerGlobalAttributes) {
+    public void setRetailerGlobalAttributes(List<RetailerAttributePojo> retailerGlobalAttributes) {
         this.retailerGlobalAttributes = PojoUtil.asList(retailerGlobalAttributes);
     }
 
-    public Collection<RetailerAttributePojo> getRetailerMarketAreaAttributes() {
+    public List<RetailerAttributePojo> getRetailerMarketAreaAttributes() {
         return retailerMarketAreaAttributes;
     }
 
-    public void setRetailerMarketAreaAttributes(Collection<RetailerAttributePojo> retailerMarketAreaAttributes) {
+    public void setRetailerMarketAreaAttributes(List<RetailerAttributePojo> retailerMarketAreaAttributes) {
         this.retailerMarketAreaAttributes = PojoUtil.asList(retailerMarketAreaAttributes);
     }
 
-    public Collection<RetailerCustomerRatePojo> getCustomerRates() {
+    public List<RetailerCustomerRatePojo> getCustomerRates() {
         return customerRates;
     }
 
-    public void setCustomerRates(Collection<RetailerCustomerRatePojo> customerRates) {
+    public void setCustomerRates(List<RetailerCustomerRatePojo> customerRates) {
         this.customerRates = PojoUtil.asList(customerRates);
     }
 
-    public Collection<RetailerCustomerCommentPojo> getCustomerComments() {
+    public List<RetailerCustomerCommentPojo> getCustomerComments() {
         return customerComments;
     }
 
-    public void setCustomerComments(Collection<RetailerCustomerCommentPojo> customerComments) {
+    public void setCustomerComments(List<RetailerCustomerCommentPojo> customerComments) {
         this.customerComments = PojoUtil.asList(customerComments);
     }
 
-    public Collection<RetailerTagPojo> getRetailerTags() {
+    public List<RetailerTagPojo> getRetailerTags() {
         return retailerTags;
     }
 
-    public void setRetailerTags(Collection<RetailerTagPojo> retailerTags) {
+    public void setRetailerTags(List<RetailerTagPojo> retailerTags) {
         this.retailerTags = PojoUtil.asList(retailerTags);
     }
 }

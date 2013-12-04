@@ -163,6 +163,21 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         List<Market> markets = criteria.list();
 		return markets;
 	}
+	
+    public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode) {
+        Criteria criteria = getSession().createCriteria(Market.class);
+
+        addDefaultMarketFetch(criteria);
+
+        criteria.createAlias("marketPlace", "mp", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("mp.code", marketPlaceCode));
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Market> markets = criteria.list();
+        return markets;
+    }
 
 	public void saveOrUpdateMarket(Market market) {
 		if(market.getDateCreate() == null){

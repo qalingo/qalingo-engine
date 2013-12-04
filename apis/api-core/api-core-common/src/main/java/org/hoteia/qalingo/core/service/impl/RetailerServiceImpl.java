@@ -12,16 +12,15 @@ package org.hoteia.qalingo.core.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("retailerService")
 @Transactional
@@ -45,7 +44,11 @@ public class RetailerServiceImpl implements RetailerService {
 		}
 		return retailerDao.getRetailerById(retailerId);
 	}
-	
+
+    public Retailer getRetailerByCode(final String retailerCode) {
+        return retailerDao.getRetailerByCode(retailerCode);
+    }
+	   
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
 		return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
 	}

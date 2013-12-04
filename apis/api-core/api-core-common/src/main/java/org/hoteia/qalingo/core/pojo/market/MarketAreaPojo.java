@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.Retailer;
 
 public class MarketAreaPojo {
@@ -15,7 +16,10 @@ public class MarketAreaPojo {
     private String name;
     private String description;
     private boolean isDefault = false;
+    private boolean isSelected = false;
     private String theme;
+    
+    private MarketPojo market;
     
     private Set<Localization> localizations = new HashSet<Localization>(); 
     
@@ -72,12 +76,28 @@ public class MarketAreaPojo {
         this.isDefault = isDefault;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
     public String getTheme() {
         return theme;
     }
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+    
+    public MarketPojo getMarket() {
+        return market;
+    }
+    
+    public void setMarket(MarketPojo market) {
+        this.market = market;
     }
     
     public Set<Localization> getLocalizations() {

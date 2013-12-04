@@ -10,6 +10,7 @@ public class LocalizationPojo {
     private String name;
     private String description;
     private boolean isDefault = false;
+    private boolean isSelected = false;
     private String country;
     private String language;
     private Date dateCreate;
@@ -61,6 +62,14 @@ public class LocalizationPojo {
 
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public String getCountry() {

@@ -12,6 +12,7 @@ public class MarketPlacePojo {
     private String name;
     private String description;
     private boolean isDefault = false;
+    private boolean isSelected = false;
     private String theme;
     
     private Set<MarketPojo> markets = new HashSet<MarketPojo>();
@@ -65,6 +66,14 @@ public class MarketPlacePojo {
 
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public String getTheme() {

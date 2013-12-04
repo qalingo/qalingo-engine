@@ -22,7 +22,9 @@ public interface RetailerDao {
 	
 	Retailer getRetailerById(Long retailerId);
 
-	Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
+    Retailer getRetailerByCode(String retailerCode);
+
+    Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
 
     List<Retailer> findAllRetailers();
 	 

@@ -40,6 +40,8 @@ public interface MarketService {
 	Market getMarketByCode(String marketCode);
 	
 	List<Market> findMarkets();
+	
+    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
 
 	void saveOrUpdateMarket(Market market);
 	

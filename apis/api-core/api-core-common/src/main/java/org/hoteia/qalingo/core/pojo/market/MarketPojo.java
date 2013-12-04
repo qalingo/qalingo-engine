@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hoteia.qalingo.core.domain.MarketPlace;
+
 public class MarketPojo {
 
     private Long id;
@@ -12,7 +14,10 @@ public class MarketPojo {
     private String name;
     private String description;
     private boolean isDefault = false;
+    private boolean isSelected = false;
     private String theme;
+    
+    private MarketPlace marketPlace;
     
     private Set<MarketAreaPojo> marketAreas = new HashSet<MarketAreaPojo>();
 
@@ -67,6 +72,14 @@ public class MarketPojo {
         this.isDefault = isDefault;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
     public String getTheme() {
         return theme;
     }
@@ -75,6 +88,14 @@ public class MarketPojo {
         this.theme = theme;
     }
 
+    public MarketPlace getMarketPlace() {
+        return marketPlace;
+    }
+    
+    public void setMarketPlace(MarketPlace marketPlace) {
+        this.marketPlace = marketPlace;
+    }
+    
     public Set<MarketAreaPojo> getMarketAreas() {
         return marketAreas;
     }
