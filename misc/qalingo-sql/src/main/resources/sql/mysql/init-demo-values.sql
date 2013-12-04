@@ -225,13 +225,13 @@ INSERT INTO teco_catalog_master_category
 (50, 'Category 5 description', 'CATE50', 0, 'Commerce équitable', 1);
 
 INSERT INTO teco_catalog_virtual_category 
-(id, description, code, is_default, business_name, version)
+(id, description, code, is_default, business_name, master_category_id, version)
  VALUES 
-(10, 'Category 1 description', 'CATE10', 0, 'Nouveautés', 1),
-(20, 'Category 2 description', 'CATE20', 0, 'Idées de cadeaux', 1),
-(30, 'Category 3 description', 'CATE30', 1, 'Café', 1),
-(40, 'Category 4 description', 'CATE40', 0, 'Thé', 1),
-(50, 'Category 5 description', 'CATE50', 0, 'Commerce équitable', 1);
+(10, 'Category 1 description', 'CATE10', 0, 'Nouveautés', 10, 1),
+(20, 'Category 2 description', 'CATE20', 0, 'Idées de cadeaux', 20, 1),
+(30, 'Category 3 description', 'CATE30', 1, 'Café', 30, 1),
+(40, 'Category 4 description', 'CATE40', 0, 'Thé', 40, 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Commerce équitable', 50, 1);
 
 INSERT INTO teco_catalog_master_category_master_rel 
 (master_catalog_id, master_category_id)

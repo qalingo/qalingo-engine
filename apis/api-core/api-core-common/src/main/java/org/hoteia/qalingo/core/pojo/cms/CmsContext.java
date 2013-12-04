@@ -1,13 +1,14 @@
-package org.hoteia.qalingo.core.pojo;
+package org.hoteia.qalingo.core.pojo.cms;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 
-public class RequestCms {
+public class CmsContext {
 
     protected List<MarketPlacePojo> marketPlaces;
     protected List<MarketPojo> markets;

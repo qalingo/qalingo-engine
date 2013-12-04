@@ -11,10 +11,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.hoteia.qalingo.core.pojo.LocalizationPojo;
-import org.hoteia.qalingo.core.pojo.RequestCms;
+import org.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
+import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
+import org.hoteia.qalingo.core.pojo.cms.CmsCategories;
+import org.hoteia.qalingo.core.pojo.cms.CmsContext;
+import org.hoteia.qalingo.core.pojo.cms.CmsProducts;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
+import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import org.hoteia.qalingo.core.service.pojo.LocalizationPojoService;
 import org.hoteia.qalingo.core.service.pojo.MarketPojoService;
@@ -36,88 +41,89 @@ public class CmsRestService {
     private LocalizationPojoService localizationPojoService;
     
     @GET
+    @Path("marketplaces")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms getMarketPlaces() {
+    public CmsContext getMarketPlaces() {
         // DEFAULT CALLBACK WITH ALL THE MARKET PLACES AND DEFAULT MASTER VALUE FOR MARKET / MARKET AREA / RETAILER / LOCALIZATION
-        RequestCms requestCms = new RequestCms();
+        CmsContext cmsContext = new CmsContext();
 
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, null);
+        buildMarketPlace(cmsContext, null);
 
         // MARKET LIST
-        buildMarket(requestCms, null, null);
+        buildMarket(cmsContext, null, null);
 
         // MARKET AREA LIST
-        buildMarketArea(requestCms, null, null);
+        buildMarketArea(cmsContext, null, null);
 
         // RETAILER LIST
-        buildRetailer(requestCms, null);
+        buildRetailer(cmsContext, null, null);
 
         // LOCALIZATION LIST
-        buildLocalization(requestCms, null);
+        buildLocalization(cmsContext, null, null);
 
-        return requestCms;
+        return cmsContext;
     }
 
     @GET
     @Path("marketplace/set/{marketPlaceCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms selectMarketPlace(@PathParam("marketPlaceCode") final String marketPlaceCode) {
-        RequestCms requestCms = new RequestCms();
+    public CmsContext selectMarketPlace(@PathParam("marketPlaceCode") final String marketPlaceCode) {
+        CmsContext cmsContext = new CmsContext();
         
         MarketPlacePojo selectedMarketPlace = marketPojoService.getMarketPlaceByCode(marketPlaceCode);
         
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, selectedMarketPlace);
+        buildMarketPlace(cmsContext, selectedMarketPlace);
         
         // MARKET LIST
-        buildMarket(requestCms, selectedMarketPlace, null);
+        buildMarket(cmsContext, selectedMarketPlace, null);
 
         // MARKET AREA LIST
-        buildMarketArea(requestCms, null, null);
+        buildMarketArea(cmsContext, null, null);
 
         // RETAILER LIST
-        buildRetailer(requestCms, null);
+        buildRetailer(cmsContext, null, null);
 
         // LOCALIZATION LIST
-        buildLocalization(requestCms, null);
+        buildLocalization(cmsContext, null, null);
 
-        return requestCms;
+        return cmsContext;
     }
     
     @GET
     @Path("market/set/{marketCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms selectMarket(@PathParam("marketCode") final String marketCode) {
-        RequestCms requestCms = new RequestCms();
+    public CmsContext selectMarket(@PathParam("marketCode") final String marketCode) {
+        CmsContext cmsContext = new CmsContext();
 
         MarketPojo selectedMarket = marketPojoService.getMarketByCode(marketCode);
 
         MarketPlacePojo selectedMarketPlace = marketPojoService.getMarketPlaceByCode(selectedMarket.getMarketPlace().getCode());
 
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, selectedMarketPlace);
+        buildMarketPlace(cmsContext, selectedMarketPlace);
         
         // MARKET LIST
-        buildMarket(requestCms, selectedMarketPlace, selectedMarket);
+        buildMarket(cmsContext, selectedMarketPlace, selectedMarket);
         
         // MARKET AREA LIST
-        buildMarketArea(requestCms, selectedMarket, null);
+        buildMarketArea(cmsContext, selectedMarket, null);
 
         // RETAILER LIST
-        buildRetailer(requestCms, null);
+        buildRetailer(cmsContext, null, null);
 
         // LOCALIZATION LIST
-        buildLocalization(requestCms, null);
+        buildLocalization(cmsContext, null, null);
 
-        return requestCms;
+        return cmsContext;
     }
     
     @GET
     @Path("marketarea/set/{marketAreaCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms selectMarketArea(@PathParam("marketAreaCode") final String marketAreaCode) {
-        RequestCms requestCms = new RequestCms();
+    public CmsContext selectMarketArea(@PathParam("marketAreaCode") final String marketAreaCode) {
+        CmsContext cmsContext = new CmsContext();
 
         MarketAreaPojo selectedMarketArea = marketPojoService.getMarketAreaByCode(marketAreaCode);
 
@@ -126,28 +132,28 @@ public class CmsRestService {
         MarketPlacePojo selectedMarketPlace = marketPojoService.getMarketPlaceByCode(selectedMarket.getMarketPlace().getCode());
 
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, selectedMarketPlace);
+        buildMarketPlace(cmsContext, selectedMarketPlace);
         
         // MARKET LIST
-        buildMarket(requestCms, selectedMarketPlace, selectedMarket);
+        buildMarket(cmsContext, selectedMarketPlace, selectedMarket);
         
         // MARKET AREA LIST
-        buildMarketArea(requestCms, selectedMarket, selectedMarketArea);
+        buildMarketArea(cmsContext, selectedMarket, selectedMarketArea);
 
         // RETAILER LIST
-        buildRetailer(requestCms, null);
+        buildRetailer(cmsContext, selectedMarketArea, null);
 
         // LOCALIZATION LIST
-        buildLocalization(requestCms, null);
+        buildLocalization(cmsContext, selectedMarketArea, null);
         
-        return requestCms;
+        return cmsContext;
     }
     
     @GET
     @Path("retailer/set/{marketAreaCode}/{retailerCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms selectRetailer(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode) {
-        RequestCms requestCms = new RequestCms();
+    public CmsContext selectRetailer(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode) {
+        CmsContext cmsContext = new CmsContext();
 
         RetailerPojo selectedRetailer = retailerPojoService.getRetailerByCode(retailerCode);
         
@@ -158,29 +164,29 @@ public class CmsRestService {
         MarketPlacePojo selectedMarketPlace = marketPojoService.getMarketPlaceByCode(selectedMarket.getMarketPlace().getCode());
 
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, selectedMarketPlace);
+        buildMarketPlace(cmsContext, selectedMarketPlace);
         
         // MARKET LIST
-        buildMarket(requestCms, selectedMarketPlace, selectedMarket);
+        buildMarket(cmsContext, selectedMarketPlace, selectedMarket);
         
         // MARKET AREA LIST
-        buildMarketArea(requestCms, selectedMarket, selectedMarketArea);
+        buildMarketArea(cmsContext, selectedMarket, selectedMarketArea);
 
         // RETAILER LIST
-        buildRetailer(requestCms, selectedRetailer);
+        buildRetailer(cmsContext, selectedMarketArea, selectedRetailer);
 
         // LOCALIZATION LIST
-        buildLocalization(requestCms, null);
+        buildLocalization(cmsContext, selectedMarketArea, null);
         
-        return requestCms;
+        return cmsContext;
     }
     
     @GET
     @Path("localization/set/{marketAreaCode}/{retailerCode}/{localizationCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RequestCms selectLocalization(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode, 
+    public CmsContext selectLocalization(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode, 
                                          @PathParam("localizationCode") final String localizationCode) {
-        RequestCms requestCms = new RequestCms();
+        CmsContext cmsContext = new CmsContext();
 
         LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(retailerCode);
 
@@ -193,24 +199,95 @@ public class CmsRestService {
         MarketPlacePojo selectedMarketPlace = marketPojoService.getMarketPlaceByCode(selectedMarket.getMarketPlace().getCode());
 
         // MARKET PLACE LIST
-        buildMarketPlace(requestCms, selectedMarketPlace);
+        buildMarketPlace(cmsContext, selectedMarketPlace);
         
         // MARKET LIST
-        buildMarket(requestCms, selectedMarketPlace, selectedMarket);
+        buildMarket(cmsContext, selectedMarketPlace, selectedMarket);
         
         // MARKET AREA LIST
-        buildMarketArea(requestCms, selectedMarket, selectedMarketArea);
+        buildMarketArea(cmsContext, selectedMarket, selectedMarketArea);
 
         // RETAILER LIST
-        buildRetailer(requestCms, selectedRetailer);
+        buildRetailer(cmsContext, selectedMarketArea, selectedRetailer);
         
         // LOCALIZATION LIST
-        buildLocalization(requestCms, selectedLocalization);
+        buildLocalization(cmsContext, selectedMarketArea, selectedLocalization);
         
-        return requestCms;
+        return cmsContext;
     }
     
-    private void buildMarketPlace(RequestCms requestCms, MarketPlacePojo selectedMarketPlace){
+    @GET
+    @Path("catalog/categories/{marketAreaCode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CmsCategories categoriesByMarketArea(@PathParam("marketAreaCode") final String marketAreaCode) {
+        CmsCategories cmsCategories = new CmsCategories();
+
+        MarketAreaPojo selectedMarketArea = marketPojoService.getMarketAreaByCode(marketAreaCode);
+        if(selectedMarketArea != null){
+            selectedMarketArea.setMarket(null);
+            selectedMarketArea.setRetailers(null);
+            selectedMarketArea.setLocalizations(null);
+            
+            cmsCategories.setMarketArea(selectedMarketArea);
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getCatalogCategories();
+            for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
+                CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
+                catalogCategoryPojo.setCatalogCategoryGlobalAttributes(null);
+                catalogCategoryPojo.setCatalogCategoryMarketAreaAttributes(null);
+                catalogCategoryPojo.setProductMarketings(null);
+            }
+            cmsCategories.setCatalogCategories(categories);
+            
+            CatalogPojo catalog = selectedMarketArea.getCatalog();
+            catalog.setCatalogCategories(null);
+            cmsCategories.setCatalog(catalog);
+
+        }
+
+        return cmsCategories;
+    }
+    
+    @GET
+    @Path("catalog/products/{marketAreaCode}/{categoryCode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CmsProducts productsByMarketArea(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("categoryCode") final String categoryCode) {
+        CmsProducts cmsProducts = new CmsProducts();
+
+        MarketAreaPojo selectedMarketArea = marketPojoService.getMarketAreaByCode(marketAreaCode);
+        if(selectedMarketArea != null){
+            selectedMarketArea.setMarket(null);
+            selectedMarketArea.setRetailers(null);
+            selectedMarketArea.setLocalizations(null);
+            
+            cmsProducts.setMarketArea(selectedMarketArea);
+            
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getCatalogCategories();
+            for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
+                CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
+                if(catalogCategoryPojo.getCode().equals(categoryCode)){
+                    List<ProductMarketingPojo> products = catalogCategoryPojo.getProductMarketings();
+                    for (Iterator<ProductMarketingPojo> iteratorProductMarketingPojo = products.iterator(); iteratorProductMarketingPojo.hasNext();) {
+                        ProductMarketingPojo productMarketingPojo = (ProductMarketingPojo) iteratorProductMarketingPojo.next();
+                        productMarketingPojo.setProductBrand(null);
+                        productMarketingPojo.setProductMarketingMarketAreaAttributes(null);
+                        productMarketingPojo.setProductMarketingGlobalAttributes(null);
+                        productMarketingPojo.setProductSkus(null);
+                        productMarketingPojo.setProductAssociationLinks(null);
+                    }
+                    cmsProducts.setProductMarketings(products);
+                }
+            }
+
+            CatalogPojo catalog = selectedMarketArea.getCatalog();
+            catalog.setCatalogCategories(null);
+            cmsProducts.setCatalog(catalog);
+
+        }
+
+        return cmsProducts;
+    }
+    
+    private void buildMarketPlace(CmsContext cmsContext, MarketPlacePojo selectedMarketPlace){
         List<MarketPlacePojo> marketPlaces = new ArrayList<MarketPlacePojo>();
         MarketPlacePojo masterMarketPlace = new MarketPlacePojo();
         masterMarketPlace.setCode("MASTER_MARKETPLACE");
@@ -233,10 +310,10 @@ public class CmsRestService {
         }
         marketPlaces.addAll(allMarketPlaces);
         
-        requestCms.setMarketPlaces(marketPlaces);
+        cmsContext.setMarketPlaces(marketPlaces);
     }
 
-    private void buildMarket(RequestCms requestCms, MarketPlacePojo selectedMarketPlace, MarketPojo selectedMarket){
+    private void buildMarket(CmsContext cmsContext, MarketPlacePojo selectedMarketPlace, MarketPojo selectedMarket){
         List<MarketPojo> markets = new ArrayList<MarketPojo>();
         MarketPojo masterMarket = new MarketPojo();
         masterMarket.setCode("MASTER_MARKET");
@@ -260,10 +337,10 @@ public class CmsRestService {
             }
         }
         
-        requestCms.setMarkets(markets);
+        cmsContext.setMarkets(markets);
     }
     
-    private void buildMarketArea(RequestCms requestCms, MarketPojo selectedMarket, MarketAreaPojo selectedMarketArea){
+    private void buildMarketArea(CmsContext cmsContext, MarketPojo selectedMarket, MarketAreaPojo selectedMarketArea){
         List<MarketAreaPojo> marketAreas = new ArrayList<MarketAreaPojo>();
         MarketAreaPojo masterArea = new MarketAreaPojo();
         masterArea.setCode("MASTER_MARKET_AREA");
@@ -288,10 +365,10 @@ public class CmsRestService {
             }
         }
         
-        requestCms.setMarketAreas(marketAreas);
+        cmsContext.setMarketAreas(marketAreas);
     }
     
-    private void buildRetailer(RequestCms requestCms, RetailerPojo selectedRetailer){
+    private void buildRetailer(CmsContext cmsContext, MarketAreaPojo selectedMarketArea, RetailerPojo selectedRetailer){
         List<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
         RetailerPojo retailer = new RetailerPojo();
         retailer.setCode("MASTER_RETAILER");
@@ -301,9 +378,9 @@ public class CmsRestService {
         }
         retailers.add(retailer);
         
-        List<RetailerPojo> allRetailers = retailerPojoService.findAllRetailers();
-        if(selectedRetailer != null){
-            for (Iterator<RetailerPojo> iterator = allRetailers.iterator(); iterator.hasNext();) {
+        if(selectedMarketArea != null){
+            List<RetailerPojo> retailersByMarketAreaCode = retailerPojoService.findRetailersByMarketAreaCode(selectedMarketArea.getCode());
+            for (Iterator<RetailerPojo> iterator = retailersByMarketAreaCode.iterator(); iterator.hasNext();) {
                 RetailerPojo retailerPojo = (RetailerPojo) iterator.next();
                 if(selectedRetailer != null
                         && retailerPojo.getCode().equals(selectedRetailer.getCode())){
@@ -312,14 +389,15 @@ public class CmsRestService {
                 retailerPojo.setCustomerComments(null);
                 retailerPojo.setCustomerRates(null);
                 retailerPojo.setStores(null);
+                retailerPojo.setAddresses(null);
                 retailers.add(retailerPojo);
             }
         }
         
-        requestCms.setRetailers(retailers);
+        cmsContext.setRetailers(retailers);
     }
     
-    private void buildLocalization(RequestCms requestCms, LocalizationPojo selectedLocalization){
+    private void buildLocalization(CmsContext cmsContext, MarketAreaPojo selectedMarketArea, LocalizationPojo selectedLocalization){
         List<LocalizationPojo> localizations = new ArrayList<LocalizationPojo>();
         LocalizationPojo localization = new LocalizationPojo();
         localization.setCode("MASTER_LOCALIZATION");
@@ -329,9 +407,9 @@ public class CmsRestService {
         }
         localizations.add(localization);
         
-        List<LocalizationPojo> allLocalization = localizationPojoService.findAllLocalizations();
-        if(selectedLocalization != null){
-            for (Iterator<LocalizationPojo> iterator = allLocalization.iterator(); iterator.hasNext();) {
+        if(selectedMarketArea != null){
+            List<LocalizationPojo> localizationsByMarketAreaCode = localizationPojoService.findLocalizationsByMarketAreaCode(selectedMarketArea.getCode());
+            for (Iterator<LocalizationPojo> iterator = localizationsByMarketAreaCode.iterator(); iterator.hasNext();) {
                 LocalizationPojo localizationPojo = (LocalizationPojo) iterator.next();
                 if(selectedLocalization != null
                         && localizationPojo.getCode().equals(selectedLocalization.getCode())){
@@ -341,7 +419,7 @@ public class CmsRestService {
             }
         }
         
-        requestCms.setLocalizations(localizations);
+        cmsContext.setLocalizations(localizations);
     }
     
 }

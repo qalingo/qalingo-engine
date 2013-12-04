@@ -11,13 +11,12 @@ package org.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.LocalizationDao;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.service.LocalizationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("localizationService")
 @Transactional
@@ -43,6 +42,10 @@ public class LocalizationServiceImpl implements LocalizationService {
 	public List<Localization> findLocalizations() {
 		return localizationDao.findLocalizations();
 	}
+	
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
+        return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode);
+    }
 
 	public void saveOrUpdateLocalization(Localization localization) {
 		localizationDao.saveOrUpdateLocalization(localization);

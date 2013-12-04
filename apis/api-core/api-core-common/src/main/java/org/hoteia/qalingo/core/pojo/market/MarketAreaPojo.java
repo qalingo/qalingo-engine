@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 
 public class MarketAreaPojo {
 
@@ -20,6 +20,7 @@ public class MarketAreaPojo {
     private String theme;
     
     private MarketPojo market;
+    private CatalogPojo catalog;
     
     private Set<Localization> localizations = new HashSet<Localization>(); 
     
@@ -98,6 +99,14 @@ public class MarketAreaPojo {
     
     public void setMarket(MarketPojo market) {
         this.market = market;
+    }
+    
+    public CatalogPojo getCatalog() {
+        return catalog;
+    }
+    
+    public void setCatalog(CatalogPojo catalog) {
+        this.catalog = catalog;
     }
     
     public Set<Localization> getLocalizations() {

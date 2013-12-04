@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.RetailerDao;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
@@ -84,6 +87,16 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         List<Retailer> retailers = criteria.list();
         return retailers;
     }
+    
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
+        Criteria criteria = getSession().createCriteria(MarketArea.class);
+
+        criteria.add(Restrictions.eq("code", marketAreaCode));
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+
+        List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
+        return retailers;
+  }
 
     public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
 //		Session session = (Session) em.getDelegate();
@@ -177,7 +190,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public List<Retailer> findRetailersByTxt(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
 //		Session session = (Session) em.getDelegate();
 //		initRetailerFilter(session, marketAreaId, retailerId);
 //		String sql = "FROM Retailer WHERE LOWER(code) LIKE LOWER(:searchTxt) OR LOWER(name) LIKE LOWER(:searchTxt) OR LOWER(description) LIKE LOWER(:searchTxt) ORDER BY name";

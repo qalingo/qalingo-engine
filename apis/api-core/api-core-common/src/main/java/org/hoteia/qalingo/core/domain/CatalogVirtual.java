@@ -65,7 +65,7 @@ public class CatalogVirtual extends AbstractEntity {
 	@Column(name="CODE", nullable=false)
 	private String code;
 	
-	@OneToOne(mappedBy="virtualCatalog")
+	@OneToOne(mappedBy="catalog")
 	private MarketArea marketArea;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

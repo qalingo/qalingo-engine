@@ -47,5 +47,12 @@ public class LocalizationPojoServiceImpl implements LocalizationPojoService {
         logger.debug("Found {} localizations", allLocalizations.size());
         return mapAll(dozerBeanMapper, allLocalizations, LocalizationPojo.class);
     }
+    
+    @Override
+    public List<LocalizationPojo> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
+        List<Localization> localizationsByMarketAreaCode = localizationService.findLocalizationsByMarketAreaCode(marketAreaCode);
+        logger.debug("Found {} localizations", localizationsByMarketAreaCode.size());
+        return mapAll(dozerBeanMapper, localizationsByMarketAreaCode, LocalizationPojo.class);
+    }
 
 }

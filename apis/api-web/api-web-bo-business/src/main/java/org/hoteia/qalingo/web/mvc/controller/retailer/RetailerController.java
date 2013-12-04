@@ -89,7 +89,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		if(StringUtils.isNotEmpty(searchText)){
 			// DEFAULT WAY - BEFORE INTEGRATE SEARCH WITH SOLR
 	        request.getSession().removeAttribute(SESSION_KEY); 
-			List<Retailer> retailers = retailerService.findRetailersByTxt(marketArea.getId(), retailer.getId(), searchText);
+			List<Retailer> retailers = retailerService.findRetailersByText(marketArea.getId(), retailer.getId(), searchText);
 			displayList(request, model, requestData, retailers);
 		} else {
 			return retailerList(request, model);

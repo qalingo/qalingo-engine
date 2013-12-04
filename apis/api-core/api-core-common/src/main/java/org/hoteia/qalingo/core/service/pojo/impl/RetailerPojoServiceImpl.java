@@ -28,14 +28,14 @@ public class RetailerPojoServiceImpl implements RetailerPojoService {
     private RetailerService retailerService;
 
     @Override
-    public RetailerPojo getRetailerById(String retailerId) {
+    public RetailerPojo getRetailerById(final String retailerId) {
         final Retailer retailer = retailerService.getRetailerById(retailerId);
         logger.debug("Found {} retailer for id {}", retailer, retailerId);
         return retailer == null ? null : dozerBeanMapper.map(retailer, RetailerPojo.class);
     }
     
     @Override
-    public RetailerPojo getRetailerByCode(String retailerCode) {
+    public RetailerPojo getRetailerByCode(final String retailerCode) {
         final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
         logger.debug("Found {} retailer for code {}", retailer, retailerCode);
         return retailer == null ? null : dozerBeanMapper.map(retailer, RetailerPojo.class);
@@ -46,6 +46,13 @@ public class RetailerPojoServiceImpl implements RetailerPojoService {
         List<Retailer> allRetailers = retailerService.findAllRetailers();
         logger.debug("Found {} retailers", allRetailers.size());
         return mapAll(dozerBeanMapper, allRetailers, RetailerPojo.class);
+    }
+    
+    @Override
+    public List<RetailerPojo> findRetailersByMarketAreaCode(final String marketAreaCode) {
+        List<Retailer> retailersByMarketAreaCode = retailerService.findRetailersByMarketAreaCode(marketAreaCode);
+        logger.debug("Found {} retailers", retailersByMarketAreaCode.size());
+        return mapAll(dozerBeanMapper, retailersByMarketAreaCode, RetailerPojo.class);
     }
 
 }

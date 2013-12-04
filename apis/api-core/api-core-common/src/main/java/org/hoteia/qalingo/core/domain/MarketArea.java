@@ -81,7 +81,7 @@ public class MarketArea extends AbstractEntity {
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATALOG_ID")
-	private CatalogVirtual virtualCatalog;
+	private CatalogVirtual catalog;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
@@ -204,21 +204,13 @@ public class MarketArea extends AbstractEntity {
 		this.theme = theme;
 	}
 	
-	public CatalogVirtual getVirtualCatalog() {
-		return virtualCatalog;
+	public CatalogVirtual getCatalog() {
+		return catalog;
 	}
 	
-	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
-		this.virtualCatalog = virtualCatalog;
+	public void setCatalog(CatalogVirtual catalog) {
+		this.catalog = catalog;
 	}
-	
-//	public Long getVirtualCatalogId() {
-//	    return virtualCatalogId;
-//    }
-//	
-//	public void setVirtualCatalogId(Long virtualCatalogId) {
-//	    this.virtualCatalogId = virtualCatalogId;
-//    }
 	
 	public Market getMarket() {
 		return market;

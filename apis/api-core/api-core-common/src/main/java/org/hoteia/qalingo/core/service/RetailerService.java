@@ -30,6 +30,8 @@ public interface RetailerService {
 
 	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
 
+    List<Retailer> findRetailersByMarketAreaCode(String marketAreaCode);
+
 	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag);
 
 	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
@@ -40,7 +42,7 @@ public interface RetailerService {
 	
 	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults);
 
-	List<Retailer> findRetailersByTxt(Long marketAreaId, Long retailerId, String searchTxt);
+	List<Retailer> findRetailersByText(Long marketAreaId, Long retailerId, String searchTxt);
 
 	void saveOrUpdateRetailer(Retailer retailer);
 	

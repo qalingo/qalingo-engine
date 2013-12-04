@@ -29,11 +29,6 @@ public class RetailerServiceImpl implements RetailerService {
 	@Autowired
 	private RetailerDao retailerDao;
 
-    @Override
-    public List<Retailer> findAllRetailers() {
-        return retailerDao.findAllRetailers();
-    }
-
     // RETAILER
 	public Retailer getRetailerById(final String rawRetailerId) {
 		long retailerId = -1;
@@ -57,6 +52,14 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findRetailers(marketAreaId, retailerId);
 	}
 	
+    public List<Retailer> findAllRetailers() {
+        return retailerDao.findAllRetailers();
+    }
+    
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
+        return retailerDao.findRetailersByMarketAreaCode(marketAreaCode);
+    }
+	
 	public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
 		List<String> tags = new ArrayList<String>();
 		tags.add(tag);
@@ -79,8 +82,8 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
 	}
 
-	public List<Retailer> findRetailersByTxt(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-		return retailerDao.findRetailersByTxt(marketAreaId, retailerId, searchTxt);
+	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+		return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt);
 	}
 
 	public void saveOrUpdateRetailer(final Retailer retailer) {

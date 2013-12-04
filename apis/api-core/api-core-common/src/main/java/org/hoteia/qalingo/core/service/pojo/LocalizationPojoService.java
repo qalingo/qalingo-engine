@@ -11,5 +11,7 @@ public interface LocalizationPojoService {
     LocalizationPojo getLocalizationByCode(String localizationCode);
 
     List<LocalizationPojo> findAllLocalizations();
+    
+    List<LocalizationPojo> findLocalizationsByMarketAreaCode(String marketAreaCode);
 
 }

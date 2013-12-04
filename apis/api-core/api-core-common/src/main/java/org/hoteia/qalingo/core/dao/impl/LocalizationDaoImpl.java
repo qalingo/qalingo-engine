@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -16,6 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.LocalizationDao;
 import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,16 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
         
 		return localizations;
 	}
+	
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
+        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        
+        criteria.add(Restrictions.eq("code", marketAreaCode));
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+
+        List<Localization> localizations = new ArrayList<Localization>(marketArea.getLocalizations());
+        return localizations;
+    }
 	
 	public void saveOrUpdateLocalization(Localization localization) {
 		if(localization.getId() == null){

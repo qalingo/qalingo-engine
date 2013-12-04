@@ -21,6 +21,8 @@ public interface LocalizationDao {
 
 	List<Localization> findLocalizations();
 	
+	List<Localization> findLocalizationsByMarketAreaCode(String marketAreaCode);
+	
 	void saveOrUpdateLocalization(Localization localization);
 
 	void deleteLocalization(Localization localization);

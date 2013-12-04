@@ -1,7 +1,7 @@
 package org.hoteia.qalingo.core.pojo.product;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,13 +23,13 @@ public class ProductSkuPojo {
 
     private ProductMarketingPojo productMarketing;
 
-    private Collection<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
-    private Collection<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
-    private Collection<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
-    private Collection<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
-    private Collection<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
-    private Collection<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
+    private List<ProductSkuAttributePojo> productSkuGlobalAttributes = new ArrayList<ProductSkuAttributePojo>();
+    private List<ProductSkuAttributePojo> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttributePojo>();
+    private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
+    private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
+    private List<ProductSkuPricePojo> prices = new ArrayList<ProductSkuPricePojo>();
+    private List<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
+    private List<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
 
     public Long getId() {
         return id;
@@ -104,59 +104,59 @@ public class ProductSkuPojo {
         this.productMarketing = productMarketing;
     }
 
-    public Collection<ProductSkuAttributePojo> getProductSkuGlobalAttributes() {
+    public List<ProductSkuAttributePojo> getProductSkuGlobalAttributes() {
         return productSkuGlobalAttributes;
     }
 
-    public void setProductSkuGlobalAttributes(Collection<ProductSkuAttributePojo> productSkuGlobalAttributes) {
+    public void setProductSkuGlobalAttributes(List<ProductSkuAttributePojo> productSkuGlobalAttributes) {
         this.productSkuGlobalAttributes = PojoUtil.asList(productSkuGlobalAttributes);
     }
 
-    public Collection<ProductSkuAttributePojo> getProductSkuMarketAreaAttributes() {
+    public List<ProductSkuAttributePojo> getProductSkuMarketAreaAttributes() {
         return productSkuMarketAreaAttributes;
     }
 
-    public void setProductSkuMarketAreaAttributes(Collection<ProductSkuAttributePojo> productSkuMarketAreaAttributes) {
+    public void setProductSkuMarketAreaAttributes(List<ProductSkuAttributePojo> productSkuMarketAreaAttributes) {
         this.productSkuMarketAreaAttributes = PojoUtil.asList(productSkuMarketAreaAttributes);
     }
 
-    public Collection<AssetPojo> getAssetsIsGlobal() {
+    public List<AssetPojo> getAssetsIsGlobal() {
         return assetsIsGlobal;
     }
 
-    public void setAssetsIsGlobal(Collection<AssetPojo> assetsIsGlobal) {
+    public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
         this.assetsIsGlobal = PojoUtil.asList(assetsIsGlobal);
     }
 
-    public Collection<AssetPojo> getAssetsByMarketArea() {
+    public List<AssetPojo> getAssetsByMarketArea() {
         return assetsByMarketArea;
     }
 
-    public void setAssetsByMarketArea(Collection<AssetPojo> assetsByMarketArea) {
+    public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = PojoUtil.asList(assetsByMarketArea);
     }
 
-    public Collection<ProductSkuPricePojo> getPrices() {
+    public List<ProductSkuPricePojo> getPrices() {
         return prices;
     }
 
-    public void setPrices(Collection<ProductSkuPricePojo> prices) {
+    public void setPrices(List<ProductSkuPricePojo> prices) {
         this.prices = PojoUtil.asList(prices);
     }
 
-    public Collection<ProductSkuStockPojo> getStocks() {
+    public List<ProductSkuStockPojo> getStocks() {
         return stocks;
     }
 
-    public void setStocks(Collection<ProductSkuStockPojo> stocks) {
+    public void setStocks(List<ProductSkuStockPojo> stocks) {
         this.stocks = PojoUtil.asList(stocks);
     }
 
-    public Collection<RetailerPojo> getRetailers() {
+    public List<RetailerPojo> getRetailers() {
         return retailers;
     }
 
-    public void setRetailers(Collection<RetailerPojo> retailers) {
+    public void setRetailers(List<RetailerPojo> retailers) {
         this.retailers = PojoUtil.asList(retailers);
     }
     

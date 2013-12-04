@@ -11,5 +11,7 @@ public interface RetailerPojoService {
     RetailerPojo getRetailerByCode(String retailerCode);
 
     List<RetailerPojo> findAllRetailers();
+    
+    List<RetailerPojo> findRetailersByMarketAreaCode(String marketAreaCode);
 
 }
