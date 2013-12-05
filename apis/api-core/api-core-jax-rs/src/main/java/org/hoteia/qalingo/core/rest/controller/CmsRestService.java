@@ -150,10 +150,13 @@ public class CmsRestService {
     }
     
     @GET
-    @Path("retailer/set/{marketAreaCode}/{retailerCode}")
+    @Path("retailer/set/{marketAreaCode}/{retailerCode}/{localizationCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public CmsContext selectRetailer(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode) {
+    public CmsContext selectRetailer(@PathParam("marketAreaCode") final String marketAreaCode, @PathParam("retailerCode") final String retailerCode,
+                                     @PathParam("localizationCode") final String localizationCode) {
         CmsContext cmsContext = new CmsContext();
+
+        LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(retailerCode);
 
         RetailerPojo selectedRetailer = retailerPojoService.getRetailerByCode(retailerCode);
         
@@ -176,7 +179,7 @@ public class CmsRestService {
         buildRetailer(cmsContext, selectedMarketArea, selectedRetailer);
 
         // LOCALIZATION LIST
-        buildLocalization(cmsContext, selectedMarketArea, null);
+        buildLocalization(cmsContext, selectedMarketArea, selectedLocalization);
         
         return cmsContext;
     }
