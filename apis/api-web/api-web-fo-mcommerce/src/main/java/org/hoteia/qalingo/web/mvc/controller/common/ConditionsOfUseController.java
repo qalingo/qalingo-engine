@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
@@ -34,14 +35,14 @@ public class ConditionsOfUseController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.CONDITIONS_OF_USE_URL)
 	public ModelAndView conditionsOfUse(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONDITIONS_OF_USE.getVelocityPage());
-
-		final Locale locale = requestUtil.getCurrentLocale(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		final String pageKey = FoUrls.CONDITIONS_OF_USE.getKey();
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		final String contentText = getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, FoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+		final String contentText = getSpecificMessage(ScopeWebMessage.CONDITIONS_OF_USE, FoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
         return modelAndView;

@@ -141,5 +141,4 @@ public class UserRole extends AbstractEntity {
 		this.rolePermissions = rolePermissions;
 	}
 
-
 }

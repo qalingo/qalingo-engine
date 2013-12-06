@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.form;
+package org.hoteia.qalingo.core.web.mvc.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

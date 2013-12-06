@@ -116,7 +116,7 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 					deviceFolder = "mobile";
 				}
 			}
-			requestUtil.updateCurrentDevice(request, deviceFolder);
+			requestUtil.updateCurrentDevice(requestUtil.getRequestData(request), deviceFolder);
 			
 		} catch (Exception e) {
 			logger.error("", e);

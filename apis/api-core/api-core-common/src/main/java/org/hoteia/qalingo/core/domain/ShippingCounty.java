@@ -51,6 +51,5 @@ public class ShippingCounty extends AbstractEntity {
 	public void setCodeCounty(String codeCounty) {
 		this.codeCounty = codeCounty;
 	}
-
 	
 }

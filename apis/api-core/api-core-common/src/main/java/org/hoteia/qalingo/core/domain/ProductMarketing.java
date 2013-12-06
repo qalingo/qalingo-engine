@@ -34,24 +34,13 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.annotations.ParamDef;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-@FilterDefs(
-	value = {
-		@FilterDef(name="filterProductMarketingAttributeIsGlobal"),
-		@FilterDef(name="filterProductMarketingAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
-		@FilterDef(name="filterProductMarketingAssetIsGlobal"),
-		@FilterDef(name="filterProductMarketingAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
-	})
 public class ProductMarketing extends AbstractEntity {
 
 	/**
@@ -90,13 +79,7 @@ public class ProductMarketing extends AbstractEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
-	@Filter(name="filterProductMarketingAttributeIsGlobal", condition="IS_GLOBAL = '1'")
-	private Set<ProductMarketingAttribute> productMarketingGlobalAttributes = new HashSet<ProductMarketingAttribute>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	@Filter(name="filterProductMarketingAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
-	private Set<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new HashSet<ProductMarketingAttribute>(); 
+	private Set<ProductMarketingAttribute> productMarketingAttributes = new HashSet<ProductMarketingAttribute>(); 
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
@@ -108,15 +91,8 @@ public class ProductMarketing extends AbstractEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID")
-	@Filter(name="filterProductMarketingAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_MARKETING'")
 	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	@Filter(name="filterProductMarketingAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_MARKETING'")
-	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsByMarketArea = new HashSet<Asset>();  
+	private Set<Asset> assets = new HashSet<Asset>(); 
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -193,20 +169,42 @@ public class ProductMarketing extends AbstractEntity {
 		this.productMarketingType = productMargetingType;
 	}
 	
-	public Set<ProductMarketingAttribute> getProductMarketingGlobalAttributes() {
-		return productMarketingGlobalAttributes;
+	public Set<ProductMarketingAttribute> getProductMarketingAttributes() {
+        return productMarketingAttributes;
+    }
+	
+	public void setProductMarketingAttributes(Set<ProductMarketingAttribute> productMarketingAttributes) {
+        this.productMarketingAttributes = productMarketingAttributes;
+    }
+	
+	public List<ProductMarketingAttribute> getProductMarketingGlobalAttributes() {
+        List<ProductMarketingAttribute> productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttribute>();
+        if (productMarketingAttributes != null) {
+            for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
+                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    productMarketingGlobalAttributes.add(attribute);
+                }
+            }
+        }        
+        return productMarketingGlobalAttributes;
 	}
 
-	public void setProductMarketingGlobalAttributes(Set<ProductMarketingAttribute> productMarketingGlobalAttributes) {
-		this.productMarketingGlobalAttributes = productMarketingGlobalAttributes;
-	}
-
-	public Set<ProductMarketingAttribute> getProductMarketingMarketAreaAttributes() {
-		return productMarketingMarketAreaAttributes;
-	}
-
-	public void setProductMarketingMarketAreaAttributes(Set<ProductMarketingAttribute> productMarketingMarketAreaAttributes) {
-		this.productMarketingMarketAreaAttributes = productMarketingMarketAreaAttributes;
+	public List<ProductMarketingAttribute> getProductMarketingMarketAreaAttributes(Long marketAreaId) {
+        List<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttribute>();
+        if (productMarketingAttributes != null) {
+            for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
+                ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    productMarketingMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
+        return productMarketingMarketAreaAttributes;
 	}
 
 	public Set<ProductSku> getProductSkus() {
@@ -245,20 +243,40 @@ public class ProductMarketing extends AbstractEntity {
 		this.productAssociationLinks = productAssociationLinks;
 	}
 	
-	public Set<Asset> getAssetsIsGlobal() {
-		return assetsIsGlobal;
+	public Set<Asset> getAssets() {
+        return assets;
+    }
+	
+	public void setAssets(Set<Asset> assets) {
+        this.assets = assets;
+    }
+	
+	public List<Asset> getAssetsIsGlobal() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
-	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
-		this.assetsIsGlobal = assetsIsGlobal;
-	}
-	
-	public Set<Asset> getAssetsByMarketArea() {
-		return assetsByMarketArea;
-	}
-	
-	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
-		this.assetsByMarketArea = assetsByMarketArea;
+	public List<Asset> getAssetsByMarketArea() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && !asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
 	public Date getDateCreate() {
@@ -295,10 +313,10 @@ public class ProductMarketing extends AbstractEntity {
 		ProductMarketingAttribute productMarketingAttributeToReturn = null;
 
 		// 1: GET THE GLOBAL VALUE
-		ProductMarketingAttribute productMarketingGlobalAttribute = getProductMarketingAttribute(productMarketingGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+		ProductMarketingAttribute productMarketingGlobalAttribute = getProductMarketingAttribute(getProductMarketingGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
 		// 2: GET THE MARKET AREA VALUE
-		ProductMarketingAttribute productMarketingMarketAreaAttribute = getProductMarketingAttribute(productMarketingMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		ProductMarketingAttribute productMarketingMarketAreaAttribute = getProductMarketingAttribute(getProductMarketingMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
 		
 		if(productMarketingMarketAreaAttribute != null){
 			productMarketingAttributeToReturn = productMarketingMarketAreaAttribute;
@@ -309,7 +327,7 @@ public class ProductMarketing extends AbstractEntity {
 		return productMarketingAttributeToReturn;
 	}
 	
-	private ProductMarketingAttribute getProductMarketingAttribute(Set<ProductMarketingAttribute> productMarketingAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+	private ProductMarketingAttribute getProductMarketingAttribute(List<ProductMarketingAttribute> productMarketingAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
 		ProductMarketingAttribute productMarketingAttributeToReturn = null;
 		List<ProductMarketingAttribute> productMarketingAttributesFilter = new ArrayList<ProductMarketingAttribute>();
 		if(productMarketingAttributes != null) {

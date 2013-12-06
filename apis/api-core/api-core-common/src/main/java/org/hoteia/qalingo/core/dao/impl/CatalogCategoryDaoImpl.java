@@ -61,7 +61,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryMasterFilter(session, marketAreaId, retailerId);
 //		String sql = "FROM CatalogCategoryMaster WHERE upper(code) = upper(:code)";
@@ -95,7 +95,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId) {
+	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 //		String sql = "SELECT catalogCategoryMaster FROM CatalogCategoryMaster catalogCategoryMaster";
@@ -161,7 +161,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 //		String sql = "FROM CatalogCategoryVirtual WHERE upper(code) = upper(:code)";
@@ -178,7 +178,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return catalogCategory;
 	}
 	
-	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, final Long retailerId) {
+	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 //		String sql = "FROM CatalogCategoryVirtual WHERE defaultParentCatalogCategory is null";
@@ -196,7 +196,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId, final Long retailerId) {
+	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 //		String sql = "FROM CatalogCategoryVirtual";
@@ -213,7 +213,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(final Long marketAreaId, final Long retailerId, final Long productMarketingId) {
+	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(final Long marketAreaId, final Long productMarketingId) {
 //		Session session = (Session) em.getDelegate();
 //		initCategoryVirtualFilter(session, marketAreaId, retailerId);
 //		String sql = "SELECT catalogCategoryVirtual FROM CatalogCategoryVirtual catalogCategoryVirtual, IN (catalogCategoryVirtual.productMarketings) AS productMarketing WHERE productMarketing.id = :productMarketingId";

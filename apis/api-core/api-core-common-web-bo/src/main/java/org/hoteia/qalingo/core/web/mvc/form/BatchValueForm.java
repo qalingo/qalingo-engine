@@ -1,4 +1,4 @@
-package org.hoteia.qalingo.web.mvc.form;
+package org.hoteia.qalingo.core.web.mvc.form;
 
 public class BatchValueForm {
 

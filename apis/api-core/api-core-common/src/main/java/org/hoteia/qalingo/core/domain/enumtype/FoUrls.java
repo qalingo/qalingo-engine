@@ -20,7 +20,9 @@ public enum FoUrls {
     NEWSLETTER_UNREGISTER(FoUrls.NEWSLETTER_UNREGISTER_URL, FoUrls.NEWSLETTER_UNREGISTER_KEY, FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE, true),
 
     SEARCH(FoUrls.SEARCH_URL, FoUrls.SEARCH_KEY, FoUrls.SEARCH_VELOCITY_PAGE, true),
-    CHANGE_LANGUAGE(FoUrls.HOME_URL, FoUrls.HOME_KEY, FoUrls.HOME_VELOCITY_PAGE, true),
+    
+    CHANGE_LANGUAGE(FoUrls.CHANGE_LANGUAGE_URL, null, null, true),
+    CHANGE_CONTEXT(FoUrls.CHANGE_CONTEXT_URL, null, null, true),
 
     LOGIN(FoUrls.LOGIN_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE, true),
     LOGIN_CHECK(FoUrls.LOGIN_CHECK_URL, FoUrls.LOGIN_KEY, FoUrls.LOGIN_VELOCITY_PAGE, true),
@@ -153,7 +155,7 @@ public enum FoUrls {
 	
 	public static final String PERSONAL_EDIT_KEY				= "personal-edit";
 	public static final String PERSONAL_EDIT_URL				= "/**/personal-edit.html";
-	public static final String PERSONAL_EDIT_VELOCITY_PAGE		= "customer/personal-edit-form";
+	public static final String PERSONAL_EDIT_VELOCITY_PAGE		= "customer/personal-edit";
 	
 	public static final String PERSONAL_ORDER_LIST_KEY					= "personal-order-list";
 	public static final String PERSONAL_ORDER_LIST_URL					= "/**/personal-order-list.html";
@@ -185,11 +187,11 @@ public enum FoUrls {
 
 	public static final String PERSONAL_ADD_ADDRESS_KEY					= "personal-add-address";
 	public static final String PERSONAL_ADD_ADDRESS_URL					= "/**/personal-add-address.html";
-	public static final String PERSONAL_ADD_ADDRESS_VELOCITY_PAGE		= "customer/personal-add-address-form";
+	public static final String PERSONAL_ADD_ADDRESS_VELOCITY_PAGE		= "customer/personal-add-address";
 
 	public static final String PERSONAL_EDIT_ADDRESS_KEY					= "personal-edit-address";
 	public static final String PERSONAL_EDIT_ADDRESS_URL					= "/**/personal-edit-address.html";
-	public static final String PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE			= "customer/personal-edit-address-form";
+	public static final String PERSONAL_EDIT_ADDRESS_VELOCITY_PAGE			= "customer/personal-edit-address";
 
 	public static final String PERSONAL_DELETE_ADDRESS_KEY					= "personal-delete-address";
 	public static final String PERSONAL_DELETE_ADDRESS_URL					= "/**/personal-delete-address.html";
@@ -201,7 +203,7 @@ public enum FoUrls {
 	
 	public static final String CUSTOMER_CREATE_ACCOUNT_KEY					= "customer-create-account";
 	public static final String CUSTOMER_CREATE_ACCOUNT_URL					= "/**/customer-create-account.html";
-	public static final String CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE		= "customer/customer-create-account-form";
+	public static final String CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE		= "customer/customer-create-account";
 
 	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_KEY				= "customer-new-account-validation";
 	public static final String CUSTOMER_NEW_ACCOUNT_VALIDATION_URL				= "/**/customer-new-account-validation.html";
@@ -213,16 +215,16 @@ public enum FoUrls {
 
 	public static final String RETAILER_CREATE_KEY					= "retailer-create";
 	public static final String RETAILER_CREATE_URL					= "/**/retailer-create.html";
-	public static final String RETAILER_CREATE_VELOCITY_PAGE		= "retailer/retailer-create-form";
+	public static final String RETAILER_CREATE_VELOCITY_PAGE		= "retailer/retailer-create";
 
 	public static final String RETAILER_CONTACT_KEY						= "retailer-contact";
 	public static final String RETAILER_CONTACT_URL						= "/**/retailer-contact-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
-	public static final String RETAILER_CONTACT_FORM_VELOCITY_PAGE		= "retailer/retailer-contact-form";
+	public static final String RETAILER_CONTACT_FORM_VELOCITY_PAGE		= "retailer/retailer-contact";
 	public static final String RETAILER_CONTACT_SUCCESS_VELOCITY_PAGE	= "retailer/retailer-contact-succes";
 
 	public static final String RETAILER_COMMENT_KEY					= "retailer-comment";
 	public static final String RETAILER_COMMENT_URL					= "/**/retailer-comment-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
-	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment-form";
+	public static final String RETAILER_COMMENT_FORM_VELOCITY_PAGE	= "retailer/retailer-comment";
 	public static final String RETAILER_VOTE_URL					= "/**/retailer-vote-{" + RequestConstants.URL_PATTERN_RETAILER_CODE + ":[a-zA-Z0-9]+}.html";
 
 	public static final String BRAND_DETAILS_KEY					= "brand-details";
@@ -291,12 +293,12 @@ public enum FoUrls {
 	
 	public static final String FORGOTTEN_PASSWORD_KEY					= "forgotten-password";
 	public static final String FORGOTTEN_PASSWORD_URL					= "/**/forgotten-password.html";
-	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE			= "security/forgotten-password-form";
+	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE			= "security/forgotten-password";
 	public static final String FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE	= "security/forgotten-password-success";
 
 	public static final String RESET_PASSWORD_KEY					= "reset-password";
 	public static final String RESET_PASSWORD_URL					= "/**/reset-password.html";
-	public static final String RESET_PASSWORD_VELOCITY_PAGE			= "security/reset-password-form";
+	public static final String RESET_PASSWORD_VELOCITY_PAGE			= "security/reset-password";
 	public static final String RESET_PASSWORD_SUCCESS_VELOCITY_PAGE	= "security/reset-password-success";
 
 	public static final String CANCEL_RESET_PASSWORD_KEY					= "cancel-reset-password";

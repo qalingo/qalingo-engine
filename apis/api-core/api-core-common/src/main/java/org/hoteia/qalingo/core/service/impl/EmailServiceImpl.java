@@ -110,7 +110,7 @@ public class EmailServiceImpl implements EmailService {
      */
     public void buildAndSaveContactMail(final RequestData requestData, final String velocityPath, final ContactEmailBean contactEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -161,7 +161,7 @@ public class EmailServiceImpl implements EmailService {
      */
     public void buildAndSaveRetailerContactMail(final RequestData requestData, final Customer customer, final String velocityPath, final RetailerContactEmailBean retailerContactEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -213,7 +213,7 @@ public class EmailServiceImpl implements EmailService {
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
         	final MarketArea marketArea = requestData.getMarketArea();
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -273,7 +273,7 @@ public class EmailServiceImpl implements EmailService {
     public void saveAndBuildNewsletterUnsubscriptionConfirmationMail(final RequestData requestData, final String velocityPath, 
     															   final NewsletterEmailBean newsletterEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -335,7 +335,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveCustomerNewAccountMail(final RequestData requestData, final String velocityPath, 
     											   final CustomerNewAccountConfirmationEmailBean customerNewAccountConfirmationEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -393,7 +393,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													  final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -456,7 +456,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     															  final CustomerResetPasswordConfirmationEmailBean customerResetPasswordConfirmationEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -511,7 +511,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												 final OrderConfirmationEmailBean orderConfirmationEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -563,7 +563,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveOrderShippedConfirmationMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     													 final OrderSentConfirmationEmailBean orderSentConfirmationEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK
@@ -615,7 +615,7 @@ public class EmailServiceImpl implements EmailService {
     public void buildAndSaveAbandonedShoppingCartMail(final RequestData requestData, final Customer customer, final String velocityPath, 
     												  final AbandonedShoppingCartEmailBean abandonedShoppingCartEmailBean) throws Exception {
         try {
-        	final Localization localization = requestData.getLocalization();
+        	final Localization localization = requestData.getMarketAreaLocalization();
         	final Locale locale = localization.getLocale();
         	
         	// SANITY CHECK

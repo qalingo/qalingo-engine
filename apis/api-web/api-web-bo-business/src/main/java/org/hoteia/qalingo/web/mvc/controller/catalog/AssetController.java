@@ -20,6 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.ProductMarketingService;
+import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.AssetForm;
 
 /**
  * 
@@ -72,13 +72,13 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.ASSET_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_EDIT.getVelocityPage());
-
+		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_CODE);
 		if(StringUtils.isNotEmpty(currentAssetCode)){
 			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 
 			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
-			modelAndView.addObject(Constants.ASSET_FORM, formFactory.buildProductMarketingAssetForm(request, asset));
+			modelAndView.addObject(Constants.ASSET_FORM, backofficeFormFactory.buildProductMarketingAssetForm(requestData, asset));
 			return modelAndView;
 		} else {
 			final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));

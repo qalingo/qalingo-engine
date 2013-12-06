@@ -36,26 +36,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.annotations.ParamDef;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_PRODUCT_SKU", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-@FilterDefs(
-	value = {
-		@FilterDef(name="filterProductSkuAttributeIsGlobal"),
-		@FilterDef(name="filterProductSkuAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
-		@FilterDef(name="filterProductSkuAssetIsGlobal"),
-		@FilterDef(name="filterProductSkuAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
-		@FilterDef(name="filterProductSkuPriceByMarketAreaAndRetailer", parameters= { @ParamDef(name="marketAreaId", type="long"),  @ParamDef(name="retailerId", type="long") }),
-		@FilterDef(name="filterProductSkuStockByMarketAreaAndRetailer", parameters= { @ParamDef(name="marketAreaId", type="long"),  @ParamDef(name="retailerId", type="long") })
-	}
-)
 public class ProductSku extends AbstractEntity {
 
 	/**
@@ -86,13 +72,7 @@ public class ProductSku extends AbstractEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterProductSkuAttributeIsGlobal", condition="IS_GLOBAL = '1'")
-	private Set<ProductSkuAttribute> productSkuGlobalAttributes = new HashSet<ProductSkuAttribute>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterProductSkuAttributeByMarketArea", condition="MARKET_AREA_ID = :marketAreaId")
-	private Set<ProductSkuAttribute> productSkuMarketAreaAttributes = new HashSet<ProductSkuAttribute>(); 
+	private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>(); 
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
@@ -100,24 +80,15 @@ public class ProductSku extends AbstractEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'PRODUCT_SKU'")
 	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+	private Set<Asset> assets = new HashSet<Asset>(); 
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'PRODUCT_SKU'")
-	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterProductSkuPriceByMarketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
 	private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>(); 
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID")
-	@Filter(name="filterProductSkuStockByMarketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
 	private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>(); 
 	
 	@ManyToMany(
@@ -191,22 +162,42 @@ public class ProductSku extends AbstractEntity {
 		this.code = code;
 	}
 	
-	public Set<ProductSkuAttribute> getProductSkuGlobalAttributes() {
-		return productSkuGlobalAttributes;
+	public Set<ProductSkuAttribute> getProductSkuAttributes() {
+        return productSkuAttributes;
+    }
+	
+	public void setProductSkuAttributes(Set<ProductSkuAttribute> productSkuAttributes) {
+        this.productSkuAttributes = productSkuAttributes;
+    }
+	
+	public List<ProductSkuAttribute> getProductSkuGlobalAttributes() {
+        List<ProductSkuAttribute> productSkuGlobalAttributes = new ArrayList<ProductSkuAttribute>();
+        if (productSkuAttributes != null) {
+            for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+                ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    productSkuGlobalAttributes.add(attribute);
+                }
+            }
+        }        
+        return productSkuGlobalAttributes;
 	}
 
-	public void setProductSkuGlobalAttributes(
-			Set<ProductSkuAttribute> productSkuGlobalAttributes) {
-		this.productSkuGlobalAttributes = productSkuGlobalAttributes;
-	}
-
-	public Set<ProductSkuAttribute> getProductSkuMarketAreaAttributes() {
-		return productSkuMarketAreaAttributes;
-	}
-
-	public void setProductSkuMarketAreaAttributes(
-			Set<ProductSkuAttribute> productSkuMarketAreaAttributes) {
-		this.productSkuMarketAreaAttributes = productSkuMarketAreaAttributes;
+	public List<ProductSkuAttribute> getProductSkuMarketAreaAttributes(Long marketAreaId) {
+        List<ProductSkuAttribute> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttribute>();
+        if (productSkuAttributes != null) {
+            for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+                ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    productSkuMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
+        return productSkuMarketAreaAttributes;
 	}
 
 	public ProductMarketing getProductMarketing() {
@@ -217,20 +208,40 @@ public class ProductSku extends AbstractEntity {
 		this.productMarketing = productMarketing;
 	}
 	
-	public Set<Asset> getAssetsIsGlobal() {
-		return assetsIsGlobal;
+	public Set<Asset> getAssets() {
+        return assets;
+    }
+	
+	public void setAssets(Set<Asset> assets) {
+        this.assets = assets;
+    }
+	
+	public List<Asset> getAssetsIsGlobal() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
-	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
-		this.assetsIsGlobal = assetsIsGlobal;
-	}
-	
-	public Set<Asset> getAssetsByMarketArea() {
-		return assetsByMarketArea;
-	}
-	
-	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
-		this.assetsByMarketArea = assetsByMarketArea;
+	public List<Asset> getAssetsByMarketArea() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && !asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
 	public Set<ProductSkuPrice> getPrices() {
@@ -291,10 +302,10 @@ public class ProductSku extends AbstractEntity {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
 
 		// 1: GET THE GLOBAL VALUE
-		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(productSkuGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(getProductSkuGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
 		// 2: GET THE MARKET AREA VALUE
-		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(productSkuMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(getProductSkuMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
 		
 		if(productSkuMarketAreaAttribute != null){
 			productSkuAttributeToReturn = productSkuMarketAreaAttribute;
@@ -305,7 +316,7 @@ public class ProductSku extends AbstractEntity {
 		return productSkuAttributeToReturn;
 	}
 	
-	private ProductSkuAttribute getProductSkuAttribute(Set<ProductSkuAttribute> productSkuAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+	private ProductSkuAttribute getProductSkuAttribute(List<ProductSkuAttribute> productSkuAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
 		List<ProductSkuAttribute> productSkuAttributesFilter = new ArrayList<ProductSkuAttribute>();
 		if(productSkuAttributes != null) {

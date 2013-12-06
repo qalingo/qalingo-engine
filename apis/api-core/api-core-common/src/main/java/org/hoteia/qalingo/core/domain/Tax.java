@@ -156,5 +156,4 @@ public class Tax extends AbstractEntity {
 		this.marketAreaId = marketAreaId;
 	}
 
-	
 }

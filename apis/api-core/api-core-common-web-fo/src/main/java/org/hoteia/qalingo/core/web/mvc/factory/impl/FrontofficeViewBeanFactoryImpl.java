@@ -55,8 +55,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     public List<MenuViewBean> buildMenuViewBeans(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
         final Locale locale = localization.getLocale();
         final String localeCode = localization.getCode();
@@ -68,7 +68,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
-        CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId(), retailer.getId());
+        CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId());
         if (catalogVirtual != null) {
             final List<CatalogCategoryVirtual> catalogCategories = catalogVirtual.getCatalogCategories(marketArea.getId());
             if (catalogCategories != null) {
@@ -131,7 +131,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      * 
      */
     public SearchViewBean buildSearchViewBean(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getLocalization();
+        final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = localization.getLocale();
 
         final SearchViewBean search = new SearchViewBean();
@@ -158,14 +158,14 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      */
     public SearchProductItemViewBean buildSearchProductItemViewBean(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final String localeCode = localization.getCode();
 
         final String productSkuCode = productMarketingSolr.getCode();
         final ProductSku productSku = productSkuService.getProductSkuByCode(marketArea.getId(), retailer.getId(), productSkuCode);
         final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productSku.getProductMarketing().getCode());
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), retailer.getId(), productMarketing);
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
 
         final String productName = productMarketing.getCode();
         final String categoryName = catalogCategory.getI18nName(localeCode);

@@ -18,7 +18,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.ProductSkuDao;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -64,7 +63,7 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 //		Query query = session.createQuery(sql);
 //		query.setString("code", productSkuCode);
 //		ProductSku productSku = (ProductSku) query.uniqueResult();
-        Criteria criteria = getSession().createCriteria(User.class);
+        Criteria criteria = getSession().createCriteria(ProductSku.class);
         
         addDefaultFetch(criteria);
 
@@ -132,11 +131,9 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 	}
 	
     private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("productSkuGlobalAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("productSkuMarketAreaAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
         criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
-        criteria.setFetchMode("assetsIsGlobal", FetchMode.JOIN); 
-        criteria.setFetchMode("assetsByMarketArea", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN); 
         criteria.setFetchMode("prices", FetchMode.JOIN); 
         criteria.setFetchMode("stocks", FetchMode.JOIN); 
         criteria.setFetchMode("retailers", FetchMode.JOIN); 

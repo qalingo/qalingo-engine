@@ -1,6 +1,7 @@
 package org.hoteia.qalingo.core.web.mvc.interceptor;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -51,11 +53,11 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             
             modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildCommonViewBean(requestData));
             
-            final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-            final Market currentMarket = requestUtil.getCurrentMarket(request);
-            final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-            final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-            final Customer customer = requestUtil.getCurrentCustomer(request);
+            final MarketPlace currentMarketPlace = requestData.getMarketPlace();
+            final Market currentMarket = requestData.getMarket();
+            final MarketArea currentMarketArea = requestData.getMarketArea();
+            final Localization currentLocalization = requestData.getMarketAreaLocalization();
+            final Customer customer = requestData.getCustomer();
             if(customer != null){
                 modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
             }
@@ -70,7 +72,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
             
             // LOCALIZATIONS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.LOCALIZATION_VIEW_BEAN, frontofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
+            modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, frontofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
             
             // CURRENT MARKET AREA
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
@@ -84,7 +86,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketViewBeans(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
             
             // RETAILERS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.RETAILERS_VIEW_BEAN, frontofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, frontofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
             
             // HEADER
             modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildMenuViewBeans(requestData));

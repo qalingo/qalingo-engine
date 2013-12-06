@@ -26,18 +26,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Repository("productCatalogDao")
+@Repository("catalogDao")
 public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<CatalogMaster> findAllCatalogMasters() {
-//        return em.createQuery("SELECT cm FROM CatalogMaster cm").getResultList();
         Criteria criteria = getSession().createCriteria(CatalogMaster.class);
-
-        addDefaultFetch(criteria);
-        
+        addDefaultCatalogFetch(criteria);
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -46,40 +43,22 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     }
 
     public CatalogMaster getProductCatalogById(final Long catalogMasterId) {
-        
         Criteria criteria = getSession().createCriteria(CatalogMaster.class);
+        addDefaultCatalogFetch(criteria);
         criteria.add(Restrictions.eq("id", catalogMasterId));
-        
-        addDefaultFetch(criteria);
         
         CatalogMaster catalogMaster = (CatalogMaster) criteria.uniqueResult();
         return catalogMaster;
-        
-//		return em.find(CatalogMaster.class, catalogMasterId);
 	}
 
-	public CatalogVirtual getCatalogVirtual(final Long marketAreaId, final Long retailerId) {
-	    
-	    initCatalogVirtual(getSession(), marketAreaId, retailerId);
-
+	public CatalogVirtual getCatalogVirtual(final Long marketAreaId) {
         Criteria criteria = getSession().createCriteria(CatalogVirtual.class);
-        
+        addDefaultCatalogFetch(criteria);
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
-
-        addDefaultFetch(criteria);
-
         criteria.createAlias("marketArea", "ma", JoinType.LEFT_OUTER_JOIN);
-        criteria.add( Restrictions.eq("ma.id", marketAreaId));
+        criteria.add(Restrictions.eq("ma.id", marketAreaId));
 
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
-        
-//		Session session = (Session) em.getDelegate();
-//		initCatalogVirtual(session, marketAreaId, retailerId);
-//		String sql = "SELECT cv FROM CatalogVirtual cv, MarketArea ma WHERE cv.id = ma.virtualCatalogId AND ma.id = :marketAreaId";
-//		Query query = session.createQuery(sql);
-//		query.setLong("marketAreaId", marketAreaId);
-//		CatalogVirtual catalogVirtual = (CatalogVirtual) query.uniqueResult();
-		
 		return catalogVirtual;
 	}
 	
@@ -99,7 +78,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 		em.remove(catalogMaster);
 	}
 	
-    private void addDefaultFetch(Criteria criteria) {
+    private void addDefaultCatalogFetch(Criteria criteria) {
       
         criteria.setFetchMode("catalogCategories", FetchMode.JOIN);
 

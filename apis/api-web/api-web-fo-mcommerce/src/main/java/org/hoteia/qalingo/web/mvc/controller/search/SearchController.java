@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductMarketingService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
@@ -54,11 +55,12 @@ public class SearchController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("search", search);
 		
-		modelAndView.addObject("searchForm", formFactory.buildSearchForm(request));
+		modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
 
         return modelAndView;
 	}

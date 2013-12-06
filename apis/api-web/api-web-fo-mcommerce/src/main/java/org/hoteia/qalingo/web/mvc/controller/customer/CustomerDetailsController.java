@@ -12,6 +12,18 @@ package org.hoteia.qalingo.web.mvc.controller.customer;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +32,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 
 /**
  * 
@@ -78,9 +78,11 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		if(customerEditForm == null 
         		|| customerEditForm.equals(new CustomerEditForm())){
-			customerEditForm = formFactory.buildCustomerEditForm(request, reloadedCustomer);
+			customerEditForm = formFactory.buildCustomerEditForm(requestData, reloadedCustomer);
 			model.addAttribute("customerEditForm", customerEditForm);
 		}
 		
@@ -90,8 +92,9 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView submitPersonalEdit(final HttpServletRequest request, @Valid @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm,
 								BindingResult result, final Model model) throws Exception {
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
 		
 		if (result.hasErrors()) {
 			return displayPersonalEdit(request, model, customerEditForm);

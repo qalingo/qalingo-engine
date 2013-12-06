@@ -26,12 +26,14 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	protected String logoutUrl;
 	protected String createAccountUrl;
 	protected String customerDetailsUrl;
+    protected String personalDetailsUrl;
 	protected String contactUrl;
 
 	protected MarketPlaceViewBean currentMarketPlace;
 	protected MarketViewBean currentMarket;
 	protected MarketAreaViewBean currentMarketArea;
-	protected LocalizationViewBean currentLocalization;
+	protected LocalizationViewBean currentMarketAreaLocalization;
+    protected RetailerViewBean currentMarketAreaRetailer;
 
 	public String getThemeResourcePrefixPath() {
 		return themeResourcePrefixPath;
@@ -88,6 +90,14 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	public void setCustomerDetailsUrl(String customerDetailsUrl) {
 		this.customerDetailsUrl = customerDetailsUrl;
 	}
+	
+	public String getPersonalDetailsUrl() {
+        return personalDetailsUrl;
+    }
+	
+	public void setPersonalDetailsUrl(String personalDetailsUrl) {
+        this.personalDetailsUrl = personalDetailsUrl;
+    }
 
 	public String getContactUrl() {
 		return contactUrl;
@@ -121,12 +131,20 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 		this.currentMarketArea = currentMarketArea;
 	}
 
-	public LocalizationViewBean getCurrentLocalization() {
-		return currentLocalization;
+	public LocalizationViewBean getCurrentMarketAreaLocalization() {
+		return currentMarketAreaLocalization;
 	}
 
-	public void setCurrentLocalization(LocalizationViewBean currentLocalization) {
-		this.currentLocalization = currentLocalization;
+	public void setCurrentMarketAreaLocalization(LocalizationViewBean currentLocalization) {
+		this.currentMarketAreaLocalization = currentLocalization;
 	}
+	
+	public RetailerViewBean getCurrentMarketAreaRetailer() {
+        return currentMarketAreaRetailer;
+    }
+	
+	public void setCurrentMarketAreaRetailer(RetailerViewBean currentMarketAreaRetailer) {
+        this.currentMarketAreaRetailer = currentMarketAreaRetailer;
+    }
 	
 }

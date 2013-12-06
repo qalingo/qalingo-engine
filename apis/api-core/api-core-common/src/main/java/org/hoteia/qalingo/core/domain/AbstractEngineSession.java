@@ -22,22 +22,22 @@ public abstract class AbstractEngineSession extends AbstractEntity {
 	
 	abstract  public MarketPlace getCurrentMarketPlace();
 	
-	abstract public void setCurrentMarketPlace(MarketPlace currentMarketPlace);
+	abstract public void setCurrentMarketPlace(MarketPlace marketPlace);
 	
 	abstract public Market getCurrentMarket();
 	
-	abstract public void setCurrentMarket(Market currentMarket);
+	abstract public void setCurrentMarket(Market market);
 	
 	abstract public MarketArea getCurrentMarketArea();
 	
-	abstract public void setCurrentMarketArea(MarketArea currentMarketArea);
+	abstract public void setCurrentMarketArea(MarketArea marketArea);
 	
 	abstract public Localization getCurrentMarketAreaLocalization();
 	
-	abstract public void setCurrentMarketAreaLocalization(Localization currentMarketAreaLocalization);
+	abstract public void setCurrentMarketAreaLocalization(Localization localization);
 	
-	abstract public Retailer getCurrentRetailer();
+	abstract public Retailer getCurrentMarketAreaRetailer();
 	
-	abstract public void setCurrentRetailer(Retailer currentRetailer);
+	abstract public void setCurrentMarketAreaRetailer(Retailer retailer);
 	
 }

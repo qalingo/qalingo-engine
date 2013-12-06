@@ -156,5 +156,4 @@ public class Shipping extends AbstractEntity {
 		this.marketAreaId = marketAreaId;
 	}
 
-	
 }

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
@@ -15,10 +14,13 @@ import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.service.WebBackofficeService;
+import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,13 +56,21 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	
 	@Autowired
     protected BackofficeViewBeanFactory backofficeViewBeanFactory;
+	
+    @Autowired
+    protected BackofficeFormFactory backofficeFormFactory;
+    
+    @Autowired
+    protected WebBackofficeService webBackofficeService;
 
 	/**
 	 * 
 	 */
 	@ModelAttribute
 	protected void initApp(final HttpServletRequest request, final Model model) throws Exception {
-		final Locale locale  = requestUtil.getCurrentLocale(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		// APP NAME
 		model.addAttribute(Constants.APP_NAME, getAppName(request));
 		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
@@ -72,8 +82,9 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute
 	protected void initConfig(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
 		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
 		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
@@ -86,8 +97,8 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute
 	protected void initSeo(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		String seoPageMetaAuthor = getCommonMessage(ScopeCommonMessage.SEO, BoMessageKey.SEO_META_AUTHOR, locale);
         model.addAttribute(ModelConstants.SEO_PAGE_META_AUTHOR, seoPageMetaAuthor);
@@ -109,74 +120,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		return backofficeUrlService.generateUrl(BoUrls.GLOBAL_SEARCH, requestUtil.getRequestData(request));
 	}
-	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.LANGUAGES_VIEW_BEAN)
-//	protected List<LocalizationViewBean> initLocalizations(final HttpServletRequest request, final Model model) throws Exception {
-//		// LOCALIZATIONS
-//		Company company = requestUtil.getCurrentCompany(request);
-//		if(company != null){
-//			Set<Localization> localizations = company.getLocalizations();
-//			return backofficeViewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), new ArrayList<Localization>(localizations));
-//		} else {
-//			Localization defaultLocalization = localizationService.getLocalizationByCode("en");
-//			List<Localization> defaultLocalizations = new ArrayList<Localization>();
-//			defaultLocalizations.add(defaultLocalization);
-//			return backofficeViewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), defaultLocalizations);
-//		}
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN)
-//	protected List<MarketPlaceViewBean> initAllPlaces(final HttpServletRequest request, final Model model) throws Exception {
-//		// ALL MARKETPLACES
-//		return backofficeViewBeanFactory.buildMarketPlaceViewBeans(requestUtil.getRequestData(request));
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.MARKETS_VIEW_BEAN)
-//	protected List<MarketViewBean> initMarkets(final HttpServletRequest request, final Model model) throws Exception {
-//		// MARKETS FOR THE CURRENT MARKETPLACE
-//		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-//		Set<Market> marketList = currentMarketPlace.getMarkets();
-//		return backofficeViewBeanFactory.buildMarketViewBeansByMarketPlace(requestUtil.getRequestData(request), currentMarketPlace, new ArrayList<Market>(marketList));
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.MARKET_AREAS_VIEW_BEAN)
-//	protected List<MarketAreaViewBean> initMarletAreas(final HttpServletRequest request, final Model model) throws Exception {
-//		// MARKET AREAS FOR THE CURRENT MARKET
-//		final Market currentMarket = requestUtil.getCurrentMarket(request);
-//		Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-//		return backofficeViewBeanFactory.buildMarketAreaViewBeansByMarket(requestUtil.getRequestData(request), currentMarket, new ArrayList<MarketArea>(marketAreaList));
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.MARKET_LANGUAGES_VIEW_BEAN)
-//	protected List<LocalizationViewBean> initMarketLocalizations(final HttpServletRequest request, final Model model) throws Exception {
-//		// LOCALIZATIONS FOR THE CURRENT MARKET AREA
-//		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-//		return backofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestUtil.getRequestData(request), new ArrayList<Localization>(currentMarketArea.getLocalizations()));
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.RETAILERS_VIEW_BEAN)
-//	protected List<RetailerViewBean> initRetailers(final HttpServletRequest request, final Model model) throws Exception {
-//		// RETAILERS FOR THE CURRENT MARKET AREA
-//		return backofficeViewBeanFactory.buildRetailerViewBeans(requestUtil.getRequestData(request));
-//	}
 	
 	/**
 	 * 
@@ -201,8 +144,8 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 */
 	@ModelAttribute
 	public void initWording(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		String contextName = requestUtil.getContextName();
 		try {
 			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
@@ -239,84 +182,54 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         model.addAttribute(ModelConstants.MAIN_CONTENT_TITLE, "");
 	}
 	
-	/**
-	 * 
-	 */
-	@ModelAttribute(ModelConstants.USER_VIEW_BEAN)
-	protected User initUser(final HttpServletRequest request, final Model model) throws Exception {
-		final User user = requestUtil.getCurrentUser(request);
-		return user;
-	}
-	
-	/**
-	 * @throws Exception  
-	 * 
-	 */
-	protected String getUserId(final HttpServletRequest request) throws Exception {
-		User user = requestUtil.getCurrentUser(request);
-		if(user != null){
-			Long userId = user.getId();
-			if(userId != null){
-				return userId.toString();
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
+//	/**
+//	 * 
+//	 */
+//	@ModelAttribute(ModelConstants.USER_VIEW_BEAN)
+//	protected User initUser(final HttpServletRequest request, final Model model) throws Exception {
+//		final User user = requestUtil.getCurrentUser(request);
+//		return user;
+//	}
+//	
+//	/**
+//	 * @throws Exception  
+//	 * 
+//	 */
+//	protected String getUserId(final HttpServletRequest request) throws Exception {
+//		User user = requestUtil.getCurrentUser(request);
+//		if(user != null){
+//			Long userId = user.getId();
+//			if(userId != null){
+//				return userId.toString();
+//			} else {
+//				return null;
+//			}
+//		} else {
+//			return null;
+//		}
+//	}
 	
 	/**
 	 * @throws Exception 
 	 * 
 	 */
 	protected String getAppName(HttpServletRequest request) throws Exception {
-		final Locale locale  = requestUtil.getCurrentLocale(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		Object[] params = {StringUtils.capitalize(requestUtil.getApplicationName())};
 		String appName = getCommonMessage(ScopeCommonMessage.APP, "name_text", params, locale);
 		return appName;
 	}
 	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected Localization getCurrentLocalization(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentLocalization(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected Locale getCurrentLocale(HttpServletRequest request) throws Exception {
-		return getCurrentLocalization(request).getLocale();
-	}
-
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getCurrentTheme(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentTheme(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getCurrentDevice(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentDevice(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentVelocityWebPrefix(request);
-	}
-	
+    /**
+     * @throws Exception
+     * 
+     */
+    protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return requestUtil.getCurrentVelocityWebPrefix(requestData);
+    }
+    
 	/**
 	 * 
 	 */

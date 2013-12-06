@@ -40,6 +40,9 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	private String backUrl;
 	private String userDetailsUrl;
 	private String userEditUrl;
+
+    private String personalDetailsUrl;
+	private String personalEditUrl;
 	
 	public Long getId() {
 		return id;
@@ -168,5 +171,21 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	public void setUserEditUrl(String userEditUrl) {
 		this.userEditUrl = userEditUrl;
 	}
+
+    public String getPersonalDetailsUrl() {
+        return personalDetailsUrl;
+    }
+
+    public void setPersonalDetailsUrl(String personalDetailsUrl) {
+        this.personalDetailsUrl = personalDetailsUrl;
+    }
+
+    public String getPersonalEditUrl() {
+        return personalEditUrl;
+    }
+
+    public void setPersonalEditUrl(String personalEditUrl) {
+        this.personalEditUrl = personalEditUrl;
+    }
 	
 }

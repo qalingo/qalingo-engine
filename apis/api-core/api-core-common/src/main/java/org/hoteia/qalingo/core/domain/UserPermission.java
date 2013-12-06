@@ -114,6 +114,5 @@ public class UserPermission extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-
 	
 }

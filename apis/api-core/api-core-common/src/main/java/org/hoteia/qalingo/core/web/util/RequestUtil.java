@@ -168,11 +168,6 @@ public interface RequestUtil {
 	/**
      * 
      */
-	Long getCurrentUserId(HttpServletRequest request) throws Exception;
-	
-	/**
-     * 
-     */
 	void updateCurrentUser(HttpServletRequest request, User user) throws Exception;
 	
 	/**
@@ -203,7 +198,7 @@ public interface RequestUtil {
 	/**
      * 
      */
-	void updateCurrentCart(HttpServletRequest request, String skuCode, int quantity) throws Exception;
+	void updateCurrentCart(RequestData requestData, String skuCode, int quantity) throws Exception;
 	
 	/**
      * 
@@ -233,42 +228,42 @@ public interface RequestUtil {
 	/**
      * 
      */
-	MarketPlace getCurrentMarketPlace(HttpServletRequest request) throws Exception;
+	MarketPlace getCurrentMarketPlace(RequestData requestData) throws Exception;
 	
 	/**
      * 
      */
-	Market getCurrentMarket(HttpServletRequest request) throws Exception;
+	Market getCurrentMarket(RequestData requestData) throws Exception;
 	
 	/**
      * 
      */
-	MarketArea getCurrentMarketArea(HttpServletRequest request) throws Exception;
+	MarketArea getCurrentMarketArea(RequestData requestData) throws Exception;
 	
 	/**
      * 
      */
-	Localization getCurrentMarketLocalization(HttpServletRequest request) throws Exception;
+	Localization getCurrentMarketLocalization(RequestData requestData) throws Exception;
 	
 	/**
      * 
      */
-	Localization getCurrentLocalization(HttpServletRequest request) throws Exception;
+	Localization getCurrentMarketAreaLocalization(RequestData requestData) throws Exception;
+	
+//	/**
+//     * 
+//     */
+//	Locale getCurrentLocale(HttpServletRequest request) throws Exception;
 	
 	/**
      * 
      */
-	Locale getCurrentLocale(HttpServletRequest request) throws Exception;
+	void updateCurrentLocalization(RequestData requestData, Localization localization) throws Exception;
 	
 	/**
      * 
      */
-	void updateCurrentLocalization(HttpServletRequest request, Localization localization) throws Exception;
-	
-	/**
-     * 
-     */
-	Retailer getCurrentRetailer(HttpServletRequest request) throws Exception;
+	Retailer getCurrentRetailer(RequestData requestData) throws Exception;
 	
 	/**
      * 
@@ -318,7 +313,7 @@ public interface RequestUtil {
 	/**
      * 
      */
-	String getCurrentThemeResourcePrefixPath(HttpServletRequest request) throws Exception;
+	String getCurrentThemeResourcePrefixPath(RequestData requestData) throws Exception;
 
 	/**
      * 
@@ -353,22 +348,22 @@ public interface RequestUtil {
 	/**
      * 
      */
-	String getCurrentDevice(HttpServletRequest request) throws Exception;
+	String getCurrentDevice(RequestData requestData) throws Exception;
 	 
 	/**
 	 * 
 	 */
-	void updateCurrentDevice(HttpServletRequest request, String device) throws Exception;
+	void updateCurrentDevice(RequestData requestData, String device) throws Exception;
 	
 	/**
 	 * 
 	 */
-	String getCurrentVelocityWebPrefix(HttpServletRequest request) throws Exception;
+	String getCurrentVelocityWebPrefix(RequestData requestData) throws Exception;
 	
 	/**
      * 
      */
-	String getCurrentVelocityEmailPrefix(HttpServletRequest request) throws Exception;
+	String getCurrentVelocityEmailPrefix(RequestData requestData) throws Exception;
 	
 	/**
      * 

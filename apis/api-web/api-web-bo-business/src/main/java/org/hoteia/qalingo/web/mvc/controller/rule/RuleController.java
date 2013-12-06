@@ -12,21 +12,12 @@ package org.hoteia.qalingo.web.mvc.controller.rule;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
@@ -36,11 +27,20 @@ import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RuleReferentialService;
+import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.RuleForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -54,8 +54,10 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.RULE_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView ruleList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_LIST.getVelocityPage());
-		
-		final String contentText = getSpecificMessage(ScopeWebMessage.RULE, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+		final String contentText = getSpecificMessage(ScopeWebMessage.RULE, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String url = request.getRequestURI();
@@ -110,12 +112,12 @@ public class RuleController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.RULE_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView ruleEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RULE_EDIT.getVelocityPage());
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 
-		modelAndView.addObject(Constants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
-		modelAndView.addObject(Constants.RULE_FORM, formFactory.buildRuleForm(request, rule));
+		modelAndView.addObject(Constants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildRuleViewBean(requestData, rule));
+		modelAndView.addObject(Constants.RULE_FORM, backofficeFormFactory.buildRuleForm(requestData, rule));
 		return modelAndView;
 	}
 	

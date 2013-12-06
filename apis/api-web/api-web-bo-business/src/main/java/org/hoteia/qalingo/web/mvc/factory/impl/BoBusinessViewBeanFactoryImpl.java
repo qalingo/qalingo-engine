@@ -34,7 +34,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 	@Override
 	public List<MenuViewBean> buildMenuViewBeans(final RequestData requestData) throws Exception {
 		final HttpServletRequest request = requestData.getRequest();
-		final Localization localization = requestData.getLocalization();
+		final Localization localization = requestData.getMarketAreaLocalization();
 		final Locale locale = localization.getLocale();
 		final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 		

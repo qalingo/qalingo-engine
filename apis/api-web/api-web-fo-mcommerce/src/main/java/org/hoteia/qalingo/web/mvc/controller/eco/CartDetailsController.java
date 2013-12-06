@@ -12,19 +12,19 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * 
@@ -37,8 +37,9 @@ public class CartDetailsController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.CART_ADD_PRODUCT_URL)
 	public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		try {
-			requestUtil.updateCurrentCart(request, skuCode, 1);
+			requestUtil.updateCurrentCart(requestData, skuCode, 1);
 			
 		} catch (Exception e) {
 			logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
@@ -67,11 +68,13 @@ public class CartDetailsController extends AbstractMCommerceController {
 		if(cartItemsCount == 0){
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
-		
+
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
-		modelAndView.addObject("cartForm", formFactory.buildCartForm(request));
+		modelAndView.addObject("cartForm", formFactory.buildCartForm(requestData));
 
         return modelAndView;
 	}

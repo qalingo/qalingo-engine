@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -66,8 +66,8 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
         String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
         url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
@@ -82,10 +82,10 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+        String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
         url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());

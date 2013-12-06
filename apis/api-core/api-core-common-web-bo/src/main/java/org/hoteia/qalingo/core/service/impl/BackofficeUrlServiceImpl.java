@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.service.impl;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,6 +39,8 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 
@@ -51,15 +54,15 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
+		final Localization localization = requestData.getMarketAreaLocalization();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		return url;
 	}
 	
@@ -67,15 +70,15 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
+		final Localization localization = requestData.getMarketAreaLocalization();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		return url;
 	}
 	
@@ -172,6 +175,11 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
         	logger.error("Can't build Url!", e);
         }
     	return handleUrlParameters(urlStr, urlParams, getParams);
+    }
+    
+    @Override
+    protected String getSeoSegmentMain(Locale locale) throws Exception{
+        return "";
     }
     
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {

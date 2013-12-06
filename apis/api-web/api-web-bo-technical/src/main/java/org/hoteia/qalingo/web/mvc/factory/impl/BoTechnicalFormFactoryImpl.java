@@ -7,17 +7,11 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory;
+package org.hoteia.qalingo.web.mvc.factory.impl;
 
-import javax.servlet.http.HttpServletRequest;
+import org.hoteia.qalingo.core.web.mvc.factory.impl.BackofficeFormFactoryImpl;
 
-import org.springframework.web.servlet.ModelAndView;
+public class BoTechnicalFormFactoryImpl extends BackofficeFormFactoryImpl {
 
-import org.hoteia.qalingo.core.domain.User;
-
-
-public interface FormFactory {
-
-	void buildUserForm(HttpServletRequest request, ModelAndView modelAndView, User user) throws Exception;
 
 }

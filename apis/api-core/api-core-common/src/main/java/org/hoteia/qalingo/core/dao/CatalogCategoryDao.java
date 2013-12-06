@@ -21,11 +21,11 @@ public interface CatalogCategoryDao {
 	
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, Long retailerId, String catalogCategoryCode);
+	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
 	List<CatalogCategoryMaster> findRootCatalogCategories();
 	
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId);
+	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId);
 	
 	void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
@@ -36,13 +36,13 @@ public interface CatalogCategoryDao {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, Long retailerId, String catalogCategoryCode);
+	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
-	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId, Long retailerId);
+	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId, Long retailerId);
+	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(Long marketAreaId, Long retailerId, Long productMarketingId);
+	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(Long marketAreaId, Long productMarketingId);
 	
 	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 

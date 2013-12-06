@@ -152,12 +152,10 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
     private void addDefaultProductMarketingFetch(Criteria criteria) {
         criteria.setFetchMode("productBrand", FetchMode.JOIN); 
         criteria.setFetchMode("productMarketingType", FetchMode.JOIN); 
-        criteria.setFetchMode("productMarketingGlobalAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("productMarketingMarketAreaAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("productMarketingAttributes", FetchMode.JOIN); 
         criteria.setFetchMode("productSkus", FetchMode.JOIN); 
         criteria.setFetchMode("productAssociationLinks", FetchMode.JOIN); 
-        criteria.setFetchMode("assetsIsGlobal", FetchMode.JOIN); 
-        criteria.setFetchMode("assetsByMarketArea", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN); 
     }
 	
 }

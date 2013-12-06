@@ -10,28 +10,26 @@
 package org.hoteia.qalingo.web.mvc.controller.search;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.GlobalSearchViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.web.mvc.viewbean.GlobalSearchViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 
 /**
  * 
@@ -42,8 +40,10 @@ public class SearchController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.SEARCH_URL, method = RequestMethod.POST)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SEARCH.getVelocityPage());
-
-		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+		final String contentText = getSpecificMessage(ScopeWebMessage.SEARCH, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String searchText = request.getParameter("search-text");
@@ -81,12 +81,11 @@ public class SearchController extends AbstractBusinessBackofficeController {
 	
 
 	private PagedListHolder<GlobalSearchViewBean> initList(final HttpServletRequest request, String sessionKey, String searchText) throws Exception{
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		PagedListHolder<GlobalSearchViewBean> globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>();
 		
-		final List<GlobalSearchViewBean> globalSearchViewBeans = backofficeViewBeanFactory.buildGlobalSearchViewBean(requestUtil.getRequestData(request), searchText);
+		final List<GlobalSearchViewBean> globalSearchViewBeans = backofficeViewBeanFactory.buildGlobalSearchViewBean(requestData, searchText);
 
 		globalSearchViewBeanPagedListHolder = new PagedListHolder<GlobalSearchViewBean>(globalSearchViewBeans);
 		globalSearchViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);

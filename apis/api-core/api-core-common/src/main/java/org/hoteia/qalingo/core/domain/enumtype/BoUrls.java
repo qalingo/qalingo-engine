@@ -17,6 +17,9 @@ public enum BoUrls {
     FORGOTTEN_PASSWORD(BoUrls.FORGOTTEN_PASSWORD_URL, BoUrls.FORGOTTEN_PASSWORD_KEY, BoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
     RESET_PASSWORD(BoUrls.RESET_PASSWORD_URL, BoUrls.RESET_PASSWORD_KEY, BoUrls.RESET_PASSWORD_VELOCITY_PAGE, true),
     
+    PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, true),
+    PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, true),
+
     SEARCH(BoUrls.SEARCH_URL, BoUrls.SEARCH_KEY, BoUrls.SEARCH_VELOCITY_PAGE, true),
     SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE, true),
     GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null, true),
@@ -97,10 +100,10 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     
-    ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE, true),
-    ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE, true),
-    ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE, true),
-    ERROR_404(FoUrls.ERROR_404_URL, FoUrls.ERROR_404_KEY, FoUrls.ERROR_404_VELOCITY_PAGE, true),
+    ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, true),
+    ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, true),
+    ERROR_403(BoUrls.ERROR_403_URL, BoUrls.ERROR_403_KEY, BoUrls.ERROR_403_VELOCITY_PAGE, true),
+    ERROR_404(BoUrls.ERROR_404_URL, BoUrls.ERROR_404_KEY, BoUrls.ERROR_404_VELOCITY_PAGE, true),
     
     VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE, true);
 
@@ -147,6 +150,14 @@ public enum BoUrls {
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 	public static final String GLOBAL_SEARCH_URL		= "/**/global-search.html";
 	
+    public static final String PERSONAL_DETAILS_KEY                 = "personal-details";
+    public static final String PERSONAL_DETAILS_URL                 = "/**/personal-details.html";
+    public static final String PERSONAL_DETAILS_VELOCITY_PAGE       = "user/personal-details";
+	    
+    public static final String PERSONAL_EDIT_KEY                = "personal-edit";
+    public static final String PERSONAL_EDIT_URL                = "/**/personal-edit.html";
+    public static final String PERSONAL_EDIT_VELOCITY_PAGE      = "user/personal-edit";
+	    
 	public static final String CHANGE_LANGUAGE_URL		= "/**/change-language.html";
 	public static final String CHANGE_CONTEXT_URL		= "/**/change-context.html";
 	

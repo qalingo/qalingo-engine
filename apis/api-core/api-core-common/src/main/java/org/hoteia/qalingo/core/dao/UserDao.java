@@ -11,10 +11,13 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
 
 public interface UserDao extends GenericDao<User, Long> {
 
+    // USER
+    
 	User getUserById(Long userId);
 
 	User getUserByLoginOrEmail(String usernameOrEmail);
@@ -24,5 +27,15 @@ public interface UserDao extends GenericDao<User, Long> {
 	void saveOrUpdateUser(User user);
 
 	void deleteUser(User user);
+	
+	// COMPANY
+
+    Company getCompanyById(Long companyId);
+
+    List<Company> findCompanies();
+
+    void saveOrUpdateCompany(Company company);
+
+    void deleteCompany(Company company);
 
 }

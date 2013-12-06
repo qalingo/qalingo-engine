@@ -21,4 +21,6 @@
 
     <bean id="backofficeViewBeanFactory" class="org.hoteia.qalingo.web.mvc.factory.impl.BoTechnicalViewBeanFactoryImpl" />
 
+    <bean id="backofficeFormFactory" class="org.hoteia.qalingo.web.mvc.factory.impl.BoTechnicalFormFactoryImpl" />
+
 </beans>

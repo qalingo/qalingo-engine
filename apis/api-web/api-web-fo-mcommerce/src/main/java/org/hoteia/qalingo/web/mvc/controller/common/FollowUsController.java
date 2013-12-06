@@ -12,15 +12,6 @@ package org.hoteia.qalingo.web.mvc.controller.common;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
@@ -30,6 +21,14 @@ import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.NewsletterQuickRegistrationForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -129,7 +128,8 @@ public class FollowUsController extends AbstractMCommerceController {
 	 */
     @ModelAttribute("followUsForm")
 	protected FollowUsForm getFollowUsForm(final HttpServletRequest request, final Model model) throws Exception {
-    	return formFactory.buildFollowUsForm(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+    	return formFactory.buildFollowUsForm(requestData);
 	}
 	
 }

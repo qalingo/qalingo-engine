@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,25 +35,25 @@ import org.springframework.web.servlet.View;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 2588762975032561784L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 2588762975032561784L;
 
-	protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		initPlatformTheme(request);
-		initPlatformDevice(request);
-		super.doDispatch(request, response);
-	}
-	
-	@Override
-	protected View resolveViewName(String viewName, Map<String, Object> model, Locale locale, HttpServletRequest request) throws Exception {
-		View view =  super.resolveViewName(viewName, model, locale, request);
-		if(view == null){
-			String fullViewNameSplit[] = viewName.split("/");
-			if(fullViewNameSplit.length > 1){
+    protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        initPlatformTheme(request);
+        initPlatformDevice(request);
+        super.doDispatch(request, response);
+    }
+
+    @Override
+    protected View resolveViewName(String viewName, Map<String, Object> model, Locale locale, HttpServletRequest request) throws Exception {
+        View view = super.resolveViewName(viewName, model, locale, request);
+        if (view == null) {
+            String fullViewNameSplit[] = viewName.split("/");
+            if (fullViewNameSplit.length > 1) {
                 String theme = fullViewNameSplit[1];
                 String deviceDefaultViewName = "/" + theme + "/www/default";
                 for (int i = 4; i < fullViewNameSplit.length; i++) {
@@ -60,77 +61,76 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
                     deviceDefaultViewName = deviceDefaultViewName + "/" + string;
                 }
                 view = super.resolveViewName(deviceDefaultViewName, model, locale, request);
-			}
-			if(view == null){
-				String fullDefaultViewName = "/default/www/default";
-				for (int i = 4; i < fullViewNameSplit.length; i++) {
-					String string = fullViewNameSplit[i];
-					fullDefaultViewName = fullDefaultViewName + "/" + string;
-				}
-				view = super.resolveViewName(fullDefaultViewName, model, locale, request);
-			}
-		}
-		return view;
-	}
+            }
+            if (view == null) {
+                String fullDefaultViewName = "/default/www/default";
+                for (int i = 4; i < fullViewNameSplit.length; i++) {
+                    String string = fullViewNameSplit[i];
+                    fullDefaultViewName = fullDefaultViewName + "/" + string;
+                }
+                view = super.resolveViewName(fullDefaultViewName, model, locale, request);
+            }
+        }
+        return view;
+    }
 
-	private void initPlatformTheme(HttpServletRequest request){
-		final ServletContext context = getServletContext();
-		final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-		final RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
+    private void initPlatformTheme(HttpServletRequest request) {
+        final ServletContext context = getServletContext();
+        final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+        final RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
 
-		// THEME
-		try {
-			final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
-			if(marketArea != null
-					&& StringUtils.isNotEmpty(marketArea.getTheme())){
-				String themeFolder = marketArea.getTheme();
-				requestUtil.updateCurrentTheme(request, themeFolder);
-			} else {
-				final Market market = requestUtil.getCurrentMarket(request);
-				if(market != null
-						&& StringUtils.isNotEmpty(market.getTheme())){
-					String themeFolder = market.getTheme();
-					requestUtil.updateCurrentTheme(request, themeFolder);
-				} else {
-					final MarketPlace marketPlace = requestUtil.getCurrentMarketPlace(request);
-					if(marketPlace != null
-							&& StringUtils.isNotEmpty(marketPlace.getTheme())){
-						String themeFolder = marketPlace.getTheme();
-						requestUtil.updateCurrentTheme(request, themeFolder);
-					}
-				}
-			}
-			
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-	}
-	
-	private void initPlatformDevice(HttpServletRequest request){
-		final ServletContext context = getServletContext();
-		final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-		final RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
+        // THEME
+        try {
+            final RequestData requestData = requestUtil.getRequestData(request);
+            final MarketArea marketArea = requestUtil.getCurrentMarketArea(requestData);
+            if (marketArea != null && StringUtils.isNotEmpty(marketArea.getTheme())) {
+                String themeFolder = marketArea.getTheme();
+                requestUtil.updateCurrentTheme(request, themeFolder);
+            } else {
+                final Market market = requestUtil.getCurrentMarket(requestData);
+                if (market != null && StringUtils.isNotEmpty(market.getTheme())) {
+                    String themeFolder = market.getTheme();
+                    requestUtil.updateCurrentTheme(request, themeFolder);
+                } else {
+                    final MarketPlace marketPlace = requestUtil.getCurrentMarketPlace(requestData);
+                    if (marketPlace != null && StringUtils.isNotEmpty(marketPlace.getTheme())) {
+                        String themeFolder = marketPlace.getTheme();
+                        requestUtil.updateCurrentTheme(request, themeFolder);
+                    }
+                }
+            }
 
-		// DEVICE
-		try {
-			final WURFLHolder wurfl = (WURFLHolder) ctx.getBean("wurflHolder");
-	        final WURFLManager manager = wurfl.getWURFLManager();
-	        Device device = manager.getDeviceForRequest(request);
-			String deviceFolder = "default";
-			if(device != null){
-				boolean isSmartPhone = BooleanUtils.toBoolean(device.getVirtualCapability("is_smartphone"));
-				boolean isIPhoneOs = BooleanUtils.toBoolean(device.getVirtualCapability("is_iphone_os"));
-				boolean isAndroid = BooleanUtils.toBoolean(device.getVirtualCapability("is_android"));
-				if(isSmartPhone 
-						|| isIPhoneOs
-						|| isAndroid){
-					deviceFolder = "mobile";
-				}
-			}
-			requestUtil.updateCurrentDevice(request, deviceFolder);
-			
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-	}
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+    }
+
+    private void initPlatformDevice(HttpServletRequest request) {
+        final ServletContext context = getServletContext();
+        final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+        final RequestUtil requestUtil = (RequestUtil) ctx.getBean("requestUtil");
+
+        // DEVICE
+        try {
+            final RequestData requestData = requestUtil.getRequestData(request);
+
+            final WURFLHolder wurfl = (WURFLHolder) ctx.getBean("wurflHolder");
+            final WURFLManager manager = wurfl.getWURFLManager();
+            Device device = manager.getDeviceForRequest(request);
+            String deviceFolder = "default";
+            if (device != null) {
+                boolean isSmartPhone = BooleanUtils.toBoolean(device.getVirtualCapability("is_smartphone"));
+                boolean isIPhoneOs = BooleanUtils.toBoolean(device.getVirtualCapability("is_iphone_os"));
+                boolean isAndroid = BooleanUtils.toBoolean(device.getVirtualCapability("is_android"));
+                if (isSmartPhone || isIPhoneOs || isAndroid) {
+                    deviceFolder = "mobile";
+                }
+            }
+            requestUtil.updateCurrentDevice(requestData, deviceFolder);
+
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+    }
+
 }

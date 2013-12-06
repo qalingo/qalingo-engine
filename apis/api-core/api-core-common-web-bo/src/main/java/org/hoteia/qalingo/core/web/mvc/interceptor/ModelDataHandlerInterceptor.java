@@ -1,18 +1,21 @@
 package org.hoteia.qalingo.core.web.mvc.interceptor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -35,6 +38,9 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     protected MarketService marketService;
     
+    @Autowired
+    protected LocalizationService localizationService;
+    
     @Override
     public boolean preHandle(HttpServletRequest request, 
                              HttpServletResponse response, Object handler) throws Exception {
@@ -54,13 +60,15 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             final RequestData requestData = requestUtil.getRequestData(request);
             modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, backofficeViewBeanFactory.buildCommonViewBean(requestData));
             
-            final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
-            final Market currentMarket = requestUtil.getCurrentMarket(request);
-            final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-            final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-            final Customer customer = requestUtil.getCurrentCustomer(request);
-            if(customer != null){
-                modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
+            final MarketPlace currentMarketPlace = requestData.getMarketPlace();
+            final Market currentMarket = requestData.getMarket();
+            final MarketArea currentMarketArea = requestData.getMarketArea();
+            final Localization currentLocalization = requestData.getMarketAreaLocalization();
+            final User user = requestData.getUser();
+            final Company company = requestData.getCompany();
+            
+            if(user != null){
+                modelAndView.getModelMap().put(ModelConstants.USER_VIEW_BEAN, backofficeViewBeanFactory.buildUserViewBean(requestData, user));
             }
             
             modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, backofficeViewBeanFactory.buildLegalTermsViewBean(requestData));
@@ -71,25 +79,33 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             
             // ALL MARKETPLACES
             modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, backofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
-            
-            // LOCALIZATIONS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
-            
-            // CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
-            
-            // MARKET AREAS FOR THE CURRENT MARKET
-            Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
-            
+
             // MARKETS FOR THE CURRENT MARKETPLACE
             Set<Market> marketList = currentMarketPlace.getMarkets();
             modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, backofficeViewBeanFactory.buildMarketViewBeans(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
-            
+
+            // MARKET AREAS FOR THE CURRENT MARKET
+            Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
+
+            // LOCALIZATIONS FOR THE CURRENT MARKET AREA
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
+
             // RETAILERS FOR THE CURRENT MARKET AREA
-            MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode());
-            requestData.setMarketArea(marketArea);
-            modelAndView.getModelMap().put(ModelConstants.RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
+
+            // CURRENT MARKET AREA
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
+
+            // BACKOFFICE LOCALIZATIONS
+            List<Localization> backofficeLocalizations = new ArrayList<Localization>();
+            if(company != null){
+                backofficeLocalizations = new ArrayList<Localization>(company.getLocalizations());
+            } else {
+                Localization defaultLocalization = localizationService.getLocalizationByCode("en");
+                backofficeLocalizations.add(defaultLocalization);
+            }
+            modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeans(requestData, backofficeLocalizations));
             
             // HEADER
             modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildMenuViewBeans(requestData));

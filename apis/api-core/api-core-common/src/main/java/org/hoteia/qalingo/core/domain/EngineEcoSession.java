@@ -75,7 +75,7 @@ public class EngineEcoSession extends AbstractEngineSession {
     private Localization currentMarketAreaLocalization;
 
     @Transient
-    private Retailer currentRetailer;
+    private Retailer currentMarketAreaRetailer;
 
     @Transient
     private User currentUser;
@@ -152,56 +152,56 @@ public class EngineEcoSession extends AbstractEngineSession {
         return currentCustomer;
     }
 
-    public void setCurrentCustomer(Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
+    public void setCurrentCustomer(Customer customer) {
+        this.currentCustomer = customer;
     }
 
     public MarketPlace getCurrentMarketPlace() {
         return currentMarketPlace;
     }
 
-    public void setCurrentMarketPlace(MarketPlace currentMarketPlace) {
-        this.currentMarketPlace = currentMarketPlace;
+    public void setCurrentMarketPlace(MarketPlace marketPlace) {
+        this.currentMarketPlace = marketPlace;
     }
 
     public Market getCurrentMarket() {
         return currentMarket;
     }
 
-    public void setCurrentMarket(Market currentMarket) {
-        this.currentMarket = currentMarket;
+    public void setCurrentMarket(Market market) {
+        this.currentMarket = market;
     }
 
     public MarketArea getCurrentMarketArea() {
         return currentMarketArea;
     }
 
-    public void setCurrentMarketArea(MarketArea currentMarketArea) {
-        this.currentMarketArea = currentMarketArea;
+    public void setCurrentMarketArea(MarketArea marketArea) {
+        this.currentMarketArea = marketArea;
     }
 
     public Localization getCurrentMarketAreaLocalization() {
         return currentMarketAreaLocalization;
     }
 
-    public void setCurrentMarketAreaLocalization(Localization currentMarketAreaLocalization) {
-        this.currentMarketAreaLocalization = currentMarketAreaLocalization;
+    public void setCurrentMarketAreaLocalization(Localization localization) {
+        this.currentMarketAreaLocalization = localization;
     }
 
-    public Retailer getCurrentRetailer() {
-        return currentRetailer;
+    public Retailer getCurrentMarketAreaRetailer() {
+        return currentMarketAreaRetailer;
     }
 
-    public void setCurrentRetailer(Retailer currentRetailer) {
-        this.currentRetailer = currentRetailer;
+    public void setCurrentMarketAreaRetailer(Retailer retailer) {
+        this.currentMarketAreaRetailer = retailer;
     }
 
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 
     public OrderCustomer getLastOrder() {

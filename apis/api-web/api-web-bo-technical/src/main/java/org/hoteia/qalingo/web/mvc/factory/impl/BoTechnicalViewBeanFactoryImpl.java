@@ -30,7 +30,7 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
      */
     @Override
     public List<MenuViewBean> buildMenuViewBeans(RequestData requestData) throws Exception {
-		final Localization localization = requestData.getLocalization();
+		final Localization localization = requestData.getMarketAreaLocalization();
 		final Locale locale = localization.getLocale();
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();

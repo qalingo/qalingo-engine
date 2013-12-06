@@ -12,20 +12,12 @@ package org.hoteia.qalingo.web.mvc.controller.shipping;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
@@ -35,11 +27,19 @@ import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ShippingService;
+import org.hoteia.qalingo.core.web.mvc.form.ShippingForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShippingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.ShippingForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -53,8 +53,10 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.SHIPPING_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView shippingList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_LIST.getVelocityPage());
-		
-		final String contentText = getSpecificMessage(ScopeWebMessage.SHIPPING, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+		final String contentText = getSpecificMessage(ScopeWebMessage.SHIPPING, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String url = request.getRequestURI();
@@ -109,12 +111,12 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.SHIPPING_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView shippingEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_EDIT.getVelocityPage());
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestUtil.getRequestData(request), shipping));
-		modelAndView.addObject(Constants.SHIPPING_FORM, formFactory.buildShippingForm(request, shipping));
+		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestData, shipping));
+		modelAndView.addObject(Constants.SHIPPING_FORM, backofficeFormFactory.buildShippingForm(requestData, shipping));
 		return modelAndView;
 	}
 	

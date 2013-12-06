@@ -142,5 +142,4 @@ public class UserGroup extends AbstractEntity {
 		this.groupRoles = groupRoles;
 	}
 
-
 }

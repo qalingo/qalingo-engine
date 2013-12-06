@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.LocalizationDao;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -32,7 +31,7 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 
 	public Localization getLocalizationById(final Long localizationId) {
 //		return em.find(Localization.class, localizationId);
-        Criteria criteria = getSession().createCriteria(User.class);
+        Criteria criteria = getSession().createCriteria(Localization.class);
         criteria.add(Restrictions.eq("id", localizationId));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;

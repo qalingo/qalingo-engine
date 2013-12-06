@@ -120,15 +120,19 @@ public abstract class AbstractUrlServiceImpl {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = localization.getLocale();
         String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
                 + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
 
-        seoPrefixUrl = seoPrefixUrl + handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
+        seoPrefixUrl = seoPrefixUrl + getSeoSegmentMain(locale);
         if (StringUtils.isNotEmpty(seoPrefixUrl)) {
             seoPrefixUrl = seoPrefixUrl.replace(" ", "-");
+        }
+        
+        if (seoPrefixUrl.endsWith("/")) {
+            seoPrefixUrl = seoPrefixUrl.substring(0, seoPrefixUrl.length() - 1);
         }
 
         return seoPrefixUrl;
@@ -157,6 +161,10 @@ public abstract class AbstractUrlServiceImpl {
     protected String getRetailerPrefixUrl(final Retailer retailer) throws Exception {
         String retailerPrefixUrl = retailer.getCode().toLowerCase() + "/";
         return retailerPrefixUrl;
+    }
+    
+    protected String getSeoSegmentMain(Locale locale) throws Exception{
+        return handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
     }
     
 	protected String encodeString(String url) throws Exception {
