@@ -112,13 +112,6 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         return batchQuickSearchForm;
     }
 
-    
-    
-    
-    
-    
-    
-    
     public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = new CatalogCategoryForm();
         List<AttributeDefinition> attributeDefinitions = attributeService.findCatalogCategoryAttributeDefinitions();

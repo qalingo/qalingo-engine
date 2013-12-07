@@ -143,7 +143,8 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID, handleParamValue(paymentGateway.getId().toString()));
                         break;
-                    } else if (param instanceof User) {
+                    } else if (param instanceof User
+                            && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
                         User user = (User) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, handleParamValue(user.getId().toString()));
                         break;

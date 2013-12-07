@@ -126,6 +126,9 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     public List<MenuViewBean> buildMorePageMenuViewBeans(final RequestData requestData) throws Exception {
+        final User currentUser = requestData.getUser();
+        final Locale locale = requestData.getLocale();
+        
         final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
         // TODO : denis : move this part in the global list menu java/vm
@@ -136,6 +139,23 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
         menuViewBeans.add(menu);
 
+        menu = new MenuViewBean();
+        menu.setCssIcon("icon-user");
+        menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_link_my_account", locale));
+        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setCssIcon("icon-lock");
+        if(currentUser != null){
+            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "header_title_logout", locale));
+            menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
+        } else {
+            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "header_title_login", locale));
+            menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
+        }
+        menuViewBeans.add(menu);
+        
         return menuViewBeans;
     }
 

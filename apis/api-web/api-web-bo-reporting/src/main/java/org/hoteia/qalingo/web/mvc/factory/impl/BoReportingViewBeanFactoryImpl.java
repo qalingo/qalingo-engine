@@ -78,11 +78,11 @@ public class BoReportingViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REPORTING, requestData));
 		menuViewBeans.add(menu);
 		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-paper-clip");
-		menu.setName("FAQ");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
-		menuViewBeans.add(menu);
+//		menu = new MenuViewBean();
+//		menu.setCssIcon("icon-paper-clip");
+//		menu.setName("FAQ");
+//		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
+//		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
 	}

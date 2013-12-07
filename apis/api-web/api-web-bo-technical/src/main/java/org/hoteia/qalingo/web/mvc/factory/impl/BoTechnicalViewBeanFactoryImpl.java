@@ -78,11 +78,11 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.MONITORING, requestData));
 		menuViewBeans.add(menu);
 		
-		menu = new MenuViewBean();
-		menu.setCssIcon("icon-paper-clip");
-		menu.setName("FAQ");
-		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
-		menuViewBeans.add(menu);
+//		menu = new MenuViewBean();
+//		menu.setCssIcon("icon-paper-clip");
+//		menu.setName("FAQ");
+//		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
+//		menuViewBeans.add(menu);
 		
 		return menuViewBeans;
 	}

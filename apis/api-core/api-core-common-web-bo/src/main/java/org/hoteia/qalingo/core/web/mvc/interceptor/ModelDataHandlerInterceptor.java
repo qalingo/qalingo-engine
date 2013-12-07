@@ -102,8 +102,8 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             if(company != null){
                 backofficeLocalizations = new ArrayList<Localization>(company.getLocalizations());
             } else {
-                Localization defaultLocalization = localizationService.getLocalizationByCode("en");
-                backofficeLocalizations.add(defaultLocalization);
+                backofficeLocalizations.add(localizationService.getLocalizationByCode("en"));
+                backofficeLocalizations.add(localizationService.getLocalizationByCode("fr"));
             }
             modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeans(requestData, backofficeLocalizations));
             
