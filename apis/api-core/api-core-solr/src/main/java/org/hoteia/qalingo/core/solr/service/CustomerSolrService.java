@@ -12,14 +12,9 @@ package org.hoteia.qalingo.core.solr.service;
 import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
-
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.solr.response.CustomerResponseBean;
 
-
-/**
- * The Interface CustomerSolrService.
- */
 public interface CustomerSolrService {
 
 	/**
@@ -51,4 +46,5 @@ public interface CustomerSolrService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	CustomerResponseBean searchCustomer() throws SolrServerException, IOException;
+	
 }

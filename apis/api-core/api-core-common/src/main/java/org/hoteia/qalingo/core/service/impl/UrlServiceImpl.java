@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.service.impl;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,10 +27,8 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.slf4j.Logger;
@@ -62,17 +59,17 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
     }
 
     public String buildChangeLanguageUrl(final RequestData requestData, final Localization localization) throws Exception {
-        return buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE_URL + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
+        return buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?" + RequestConstants.REQUEST_PARAMETER_LOCALE_CODE + "=" + handleString(localization.getCode());
     }
 
     public String buildChangeLanguageUrl(final RequestData requestData) throws Exception {
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE_URL + "?";
+        String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
         url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
@@ -85,10 +82,10 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
         final MarketPlace marketPlace = requestData.getMarketPlace();
         final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+        String url = buildDefaultPrefix(requestData) + FoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
         url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
         url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
@@ -98,19 +95,19 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
     }
 
     public String buildOAuthConnectUrl(final RequestData requestData, final String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/connect-oauth-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/connect-oauth-" + socialNetworkCode + ".html";
     }
 
     public String buildOAuthCallBackUrl(final RequestData requestData, String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/callback-oauth-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/callback-oauth-" + socialNetworkCode + ".html";
     }
 
     public String buildOpenIdConnectUrl(final RequestData requestData, final String socialNetworkCode) throws Exception {
-        return buildContextPath(requestData) + "/sc/connect-openid-" + socialNetworkCode + ".html";
+        return buildContextPath(requestData) + "/connect-openid-" + socialNetworkCode + ".html";
     }
 
     public String buildOpenIdCallBackUrl(final RequestData requestData) throws Exception {
-        return buildContextPath(requestData) + "/sc/callback-openid.html";
+        return buildContextPath(requestData) + "/callback-openid.html";
     }
 
     @SuppressWarnings("unchecked")
@@ -159,16 +156,19 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             }
 
             if (StringUtils.isEmpty(urlStr)) {
-                // AD THE DEFAULT PREFIX - DEFAULT PATH IS /sc
+                // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
-            } else {
-                // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
-                if (urlStr.endsWith("/")) {
-                    urlStr = urlStr.substring(0, urlStr.length() - 1);
+                if(url.withPrefixSEO()){
+                    urlStr = getFullPrefixUrl(requestData);
                 }
             }
+            
+            // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
+            if (urlStr.endsWith("/")) {
+                urlStr = urlStr.substring(0, urlStr.length() - 1);
+            }
 
-            urlStr = urlStr + url.getUrl();
+            urlStr = urlStr + url.getUrlWithoutWildcard();
 
         } catch (Exception e) {
             logger.error("Can't build Url!", e);
@@ -186,54 +186,6 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             url = fullPrefixUrl;
         }
         return url;
-    }
-
-    protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
-        String fullPrefixUrl = getSeoPrefixUrl(requestData) + "/";
-        return fullPrefixUrl;
-    }
-
-    protected String getSeoPrefixUrl(final RequestData requestData) throws Exception {
-        final MarketPlace marketPlace = requestData.getMarketPlace();
-        final Market market = requestData.getMarket();
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getLocalization();
-        final Retailer retailer = requestData.getRetailer();
-        final Locale locale = localization.getLocale();
-        String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
-                + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
-
-        seoPrefixUrl = seoPrefixUrl + handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
-        if (StringUtils.isNotEmpty(seoPrefixUrl)) {
-            seoPrefixUrl = seoPrefixUrl.replace(" ", "-");
-        }
-
-        return seoPrefixUrl;
-    }
-
-    protected String getMarketPlacePrefixUrl(final MarketPlace marketPlace) throws Exception {
-        String marketPlacePrefixUrl = marketPlace.getCode().toLowerCase() + "/";
-        return marketPlacePrefixUrl;
-    }
-
-    protected String getMarketPrefixUrl(final Market market) throws Exception {
-        String marketPrefixUrl = market.getCode().toLowerCase() + "/";
-        return marketPrefixUrl;
-    }
-
-    protected String getMarketModePrefixUrl(final MarketArea marketArea) throws Exception {
-        String marketAreaPrefixUrl = marketArea.getCode().toLowerCase() + "/";
-        return marketAreaPrefixUrl;
-    }
-
-    protected String getLocalizationPrefixUrl(final Localization localization) throws Exception {
-        String localizationPrefixUrl = localization.getCode().toLowerCase() + "/";
-        return localizationPrefixUrl;
-    }
-
-    protected String getRetailerPrefixUrl(final Retailer retailer) throws Exception {
-        String retailerPrefixUrl = retailer.getCode().toLowerCase() + "/";
-        return retailerPrefixUrl;
     }
 
 }

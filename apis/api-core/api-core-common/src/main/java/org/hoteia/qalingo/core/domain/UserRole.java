@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_ROLE")
-public class UserRole implements Serializable {
+public class UserRole extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -141,6 +140,5 @@ public class UserRole implements Serializable {
 	public void setRolePermissions(Set<UserPermission> rolePermissions) {
 		this.rolePermissions = rolePermissions;
 	}
-
 
 }

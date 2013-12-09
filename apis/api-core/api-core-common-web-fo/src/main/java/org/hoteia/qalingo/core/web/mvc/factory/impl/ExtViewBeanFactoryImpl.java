@@ -35,9 +35,9 @@ public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl implements ExtVi
      * 
      */
     public CategoryViewBean buildVirtualCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
-        final Localization localization = requestData.getLocalization();
+        final Localization localization = requestData.getMarketAreaLocalization();
 
-        final String localeCode = localization.getCode();
+        final String localeCode = category.getCode();
         final CategoryViewBean categoryViewBean = new CategoryViewBean();
 
         if (category != null) {

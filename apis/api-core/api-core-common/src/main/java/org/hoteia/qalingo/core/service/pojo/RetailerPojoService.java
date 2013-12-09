@@ -6,8 +6,12 @@ import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 
 public interface RetailerPojoService {
 
-    List<RetailerPojo> findAllRetailers();
-
     RetailerPojo getRetailerById(String retailerId);
+
+    RetailerPojo getRetailerByCode(String retailerCode);
+
+    List<RetailerPojo> findAllRetailers();
     
+    List<RetailerPojo> findRetailersByMarketAreaCode(String marketAreaCode);
+
 }

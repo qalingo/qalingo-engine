@@ -14,22 +14,21 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * 
@@ -40,9 +39,8 @@ public class LoginController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.LOGIN_URL)
 	public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LOGIN.getVelocityPage());
-		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
@@ -76,7 +74,7 @@ public class LoginController extends AbstractMCommerceController {
 	
 	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
 	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		return viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
+		return frontofficeViewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 	}
 	
 }

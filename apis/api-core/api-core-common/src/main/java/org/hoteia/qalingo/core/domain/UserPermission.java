@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_PERMISSION")
-public class UserPermission implements Serializable {
+public class UserPermission extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -115,6 +114,5 @@ public class UserPermission implements Serializable {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-
 	
 }

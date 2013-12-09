@@ -18,6 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.LinkMenuViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,20 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.EngineSetting;
-import org.hoteia.qalingo.core.domain.EngineSettingValue;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LinkMenuViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.EngineSettingValueForm;
 
 /**
  * 
@@ -50,8 +50,9 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	@RequestMapping(value = BoUrls.ENGINE_SETTING_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView engineSettingList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_LIST.getVelocityPage());
-		
-		final Locale locale = requestUtil.getCurrentLocale(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		initLinks(request, modelAndView, locale, null);
 		
 		List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
@@ -84,7 +85,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
 		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, engineSettingViewBeanPagedListHolder);
 		
-		formFactory.buildEngineSettingQuickSearchForm(request, modelAndView);
+		backofficeFormFactory.buildEngineSettingQuickSearchForm(requestData);
 		
         return modelAndView;
 	}
@@ -93,13 +94,16 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_DETAILS.getVelocityPage());
 		modelAndView.addObject("pageContextPath", request.getContextPath());
+		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID);
 		modelAndView.addObject("engineSettingId",engineSettingId);
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
-				final Locale locale = requestUtil.getCurrentLocale(request);
-				EngineSettingViewBean engineSettingViewBean =viewBeanFactory.buildEngineSettingViewBean(requestUtil.getRequestData(request), engineSetting);
+				EngineSettingViewBean engineSettingViewBean = backofficeViewBeanFactory.buildEngineSettingViewBean(requestData, engineSetting);
 				modelAndView.addObject("engineSetting", engineSettingViewBean);
                 initLinks(request, modelAndView, locale, engineSetting);
 			} else {
@@ -112,7 +116,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		}
 		modelAndView.addObject("addUrl",BoUrls.ENGINE_SETTING_VALUE_EDIT);
 		modelAndView.addObject("urlBack",BoUrls.ENGINE_SETTING_LIST);
-		formFactory.buildEngineSettingQuickSearchForm(request, modelAndView);
+		backofficeFormFactory.buildEngineSettingQuickSearchForm(requestData);
 		
         return modelAndView;
 	}
@@ -120,14 +124,15 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, method = RequestMethod.GET)
     public ModelAndView engineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_VALUE_EDIT.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
         
         final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
         if(StringUtils.isNotEmpty(engineSettingValueId)){
             final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
             if(engineSettingValue != null){
-                final Locale locale = requestUtil.getCurrentLocale(request);
-                modelAndView.addObject("engineSetting", viewBeanFactory.buildEngineSettingViewBean(requestUtil.getRequestData(request), engineSettingValue.getEngineSetting()));
-                formFactory.buildEngineSettingValueEditForm(request, modelAndView, engineSettingValue);
+                modelAndView.addObject("engineSetting", backofficeViewBeanFactory.buildEngineSettingViewBean(requestData, engineSettingValue.getEngineSetting()));
+                backofficeFormFactory.buildEngineSettingValueEditForm(requestData, engineSettingValue);
                 initLinks(request, modelAndView, locale, engineSettingValue.getEngineSetting());
                 return modelAndView;
             }
@@ -198,7 +203,6 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(engineSettingId)){
             final EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
             if(engineSetting != null){
-                final Locale locale = requestUtil.getCurrentLocale(request);
                 modelAndView.addObject("engineSetting", engineSetting);
  
                 return modelAndView;
@@ -209,7 +213,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     
 	protected PagedListHolder<EngineSettingViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<EngineSetting> engineSettings,
 			PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder) throws Exception{
-		List<EngineSettingViewBean> engineSettingViewBeans = viewBeanFactory.buildEngineSettingViewBeans(requestUtil.getRequestData(request), engineSettings);
+		List<EngineSettingViewBean> engineSettingViewBeans = backofficeViewBeanFactory.buildEngineSettingViewBeans(requestUtil.getRequestData(request), engineSettings);
 		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
 		
 		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 

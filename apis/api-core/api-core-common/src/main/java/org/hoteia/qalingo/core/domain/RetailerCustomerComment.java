@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +29,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_RETAILER_CUSTOMER_COMMENT")
-public class RetailerCustomerComment extends AbstractAddress implements Serializable {
+public class RetailerCustomerComment extends AbstractAddress {
 
 	/**
 	 * Generated UID

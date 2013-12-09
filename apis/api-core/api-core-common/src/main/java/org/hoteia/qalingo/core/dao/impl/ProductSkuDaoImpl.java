@@ -12,15 +12,16 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.ProductSkuDao;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.ProductSkuDao;
-import org.hoteia.qalingo.core.domain.ProductSku;
 
 @Transactional
 @Repository("productSkuDao")
@@ -28,8 +29,15 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ProductSku getProductSkuById(Long productSkuId) {
-		return em.find(ProductSku.class, productSkuId);
+	public ProductSku getProductSkuById(final Long productSkuId) {
+//		return em.find(ProductSku.class, productSkuId);
+        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", productSkuId));
+        ProductSku productSku = (ProductSku) criteria.uniqueResult();
+        return productSku;
 	}
 	
 //	public ProductSku getProductSkuByCode(Long marketAreaId, String productSkuCode) {
@@ -48,34 +56,61 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 //	}
 	
 	public ProductSku getProductSkuByCode(final Long marketAreaId, final Long retailerId, final String productSkuCode) {
-		Session session = (Session) em.getDelegate();
-		initProductSkuFilter(session, marketAreaId, retailerId);
+//		Session session = (Session) em.getDelegate();
+//		initProductSkuFilter(session, marketAreaId, retailerId);
+//
+//		String sql = "FROM ProductSku WHERE upper(code) = upper(:code)";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", productSkuCode);
+//		ProductSku productSku = (ProductSku) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        
+        addDefaultFetch(criteria);
 
-		String sql = "FROM ProductSku WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", productSkuCode);
-		ProductSku productSku = (ProductSku) query.uniqueResult();
+        criteria.add(Restrictions.eq("code", productSkuCode));
+        ProductSku productSku = (ProductSku) criteria.uniqueResult();
 		return productSku;
 	}
 		
 	public List<ProductSku> findProductSkus(final Long marketAreaId, final Long retailerId, final Long productMarkettingId) {
-		Session session = (Session) em.getDelegate();
-		initProductSkuFilter(session, marketAreaId, retailerId);
+//		Session session = (Session) em.getDelegate();
+//		initProductSkuFilter(session, marketAreaId, retailerId);
+//
+//		String sql = "FROM ProductSku WHERE productMarketing.id = :productMarkettingId";
+//		Query query = session.createQuery(sql);
+//		query.setLong("productMarkettingId", productMarkettingId);
+//		List<ProductSku> productSkus = (List<ProductSku>) query.list();
+        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        
+        addDefaultFetch(criteria);
 
-		String sql = "FROM ProductSku WHERE productMarketing.id = :productMarkettingId";
-		Query query = session.createQuery(sql);
-		query.setLong("productMarkettingId", productMarkettingId);
-		List<ProductSku> productSkus = (List<ProductSku>) query.list();
+        criteria.add(Restrictions.eq("productMarkettingId", productMarkettingId));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<ProductSku> productSkus = criteria.list();
 		return productSkus;
 	}
 	
 	public List<ProductSku> findProductSkus(final Long marketAreaId, final Long retailerId, final String text) {
-		Session session = (Session) em.getDelegate();
-		initProductMarketingFilter(session, marketAreaId, retailerId);
-		String sql = "FROM ProductSku WHERE code like :text OR businessName like :text OR description like :text";
-		Query query = session.createQuery(sql);
-		query.setString("text", "%" + text + "%");
-		List<ProductSku> productSkus = (List<ProductSku>) query.list();
+//		Session session = (Session) em.getDelegate();
+//		initProductMarketingFilter(session, marketAreaId, retailerId);
+//		String sql = "FROM ProductSku WHERE code like :text OR businessName like :text OR description like :text";
+//		Query query = session.createQuery(sql);
+//		query.setString("text", "%" + text + "%");
+//		List<ProductSku> productSkus = (List<ProductSku>) query.list();
+        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<ProductSku> productSkus = criteria.list();
 		return productSkus;
 	}
 	
@@ -94,5 +129,14 @@ public class ProductSkuDaoImpl extends AbstractGenericDaoImpl implements Product
 	public void deleteProductSku(final ProductSku productSku) {
 		em.remove(productSku);
 	}
+	
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN); 
+        criteria.setFetchMode("prices", FetchMode.JOIN); 
+        criteria.setFetchMode("stocks", FetchMode.JOIN); 
+        criteria.setFetchMode("retailers", FetchMode.JOIN); 
+    }
 
 }

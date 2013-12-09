@@ -1,6 +1,5 @@
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CUSTOMER_ORDER_AUDIT")
-public class CustomerOrderAudit implements Serializable {
+public class CustomerOrderAudit extends AbstractEntity {
 
 	/**
 	 * Generated UID

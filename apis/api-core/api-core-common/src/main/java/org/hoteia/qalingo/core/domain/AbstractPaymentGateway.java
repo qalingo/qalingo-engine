@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +39,7 @@ import javax.persistence.Version;
     name="PAYMENT_GATEWAY_TYPE",
     discriminatorType=DiscriminatorType.STRING
 )
-public abstract class AbstractPaymentGateway implements Serializable {
+public abstract class AbstractPaymentGateway extends AbstractEntity {
 
 	/**
 	 * Generated UID

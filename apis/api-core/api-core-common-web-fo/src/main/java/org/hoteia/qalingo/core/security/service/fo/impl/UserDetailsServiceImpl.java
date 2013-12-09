@@ -11,15 +11,14 @@ package org.hoteia.qalingo.core.security.service.fo.impl;
 
 import javax.annotation.Resource;
 
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.security.helper.Assembler;
+import org.hoteia.qalingo.core.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.security.helper.Assembler;
-import org.hoteia.qalingo.core.service.CustomerService;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {

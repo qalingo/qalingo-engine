@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
 @Table(name="TECO_ASSET")
-public class Asset implements Serializable {
+public class Asset extends AbstractEntity {
 
 	/**
 	 * Generated UID

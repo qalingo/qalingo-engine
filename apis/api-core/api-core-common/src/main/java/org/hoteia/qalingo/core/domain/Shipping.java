@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -31,7 +30,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_SHIPPING")
-public class Shipping implements Serializable {
+public class Shipping extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -157,5 +156,4 @@ public class Shipping implements Serializable {
 		this.marketAreaId = marketAreaId;
 	}
 
-	
 }

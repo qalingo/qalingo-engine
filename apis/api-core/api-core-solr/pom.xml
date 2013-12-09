@@ -22,6 +22,24 @@
 
 	<build>
 		<finalName>qalingo-api-core-solr</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<property>
+							<name>solr.home.dir</name>                                                                            
+							<value>${project.build.directory}/test-classes/solr_home</value>
+						</property>
+						<property>
+							<name>solr.data.dir</name>                                                                            
+							<value>${project.build.directory}/test-classes/solr_home/data</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 	
 	<dependencies>
@@ -67,12 +85,25 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-support</artifactId>
 		</dependency>
-		
+
 		<!-- SOLR -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
 		</dependency>
-	
+		
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<version>7.0.22</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
+					
 </project>

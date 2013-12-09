@@ -38,7 +38,7 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerProductCommentsViewBean customerProductCommentsViewBean = viewBeanFactory.buildCustomerProductCommentsViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerProductCommentsViewBean customerProductCommentsViewBean = frontofficeViewBeanFactory.buildCustomerProductCommentsViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
         return modelAndView;

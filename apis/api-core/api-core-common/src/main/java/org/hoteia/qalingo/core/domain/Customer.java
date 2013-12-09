@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,14 +40,13 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
 @Table(name="TECO_CUSTOMER")
-public class Customer implements Serializable {
+public class Customer extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -125,7 +123,7 @@ public class Customer implements Serializable {
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 
 	
@@ -140,7 +138,7 @@ public class Customer implements Serializable {
 	    )
 	private Set<CustomerGroup> customerGroups = new HashSet<CustomerGroup>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
 	

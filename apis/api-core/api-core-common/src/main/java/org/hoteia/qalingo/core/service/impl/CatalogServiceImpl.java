@@ -9,27 +9,26 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.service.CatalogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-@Service("catalogMasterService")
+@Service("catalogService")
 @Transactional
 public class CatalogServiceImpl implements CatalogService {
 
 	@Autowired
-	private CatalogDao catalogMasterDao;
+	private CatalogDao catalogDao;
 
     @Override
     public List<CatalogMaster> findAllCatalogMasters() {
-        return catalogMasterDao.findAllCatalogMasters();
+        return catalogDao.findAllCatalogMasters();
     }
 
     public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
@@ -39,19 +38,19 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return catalogMasterDao.getProductCatalogById(catalogMasterId);
+		return catalogDao.getProductCatalogById(catalogMasterId);
 	}
 	
-	public CatalogVirtual getCatalogVirtual(final Long marketAreaId, final Long retailerId) {
-		return catalogMasterDao.getCatalogVirtual(marketAreaId, retailerId);
+	public CatalogVirtual getCatalogVirtual(final Long marketAreaId) {
+		return catalogDao.getCatalogVirtual(marketAreaId);
 	}
 
 	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {
-		catalogMasterDao.saveOrUpdateProductCatalog(catalogMaster);
+		catalogDao.saveOrUpdateProductCatalog(catalogMaster);
 	}
 
 	public void deleteProductCatalog(final CatalogMaster catalogMaster) {
-		catalogMasterDao.deleteProductCatalog(catalogMaster);
+		catalogDao.deleteProductCatalog(catalogMaster);
 	}
 
 }

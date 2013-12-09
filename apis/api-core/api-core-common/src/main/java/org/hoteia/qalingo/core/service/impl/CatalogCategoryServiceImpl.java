@@ -47,17 +47,17 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryDao.getMasterCatalogCategoryByCode(catalogCategoryCode);
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
-		return catalogCategoryDao.getMasterCatalogCategoryByCode(marketAreaId, retailerId, catalogCategoryCode);
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
+		return catalogCategoryDao.getMasterCatalogCategoryByCode(marketAreaId, catalogCategoryCode);
 	}
 	
-	public List<CatalogCategoryMaster> findRootCatalogCategories(final Long marketAreaId) {
+	public List<CatalogCategoryMaster> findRootMasterCatalogCategories(final Long marketAreaId) {
 		List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootCatalogCategories();
 		return orderCategoryMasterList(marketAreaId, categories);
 	}
 	
-	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId) {
-		return catalogCategoryDao.findMasterCategoriesByMarketIdAndRetailerId(marketAreaId, retailerId);
+	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId) {
+		return catalogCategoryDao.findMasterCategoriesByMarketIdAndRetailerId(marketAreaId);
 	}
 	
 	public List<CatalogCategoryMaster> orderCategoryMasterList(final Long marketAreaId, final List<CatalogCategoryMaster> categories){
@@ -105,12 +105,12 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryDao.getVirtualCatalogCategoryByCode(catalogCategoryCode);
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, final String catalogCategoryCode) {
-		return catalogCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, retailerId, catalogCategoryCode);
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
+		return catalogCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, catalogCategoryCode);
 	}
 
-	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final Long retailerId, final ProductMarketing productMarketing) {
-		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketing.getId());
+	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final ProductMarketing productMarketing) {
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketing.getId());
 		CatalogCategoryVirtual catalogCategoryVirtual = null;
 		if(categories != null){
 			for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {
@@ -127,18 +127,18 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryVirtual;
 	}
 	
-	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, final Long retailerId) {
-		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootCatalogCategories(marketAreaId, retailerId);
+	public List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(final Long marketAreaId) {
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootCatalogCategories(marketAreaId);
 		return orderCategoryVirtualList(marketAreaId, categories);
 	}
 	
-	public List<CatalogCategoryVirtual> findVirtualCategories(final Long marketAreaId, final Long retailerId) {
-		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategories(marketAreaId, retailerId);
+	public List<CatalogCategoryVirtual> findVirtualCategories(final Long marketAreaId) {
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategories(marketAreaId);
 		return orderCategoryVirtualList(marketAreaId, categories);
 	}
 
-	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final Long retailerId, final Long productMarketingId) {
-		return catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, retailerId, productMarketingId);
+	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final Long productMarketingId) {
+		return catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketingId);
 	}
 	
 	public List<CatalogCategoryVirtual> orderCategoryVirtualList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories){

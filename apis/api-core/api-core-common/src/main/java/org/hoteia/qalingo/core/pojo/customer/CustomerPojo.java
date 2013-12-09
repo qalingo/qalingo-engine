@@ -10,7 +10,7 @@
 package org.hoteia.qalingo.core.pojo.customer;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -48,12 +48,12 @@ public class CustomerPojo {
     private CustomerNetworkOrigin networkOrigin;
     private CustomerOrderAuditPojo customerOrderAudit;
 
-    private Collection<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
-    private Collection<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
-    private Collection<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
-    private Collection<CustomerAttributePojo> customerAttributes = new ArrayList<CustomerAttributePojo>();
-    private Collection<CustomerGroupPojo> customerGroups = new ArrayList<CustomerGroupPojo>();
-    private Collection<CustomerOAuthPojo> oauthAccesses = new HashSet<CustomerOAuthPojo>();
+    private List<CustomerAddressPojo> addresses = new ArrayList<CustomerAddressPojo>();
+    private List<CustomerConnectionLogPojo> connectionLogs = new ArrayList<CustomerConnectionLogPojo>();
+    private List<CustomerMarketAreaPojo> customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>();
+    private List<CustomerAttributePojo> customerAttributes = new ArrayList<CustomerAttributePojo>();
+    private List<CustomerGroupPojo> customerGroups = new ArrayList<CustomerGroupPojo>();
+    private List<CustomerOAuthPojo> oauthAccesses = new ArrayList<CustomerOAuthPojo>();
 
     public CustomerPojo() {}
 
@@ -177,51 +177,51 @@ public class CustomerPojo {
         this.customerOrderAudit = customerOrderAudit;
     }
 
-    public Collection<CustomerAddressPojo> getAddresses() {
+    public List<CustomerAddressPojo> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(final Collection<CustomerAddressPojo> addresses) {
+    public void setAddresses(final List<CustomerAddressPojo> addresses) {
         this.addresses = new ArrayList<CustomerAddressPojo>(addresses);
     }
 
-    public Collection<CustomerConnectionLogPojo> getConnectionLogs() {
+    public List<CustomerConnectionLogPojo> getConnectionLogs() {
         return connectionLogs;
     }
 
-    public void setConnectionLogs(final Collection<CustomerConnectionLogPojo> connectionLogs) {
+    public void setConnectionLogs(final List<CustomerConnectionLogPojo> connectionLogs) {
         this.connectionLogs = new ArrayList<CustomerConnectionLogPojo>(connectionLogs);
     }
 
-    public Collection<CustomerMarketAreaPojo> getCustomerMarketAreas() {
+    public List<CustomerMarketAreaPojo> getCustomerMarketAreas() {
         return customerMarketAreas;
     }
 
-    public void setCustomerMarketAreas(final Collection<CustomerMarketAreaPojo> customerMarketAreas) {
+    public void setCustomerMarketAreas(final List<CustomerMarketAreaPojo> customerMarketAreas) {
         this.customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>(customerMarketAreas);
     }
 
-    public Collection<CustomerAttributePojo> getCustomerAttributes() {
+    public List<CustomerAttributePojo> getCustomerAttributes() {
         return customerAttributes;
     }
 
-    public void setCustomerAttributes(final Collection<CustomerAttributePojo> customerAttributes) {
+    public void setCustomerAttributes(final List<CustomerAttributePojo> customerAttributes) {
         this.customerAttributes = new ArrayList<CustomerAttributePojo>(customerAttributes);
     }
 
-    public Collection<CustomerGroupPojo> getCustomerGroups() {
+    public List<CustomerGroupPojo> getCustomerGroups() {
         return customerGroups;
     }
 
-    public void setCustomerGroups(final Collection<CustomerGroupPojo> customerGroups) {
+    public void setCustomerGroups(final List<CustomerGroupPojo> customerGroups) {
         this.customerGroups = new ArrayList<CustomerGroupPojo>(customerGroups);
     }
 
-    public Collection<CustomerOAuthPojo> getOauthAccesses() {
+    public List<CustomerOAuthPojo> getOauthAccesses() {
         return oauthAccesses;
     }
 
-    public void setOauthAccesses(final Collection<CustomerOAuthPojo> oauthAccesses) {
+    public void setOauthAccesses(final List<CustomerOAuthPojo> oauthAccesses) {
         this.oauthAccesses = oauthAccesses;
     }
 }

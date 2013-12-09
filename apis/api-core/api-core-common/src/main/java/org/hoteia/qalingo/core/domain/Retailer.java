@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -35,19 +34,12 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 
 @Entity
 @Table(name = "TECO_RETAILER")
-@FilterDefs(value = { @FilterDef(name = "filterRetailerAttributeIsGlobal"), @FilterDef(name = "filterRetailerAttributeByMarketArea", parameters = { @ParamDef(name = "marketAreaId", type = "long") }),
-        @FilterDef(name = "filterRetailerAssetIsGlobal"), @FilterDef(name = "filterRetailerAssetByMarketArea", parameters = { @ParamDef(name = "marketAreaId", type = "long") }) })
-public class Retailer implements Serializable {
+public class Retailer extends AbstractEntity {
 
     /**
      * Generated UID
@@ -99,49 +91,36 @@ public class Retailer implements Serializable {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerLink> links = new HashSet<RetailerLink>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerAddress> addresses = new HashSet<RetailerAddress>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<Store> stores = new HashSet<Store>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
-    @Filter(name = "filterRetailerAssetIsGlobal", condition = "IS_GLOBAL = '1' AND SCOPE = 'RETAILER'")
     @OrderBy(clause = "ordering asc")
-    private Set<Asset> assetsIsGlobal = new HashSet<Asset>();
+    private Set<Asset> assets = new HashSet<Asset>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
-    @Filter(name = "filterRetailerAssetByMarketArea", condition = "IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'RETAILER'")
-    @OrderBy(clause = "ordering asc")
-    private Set<Asset> assetsByMarketArea = new HashSet<Asset>();
+    private Set<RetailerAttribute> retailerAttributes = new HashSet<RetailerAttribute>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RETAILER_ID")
-    @Filter(name = "filterRetailerAttributeIsGlobal", condition = "IS_GLOBAL = '1'")
-    private Set<RetailerAttribute> retailerGlobalAttributes = new HashSet<RetailerAttribute>();
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RETAILER_ID")
-    @Filter(name = "filterRetailerAttributeByMarketArea", condition = "MARKET_AREA_ID = :marketAreaId")
-    private Set<RetailerAttribute> retailerMarketAreaAttributes = new HashSet<RetailerAttribute>();
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerRate> customerRates = new HashSet<RetailerCustomerRate>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>();
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RetailerTag.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_RETAILER_RETAILER_TAG_REL", joinColumns = @JoinColumn(name = "RETAILER_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_TAG_ID"))
     private Set<RetailerTag> retailerTags;
 
@@ -305,36 +284,78 @@ public class Retailer implements Serializable {
         this.stores = stores;
     }
 
-    public Set<Asset> getAssetsIsGlobal() {
+    public Set<Asset> getAssets() {
+        return assets;
+    }
+    
+    public void setAssets(Set<Asset> assets) {
+        this.assets = assets;
+    }
+    
+    public List<Asset> getAssetsIsGlobal() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
         return assetsIsGlobal;
     }
 
-    public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
-        this.assetsIsGlobal = assetsIsGlobal;
+    public List<Asset> getAssetsByMarketArea() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && !asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
+    }
+    
+    public Set<RetailerAttribute> getRetailerAttributes() {
+        return retailerAttributes;
+    }
+    
+    public void setRetailerAttributes(Set<RetailerAttribute> retailerAttributes) {
+        this.retailerAttributes = retailerAttributes;
     }
 
-    public Set<Asset> getAssetsByMarketArea() {
-        return assetsByMarketArea;
-    }
-
-    public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
-        this.assetsByMarketArea = assetsByMarketArea;
-    }
-
-    public Set<RetailerAttribute> getRetailerGlobalAttributes() {
+    public List<RetailerAttribute> getRetailerGlobalAttributes() {
+        List<RetailerAttribute> retailerGlobalAttributes = new ArrayList<RetailerAttribute>();
+        if (retailerAttributes != null) {
+            for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
+                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    retailerGlobalAttributes.add(attribute);
+                }
+            }
+        }        
         return retailerGlobalAttributes;
     }
 
-    public void setRetailerGlobalAttributes(Set<RetailerAttribute> retailerGlobalAttributes) {
-        this.retailerGlobalAttributes = retailerGlobalAttributes;
-    }
-
-    public Set<RetailerAttribute> getRetailerMarketAreaAttributes() {
+    public List<RetailerAttribute> getRetailerMarketAreaAttributes(Long marketAreaId) {
+        List<RetailerAttribute> retailerMarketAreaAttributes = new ArrayList<RetailerAttribute>();
+        if (retailerAttributes != null) {
+            for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
+                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    retailerMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
         return retailerMarketAreaAttributes;
-    }
-
-    public void setRetailerMarketAreaAttributes(Set<RetailerAttribute> retailerMarketAreaAttributes) {
-        this.retailerMarketAreaAttributes = retailerMarketAreaAttributes;
     }
 
     public Set<RetailerCustomerRate> getCustomerRates() {
@@ -395,10 +416,10 @@ public class Retailer implements Serializable {
         RetailerAttribute retailerAttributeToReturn = null;
 
         // 1: GET THE GLOBAL VALUE
-        RetailerAttribute retailerGlobalAttribute = getRetailerAttribute(retailerGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+        RetailerAttribute retailerGlobalAttribute = getRetailerAttribute(getRetailerGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
         // 2: GET THE MARKET AREA VALUE
-        RetailerAttribute retailerMarketAreaAttribute = getRetailerAttribute(retailerMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+        RetailerAttribute retailerMarketAreaAttribute = getRetailerAttribute(getRetailerMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
 
         if (retailerMarketAreaAttribute != null) {
             retailerAttributeToReturn = retailerMarketAreaAttribute;
@@ -409,25 +430,25 @@ public class Retailer implements Serializable {
         return retailerAttributeToReturn;
     }
 
-    private RetailerAttribute getRetailerAttribute(Set<RetailerAttribute> retailerAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+    private RetailerAttribute getRetailerAttribute(List<RetailerAttribute> retailerAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
         RetailerAttribute retailerAttributeToReturn = null;
         List<RetailerAttribute> retailerAttributesFilter = new ArrayList<RetailerAttribute>();
         if (retailerAttributes != null) {
             // GET ALL CategoryAttributes FOR THIS ATTRIBUTE
             for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
-                RetailerAttribute retailerAttribute = (RetailerAttribute) iterator.next();
-                AttributeDefinition attributeDefinition = retailerAttribute.getAttributeDefinition();
+                RetailerAttribute attribute = (RetailerAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-                    retailerAttributesFilter.add(retailerAttribute);
+                    retailerAttributesFilter.add(attribute);
                 }
             }
             // REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
             if (marketAreaId != null) {
                 for (Iterator<RetailerAttribute> iterator = retailerAttributesFilter.iterator(); iterator.hasNext();) {
-                    RetailerAttribute retailerAttribute = (RetailerAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = retailerAttribute.getAttributeDefinition();
+                    RetailerAttribute attribute = (RetailerAttribute) iterator.next();
+                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if (retailerAttribute.getMarketAreaId() != null && BooleanUtils.negate(retailerAttribute.getMarketAreaId().equals(marketAreaId))) {
+                        if (attribute.getMarketAreaId() != null && BooleanUtils.negate(attribute.getMarketAreaId().equals(marketAreaId))) {
                             iterator.remove();
                         }
                     }
@@ -436,8 +457,8 @@ public class Retailer implements Serializable {
             // FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
             if (StringUtils.isNotEmpty(localizationCode)) {
                 for (Iterator<RetailerAttribute> iterator = retailerAttributesFilter.iterator(); iterator.hasNext();) {
-                    RetailerAttribute retailerAttribute = (RetailerAttribute) iterator.next();
-                    String attributeLocalizationCode = retailerAttribute.getLocalizationCode();
+                    RetailerAttribute attribute = (RetailerAttribute) iterator.next();
+                    String attributeLocalizationCode = attribute.getLocalizationCode();
                     if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
                         iterator.remove();
                     }
@@ -448,13 +469,13 @@ public class Retailer implements Serializable {
                     // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE -
                     // GET A FALLBACK
                     for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
-                        RetailerAttribute retailerAttribute = (RetailerAttribute) iterator.next();
+                        RetailerAttribute attribute = (RetailerAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting
                         // database ?
 
-                        if (Constants.DEFAULT_LOCALE_CODE.equals(retailerAttribute.getLocalizationCode())) {
-                            retailerAttributeToReturn = retailerAttribute;
+                        if (Constants.DEFAULT_LOCALE_CODE.equals(attribute.getLocalizationCode())) {
+                            retailerAttributeToReturn = attribute;
                         }
                     }
                 }
@@ -573,8 +594,7 @@ public class Retailer implements Serializable {
     public String toString() {
         return "Retailer [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", isOfficialRetailer=" + isOfficialRetailer
                 + ", isBrand=" + isBrand + ", isEcommerce=" + isEcommerce + ", code=" + code + ", qualityOfService=" + qualityOfService + ", priceScore=" + priceScore + ", ratioQualityPrice="
-                + ratioQualityPrice + ", addresses=" + addresses + ", stores=" + stores + ", assetsIsGlobal=" + assetsIsGlobal + ", assetsByMarketArea=" + assetsByMarketArea
-                + ", retailerGlobalAttributes=" + retailerGlobalAttributes + ", retailerMarketAreaAttributes=" + retailerMarketAreaAttributes + ", customerRates=" + customerRates
+                + ratioQualityPrice + ", addresses=" + addresses + ", stores=" + stores + ", assets=" + assets + ", retailerAttributes=" + retailerAttributes + ", customerRates=" + customerRates
                 + ", customerComments=" + customerComments + ", retailerTags=" + retailerTags + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

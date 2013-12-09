@@ -13,30 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
-
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 
 public class StoreResponseBean {
 
-	private List<StoreSolr> storeSolrList = new ArrayList<StoreSolr>();
-	
-	private List<FacetField> storeSolrFacetFieldList = new ArrayList<FacetField>();
+    private List<StoreSolr> storeSolrList = new ArrayList<StoreSolr>();
 
-	public List<StoreSolr> getStoreSolrList() {
-		return storeSolrList;
-	}
+    private List<FacetField> storeSolrFacetFieldList = new ArrayList<FacetField>();
 
-	public void setStoreSolrList(List<StoreSolr> storeSolrList) {
-		this.storeSolrList = storeSolrList;
-	}
+    public List<StoreSolr> getStoreSolrList() {
+        return storeSolrList;
+    }
 
-	public List<FacetField> getStoreSolrFacetFieldList() {
-		return storeSolrFacetFieldList;
-	}
+    public void setStoreSolrList(List<StoreSolr> storeSolrList) {
+        this.storeSolrList = storeSolrList;
+    }
 
-	public void setStoreSolrFacetFieldList(
-			List<FacetField> storeSolrFacetFieldList) {
-		this.storeSolrFacetFieldList = storeSolrFacetFieldList;
-	}
-	
+    public List<FacetField> getStoreSolrFacetFieldList() {
+        return storeSolrFacetFieldList;
+    }
+
+    public void setStoreSolrFacetFieldList(List<FacetField> storeSolrFacetFieldList) {
+        this.storeSolrFacetFieldList = storeSolrFacetFieldList;
+    }
+
 }

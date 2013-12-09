@@ -19,17 +19,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hoteia.qalingo.core.dao.EmailDao;
+import org.hoteia.qalingo.core.domain.Email;
+import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.EmailDao;
-import org.hoteia.qalingo.core.domain.Email;
-import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 
 @Transactional
 @Repository("emailDao")
@@ -37,37 +41,71 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Email getEmailById(final Long id) {
-        return em.find(Email.class, id);
+    public Email getEmailById(final Long emailId) {
+//        return em.find(Email.class, id);
+        Criteria criteria = getSession().createCriteria(Email.class);
+        criteria.add(Restrictions.eq("id", emailId));
+        Email email = (Email) criteria.uniqueResult();
+        return email;
     }
 
     public List<Email> findEmailByStatus(final String status) {
-        Session session = (Session) em.getDelegate();
-        String sql = "FROM Email WHERE status = :status";
-        Query query = session.createQuery(sql);
-        query.setString("status", status);
-        List<Email> emails = (List<Email>) query.list();
+//        Session session = (Session) em.getDelegate();
+//        String sql = "FROM Email WHERE status = :status";
+//        Query query = session.createQuery(sql);
+//        query.setString("status", status);
+//        List<Email> emails = (List<Email>) query.list();
+        Criteria criteria = getSession().createCriteria(Email.class);
+        criteria.add(Restrictions.eq("status", status));
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Email> emails = criteria.list();
+        
         return emails;
     }
 
     public List<Long> findIdsForEmailSync() {
-        Session session = (Session) em.getDelegate();
-        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND processedCount <= 5";
-        Query query = session.createQuery(sql);
-        query.setString("status", Email.EMAIl_STATUS_PENDING);
-        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
-        List<Long> emailIds = (List<Long>) query.list();
+//        Session session = (Session) em.getDelegate();
+//        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND processedCount <= 5";
+//        Query query = session.createQuery(sql);
+//        query.setString("status", Email.EMAIl_STATUS_PENDING);
+//        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
+//        List<Long> emailIds = (List<Long>) query.list();
+        
+        Criteria criteria = getSession().createCriteria(Email.class);
+        criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
+        criteria.add(Restrictions.le("processedCount", 5));
+        
+        criteria.setProjection(Property.forName("id"));
+        criteria.setResultTransformer(Transformers.aliasToBean(Long.class));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> emailIds = criteria.list();
         return emailIds;
     }
 
-    public List<Long> findIdsForEmailSync(String type) {
-        Session session = (Session) em.getDelegate();
-        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
-        Query query = session.createQuery(sql);
-        query.setString("status", Email.EMAIl_STATUS_PENDING);
-        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
-        query.setString("type", type);
-        List<Long> emailIds = (List<Long>) query.list();
+    public List<Long> findIdsForEmailSync(final String type) {
+//        Session session = (Session) em.getDelegate();
+//        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
+//        Query query = session.createQuery(sql);
+//        query.setString("status", Email.EMAIl_STATUS_PENDING);
+//        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
+//        query.setString("type", type);
+//        List<Long> emailIds = (List<Long>) query.list();
+        
+        Criteria criteria = getSession().createCriteria(Email.class);
+        criteria.add(Restrictions.eq("type", type));
+        criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
+        criteria.add(Restrictions.le("processedCount", 5));
+        
+        criteria.setProjection(Property.forName("id"));
+        criteria.setResultTransformer(Transformers.aliasToBean(Long.class));
+        
+        @SuppressWarnings("unchecked")
+        List<Long> emailIds = criteria.list();
+        
         return emailIds;
     }
 

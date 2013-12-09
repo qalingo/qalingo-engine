@@ -9,13 +9,15 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.TaxDao;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.TaxDao;
-import org.hoteia.qalingo.core.domain.Tax;
 
 @Transactional
 @Repository("taxDao")
@@ -23,8 +25,15 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Tax getTaxById(Long taxId) {
-		return em.find(Tax.class, taxId);
+	public Tax getTaxById(final Long taxId) {
+//		return em.find(Tax.class, taxId);
+        Criteria criteria = getSession().createCriteria(Tax.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.eq("id", taxId));
+        Tax tax = (Tax) criteria.uniqueResult();
+        return tax;
 	}
 
 	public void saveOrUpdateTax(Tax tax) {
@@ -39,4 +48,8 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 		em.remove(tax);
 	}
 
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("taxCountries", FetchMode.JOIN); 
+    }
+    
 }

@@ -16,81 +16,79 @@ import org.apache.solr.client.solrj.beans.Field;
 public class ProductSkuSolr {
 
     @Field
-	private Long id;
-	
-    @Field
-	private String name;
+    private Long id;
 
     @Field
-	private String description;
-	
+    private String description;
+
+    private Boolean isDefault;
+
     @Field
-	private Boolean isDefault;
-	
+    private String code;
+
     @Field
-	private String code;
-	
-    @Field
+    private String businessname;
+
+    @Field("datecreate")
     private Date dateCreate;
-	
-    @Field
+
+    @Field("dateupdate")
     private Date dateUpdate;
 
-	public Long getId() {
-		return id;
-	}
+    public String getBusinessname() {
+        return businessname;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setBusinessname(String businessname) {
+        this.businessname = businessname;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
 
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-    
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
     
 }

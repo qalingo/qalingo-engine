@@ -24,19 +24,21 @@ public class StoreSolr {
     @Field
    	private String city;
     
-    @Field
+    @Field("countrycode")
    	private String countryCode;
     
-    @Field
+    @Field("postalcode")
    	private String postalCode;
+    
     @Field
    	private String type;
     
+    @Field("datecreate")
     private Date dateCreate;
-	
+
+    @Field("dateupdate")
     private Date dateUpdate;
 
-    
 	public String getCity() {
 		return city;
 	}
@@ -100,6 +102,5 @@ public class StoreSolr {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-    
     
 }

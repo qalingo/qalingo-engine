@@ -9,13 +9,14 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.StockDao;
+import org.hoteia.qalingo.core.domain.ProductSkuStock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.StockDao;
-import org.hoteia.qalingo.core.domain.ProductSkuStock;
 
 @Transactional
 @Repository("stockDao")
@@ -23,8 +24,12 @@ public class StockDaoImpl extends AbstractGenericDaoImpl implements StockDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ProductSkuStock getStockById(Long productSkuStockId) {
-		return em.find(ProductSkuStock.class, productSkuStockId);
+	public ProductSkuStock getStockById(final Long productSkuStockId) {
+//		return em.find(ProductSkuStock.class, productSkuStockId);
+        Criteria criteria = getSession().createCriteria(ProductSkuStock.class);
+        criteria.add(Restrictions.eq("id", productSkuStockId));
+        ProductSkuStock productSkuStock = (ProductSkuStock) criteria.uniqueResult();
+        return productSkuStock;
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock productSkuStock) {

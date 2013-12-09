@@ -12,11 +12,26 @@ package org.hoteia.qalingo.web.mvc.controller.customer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -26,20 +41,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.CustomerForm;
 
 /**
  * 
@@ -53,8 +54,10 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.CUSTOMER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView customerList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_LIST.getVelocityPage());
-		
-		final String contentText = getSpecificMessage(ScopeWebMessage.CUSTOMER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+		final String contentText = getSpecificMessage(ScopeWebMessage.CUSTOMER, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		String url = request.getRequestURI();
@@ -109,11 +112,11 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.CUSTOMER_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView customerEdit(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CUSTOMER_EDIT.getVelocityPage());
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
-		modelAndView.addObject(Constants.CUSTOMER_FORM, formFactory.buildCustomerForm(request, customer));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
+		modelAndView.addObject(Constants.CUSTOMER_FORM, backofficeFormFactory.buildCustomerForm(requestData, customer));
 		return modelAndView;
 	}
 	
@@ -142,7 +145,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final List<Customer> customers = customerService.findCustomers();
 		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
 			Customer customer = (Customer) iterator.next();
-			customerViewBeans.add(viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
+			customerViewBeans.add(backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
 		}
 		customerViewBeanPagedListHolder = new PagedListHolder<CustomerViewBean>(customerViewBeans);
 		customerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -152,6 +155,6 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initCustomerDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Customer user) throws Exception{
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, viewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
 	}
 }

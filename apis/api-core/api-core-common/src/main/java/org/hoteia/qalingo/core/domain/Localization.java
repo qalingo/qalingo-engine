@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
@@ -28,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_LOCALIZATION")
-public class Localization implements Serializable {
+public class Localization extends AbstractEntity {
 
 	/**
 	 * Generated UID

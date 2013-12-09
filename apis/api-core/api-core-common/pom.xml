@@ -39,6 +39,12 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
 			
+		<!-- Hoteia libs -->
+		<dependency>
+			<groupId>org.hoteia.tools</groupId>
+			<artifactId>rich-snippets-mapping</artifactId>
+		</dependency>
+		
 		<!-- Spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>

@@ -39,7 +39,7 @@ public class TimeoutController extends AbstractMCommerceController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
-		SecurityViewBean security = viewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
+		SecurityViewBean security = frontofficeViewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
 		modelAndView.addObject("security", security);
 		
         return modelAndView;

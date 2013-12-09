@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.service.impl;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,13 +32,15 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 
@@ -51,15 +54,15 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
+		final Localization localization = requestData.getMarketAreaLocalization();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE_URL + "?";
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		return url;
 	}
 	
@@ -67,15 +70,15 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
 		final MarketPlace marketPlace = requestData.getMarketPlace();
 		final Market market = requestData.getMarket();
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Localization localization = requestData.getLocalization();
-		final Retailer retailer = requestData.getRetailer();
+		final Localization localization = requestData.getMarketAreaLocalization();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
-		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT_URL + "?";
+		String url = buildDefaultPrefix(requestData) + BoUrls.CHANGE_CONTEXT.getUrlWithoutWildcard() + "?";
 		url = url + RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE + "=" + handleString(marketPlace.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_CODE + "=" + handleString(market.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE + "=" + handleString(marketArea.getCode());
-		url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		url = url + "&" + RequestConstants.REQUEST_PARAMETER_RETAILER_CODE + "=" + handleString(retailer.getCode());
+        url = url + "&" + RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE + "=" + handleString(localization.getCode());
 		return url;
 	}
 	
@@ -120,8 +123,8 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         Shipping shipping = (Shipping) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE, handleParamValue(shipping.getId().toString()));
                         break;
-                    } else if (param instanceof Order) {
-                        Order order = (Order) param;
+                    } else if (param instanceof OrderCustomer) {
+                        OrderCustomer order = (OrderCustomer) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_ORDER_CODE, handleParamValue(order.getId().toString()));
                         break;
                     } else if (param instanceof Customer) {
@@ -140,7 +143,8 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID, handleParamValue(paymentGateway.getId().toString()));
                         break;
-                    } else if (param instanceof User) {
+                    } else if (param instanceof User
+                            && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
                         User user = (User) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, handleParamValue(user.getId().toString()));
                         break;
@@ -154,15 +158,29 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
         	}
         	
         	if(StringUtils.isEmpty(urlStr)){
-        		urlStr = buildDefaultPrefix(requestData);
+                // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
+                urlStr = buildDefaultPrefix(requestData);
+                if(url.withPrefixSEO()){
+                    urlStr = getFullPrefixUrl(requestData);
+                }
         	}
         	
-        	urlStr = urlStr + url.getUrl();
+            // REMOVE THE / AT EH END BEFORE ADDING THE /**.html segment
+            if (urlStr.endsWith("/")) {
+                urlStr = urlStr.substring(0, urlStr.length() - 1);
+            }
+        	
+        	urlStr = urlStr + url.getUrlWithoutWildcard();
 	        
         } catch (Exception e) {
         	logger.error("Can't build Url!", e);
         }
     	return handleUrlParameters(urlStr, urlParams, getParams);
+    }
+    
+    @Override
+    protected String getSeoSegmentMain(Locale locale) throws Exception{
+        return "";
     }
     
 	public String buildSpringSecurityCheckUrl(final RequestData requestData) throws Exception {

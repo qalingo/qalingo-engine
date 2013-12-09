@@ -22,10 +22,14 @@ public interface RetailerDao {
 	
 	Retailer getRetailerById(Long retailerId);
 
-	Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
+    Retailer getRetailerByCode(String retailerCode);
+
+    Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
 
     List<Retailer> findAllRetailers();
 	 
+    List<Retailer> findRetailersByMarketAreaCode(String marketAreaCode);
+    
 	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
 
 	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
@@ -36,7 +40,7 @@ public interface RetailerDao {
 	
 	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults);
 
-	List<Retailer> findRetailersByTxt(Long marketAreaId, Long retailerId, String searchTxt);
+	List<Retailer> findRetailersByText(Long marketAreaId, Long retailerId, String searchTxt);
 	
 	void saveOrUpdateRetailer(Retailer retailer);
 

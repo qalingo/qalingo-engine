@@ -48,25 +48,26 @@ public final class ModelConstants {
     public static final String URL_SUBMIT_QUICK_SEARCH      = "urlSubmitQuickSearch";
 
     // VIEW BEAN
-    public static final String COMMON_VIEW_BEAN                 = "common";
-    public static final String MENUS_VIEW_BEAN                  = "menus";
-    public static final String MORE_PAGE_MENUS_VIEW_BEAN        = "morePageMenus";
-    public static final String MARKET_PLACES_VIEW_BEAN          = "marketPlaces";
-    public static final String MARKETS_VIEW_BEAN                = "markets";
-    public static final String MARKET_AREA_VIEW_BEAN            = "marketArea";
-    public static final String MARKET_AREAS_VIEW_BEAN           = "marketAreas";
-    public static final String MARKET_LANGUAGES_VIEW_BEAN       = "marketLanguages";
-    public static final String RETAILERS_VIEW_BEAN              = "retailers";
-    public static final String RETAILER_VIEW_BEAN               = "retailer";
-    public static final String LANGUAGES_VIEW_BEAN              = "languages";
-    public static final String LEGAl_TERMS_VIEW_BEAN            = "legalTerms";
-    public static final String CONDITIONS_OF_USE_VIEW_BEAN      = "conditions";
-    public static final String FOOTER_MENUS_VIEW_BEAN           = "footerMenus";
-    public static final String FOLLOW_US_VIEW_BEAN              = "followUs";
-    public static final String FAQ_VIEW_BEAN                    = "faq";
-    public static final String OUR_COMPANY_VIEW_BEAN            = "ourCompany";
-    public static final String SECURITY_VIEW_BEAN               = "security";
-    public static final String XRDS_URL_VIEW_BEAN               = "xrdsUrl";
+    public static final String COMMON_VIEW_BEAN                     = "common";
+    public static final String MENUS_VIEW_BEAN                      = "menus";
+    public static final String MORE_PAGE_MENUS_VIEW_BEAN            = "morePageMenus";
+    public static final String MARKET_PLACES_VIEW_BEAN              = "marketPlaces";
+    public static final String MARKETS_VIEW_BEAN                    = "markets";
+    public static final String MARKET_AREA_VIEW_BEAN                = "marketArea";
+    public static final String MARKET_AREAS_VIEW_BEAN               = "marketAreas";
+    public static final String MARKET_AREA_LANGUAGES_VIEW_BEAN      = "marketAreaLocalizations";
+    public static final String MARKET_AREA_RETAILERS_VIEW_BEAN      = "marketAreaRetailers";
+    public static final String RETAILERS_VIEW_BEAN                  = "retailers";
+    public static final String RETAILER_VIEW_BEAN                   = "retailer";
+    public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalizations";
+    public static final String LEGAl_TERMS_VIEW_BEAN                = "legalTerms";
+    public static final String CONDITIONS_OF_USE_VIEW_BEAN          = "conditions";
+    public static final String FOOTER_MENUS_VIEW_BEAN               = "footerMenus";
+    public static final String FOLLOW_US_VIEW_BEAN                  = "followUs";
+    public static final String FAQ_VIEW_BEAN                        = "faq";
+    public static final String OUR_COMPANY_VIEW_BEAN                = "ourCompany";
+    public static final String SECURITY_VIEW_BEAN                   = "security";
+    public static final String XRDS_URL_VIEW_BEAN                   = "xrdsUrl";
 
     public static final String TRACKING_VIEW_BEAN               = "tracking";
     public static final String MONITORING_VIEW_BEAN             = "monitoring";

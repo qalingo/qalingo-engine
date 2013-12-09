@@ -6,10 +6,6 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -22,7 +18,10 @@ import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.service.openid.OpenIdService;
-import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -33,7 +32,7 @@ import org.hoteia.qalingo.core.web.mvc.controller.AbstractQalingoController;
  * @author Denis Gosset <a href="http://www.hoteia.com"><i>Hoteia.com</i></a>
  * 
  */
-public abstract class AbstractOpenIdFrontofficeController extends AbstractQalingoController {
+public abstract class AbstractOpenIdFrontofficeController extends AbstractFrontofficeQalingoController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 

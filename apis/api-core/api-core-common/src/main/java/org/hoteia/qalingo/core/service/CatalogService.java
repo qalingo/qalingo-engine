@@ -9,10 +9,10 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
-
-import java.util.List;
 
 public interface CatalogService {
 
@@ -20,7 +20,7 @@ public interface CatalogService {
 
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	
-	CatalogVirtual getCatalogVirtual(Long marketAreaId, Long retailerId);
+	CatalogVirtual getCatalogVirtual(Long marketAreaId);
 	
 	void saveOrUpdateProductCatalog(CatalogMaster productCatalog);
 	

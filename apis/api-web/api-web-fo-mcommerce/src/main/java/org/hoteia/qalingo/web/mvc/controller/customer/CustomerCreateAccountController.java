@@ -15,6 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.drools.core.util.StringUtils;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,20 +36,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.security.util.SecurityUtil;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 
 /**
  * 
@@ -69,8 +68,9 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
 	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm,
 								BindingResult result) throws Exception {
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
 
 		// SANITY CHECK: Customer logged
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
@@ -108,8 +108,8 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_URL, method = RequestMethod.GET)
 	public ModelAndView newAccountValidation(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		String token = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_TOKEN);
 		if (StringUtils.isEmpty(token)) {
@@ -142,7 +142,9 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	 */
     @ModelAttribute("createAccountForm")
 	protected CreateAccountForm getCreateAccountForm(final HttpServletRequest request, final Model model) throws Exception {
-    	return formFactory.buildCreateAccountForm(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+    	return formFactory.buildCreateAccountForm(requestData);
 	}
     
 }

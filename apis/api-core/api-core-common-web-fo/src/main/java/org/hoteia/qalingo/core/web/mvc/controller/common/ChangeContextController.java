@@ -14,14 +14,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 
 /**
  * Change context

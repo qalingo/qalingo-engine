@@ -19,10 +19,10 @@ INSERT INTO teco_localization
 (6, 'nl', 'nl', 'nl', 'Dutch', 'Default dutch localization.'), 
 (7, 'jp', 'jp', 'jp', 'Japan', 'Default japan localization.'), 
 (8, 'pt', 'pt', 'pt', 'Portuguese', 'Default portuguese localization.'), 
-(9, 'zh-CN', 'zh-CN', 'zh-CN', 'Chinese - China', 'Default chinese localization.'), 
-(10, 'zh-HK', 'zh-HK', 'zh-HK', 'Chinese - Hong Kong', 'Chinese localization for Hong Kong.'), 
-(11, 'zh-SG', 'zh-SG', 'zh-SG', 'Chinese - Singapore', 'Chinese localization for Singapore.'), 
-(12, 'zh-TW', 'zh-TW', 'zh-TW', 'Chinese - Taiwan', 'Chinese localization for Taiwan.');
+(9, 'zh-cn', 'CN', 'zh', 'Chinese - China', 'Default chinese localization.'), 
+(10, 'zh-hk', 'HK', 'zh', 'Chinese - Hong Kong', 'Chinese localization for Hong Kong.'), 
+(11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'Chinese localization for Singapore.'), 
+(12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'Chinese localization for Taiwan.');
 
 INSERT INTO tbo_group 
 (id, name, description, code, version)
@@ -79,7 +79,9 @@ VALUES
 (41, 'Product Sku attribute order', 'Product Sku attribute order description', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
 (50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
 (51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
-(52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1);
+(52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
+(60, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
+(70, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1);
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting

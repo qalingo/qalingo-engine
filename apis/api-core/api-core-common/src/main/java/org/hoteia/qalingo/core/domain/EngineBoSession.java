@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,7 +26,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
 @Table(name="TBO_ENGINE_SESSION")
-public class EngineBoSession implements Serializable {
+public class EngineBoSession extends AbstractEngineSession {
 
 	/**
 	 * Generated UID
@@ -62,19 +61,22 @@ public class EngineBoSession implements Serializable {
 	private MarketArea currentMarketArea;
 
 	@Transient 
-	private Localization currentMarketLocalization;
+	private Localization currentMarketAreaLocalization;
 	
 	@Transient 
-	private Retailer currentRetailer;
+	private Retailer currentMarketAreaRetailer;
 
 	@Transient 
-	private Localization currentLocalization;
+	private Localization currentBackofficeLocalization;
 
-	@Transient 
-	private User currentUser;
-	
-	@Transient 
-	private String theme;
+    @Transient
+    private User currentUser;
+
+    @Transient
+    private Company currentCompany;
+
+    @Transient
+    private String theme;
 	
 	@Transient 
 	private String device;
@@ -134,57 +136,65 @@ public class EngineBoSession implements Serializable {
 		return currentMarketPlace;
 	}
 	
-	public void setCurrentMarketPlace(MarketPlace currentMarketPlace) {
-		this.currentMarketPlace = currentMarketPlace;
+	public void setCurrentMarketPlace(MarketPlace marketPlace) {
+		this.currentMarketPlace = marketPlace;
 	}
 	
 	public Market getCurrentMarket() {
 		return currentMarket;
 	}
 	
-	public void setCurrentMarket(Market currentMarket) {
-		this.currentMarket = currentMarket;
+	public void setCurrentMarket(Market market) {
+		this.currentMarket = market;
 	}
 	
 	public MarketArea getCurrentMarketArea() {
 		return currentMarketArea;
 	}
 	
-	public void setCurrentMarketArea(MarketArea currentMarketArea) {
-		this.currentMarketArea = currentMarketArea;
+	public void setCurrentMarketArea(MarketArea marketArea) {
+		this.currentMarketArea = marketArea;
 	}
 	
-	public Localization getCurrentMarketLocalization() {
-		return currentMarketLocalization;
+	public Localization getCurrentMarketAreaLocalization() {
+		return currentMarketAreaLocalization;
 	}
 	
-	public void setCurrentMarketLocalization(Localization currentMarketLocalization) {
-		this.currentMarketLocalization = currentMarketLocalization;
+	public void setCurrentMarketAreaLocalization(Localization localization) {
+		this.currentMarketAreaLocalization = localization;
 	}
 	
-	public Retailer getCurrentRetailer() {
-		return currentRetailer;
+	public Retailer getCurrentMarketAreaRetailer() {
+		return currentMarketAreaRetailer;
 	}
 	
-	public void setCurrentRetailer(Retailer currentRetailer) {
-		this.currentRetailer = currentRetailer;
+	public void setCurrentMarketAreaRetailer(Retailer retailer) {
+		this.currentMarketAreaRetailer = retailer;
 	}
 	
-	public Localization getCurrentLocalization() {
-		return currentLocalization;
+	public Localization getCurrentBackofficeLocalization() {
+		return currentBackofficeLocalization;
 	}
 	
-	public void setCurrentLocalization(Localization currentLocalization) {
-		this.currentLocalization = currentLocalization;
+	public void setCurrentBackofficeLocalization(Localization localization) {
+		this.currentBackofficeLocalization = localization;
 	}
 	
 	public User getCurrentUser() {
 		return currentUser;
 	}
 	
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
+	public void setCurrentUser(User user) {
+		this.currentUser = user;
 	}
+	
+	public Company getCurrentCompany() {
+        return currentCompany;
+    }
+	
+	public void setCurrentCompany(Company currentCompany) {
+        this.currentCompany = currentCompany;
+    }
 	
 	public String getTheme() {
 		return theme;

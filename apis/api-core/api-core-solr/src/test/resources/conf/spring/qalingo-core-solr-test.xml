@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:common-qalingo-solr.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="multiCore" class="org.apache.solr.core.CoreContainer">
+		<constructor-arg>
+			<value>${solr.home.dir}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${solr.home.dir}/solr.xml</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="customerSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="customer" />
+	</bean>
+	
+	<bean id="storeSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="store" />
+	</bean>
+
+	<bean id="productMarketingSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="product-marketing" />
+	</bean>
+	
+	<bean id="productSkuSolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="product-sku" />
+	</bean>
+
+	<bean id="catalogCategorySolrServer" class="org.apache.solr.client.solrj.embedded.EmbeddedSolrServer">
+		<constructor-arg ref="multiCore" />
+		<constructor-arg value="catalog-category" />
+	</bean>
+		
+</beans>

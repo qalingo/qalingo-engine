@@ -11,55 +11,49 @@ package org.hoteia.qalingo.core.solr.service.impl;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrRequest;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.hoteia.qalingo.core.domain.Store;
-
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
-
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * The Class StoreSolrServiceImpl.
- */
 @Service("storeSolrService")
 @Transactional
 public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSolrService {
 
-    /** The log. */
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.hoteia.qalingo.core.solr.service.StoreSolrService#addOrUpdateStore
-     * (org.hoteia.qalingo.core.domain.Store)
-     */
+    @Autowired
+    protected SolrServer storeSolrServer;
+    
+	/* (non-Javadoc)
+	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#addOrUpdateStore(fr.hoteia.qalingo.core.domain.Store)
+	 */
     public void addOrUpdateStore(Store store) throws SolrServerException, IOException {
-
-        // Id should not be blank or null
         if (store.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Indexing store " + store.getId());
-            LOG.debug("Indexing store " + store.getBusinessName());
-            LOG.debug("Indexing store " + store.getCity());
-            LOG.debug("Indexing store " + store.getCountryCode());
-            LOG.debug("Indexing store " + store.getPostalCode());
-            LOG.debug("Indexing store " + store.getType());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Indexing store " + store.getId());
+            logger.debug("Indexing store " + store.getBusinessName());
+            logger.debug("Indexing store " + store.getCity());
+            logger.debug("Indexing store " + store.getCountryCode());
+            logger.debug("Indexing store " + store.getPostalCode());
+            logger.debug("Indexing store " + store.getType());
         }
         StoreSolr storeSolr = new StoreSolr();
         storeSolr.setId(store.getId());
@@ -72,13 +66,9 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         storeSolrServer.commit();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java
-     * .lang.String, java.lang.String, java.lang.String)
-     */
+	/* (non-Javadoc)
+	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
+	 */
     public StoreResponseBean searchStore(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         if (StringUtils.isEmpty(searchBy)) {
@@ -101,33 +91,30 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
 
         QueryResponse response = new QueryResponse(storeSolrServer.request(request), storeSolrServer);
-        LOG.debug("QueryResponse Obj: " + response);
+        logger.debug("QueryResponse Obj: " + response);
         List<StoreSolr> storeSolrList = response.getBeans(StoreSolr.class);
-        LOG.debug(" storeSolrList: " + storeSolrList);
+        logger.debug(" storeSolrList: " + storeSolrList);
         StoreResponseBean storeResponseBean = new StoreResponseBean();
         storeResponseBean.setStoreSolrList(storeSolrList);
 
-        LOG.debug("storeSolrList add sucessflly in StoreResponseBeen ");
+        logger.debug("storeSolrList add sucessflly in StoreResponseBeen ");
         if (StringUtils.isNotEmpty(facetField)) {
             List<FacetField> storeSolrFacetFieldList = response.getFacetFields();
-            LOG.debug("storeFacetFileList: " + storeSolrFacetFieldList);
+            logger.debug("storeFacetFileList: " + storeSolrFacetFieldList);
             storeResponseBean.setStoreSolrFacetFieldList(storeSolrFacetFieldList);
 
-            LOG.debug(" StoreFacetFileList Add sucessflly in StoreResponseBeen  ");
+            logger.debug(" StoreFacetFileList Add sucessflly in StoreResponseBeen  ");
         }
         return storeResponseBean;
-
     }
-
-    /**
-     * Method for Default Store search.
-     * 
-     * @return the store response bean
-     * @throws SolrServerException
-     *             the solr server exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     */
+	
+	/**
+	 * Method for Default Store search.
+	 *
+	 * @return the store response bean
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
     public StoreResponseBean searchStore() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setQuery("*");
@@ -145,4 +132,5 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         storeResponseBean.setStoreSolrFacetFieldList(storeSolrFacetFieldList);
         return storeResponseBean;
     }
+    
 }

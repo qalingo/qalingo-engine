@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_MASTER", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-public class CatalogMaster implements Serializable {
+public class CatalogMaster extends AbstractEntity {
 
 	/**
 	 * Generated UID

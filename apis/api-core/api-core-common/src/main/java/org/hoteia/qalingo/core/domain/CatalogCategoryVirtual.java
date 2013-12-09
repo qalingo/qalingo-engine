@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,25 +39,13 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.annotations.ParamDef;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name="TECO_CATALOG_VIRTUAL_CATEGORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-@FilterDefs(
-	value = {
-			@FilterDef(name="filterCatalogVirtualCategoryAttributeIsGlobal"),
-			@FilterDef(name="filterCatalogVirtualCategoryAttributeByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") }),
-			@FilterDef(name="filterCatalogVirtualCategoryAssetIsGlobal"),
-			@FilterDef(name="filterCatalogVirtualCategoryAssetByMarketArea", parameters= { @ParamDef(name="marketAreaId", type="long") })
-	})
-public class CatalogCategoryVirtual implements Serializable {
+public class CatalogCategoryVirtual extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -97,20 +84,13 @@ public class CatalogCategoryVirtual implements Serializable {
     @JoinColumn(name="MASTER_CATEGORY_ID")
 	private CatalogCategoryMaster categoryMaster;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@Filter(name="filterCatalogCategoryVirtualAttributeIsGlobal", condition="IS_GLOBAL = '1'")
 	@OrderBy(clause = "ordering asc")
-	private Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@Filter(name="filterCatalogCategoryVirtualAttributeByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
-	@OrderBy(clause = "ordering asc")
-	private Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
+	private Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -122,7 +102,7 @@ public class CatalogCategoryVirtual implements Serializable {
 	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.ProductMarketing.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -133,18 +113,11 @@ public class CatalogCategoryVirtual implements Serializable {
 	    )	
 	private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@Filter(name="filterCatalogVirtualCategoryAssetIsGlobal", condition="IS_GLOBAL = '1' AND SCOPE = 'VIRTUAL_CATEGORY'")
 	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsIsGlobal = new HashSet<Asset>(); 
+	private Set<Asset> assets = new HashSet<Asset>(); 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@Filter(name="filterCatalogVirtualCategoryAssetByMarketArea", condition="IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'VIRTUAL_CATEGORY'")
-	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assetsByMarketArea = new HashSet<Asset>(); 
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -231,20 +204,42 @@ public class CatalogCategoryVirtual implements Serializable {
 		this.categoryMaster = categoryMaster;
 	}
 	
-	public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryGlobalAttributes() {
-		return catalogCategoryGlobalAttributes;
+	public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryAttributes() {
+        return catalogCategoryAttributes;
+    }
+	
+	public void setCatalogCategoryAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes) {
+        this.catalogCategoryAttributes = catalogCategoryAttributes;
+    }
+	
+	public List<CatalogCategoryVirtualAttribute> getCatalogCategoryGlobalAttributes() {
+        List<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
+        if (catalogCategoryAttributes != null) {
+            for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    catalogCategoryGlobalAttributes.add(attribute);
+                }
+            }
+        }        
+        return catalogCategoryGlobalAttributes;
 	}
 
-	public void setCatalogCategoryGlobalAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes) {
-		this.catalogCategoryGlobalAttributes = catalogCategoryGlobalAttributes;
-	}
-
-	public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryMarketAreaAttributes() {
-		return catalogCategoryMarketAreaAttributes;
-	}
-
-	public void setCatalogCategoryMarketAreaAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes) {
-		this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
+	public List<CatalogCategoryVirtualAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
+        List<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
+        if (catalogCategoryAttributes != null) {
+            for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    catalogCategoryMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
+        return catalogCategoryMarketAreaAttributes;
 	}
 
 	public Set<CatalogCategoryVirtual> getCatalogCategories() {
@@ -285,20 +280,40 @@ public class CatalogCategoryVirtual implements Serializable {
 		this.productMarketings = productMarketings;
 	}
 
-	public Set<Asset> getAssetsIsGlobal() {
-		return assetsIsGlobal;
+	public Set<Asset> getAssets() {
+        return assets;
+    }
+	
+	public void setAssets(Set<Asset> assets) {
+        this.assets = assets;
+    }
+	
+	public List<Asset> getAssetsIsGlobal() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
-	public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
-		this.assetsIsGlobal = assetsIsGlobal;
-	}
-	
-	public Set<Asset> getAssetsByMarketArea() {
-		return assetsByMarketArea;
-	}
-	
-	public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
-		this.assetsByMarketArea = assetsByMarketArea;
+	public List<Asset> getAssetsByMarketArea() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && !asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
 	}
 	
 	public Date getDateCreate() {
@@ -335,10 +350,10 @@ public class CatalogCategoryVirtual implements Serializable {
 		CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
 
 		// 1: GET THE GLOBAL VALUE
-		CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(catalogCategoryGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+		CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getCatalogCategoryGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
 		// 2: GET THE MARKET AREA VALUE
-		CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(catalogCategoryMarketAreaAttributes, attributeCode, marketAreaId, localizationCode);
+		CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getCatalogCategoryMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
 		
 		if(catalogCategoryMarketAreaAttribute != null){
 			catalogCategoryAttributeToReturn = catalogCategoryMarketAreaAttribute;
@@ -349,7 +364,7 @@ public class CatalogCategoryVirtual implements Serializable {
 		return catalogCategoryAttributeToReturn;
 	}
 	
-	private CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+	private CatalogCategoryVirtualAttribute getCatalogCategoryAttribute(List<CatalogCategoryVirtualAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
 		CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
 		List<CatalogCategoryVirtualAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryVirtualAttribute>();
 		if(catalogCategoryAttributes != null) {
@@ -581,10 +596,9 @@ public class CatalogCategoryVirtual implements Serializable {
 				+ description + ", code=" + code + ", isDefault=" + isDefault
 				+ ", defaultParentProductCategory="
 				+ defaultParentCatalogCategory
-				+ ", productCategoryGlobalAttributes="
-				+ catalogCategoryGlobalAttributes
-				+ ", productCategoryMarketAreaAttributes="
-				+ catalogCategoryMarketAreaAttributes + ", productCategories="
+				+ ", catalogCategoryAttributes="
+				+ catalogCategoryAttributes
+				+ ", productCategories="
 				+ catalogCategories + ", productMarketings="
 				+ productMarketings + ", dateCreate=" + dateCreate
 				+ ", dateUpdate=" + dateUpdate + "]";

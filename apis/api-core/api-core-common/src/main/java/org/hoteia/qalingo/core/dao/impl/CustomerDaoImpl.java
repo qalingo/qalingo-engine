@@ -15,57 +15,94 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository("customerDao")
 public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerDao {
 
 	public Customer getCustomerById(final Long customerId) {
-		return em.find(Customer.class, customerId);
+//		return em.find(Customer.class, customerId);
+        Criteria criteria = getSession().createCriteria(Customer.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", customerId));
+        Customer customer = (Customer) criteria.uniqueResult();
+        return customer;
 	}
 	
 	public Customer getCustomerByCode(final String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Customer WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		Customer customer = (Customer) query.uniqueResult();
-		return customer;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Customer WHERE upper(code) = upper(:code)";
+//		Query query = session.createQuery(sql);
+//		query.setString("code", code);
+//		Customer customer = (Customer) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Customer.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", code));
+        Customer customer = (Customer) criteria.uniqueResult();
+        return customer;
 	}
 	
 	public Customer getCustomerByPermalink(final String permalink) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Customer WHERE upper(permalink) = upper(:permalink)";
-		Query query = session.createQuery(sql);
-		query.setString("permalink", permalink);
-		Customer customer = (Customer) query.uniqueResult();
-		return customer;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Customer WHERE upper(permalink) = upper(:permalink)";
+//		Query query = session.createQuery(sql);
+//		query.setString("permalink", permalink);
+//		Customer customer = (Customer) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Customer.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("permalink", permalink));
+        Customer customer = (Customer) criteria.uniqueResult();
+        return customer;
 	}
 
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Customer WHERE (login = :usernameOrEmail OR email = :usernameOrEmail) AND active = true";
-		Query query = session.createQuery(sql);
-		query.setString("usernameOrEmail", usernameOrEmail);
-		Customer customer = (Customer) query.uniqueResult();
-		return customer;
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Customer WHERE (login = :usernameOrEmail OR email = :usernameOrEmail) AND active = true";
+//		Query query = session.createQuery(sql);
+//		query.setString("usernameOrEmail", usernameOrEmail);
+//		Customer customer = (Customer) query.uniqueResult();
+        Criteria criteria = getSession().createCriteria(Customer.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
+        Customer customer = (Customer) criteria.uniqueResult();
+        return customer;
 	}
 	
 	public List<Customer> findCustomers() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Customer ORDER BY lastname";
-		Query query = session.createQuery(sql);
-		List<Customer> customers = (List<Customer>) query.list();
+//		Session session = (Session) em.getDelegate();
+//		String sql = "FROM Customer ORDER BY lastname";
+//		Query query = session.createQuery(sql);
+//		List<Customer> customers = (List<Customer>) query.list();
+	    
+        Criteria criteria = getSession().createCriteria(Customer.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.addOrder(Order.asc("lastname"));
+        criteria.addOrder(Order.asc("firstname"));
+
+        @SuppressWarnings("unchecked")
+        List<Customer> customers = criteria.list();
+        
 		return customers;
 	}
 	
@@ -126,5 +163,16 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			em.merge(customerCredential);
 		}
 	}
+	
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("credentials", FetchMode.JOIN); 
+        criteria.setFetchMode("addresses", FetchMode.JOIN); 
+        criteria.setFetchMode("connectionLogs", FetchMode.JOIN); 
+        criteria.setFetchMode("customerMarketAreas", FetchMode.JOIN); 
+        criteria.setFetchMode("customerAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("customerGroups", FetchMode.JOIN); 
+        criteria.setFetchMode("oauthAccesses", FetchMode.JOIN); 
+        criteria.setFetchMode("customerOrderAudit", FetchMode.JOIN); 
+    }
 
 }

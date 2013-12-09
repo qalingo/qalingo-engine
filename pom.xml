@@ -32,15 +32,15 @@
 		<!-- Spring -->
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<aspectj.version>1.7.0</aspectj.version>
-		<!-- Spring-security -->
-		<spring-security.version>3.1.4.RELEASE</spring-security.version>
+		<!-- spring.security -->
+		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<!-- Spring-batch -->
 		<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.1.RELEASE</spring.batch.admin.version>
 		<!-- Datas -->
 		<hibernate.version>4.2.6.Final</hibernate.version>
 		<!-- CXF -->
-		<cxf.version>2.7.0</cxf.version>
+		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->
 		<solr.version>4.0.0</solr.version>
 		<!-- DROOLS -->
@@ -314,17 +314,17 @@
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-core</artifactId>
-				<version>${spring-security.version}</version>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-config</artifactId>
-				<version>${spring-security.version}</version>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
-				<version>${spring-security.version}</version>
+				<version>${spring.security.version}</version>
 			</dependency>
 
 			<!-- Spring Batch libs -->
@@ -354,7 +354,7 @@
 				<artifactId>spring-batch-admin-resources</artifactId>
 				<version>${spring.batch.admin.version}</version>
 			</dependency>
-			-->
+			-->		
 
 			<!-- AspectJ framework -->
 			<dependency>
@@ -440,6 +440,21 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+			 <groupId>org.apache.cxf</groupId>
+			 <artifactId>cxf-rt-rs-client</artifactId>
+			 <version>3.0.0-milestone1</version>
+			</dependency>
+			<dependency>
+			 <groupId>org.apache.cxf</groupId>
+			 <artifactId>cxf-rt-transports-http-hc</artifactId>
+			 <version>3.0.0-milestone1</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.apache.cxf</groupId>
+			  <artifactId>cxf-rt-rs-service-description</artifactId>
+			  <version>3.0.0-milestone1</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>jsr311-api</artifactId>
 				<version>1.1.1</version>
@@ -458,6 +473,11 @@
 			</dependency>
 
 			<!-- SOLR -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-core</artifactId>
+				<version>${solr.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>

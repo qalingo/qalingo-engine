@@ -26,8 +26,8 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_MARKET_PLACE_CODE			= "market-place-code";
 	public static final String REQUEST_PARAMETER_MARKET_CODE				= "market-code";
 	public static final String REQUEST_PARAMETER_MARKET_AREA_CODE			= "market-area-code";
-	public static final String REQUEST_PARAMETER_MARKET_LANGUAGE			= "market-language-code";
-	public static final String REQUEST_PARAMETER_RETAILER_CODE				= "retailer-code";
+	public static final String REQUEST_PARAMETER_MARKET_LANGUAGE			= "market-area-language-code";
+	public static final String REQUEST_PARAMETER_RETAILER_CODE				= "market-area-retailer-code";
 	
 	public static final String REQUEST_PARAMETER_PRODUCT_CATALOG_CODE		= "catalog-code";
 	public static final String REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE		= "category-code";

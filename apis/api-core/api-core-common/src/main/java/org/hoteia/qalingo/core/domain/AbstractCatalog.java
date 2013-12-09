@@ -1,8 +1,6 @@
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
-public abstract class AbstractCatalog implements Serializable {
+public abstract class AbstractCatalog extends AbstractEntity {
 
 	/**
 	 * Generated UID

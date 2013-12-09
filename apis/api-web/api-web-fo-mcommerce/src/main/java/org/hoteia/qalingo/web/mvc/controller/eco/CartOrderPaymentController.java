@@ -13,22 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 
 /**
  * 
@@ -47,10 +45,12 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
-		modelAndView.addObject("paymentForm", formFactory.buildPaymentForm(request));
+		modelAndView.addObject("paymentForm", formFactory.buildPaymentForm(requestData));
 		
         return modelAndView;
 	}
@@ -58,8 +58,6 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.CART_ORDER_PAYMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
 		
 		if (result.hasErrors()) {
 			return displayOrderPayment(request, response);

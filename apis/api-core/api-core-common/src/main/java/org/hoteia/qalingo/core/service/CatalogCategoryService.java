@@ -22,11 +22,11 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, Long retailerId, String catalogCategoryCode);
+	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
-	List<CatalogCategoryMaster> findRootCatalogCategories(Long marketAreaId);
+	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId, Long retailerId);
+	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId);
 
 	List<CatalogCategoryMaster> orderCategoryMasterList(Long marketAreaId, List<CatalogCategoryMaster> categories);
 
@@ -40,15 +40,15 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, Long retailerId, String catalogCategoryCode);
+	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
-	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, Long retailerId, ProductMarketing productMarketing);
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, ProductMarketing productMarketing);
 	
-	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId, Long retailerId);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findVirtualCategories(Long marketAreaId, Long retailerId);
+	List<CatalogCategoryVirtual> findVirtualCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, Long retailerId, Long productMarketingId);
+	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, Long productMarketingId);
 
 	List<CatalogCategoryVirtual> orderCategoryVirtualList(Long marketAreaId, List<CatalogCategoryVirtual> categories);
 

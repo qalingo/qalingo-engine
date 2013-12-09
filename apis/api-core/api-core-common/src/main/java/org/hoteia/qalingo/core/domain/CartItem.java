@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
@@ -25,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_CART_ITEM")
-public class CartItem implements Serializable {
+public class CartItem extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -43,7 +42,7 @@ public class CartItem implements Serializable {
 	@Column(name="PRODUCT_SKU_CODE")
 	private String productSkuCode;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
 	private ProductSku productSku;
 	

@@ -11,30 +11,34 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xmlns:p="http://www.springframework.org/schema/p"
-        xmlns:context="http://www.springframework.org/schema/context" 
-        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                            http://www.springframework.org/schema/beans/spring-beans.xsd
-                            http://www.springframework.org/schema/context 
-                            http://www.springframework.org/schema/context/spring-context.xsd">
-                            
-	<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
-	
-	<bean id="customerSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-		<constructor-arg value="${solr.server.url}/customer" />
-	</bean>
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="storeSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-		<constructor-arg value="${solr.server.url}/store" />
-	</bean>
+		<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
 
-	<bean id="productSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-		<constructor-arg value="${solr.server.url}/product" />
-	</bean>
+		<bean id="customerSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+			<constructor-arg value="${solr.server.url}/customer" />
+		</bean>
+		
+		<bean id="storeSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+			<constructor-arg value="${solr.server.url}/store" />
+		</bean>
 
-	<bean id="categorySolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-		<constructor-arg value="${solr.server.url}/category" />
-	</bean>
+		<bean id="productMarketingSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+			<constructor-arg value="${solr.server.url}/product-marketing" />
+		</bean>
+		
+		<bean id="productSkuSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+			<constructor-arg value="${solr.server.url}/product-sku" />
+		</bean>
+
+		<bean id="catalogCategorySolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+			<constructor-arg value="${solr.server.url}/catalog-category" />
+		</bean>
 
 </beans>

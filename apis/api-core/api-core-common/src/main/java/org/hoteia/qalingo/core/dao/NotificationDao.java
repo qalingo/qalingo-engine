@@ -17,8 +17,6 @@ public interface NotificationDao {
 
 	Notification getNotificationById(Long id);
 
-	Notification getNotificationByNotificationId(Long notificationId);
-	
 	List<Notification> findNotifications();
 	
 	List<Notification> findNotificationByCustomerId(Long customerId);

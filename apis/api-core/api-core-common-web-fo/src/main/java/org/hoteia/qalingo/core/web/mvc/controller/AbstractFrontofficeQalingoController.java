@@ -15,9 +15,11 @@ import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
+import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,18 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	protected CustomerService customerService;
 
 	@Autowired
-    protected ViewBeanFactory viewBeanFactory;
+    protected FrontofficeViewBeanFactory frontofficeViewBeanFactory;
 	
+    @Autowired
+    protected RequestUtil requestUtil;
+
 	/**
 	 * 
 	 */
 	@ModelAttribute
 	protected void initSeo(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		String seoPageMetaAuthor = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_META_AUTHOR, locale);
         model.addAttribute(ModelConstants.SEO_PAGE_META_AUTHOR, seoPageMetaAuthor);
@@ -80,7 +85,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final FollowUsViewBean followUs = viewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
+		final FollowUsViewBean followUs = frontofficeViewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
 		return followUs;
 	}
 	
@@ -98,7 +103,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 * 
 	 */
 	protected void overrideSeoTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(requestData);
 		final String fullTitle = currentMarketPlace.getName() + " - " + title;
 		if(StringUtils.isNotEmpty(fullTitle)){
 	        modelAndView.addObject("seoPageTitle", fullTitle);
@@ -126,8 +132,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 */
 	@ModelAttribute
 	protected void initConfig(final HttpServletRequest request, final Model model) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
 		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
 		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
@@ -151,8 +157,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	
 	protected Map<String, String> getWordingMap(final HttpServletRequest request){
 		try {
-			final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-			final Locale locale = currentLocalization.getLocale();
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final Locale locale = requestData.getLocale();
 			String contextName = requestUtil.getContextName();
 			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
 			return coreMessageSource.loadWording(contextValue, locale);
@@ -167,41 +173,11 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 * @throws Exception 
 	 * 
 	 */
-	protected Localization getCurrentLocalization(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentLocalization(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected Locale getCurrentLocale(HttpServletRequest request) throws Exception {
-		return getCurrentLocalization(request).getLocale();
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getTheme(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentTheme(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
-	protected String getDevice(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentDevice(request);
-	}
-	
-	/**
-	 * @throws Exception 
-	 * 
-	 */
 	protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
-		return requestUtil.getCurrentVelocityWebPrefix(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+		return requestUtil.getCurrentVelocityWebPrefix(requestData);
 	}
+
 	/**
 	 * 
 	 */
@@ -215,4 +191,5 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale){
 		return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, scope, key, params, locale);
 	}
+
 }
