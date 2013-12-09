@@ -36,7 +36,6 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ServerStatus getServerStatusById(final Long serverStatusId) {
-//		return em.find(ServerStatus.class, serverStatusId);
         Criteria criteria = getSession().createCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("id", serverStatusId));
         ServerStatus serverStatus = (ServerStatus) criteria.uniqueResult();
@@ -44,11 +43,6 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 	}
 	
     public List<ServerStatus> findServerStatus(final String serverName) {
-//        Session session = (Session) em.getDelegate();
-//        String sql = "FROM ServerStatus WHERE serverName = :serverName ORDER BY lastCheckReceived";
-//        Query query = session.createQuery(sql);
-//        query.setString("serverName", serverName);
-//        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
         Criteria criteria = getSession().createCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("serverName", serverName));
         
@@ -60,10 +54,6 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
     }
     
     public List<ServerStatus> findServerStatus() {
-//        Session session = (Session) em.getDelegate();
-//        String sql = "FROM ServerStatus ORDER BY serverName, lastCheckReceived";
-//        Query query = session.createQuery(sql);
-//        List<ServerStatus> serverStatus = (List<ServerStatus>) query.list();
         Criteria criteria = getSession().createCriteria(ServerStatus.class);
         
         criteria.addOrder(Order.asc("serverName"));
@@ -75,17 +65,6 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
     }
 
     public List<ServerStatus> getServerList(){
-//        Session session = (Session) em.getDelegate();
-//        String sql = " select serverName FROM ServerStatus group  BY serverName ";
-//        
-//        Query query = session.createQuery(sql);
-//        Criteria criteria = session.createCriteria(ServerStatus.class);
-//        ProjectionList projectionList = Projections.projectionList();
-//        projectionList.add(Projections.groupProperty("serverName"));
-// 
-//        criteria.setProjection(projectionList);
-//        
-        
         Criteria criteria = getSession().createCriteria(ServerStatus.class);
         criteria.setProjection(Projections.groupProperty("serverName").as("serverName"));
 

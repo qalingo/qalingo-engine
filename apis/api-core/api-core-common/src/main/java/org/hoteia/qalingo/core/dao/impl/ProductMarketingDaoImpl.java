@@ -31,7 +31,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductMarketing getProductMarketingById(final Long productMarketingId) {
-//		return em.find(ProductMarketing.class, productMarketingId);
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
@@ -42,12 +41,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	}
 
 	public ProductMarketing getProductMarketingByCode(final Long marketAreaId, final Long retailerId, final String productMarketingCode) {
-//		Session session = (Session) em.getDelegate();
-//		initProductMarketingFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM ProductMarketing WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", productMarketingCode);
-//		ProductMarketing productMarketing = (ProductMarketing) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
@@ -58,11 +51,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	}
 	
 	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId) {
-//		Session session = (Session) em.getDelegate();
-//		initProductMarketingFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM ProductMarketing";
-//		Query query = session.createQuery(sql);
-//		List<ProductMarketing> productMarketings = (List<ProductMarketing>) query.list();
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
@@ -75,12 +63,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	}
 	
 	public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final Long retailerId, final String text) {
-//		Session session = (Session) em.getDelegate();
-//		initProductMarketingFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM ProductMarketing WHERE code like :text OR businessName like :text OR description like :text";
-//		Query query = session.createQuery(sql);
-//		query.setString("text", "%" + text + "%");
-//		List<ProductMarketing> productMarketings = (List<ProductMarketing>) query.list();
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
@@ -113,8 +95,8 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	}
 
 	// ASSET
+	
 	public Asset getProductMarketingAssetById(final Long productMarketingAssetId) {
-//		return em.find(Asset.class, productMarketingAssetId);
         Criteria criteria = getSession().createCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productMarketingAssetId));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();
@@ -122,11 +104,6 @@ public class ProductMarketingDaoImpl extends AbstractGenericDaoImpl implements P
 	}
 
 	public Asset getProductMarketingAssetByCode(final String assetCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Asset WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", assetCode);
-//		Asset productMarketingAsset = (Asset) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         criteria.add(Restrictions.eq("code", assetCode));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();

@@ -28,24 +28,13 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId) {
-//		return em.find(CustomerConnectionLog.class, customerConnectionLogId);
         Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("id", customerConnectionLogId));
         CustomerConnectionLog customerConnectionLog = (CustomerConnectionLog) criteria.uniqueResult();
         return customerConnectionLog;
 	}
 
-//	public List<CustomerConnectionLog> findByExample(CustomerConnectionLog customerConnectionLogExample) {
-//		return super.findByExample(customerConnectionLogExample);
-//	}
-
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId){
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId ORDER BY loginDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
-		
         Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         
@@ -57,14 +46,6 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 	}
 	
 	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CustomerConnectionLog WHERE customerId = :customerId AND app = :appCode ORDER BY loginDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		query.setString("appCode", appCode);
-//		List<CustomerConnectionLog> customerConnectionLogs = (List<CustomerConnectionLog>) query.list();
-//		return customerConnectionLogs;
-		
         Criteria criteria = getSession().createCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         criteria.add(Restrictions.eq("appCode", appCode));

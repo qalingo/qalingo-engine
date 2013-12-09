@@ -31,17 +31,6 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
-    public List<CatalogMaster> findAllCatalogMasters() {
-        Criteria criteria = getSession().createCriteria(CatalogMaster.class);
-        addDefaultCatalogFetch(criteria);
-        criteria.addOrder(Order.asc("id"));
-
-        @SuppressWarnings("unchecked")
-        List<CatalogMaster> catalogMasters = criteria.list();
-        return catalogMasters;
-    }
-
     public CatalogMaster getProductCatalogById(final Long catalogMasterId) {
         Criteria criteria = getSession().createCriteria(CatalogMaster.class);
         addDefaultCatalogFetch(criteria);
@@ -61,6 +50,16 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
 		return catalogVirtual;
 	}
+	
+    public List<CatalogMaster> findAllCatalogMasters() {
+        Criteria criteria = getSession().createCriteria(CatalogMaster.class);
+        addDefaultCatalogFetch(criteria);
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogMaster> catalogMasters = criteria.list();
+        return catalogMasters;
+    }
 	
 	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {
 		if(catalogMaster.getDateCreate() == null){
@@ -82,26 +81,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
       
         criteria.setFetchMode("catalogCategories", FetchMode.JOIN);
 
-//        criteria.createAlias("catalogCategories.defaultParentCatalogCategory", "defaultParentCatalogCategory", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("defaultParentCatalogCategory", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.categoryMaster", "categoryMaster", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("categoryMaster", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.catalogCategoryGlobalAttributes", "catalogCategoryGlobalAttributes", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("catalogCategoryGlobalAttributes", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.catalogCategoryMarketAreaAttributes", "catalogCategoryMarketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("catalogCategoryMarketAreaAttributes", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.productMarketings", "productMarketings", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("productMarketings", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.assetsIsGlobal", "assetsIsGlobal", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("assetsIsGlobal", FetchMode.JOIN);
-//
-//        criteria.createAlias("catalogCategories.assetsByMarketArea", "assetsByMarketArea", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("assetsByMarketArea", FetchMode.JOIN);
+        criteria.createAlias("catalogCategories.catalogCategoryAttributes", "catalogCategoryAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("catalogCategoryAttributes", FetchMode.JOIN);
+
     }
 
 }

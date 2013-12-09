@@ -38,8 +38,8 @@ public class CustomerConnectionLog extends AbstractEntity {
 	@Column(name="LOGIN_DATE")
 	private Date loginDate;
 	
-	@Column(name="APP")
-	private String app;
+	@Column(name="APP_CODE")
+	private String appCode;
 	
 	@Column(name="HOST")
 	private String host;
@@ -69,13 +69,13 @@ public class CustomerConnectionLog extends AbstractEntity {
 		this.loginDate = loginDate;
 	}
 	
-	public String getApp() {
-		return app;
-	}
+	public String getAppCode() {
+        return appCode;
+    }
 	
-	public void setApp(String app) {
-		this.app = app;
-	}
+	public void setAppCode(String appCode) {
+        this.appCode = appCode;
+    }
 	
 	public String getHost() {
 		return host;

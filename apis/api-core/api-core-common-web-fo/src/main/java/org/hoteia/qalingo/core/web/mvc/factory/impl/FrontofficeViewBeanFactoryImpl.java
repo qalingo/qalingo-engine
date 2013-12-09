@@ -56,7 +56,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
 
         final Locale locale = localization.getLocale();
         final String localeCode = localization.getCode();
@@ -86,11 +85,11 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
                         for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
-                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode());
+                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode());
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
                             subMenu.setName(seoSubCatalogCategoryName);
-                            subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategoryReloaded));
+                            subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, subCatalogCategory));
                             subMenus.add(subMenu);
                         }
                         menu.setSubMenus(subMenus);

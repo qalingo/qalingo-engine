@@ -35,8 +35,6 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
         criteria.add(Restrictions.eq("id", batchProcessObjectId));
         BatchProcessObject batchProcessObject = (BatchProcessObject) criteria.uniqueResult();
         return batchProcessObject;
-        
-//		return em.find(BatchProcessObject.class, batchProcessObjectId);
 	}
 
 	public List<BatchProcessObject> findBatchProcessObjects() {
@@ -47,21 +45,10 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
         
         criteria.addOrder(Order.asc("id"));
         
-//		String sql = "FROM BatchProcessObject";
-//		Query query = session.createQuery(sql);
-//		List<BatchProcessObject> batchProcessObjects = (List<BatchProcessObject>) query.list();
-        
 		return batchProcessObjects;
 	}
 	
 	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM BatchProcessObject WHERE typeObject = :typeObject";
-//		Query query = session.createQuery(sql);
-//		query.setParameter("typeObject", typeObject);
-//		List<BatchProcessObject> batchProcessObjects = (List<BatchProcessObject>) query.list();
-//		return batchProcessObjects;
-		
         Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
 
         criteria.add(Restrictions.eq("typeObject", typeObject));

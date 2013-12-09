@@ -30,7 +30,6 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Localization getLocalizationById(final Long localizationId) {
-//		return em.find(Localization.class, localizationId);
         Criteria criteria = getSession().createCriteria(Localization.class);
         criteria.add(Restrictions.eq("id", localizationId));
         Localization localization = (Localization) criteria.uniqueResult();
@@ -38,27 +37,13 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 	}
 
 	public Localization getLocalizationByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Localization WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		Localization localization = (Localization) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Localization.class);
         criteria.add(Restrictions.eq("code", code));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
 	
-//	public List<Localization> findByExample(Localization localizationExample) {
-//		return super.findByExample(localizationExample);
-//	}
-
 	public List<Localization> findLocalizations() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Localization ORDER BY language";
-//		Query query = session.createQuery(sql);
-//		List<Localization> localizations = (List<Localization>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(Localization.class);
         
         criteria.addOrder(Order.asc("language"));

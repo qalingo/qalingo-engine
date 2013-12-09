@@ -35,10 +35,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET PLACE
 	
     public MarketPlace getDefaultMarketPlace() {
-//      Session session = (Session) em.getDelegate();
-//      String sql = "FROM MarketPlace WHERE isDefault = true";
-//      Query query = session.createQuery(sql);
-//      MarketPlace marketPlace = (MarketPlace) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
@@ -48,7 +44,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public MarketPlace getMarketPlaceById(final Long marketPlaceId) {
-//      return em.find(MarketPlace.class, marketPlaceId);
         Criteria criteria = getSession().createCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
@@ -59,11 +54,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public MarketPlace getMarketPlaceByCode(final String code) {
-//      Session session = (Session) em.getDelegate();
-//      String sql = "FROM MarketPlace WHERE upper(code) = upper(:code)";
-//      Query query = session.createQuery(sql);
-//      query.setString("code", code);
-//      MarketPlace marketPlace = (MarketPlace) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
@@ -74,10 +64,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public List<MarketPlace> findMarketPlaces() {
-//      Session session = (Session) em.getDelegate();
-//      String sql = "FROM MarketPlace ORDER BY code";
-//      Query query = session.createQuery(sql);
-//      List<MarketPlace> marketPlaces = (List<MarketPlace>) query.list();
         Criteria criteria = getSession().createCriteria(MarketPlace.class);
 
         addDefaultMarketPlaceFetch(criteria);
@@ -109,10 +95,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET
 	
 	public Market getDefaultMarket() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Market WHERE isDefault = true";
-//		Query query = session.createQuery(sql);
-//		Market market = (Market) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Market.class);
         
         addDefaultMarketFetch(criteria);
@@ -123,7 +105,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public Market getMarketById(final Long marketId) {
-//		return em.find(Market.class, marketId);
         Criteria criteria = getSession().createCriteria(Market.class);
 
         addDefaultMarketFetch(criteria);
@@ -134,11 +115,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 
 	public Market getMarketByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Market WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		Market market = (Market) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Market.class);
 
         addDefaultMarketFetch(criteria);
@@ -149,10 +125,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public List<Market> findMarkets() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Market ORDER BY code";
-//		Query query = session.createQuery(sql);
-//		List<Market> markets = (List<Market>) query.list();
         Criteria criteria = getSession().createCriteria(Market.class);
         
         addDefaultMarketFetch(criteria);
@@ -198,7 +170,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET AREA
 
 	public MarketArea getMarketAreaById(final Long marketAreaId) {
-//		return em.find(MarketArea.class, marketAreaId);
         Criteria criteria = getSession().createCriteria(MarketArea.class);
         
         addDefaultMarketAreaFetch(criteria);
@@ -209,11 +180,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public MarketArea getMarketAreaByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM MarketArea WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		MarketArea marketArea = (MarketArea) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(MarketArea.class);
         
         addDefaultMarketAreaFetch(criteria);

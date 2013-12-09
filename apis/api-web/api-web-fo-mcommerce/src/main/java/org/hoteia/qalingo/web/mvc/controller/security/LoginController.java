@@ -36,45 +36,45 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("loginController")
 public class LoginController extends AbstractMCommerceController {
 
-	@RequestMapping(FoUrls.LOGIN_URL)
-	public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LOGIN.getVelocityPage());
+    @RequestMapping(FoUrls.LOGIN_URL)
+    public ModelAndView login(final HttpServletRequest request, final Model model) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LOGIN.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
-		// SANITY CHECK: Customer logged
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		if(currentCustomer != null){
-			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
-			return new ModelAndView(new RedirectView(url));
-		}
-		
-		// SANITY CHECK : Param from spring-security
-		String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
-		if(BooleanUtils.toBoolean(error)){
-			model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
-			model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
-		}
-		
+        // SANITY CHECK: Customer logged
+        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        if (currentCustomer != null) {
+            final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
+
+        // SANITY CHECK : Param from spring-security
+        String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
+        if (BooleanUtils.toBoolean(error)) {
+            model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
+            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
+        }
+
         return modelAndView;
-	}
-	
-	@RequestMapping(FoUrls.LOGIN_CHECK_URL)
-	public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
-		ModelAndView modelAndView = new ModelAndView(FoUrls.LOGIN.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
-		if(currentCustomer != null){
-			final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
-	        return new ModelAndView(new RedirectView(urlRedirect));
-		}
-		
+    }
+
+    @RequestMapping(FoUrls.LOGIN_CHECK_URL)
+    public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
+        ModelAndView modelAndView = new ModelAndView(FoUrls.LOGIN.getVelocityPage());
+
+        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        if (currentCustomer != null) {
+            final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+
         return modelAndView;
-	}
-	
-	@ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
-	protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		return frontofficeViewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
-	}
-	
+    }
+
+    @ModelAttribute(ModelConstants.SECURITY_VIEW_BEAN)
+    protected SecurityViewBean initSecurityViewBean(final HttpServletRequest request, final Model model) throws Exception {
+        return frontofficeViewBeanFactory.buildSecurityViewBean(requestUtil.getRequestData(request));
+    }
+
 }

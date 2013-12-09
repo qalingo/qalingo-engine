@@ -26,11 +26,6 @@ public class CatalogServiceImpl implements CatalogService {
 	@Autowired
 	private CatalogDao catalogDao;
 
-    @Override
-    public List<CatalogMaster> findAllCatalogMasters() {
-        return catalogDao.findAllCatalogMasters();
-    }
-
     public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
 		long catalogMasterId = -1;
 		try {
@@ -45,6 +40,10 @@ public class CatalogServiceImpl implements CatalogService {
 		return catalogDao.getCatalogVirtual(marketAreaId);
 	}
 
+    public List<CatalogMaster> findAllCatalogMasters() {
+        return catalogDao.findAllCatalogMasters();
+    }
+    
 	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {
 		catalogDao.saveOrUpdateProductCatalog(catalogMaster);
 	}

@@ -1063,9 +1063,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public ProductCategoryViewBean buildProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual productCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        final Localization localization = requestData.getMarketAreaLocalization();
 
-        final String localeCode = localization.getCode();
         final ProductCategoryViewBean productCategoryViewBean = new ProductCategoryViewBean();
 
 //         productCategoryViewBean.setName(productCategory.getI18nName(localeCode));

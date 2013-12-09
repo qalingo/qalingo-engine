@@ -29,8 +29,6 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId) {
-//		return em.find(CustomerProductComment.class, customerProductCommentId);
-		
         Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("id", customerProductCommentId));
         CustomerProductComment customerProductComments = (CustomerProductComment) criteria.uniqueResult();
@@ -38,12 +36,6 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 	}
 	
 	public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CustomerProductComment WHERE customerId = :customerId";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		List<CustomerProductComment> customerProductComments = (List<CustomerProductComment>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -56,12 +48,6 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 	}
 	
 	public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CustomerProductComment WHERE productSku.id = :productSkuId";
-//		Query query = session.createQuery(sql);
-//		query.setLong("productSkuId", productSkuId);
-//		List<CustomerProductComment> customerProductComments = (List<CustomerProductComment>) query.list();
-		
         Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("productSkuId", productSkuId));
 

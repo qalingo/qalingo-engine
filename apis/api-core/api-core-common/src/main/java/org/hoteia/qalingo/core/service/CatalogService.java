@@ -16,12 +16,12 @@ import org.hoteia.qalingo.core.domain.CatalogVirtual;
 
 public interface CatalogService {
 
-    List<CatalogMaster> findAllCatalogMasters();
-
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	
 	CatalogVirtual getCatalogVirtual(Long marketAreaId);
-	
+
+    List<CatalogMaster> findAllCatalogMasters();
+
 	void saveOrUpdateProductCatalog(CatalogMaster productCatalog);
 	
 	void deleteProductCatalog(CatalogMaster productCatalog);

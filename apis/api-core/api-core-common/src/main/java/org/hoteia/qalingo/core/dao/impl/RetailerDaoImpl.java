@@ -38,7 +38,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	// RETAILER
 
 	public Retailer getRetailerById(final Long retailerId) {
-//		return em.find(Retailer.class, retailerId);
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -59,12 +58,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
     }
 
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer WHERE code = :retailerCode";
-//		Query query = session.createQuery(sql);
-//		query.setString("retailerCode", retailerCode);
-//		Retailer retailer = (Retailer) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Retailer.class);
 
         addDefaultRetailerFetch(criteria);
@@ -75,7 +68,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
     public List<Retailer> findAllRetailers() {
-//        return em.createQuery("SELECT r FROM Retailer r").getResultList();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -98,11 +90,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
   }
 
     public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer ORDER BY code";
-//		Query query = session.createQuery(sql);
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -115,12 +102,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "SELECT DISTINCT r from  Retailer r JOIN r.retailerTags t WHERE t.code in (:tags) ORDER BY r.name";
-//		Query query = session.createQuery(sql);
-//		query.setParameterList("tags", tags);
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
 
         addDefaultRetailerFetch(criteria);
@@ -136,12 +117,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 
 	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer ORDER BY dateCreate DESC";
-//		Query query = session.createQuery(sql);
-//		query.setMaxResults(maxResults);
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -154,12 +129,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer ORDER BY qualityOfService DESC";
-//		Query query = session.createQuery(sql);
-//		query.setMaxResults(maxResults);
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -172,12 +141,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer ORDER BY ratioQualityPrice DESC";
-//		Query query = session.createQuery(sql);
-//		query.setMaxResults(maxResults);
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -190,12 +153,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-//		Session session = (Session) em.getDelegate();
-//		initRetailerFilter(session, marketAreaId, retailerId);
-//		String sql = "FROM Retailer WHERE LOWER(code) LIKE LOWER(:searchTxt) OR LOWER(name) LIKE LOWER(:searchTxt) OR LOWER(description) LIKE LOWER(:searchTxt) ORDER BY name";
-//		Query query = session.createQuery(sql);
-//		query.setString("searchTxt", "%" + searchTxt + "%");
-//		List<Retailer> retailers = (List<Retailer>) query.list();
         Criteria criteria = getSession().createCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
@@ -258,7 +215,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	// STORE
 	
 	public Store getStoreById(final Long storeId) {
-//		return em.find(Store.class, storeId);
         Criteria criteria = getSession().createCriteria(Store.class);
         
         criteria.addOrder(Order.asc("code"));
@@ -269,11 +225,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 
 	public Store getStoreByCode(final String storeCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Store WHERE code = :storeCode";
-//		Query query = session.createQuery(sql);
-//		query.setString("storeCode", storeCode);
-//		Store store = (Store) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Store.class);
         
         criteria.addOrder(Order.asc("code"));
@@ -284,10 +235,6 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Store> findStores() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Store ORDER BY code";
-//		Query query = session.createQuery(sql);
-//		List<Store> stores = (List<Store>) query.list();
         Criteria criteria = getSession().createCriteria(Store.class);
         
         addDefaultStoreFetch(criteria);
