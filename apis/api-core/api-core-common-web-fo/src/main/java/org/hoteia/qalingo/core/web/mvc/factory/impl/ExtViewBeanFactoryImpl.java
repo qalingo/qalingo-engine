@@ -8,14 +8,14 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.factory.ExtendViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.factory.ExtViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("viewBeanFactory")
+@Service("extViewBeanFactory")
 @Transactional
-public class ExtendViewBeanFactoryImpl extends ViewBeanFactoryImpl implements ExtendViewBeanFactory{
+public class ExtViewBeanFactoryImpl extends ViewBeanFactoryImpl implements ExtViewBeanFactory{
 
     /* (non-Javadoc)
      * @see org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory#buildCategoryViewBean(org.hoteia.qalingo.core.pojo.RequestData, java.util.List)
@@ -38,26 +38,26 @@ public class ExtendViewBeanFactoryImpl extends ViewBeanFactoryImpl implements Ex
         final Localization localization = requestData.getLocalization();
 
         final String localeCode = localization.getCode();
-        final CategoryViewBean CategoryViewBean = new CategoryViewBean();
+        final CategoryViewBean categoryViewBean = new CategoryViewBean();
 
         if (category != null) {
             final String categoryCode = category.getCode();
 
-            CategoryViewBean.setName(category.getI18nName(localeCode));
-            CategoryViewBean.setCode(categoryCode);
+            categoryViewBean.setName(category.getI18nName(localeCode));
+            categoryViewBean.setCode(categoryCode);
 
 
             if (fullPopulate) {
                 if (category.getCatalogCategories() != null) {
-                    CategoryViewBean.setSubCategories(buildVirtualCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
+                    categoryViewBean.setSubCategories(buildVirtualCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
                 }
 
             }
-            CategoryViewBean.setCategoryUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, category));
+            categoryViewBean.setCategoryUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, category));
 
         }
 
-        return CategoryViewBean;
+        return categoryViewBean;
     }
 	
 }

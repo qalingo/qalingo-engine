@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.web.mvc.factory.ExtViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -40,6 +41,9 @@ public class ProductLineController extends AbstractMCommerceController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
+	
+	@Autowired
+	protected ExtViewBeanFactory extViewBeanFactory;
 
 	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
 	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
@@ -66,7 +70,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
 		
-		final List<CategoryViewBean> categoryViewBeans = extendViewBeanFactory.buildVirtualCategoryViewBeans(requestUtil.getRequestData(request), categories,true);
+		final List<CategoryViewBean> categoryViewBeans = extViewBeanFactory.buildVirtualCategoryViewBeans(requestUtil.getRequestData(request), categories,true);
 		model.addAttribute("categories", categoryViewBeans);
 		
         return modelAndView;

@@ -130,12 +130,15 @@ import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * 
  */
-
+@Service("viewBeanFactory")
+@Transactional
 public class ViewBeanFactoryImpl extends AbstractFrontofficeViewBeanFactory implements ViewBeanFactory {
 
     @Autowired
