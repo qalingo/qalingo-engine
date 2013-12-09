@@ -130,7 +130,7 @@ public interface ViewBeanFactory {
 
 	ProductCategoryViewBean buildMasterProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 
-	ProductCategoryViewBean buildProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	ProductCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 

@@ -69,20 +69,20 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             // ALL MARKETPLACES
             modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
             
-            // LOCALIZATIONS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, frontofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
-            
-            // CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
-            
-            // MARKET AREAS FOR THE CURRENT MARKET
-            Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
-            
             // MARKETS FOR THE CURRENT MARKETPLACE
             Set<Market> marketList = currentMarketPlace.getMarkets();
             modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketViewBeans(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
-            
+
+            // MARKET AREAS FOR THE CURRENT MARKET
+            Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
+
+            // CURRENT MARKET AREA
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
+
+            // LOCALIZATIONS FOR THE CURRENT MARKET AREA
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, frontofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
+
             // RETAILERS FOR THE CURRENT MARKET AREA
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, frontofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
             

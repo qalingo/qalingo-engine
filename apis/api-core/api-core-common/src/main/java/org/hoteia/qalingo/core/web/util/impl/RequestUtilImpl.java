@@ -53,7 +53,7 @@ import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.ProductSkuService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.web.clickstream.ClickstreamRequest;
@@ -97,7 +97,7 @@ public class RequestUtilImpl implements RequestUtil {
     protected MarketService marketService;
 
     @Autowired
-    protected ProductSkuService productSkuService;
+    protected ProductService productService;
 
     @Autowired
     protected CustomerService customerService;
@@ -593,10 +593,8 @@ public class RequestUtilImpl implements RequestUtil {
             }
         }
         if (productSkuIsNew) {
-            final MarketArea marketArea = getCurrentMarketArea(requestData);
-            final Retailer retailer = getCurrentRetailer(requestData);
             CartItem cartItem = new CartItem();
-            ProductSku productSku = productSkuService.getProductSkuByCode(marketArea.getId(), retailer.getId(), skuCode);
+            ProductSku productSku = productService.getProductSkuByCode(skuCode);
             cartItem.setProductSkuCode(skuCode);
             cartItem.setProductSku(productSku);
             cartItem.setQuantity(quantity);

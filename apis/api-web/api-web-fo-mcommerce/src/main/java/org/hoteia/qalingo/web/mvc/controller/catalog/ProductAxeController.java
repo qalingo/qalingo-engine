@@ -13,10 +13,10 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -37,17 +37,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductAxeController extends AbstractMCommerceController {
 
 	@Autowired
-	protected CatalogCategoryService productCategoryService;
+	protected CatalogCategoryService catalogCategoryService;
 	
 	@RequestMapping(FoUrls.CATEGORY_AS_AXE_URL)
 	public ModelAndView productAxe(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_AXE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         
-		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
@@ -59,8 +58,8 @@ public class ProductAxeController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
-		model.addAttribute("productCategory", productCategoryViewBean);
+		final ProductCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 		
         return modelAndView;
 	}

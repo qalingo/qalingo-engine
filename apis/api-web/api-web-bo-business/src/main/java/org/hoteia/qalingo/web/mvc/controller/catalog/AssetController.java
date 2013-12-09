@@ -25,7 +25,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -50,7 +50,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private ProductMarketingService productMarketingService;
+	private ProductService productMarketingService;
 	
 	@RequestMapping(value = BoUrls.ASSET_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView assetDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {

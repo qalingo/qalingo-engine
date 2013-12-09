@@ -27,7 +27,6 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -158,12 +157,11 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     public SearchProductItemViewBean buildSearchProductItemViewBean(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
         final String localeCode = localization.getCode();
 
         final String productSkuCode = productMarketingSolr.getCode();
-        final ProductSku productSku = productSkuService.getProductSkuByCode(marketArea.getId(), retailer.getId(), productSkuCode);
-        final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(marketArea.getId(), retailer.getId(), productSku.getProductMarketing().getCode());
+        final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
         final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
 
         final String productName = productMarketing.getCode();

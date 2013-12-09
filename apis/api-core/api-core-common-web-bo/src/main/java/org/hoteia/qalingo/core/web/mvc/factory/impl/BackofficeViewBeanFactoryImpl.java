@@ -1042,7 +1042,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
         final List<GlobalSearchViewBean> globalSearchViewBeans = new ArrayList<GlobalSearchViewBean>();
 
-        final List<ProductMarketing> productMarketings = productMarketingService.findProductMarketings(currentMarketArea.getId(), retailer.getId(), searchText);
+        final List<ProductMarketing> productMarketings = productService.findProductMarketings(currentMarketArea.getId(), searchText);
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
 
@@ -1054,7 +1054,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             globalSearchViewBeans.add(globalSearchViewBean);
         }
 
-        final List<ProductSku> productSkus = productSkuService.findProductSkus(currentMarketArea.getId(), retailer.getId(), searchText);
+        final List<ProductSku> productSkus = productService.findProductSkus(currentMarketArea.getId(), searchText);
         for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
             ProductSku productSku = (ProductSku) iterator.next();
 

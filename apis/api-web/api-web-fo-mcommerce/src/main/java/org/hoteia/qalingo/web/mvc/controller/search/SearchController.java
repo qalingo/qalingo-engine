@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -47,7 +47,7 @@ public class SearchController extends AbstractMCommerceController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	public ProductMarketingService productMarketingService;
+	public ProductService productMarketingService;
 	
 	@Autowired
 	public ProductMarketingSolrService productMarketingSolrService;

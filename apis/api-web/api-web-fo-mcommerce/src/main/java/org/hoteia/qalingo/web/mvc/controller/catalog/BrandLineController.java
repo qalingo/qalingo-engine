@@ -17,11 +17,10 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductBrandService;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -39,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BrandLineController extends AbstractMCommerceController {
 
 	@Autowired
-	protected ProductMarketingService productMarketingService;
+	protected ProductService productMarketingService;
 	
 	@Autowired
 	protected ProductBrandService productBrandService;
@@ -49,11 +48,10 @@ public class BrandLineController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.BRAND_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         
 		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		List<ProductMarketing>  productMarketings = productMarketingService.findProductMarketingsByBrandId(currentMarketArea.getId(), currentRetailer.getId(), productBrand.getId());
+		List<ProductMarketing>  productMarketings = productMarketingService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand, productMarketings);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
