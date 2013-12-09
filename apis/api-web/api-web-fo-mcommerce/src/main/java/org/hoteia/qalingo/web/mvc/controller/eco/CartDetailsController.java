@@ -12,6 +12,7 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -72,9 +73,9 @@ public class CartDetailsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-		modelAndView.addObject("cart", cartViewBean);
+		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
-		modelAndView.addObject("cartForm", formFactory.buildCartForm(requestData));
+		modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 
         return modelAndView;
 	}

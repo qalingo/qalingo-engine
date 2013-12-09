@@ -79,6 +79,9 @@ public final class ModelConstants {
 
     public static final String ASSET_VIEW_BEAN                  = "asset";
 
+    public static final String CART_VIEW_BEAN                   = "cart";
+    public static final String ADDRESSES_VIEW_BEAN              = "addresses";
+
     public static final String RULE_VIEW_BEAN                   = "rule";
     public static final String ORDER_VIEW_BEAN                  = "order";
     public static final String SHIPPING_VIEW_BEAN               = "shipping";
@@ -89,12 +92,13 @@ public final class ModelConstants {
 
     // SPRING FORM
     public static final String ASSET_FORM           = "assetForm";
-
     public static final String RULE_FORM            = "ruleForm";
     public static final String ORDER_FORM           = "orderForm";
     public static final String SHIPPING_FORM        = "shippingForm";
     public static final String CUSTOMER_FORM        = "customerForm";
     public static final String USER_FORM            = "userForm";
+    public static final String CART_FORM            = "cartForm";
+    public static final String PAYMENT_FORM         = "paymentForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";
