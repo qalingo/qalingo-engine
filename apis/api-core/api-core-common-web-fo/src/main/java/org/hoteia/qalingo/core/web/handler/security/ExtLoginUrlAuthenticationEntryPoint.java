@@ -100,9 +100,9 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 												 AuthenticationException authException) {
 		try {
 			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
-			String referer = request.getHeader(Constants.REFERER);
-			if(StringUtils.isNotEmpty(referer)
-			        && (referer.contains("cart") || referer.contains("checkout"))){
+			String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+			if(StringUtils.isNotEmpty(lastUrl)
+			        && (lastUrl.contains("cart") || lastUrl.contains("checkout"))){
 			    url = urlService.generateUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
 			}
 			return url;
