@@ -226,7 +226,6 @@ public class AbstractWebCommerceServiceImpl {
 		customer = checkCustomerMarketArea(requestData, customer);
 		
 		final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
-		
 		CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
 		if(customerWishlist == null){
 			customerWishlist = new CustomerWishlist();

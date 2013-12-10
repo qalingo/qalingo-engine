@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -675,7 +676,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public void removeCartItemFromCurrentCart(final HttpServletRequest request, final String skuCode) throws Exception {
         Cart cart = getCurrentCart(request);
-        Set<CartItem> cartItems = cart.getCartItems();
+        Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
             if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
