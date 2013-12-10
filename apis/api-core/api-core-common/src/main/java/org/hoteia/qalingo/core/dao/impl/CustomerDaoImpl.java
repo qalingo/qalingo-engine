@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerDao {
 
 	public Customer getCustomerById(final Long customerId) {
-//		return em.find(Customer.class, customerId);
         Criteria criteria = getSession().createCriteria(Customer.class);
         
         addDefaultFetch(criteria);
@@ -43,11 +42,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public Customer getCustomerByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Customer WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		Customer customer = (Customer) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Customer.class);
         
         addDefaultFetch(criteria);
@@ -58,11 +52,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public Customer getCustomerByPermalink(final String permalink) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Customer WHERE upper(permalink) = upper(:permalink)";
-//		Query query = session.createQuery(sql);
-//		query.setString("permalink", permalink);
-//		Customer customer = (Customer) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Customer.class);
         
         addDefaultFetch(criteria);
@@ -73,11 +62,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Customer WHERE (login = :usernameOrEmail OR email = :usernameOrEmail) AND active = true";
-//		Query query = session.createQuery(sql);
-//		query.setString("usernameOrEmail", usernameOrEmail);
-//		Customer customer = (Customer) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Customer.class);
         
         addDefaultFetch(criteria);
@@ -88,11 +72,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public List<Customer> findCustomers() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Customer ORDER BY lastname";
-//		Query query = session.createQuery(sql);
-//		List<Customer> customers = (List<Customer>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(Customer.class);
         
         addDefaultFetch(criteria);
@@ -134,11 +113,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	        }
         }
 		
-//		if(customer.getId() == null){
-//			em.persist(customer);
-//		} else {
-//			em.merge(customer);
-//		}
 		em.merge(customer);
 	}
 

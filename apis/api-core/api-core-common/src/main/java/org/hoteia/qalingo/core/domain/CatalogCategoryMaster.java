@@ -534,10 +534,6 @@ public class CatalogCategoryMaster extends AbstractEntity {
                 + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result
                 + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime
-                * result
-                + ((defaultParentCatalogCategory == null) ? 0
-                : defaultParentCatalogCategory.hashCode());
         result = prime * result
                 + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -575,12 +571,6 @@ public class CatalogCategoryMaster extends AbstractEntity {
                 return false;
         } else if (!dateUpdate.equals(other.dateUpdate))
             return false;
-        if (defaultParentCatalogCategory == null) {
-            if (other.defaultParentCatalogCategory != null)
-                return false;
-        } else if (!defaultParentCatalogCategory
-                .equals(other.defaultParentCatalogCategory))
-            return false;
         if (description == null) {
             if (other.description != null)
                 return false;
@@ -601,15 +591,11 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @Override
     public String toString() {
         return "ProductCategoryMaster [id=" + id + ", version=" + version
-                + ", businessName=" + businessName + ", description="
-                + description + ", code=" + code + ", isDefault=" + isDefault
-                + ", defaultParentProductCategory="
-                + defaultParentCatalogCategory
-                + ", catalogCategoryAttributes="
-                + catalogCategoryAttributes
-                + ", productMarketings="
-                + productMarketings + ", dateCreate=" + dateCreate
-                + ", dateUpdate=" + dateUpdate + "]";
+                + "businessName=" + businessName  + ","
+                + "description=" + description + ", " 
+                + "code=" + code + ", isDefault=" + isDefault + ","
+                + "dateCreate=" + dateCreate + ","
+                + "dateUpdate=" + dateUpdate + "]";
     }
 
 }

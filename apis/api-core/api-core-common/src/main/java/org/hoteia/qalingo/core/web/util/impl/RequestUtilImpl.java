@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.AbstractEngineSession;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
@@ -49,11 +50,12 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.ProductSkuService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.web.clickstream.ClickstreamRequest;
@@ -97,7 +99,10 @@ public class RequestUtilImpl implements RequestUtil {
     protected MarketService marketService;
 
     @Autowired
-    protected ProductSkuService productSkuService;
+    protected CatalogCategoryService catalogCategoryService;
+    
+    @Autowired
+    protected ProductService productService;
 
     @Autowired
     protected CustomerService customerService;
@@ -569,10 +574,17 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public void updateCurrentCart(final RequestData requestData, final String skuCode, final int quantity) throws Exception {
+        updateCurrentCart(requestData, null, skuCode, quantity);
+    }
+    
+    /**
+     * 
+     */
+    public void updateCurrentCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
         // SANITY CHECK : sku code is empty or null : no sense
-        if (StringUtils.isEmpty(skuCode)) {
+        if (StringUtils.isEmpty(productSkuCode)) {
             throw new Exception("");
         }
 
@@ -586,20 +598,23 @@ public class RequestUtilImpl implements RequestUtil {
         boolean productSkuIsNew = true;
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
+            if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
                 int newQuantity = cartItem.getQuantity() + quantity;
                 cartItem.setQuantity(newQuantity);
                 productSkuIsNew = false;
             }
         }
         if (productSkuIsNew) {
-            final MarketArea marketArea = getCurrentMarketArea(requestData);
-            final Retailer retailer = getCurrentRetailer(requestData);
             CartItem cartItem = new CartItem();
-            ProductSku productSku = productSkuService.getProductSkuByCode(marketArea.getId(), retailer.getId(), skuCode);
-            cartItem.setProductSkuCode(skuCode);
+            ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+            cartItem.setProductSkuCode(productSkuCode);
             cartItem.setProductSku(productSku);
             cartItem.setQuantity(quantity);
+            if(catalogCategoryCode != null){
+                CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
+                cartItem.setCatalogCategoryCode(catalogCategoryCode);
+                cartItem.setCatalogCategory(catalogCategory);
+            }
             cart.getCartItems().add(cartItem);
         }
         updateCurrentCart(request, cart);

@@ -42,7 +42,6 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Email getEmailById(final Long emailId) {
-//        return em.find(Email.class, id);
         Criteria criteria = getSession().createCriteria(Email.class);
         criteria.add(Restrictions.eq("id", emailId));
         Email email = (Email) criteria.uniqueResult();
@@ -50,11 +49,6 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     }
 
     public List<Email> findEmailByStatus(final String status) {
-//        Session session = (Session) em.getDelegate();
-//        String sql = "FROM Email WHERE status = :status";
-//        Query query = session.createQuery(sql);
-//        query.setString("status", status);
-//        List<Email> emails = (List<Email>) query.list();
         Criteria criteria = getSession().createCriteria(Email.class);
         criteria.add(Restrictions.eq("status", status));
         
@@ -67,13 +61,6 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     }
 
     public List<Long> findIdsForEmailSync() {
-//        Session session = (Session) em.getDelegate();
-//        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND processedCount <= 5";
-//        Query query = session.createQuery(sql);
-//        query.setString("status", Email.EMAIl_STATUS_PENDING);
-//        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
-//        List<Long> emailIds = (List<Long>) query.list();
-        
         Criteria criteria = getSession().createCriteria(Email.class);
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));
@@ -87,14 +74,6 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     }
 
     public List<Long> findIdsForEmailSync(final String type) {
-//        Session session = (Session) em.getDelegate();
-//        String sql = "SELECT id FROM Email WHERE (status = :status OR status = :errorStatus) AND type = :type AND processedCount <= 5";
-//        Query query = session.createQuery(sql);
-//        query.setString("status", Email.EMAIl_STATUS_PENDING);
-//        query.setString("errorStatus", Email.EMAIl_STATUS_ERROR);
-//        query.setString("type", type);
-//        List<Long> emailIds = (List<Long>) query.list();
-        
         Criteria criteria = getSession().createCriteria(Email.class);
         criteria.add(Restrictions.eq("type", type));
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));

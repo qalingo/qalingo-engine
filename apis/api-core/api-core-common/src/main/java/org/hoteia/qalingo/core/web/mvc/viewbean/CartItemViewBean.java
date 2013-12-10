@@ -19,11 +19,13 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -7032831815877311774L;
 	
 	protected String skuCode;
-	protected String name;
+	protected String i18nName;
 	protected int quantity;
-	protected String price;
+	protected String unitPrice;
+    protected String fees;
 	protected String amount;
 	protected String deleteUrl;
+    protected String productDetailsUrl;
 
 	public String getSkuCode() {
 		return skuCode;
@@ -33,13 +35,13 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 		this.skuCode = skuCode;
 	}
 	
-	public String getName() {
-		return name;
-	}
+	public String getI18nName() {
+        return i18nName;
+    }
 	
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
 	
 	public int getQuantity() {
 		return quantity;
@@ -49,14 +51,22 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 		this.quantity = quantity;
 	}
 	
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
+	public String getUnitPrice() {
+        return unitPrice;
+    }
+	
+	public void setUnitPrice(String unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+	
+	public String getFees() {
+        return fees;
+    }
+	
+	public void setFees(String fees) {
+        this.fees = fees;
+    }
+	
 	public String getAmount() {
 		return amount;
 	}
@@ -72,5 +82,13 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	public void setDeleteUrl(String deleteUrl) {
 		this.deleteUrl = deleteUrl;
 	}
+	
+	public String getProductDetailsUrl() {
+        return productDetailsUrl;
+    }
+	
+	public void setProductDetailsUrl(String productDetailsUrl) {
+        this.productDetailsUrl = productDetailsUrl;
+    }
 	
 }

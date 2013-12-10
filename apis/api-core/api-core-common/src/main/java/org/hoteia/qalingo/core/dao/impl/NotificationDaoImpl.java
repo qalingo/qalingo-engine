@@ -30,7 +30,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Notification getNotificationById(final Long notificationId) {
-//		return em.find(Notification.class, id);
         Criteria criteria = getSession().createCriteria(Notification.class);
         criteria.add(Restrictions.eq("id", notificationId));
         Notification notification = (Notification) criteria.uniqueResult();
@@ -38,10 +37,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 	}
 	
 	public List<Notification> findNotifications() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Notification";
-//		Query query = session.createQuery(sql);
-//		List<Notification> notifications = (List<Notification>) query.list();
         Criteria criteria = getSession().createCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("id"));
@@ -53,12 +48,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 	}
 	
 	public List<Notification> findNotificationByCustomerId(final Long customerId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Notification WHERE customerId = :customerId ORDER BY isChecked, createdDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		List<Notification> notifications = (List<Notification>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(Notification.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         
@@ -72,12 +61,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 	}
 	
 	public List<Notification> findNewNotificationByCustomerId(final Long customerId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Notification WHERE customerId = :customerId AND isChecked = false ORDER BY createdDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		List<Notification> notifications = (List<Notification>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("createdDate"));
@@ -89,11 +72,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 	}
 	
 	public List<Notification> findIdsForSync() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Notification";
-//		Query query = session.createQuery(sql);
-//		List<Notification> notifications = (List<Notification>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("id"));

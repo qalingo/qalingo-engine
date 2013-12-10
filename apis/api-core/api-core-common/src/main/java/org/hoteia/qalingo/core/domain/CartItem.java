@@ -46,6 +46,13 @@ public class CartItem extends AbstractEntity {
     @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
 	private ProductSku productSku;
 	
+    @Column(name="VIRTUAL_CATEGORY_CODE")
+    private String catalogCategoryCode;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="VIRTUAL_CATEGORY_ID", insertable=false, updatable=false)
+    private CatalogCategoryVirtual catalogCategory;
+	
 	public CartItem(){
 	}
 	
@@ -81,7 +88,23 @@ public class CartItem extends AbstractEntity {
 		this.productSku = productSku;
 	}
 	
-	public BigDecimal getPrice() {
+	public String getCatalogCategoryCode() {
+        return catalogCategoryCode;
+    }
+
+    public void setCatalogCategoryCode(String catalogCategoryCode) {
+        this.catalogCategoryCode = catalogCategoryCode;
+    }
+
+    public CatalogCategoryVirtual getCatalogCategory() {
+        return catalogCategory;
+    }
+    
+    public void setCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+        this.catalogCategory = catalogCategory;
+    }
+
+    public BigDecimal getPrice() {
 		
 		// TODO !
 		

@@ -12,6 +12,7 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -37,7 +38,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 //		}
 		
 		final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), null);
-		modelAndView.addObject("order", orderViewBean);
+		modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, orderViewBean);
 		
         return modelAndView;
 	}

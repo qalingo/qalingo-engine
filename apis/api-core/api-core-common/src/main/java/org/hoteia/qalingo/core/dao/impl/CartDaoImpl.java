@@ -28,7 +28,6 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Cart getCartById(final Long cartId) {
-//		return em.find(Cart.class, cartId);
         Criteria criteria = getSession().createCriteria(Cart.class);
         
         addDefaultFetch(criteria);

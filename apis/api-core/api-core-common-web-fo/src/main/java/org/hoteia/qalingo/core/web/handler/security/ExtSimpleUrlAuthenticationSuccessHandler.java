@@ -68,7 +68,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	    	CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
 	    	customerConnectionLog.setCustomerId(customer.getId());
 	    	customerConnectionLog.setLoginDate(new Date());
-	    	customerConnectionLog.setApp(Constants.APP_NAME_FO_MCOMMERCE_CODE);
+	    	customerConnectionLog.setAppCode(Constants.APP_NAME_FO_MCOMMERCE_CODE);
 	    	customerConnectionLog.setHost(request.getRemoteHost());
 	    	customerConnectionLog.setAddress(request.getRemoteAddr());
 	    	customer.getConnectionLogs().add(customerConnectionLog);

@@ -30,7 +30,6 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
-//		return em.find(AbstractPaymentGateway.class, paymentGatewayId);
         Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
         
         addDefaultFetch(criteria);
@@ -41,11 +40,6 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 
 	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM PaymentGateway WHERE code = :paymentGatewayCode)";
-//		Query query = session.createQuery(sql);
-//		query.setString("paymentGatewayCode", paymentGatewayCode);
-//		AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
         
         addDefaultFetch(criteria);
@@ -56,10 +50,6 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 	
 	public List<AbstractPaymentGateway> findPaymentGateways() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM AbstractPaymentGateway ORDER BY name";
-//		Query query = session.createQuery(sql);
-//		List<AbstractPaymentGateway> paymentGateways = (List<AbstractPaymentGateway>) query.list();
         Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
 
         addDefaultFetch(criteria);

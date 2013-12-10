@@ -27,7 +27,6 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductBrand getProductBrandById(final Long productBrandId) {
-//		return em.find(ProductBrand.class, productBrandId);
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
@@ -35,12 +34,6 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 	}
 
 	public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
-//		Session session = (Session) em.getDelegate();
-//		session.enableFilter("marketArea").setParameter("marketAreaId", marketAreaId);
-//		String sql = "FROM ProductBrand WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", productBrandCode);
-//		ProductBrand productBrand = (ProductBrand) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();

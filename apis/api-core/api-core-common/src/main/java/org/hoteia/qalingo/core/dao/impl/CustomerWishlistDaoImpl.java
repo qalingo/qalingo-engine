@@ -25,7 +25,6 @@ public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements C
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
-//		return em.find(CustomerWishlist.class, customerWishlistId);
         Criteria criteria = getSession().createCriteria(CustomerWishlist.class);
         criteria.add(Restrictions.eq("id", customerWishlistId));
         CustomerWishlist customerWishlist = (CustomerWishlist) criteria.uniqueResult();

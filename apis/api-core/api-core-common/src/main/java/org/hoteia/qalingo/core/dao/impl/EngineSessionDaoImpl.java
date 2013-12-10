@@ -31,7 +31,6 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
 	// ECO SESSION
 	
 	public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
-//		return em.find(EngineEcoSession.class, engineSessionId);
         Criteria criteria = getSession().createCriteria(EngineEcoSession.class);
         
         addDefaultEngineEcoSessionFetch(criteria);
@@ -60,7 +59,6 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
 	// BO SESSION
 	
 	public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
-//		return em.find(EngineBoSession.class, engineSessionId);
         Criteria criteria = getSession().createCriteria(EngineBoSession.class);
         
         addDefaultEngineBoSessionFetch(criteria);

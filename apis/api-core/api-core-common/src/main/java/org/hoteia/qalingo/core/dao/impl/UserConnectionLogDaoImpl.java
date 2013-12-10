@@ -28,7 +28,6 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId) {
-//		return em.find(UserConnectionLog.class, userConnectionLogId);
         Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("id", userConnectionLogId));
         UserConnectionLog userConnectionLog = (UserConnectionLog) criteria.uniqueResult();
@@ -36,11 +35,6 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	}
 
 	public List<UserConnectionLog> findUserConnectionLogsByUserId(final Long userId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM UserConnectionLog WHERE userId = :userId ORDER BY loginDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("userId", userId);
-//		List<UserConnectionLog> userConnectionLogs = (List<UserConnectionLog>) query.list();
         Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("userId", userId));
 
@@ -52,12 +46,6 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	}
 	
 	public List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(final Long userId, final String appCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM UserConnectionLog WHERE userId = :userId AND app = :appCode ORDER BY loginDate";
-//		Query query = session.createQuery(sql);
-//		query.setLong("userId", userId);
-//		query.setString("appCode", appCode);
-//		List<UserConnectionLog> userConnectionLogs = (List<UserConnectionLog>) query.list();
         Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("userId", userId));
         criteria.add(Restrictions.eq("app", appCode));

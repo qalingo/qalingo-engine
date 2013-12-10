@@ -29,8 +29,6 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
-//		return em.find(CurrencyReferential.class, currencyReferentialId);
-	    
         Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("id", currencyReferentialId));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
@@ -38,13 +36,6 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 	}
 
 	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CurrencyReferential WHERE code = :currencyReferentialCode";
-//		Query query = session.createQuery(sql);
-//		query.setString("currencyReferentialCode", currencyReferentialCode);
-//		CurrencyReferential currencyReferential = (CurrencyReferential) query.uniqueResult();
-//		return currencyReferential;
-		
         Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("code", currencyReferentialCode));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
@@ -52,12 +43,6 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 	}
 	
 	public List<CurrencyReferential> findCurrencyReferentials() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CurrencyReferential ORDER BY code";
-//		Query query = session.createQuery(sql);
-//		List<CurrencyReferential> currencyReferentials = (List<CurrencyReferential>) query.list();
-//		return currencyReferentials;
-		
         Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
         
         criteria.addOrder(Order.asc("code"));

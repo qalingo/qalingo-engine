@@ -29,7 +29,6 @@ public class ShippingDaoImpl extends AbstractGenericDaoImpl implements ShippingD
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Shipping getShippingById(final Long shippingId) {
-//		return em.find(Shipping.class, shippingId);
         Criteria criteria = getSession().createCriteria(Shipping.class);
         
         addDefaultFetch(criteria);
@@ -40,11 +39,6 @@ public class ShippingDaoImpl extends AbstractGenericDaoImpl implements ShippingD
 	}
 
 	public Shipping getShippingByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Shipping WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		Shipping shipping = (Shipping) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(Shipping.class);
         
         addDefaultFetch(criteria);
@@ -55,10 +49,6 @@ public class ShippingDaoImpl extends AbstractGenericDaoImpl implements ShippingD
 	}
 	
 	public List<Shipping> findShippings() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Shipping";
-//		Query query = session.createQuery(sql);
-//		List<Shipping> shippings = (List<Shipping>) query.list();
         Criteria criteria = getSession().createCriteria(Shipping.class);
         
         addDefaultFetch(criteria);

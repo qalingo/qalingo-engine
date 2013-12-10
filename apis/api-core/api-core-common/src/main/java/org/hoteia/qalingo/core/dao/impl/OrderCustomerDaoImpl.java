@@ -33,7 +33,6 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public OrderCustomer getOrderById(final Long orderCustomerId) {
-//		return em.find(Order.class, orderId);
         Criteria criteria = getSession().createCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);
@@ -44,11 +43,6 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 
 	public OrderCustomer getOrderByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Order WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		Order order = (Order) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(OrderCustomer.class);
 
         addDefaultFetch(criteria);
@@ -59,11 +53,6 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 	
 	public List<OrderCustomer> findOrders() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Order";
-//		Query query = session.createQuery(sql);
-//		List<Order> orders = (List<Order>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);
@@ -77,12 +66,6 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 	
 	public List<OrderCustomer> findOrdersByCustomerId(final Long customerId) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM Order WHERE customerId = :customerId";
-//		Query query = session.createQuery(sql);
-//		query.setLong("customerId", customerId);
-//		List<Order> orders = (List<Order>) query.list();
-	    
         Criteria criteria = getSession().createCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);

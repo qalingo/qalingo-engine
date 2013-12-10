@@ -184,6 +184,7 @@ public class CatalogVirtual extends AbstractEntity {
 		});
 		return sortedObjects;
 	}
+
 	public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
 		this.catalogCategories = catalogCategories;
 	}

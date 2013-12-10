@@ -35,8 +35,7 @@ import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
-import org.hoteia.qalingo.core.service.ProductSkuService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
@@ -62,10 +61,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     protected CatalogCategoryService catalogCategoryService;
 
     @Autowired
-    protected ProductMarketingService productMarketingService;
-
-    @Autowired
-    protected ProductSkuService productSkuService;
+    protected ProductService productService;
 
     @Autowired
     protected RetailerService retailerService;
@@ -376,28 +372,28 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		productMarketing.setBusinessName(productMarketingForm.getName());
 		productMarketing.setCode(productMarketingForm.getCode());
 		productMarketing.setDescription(productMarketingForm.getDescription());
-		productMarketingService.saveOrUpdateProductMarketing(productMarketing);
+		productService.saveOrUpdateProductMarketing(productMarketing);
 	}
 	
 	public void createProductMarketing(final ProductMarketing productMarketing, final ProductMarketingForm productMarketingForm){
 		productMarketing.setBusinessName(productMarketingForm.getName());
 		productMarketing.setCode(productMarketingForm.getCode());
 		productMarketing.setDescription(productMarketingForm.getDescription());
-		productMarketingService.saveOrUpdateProductMarketing(productMarketing);
+		productService.saveOrUpdateProductMarketing(productMarketing);
 	}
 	
 	public void updateProductSku(final ProductSku productSku, final ProductSkuForm productSkuForm){
 		productSku.setBusinessName(productSkuForm.getName());
 		productSku.setCode(productSkuForm.getCode());
 		productSku.setDescription(productSkuForm.getDescription());
-		productSkuService.saveOrUpdateProductSku(productSku);
+		productService.saveOrUpdateProductSku(productSku);
 	}
 	
 	public void createProductSku(final ProductSku productSku, final ProductSkuForm productSkuForm){
 		productSku.setBusinessName(productSkuForm.getName());
 		productSku.setCode(productSkuForm.getCode());
 		productSku.setDescription(productSkuForm.getDescription());
-		productSkuService.saveOrUpdateProductSku(productSku);
+		productService.saveOrUpdateProductSku(productSku);
 	}
 	
 	public void updateProductMarketingAsset(final Asset asset, final AssetForm assetForm){
@@ -411,7 +407,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 //		private Integer ordering;
 //		private Long marketAreaId;
 		
-		productMarketingService.saveOrUpdateProductMarketingAsset(asset);
+		productService.saveOrUpdateProductMarketingAsset(asset);
 	}
 	
 	public void createProductMarketingAsset(final Asset asset, final AssetForm assetForm){
@@ -421,7 +417,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		
 		// ...
 		
-		productMarketingService.saveOrUpdateProductMarketingAsset(asset);
+		productService.saveOrUpdateProductMarketingAsset(asset);
 	}
 	
 	public void createOrUpdateRetailer(final Retailer retailer, final RetailerForm retailerForm){

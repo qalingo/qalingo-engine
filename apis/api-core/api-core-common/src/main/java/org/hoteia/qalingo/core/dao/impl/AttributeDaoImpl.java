@@ -28,8 +28,6 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
-//		return em.find(AttributeDefinition.class, attributeDefinitionId);
-	    
         Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("id", attributeDefinitionId));
         AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
@@ -37,13 +35,6 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 	}
 
 	public AttributeDefinition getAttributeDefinitionByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM AttributeDefinition WHERE upper(code) = upper(:code)";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		AttributeDefinition attributeDefinition = (AttributeDefinition) query.uniqueResult();
-//		return attributeDefinition;
-		
         Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("code", code));
         AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
@@ -51,12 +42,6 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 	}
 	
 	public List<AttributeDefinition> findAttributeDefinitions() {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM AttributeDefinition ORDER BY attributeType, objectType";
-//		Query query = session.createQuery(sql);
-//		List<AttributeDefinition> attributeDefinitions = (List<AttributeDefinition>) query.list();
-//		return attributeDefinitions;
-		
         Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
 
         criteria.addOrder(Order.asc("attributeType"));
@@ -68,13 +53,6 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 	}
 	
 	public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM AttributeDefinition WHERE objectType = :objectType ORDER BY attributeType";
-//		Query query = session.createQuery(sql);
-//		query.setInteger("objectType", objectType);
-//		List<AttributeDefinition> attributeDefinitions = (List<AttributeDefinition>) query.list();
-//		return attributeDefinitions;
-	    
         Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("objectType", objectType));
         

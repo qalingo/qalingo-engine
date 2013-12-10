@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
@@ -63,9 +64,9 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-		modelAndView.addObject("cart", cartViewBean);
+		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
-		modelAndView.addObject("cartForm", formFactory.buildCartForm(requestData));
+		modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 		
         return modelAndView;
 	}
@@ -84,7 +85,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
-    @ModelAttribute("addresses")
+    @ModelAttribute(ModelConstants.ADDRESSES_VIEW_BEAN)
     public List<CustomerAddressViewBean> getAddresses(HttpServletRequest request) {
 		List<CustomerAddressViewBean> addressesValues = new ArrayList<CustomerAddressViewBean>();
 		try {

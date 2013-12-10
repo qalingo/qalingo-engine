@@ -28,7 +28,6 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerGroup getCustomerGroupById(final Long customerGroupId) {
-//		return em.find(CustomerGroup.class, customerGroupId);
         Criteria criteria = getSession().createCriteria(CustomerGroup.class);
         
         addDefaultFetch(criteria);
@@ -39,11 +38,6 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 	}
 	
 	public CustomerGroup getCustomerGroupByCode(final String code) {
-//		Session session = (Session) em.getDelegate();
-//		String sql = "FROM CustomerGroup WHERE code = :code";
-//		Query query = session.createQuery(sql);
-//		query.setString("code", code);
-//		CustomerGroup customerGroup = (CustomerGroup) query.uniqueResult();
         Criteria criteria = getSession().createCriteria(CustomerGroup.class);
         
         addDefaultFetch(criteria);

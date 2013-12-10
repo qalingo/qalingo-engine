@@ -27,8 +27,6 @@ public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsCont
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CmsContent getCmsContentById(final Long cmsContentId) {
-//		return em.find(CmsContent.class, cmsContentId);
-		
         Criteria criteria = getSession().createCriteria(CmsContent.class);
         criteria.add(Restrictions.eq("id", cmsContentId));
         CmsContent cmsContent = (CmsContent) criteria.uniqueResult();
