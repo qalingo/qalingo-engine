@@ -12,16 +12,18 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
+import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 
 @Transactional
 @Repository("catalogCategoryDao")
@@ -30,43 +32,62 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// MASTER
-	public CatalogCategoryMaster getMasterCatalogCategoryById(Long catalogCategoryId) {
-		return em.find(CatalogCategoryMaster.class, catalogCategoryId);
+	
+	public CatalogCategoryMaster getMasterCatalogCategoryById(final Long catalogCategoryId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", catalogCategoryId));
+
+        CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
+        return catalogCategory;
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CatalogCategoryMaster WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", catalogCategoryCode);
-		CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) query.uniqueResult();
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String catalogCategoryCode) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+
+        CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, String catalogCategoryCode) {
-		Session session = (Session) em.getDelegate();
-		initCategoryMasterFilter(session, marketAreaId, retailerId);
-		String sql = "FROM CatalogCategoryMaster WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", catalogCategoryCode);
-		CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) query.uniqueResult();
+	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+
+        CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
 		return catalogCategory;
 	}
 	
 	public List<CatalogCategoryMaster> findRootCatalogCategories() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CatalogCategoryMaster WHERE defaultParentCatalogCategory is null";
-		Query query = session.createQuery(sql);
-		List<CatalogCategoryMaster> categories = (List<CatalogCategoryMaster>) query.list();
+        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+
+        addDefaultCatalogCategoryFetch(criteria);
+        
+        criteria.add(Restrictions.eq("defaultParentCatalogCategory", null));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogCategoryMaster> categories = criteria.list();
 		return categories;
 	}
 	
-	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, final Long retailerId) {
-		Session session = (Session) em.getDelegate();
-		initCategoryVirtualFilter(session, marketAreaId, retailerId);
-		String sql = "SELECT catalogCategoryMaster FROM CatalogCategoryMaster catalogCategoryMaster";
-		Query query = session.createQuery(sql);
-		List<CatalogCategoryMaster> categories = (List<CatalogCategoryMaster>) query.list();
+	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+
+        addDefaultCatalogCategoryFetch(criteria);
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogCategoryMaster> categories = criteria.list();
 		return categories;
 	}
 	
@@ -90,54 +111,76 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	// VIRTUAL
-	public CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId) {
-		return em.find(CatalogCategoryVirtual.class, catalogCategoryId);
+	
+	public CatalogCategoryVirtual getVirtualCatalogCategoryById(final Long catalogCategoryId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", catalogCategoryId));
+
+        CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
+        return catalogCategory;
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM CatalogCategoryVirtual WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", catalogCategoryCode);
-		CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) query.uniqueResult();
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+
+        CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final Long retailerId, String catalogCategoryCode) {
-		Session session = (Session) em.getDelegate();
-		initCategoryVirtualFilter(session, marketAreaId, retailerId);
-		String sql = "FROM CatalogCategoryVirtual WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", catalogCategoryCode);
-		CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) query.uniqueResult();
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", catalogCategoryCode));
+
+        CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
 		return catalogCategory;
 	}
 	
-	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, final Long retailerId) {
-		Session session = (Session) em.getDelegate();
-		initCategoryVirtualFilter(session, marketAreaId, retailerId);
-		String sql = "FROM CatalogCategoryVirtual WHERE defaultParentCatalogCategory is null";
-		Query query = session.createQuery(sql);
-		List<CatalogCategoryVirtual> categories = (List<CatalogCategoryVirtual>) query.list();
+	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+
+        addDefaultCatalogCategoryFetch(criteria);
+        
+        criteria.add(Restrictions.eq("defaultParentCatalogCategory", null));
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogCategoryVirtual> categories = criteria.list();
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId, final Long retailerId) {
-		Session session = (Session) em.getDelegate();
-		initCategoryVirtualFilter(session, marketAreaId, retailerId);
-		String sql = "FROM CatalogCategoryVirtual";
-		Query query = session.createQuery(sql);
-		List<CatalogCategoryVirtual> categories = (List<CatalogCategoryVirtual>) query.list();
+	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        
+        addDefaultCatalogCategoryFetch(criteria);
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogCategoryVirtual> categories = criteria.list();
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(final Long marketAreaId, final Long retailerId, final Long productMarketingId) {
-		Session session = (Session) em.getDelegate();
-		initCategoryVirtualFilter(session, marketAreaId, retailerId);
-		String sql = "SELECT catalogCategoryVirtual FROM CatalogCategoryVirtual catalogCategoryVirtual, IN (catalogCategoryVirtual.productMarketings) AS productMarketing WHERE productMarketing.id = :productMarketingId";
-		Query query = session.createQuery(sql);
-		query.setLong("productMarketingId", productMarketingId);
-		List<CatalogCategoryVirtual> categories = (List<CatalogCategoryVirtual>) query.list();
+	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(final Long marketAreaId, final Long productMarketingId) {
+        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+
+        addDefaultCatalogCategoryFetch(criteria);
+        
+        criteria.add(Restrictions.eq("productMarketing.code", productMarketingId));
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CatalogCategoryVirtual> categories = criteria.list();
 		return categories;
 	}
 	
@@ -156,5 +199,25 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
 		em.remove(catalogCategory);
 	}
+	
+    private void addDefaultCatalogCategoryFetch(Criteria criteria) {
+        criteria.setFetchMode("categoryMaster", FetchMode.JOIN);
+
+        criteria.setFetchMode("defaultParentCatalogCategory", FetchMode.JOIN);
+
+        criteria.setFetchMode("catalogCategoryAttributes", FetchMode.JOIN);
+
+        criteria.setFetchMode("catalogCategories", FetchMode.JOIN);
+
+        criteria.createAlias("catalogCategories.catalogCategoryAttributes", "catalogSubCategoryAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("catalogSubCategoryAttributes", FetchMode.JOIN);
+
+        criteria.setFetchMode("productMarketings", FetchMode.JOIN);
+
+        criteria.createAlias("productMarketings.productMarketingAttributes", "productMarketingAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productMarketingAttributes", FetchMode.JOIN);
+
+        criteria.setFetchMode("assets", FetchMode.JOIN);
+    }
 
 }

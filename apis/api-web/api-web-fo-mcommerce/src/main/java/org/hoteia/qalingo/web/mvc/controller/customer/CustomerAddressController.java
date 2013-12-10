@@ -13,6 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +36,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerAddress;
-import org.hoteia.qalingo.core.domain.Market;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 
 /**
  * 
@@ -58,7 +58,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 
         return modelAndView;
@@ -89,7 +89,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 		
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
         return modelAndView;
@@ -98,8 +98,9 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.POST)
 	public ModelAndView submitCustomerAddAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 								BindingResult result, final Model model) throws Exception {
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
 
 		if (result.hasErrors()) {
 			return displayCustomerAddAddress(request, model, customerAddressForm);
@@ -122,7 +123,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
 
-		final CustomerAddressListViewBean customerAdressesViewBean = viewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerAddressListViewBean customerAdressesViewBean = frontofficeViewBeanFactory.buildCustomerAddressListViewBean(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
 
@@ -147,9 +148,11 @@ public class CustomerAddressController extends AbstractCustomerController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		if(customerAddressForm == null 
         		|| customerAddressForm.equals(new CustomerAddressForm())){
-			customerAddressForm = formFactory.buildCustomerAddressForm(request, customerAddress);
+			customerAddressForm = formFactory.buildCustomerAddressForm(requestData, customerAddress);
 			model.addAttribute("customerAddressForm", customerAddressForm);
 		}
 
@@ -159,8 +162,9 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.POST)
 	public ModelAndView submitCustomerEditAddress(final HttpServletRequest request, @Valid @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm,
 												  BindingResult result, final Model model) throws Exception {
-		final Market currentMarket = requestUtil.getCurrentMarket(request);
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
 
 		if (result.hasErrors()) {
 			return displayCustomerEditAddress(request, model, customerAddressForm);

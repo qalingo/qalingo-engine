@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,7 +27,7 @@ import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 
 @Entity
 @Table(name="TECO_CUSTOMER_OAUTH")
-public class CustomerOAuth extends AbstractAddress implements Serializable {
+public class CustomerOAuth extends AbstractAddress {
 
 	/**
 	 * Generated UID

@@ -21,6 +21,14 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,14 +38,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
-import org.hoteia.qalingo.web.mvc.form.ContactForm;
 
 /**
  * 
@@ -84,14 +84,17 @@ public class ContactController extends AbstractMCommerceController {
 	 */
     @ModelAttribute("contactForm")
 	protected ContactForm getContactForm(final HttpServletRequest request, final Model model) throws Exception {
-    	return formFactory.buildContactForm(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+    	return formFactory.buildContactForm(requestData);
 	}
     
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
-			final Locale locale = getCurrentLocale(request);
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final Locale locale = requestData.getLocale();
+	        
 			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
 			Set<String> countriesKey = countries.keySet();
 			for (Iterator<String> iterator = countriesKey.iterator(); iterator.hasNext();) {

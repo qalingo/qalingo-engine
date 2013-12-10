@@ -12,15 +12,16 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
-import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 
 @Transactional
 @Repository("paymentGatewayDao")
@@ -28,24 +29,35 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId) {
-		return em.find(AbstractPaymentGateway.class, paymentGatewayId);
+	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
+        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("id", paymentGatewayId));
+        AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
+        return paymentGateway;
 	}
 
-	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String paymentGatewayCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM PaymentGateway WHERE code = :paymentGatewayCode)";
-		Query query = session.createQuery(sql);
-		query.setString("paymentGatewayCode", paymentGatewayCode);
-		AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) query.uniqueResult();
+	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode) {
+        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+        
+        addDefaultFetch(criteria);
+
+        criteria.add(Restrictions.eq("code", paymentGatewayCode));
+        AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
 		return paymentGateway;
 	}
 	
 	public List<AbstractPaymentGateway> findPaymentGateways() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM AbstractPaymentGateway ORDER BY name";
-		Query query = session.createQuery(sql);
-		List<AbstractPaymentGateway> paymentGateways = (List<AbstractPaymentGateway>) query.list();
+        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+
+        addDefaultFetch(criteria);
+        
+        criteria.addOrder(Order.asc("name"));
+
+        @SuppressWarnings("unchecked")
+        List<AbstractPaymentGateway> paymentGateways = criteria.list();
 		return paymentGateways;
 	}
 
@@ -64,5 +76,9 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {
 		em.remove(paymentGateway);
 	}
+	
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("paymentGatewayAttributes", FetchMode.JOIN); 
+    }
 
 }

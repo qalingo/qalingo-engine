@@ -19,28 +19,28 @@
 
 	<bean id="customerWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 		<property name="serviceClass" value="org.hoteia.qalingo.core.ws.service.CustomerWebService" />
-		<property name="address" value="${qalingo.webservice.url}/customer" />
+		<property name="address" value="${qalingo.webservice.url}/ws/customer" />
 	</bean>
 	
 	<bean id="storeWsClient" class="org.hoteia.qalingo.core.ws.service.StoreWebService" factory-bean="storeWsClientFactory" factory-method="create"/>
    
 	<bean id="storeWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 		<property name="serviceClass" value="org.hoteia.qalingo.core.ws.service.StoreWebService" />
-		<property name="address" value="${qalingo.webservice.url}/store" />
+		<property name="address" value="${qalingo.webservice.url}/ws/store" />
 	</bean>
 
     <bean id="catalogWsClient" class="org.hoteia.qalingo.core.ws.service.StoreWebService" factory-bean="catalogWsClientFactory" factory-method="create"/>
 
     <bean id="catalogWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
         <property name="serviceClass" value="org.hoteia.qalingo.core.ws.service.CatalogWebService" />
-        <property name="address" value="${qalingo.webservice.url}/catalog" />
+        <property name="address" value="${qalingo.webservice.url}/ws/catalog" />
     </bean>
 
     <bean id="retailerWsClient" class="org.hoteia.qalingo.core.ws.service.StoreWebService" factory-bean="retailerWsClientFactory" factory-method="create"/>
 
     <bean id="retailerWsClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
         <property name="serviceClass" value="org.hoteia.qalingo.core.ws.service.RetailerWebService" />
-        <property name="address" value="${qalingo.webservice.url}/retailer" />
+        <property name="address" value="${qalingo.webservice.url}/ws/retailer" />
     </bean>
 
 </beans>

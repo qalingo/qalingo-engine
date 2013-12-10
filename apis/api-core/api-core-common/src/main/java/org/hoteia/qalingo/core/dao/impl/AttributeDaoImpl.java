@@ -11,15 +11,15 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.AttributeDao;
+import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.AttributeDao;
-import org.hoteia.qalingo.core.domain.AttributeDefinition;
 
 @Transactional
 @Repository("attributeDao")
@@ -27,34 +27,40 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AttributeDefinition getAttributeDefinitionById(Long attributeDefinitionId) {
-		return em.find(AttributeDefinition.class, attributeDefinitionId);
+	public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
+        Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
+        criteria.add(Restrictions.eq("id", attributeDefinitionId));
+        AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
+        return attributeDefinitions;
 	}
 
-	public AttributeDefinition getAttributeDefinitionByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM AttributeDefinition WHERE upper(code) = upper(:code)";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		AttributeDefinition attributeDefinition = (AttributeDefinition) query.uniqueResult();
-		return attributeDefinition;
+	public AttributeDefinition getAttributeDefinitionByCode(final String code) {
+        Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
+        criteria.add(Restrictions.eq("code", code));
+        AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
+        return attributeDefinition;
 	}
 	
 	public List<AttributeDefinition> findAttributeDefinitions() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM AttributeDefinition ORDER BY attributeType, objectType";
-		Query query = session.createQuery(sql);
-		List<AttributeDefinition> attributeDefinitions = (List<AttributeDefinition>) query.list();
-		return attributeDefinitions;
+        Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
+
+        criteria.addOrder(Order.asc("attributeType"));
+        criteria.addOrder(Order.asc("objectType"));
+
+        @SuppressWarnings("unchecked")
+        List<AttributeDefinition> attributeDefinitions = criteria.list();
+        return attributeDefinitions;
 	}
 	
 	public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM AttributeDefinition WHERE objectType = :objectType ORDER BY attributeType";
-		Query query = session.createQuery(sql);
-		query.setInteger("objectType", objectType);
-		List<AttributeDefinition> attributeDefinitions = (List<AttributeDefinition>) query.list();
-		return attributeDefinitions;
+        Criteria criteria = getSession().createCriteria(AttributeDefinition.class);
+        criteria.add(Restrictions.eq("objectType", objectType));
+        
+        criteria.addOrder(Order.asc("attributeType"));
+
+        @SuppressWarnings("unchecked")
+        List<AttributeDefinition> attributeDefinitions = criteria.list();
+        return attributeDefinitions;
 	}
 	
 	public void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition) {

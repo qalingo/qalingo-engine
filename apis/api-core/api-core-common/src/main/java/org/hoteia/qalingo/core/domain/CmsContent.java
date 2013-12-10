@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,7 +23,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CMS_CONTENT")
-public class CmsContent implements Serializable {
+public class CmsContent extends AbstractEntity {
 
 	/**
 	 * Generated UID

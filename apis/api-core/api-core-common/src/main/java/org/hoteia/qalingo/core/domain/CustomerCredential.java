@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -24,7 +23,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_CUSTOMER_CREDENTIAL")
-public class CustomerCredential extends AbstractAddress implements Serializable {
+public class CustomerCredential extends AbstractAddress {
 
 	/**
 	 * Generated UID

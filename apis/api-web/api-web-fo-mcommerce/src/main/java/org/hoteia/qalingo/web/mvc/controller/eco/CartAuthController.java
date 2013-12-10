@@ -33,7 +33,7 @@ public class CartAuthController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_AUTH.getVelocityPage());
 
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		final CartViewBean cartViewBean = viewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject("cart", cartViewBean);
 		
         return modelAndView;

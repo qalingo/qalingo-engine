@@ -211,7 +211,7 @@ public class WebCommerceServiceImpl extends AbstractWebCommerceServiceImpl imple
      */
     public void buildAndSaveRetailerContactMail(final RequestData requestData, final RetailerContactForm retailerContactForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getRetailer();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final String contextNameValue = requestData.getContextNameValue();
 
         final Retailer retailerToContact = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerContactForm.getRetailerCode());

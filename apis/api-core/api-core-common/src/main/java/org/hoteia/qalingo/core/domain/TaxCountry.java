@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="TECO_TAX_COUNTRY")
-public class TaxCountry implements Serializable {
+public class TaxCountry extends AbstractEntity {
 
 	/**
 	 * Generated UID

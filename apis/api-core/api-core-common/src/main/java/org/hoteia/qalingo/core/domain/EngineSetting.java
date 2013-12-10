@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_ENGINE_SETTING")
-public class EngineSetting implements Serializable {
+public class EngineSetting extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -60,7 +59,7 @@ public class EngineSetting implements Serializable {
 	@Column(name="DEFAULT_VALUE")
 	private String defaultValue;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="ENGINE_SETTING_ID")
 	@OrderBy("CONTEXT") 
 	private Set<EngineSettingValue> engineSettingValues = new HashSet<EngineSettingValue>(); 

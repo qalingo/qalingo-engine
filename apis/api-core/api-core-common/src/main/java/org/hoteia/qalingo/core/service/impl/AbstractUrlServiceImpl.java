@@ -14,7 +14,10 @@ import org.springframework.context.MessageSource;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -55,11 +58,12 @@ public abstract class AbstractUrlServiceImpl {
     }
     
     public String buildAbsoluteUrl(final RequestData requestData, final String relativeUrl) throws Exception {
+        String cleanedRelativeUrl = relativeUrl.replace(buildDefaultPrefix(requestData), "");
         String absoluteUrl = buildDomainePathUrl(requestData);
-        if(!relativeUrl.startsWith("/")){
-            absoluteUrl = absoluteUrl + "/" + relativeUrl;
+        if(!cleanedRelativeUrl.startsWith("/")){
+            absoluteUrl = absoluteUrl + "/" + cleanedRelativeUrl;
         } else {
-            absoluteUrl = absoluteUrl + relativeUrl;
+            absoluteUrl = absoluteUrl + cleanedRelativeUrl;
         }
         if(!absoluteUrl.startsWith("http://")){
             absoluteUrl = "http://" + absoluteUrl;
@@ -69,10 +73,25 @@ public abstract class AbstractUrlServiceImpl {
     
     public String buildDomainePathUrl(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
+        final MarketPlace marketPlace = requestData.getMarketPlace();
+        final Market market = requestData.getMarket();
         final MarketArea marketArea = requestData.getMarketArea();
         final String contextNameValue = requestData.getContextNameValue();
         
+        // CHOSE DOMAIN PATH FROM MARKET PLACE AND MARKET AND MARKET AREA
         String domainePathUrl = "";
+        if(marketPlace != null){
+            String domainName = marketPlace.getDomainName(contextNameValue);
+            if(StringUtils.isNotEmpty(domainName)){
+                domainePathUrl = domainName;
+            }
+        }
+        if(market != null){
+            String domainName = market.getDomainName(contextNameValue);
+            if(StringUtils.isNotEmpty(domainName)){
+                domainePathUrl = domainName;
+            }
+        }
         if(marketArea != null){
             String domainName = marketArea.getDomainName(contextNameValue);
             if(StringUtils.isNotEmpty(domainName)){
@@ -90,6 +109,62 @@ public abstract class AbstractUrlServiceImpl {
             domainePathUrl = scheme + "://" + domainePathUrl;
         }
         return domainePathUrl;
+    }
+
+    protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
+        String fullPrefixUrl = getSeoPrefixUrl(requestData) + "/";
+        return fullPrefixUrl;
+    }
+
+    protected String getSeoPrefixUrl(final RequestData requestData) throws Exception {
+        final MarketPlace marketPlace = requestData.getMarketPlace();
+        final Market market = requestData.getMarket();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        final Locale locale = localization.getLocale();
+        String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
+                + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
+
+        seoPrefixUrl = seoPrefixUrl + getSeoSegmentMain(locale);
+        if (StringUtils.isNotEmpty(seoPrefixUrl)) {
+            seoPrefixUrl = seoPrefixUrl.replace(" ", "-");
+        }
+        
+        if (seoPrefixUrl.endsWith("/")) {
+            seoPrefixUrl = seoPrefixUrl.substring(0, seoPrefixUrl.length() - 1);
+        }
+
+        return seoPrefixUrl;
+    }
+    
+    protected String getMarketPlacePrefixUrl(final MarketPlace marketPlace) throws Exception {
+        String marketPlacePrefixUrl = marketPlace.getCode().toLowerCase() + "/";
+        return marketPlacePrefixUrl;
+    }
+
+    protected String getMarketPrefixUrl(final Market market) throws Exception {
+        String marketPrefixUrl = market.getCode().toLowerCase() + "/";
+        return marketPrefixUrl;
+    }
+
+    protected String getMarketModePrefixUrl(final MarketArea marketArea) throws Exception {
+        String marketAreaPrefixUrl = marketArea.getCode().toLowerCase() + "/";
+        return marketAreaPrefixUrl;
+    }
+
+    protected String getLocalizationPrefixUrl(final Localization localization) throws Exception {
+        String localizationPrefixUrl = localization.getCode().toLowerCase() + "/";
+        return localizationPrefixUrl;
+    }
+
+    protected String getRetailerPrefixUrl(final Retailer retailer) throws Exception {
+        String retailerPrefixUrl = retailer.getCode().toLowerCase() + "/";
+        return retailerPrefixUrl;
+    }
+    
+    protected String getSeoSegmentMain(Locale locale) throws Exception{
+        return handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
     }
     
 	protected String encodeString(String url) throws Exception {

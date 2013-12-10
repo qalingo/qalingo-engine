@@ -8,11 +8,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Path("/retailer/")
 @Component("retailerRestService")

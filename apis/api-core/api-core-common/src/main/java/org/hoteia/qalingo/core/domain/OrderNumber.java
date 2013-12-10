@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +19,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_ORDER_NUMBER")
-public class OrderNumber implements Serializable {
+public class OrderNumber extends AbstractEntity {
 
 	/**
 	 * Generated UID

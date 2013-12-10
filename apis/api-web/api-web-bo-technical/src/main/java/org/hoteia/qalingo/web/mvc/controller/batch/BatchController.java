@@ -18,6 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.BatchProcessObject;
+import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.BatchProcessObjectService;
+import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.web.mvc.form.BatchValueForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.LinkMenuViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -27,21 +41,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.BatchProcessObject;
-import org.hoteia.qalingo.core.domain.EngineSetting;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.service.BatchProcessObjectService;
-import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LinkMenuViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.BatchValueForm;
 
 /**
  * 
@@ -58,8 +57,9 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	@RequestMapping("/search-batch.html*")
 	public ModelAndView searchBatch(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
+		final RequestData requestData = requestUtil.getRequestData(request);
 
-		formFactory.buildBatchQuickSearchForm(request, modelAndView);
+		backofficeFormFactory.buildBatchQuickSearchForm(requestData);
 		
         return modelAndView;
 	}
@@ -68,11 +68,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchSuccessAndError(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjects();//batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -115,11 +115,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchCustomer(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjects();//batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Customer);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -133,11 +133,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchOrder(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Order);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -151,11 +151,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchEmail(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Email);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -169,11 +169,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchCms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Cms);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -187,11 +187,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	public ModelAndView batchStock(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.BATCH.getVelocityPage());
 		
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 		
 		List<BatchProcessObject> batchProcessObjects = batchProcessObjectService.findBatchProcessObjectsByTypeObject(BatchProcessObjectType.Stock);
-		initPaginationResult(request, modelAndView, currentLocalization, batchProcessObjects);
+		initPaginationResult(request, modelAndView, batchProcessObjects);
 		initLinks(request, modelAndView, locale);
 		
 		EngineSetting springBatchUrlEngineSetting = engineSettingService.getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_SPRING_BATCH_URL);
@@ -201,7 +201,9 @@ public class BatchController extends AbstractTechnicalBackofficeController {
         return modelAndView;
 	}
 	
-	protected void initPaginationResult(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final Localization currentLocalization, final List<BatchProcessObject> batchProcessObjects) throws Exception{
+	protected void initPaginationResult(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final List<BatchProcessObject> batchProcessObjects) throws Exception {
+	    final RequestData requestData = requestUtil.getRequestData(request);
+	    
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
@@ -209,11 +211,11 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 		PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder;
 
         if(StringUtils.isEmpty(page)){
-        	batchViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, new PagedListHolder<BatchViewBean>());
+        	batchViewBeanPagedListHolder = initList(request, sessionKey, batchProcessObjects, new PagedListHolder<BatchViewBean>());
         } else {
 	        batchViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 	        if (batchViewBeanPagedListHolder == null) { 
-	        	batchViewBeanPagedListHolder = initList(request, sessionKey, currentLocalization, batchProcessObjects, batchViewBeanPagedListHolder);
+	        	batchViewBeanPagedListHolder = initList(request, sessionKey, batchProcessObjects, batchViewBeanPagedListHolder);
 	        }
 	        int pageTarget = new Integer(page).intValue() - 1;
 	        int pageCurrent = batchViewBeanPagedListHolder.getPage();
@@ -230,12 +232,12 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
 		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, batchViewBeanPagedListHolder);
 		
-		formFactory.buildBatchQuickSearchForm(request, modelAndView);	
+		backofficeFormFactory.buildBatchQuickSearchForm(requestData);	
 	}
 	
-	protected PagedListHolder<BatchViewBean> initList(final HttpServletRequest request, final String sessionKey, final Localization currentLocalization, 
+	protected PagedListHolder<BatchViewBean> initList(final HttpServletRequest request, final String sessionKey, 
 			final List<BatchProcessObject> batchProcessObjects, PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder) throws Exception{
-		List<BatchViewBean> batchViewBeans = viewBeanFactory.buildBatchViewBeans(requestUtil.getRequestData(request), batchProcessObjects);
+		List<BatchViewBean> batchViewBeans = backofficeViewBeanFactory.buildBatchViewBeans(requestUtil.getRequestData(request), batchProcessObjects);
 		batchViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
 
 		batchViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 

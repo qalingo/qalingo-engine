@@ -1,8 +1,8 @@
 package org.hoteia.qalingo.core.pojo.catalog;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class CatalogPojo {
 
@@ -16,7 +16,7 @@ public class CatalogPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private Collection<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
+    private List<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
 
     public Long getId() {
         return id;
@@ -90,11 +90,11 @@ public class CatalogPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public Collection<CatalogCategoryPojo> getCatalogCategories() {
+    public List<CatalogCategoryPojo> getCatalogCategories() {
         return catalogCategories;
     }
 
-    public void setCatalogCategories(Collection<CatalogCategoryPojo> catalogCategories) {
+    public void setCatalogCategories(List<CatalogCategoryPojo> catalogCategories) {
         this.catalogCategories = new ArrayList<CatalogCategoryPojo>(catalogCategories);
     }
     

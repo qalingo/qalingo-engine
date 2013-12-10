@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,19 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
-
 @Entity
 @Table(name="TECO_PRODUCT_STOCK")
-@FilterDef(name="marketArea", parameters=@ParamDef( name="marketAreaId", type="long" ) )
-@Filters({ 
-	@Filter(name="marketArea", condition="MARKET_AREA_ID = :marketAreaId"),
-	@Filter(name="marketAreaAndRetailer", condition="MARKET_AREA_ID = :marketAreaId AND RETAILER_ID = :retailerId")
-}) 
-public class ProductSkuStock implements Serializable {
+public class ProductSkuStock extends AbstractEntity {
 
 	/**
 	 * Generated UID

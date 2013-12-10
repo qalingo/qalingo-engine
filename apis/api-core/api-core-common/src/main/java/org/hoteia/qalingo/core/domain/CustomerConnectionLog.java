@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_CUSTOMER_CONNECTION_LOG")
-public class CustomerConnectionLog implements Serializable {
+public class CustomerConnectionLog extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -39,8 +38,8 @@ public class CustomerConnectionLog implements Serializable {
 	@Column(name="LOGIN_DATE")
 	private Date loginDate;
 	
-	@Column(name="APP")
-	private String app;
+	@Column(name="APP_CODE")
+	private String appCode;
 	
 	@Column(name="HOST")
 	private String host;
@@ -70,13 +69,13 @@ public class CustomerConnectionLog implements Serializable {
 		this.loginDate = loginDate;
 	}
 	
-	public String getApp() {
-		return app;
-	}
+	public String getAppCode() {
+        return appCode;
+    }
 	
-	public void setApp(String app) {
-		this.app = app;
-	}
+	public void setAppCode(String appCode) {
+        this.appCode = appCode;
+    }
 	
 	public String getHost() {
 		return host;

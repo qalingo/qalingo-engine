@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,7 +32,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_MENU")
-public class Menu implements Serializable {
+public class Menu extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -61,7 +60,7 @@ public class Menu implements Serializable {
 	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
 	private boolean active;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MENU_ID")
 	@OrderBy("POSITION") 
 	private Set<Menu> subMenus = new HashSet<Menu>(); 

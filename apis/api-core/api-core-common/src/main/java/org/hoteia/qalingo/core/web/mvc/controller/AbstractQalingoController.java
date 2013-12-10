@@ -26,9 +26,9 @@ import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.UrlService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.MonitoringViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.TrackingViewBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.qalingo.core.web.viewbean.MonitoringViewBean;
-import org.hoteia.qalingo.core.web.viewbean.TrackingViewBean;
 
 /**
  * 

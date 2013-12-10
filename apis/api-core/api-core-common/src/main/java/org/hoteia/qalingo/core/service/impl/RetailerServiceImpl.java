@@ -12,16 +12,15 @@ package org.hoteia.qalingo.core.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("retailerService")
 @Transactional
@@ -29,11 +28,6 @@ public class RetailerServiceImpl implements RetailerService {
 
 	@Autowired
 	private RetailerDao retailerDao;
-
-    @Override
-    public List<Retailer> findAllRetailers() {
-        return retailerDao.findAllRetailers();
-    }
 
     // RETAILER
 	public Retailer getRetailerById(final String rawRetailerId) {
@@ -45,7 +39,11 @@ public class RetailerServiceImpl implements RetailerService {
 		}
 		return retailerDao.getRetailerById(retailerId);
 	}
-	
+
+    public Retailer getRetailerByCode(final String retailerCode) {
+        return retailerDao.getRetailerByCode(retailerCode);
+    }
+	   
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
 		return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
 	}
@@ -53,6 +51,14 @@ public class RetailerServiceImpl implements RetailerService {
 	public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
 		return retailerDao.findRetailers(marketAreaId, retailerId);
 	}
+	
+    public List<Retailer> findAllRetailers() {
+        return retailerDao.findAllRetailers();
+    }
+    
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
+        return retailerDao.findRetailersByMarketAreaCode(marketAreaCode);
+    }
 	
 	public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
 		List<String> tags = new ArrayList<String>();
@@ -76,8 +82,8 @@ public class RetailerServiceImpl implements RetailerService {
 		return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
 	}
 
-	public List<Retailer> findRetailersByTxt(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-		return retailerDao.findRetailersByTxt(marketAreaId, retailerId, searchTxt);
+	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+		return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt);
 	}
 
 	public void saveOrUpdateRetailer(final Retailer retailer) {

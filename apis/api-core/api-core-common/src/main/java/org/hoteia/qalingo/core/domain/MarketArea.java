@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +28,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +38,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_MARKET_AREA")
-public class MarketArea implements Serializable {
+public class MarketArea extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -79,24 +79,24 @@ public class MarketArea implements Serializable {
 	@Column(name="THEME")
 	private String theme;
 	
-//	@OneToOne
-    @Column(name="VIRTUAL_CATALOG_ID")
-	private Long virtualCatalogId;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="VIRTUAL_CATALOG_ID")
+	private CatalogVirtual catalog;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_ID", insertable=false, updatable=false)
 	private Market market;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DEFAULT_LOCALIZATION_ID", insertable=false, updatable=false)
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -108,7 +108,7 @@ public class MarketArea implements Serializable {
 	private Set<Localization> localizations = new HashSet<Localization>(); 
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Retailer.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )
@@ -119,7 +119,7 @@ public class MarketArea implements Serializable {
 	    )
 	private Set<Retailer> retailers = new HashSet<Retailer>(); 
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MARKET_AREA_ID")
 	private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>(); 
 	
@@ -204,21 +204,13 @@ public class MarketArea implements Serializable {
 		this.theme = theme;
 	}
 	
-//	public CatalogVirtual getVirtualCatalog() {
-//		return virtualCatalog;
-//	}
-//	
-//	public void setVirtualCatalog(CatalogVirtual virtualCatalog) {
-//		this.virtualCatalog = virtualCatalog;
-//	}
+	public CatalogVirtual getCatalog() {
+		return catalog;
+	}
 	
-	public Long getVirtualCatalogId() {
-	    return virtualCatalogId;
-    }
-	
-	public void setVirtualCatalogId(Long virtualCatalogId) {
-	    this.virtualCatalogId = virtualCatalogId;
-    }
+	public void setCatalog(CatalogVirtual catalog) {
+		this.catalog = catalog;
+	}
 	
 	public Market getMarket() {
 		return market;

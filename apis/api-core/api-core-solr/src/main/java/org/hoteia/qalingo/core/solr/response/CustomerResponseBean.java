@@ -13,30 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
-
 import org.hoteia.qalingo.core.solr.bean.CustomerSolr;
 
 public class CustomerResponseBean {
 
-	private List<CustomerSolr> customerSolrList = new ArrayList<CustomerSolr>();
-	
-	private List<FacetField> customerSolrFacetFieldList = new ArrayList<FacetField>();
+    private List<CustomerSolr> customerSolrList = new ArrayList<CustomerSolr>();
 
-	public List<CustomerSolr> getCustomerSolrList() {
-		return customerSolrList;
-	}
+    private List<FacetField> customerSolrFacetFieldList = new ArrayList<FacetField>();
 
-	public void setCustomerSolrList(List<CustomerSolr> customerSolrList) {
-		this.customerSolrList = customerSolrList;
-	}
+    public List<CustomerSolr> getCustomerSolrList() {
+        return customerSolrList;
+    }
 
-	public List<FacetField> getCustomerSolrFacetFieldList() {
-		return customerSolrFacetFieldList;
-	}
+    public void setCustomerSolrList(List<CustomerSolr> customerSolrList) {
+        this.customerSolrList = customerSolrList;
+    }
 
-	public void setCustomerSolrFacetFieldList(
-			List<FacetField> customerSolrFacetFieldList) {
-		this.customerSolrFacetFieldList = customerSolrFacetFieldList;
-	}
-	
+    public List<FacetField> getCustomerSolrFacetFieldList() {
+        return customerSolrFacetFieldList;
+    }
+
+    public void setCustomerSolrFacetFieldList(List<FacetField> customerSolrFacetFieldList) {
+        this.customerSolrFacetFieldList = customerSolrFacetFieldList;
+    }
+
 }

@@ -9,13 +9,9 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.hoteia.qalingo.core.service.WebBackofficeService;
-import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
-import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 
 /**
  * 
@@ -29,11 +25,5 @@ import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 public abstract class AbstractBusinessBackofficeController extends AbstractBackofficeQalingoController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-	@Autowired
-    protected FormFactory formFactory;
-	
-	@Autowired
-	protected WebBackofficeService webBackofficeService;
 
 }

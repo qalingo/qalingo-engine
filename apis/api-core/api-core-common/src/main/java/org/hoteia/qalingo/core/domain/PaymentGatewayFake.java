@@ -9,15 +9,13 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("paymentGatewayFake")
-public class PaymentGatewayFake extends AbstractPaymentGateway implements Serializable {
+public class PaymentGatewayFake extends AbstractPaymentGateway {
 
 	/**
 	 * Generated UID

@@ -16,6 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
+import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.service.ProductMarketingService;
-import org.hoteia.qalingo.core.service.ProductSkuService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.ProductMarketingForm;
-import org.hoteia.qalingo.web.mvc.form.ProductSkuForm;
-
 /**
  * 
  */
@@ -53,19 +49,14 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	protected ProductMarketingService productMarketingService;
-
-	@Autowired
-	protected ProductSkuService productSkuService;
+	protected ProductService productService;
 
 	@RequestMapping(value = BoUrls.PRODUCT_MARKETING_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView productMarketingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PRODUCT_MARKETING_DETAILS.getVelocityPage());
-		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_MARKETING_CODE);
-		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
+		final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
 		
 		// "business.product.marketing.details";
 		initProductMarketingModelAndView(request, modelAndView, productMarketing);
@@ -77,17 +68,13 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.PRODUCT_MARKETING_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView productMarketingEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PRODUCT_MARKETING_EDIT.getVelocityPage());
-		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		final String productMarketingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_MARKETING_CODE);
-		final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
-
-		// "business.product.marketing.edit";
+		final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
 
 		initProductMarketingModelAndView(request, modelAndView, productMarketing);
-		modelAndView.addObject("productMarketingForm", formFactory.buildProductMarketingForm(request, productMarketing));
+		modelAndView.addObject("productMarketingForm", backofficeFormFactory.buildProductMarketingForm(requestData, productMarketing));
 		initSpecificSeo(request, modelAndView, "", productMarketing.getBusinessName());
 
 //		modelAndView.addObject("productMarketingDetails", viewBeanFactory.buildUserEditViewBean(request, currentLocalization, user));
@@ -98,8 +85,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.PRODUCT_MARKETING_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView productMarketingEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid ProductMarketingForm productMarketingForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		final String productMarketingCode = productMarketingForm.getCode();
 
 		String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
@@ -110,7 +96,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 			}
 			
 			// SANITY CHECK
-			final ProductMarketing productMarketing = productMarketingService.getProductMarketingByCode(currentMarketArea.getId(), currentRetailer.getId(), productMarketingCode);
+			final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
 			if(productMarketing != null){
 				// UPDATE PRODUCT MARKETING
 				webBackofficeService.updateProductMarketing(productMarketing, productMarketingForm);
@@ -129,15 +115,13 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.PRODUCT_SKU_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView productSkuDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PRODUCT_SKU_DETAILS.getVelocityPage());
-		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
+		final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
 
 		// "business.product.sku.details";
 		initProductSkuModelAndView(request, modelAndView, productSku);
-		modelAndView.addObject("productSkuForm", formFactory.buildProductSkuForm(request, productSku));
+		modelAndView.addObject("productSkuForm", backofficeFormFactory.buildProductSkuForm(requestData, productSku));
 		initSpecificSeo(request, modelAndView, "", productSku.getBusinessName());
 		
         return modelAndView;
@@ -146,14 +130,12 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.PRODUCT_SKU_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView productSkuEdit(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PRODUCT_SKU_EDIT.getVelocityPage());
-		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-		final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
+		final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
 		
 		initProductSkuModelAndView(request, modelAndView, productSku);
-		modelAndView.addObject("productSkuForm", formFactory.buildProductSkuForm(request, productSku));
+		modelAndView.addObject("productSkuForm", backofficeFormFactory.buildProductSkuForm(requestData, productSku));
 		initSpecificSeo(request, modelAndView, "", productSku.getBusinessName());
 		
         return modelAndView;
@@ -162,11 +144,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.PRODUCT_SKU_EDIT_URL, method = RequestMethod.POST)
 	public ModelAndView productSkuEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid ProductSkuForm productSkuForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-
-		// "business.product.marketing.edit";
-		
-		final MarketArea currentMarketArea = requestUtil.getCurrentMarketArea(request);
-		final Retailer currentRetailer = requestUtil.getCurrentRetailer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
 		final String productSkuCode = productSkuForm.getCode();
 		
 	    String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
@@ -177,7 +155,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 			}
 			
 			// SANITY CHECK
-			final ProductSku productSku = productSkuService.getProductSkuByCode(currentMarketArea.getId(), currentRetailer.getId(), productSkuCode);
+			final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
 			if(productSku != null){
 				// UPDATE PRODUCT MARKETING
 				webBackofficeService.updateProductSku(productSku, productSkuForm);
@@ -197,8 +175,8 @@ public class ProductController extends AbstractBusinessBackofficeController {
 	 * 
 	 */
 	protected void initSpecificSeo(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKeyPrefixSufix, String productName) throws Exception {
-		final Localization currentLocalization = requestUtil.getCurrentLocalization(request);
-		final Locale locale = currentLocalization.getLocale();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
 
 		String pageTitleKey = "header.title." + titleKeyPrefixSufix;
 		String appName = (String) modelAndView.getModelMap().get(Constants.APP_NAME);
@@ -213,18 +191,17 @@ public class ProductController extends AbstractBusinessBackofficeController {
      */
 	protected void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductMarketing productMarketing) throws Exception {
 		
-		ProductMarketingViewBean productMarketingViewBean = viewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
+		ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
 		
 		modelAndView.addObject(Constants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 	}
-	
 	
 	/**
      * 
      */
 	protected void initProductSkuModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductSku productSku) throws Exception {
 		
-		ProductSkuViewBean productSkuViewBean = viewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
+		ProductSkuViewBean productSkuViewBean = backofficeViewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
 		
 		modelAndView.addObject(Constants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
 	}

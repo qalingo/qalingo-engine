@@ -8,11 +8,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Path("/catalog/")
 @Component("catalogRestService")

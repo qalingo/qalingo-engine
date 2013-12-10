@@ -1,7 +1,7 @@
 package org.hoteia.qalingo.core.pojo.customer;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 public class CustomerGroupPojo {
@@ -13,7 +13,7 @@ public class CustomerGroupPojo {
     private String code;
     private Date dateCreate;
     private Date dateUpdate;
-    private Collection<CustomerRolePojo> customerRoles = new ArrayList<CustomerRolePojo>();
+    private List<CustomerRolePojo> customerRoles = new ArrayList<CustomerRolePojo>();
 
     public Long getId() {
         return id;
@@ -71,11 +71,11 @@ public class CustomerGroupPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public Collection<CustomerRolePojo> getCustomerRoles() {
+    public List<CustomerRolePojo> getCustomerRoles() {
         return customerRoles;
     }
 
-    public void setCustomerRoles(Collection<CustomerRolePojo> customerRoles) {
+    public void setCustomerRoles(List<CustomerRolePojo> customerRoles) {
         this.customerRoles = new ArrayList<CustomerRolePojo>(customerRoles);
     }
 }

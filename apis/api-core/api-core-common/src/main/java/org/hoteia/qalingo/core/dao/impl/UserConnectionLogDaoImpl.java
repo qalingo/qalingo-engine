@@ -11,15 +11,15 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.UserConnectionLogDao;
+import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.UserConnectionLogDao;
-import org.hoteia.qalingo.core.domain.UserConnectionLog;
 
 @Transactional
 @Repository("userConnectionLogDao")
@@ -28,29 +28,32 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId) {
-		return em.find(UserConnectionLog.class, userConnectionLogId);
+        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("id", userConnectionLogId));
+        UserConnectionLog userConnectionLog = (UserConnectionLog) criteria.uniqueResult();
+        return userConnectionLog;
 	}
 
-//	public List<UserConnectionLog> findByExample(UserConnectionLog userConnectionLogExample) {
-//		return super.findByExample(userConnectionLogExample);
-//	}
-	
 	public List<UserConnectionLog> findUserConnectionLogsByUserId(final Long userId) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM UserConnectionLog WHERE userId = :userId ORDER BY loginDate";
-		Query query = session.createQuery(sql);
-		query.setLong("userId", userId);
-		List<UserConnectionLog> userConnectionLogs = (List<UserConnectionLog>) query.list();
+        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("userId", userId));
+
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<UserConnectionLog> userConnectionLogs = criteria.list();
 		return userConnectionLogs;
 	}
 	
 	public List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(final Long userId, final String appCode) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM UserConnectionLog WHERE userId = :userId AND app = :appCode ORDER BY loginDate";
-		Query query = session.createQuery(sql);
-		query.setLong("userId", userId);
-		query.setString("appCode", appCode);
-		List<UserConnectionLog> userConnectionLogs = (List<UserConnectionLog>) query.list();
+        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("userId", userId));
+        criteria.add(Restrictions.eq("app", appCode));
+        
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<UserConnectionLog> userConnectionLogs = criteria.list();
 		return userConnectionLogs;
 	}
 

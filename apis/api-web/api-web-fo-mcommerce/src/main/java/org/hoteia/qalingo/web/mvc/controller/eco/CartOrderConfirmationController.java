@@ -12,16 +12,14 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.Order;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -39,8 +37,8 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 //			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
 //		}
 		
-		final OrderViewBean orderViewBean = viewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), null);
-		modelAndView.addObject("order", orderViewBean);
+		final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), null);
+		modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, orderViewBean);
 		
         return modelAndView;
 	}

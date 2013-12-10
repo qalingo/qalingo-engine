@@ -9,30 +9,43 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.OrderBy;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.*;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
+
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.OrderBy;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = {@UniqueConstraint(columnNames = {"code"})})
-@FilterDefs(
-        value = {
-                @FilterDef(name = "filterCatalogMasterCategoryAttributeIsGlobal"),
-                @FilterDef(name = "filterCatalogMasterCategoryAttributeByMarketArea", parameters = {@ParamDef(name = "marketAreaId", type = "long")}),
-                @FilterDef(name = "filterCatalogMasterCategoryAssetIsGlobal"),
-                @FilterDef(name = "filterCatalogMasterCategoryAssetByMarketArea", parameters = {@ParamDef(name = "marketAreaId", type = "long")})
-        })
-public class CatalogCategoryMaster implements Serializable {
+public class CatalogCategoryMaster extends AbstractEntity {
 
     /**
      * Generated UID
@@ -73,15 +86,8 @@ public class CatalogCategoryMaster implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @Filter(name = "filterCatalogMasterCategoryAttributeIsGlobal", condition = "IS_GLOBAL = '1'")
     @OrderBy(clause = "ordering asc")
-    private Set<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = new HashSet<CatalogCategoryMasterAttribute>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @Filter(name = "filterCatalogMasterCategoryAttributeByMarketArea", condition = "IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId")
-    @OrderBy(clause = "ordering asc")
-    private Set<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = new HashSet<CatalogCategoryMasterAttribute>();
+    private Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryMasterAttribute>();
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -109,15 +115,8 @@ public class CatalogCategoryMaster implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @Filter(name = "filterCatalogMasterCategoryAssetIsGlobal", condition = "IS_GLOBAL = '1' AND SCOPE = 'MASTER_CATEGORY'")
     @OrderBy(clause = "ordering asc")
-    private Set<Asset> assetsIsGlobal = new HashSet<Asset>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @Filter(name = "filterCatalogMasterCategoryAssetByMarketArea", condition = "IS_GLOBAL = '0' AND MARKET_AREA_ID = :marketAreaId AND SCOPE = 'MASTER_CATEGORY'")
-    @OrderBy(clause = "ordering asc")
-    private Set<Asset> assetsByMarketArea = new HashSet<Asset>();
+    private Set<Asset> assets = new HashSet<Asset>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -209,20 +208,42 @@ public class CatalogCategoryMaster implements Serializable {
         this.catalogCategoryType = catalogCategoryType;
     }
 
-    public Set<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
+    public Set<CatalogCategoryMasterAttribute> getCatalogCategoryAttributes() {
+        return catalogCategoryAttributes;
+    }
+    
+    public void setCatalogCategoryAttributes(Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes) {
+        this.catalogCategoryAttributes = catalogCategoryAttributes;
+    }
+    
+    public List<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
+        List<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
+        if (catalogCategoryAttributes != null) {
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    catalogCategoryGlobalAttributes.add(attribute);
+                }
+            }
+        }        
         return catalogCategoryGlobalAttributes;
     }
 
-    public void setCatalogCategoryGlobalAttributes(Set<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes) {
-        this.catalogCategoryGlobalAttributes = catalogCategoryGlobalAttributes;
-    }
-
-    public Set<CatalogCategoryMasterAttribute> getCatalogCategoryMarketAreaAttributes() {
+    public List<CatalogCategoryMasterAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
+        List<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
+        if (catalogCategoryAttributes != null) {
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    catalogCategoryMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
         return catalogCategoryMarketAreaAttributes;
-    }
-
-    public void setCatalogCategoryMarketAreaAttributes(Set<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes) {
-        this.catalogCategoryMarketAreaAttributes = catalogCategoryMarketAreaAttributes;
     }
 
     public Set<CatalogCategoryMaster> getCatalogCategories() {
@@ -263,20 +284,40 @@ public class CatalogCategoryMaster implements Serializable {
         this.productMarketings = productMarketings;
     }
 
-    public Set<Asset> getAssetsIsGlobal() {
+    public Set<Asset> getAssets() {
+        return assets;
+    }
+    
+    public void setAssets(Set<Asset> assets) {
+        this.assets = assets;
+    }
+    
+    public List<Asset> getAssetsIsGlobal() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
         return assetsIsGlobal;
     }
 
-    public void setAssetsIsGlobal(Set<Asset> assetsIsGlobal) {
-        this.assetsIsGlobal = assetsIsGlobal;
-    }
-
-    public Set<Asset> getAssetsByMarketArea() {
-        return assetsByMarketArea;
-    }
-
-    public void setAssetsByMarketArea(Set<Asset> assetsByMarketArea) {
-        this.assetsByMarketArea = assetsByMarketArea;
+    public List<Asset> getAssetsByMarketArea() {
+        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
+        if (assets != null) {
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null 
+                        && !asset.isGlobal()) {
+                    assetsIsGlobal.add(asset);
+                }
+            }
+        }        
+        return assetsIsGlobal;
     }
 
     public Date getDateCreate() {
@@ -313,10 +354,10 @@ public class CatalogCategoryMaster implements Serializable {
         CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
 
         // 1: GET THE GLOBAL VALUE
-        CatalogCategoryMasterAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(catalogCategoryGlobalAttributes, attributeCode, marketAreaId, localizationCode);
+        CatalogCategoryMasterAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getCatalogCategoryGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
         // 2: GET THE MARKET AREA VALUE
-        CatalogCategoryMasterAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(catalogCategoryMarketAreaAttributes, attributeCode, marketAreaId,
+        CatalogCategoryMasterAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getCatalogCategoryMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
                 localizationCode);
 
         if (catalogCategoryMarketAreaAttribute != null) {
@@ -328,7 +369,7 @@ public class CatalogCategoryMaster implements Serializable {
         return catalogCategoryAttributeToReturn;
     }
 
-    private CatalogCategoryMasterAttribute getCatalogCategoryAttribute(Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId,
+    private CatalogCategoryMasterAttribute getCatalogCategoryAttribute(List<CatalogCategoryMasterAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId,
                                                                        String localizationCode) {
         CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
         List<CatalogCategoryMasterAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryMasterAttribute>();
@@ -372,7 +413,7 @@ public class CatalogCategoryMaster implements Serializable {
                     // TODO : warning ?
 
                     // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-                    for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryMarketAreaAttributes.iterator(); iterator.hasNext(); ) {
+                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getCatalogCategoryMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext(); ) {
                         CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting database ?
@@ -493,10 +534,6 @@ public class CatalogCategoryMaster implements Serializable {
                 + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result
                 + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime
-                * result
-                + ((defaultParentCatalogCategory == null) ? 0
-                : defaultParentCatalogCategory.hashCode());
         result = prime * result
                 + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -534,12 +571,6 @@ public class CatalogCategoryMaster implements Serializable {
                 return false;
         } else if (!dateUpdate.equals(other.dateUpdate))
             return false;
-        if (defaultParentCatalogCategory == null) {
-            if (other.defaultParentCatalogCategory != null)
-                return false;
-        } else if (!defaultParentCatalogCategory
-                .equals(other.defaultParentCatalogCategory))
-            return false;
         if (description == null) {
             if (other.description != null)
                 return false;
@@ -560,17 +591,11 @@ public class CatalogCategoryMaster implements Serializable {
     @Override
     public String toString() {
         return "ProductCategoryMaster [id=" + id + ", version=" + version
-                + ", businessName=" + businessName + ", description="
-                + description + ", code=" + code + ", isDefault=" + isDefault
-                + ", defaultParentProductCategory="
-                + defaultParentCatalogCategory
-                + ", productCategoryGlobalAttributes="
-                + catalogCategoryGlobalAttributes
-                + ", productCategoryMarketAreaAttributes="
-                + catalogCategoryMarketAreaAttributes +
-                ", productMarketings="
-                + productMarketings + ", dateCreate=" + dateCreate
-                + ", dateUpdate=" + dateUpdate + "]";
+                + "businessName=" + businessName  + ","
+                + "description=" + description + ", " 
+                + "code=" + code + ", isDefault=" + isDefault + ","
+                + "dateCreate=" + dateCreate + ","
+                + "dateUpdate=" + dateUpdate + "]";
     }
 
 }

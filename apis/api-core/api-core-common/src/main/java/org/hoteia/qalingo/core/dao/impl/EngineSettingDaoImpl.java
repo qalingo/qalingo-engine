@@ -12,16 +12,17 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.EngineSettingDao;
+import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.EngineSettingDao;
-import org.hoteia.qalingo.core.domain.EngineSetting;
-import org.hoteia.qalingo.core.domain.EngineSettingValue;
 
 @Transactional
 @Repository("engineSettingDao")
@@ -30,24 +31,36 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// Engine Setting
-	public EngineSetting getEngineSettingById(Long id) {
-		return em.find(EngineSetting.class, id);
+	public EngineSetting getEngineSettingById(final Long engineSettingId) {
+        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        criteria.add(Restrictions.eq("id", engineSettingId));
+        
+        addDefaultFetch(criteria);
+        
+        EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
+        return engineSetting;
 	}
 	
-	public EngineSetting getEngineSettingByCode(String code) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM EngineSetting WHERE code = :code";
-		Query query = session.createQuery(sql);
-		query.setString("code", code);
-		EngineSetting engineSetting = (EngineSetting) query.uniqueResult();
+	public EngineSetting getEngineSettingByCode(final String code) {
+        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        criteria.add(Restrictions.eq("code", code));
+        
+        addDefaultFetch(criteria);
+        
+        EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
 		return engineSetting;
 	}
 	
 	public List<EngineSetting> findEngineSettings() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM EngineSetting ORDER BY code";
-		Query query = session.createQuery(sql);
-		List<EngineSetting> engineSettings = (List<EngineSetting>) query.list();
+        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<EngineSetting> engineSettings = criteria.list();
+        
 		return engineSettings;
 	}
 	
@@ -79,5 +92,9 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 			em.merge(engineSettingValue);
 		}
 	}
+	
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("engineSettingValues", FetchMode.JOIN); 
+    }
 
 }

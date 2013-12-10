@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -41,7 +42,9 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     public List<ValueBean> getTitles(HttpServletRequest request) throws Exception {
 		List<ValueBean> titlesValues = new ArrayList<ValueBean>();
 		try {
-			final Locale locale = getCurrentLocale(request);
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final Locale locale = requestData.getLocale();
+	        
 			final Map<String, String> titles = referentialDataService.getTitlesByLocale(locale);
 			if(titles != null){
 				Set<String> titlesKey = titles.keySet();
@@ -66,7 +69,9 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
-			final Locale locale = getCurrentLocale(request);
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final Locale locale = requestData.getLocale();
+	        
 			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
 			if(countries != null){
 				Set<String> countriesKey = countries.keySet();
@@ -89,7 +94,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     
     @ModelAttribute(ModelConstants.CUSTOMER_DETAILS_LINKS_VIEW_BEAN)
     public List<CutomerMenuViewBean> getCutomerMenus(HttpServletRequest request) throws Exception {
-    	return viewBeanFactory.buildCutomerMenuViewBeans(requestUtil.getRequestData(request));
+    	return frontofficeViewBeanFactory.buildCutomerMenuViewBeans(requestUtil.getRequestData(request));
     }
 
 }

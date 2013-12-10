@@ -22,6 +22,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,23 +50,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.RetailerForm;
 
 /**
  * 
@@ -68,11 +67,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.RETAILER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView retailerList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
-		
-		final String contentText = getSpecificMessage(ScopeWebMessage.RETAILER, BoMessageKey.MAIN_CONTENT_TEXT, getCurrentLocale(request));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+		final String contentText = getSpecificMessage(ScopeWebMessage.RETAILER, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
-		final RequestData requestData = requestUtil.getRequestData(request);
 		displayList(request, model, requestData, null);
 		
         return modelAndView;
@@ -83,13 +83,13 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getRetailer();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		final String searchText = request.getParameter(RequestConstants.REQUEST_PARAMETER_SEARCH_TXT);
 		if(StringUtils.isNotEmpty(searchText)){
 			// DEFAULT WAY - BEFORE INTEGRATE SEARCH WITH SOLR
 	        request.getSession().removeAttribute(SESSION_KEY); 
-			List<Retailer> retailers = retailerService.findRetailersByTxt(marketArea.getId(), retailer.getId(), searchText);
+			List<Retailer> retailers = retailerService.findRetailersByText(marketArea.getId(), retailer.getId(), searchText);
 			displayList(request, model, requestData, retailers);
 		} else {
 			return retailerList(request, model);
@@ -156,7 +156,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 
 	private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData, List<Retailer> retailers) throws Exception{
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getRetailer();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		String url = request.getRequestURI();
 		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
@@ -197,7 +197,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final List<RetailerViewBean> RetailerViewBeans = new ArrayList<RetailerViewBean>();
 		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 			Retailer retailerIt = (Retailer) iterator.next();
-			RetailerViewBeans.add(viewBeanFactory.buildRetailerViewBean(requestData, retailerIt));
+			RetailerViewBeans.add(backofficeViewBeanFactory.buildRetailerViewBean(requestData, retailerIt));
 		}
 		RetailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>(RetailerViewBeans);
 		RetailerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -213,12 +213,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	protected RetailerForm initRetailerForm(final HttpServletRequest request, final Model model) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getRetailer();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_DETAILS_CODE);
 		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRuleCode);
     	
-    	return formFactory.buildRetailerForm(request, retailerEdit);
+    	return backofficeFormFactory.buildRetailerForm(requestData, retailerEdit);
 	}
     
 	/**
@@ -227,19 +227,21 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	protected RetailerViewBean initRetailerViewBean(final HttpServletRequest request, final Model model) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getRetailer();
+		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		final String currentRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_DETAILS_CODE);
 		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRetailerCode);
 		
-		return viewBeanFactory.buildRetailerViewBean(requestData, retailerEdit);
+		return backofficeViewBeanFactory.buildRetailerViewBean(requestData, retailerEdit);
 	}
 	
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();
 		try {
-			final Locale locale = getCurrentLocale(request);
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final Locale locale = requestData.getLocale();
+	        
 			final Map<String, String> countries = referentialDataService.getCountriesByLocale(locale);
 			if(countries != null){
 				Set<String> countriesKey = countries.keySet();

@@ -40,14 +40,10 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 		return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId);
 	}
 
-//	public List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria) {
-//		return customerConnectionLogDao.findByExample(criteria);
-//	}
-
 	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
 		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG);
 		final Long customerId = customerConnectionLog.getCustomerId();
-		final String appCode = customerConnectionLog.getApp();
+		final String appCode = customerConnectionLog.getAppCode();
 		List<CustomerConnectionLog> customerConnectionLogs  = customerConnectionLogDao.findCustomerConnectionLogsByCustomerIdAndAppCode(customerId, appCode);
 		if(customerConnectionLogs.size() >= new Integer(maxConnectionToLog)){
 			CustomerConnectionLog customerConnectionLogToUpdate = customerConnectionLogs.get(0);

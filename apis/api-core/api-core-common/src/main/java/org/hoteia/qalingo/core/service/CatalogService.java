@@ -9,19 +9,19 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 
-import java.util.List;
-
 public interface CatalogService {
-
-    List<CatalogMaster> findAllCatalogMasters();
 
 	CatalogMaster getProductCatalogById(String productCatalogId);
 	
-	CatalogVirtual getCatalogVirtual(Long marketAreaId, Long retailerId);
-	
+	CatalogVirtual getCatalogVirtual(Long marketAreaId);
+
+    List<CatalogMaster> findAllCatalogMasters();
+
 	void saveOrUpdateProductCatalog(CatalogMaster productCatalog);
 	
 	void deleteProductCatalog(CatalogMaster productCatalog);

@@ -11,13 +11,15 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CartDao;
+import org.hoteia.qalingo.core.domain.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.CartDao;
-import org.hoteia.qalingo.core.domain.Cart;
 
 @Transactional
 @Repository("cartDao")
@@ -25,8 +27,14 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Cart getCartById(Long cartId) {
-		return em.find(Cart.class, cartId);
+	public Cart getCartById(final Long cartId) {
+        Criteria criteria = getSession().createCriteria(Cart.class);
+        
+        addDefaultFetch(criteria);
+        
+        criteria.add(Restrictions.eq("id", cartId));
+        Cart cart = (Cart) criteria.uniqueResult();
+        return cart;
 	}
 
 	public void saveOrUpdateCart(Cart cart) {
@@ -44,5 +52,11 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	public void deleteCart(Cart cart) {
 		em.remove(cart);
 	}
-
+	   
+    private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("session", FetchMode.JOIN); 
+        criteria.setFetchMode("cartItems", FetchMode.JOIN); 
+        criteria.setFetchMode("shippings", FetchMode.JOIN); 
+    }
+    
 }

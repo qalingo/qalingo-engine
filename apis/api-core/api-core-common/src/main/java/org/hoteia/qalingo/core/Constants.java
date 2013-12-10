@@ -15,6 +15,9 @@ public final class Constants {
 
 	public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 
+    public static final String PREFIX_REST_SERVICE  = "/rest";
+    public static final String PREFIX_WS_SERVICE    = "/ws";
+
 	// GLOBAL
 	
 	public static final String APP_NAME = "appName";
@@ -70,7 +73,7 @@ public final class Constants {
 	public static final String HOST = "Host";
 	public static final String HTTP = "Http";
 	public static final String HTTP_COLON_SLASH_SLASH = "http://";
-	public static final String SPRING_URL_PATH = "/sc";
+	public static final String SPRING_URL_PATH = "";
 
 	public static final String LOCALHOST_ROOT_URL = "http://localhost:8080";
 

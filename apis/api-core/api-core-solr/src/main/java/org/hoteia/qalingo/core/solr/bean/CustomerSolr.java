@@ -19,19 +19,25 @@ public class CustomerSolr {
 	private Long id;
 	
     @Field
-	private String name;
+	private String lastname;
 
-    private Date dateCreate;
-	
-    private Date dateUpdate;
+    @Field
+    private String firstname;
+
     @Field
     private String email;
+    
     @Field
     private String gender ;
+    
     @Field
     private String title;
     
-    
+    @Field("datecreate")
+    private Date dateCreate;
+
+    @Field("dateupdate")
+    private Date dateUpdate;
 
 	public String getEmail() {
 		return email;
@@ -65,13 +71,21 @@ public class CustomerSolr {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
+	public String getLastname() {
+        return lastname;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+	
+	public String getFirstname() {
+        return firstname;
+    }
+	
+	public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
 	public Date getDateCreate() {
 		return dateCreate;
@@ -88,6 +102,5 @@ public class CustomerSolr {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-    
     
 }

@@ -12,16 +12,12 @@ package org.hoteia.qalingo.web.mvc.factory.impl;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
@@ -34,6 +30,8 @@ import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -50,9 +48,9 @@ public class FormFactoryImpl implements FormFactory {
 	@Autowired
     protected UrlService urlService;
 	
-	public ContactForm buildContactForm(final HttpServletRequest request) throws Exception {
+	public ContactForm buildContactForm(final RequestData requestData) throws Exception {
 		final ContactForm contactUsForm = new ContactForm();
-		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
+		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
 		if(languageCode.equals("en")) {
 			contactUsForm.setCountry("US");
 		} else if(languageCode.equals("fr")) {
@@ -72,24 +70,24 @@ public class FormFactoryImpl implements FormFactory {
 		return contactUsForm;
 	}
 	
-	public SearchForm buildSearchForm(final HttpServletRequest request) throws Exception {
+	public SearchForm buildSearchForm(final RequestData requestData) throws Exception {
 		final SearchForm searchForm = new SearchForm();
 		return searchForm;
 	}
 	
-	public QuickSearchForm buildQuickSearchForm(final HttpServletRequest request) throws Exception {
+	public QuickSearchForm buildQuickSearchForm(final RequestData requestData) throws Exception {
 		final QuickSearchForm quickSearchForm = new QuickSearchForm();
 		return quickSearchForm;
 	}
 	
-	public FollowUsForm buildFollowUsForm(final HttpServletRequest request) throws Exception {
+	public FollowUsForm buildFollowUsForm(final RequestData requestData) throws Exception {
 		final FollowUsForm followUsForm = new FollowUsForm();
 		return followUsForm;
 	}
 	
-	public CreateAccountForm buildCreateAccountForm(final HttpServletRequest request) throws Exception {
+	public CreateAccountForm buildCreateAccountForm(final RequestData requestData) throws Exception {
 		final CreateAccountForm createAccountForm = new CreateAccountForm();
-		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
+		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
 		if(languageCode.equals("en")) {
 			createAccountForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {
@@ -109,8 +107,8 @@ public class FormFactoryImpl implements FormFactory {
 		return createAccountForm;
 	}
 	
-	public CustomerEditForm buildCustomerEditForm(final HttpServletRequest request, final Customer customer) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(request);
+	public CustomerEditForm buildCustomerEditForm(final RequestData requestData, final Customer customer) throws Exception {
+		final MarketArea marketArea = requestUtil.getCurrentMarketArea(requestData);
 		CustomerEditForm customerEditForm = new CustomerEditForm();
 		if(customer != null){
 			customerEditForm.setTitle(customer.getTitle());
@@ -129,10 +127,10 @@ public class FormFactoryImpl implements FormFactory {
 		return customerEditForm;
 	}
 	
-	public CustomerAddressForm buildCustomerAddressForm(final HttpServletRequest request, final CustomerAddress customerAddress) throws Exception {
+	public CustomerAddressForm buildCustomerAddressForm(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
 		
-		String languageCode = requestUtil.getCurrentLocalization(request).getCode();
+		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
 		if(languageCode.equals("en")) {
 			customerAddressForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {
@@ -168,9 +166,9 @@ public class FormFactoryImpl implements FormFactory {
 		return customerAddressForm;
 	}
 	
-	public CartForm buildCartForm(final HttpServletRequest request) throws Exception {
+	public CartForm buildCartForm(final RequestData requestData) throws Exception {
 		final CartForm cartForm = new CartForm();
-		Customer customer = requestUtil.getCurrentCustomer(request);
+		Customer customer = requestData.getCustomer();
 		if(customer != null) {
 			 Set<CustomerAddress> addresses = customer.getAddresses();
 			 for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
@@ -186,7 +184,7 @@ public class FormFactoryImpl implements FormFactory {
 		return cartForm;
 	}
 	
-	public PaymentForm buildPaymentForm(final HttpServletRequest request) throws Exception {
+	public PaymentForm buildPaymentForm(final RequestData requestData) throws Exception {
 		final PaymentForm paymentForm = new PaymentForm();
 		return paymentForm;
 	}

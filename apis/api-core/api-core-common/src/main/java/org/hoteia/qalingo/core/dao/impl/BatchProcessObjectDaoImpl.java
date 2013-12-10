@@ -12,16 +12,16 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.BatchProcessObjectDao;
+import org.hoteia.qalingo.core.domain.BatchProcessObject;
+import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.BatchProcessObjectDao;
-import org.hoteia.qalingo.core.domain.BatchProcessObject;
-import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 @Transactional
 @Repository("batchProcessObjectDao")
@@ -29,29 +29,38 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId) {
-		return em.find(BatchProcessObject.class, batchProcessObjectId);
+	public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId) {
+	    
+        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+        criteria.add(Restrictions.eq("id", batchProcessObjectId));
+        BatchProcessObject batchProcessObject = (BatchProcessObject) criteria.uniqueResult();
+        return batchProcessObject;
 	}
 
-//	public List<BatchProcessObject> findByExample(BatchProcessObject batchProcessObjectExample) {
-//		return super.findByExample(batchProcessObjectExample);
-//	}
-
 	public List<BatchProcessObject> findBatchProcessObjects() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM BatchProcessObject";
-		Query query = session.createQuery(sql);
-		List<BatchProcessObject> batchProcessObjects = (List<BatchProcessObject>) query.list();
+        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+
+        @SuppressWarnings("unchecked")
+        List<BatchProcessObject> batchProcessObjects = criteria.list();
+        
+        criteria.addOrder(Order.asc("id"));
+        
 		return batchProcessObjects;
 	}
 	
 	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM BatchProcessObject WHERE typeObject = :typeObject";
-		Query query = session.createQuery(sql);
-		query.setParameter("typeObject", typeObject);
-		List<BatchProcessObject> batchProcessObjects = (List<BatchProcessObject>) query.list();
-		return batchProcessObjects;
+        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+
+        criteria.add(Restrictions.eq("typeObject", typeObject));
+        
+        criteria.addOrder(Order.asc("attributeType"));
+        criteria.addOrder(Order.asc("objectType"));
+
+        criteria.addOrder(Order.asc("id"));
+        
+        @SuppressWarnings("unchecked")
+        List<BatchProcessObject> batchProcessObjects = criteria.list();
+        return batchProcessObjects;
 	}
 	
 	public void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject) {

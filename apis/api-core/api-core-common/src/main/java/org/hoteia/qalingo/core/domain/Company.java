@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,7 +33,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TBO_COMPANY")
-public class Company implements Serializable {
+public class Company extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -71,7 +70,7 @@ public class Company implements Serializable {
 	private Localization defaultLocalization;
 	
 	@ManyToMany(
-			fetch = FetchType.EAGER,
+			fetch = FetchType.LAZY,
 	        targetEntity=org.hoteia.qalingo.core.domain.Localization.class,
 	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
 	    )

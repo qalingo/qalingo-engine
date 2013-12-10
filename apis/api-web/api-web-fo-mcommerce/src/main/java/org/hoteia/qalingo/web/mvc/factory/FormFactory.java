@@ -9,10 +9,9 @@
  */
 package org.hoteia.qalingo.web.mvc.factory;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.web.mvc.form.CartForm;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -25,22 +24,22 @@ import org.hoteia.qalingo.web.mvc.form.SearchForm;
 
 public interface FormFactory {
 
-	ContactForm buildContactForm(HttpServletRequest request) throws Exception;
+	ContactForm buildContactForm(RequestData requestData) throws Exception;
 
-	SearchForm buildSearchForm(HttpServletRequest request) throws Exception;
+	SearchForm buildSearchForm(RequestData requestData) throws Exception;
 
-	QuickSearchForm buildQuickSearchForm(HttpServletRequest request) throws Exception;
+	QuickSearchForm buildQuickSearchForm(RequestData requestData) throws Exception;
 
-	FollowUsForm buildFollowUsForm(HttpServletRequest request) throws Exception;
+	FollowUsForm buildFollowUsForm(RequestData requestData) throws Exception;
 	 
-	CreateAccountForm buildCreateAccountForm(HttpServletRequest request) throws Exception;
+	CreateAccountForm buildCreateAccountForm(RequestData requestData) throws Exception;
 	 
-	CustomerEditForm buildCustomerEditForm(HttpServletRequest request, Customer customer) throws Exception;
+	CustomerEditForm buildCustomerEditForm(RequestData requestData, Customer customer) throws Exception;
 	 
-	CustomerAddressForm buildCustomerAddressForm(HttpServletRequest request, CustomerAddress customerAddress) throws Exception;
+	CustomerAddressForm buildCustomerAddressForm(RequestData requestData, CustomerAddress customerAddress) throws Exception;
 
-	CartForm buildCartForm(HttpServletRequest request) throws Exception;
+	CartForm buildCartForm(RequestData requestData) throws Exception;
 	 
-	PaymentForm buildPaymentForm(HttpServletRequest request) throws Exception;
+	PaymentForm buildPaymentForm(RequestData requestData) throws Exception;
 
 }

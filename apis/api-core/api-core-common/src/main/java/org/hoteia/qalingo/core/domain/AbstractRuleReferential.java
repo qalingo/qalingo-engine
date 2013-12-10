@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,7 +42,7 @@ import org.apache.commons.lang.StringUtils;
     name="RULE_TYPE",
     discriminatorType=DiscriminatorType.STRING
 )
-public abstract class AbstractRuleReferential implements Serializable {
+public abstract class AbstractRuleReferential extends AbstractEntity {
 
 	/**
 	 * Generated UID

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TBO_USER_CONNECTION_LOG")
-public class UserConnectionLog implements Serializable {
+public class UserConnectionLog extends AbstractEntity {
 
 	/**
 	 * Generated UID

@@ -3,16 +3,15 @@ package org.hoteia.qalingo.core.web.mvc.controller.openid;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
+import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
+import org.hoteia.qalingo.core.service.openid.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
-import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
-import org.hoteia.qalingo.core.service.openid.Utils;
 
 /**
  * 

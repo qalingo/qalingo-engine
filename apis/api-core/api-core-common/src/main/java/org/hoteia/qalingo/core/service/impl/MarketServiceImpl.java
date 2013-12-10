@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.service.MarketService;
 
 @Service("marketService")
@@ -27,13 +28,45 @@ public class MarketServiceImpl implements MarketService {
 	@Autowired
 	private MarketDao marketDao;
 	
+	// MARKET PLACE
+	
+    public MarketPlace getDefaultMarketPlace() {
+        return marketDao.getDefaultMarketPlace();
+    }
+    
+    public MarketPlace getMarketPlaceById(final String rawMarketPlaceId) {
+        long marketPlaceId = -1;
+        try {
+            marketPlaceId = Long.parseLong(rawMarketPlaceId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return marketDao.getMarketPlaceById(marketPlaceId);
+    }
+
+    public MarketPlace getMarketPlaceByCode(final String marketPlaceCode) {
+        return marketDao.getMarketPlaceByCode(marketPlaceCode);
+    }
+    
+    public List<MarketPlace> findMarketPlaces() {
+        return marketDao.findMarketPlaces();
+    }
+    
+    public void saveOrUpdateMarketPlace(final MarketPlace marketPlace) {
+        marketDao.saveOrUpdateMarketPlace(marketPlace);
+    }
+
+    public void deleteMarketPlace(final MarketPlace marketPlace) {
+        marketDao.deleteMarketPlace(marketPlace);
+    }
+
 	// MARKET
 	
 	public Market getDefaultMarket() {
 		return marketDao.getDefaultMarket();
 	}
 	
-	public Market getMarketById(String rawMarketId) {
+	public Market getMarketById(final String rawMarketId) {
 		long marketId = -1;
 		try {
 			marketId = Long.parseLong(rawMarketId);
@@ -43,7 +76,7 @@ public class MarketServiceImpl implements MarketService {
 		return marketDao.getMarketById(marketId);
 	}
 	
-	public Market getMarketByCode(String marketCode) {
+	public Market getMarketByCode(final String marketCode) {
 		return marketDao.getMarketByCode(marketCode);
 	}
 
@@ -51,6 +84,10 @@ public class MarketServiceImpl implements MarketService {
 		return marketDao.findMarkets();
 	}
 	
+    public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode) {
+        return marketDao.getMarketsByMarketPlaceCode(marketPlaceCode);
+    }
+
 	public void saveOrUpdateMarket(Market market) {
 		marketDao.saveOrUpdateMarket(market);
 	}
@@ -61,7 +98,7 @@ public class MarketServiceImpl implements MarketService {
 
 	// MARKET AREA
 	
-	public MarketArea getMarketAreaById(String rawMarketAreaId) {
+	public MarketArea getMarketAreaById(final String rawMarketAreaId) {
 		long marketAreaId = -1;
 		try {
 			marketAreaId = Long.parseLong(rawMarketAreaId);
@@ -71,7 +108,7 @@ public class MarketServiceImpl implements MarketService {
 		return marketDao.getMarketAreaById(marketAreaId);
 	}
 	
-	public MarketArea getMarketAreaByCode(String marketAreaCode) {
+	public MarketArea getMarketAreaByCode(final String marketAreaCode) {
 		return marketDao.getMarketAreaByCode(marketAreaCode);
 	}
 }

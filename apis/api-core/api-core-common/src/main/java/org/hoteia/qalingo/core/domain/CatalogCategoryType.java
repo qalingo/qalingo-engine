@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +29,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_CATEGORY_TYPE")
-public class CatalogCategoryType implements Serializable {
+public class CatalogCategoryType extends AbstractEntity {
 
 	/**
 	 * Generated UID

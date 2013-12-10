@@ -16,6 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
+import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CurrencyReferentialService;
+import org.hoteia.qalingo.core.service.PaymentGatewayService;
+import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentGatewayViewBean;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,21 +38,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
-import org.hoteia.qalingo.core.domain.Localization;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.service.CurrencyReferentialService;
-import org.hoteia.qalingo.core.service.PaymentGatewayService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentGatewayViewBean;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
-import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
-import org.hoteia.qalingo.web.mvc.form.PaymentGatewayForm;
 
 /**
  * 
@@ -56,16 +56,16 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.REFERENCE_DATAS.getVelocityPage());
 
 		List<CurrencyReferential> currencyReferentials = currencyReferentialService.findCurrencyReferentials();
-		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = viewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
+		List<CurrencyReferentialViewBean> currencyReferentialViewBeans = backofficeViewBeanFactory.buildCurrencyReferentialViewBeans(requestUtil.getRequestData(request), currencyReferentials);
 		modelAndView.addObject("currencyReferentials", currencyReferentialViewBeans);
 		
 		//get the local referenced data
 		List<Localization> localizations = localizationService.findLocalizations();
-		List<LocalizationViewBean> localizationViewBeans = viewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
+		List<LocalizationViewBean> localizationViewBeans = backofficeViewBeanFactory.buildLocalizationViewBeans(requestUtil.getRequestData(request), localizations);
 		modelAndView.addObject("localizations", localizationViewBeans);
 		
 		List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways();
-		List<PaymentGatewayViewBean> paymentGatewayViewBeans = viewBeanFactory.buildPaymentGatewayViewBeans(requestUtil.getRequestData(request), paymentGateways);
+		List<PaymentGatewayViewBean> paymentGatewayViewBeans = backofficeViewBeanFactory.buildPaymentGatewayViewBeans(requestUtil.getRequestData(request), paymentGateways);
 		modelAndView.addObject("paymentGateways", paymentGatewayViewBeans);
 		
         return modelAndView;
@@ -79,7 +79,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){
-                modelAndView.addObject("paymentGateway", viewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
+                modelAndView.addObject("paymentGateway", backofficeViewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
                 return modelAndView;
             }
         }
@@ -91,13 +91,14 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
     @RequestMapping(value = BoUrls.PAYMENT_GATEWAY_EDIT_URL, method = RequestMethod.GET)
     public ModelAndView paymentGatewayEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_EDIT.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
         
         final String paymentGatewayId = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID);
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){
-                modelAndView.addObject("paymentGateway", viewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
-                formFactory.buildPaymentGatewayForm(request, modelAndView, paymentGateway);
+                modelAndView.addObject("paymentGateway", backofficeViewBeanFactory.buildPaymentGatewayViewBean(requestUtil.getRequestData(request), paymentGateway));
+                backofficeFormFactory.buildPaymentGatewayForm(requestData, paymentGateway);
                 return modelAndView;
             }
         }

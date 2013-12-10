@@ -12,15 +12,16 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.NotificationDao;
+import org.hoteia.qalingo.core.domain.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.NotificationDao;
-import org.hoteia.qalingo.core.domain.Notification;
 
 @Transactional
 @Repository("notificationDao")
@@ -28,50 +29,56 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Notification getNotificationById(Long id) {
-		return em.find(Notification.class, id);
-	}
-	
-	public Notification getNotificationByNotificationId(Long notificationId) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Notification WHERE notificationId = :notificationId";
-		Query query = session.createQuery(sql);
-		query.setLong("notificationId", notificationId);
-		Notification notification = (Notification) query.uniqueResult();
-		return notification;
+	public Notification getNotificationById(final Long notificationId) {
+        Criteria criteria = getSession().createCriteria(Notification.class);
+        criteria.add(Restrictions.eq("id", notificationId));
+        Notification notification = (Notification) criteria.uniqueResult();
+        return notification;
 	}
 	
 	public List<Notification> findNotifications() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Notification";
-		Query query = session.createQuery(sql);
-		List<Notification> notifications = (List<Notification>) query.list();
+        Criteria criteria = getSession().createCriteria(Notification.class);
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Notification> notifications = criteria.list();
+        
 		return notifications;
 	}
 	
-	public List<Notification> findNotificationByCustomerId(Long customerId) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Notification WHERE customerId = :customerId ORDER BY isChecked, createdDate";
-		Query query = session.createQuery(sql);
-		query.setLong("customerId", customerId);
-		List<Notification> notifications = (List<Notification>) query.list();
+	public List<Notification> findNotificationByCustomerId(final Long customerId) {
+        Criteria criteria = getSession().createCriteria(Notification.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
+        
+        criteria.addOrder(Order.asc("isChecked"));
+        criteria.addOrder(Order.asc("createdDate"));
+
+        @SuppressWarnings("unchecked")
+        List<Notification> notifications = criteria.list();
+        
 		return notifications;
 	}
 	
-	public List<Notification> findNewNotificationByCustomerId(Long customerId) {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Notification WHERE customerId = :customerId AND isChecked = false ORDER BY createdDate";
-		Query query = session.createQuery(sql);
-		query.setLong("customerId", customerId);
-		List<Notification> notifications = (List<Notification>) query.list();
+	public List<Notification> findNewNotificationByCustomerId(final Long customerId) {
+        Criteria criteria = getSession().createCriteria(Notification.class);
+        
+        criteria.addOrder(Order.asc("createdDate"));
+
+        @SuppressWarnings("unchecked")
+        List<Notification> notifications = criteria.list();
+        
 		return notifications;
 	}
 	
 	public List<Notification> findIdsForSync() {
-		Session session = (Session) em.getDelegate();
-		String sql = "FROM Notification";
-		Query query = session.createQuery(sql);
-		List<Notification> notifications = (List<Notification>) query.list();
+        Criteria criteria = getSession().createCriteria(Notification.class);
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<Notification> notifications = criteria.list();
+        
 		return notifications;
 	}
 

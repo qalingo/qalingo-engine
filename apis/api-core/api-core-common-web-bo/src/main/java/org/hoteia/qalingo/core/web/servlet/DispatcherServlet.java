@@ -52,13 +52,15 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 		View view =  super.resolveViewName(viewName, model, locale, request);
 		if(view == null){
 			String fullViewNameSplit[] = viewName.split("/");
-			String theme = fullViewNameSplit[1];
-			String deviceDefaultViewName = "/" + theme + "/www/default";
-			for (int i = 4; i < fullViewNameSplit.length; i++) {
-				String string = fullViewNameSplit[i];
-				deviceDefaultViewName = deviceDefaultViewName + "/" + string;
-			}
-			view = super.resolveViewName(deviceDefaultViewName, model, locale, request);
+            if(fullViewNameSplit.length > 1){
+                String theme = fullViewNameSplit[1];
+                String deviceDefaultViewName = "/" + theme + "/www/default";
+                for (int i = 4; i < fullViewNameSplit.length; i++) {
+                    String string = fullViewNameSplit[i];
+                    deviceDefaultViewName = deviceDefaultViewName + "/" + string;
+                }
+                view = super.resolveViewName(deviceDefaultViewName, model, locale, request);
+            }
 			if(view == null){
 				String fullDefaultViewName = "/default/www/default";
 				for (int i = 4; i < fullViewNameSplit.length; i++) {
@@ -114,7 +116,7 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 					deviceFolder = "mobile";
 				}
 			}
-			requestUtil.updateCurrentDevice(request, deviceFolder);
+			requestUtil.updateCurrentDevice(requestUtil.getRequestData(request), deviceFolder);
 			
 		} catch (Exception e) {
 			logger.error("", e);

@@ -1,7 +1,7 @@
 package org.hoteia.qalingo.core.pojo.customer;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 public class CustomerMarketAreaPojo {
@@ -12,9 +12,9 @@ public class CustomerMarketAreaPojo {
     private String fax;
     private String mobile;
     private Long marketAreaId;
-    private Collection<CustomerOptinPojo> optins = new ArrayList<CustomerOptinPojo>();
-    private Collection<CustomerWishlistPojo> wishlistProducts = new ArrayList<CustomerWishlistPojo>();
-    private Collection<CustomerProductCommentPojo> productComments = new ArrayList<CustomerProductCommentPojo>();
+    private List<CustomerOptinPojo> optins = new ArrayList<CustomerOptinPojo>();
+    private List<CustomerWishlistPojo> wishlistProducts = new ArrayList<CustomerWishlistPojo>();
+    private List<CustomerProductCommentPojo> productComments = new ArrayList<CustomerProductCommentPojo>();
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -66,27 +66,27 @@ public class CustomerMarketAreaPojo {
         this.marketAreaId = marketAreaId;
     }
 
-    public Collection<CustomerOptinPojo> getOptins() {
+    public List<CustomerOptinPojo> getOptins() {
         return optins;
     }
 
-    public void setOptins(final Collection<CustomerOptinPojo> optins) {
+    public void setOptins(final List<CustomerOptinPojo> optins) {
         this.optins = new ArrayList<CustomerOptinPojo>(optins);
     }
 
-    public Collection<CustomerWishlistPojo> getWishlistProducts() {
+    public List<CustomerWishlistPojo> getWishlistProducts() {
         return wishlistProducts;
     }
 
-    public void setWishlistProducts(final Collection<CustomerWishlistPojo> wishlistProducts) {
+    public void setWishlistProducts(final List<CustomerWishlistPojo> wishlistProducts) {
         this.wishlistProducts = new ArrayList<CustomerWishlistPojo>(wishlistProducts);
     }
 
-    public Collection<CustomerProductCommentPojo> getProductComments() {
+    public List<CustomerProductCommentPojo> getProductComments() {
         return productComments;
     }
 
-    public void setProductComments(final Collection<CustomerProductCommentPojo> productComments) {
+    public void setProductComments(final List<CustomerProductCommentPojo> productComments) {
         this.productComments = new ArrayList<CustomerProductCommentPojo>(productComments);
     }
 

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -30,179 +29,202 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+
 @Entity
 @Table(name="TECO_MARKET")
-public class Market implements Serializable {
+public class Market extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 5759002146568820577L;
+    private static final long serialVersionUID = 5759002146568820577L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    public final static String MARKET_ATTRIBUTE_DOMAIN_NAME = "MARKET_DOMAIN_NAME";
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="THEME")
-	private String theme;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="MARKETPLACE_ID", insertable=false, updatable=false)
-	private MarketPlace marketPlace;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MARKET_ID")
-	private Set<MarketArea> marketAreas = new HashSet<MarketArea>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	public Market(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+    @Column(name = "CODE")
+    private String code;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public boolean isDefault() {
-		return isDefault;
-	}
-	
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getTheme() {
-		return theme;
-	}
-	
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-	
-	public MarketPlace getMarketPlace() {
-		return marketPlace;
-	}
-	
-	public void setMarketPlace(MarketPlace marketPlace) {
-		this.marketPlace = marketPlace;
-	}
-	
-	public Set<MarketArea> getMarketAreas() {
-		return marketAreas;
-	}
-	
-	public MarketArea getMarketArea(String marketAreaCode) {
-		MarketArea marketAreaToReturn = null;
-		Set<MarketArea> marketAreas = getMarketAreas();
-		if(marketAreas != null
-				&& marketAreas.size() > 0){
-			for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
-				MarketArea marketArea = (MarketArea) iterator.next();
-				if(marketArea.getCode().equalsIgnoreCase(marketAreaCode)){
-					marketAreaToReturn = marketArea;
-				}
-			}
-		}
-		return marketAreaToReturn;
-	}
-	
-	public void setMarketAreas(Set<MarketArea> marketAreas) {
-		this.marketAreas = marketAreas;
-	}
-	
-	public MarketArea getDefaultMarketArea() {
-		MarketArea defaultMarketArea = null;
-		Set<MarketArea> marketAreas = getMarketAreas();
-		if(marketAreas != null
-				&& marketAreas.size() > 0){
-			for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
-				MarketArea marketArea = (MarketArea) iterator.next();
-				if(marketArea.isDefault()){
-					defaultMarketArea = marketArea;
-				}
-			}
-			if(defaultMarketArea == null){
-				Iterator<MarketArea> iterator = marketAreas.iterator();
-				defaultMarketArea = (MarketArea) iterator.next();
-			}
-		}
-		return defaultMarketArea;
-	}
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    @Column(name = "THEME")
+    private String theme;
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MARKETPLACE_ID", insertable = false, updatable = false)
+    private MarketPlace marketPlace;
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MARKET_ID")
+    private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MARKET_ID")
+    private Set<MarketAttribute> marketAttributes = new HashSet<MarketAttribute>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
+
+    public Market() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public MarketPlace getMarketPlace() {
+        return marketPlace;
+    }
+
+    public void setMarketPlace(MarketPlace marketPlace) {
+        this.marketPlace = marketPlace;
+    }
+
+    public Set<MarketArea> getMarketAreas() {
+        return marketAreas;
+    }
+
+    public MarketArea getMarketArea(String marketAreaCode) {
+        MarketArea marketAreaToReturn = null;
+        Set<MarketArea> marketAreas = getMarketAreas();
+        if (marketAreas != null && marketAreas.size() > 0) {
+            for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                MarketArea marketArea = (MarketArea) iterator.next();
+                if (marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
+                    marketAreaToReturn = marketArea;
+                }
+            }
+        }
+        return marketAreaToReturn;
+    }
+
+    public void setMarketAreas(Set<MarketArea> marketAreas) {
+        this.marketAreas = marketAreas;
+    }
+
+    public MarketArea getDefaultMarketArea() {
+        MarketArea defaultMarketArea = null;
+        Set<MarketArea> marketAreas = getMarketAreas();
+        if (marketAreas != null && marketAreas.size() > 0) {
+            for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                MarketArea marketArea = (MarketArea) iterator.next();
+                if (marketArea.isDefault()) {
+                    defaultMarketArea = marketArea;
+                }
+            }
+            if (defaultMarketArea == null) {
+                Iterator<MarketArea> iterator = marketAreas.iterator();
+                defaultMarketArea = (MarketArea) iterator.next();
+            }
+        }
+        return defaultMarketArea;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    public String getDomainName(String contextNameValue) {
+        return getAttributeValueString(MARKET_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
+    }
+
+    private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
+        if (marketAttributes != null && !marketAttributes.isEmpty()) {
+            for (Iterator<MarketAttribute> iterator = marketAttributes.iterator(); iterator.hasNext();) {
+                MarketAttribute marketAttribute = (MarketAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = marketAttribute.getAttributeDefinition();
+                if (StringUtils.isNotEmpty(marketAttribute.getContext()) && marketAttribute.getContext().equals(contextNameValue) && attributeDefinition.getCode().equals(attributeDefinitionCode)) {
+                    return (String) marketAttribute.getValue();
+                }
+            }
+        }
+        return null;
+    }
 
 	@Override
 	public int hashCode() {

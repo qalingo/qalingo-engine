@@ -11,20 +11,31 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
 
 public interface UserService {
 
+    // USER
+    
 	User getUserById(String userId);
 
 	User getUserByLoginOrEmail(String loginOrEmail);
 
-//	List<User> findUser(User criteria);
-	
 	List<User> findUsers();
 	
 	void saveOrUpdateUser(User user);
 	
 	void deleteUser(User user);
+	
+    // COMPANY
+
+    Company getCompanyById(String companyId);
+
+    List<Company> findCompanies();
+
+    void saveOrUpdateCompany(Company company);
+
+    void deleteCompany(Company company);
 
 }
