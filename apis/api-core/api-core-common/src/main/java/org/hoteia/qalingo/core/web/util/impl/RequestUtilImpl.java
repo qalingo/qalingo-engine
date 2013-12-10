@@ -44,6 +44,7 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
@@ -606,9 +607,15 @@ public class RequestUtilImpl implements RequestUtil {
         }
         if (productSkuIsNew) {
             CartItem cartItem = new CartItem();
-            ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+            
+            final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
             cartItem.setProductSkuCode(productSkuCode);
             cartItem.setProductSku(productSku);
+            
+            final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+            cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
+            cartItem.setProductMarketing(reloadedProductMarketing);
+            
             cartItem.setQuantity(quantity);
             if(catalogCategoryCode != null){
                 CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);

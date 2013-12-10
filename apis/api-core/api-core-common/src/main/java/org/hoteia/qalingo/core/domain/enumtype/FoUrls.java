@@ -283,8 +283,8 @@ public enum FoUrls {
 	public static final String CART_ORDER_PAYMENT_VELOCITY_PAGE			= "cart/cart-order-payment";
 	
 	public static final String CART_ORDER_CONFIRMATION_KEY				= "cart-order-confirmation";
-	public static final String CART_ORDER_CONFIRMATION_URL				= "/**/cart/cart-order-confirmation.html";
-	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart/cart-order-confirmation";
+	public static final String CART_ORDER_CONFIRMATION_URL				= "/**/cart-order-confirmation.html";
+	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart-order-confirmation";
 	
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/**/forbidden.html";

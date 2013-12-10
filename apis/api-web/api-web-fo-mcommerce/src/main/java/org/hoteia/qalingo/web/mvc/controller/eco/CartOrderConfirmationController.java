@@ -44,5 +44,5 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 		
         return modelAndView;
 	}
-	
+
 }

@@ -114,4 +114,5 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		}
 		return addressesValues;
     }
+
 }
