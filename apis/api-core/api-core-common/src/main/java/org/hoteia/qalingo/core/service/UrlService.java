@@ -36,6 +36,8 @@ public interface UrlService {
 	
 	String generateUrl(FoUrls url, RequestData requestData, Object... params);
 	
+	String generateUrl(String urlWithoutWildcard, boolean isSEO, RequestData requestData, Object... params);
+	
 	String buildSpringSecurityCheckUrl(RequestData requestData) throws Exception;
 
 }

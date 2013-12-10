@@ -962,26 +962,26 @@ public class RequestUtilImpl implements RequestUtil {
         String marketAreaCode = null;
         String localizationCode = null;
         String retailerCode = null;
-        
+
         // TEMP
         String requestUri = request.getRequestURI();
         requestUri = requestUri.replace(request.getContextPath(), "");
-        if(requestUri.startsWith("/")){
+        if (requestUri.startsWith("/")) {
             requestUri = requestUri.substring(1, requestUri.length());
         }
         String[] uriSegments = requestUri.toString().split("/");
-        if(uriSegments.length > 4){
+        if (uriSegments.length > 4) {
             marketPlaceCode = uriSegments[0];
             marketCode = uriSegments[1];
             marketAreaCode = uriSegments[2];
             localizationCode = uriSegments[3];
             retailerCode = uriSegments[4];
         } else {
-          marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-          marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
-          marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-          localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
-          retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+            marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+            marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+            marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+            localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
+            retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
         }
 
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
