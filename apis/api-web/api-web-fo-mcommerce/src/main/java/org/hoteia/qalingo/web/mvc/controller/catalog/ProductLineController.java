@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.web.mvc.factory.ExtendViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -66,6 +67,8 @@ public class ProductLineController extends AbstractMCommerceController {
 		final ProductCategoryViewBean productCategoryViewBean = viewBeanFactory.buildProductCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
 		
+		
+		ExtendViewBeanFactory extendViewBeanFactory = (ExtendViewBeanFactory) viewBeanFactory;
 		final List<CategoryViewBean> categoryViewBeans = extendViewBeanFactory.buildVirtualCategoryViewBeans(requestUtil.getRequestData(request), categories,true);
 		model.addAttribute("categories", categoryViewBeans);
 		
