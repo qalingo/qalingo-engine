@@ -107,7 +107,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		request.setAttribute(Constants.RETAILER_VIEW_BEAN, retailerViewBean);
+		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
         return modelAndView;
 	}
@@ -122,7 +122,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		request.setAttribute(Constants.RETAILER_VIEW_BEAN, retailerViewBean);
+		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
 		return modelAndView;
 	}

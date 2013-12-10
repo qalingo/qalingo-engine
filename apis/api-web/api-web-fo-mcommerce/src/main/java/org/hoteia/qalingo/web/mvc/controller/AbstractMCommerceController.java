@@ -9,12 +9,16 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.WebCommerceService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -34,5 +38,5 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	
 	@Autowired
     protected FormFactory formFactory;
-
+	
 }

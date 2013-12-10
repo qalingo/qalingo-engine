@@ -40,6 +40,8 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
 		final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), null);
 		modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, orderViewBean);
 		
+		modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 5);
+		
         return modelAndView;
 	}
 	

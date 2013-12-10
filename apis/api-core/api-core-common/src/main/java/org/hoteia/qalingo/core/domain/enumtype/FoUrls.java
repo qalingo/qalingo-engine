@@ -63,7 +63,8 @@ public enum FoUrls {
     CART_DETAILS(FoUrls.CART_DETAILS_URL, FoUrls.CART_DETAILS_KEY, FoUrls.CART_DETAILS_VELOCITY_PAGE, true),
     CART_ADD_ITEM(FoUrls.CART_ADD_PRODUCT_URL, FoUrls.CART_ADD_PRODUCT_KEY, FoUrls.CART_ADD_PRODUCT_VELOCITY_PAGE, true),
     CART_REMOVE_ITEM(FoUrls.CART_REMOVE_ITEM_URL, FoUrls.CART_REMOVE_ITEM_KEY, FoUrls.CART_REMOVE_ITEM_VELOCITY_PAGE, true),
-    CART_AUTH(FoUrls.CART_AUTH_URL, FoUrls.CART_AUTH_KEY, FoUrls.CART_AUTH_VELOCITY_PAGE, true),
+    CART_AUTH(FoUrls.CART_AUTH_URL, FoUrls.CART_AUTH_KEY, FoUrls.LOGIN_VELOCITY_PAGE, true),
+    CART_CREATE_ACCOUNT(FoUrls.CART_CREATE_ACCOUNT_URL, FoUrls.CART_CREATE_ACCOUNT_KEY, FoUrls.CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE, true),
     CART_DELIVERY(FoUrls.CART_DELIVERY_URL, FoUrls.CART_DELIVERY_KEY, FoUrls.CART_DELIVERY_VELOCITY_PAGE, true),
     CART_ORDER_PAYMENT(FoUrls.CART_ORDER_PAYMENT_URL, FoUrls.CART_ORDER_PAYMENT_KEY, FoUrls.CART_ORDER_PAYMENT_VELOCITY_PAGE, true),
     CART_ORDER_CONFIRMATION(FoUrls.CART_ORDER_CONFIRMATION_URL, FoUrls.CART_ORDER_CONFIRMATION_KEY, FoUrls.CART_ORDER_CONFIRMATION_VELOCITY_PAGE, true),
@@ -113,12 +114,12 @@ public enum FoUrls {
 
 	public static final String FOLLOW_US_KEY					= "follow-us";
 	public static final String FOLLOW_US_URL					= "/**/follow-us.html";
-	public static final String FOLLOW_US_VELOCITY_PAGE			= "follow-us/follow-us-form";
+	public static final String FOLLOW_US_VELOCITY_PAGE			= "follow-us/follow-us";
 	public static final String FOLLOW_US_SUCCESS_VELOCITY_PAGE	= "follow-us/follow-us-success";
 
 	public static final String CONTACT_KEY				= "contact";
 	public static final String CONTACT_URL				= "/**/contact.html";
-	public static final String CONTACT_VELOCITY_PAGE	= "contact/contact-form";
+	public static final String CONTACT_VELOCITY_PAGE	= "contact/contact";
 	
 	public static final String STORE_LOCATION_KEY				= "store-location";
 	public static final String STORE_LOCATION_URL				= "/**/store-location.html";
@@ -269,7 +270,9 @@ public enum FoUrls {
 
 	public static final String CART_AUTH_KEY					= "cart-auth";
 	public static final String CART_AUTH_URL					= "/**/cart-auth.html";
-	public static final String CART_AUTH_VELOCITY_PAGE			= "cart/cart-auth";
+
+    public static final String CART_CREATE_ACCOUNT_KEY          = "cart-create-account";
+    public static final String CART_CREATE_ACCOUNT_URL          = "/**/cart-create-account.html";
 	
 	public static final String CART_DELIVERY_KEY					= "cart-delivery-order-information";
 	public static final String CART_DELIVERY_URL					= "/**/cart-delivery-order-information.html";

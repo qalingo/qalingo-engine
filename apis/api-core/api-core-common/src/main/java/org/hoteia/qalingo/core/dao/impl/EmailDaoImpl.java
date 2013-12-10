@@ -166,7 +166,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         em.remove(email);
     }
 
-    public int deleteSendedEmail(Timestamp before) {
+    public int deleteSendedEmail(final Timestamp before) {
         Session session = (Session) em.getDelegate();
         String sql = "FROM Email WHERE dateCreate <= :before AND status = '" + Email.EMAIl_STATUS_SENDED + "'";
         Query query = session.createQuery(sql);

@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -98,6 +100,11 @@ public class ExtLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationE
 												 AuthenticationException authException) {
 		try {
 			String url = urlService.generateUrl(FoUrls.LOGIN, requestUtil.getRequestData(request));
+			String referer = request.getHeader(Constants.REFERER);
+			if(StringUtils.isNotEmpty(referer)
+			        && (referer.contains("cart") || referer.contains("checkout"))){
+			    url = urlService.generateUrl(FoUrls.CART_AUTH, requestUtil.getRequestData(request));
+			}
 			return url;
 		} catch (Exception e) {
 			logger.error("", e);
