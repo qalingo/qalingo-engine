@@ -47,6 +47,7 @@ import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -1509,11 +1510,24 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
+        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
+        
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
         productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
         productSkuViewBean.setDescription(productSku.getDescription());
         productSkuViewBean.setDefault(productSku.isDefault());
+        productSkuViewBean.setCode(productSku.getCode());
+        
+        Set<ProductSkuPrice> prices = productSku.getPrices();
+        for (ProductSkuPrice productSkuPrice : prices) {
+			if(productSkuPrice.getMarketAreaId().equals(currentMarketArea.getId()) && productSkuPrice.getRetailerId().equals(currentRetailer.getId())) {
+				productSkuViewBean.setPrice(productSkuPrice.getPrice());
+				productSkuViewBean.setCurrencySign(currentMarketArea.getCurrency().getSign());
+				break;
+			}
+		}
 
         final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {

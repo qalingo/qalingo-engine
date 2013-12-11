@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -222,6 +223,22 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
         }
         return null;
     }
+    
+    public String getSkuCode(){
+    	if(productSkus != null){
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if(productSkuViewBean.isDefault()){
+                    return productSkuViewBean.getCode();
+                }
+            }
+            if(!productSkus.isEmpty()){
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                return productSkuViewBean.getCode();
+            }
+        }
+        return null;
+    }
 
     public String getAddToWishlistUrl() {
         if(productSkus != null){
@@ -234,6 +251,30 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
             if(!productSkus.isEmpty()){
                 ProductSkuViewBean productSkuViewBean = productSkus.get(0);
                 return productSkuViewBean.getAddToWishlistUrl();
+            }
+        }
+        return null;
+    }
+    
+    public String getPrice(){
+    	if(productSkus != null){
+    		DecimalFormat df = new DecimalFormat("0.00##");
+    		String priceTemplate = "%s%s";
+            for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+                if(productSkuViewBean.isDefault()){
+                	if(productSkuViewBean.getPrice() != null){
+	                	String price = df.format(productSkuViewBean.getPrice().doubleValue());
+	                	return String.format(priceTemplate, productSkuViewBean.getCurrencySign(), price);
+                	}
+                }
+            }
+            if(!productSkus.isEmpty()){
+                ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+                if(productSkuViewBean != null && productSkuViewBean.getPrice() != null){
+                	String price = df.format(productSkuViewBean.getPrice().doubleValue());
+                	return String.format(priceTemplate, productSkuViewBean.getCurrencySign(), price); 
+                }
             }
         }
         return null;
