@@ -129,6 +129,13 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 		this.cartItems = cartItems;
 	}
 	
+    public int getTotalCartItems() {
+        if(cartItems != null){
+            return cartItems.size();
+        }
+        return 0;
+     }
+	
 	public List<CartShippingViewBean> getCartShippings() {
 		return cartShippings;
 	}

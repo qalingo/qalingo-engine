@@ -34,5 +34,5 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	
 	@Autowired
     protected FormFactory formFactory;
-
+	
 }

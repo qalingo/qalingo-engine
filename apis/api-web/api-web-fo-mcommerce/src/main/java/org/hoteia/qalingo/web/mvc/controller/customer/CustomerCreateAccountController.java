@@ -50,7 +50,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     protected SecurityUtil securityUtil;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm) throws Exception {
+	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
 		
 		// SANITY CHECK: Customer logged
@@ -66,7 +66,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	}
 
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("createAccountForm") CreateAccountForm createAccountForm,
+	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
 								BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market currentMarket = requestData.getMarket();
@@ -106,6 +106,65 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
+    @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
+    public ModelAndView displayCheckoutCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
+        
+        // SANITY CHECK: Customer logged
+        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        if(currentCustomer != null){
+            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+        modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+        
+        modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);
+        
+        return modelAndView;
+    }
+
+    @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
+    public ModelAndView checkoutCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
+                                BindingResult result) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Market currentMarket = requestData.getMarket();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
+
+        // SANITY CHECK: Customer logged
+        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        if(currentCustomer != null){
+            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY,requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+        // "customer.create.account";
+        
+        if (result.hasErrors()) {
+            return displayCustomerCreateAccount(request, model, createAccountForm);
+        }
+        
+        final String email = createAccountForm.getEmail();
+        final Customer customer = customerService.getCustomerByLoginOrEmail(email);
+        if(customer != null){
+            final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
+            final Object[] objects = {forgottenPasswordUrl};
+            result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
+        }
+
+        // Save the new customer
+        final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, createAccountForm);
+
+        // Save the email confirmation
+        webCommerceService.buildAndSaveCustomerNewAccountMail(requestUtil.getRequestData(request), createAccountForm);
+
+        // Login the new customer
+        securityUtil.authenticationCustomer(request, newCustomer);
+        
+        final String urlRedirect = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+        return new ModelAndView(new RedirectView(urlRedirect));
+    }
+    
 	@RequestMapping(value = FoUrls.CUSTOMER_NEW_ACCOUNT_VALIDATION_URL, method = RequestMethod.GET)
 	public ModelAndView newAccountValidation(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);

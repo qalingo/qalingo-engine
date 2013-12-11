@@ -13,16 +13,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.ServerDao;
+import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +111,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
         saveOrUpdateServerStatus(serverStatus);
     }
     
-	public void saveOrUpdateServerStatus(ServerStatus serverStatus) {
+	public void saveOrUpdateServerStatus(final ServerStatus serverStatus) {
 		if(serverStatus.getId() == null){
 			em.persist(serverStatus);
 		} else {
@@ -115,8 +119,24 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 		}
 	}
 
-	public void deleteServerStatus(ServerStatus serverStatus) {
+	public void deleteServerStatus(final ServerStatus serverStatus) {
 		em.remove(serverStatus);
 	}
+	
+    public int deleteSendedServerStatus(final Timestamp before) {
+        Session session = (Session) em.getDelegate();
+        String sql = "FROM Email WHERE lastCheckReceived <= :before";
+        Query query = session.createQuery(sql);
+        query.setTimestamp("before", before);
+        List<ServerStatus> serverStatusList = (List<ServerStatus>) query.list();
+        if (serverStatusList != null) {
+            for (Iterator<ServerStatus> iterator = serverStatusList.iterator(); iterator.hasNext();) {
+                ServerStatus serverStatus = (ServerStatus) iterator.next();
+                deleteServerStatus(serverStatus);
+            }
+            return serverStatusList.size();
+        }
+        return 0;
+    }
 
 }

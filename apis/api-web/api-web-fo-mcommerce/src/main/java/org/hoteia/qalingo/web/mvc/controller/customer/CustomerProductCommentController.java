@@ -29,7 +29,7 @@ import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 public class CustomerProductCommentController extends AbstractCustomerController {
 
 	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
-	public ModelAndView customerPRoductComments(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView customerProductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
 		
 		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);

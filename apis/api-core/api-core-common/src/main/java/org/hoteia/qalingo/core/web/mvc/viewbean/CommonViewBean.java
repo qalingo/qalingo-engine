@@ -25,6 +25,7 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	protected String forgottenPasswordUrl;
 	protected String logoutUrl;
 	protected String createAccountUrl;
+    protected String checkoutCreateAccountUrl;
 	protected String customerDetailsUrl;
     protected String personalDetailsUrl;
 	protected String contactUrl;
@@ -82,6 +83,14 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	public void setCreateAccountUrl(String createAccountUrl) {
 		this.createAccountUrl = createAccountUrl;
 	}
+	
+	public String getCheckoutCreateAccountUrl() {
+        return checkoutCreateAccountUrl;
+    }
+	
+	public void setCheckoutCreateAccountUrl(String checkoutCreateAccountUrl) {
+        this.checkoutCreateAccountUrl = checkoutCreateAccountUrl;
+    }
 
 	public String getCustomerDetailsUrl() {
 		return customerDetailsUrl;

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -95,7 +95,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 		List<CatalogCategoryMaster> catalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId());
 		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
-		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
+		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -128,7 +128,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		
 		List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId());
 		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, catalogCategories);
-		modelAndView.addObject(Constants.CATALOG_VIEW_BEAN, catalogViewBean);
+		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -551,21 +551,16 @@ public class CatalogController extends AbstractBusinessBackofficeController {
      * 
      */
 	protected void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster catalogCategory) throws Exception {
-		
 		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildMasterCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
-		
-		modelAndView.addObject(Constants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
-	
 	
 	/**
      * 
      */
 	protected void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual catalogCategory) throws Exception {
-		
 		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildVirtualCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory, true);
-		
-		modelAndView.addObject(Constants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	
 }

@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -44,6 +45,7 @@ import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
@@ -606,9 +608,15 @@ public class RequestUtilImpl implements RequestUtil {
         }
         if (productSkuIsNew) {
             CartItem cartItem = new CartItem();
-            ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
+            
+            final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
             cartItem.setProductSkuCode(productSkuCode);
             cartItem.setProductSku(productSku);
+            
+            final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+            cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
+            cartItem.setProductMarketing(reloadedProductMarketing);
+            
             cartItem.setQuantity(quantity);
             if(catalogCategoryCode != null){
                 CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
@@ -668,7 +676,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public void removeCartItemFromCurrentCart(final HttpServletRequest request, final String skuCode) throws Exception {
         Cart cart = getCurrentCart(request);
-        Set<CartItem> cartItems = cart.getCartItems();
+        Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
             if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
@@ -954,26 +962,26 @@ public class RequestUtilImpl implements RequestUtil {
         String marketAreaCode = null;
         String localizationCode = null;
         String retailerCode = null;
-        
+
         // TEMP
         String requestUri = request.getRequestURI();
         requestUri = requestUri.replace(request.getContextPath(), "");
-        if(requestUri.startsWith("/")){
+        if (requestUri.startsWith("/")) {
             requestUri = requestUri.substring(1, requestUri.length());
         }
         String[] uriSegments = requestUri.toString().split("/");
-        if(uriSegments.length > 4){
+        if (uriSegments.length > 4) {
             marketPlaceCode = uriSegments[0];
             marketCode = uriSegments[1];
             marketAreaCode = uriSegments[2];
             localizationCode = uriSegments[3];
             retailerCode = uriSegments[4];
         } else {
-          marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-          marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
-          marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-          localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
-          retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+            marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+            marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+            marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+            localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_LANGUAGE);
+            retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
         }
 
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);

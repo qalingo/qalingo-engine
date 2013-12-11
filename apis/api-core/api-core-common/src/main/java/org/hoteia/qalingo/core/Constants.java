@@ -137,47 +137,47 @@ public final class Constants {
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_CONTENT = "head_content";
 	public static final String VELOCITY_LAYOUT_ATTRIBUTE_FOOTER_SCRIPT_CONTENT = "footer_script_content";
 
-	// SPRING VIEW BEAN
-	public static final String COMMON_VIEW_BEAN = "common";
-	public static final String QUICK_SEARCH_VIEW_BEAN = "quickSearch";
-	public static final String MENUS_VIEW_BEAN = "menus";
-	public static final String MORE_PAGE_MENUS_VIEW_BEAN = "morePageMenus";
-	public static final String MARKET_PLACES_VIEW_BEAN = "marketPlaces";
-	public static final String MARKETS_VIEW_BEAN = "markets";
-	public static final String MARKET_AREAS_VIEW_BEAN = "marketAreas";
-	public static final String MARKET_LANGUAGES_VIEW_BEAN = "marketLanguages";
-	public static final String RETAILERS_VIEW_BEAN = "retailers";
-	public static final String LANGUAGE_VIEW_BEAN = "languages";
-	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
-	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
-	public static final String SECURITY_VIEW_BEAN = "security";
-
-	public static final String CATALOG_VIEW_BEAN = "catalog";
-	public static final String CATALOG_CATEGORY_VIEW_BEAN = "catalogCategory";
-	public static final String PRODUCT_MARKETING_VIEW_BEAN = "productMarketing";
-	public static final String PRODUCT_SKU_VIEW_BEAN = "productSku";
-
-	public static final String ASSET_VIEW_BEAN = "asset";
-
-	public static final String RULE_VIEW_BEAN = "rule";
-	public static final String ORDER_VIEW_BEAN = "order";
-	public static final String SHIPPING_VIEW_BEAN = "shipping";
-	public static final String CUSTOMER_VIEW_BEAN = "customer";
-	public static final String USER_VIEW_BEAN = "user";
-	public static final String RETAILER_VIEW_BEAN = "retailer";
+//	// SPRING VIEW BEAN
+//	public static final String COMMON_VIEW_BEAN = "common";
+//	public static final String QUICK_SEARCH_VIEW_BEAN = "quickSearch";
+//	public static final String MENUS_VIEW_BEAN = "menus";
+//	public static final String MORE_PAGE_MENUS_VIEW_BEAN = "morePageMenus";
+//	public static final String MARKET_PLACES_VIEW_BEAN = "marketPlaces";
+//	public static final String MARKETS_VIEW_BEAN = "markets";
+//	public static final String MARKET_AREAS_VIEW_BEAN = "marketAreas";
+//	public static final String MARKET_LANGUAGES_VIEW_BEAN = "marketLanguages";
+//	public static final String RETAILERS_VIEW_BEAN = "retailers";
+//	public static final String LANGUAGE_VIEW_BEAN = "languages";
+//	public static final String LEGAl_TERMS_VIEW_BEAN = "legalTerms";
+//	public static final String FOOTER_MENUS_VIEW_BEAN = "footerMenus";
+//	public static final String SECURITY_VIEW_BEAN = "security";
+//
+//	public static final String CATALOG_VIEW_BEAN = "catalog";
+//	public static final String CATALOG_CATEGORY_VIEW_BEAN = "catalogCategory";
+//	public static final String PRODUCT_MARKETING_VIEW_BEAN = "productMarketing";
+//	public static final String PRODUCT_SKU_VIEW_BEAN = "productSku";
+//
+//	public static final String ASSET_VIEW_BEAN = "asset";
+//
+//	public static final String RULE_VIEW_BEAN = "rule";
+//	public static final String ORDER_VIEW_BEAN = "order";
+//	public static final String SHIPPING_VIEW_BEAN = "shipping";
+//	public static final String CUSTOMER_VIEW_BEAN = "customer";
+//	public static final String USER_VIEW_BEAN = "user";
+//	public static final String RETAILER_VIEW_BEAN = "retailer";
 
 	public static final int SHORT_DESCRIPTION_MAX_LENGTH = 50;
 	public static final int SHARE_META_DESCRIPTION_MAX_LENGTH = 150;
 	
-	// SPRING FORM
-	public static final String ASSET_FORM = "assetForm";
-
-	public static final String RULE_FORM = "ruleForm";
-	public static final String ORDER_FORM = "orderForm";
-	public static final String SHIPPING_FORM = "shippingForm";
-	public static final String CUSTOMER_FORM = "customerForm";
-	public static final String USER_FORM = "userForm";
-	public static final String RETAILER_FORM = "retailerForm";
+//	// SPRING FORM
+//	public static final String ASSET_FORM = "assetForm";
+//
+//	public static final String RULE_FORM = "ruleForm";
+//	public static final String ORDER_FORM = "orderForm";
+//	public static final String SHIPPING_FORM = "shippingForm";
+//	public static final String CUSTOMER_FORM = "customerForm";
+//	public static final String USER_FORM = "userForm";
+//	public static final String RETAILER_FORM = "retailerForm";
 
 	public static final String ERROR_MESSAGE = "errorMessage";
 	public static final String INFO_MESSAGE = "infoMessage";

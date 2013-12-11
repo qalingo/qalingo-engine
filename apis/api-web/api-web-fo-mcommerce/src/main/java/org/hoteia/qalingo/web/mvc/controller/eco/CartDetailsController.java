@@ -62,19 +62,15 @@ public class CartDetailsController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.CART_DETAILS_URL)
 	public ModelAndView displayCartDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_DETAILS.getVelocityPage());
-
-		// SANITY CHECK: Empty cart
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		int cartItemsCount = currentCart.getCartItems().size();
-		if(cartItemsCount == 0){
-			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
-		}
 
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-		
+
+	    modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 1);
+
 		modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 
         return modelAndView;

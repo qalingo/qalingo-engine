@@ -47,6 +47,7 @@ import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -178,6 +179,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         commonViewBean.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
         commonViewBean.setLogoutUrl(urlService.generateUrl(FoUrls.LOGOUT, requestData));
         commonViewBean.setCreateAccountUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
+        commonViewBean.setCheckoutCreateAccountUrl(urlService.generateUrl(FoUrls.CART_CREATE_ACCOUNT, requestData));
         commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setPersonalDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
@@ -1326,7 +1328,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
         cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
-        cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductSku().getProductMarketing(), cartItem.getProductSku()));
+        cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
 
         return cartItemViewBean;
     }
@@ -1508,11 +1510,24 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
+        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
+        
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
         productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
         productSkuViewBean.setDescription(productSku.getDescription());
         productSkuViewBean.setDefault(productSku.isDefault());
+        productSkuViewBean.setCode(productSku.getCode());
+        
+        Set<ProductSkuPrice> prices = productSku.getPrices();
+        for (ProductSkuPrice productSkuPrice : prices) {
+			if(productSkuPrice.getMarketAreaId().equals(currentMarketArea.getId()) && productSkuPrice.getRetailerId().equals(currentRetailer.getId())) {
+				productSkuViewBean.setPrice(productSkuPrice.getPrice());
+				productSkuViewBean.setCurrencySign(currentMarketArea.getCurrency().getSign());
+				break;
+			}
+		}
 
         final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {

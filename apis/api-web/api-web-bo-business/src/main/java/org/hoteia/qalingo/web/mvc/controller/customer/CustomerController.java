@@ -115,8 +115,8 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
-		modelAndView.addObject(Constants.CUSTOMER_FORM, backofficeFormFactory.buildCustomerForm(requestData, customer));
+		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
+		modelAndView.addObject(ModelConstants.CUSTOMER_FORM, backofficeFormFactory.buildCustomerForm(requestData, customer));
 		return modelAndView;
 	}
 	
@@ -155,6 +155,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initCustomerDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Customer user) throws Exception{
-		modelAndView.addObject(Constants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
 	}
+	
 }

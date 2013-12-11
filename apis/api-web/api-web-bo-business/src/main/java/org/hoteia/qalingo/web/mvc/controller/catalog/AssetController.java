@@ -21,6 +21,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -77,8 +78,8 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		if(StringUtils.isNotEmpty(currentAssetCode)){
 			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
 
-			modelAndView.addObject(Constants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
-			modelAndView.addObject(Constants.ASSET_FORM, backofficeFormFactory.buildProductMarketingAssetForm(requestData, asset));
+			modelAndView.addObject(ModelConstants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
+			modelAndView.addObject(ModelConstants.ASSET_FORM, backofficeFormFactory.buildProductMarketingAssetForm(requestData, asset));
 			return modelAndView;
 		} else {
 			final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
@@ -155,6 +156,6 @@ public class AssetController extends AbstractBusinessBackofficeController {
 
 	protected void initRuleDetailsPage(final HttpServletRequest request, final HttpServletResponse response, 
 											final ModelAndViewThemeDevice modelAndView, final Asset asset) throws Exception {
-		modelAndView.addObject(Constants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
+		modelAndView.addObject(ModelConstants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildAssetViewBean(requestUtil.getRequestData(request), asset));
 	}
 }
