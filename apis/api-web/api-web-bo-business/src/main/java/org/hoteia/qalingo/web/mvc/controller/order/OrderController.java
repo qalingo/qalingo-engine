@@ -122,6 +122,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final OrderCustomer user) throws Exception{
-		modelAndView.addObject(Constants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), user));
 	}
+
 }

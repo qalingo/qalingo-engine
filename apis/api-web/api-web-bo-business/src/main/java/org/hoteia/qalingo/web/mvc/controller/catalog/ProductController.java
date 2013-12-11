@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -190,20 +191,16 @@ public class ProductController extends AbstractBusinessBackofficeController {
      * 
      */
 	protected void initProductMarketingModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductMarketing productMarketing) throws Exception {
-		
 		ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productMarketing, true);
-		
-		modelAndView.addObject(Constants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
+		modelAndView.addObject(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 	}
 	
 	/**
      * 
      */
 	protected void initProductSkuModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final ProductSku productSku) throws Exception {
-		
 		ProductSkuViewBean productSkuViewBean = backofficeViewBeanFactory.buildProductSkuViewBean(requestUtil.getRequestData(request), productSku);
-		
-		modelAndView.addObject(Constants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
+		modelAndView.addObject(ModelConstants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
 	}
 	
 }

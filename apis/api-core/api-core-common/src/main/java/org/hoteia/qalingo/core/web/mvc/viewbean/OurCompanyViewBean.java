@@ -17,7 +17,6 @@ public class OurCompanyViewBean extends AbstractViewBean implements Serializable
 	 * Generated UID
 	 */
 	private static final long serialVersionUID = -2683788708377450252L;
-	
 
 	protected String warning;
 	

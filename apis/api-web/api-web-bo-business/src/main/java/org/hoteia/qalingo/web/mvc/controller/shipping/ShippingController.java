@@ -115,8 +115,8 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 		final String currentShippingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE);
 		final Shipping shipping = shippingService.getShippingByCode(currentShippingId);
 		
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestData, shipping));
-		modelAndView.addObject(Constants.SHIPPING_FORM, backofficeFormFactory.buildShippingForm(requestData, shipping));
+		modelAndView.addObject(ModelConstants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestData, shipping));
+		modelAndView.addObject(ModelConstants.SHIPPING_FORM, backofficeFormFactory.buildShippingForm(requestData, shipping));
 		return modelAndView;
 	}
 	
@@ -156,7 +156,7 @@ public class ShippingController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initShippingDetailsPage(final RequestData requestData, final Model model, final ModelAndViewThemeDevice modelAndView, final Shipping user) throws Exception{
-		modelAndView.addObject(Constants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestData, user));
+		modelAndView.addObject(ModelConstants.SHIPPING_VIEW_BEAN, backofficeViewBeanFactory.buildShippingViewBean(requestData, user));
 	}
 
 }

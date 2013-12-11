@@ -148,6 +148,13 @@ public class Cart extends AbstractEntity {
 		this.cartItems = cartItems;
 	}
 	
+    public int getTotalCartItems() {
+       if(cartItems != null){
+           return cartItems.size();
+       }
+       return 0;
+    }
+	
 	public Set<Shipping> getShippings() {
 		return shippings;
 	}

@@ -19,6 +19,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
@@ -139,14 +140,25 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
     private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("credentials", FetchMode.JOIN); 
-        criteria.setFetchMode("addresses", FetchMode.JOIN); 
-        criteria.setFetchMode("connectionLogs", FetchMode.JOIN); 
-        criteria.setFetchMode("customerMarketAreas", FetchMode.JOIN); 
-        criteria.setFetchMode("customerAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("customerGroups", FetchMode.JOIN); 
-        criteria.setFetchMode("oauthAccesses", FetchMode.JOIN); 
-        criteria.setFetchMode("customerOrderAudit", FetchMode.JOIN); 
+        criteria.setFetchMode("credentials", FetchMode.JOIN);
+        criteria.setFetchMode("addresses", FetchMode.JOIN);
+        criteria.setFetchMode("connectionLogs", FetchMode.JOIN);
+        
+        criteria.setFetchMode("customerMarketAreas", FetchMode.JOIN);
+
+        criteria.createAlias("customerMarketAreas.optins", "optins", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("optins", FetchMode.JOIN);
+        
+        criteria.createAlias("customerMarketAreas.wishlistProducts", "wishlistProducts", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("wishlistProducts", FetchMode.JOIN);
+
+        criteria.createAlias("customerMarketAreas.productComments", "productComments", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productComments", FetchMode.JOIN);
+        
+        criteria.setFetchMode("customerAttributes", FetchMode.JOIN);
+        criteria.setFetchMode("customerGroups", FetchMode.JOIN);
+        criteria.setFetchMode("oauthAccesses", FetchMode.JOIN);
+        criteria.setFetchMode("customerOrderAudit", FetchMode.JOIN);
     }
 
 }

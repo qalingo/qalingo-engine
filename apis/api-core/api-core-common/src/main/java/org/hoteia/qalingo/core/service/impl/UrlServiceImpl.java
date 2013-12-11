@@ -28,7 +28,6 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.slf4j.Logger;
@@ -112,6 +111,11 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
 
     @SuppressWarnings("unchecked")
     public String generateUrl(final FoUrls url, final RequestData requestData, Object... params) {
+        return generateUrl(url.getUrlWithoutWildcard(), url.withPrefixSEO(), requestData, params);
+    }
+
+    @SuppressWarnings("unchecked")
+    public String generateUrl(final String urlWithoutWildcard, final boolean isSEO, final RequestData requestData, Object... params) {
         String urlStr = null;
         Map<String, String> getParams = new HashMap<String, String>();
         Map<String, String> urlParams = new HashMap<String, String>();
@@ -158,7 +162,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
             if (StringUtils.isEmpty(urlStr)) {
                 // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
-                if(url.withPrefixSEO()){
+                if(isSEO){
                     urlStr = getFullPrefixUrl(requestData);
                 }
             }
@@ -168,7 +172,7 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                 urlStr = urlStr.substring(0, urlStr.length() - 1);
             }
 
-            urlStr = urlStr + url.getUrlWithoutWildcard();
+            urlStr = urlStr + urlWithoutWildcard;
 
         } catch (Exception e) {
             logger.error("Can't build Url!", e);

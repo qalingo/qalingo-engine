@@ -55,6 +55,31 @@ public class LoginController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
             model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
         }
+        
+        return modelAndView;
+    }
+    
+    @RequestMapping(FoUrls.CART_AUTH_URL)
+    public ModelAndView checkoutAuth(final HttpServletRequest request, final Model model) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LOGIN.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+
+        // SANITY CHECK: Customer logged
+        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        if (currentCustomer != null) {
+            final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
+
+        // SANITY CHECK : Param from spring-security
+        String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
+        if (BooleanUtils.toBoolean(error)) {
+            model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
+            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
+        }
+        
+        modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);
 
         return modelAndView;
     }

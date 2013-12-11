@@ -37,6 +37,9 @@ public final class ModelConstants {
     public static final String SEO_PAGE_META_TITLE          = "seoPageTitle";
     public static final String MAIN_CONTENT_TITLE           = "mainContentTitle";
 
+    // CHECKOUT PROCESS
+    public static final String CHECKOUT_STEP                = "checkoutStep";
+
     // WORDING
     public static final String WORDING = "wording";
 
@@ -99,6 +102,7 @@ public final class ModelConstants {
     public static final String USER_FORM            = "userForm";
     public static final String CART_FORM            = "cartForm";
     public static final String PAYMENT_FORM         = "paymentForm";
+    public static final String CREATE_ACCOUNT_FORM  = "createAccountForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

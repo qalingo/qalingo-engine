@@ -56,15 +56,16 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 
 		// SANITY CHECK
 		final Cart currentCart = requestUtil.getCurrentCart(request);
-		int cartItemsCount = currentCart.getCartItems().size();
-		if(cartItemsCount == 0){
-			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
+		if(currentCart.getTotalCartItems() == 0){
+			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 		
         final RequestData requestData = requestUtil.getRequestData(request);
         
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+		
+		modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 3);
 		
 		modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 		
@@ -75,6 +76,12 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 	public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
+	       // SANITY CHECK
+        final Cart currentCart = requestUtil.getCurrentCart(request);
+        if(currentCart.getTotalCartItems() == 0){
+            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
+        }
+        
 		if (result.hasErrors()) {
 			return displayOrderDelivery(request, response);
 		}
@@ -107,4 +114,5 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
 		}
 		return addressesValues;
     }
+
 }

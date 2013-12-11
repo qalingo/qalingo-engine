@@ -31,26 +31,33 @@ public class CartItem extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 6636336983669678530L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Column(name="QUANTITY", nullable=false, columnDefinition="int(11) default 0")
-	private int quantity;
-	
-	@Column(name="PRODUCT_SKU_CODE")
-	private String productSkuCode;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
-	private ProductSku productSku;
-	
-    @Column(name="VIRTUAL_CATEGORY_CODE")
+    @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
+    private int quantity;
+
+    @Column(name = "PRODUCT_SKU_CODE")
+    private String productSkuCode;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
+    private ProductSku productSku;
+
+    @Column(name = "PRODUCT_MARKETING_CODE")
+    private String productMarketingCode;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
+    private ProductMarketing productMarketing;
+
+    @Column(name = "VIRTUAL_CATEGORY_CODE")
     private String catalogCategoryCode;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="VIRTUAL_CATEGORY_ID", insertable=false, updatable=false)
+    @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryVirtual catalogCategory;
 	
 	public CartItem(){
@@ -88,7 +95,23 @@ public class CartItem extends AbstractEntity {
 		this.productSku = productSku;
 	}
 	
-	public String getCatalogCategoryCode() {
+	public String getProductMarketingCode() {
+        return productMarketingCode;
+    }
+
+    public void setProductMarketingCode(String productMarketingCode) {
+        this.productMarketingCode = productMarketingCode;
+    }
+
+    public ProductMarketing getProductMarketing() {
+        return productMarketing;
+    }
+
+    public void setProductMarketing(ProductMarketing productMarketing) {
+        this.productMarketing = productMarketing;
+    }
+
+    public String getCatalogCategoryCode() {
         return catalogCategoryCode;
     }
 
