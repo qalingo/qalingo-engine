@@ -9,9 +9,13 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.eco;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
@@ -37,18 +41,33 @@ public class CartDetailsController extends AbstractMCommerceController {
 	
 	@RequestMapping(FoUrls.CART_ADD_PRODUCT_URL)
 	public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
         final RequestData requestData = requestUtil.getRequestData(request);
-		try {
-			requestUtil.updateCurrentCart(requestData, skuCode, 1);
-			
-		} catch (Exception e) {
-			logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
-		}
-		
-		final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
-		
-        return new ModelAndView(new RedirectView(url));
+        
+        final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
+        final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        if(StringUtils.isNotEmpty(skuCode)){
+            try {
+                if(StringUtils.isNotEmpty(categoryCode)){
+                    requestUtil.updateCurrentCart(requestData, categoryCode, skuCode, 1);
+                    
+                } else {
+                    requestUtil.updateCurrentCart(requestData, skuCode, 1);
+                    
+                }
+                
+            } catch (Exception e) {
+                logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
+            }
+            
+            final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
+            
+            return new ModelAndView(new RedirectView(url));
+        }
+        List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(FoUrls.CART_ADD_PRODUCT_URL);
+        String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
+        return new ModelAndView(new RedirectView(lastRequestUrl));
 	}
 
 	@RequestMapping(FoUrls.CART_REMOVE_ITEM_URL)

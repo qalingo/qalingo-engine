@@ -42,7 +42,7 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
-	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, ProductMarketing productMarketing);
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, Long productMarketingId);
 	
 	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Long marketAreaId);
 

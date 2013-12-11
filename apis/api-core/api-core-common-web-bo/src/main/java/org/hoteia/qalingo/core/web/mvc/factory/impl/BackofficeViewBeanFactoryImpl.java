@@ -408,7 +408,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (category != null) {
             final String categoryCode = category.getCode();
 
-            catalogCategoryViewBean.setBusinessName(category.getBusinessName());
+            catalogCategoryViewBean.setName(category.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(category.getDescription());
 
@@ -482,7 +482,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (category != null) {
             final String categoryCode = category.getCode();
 
-            catalogCategoryViewBean.setBusinessName(category.getBusinessName());
+            catalogCategoryViewBean.setName(category.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(category.getDescription());
 

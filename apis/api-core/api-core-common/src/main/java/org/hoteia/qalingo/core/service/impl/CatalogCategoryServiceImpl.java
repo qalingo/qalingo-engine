@@ -109,8 +109,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, catalogCategoryCode);
 	}
 
-	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final ProductMarketing productMarketing) {
-		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketing.getId());
+	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final Long productMarketingId) {
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketingId);
 		CatalogCategoryVirtual catalogCategoryVirtual = null;
 		if(categories != null){
 			for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {

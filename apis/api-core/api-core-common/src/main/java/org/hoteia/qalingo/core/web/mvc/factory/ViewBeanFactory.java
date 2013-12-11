@@ -54,7 +54,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
@@ -128,9 +128,9 @@ public interface ViewBeanFactory {
 
 	ProductBrandViewBean buildProductBrandViewBean(RequestData requestData, ProductBrand productBrand, List<ProductMarketing> productMarketings) throws Exception;
 
-	ProductCategoryViewBean buildMasterProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryViewBean buildMasterProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 
-	ProductCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 

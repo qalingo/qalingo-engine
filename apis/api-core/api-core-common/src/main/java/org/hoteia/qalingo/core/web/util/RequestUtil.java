@@ -200,6 +200,11 @@ public interface RequestUtil {
      */
 	void updateCurrentCart(RequestData requestData, String skuCode, int quantity) throws Exception;
 	
+    /**
+     * 
+     */
+	void updateCurrentCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
+	
 	/**
      * 
      */
@@ -278,7 +283,7 @@ public interface RequestUtil {
 	/**
      * 
      */
-	boolean hasKnownCustomerLogged(final HttpServletRequest request) throws Exception;
+	boolean hasKnownCustomerLogged(HttpServletRequest request) throws Exception;
 	
 	/**
      * 
@@ -293,7 +298,7 @@ public interface RequestUtil {
 	/**
      * 
      */	
-	void cleanCurrentCustomer(final HttpServletRequest request) throws Exception;
+	void cleanCurrentCustomer(HttpServletRequest request) throws Exception;
 	
 	/**
      * 

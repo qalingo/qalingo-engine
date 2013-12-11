@@ -104,7 +104,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
@@ -914,7 +914,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode());
                     final ProductMarketing productMarketing = productSku.getProductMarketing();
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
                     customerWishlistViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku));
                 }
             }
@@ -938,7 +938,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
                     final ProductSku reloadedProductSku = productService.getProductSkuByCode(customerProductComment.getProductSkuCode());
                     final ProductMarketing productMarketing = reloadedProductSku.getProductMarketing();
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
                     customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(
                             buildCustomerProductCommentViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku, customerProductComment));
                 }
@@ -1042,7 +1042,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
+            CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
             productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
         }
         return productBrandViewBean;
@@ -1051,19 +1051,19 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductCategoryViewBean buildMasterProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
-        final ProductCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategory);
+    public CatalogCategoryViewBean buildMasterProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategory);
         return catalogCategoryViewBean;
     }
 
     /**
      * 
      */
-    public ProductCategoryViewBean buildCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogCategoryViewBean buildCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         
-        final ProductCategoryViewBean catalogCategoryViewBean = new ProductCategoryViewBean();
+        final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 
 //         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
         catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
@@ -1098,7 +1098,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             catalogCategoryViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
         }
 
-        List<ProductCategoryViewBean> subProductCategoryViewBeans = new ArrayList<ProductCategoryViewBean>();
+        List<CatalogCategoryViewBean> subProductCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         Set<CatalogCategoryVirtual> subCategories = catalogCategory.getCatalogCategories();
         if (subCategories != null) {
             for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
@@ -1125,7 +1125,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
-        for (ProductCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
+        for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
             featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
         }
 
@@ -1541,6 +1541,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
 
         productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
         productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));

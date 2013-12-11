@@ -29,20 +29,20 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_MARKET_LANGUAGE			= "market-area-language-code";
 	public static final String REQUEST_PARAMETER_RETAILER_CODE				= "market-area-retailer-code";
 	
-	public static final String REQUEST_PARAMETER_PRODUCT_CATALOG_CODE		= "catalog-code";
-	public static final String REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE		= "category-code";
-	public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE		= "product-code";
-	public static final String REQUEST_PARAMETER_PRODUCT_SKU_CODE			= "product-sku-code";
-	public static final String REQUEST_PARAMETER_ASSET_CODE					= "asset-code";
-	public static final String REQUEST_PARAMETER_BRAND_CODE					= "brand-code";
-	public static final String REQUEST_PARAMETER_LOCALE_CODE				= "locale-code";
-	public static final String REQUEST_PARAMETER_CUSTOMER_CODE				= "customer-code";
-	public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK			= "customer-permalink";
-	public static final String REQUEST_PARAMETER_ORDER_CODE					= "order-code";
-	public static final String REQUEST_PARAMETER_RULE_CODE					= "rule-code";
-	public static final String REQUEST_PARAMETER_SHIPPING_CODE				= "shipping-code";
-	public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE		= "engine-setting-code";
-	public static final String REQUEST_PARAMETER_RETAILER_DETAILS_CODE		= "retailer-details-code";
+	public static final String REQUEST_PARAMETER_CATALOG_CODE              = "catalog-code";
+	public static final String REQUEST_PARAMETER_CATALOG_CATEGORY_CODE     = "category-code";
+	public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE    = "product-code";
+	public static final String REQUEST_PARAMETER_PRODUCT_SKU_CODE          = "product-sku-code";
+	public static final String REQUEST_PARAMETER_ASSET_CODE                = "asset-code";
+	public static final String REQUEST_PARAMETER_BRAND_CODE                = "brand-code";
+	public static final String REQUEST_PARAMETER_LOCALE_CODE               = "locale-code";
+	public static final String REQUEST_PARAMETER_CUSTOMER_CODE             = "customer-code";
+	public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK        = "customer-permalink";
+	public static final String REQUEST_PARAMETER_ORDER_CODE                = "order-code";
+	public static final String REQUEST_PARAMETER_RULE_CODE                 = "rule-code";
+	public static final String REQUEST_PARAMETER_SHIPPING_CODE             = "shipping-code";
+	public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE       = "engine-setting-code";
+	public static final String REQUEST_PARAMETER_RETAILER_DETAILS_CODE     = "retailer-details-code";
 
 	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";
 	public static final String REQUEST_PARAMETER_SEARCH_TXT					= "search-txt";

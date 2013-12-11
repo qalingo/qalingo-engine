@@ -320,7 +320,7 @@ public class ProductSku extends AbstractEntity {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
 		List<ProductSkuAttribute> productSkuAttributesFilter = new ArrayList<ProductSkuAttribute>();
 		if(productSkuAttributes != null) {
-			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			// GET ALL ProductSkuAttributes FOR THIS ATTRIBUTE
 			for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
 				ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
@@ -329,7 +329,7 @@ public class ProductSku extends AbstractEntity {
 					productSkuAttributesFilter.add(productSkuAttribute);
 				}
 			}
-			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
+			// REMOVE ALL ProductSkuAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
@@ -342,7 +342,7 @@ public class ProductSku extends AbstractEntity {
 					}
 				}
 			}
-			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
+			// FINALLY RETAIN ONLY ProductSkuAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
@@ -355,7 +355,7 @@ public class ProductSku extends AbstractEntity {
 				if(productSkuAttributesFilter.size() == 0){
 					// TODO : warning ?
 
-					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					// NOT ANY ProductSkuAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
 					for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
 						ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 						

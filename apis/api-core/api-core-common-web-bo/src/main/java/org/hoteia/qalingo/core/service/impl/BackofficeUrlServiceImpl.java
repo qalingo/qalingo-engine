@@ -97,11 +97,11 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                     if (param == null) continue;
                     if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE, handleParamValue(catalogCategoryMaster.getCode()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, handleParamValue(catalogCategoryMaster.getCode()));
                         break;
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE, handleParamValue(catalogCategoryVirtual.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, handleParamValue(catalogCategoryVirtual.getId().toString()));
                         break;
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;

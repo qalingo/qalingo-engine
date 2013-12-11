@@ -362,12 +362,12 @@ INSERT INTO teco_catalog_virtual_category_child_category_rel
 (50, 502);
 
 INSERT INTO teco_product_marketing 
-(id, description, code, is_default, business_name, version, brand_id)
+(id, description, code, is_default, business_name, version, brand_id, default_catalog_category_id)
  VALUES 
-(1, 'product marketing 1', 'PROD1', 1, 'Produit l', 1, 10), 
-(2, 'product marketing 2', 'PROD2', 0, 'Produit 2', 1, 10), 
-(3, 'product marketing 3', 'PROD3', 0, 'Produit 3', 1, 10), 
-(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20);
+(1, 'product marketing 1', 'PROD1', 1, 'Produit l', 1, 10, 302), 
+(2, 'product marketing 2', 'PROD2', 0, 'Produit 2', 1, 10, 302), 
+(3, 'product marketing 3', 'PROD3', 0, 'Produit 3', 1, 10, 302), 
+(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20, 401);
 
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 
@@ -416,7 +416,9 @@ VALUES
 (30, 1, 14.35, 1, 2, 1),
 (40, 1, 15.35, 1, 2, 2),
 (50, 1, 16.35, 1, 2, 3),
-(60, 1, 17.35, 1, 2, 4);
+(40, 1, 15.35, 1, 2, 4),
+(50, 1, 16.35, 1, 2, 5),
+(60, 1, 17.35, 1, 2, 6);
 
 -- MARKET PLACE EUR
 INSERT INTO teco_product_sku_price  
@@ -426,10 +428,14 @@ VALUES
 (140, 101, 15.45, 1, 1, 2),
 (150, 101, 16.45, 1, 1, 3),
 (160, 101, 17.45, 1, 1, 4),
+(150, 101, 16.45, 1, 1, 5),
+(160, 101, 17.45, 1, 1, 6),
 (230, 102, 14.45, 1, 1, 1),
 (240, 102, 15.45, 1, 1, 2),
 (250, 102, 16.45, 1, 1, 3),
-(260, 102, 17.45, 1, 1, 4);
+(240, 102, 15.45, 1, 1, 4),
+(250, 102, 16.45, 1, 1, 5),
+(260, 102, 17.45, 1, 1, 6);
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, master_category_id, scope)
