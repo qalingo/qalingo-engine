@@ -28,10 +28,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_RULE_REPOSITORY")
+@Table(name="TECO_RULE_REPOSITORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class RuleRepository extends AbstractEntity {
 
 	/**

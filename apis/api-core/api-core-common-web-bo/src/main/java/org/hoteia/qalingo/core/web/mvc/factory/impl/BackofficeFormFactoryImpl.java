@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
-import org.hoteia.qalingo.core.domain.Shipping;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -48,7 +48,7 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
-import org.hoteia.qalingo.core.web.mvc.form.ShippingForm;
+import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -290,18 +290,17 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         return ruleForm;
     }
     
-    public ShippingForm buildShippingForm(final RequestData requestData, final Shipping shipping) throws Exception {
-        final ShippingForm shippingForm = new ShippingForm();
-        if(shipping != null){
-            shippingForm.setId(shipping.getId());
-            shippingForm.setVersion(shipping.getVersion());
-            shippingForm.setName(shipping.getName());
-            shippingForm.setDescription(shipping.getDescription());
-            shippingForm.setCode(shipping.getCode());
-            shippingForm.setPrice(shipping.getPrice());
-            shippingForm.setMarketAreaId(shipping.getMarketAreaId());
+    public DeliveryMethodForm buildDeliveryMethodForm(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+        final DeliveryMethodForm deliveryMethodForm = new DeliveryMethodForm();
+        if(deliveryMethod != null){
+            deliveryMethodForm.setId(deliveryMethod.getId());
+            deliveryMethodForm.setVersion(deliveryMethod.getVersion());
+            deliveryMethodForm.setName(deliveryMethod.getName());
+            deliveryMethodForm.setDescription(deliveryMethod.getDescription());
+            deliveryMethodForm.setCode(deliveryMethod.getCode());
+            deliveryMethodForm.setPrice(deliveryMethod.getPrice());
         }
-        return shippingForm;
+        return deliveryMethodForm;
     }
     
     public RetailerForm buildRetailerForm(final RequestData requestData, final Retailer retailer) throws Exception {

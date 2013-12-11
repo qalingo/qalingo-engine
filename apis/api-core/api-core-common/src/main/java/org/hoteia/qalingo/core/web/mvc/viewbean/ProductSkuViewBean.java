@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,9 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
     
     protected String createdDate;
     protected String updatedDate;
+    
+    protected BigDecimal price;
+    protected String currencySign;
     
     public Long getId() {
         return id;
@@ -228,4 +232,20 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
         this.updatedDate = updatedDate;
     }
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getCurrencySign() {
+		return currencySign;
+	}
+
+	public void setCurrencySign(String currencySign) {
+		this.currencySign = currencySign;
+	}
+  
 }

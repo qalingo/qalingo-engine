@@ -48,9 +48,9 @@ public enum BoUrls {
     ORDER_LIST(BoUrls.ORDER_LIST_URL, BoUrls.ORDER_LIST_KEY, BoUrls.ORDER_LIST_VELOCITY_PAGE, true),
     ORDER_DETAILS(BoUrls.ORDER_DETAILS_URL, BoUrls.ORDER_DETAILS_KEY, BoUrls.ORDER_DETAILS_VELOCITY_PAGE, true),
     
-    SHIPPING_LIST(BoUrls.SHIPPING_LIST_URL, BoUrls.SHIPPING_LIST_KEY, BoUrls.SHIPPING_LIST_VELOCITY_PAGE, true),
-    SHIPPING_DETAILS(BoUrls.SHIPPING_DETAILS_URL, BoUrls.SHIPPING_DETAILS_KEY, BoUrls.SHIPPING_DETAILS_VELOCITY_PAGE, true),
-    SHIPPING_EDIT(BoUrls.SHIPPING_EDIT_URL, BoUrls.SHIPPING_EDIT_KEY, BoUrls.SHIPPING_EDIT_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_LIST(BoUrls.DELIVERY_METHOD_LIST_URL, BoUrls.DELIVERY_METHOD_LIST_KEY, BoUrls.DELIVERY_METHOD_LIST_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_DETAILS(BoUrls.DELIVERY_METHOD_DETAILS_URL, BoUrls.DELIVERY_METHOD_DETAILS_KEY, BoUrls.DELIVERY_METHOD_DETAILS_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_EDIT(BoUrls.DELIVERY_METHOD_EDIT_URL, BoUrls.DELIVERY_METHOD_EDIT_KEY, BoUrls.DELIVERY_METHOD_EDIT_VELOCITY_PAGE, true),
 
     CUSTOMER_LIST(BoUrls.CUSTOMER_LIST_URL, BoUrls.CUSTOMER_LIST_KEY, BoUrls.CUSTOMER_LIST_VELOCITY_PAGE, true),
     CUSTOMER_DETAILS(BoUrls.CUSTOMER_DETAILS_URL, BoUrls.CUSTOMER_DETAILS_KEY, BoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE, true),
@@ -206,18 +206,18 @@ public enum BoUrls {
 	public static final String ORDER_DETAILS_URL				= "/**/order-details.html";
 	public static final String ORDER_DETAILS_VELOCITY_PAGE		= "order/order-details";
 	
-	// SHIPPING
-	public static final String SHIPPING_LIST_KEY				= "shipping";
-	public static final String SHIPPING_LIST_URL				= "/**/shipping-list.html";
-	public static final String SHIPPING_LIST_VELOCITY_PAGE		= "shipping/shipping-list";
+	// DELIVERY_METHOD
+	public static final String DELIVERY_METHOD_LIST_KEY                = "delivery-method";
+	public static final String DELIVERY_METHOD_LIST_URL                = "/**/delivery-method-list.html";
+	public static final String DELIVERY_METHOD_LIST_VELOCITY_PAGE      = "delivery-method/delivery-method-list";
 
-	public static final String SHIPPING_DETAILS_KEY				= "shipping-details";
-	public static final String SHIPPING_DETAILS_URL				= "/**/shipping-details.html";
-	public static final String SHIPPING_DETAILS_VELOCITY_PAGE	= "shipping/shipping-details";
+	public static final String DELIVERY_METHOD_DETAILS_KEY				= "delivery-method-details";
+	public static final String DELIVERY_METHOD_DETAILS_URL				= "/**/delivery-method-details.html";
+	public static final String DELIVERY_METHOD_DETAILS_VELOCITY_PAGE	= "delivery-method/delivery-method-details";
 
-	public static final String SHIPPING_EDIT_KEY				= "shipping-edit";
-	public static final String SHIPPING_EDIT_URL				= "/**/shipping-edit.html";
-	public static final String SHIPPING_EDIT_VELOCITY_PAGE		= "shipping/shipping-edit";
+	public static final String DELIVERY_METHOD_EDIT_KEY            = "delivery-method-edit";
+	public static final String DELIVERY_METHOD_EDIT_URL            = "/**/delivery-method-edit.html";
+	public static final String DELIVERY_METHOD_EDIT_VELOCITY_PAGE  = "delivery-method/delivery-method-edit";
 
     // WAREHOUSE
     public static final String WAREHOUSE_LIST_KEY                = "warehouse";

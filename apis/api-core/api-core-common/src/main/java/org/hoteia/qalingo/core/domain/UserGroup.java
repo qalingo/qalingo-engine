@@ -26,10 +26,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_GROUP")
+@Table(name="TBO_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class UserGroup extends AbstractEntity {
 
 	/**

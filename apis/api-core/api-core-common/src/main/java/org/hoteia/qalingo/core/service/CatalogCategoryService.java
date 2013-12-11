@@ -42,13 +42,13 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
 
-	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, Long productMarketingId);
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, String productMarketingCode);
 	
 	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Long marketAreaId);
 
 	List<CatalogCategoryVirtual> findVirtualCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, Long productMarketingId);
+	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, String productMarketingCode);
 
 	List<CatalogCategoryVirtual> orderCategoryVirtualList(Long marketAreaId, List<CatalogCategoryVirtual> categories);
 

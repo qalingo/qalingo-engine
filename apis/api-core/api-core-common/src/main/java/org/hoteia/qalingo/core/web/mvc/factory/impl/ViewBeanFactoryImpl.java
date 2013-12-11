@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
@@ -35,6 +36,7 @@ import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -43,15 +45,16 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.OrderTax;
+import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
-import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -74,9 +77,10 @@ import org.hoteia.qalingo.core.service.openid.OpenProvider;
 import org.hoteia.qalingo.core.web.mvc.factory.AbstractViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
@@ -86,6 +90,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FaqViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
@@ -102,9 +107,10 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductAssociationLinkViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerCustomerCommentViewBean;
@@ -913,8 +919,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 for (Iterator<CustomerWishlist> iterator = customerWishlists.iterator(); iterator.hasNext();) {
                     final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode());
-                    final ProductMarketing productMarketing = productSku.getProductMarketing();
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
+                    final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
                     customerWishlistViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku));
                 }
             }
@@ -938,7 +944,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
                     final ProductSku reloadedProductSku = productService.getProductSkuByCode(customerProductComment.getProductSkuCode());
                     final ProductMarketing productMarketing = reloadedProductSku.getProductMarketing();
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
                     customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(
                             buildCustomerProductCommentViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku, customerProductComment));
                 }
@@ -1042,7 +1048,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getId());
+            CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
             productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
         }
         return productBrandViewBean;
@@ -1244,12 +1250,12 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         // SUB PART : Shippings
-        final List<CartShippingViewBean> cartShippingViewBeans = new ArrayList<CartShippingViewBean>();
-        final Set<Shipping> shippings = cart.getShippings();
+        final List<CartDeliveryMethodViewBean> cartShippingViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
+        final Set<DeliveryMethod> shippings = cart.getShippings();
         if (shippings != null) {
-            for (Iterator<Shipping> iterator = shippings.iterator(); iterator.hasNext();) {
-                final Shipping shipping = (Shipping) iterator.next();
-                final CartShippingViewBean cartShippingViewBean = new CartShippingViewBean();
+            for (Iterator<DeliveryMethod> iterator = shippings.iterator(); iterator.hasNext();) {
+                final DeliveryMethod shipping = (DeliveryMethod) iterator.next();
+                final CartDeliveryMethodViewBean cartShippingViewBean = new CartDeliveryMethodViewBean();
                 if (shipping.getPrice() != null) {
                     cartShippingTotal = cartShippingTotal.add(shipping.getPrice());
                     cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
@@ -1258,7 +1264,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 cartShippingViewBean.setCartShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
                 cartShippingViewBeans.add(cartShippingViewBean);
             }
-            cartViewBean.setCartShippings(cartShippingViewBeans);
+            cartViewBean.setCartDeliveryMethods(cartShippingViewBeans);
         }
 
         // SUB PART : Taxes
@@ -1509,11 +1515,24 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
+        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
+        
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
         productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
         productSkuViewBean.setDescription(productSku.getDescription());
         productSkuViewBean.setDefault(productSku.isDefault());
+        productSkuViewBean.setCode(productSku.getCode());
+        
+        Set<ProductSkuPrice> prices = productSku.getPrices();
+        for (ProductSkuPrice productSkuPrice : prices) {
+			if(productSkuPrice.getMarketAreaId().equals(currentMarketArea.getId()) && productSkuPrice.getRetailerId().equals(currentRetailer.getId())) {
+				productSkuViewBean.setPrice(productSkuPrice.getPrice());
+				productSkuViewBean.setCurrencySign(currentMarketArea.getCurrency().getSign());
+				break;
+			}
+		}
 
         final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
@@ -1550,6 +1569,82 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
 
         return productSkuViewBean;
+    }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        
+        final DeliveryMethodViewBean deliveryMethodViewBean = new DeliveryMethodViewBean();
+        deliveryMethodViewBean.setId(deliveryMethod.getId());
+
+        deliveryMethodViewBean.setVersion(deliveryMethod.getVersion());
+        deliveryMethodViewBean.setName(deliveryMethod.getName());
+        deliveryMethodViewBean.setDescription(deliveryMethod.getDescription());
+        deliveryMethodViewBean.setCode(deliveryMethod.getCode());
+        
+        final String currencyCode = marketArea.getCurrency().getCode();
+        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+        // PRICE
+        final BigDecimal price = deliveryMethod.getPrice();
+        if (price != null) {
+            deliveryMethodViewBean.setPrice(formatter.format(price));
+        }
+
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (deliveryMethod.getDateCreate() != null) {
+            deliveryMethodViewBean.setDateCreate(dateFormat.format(deliveryMethod.getDateCreate()));
+        } else {
+            deliveryMethodViewBean.setDateCreate("NA");
+        }
+        if (deliveryMethod.getDateUpdate() != null) {
+            deliveryMethodViewBean.setDateUpdate(dateFormat.format(deliveryMethod.getDateUpdate()));
+        } else {
+            deliveryMethodViewBean.setDateUpdate("NA");
+        }
+
+        // TODO : CMS page to describe Delivery Methods
+//        deliveryMethodViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
+//        deliveryMethodViewBean.setEditUrl(urlService.generateUrl(FoUrls.DELIVERY_METHOD_EDIT, requestData, deliveryMethod));
+
+        return deliveryMethodViewBean;
+    }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    public PaymentMethodViewBean buildPaymentMethodViewBean(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
+        final PaymentMethodViewBean paymentMethodViewBean = new PaymentMethodViewBean();
+
+        paymentMethodViewBean.setCode(paymentGateway.getCode());
+        paymentMethodViewBean.setName(paymentGateway.getName());
+        paymentMethodViewBean.setDescription(paymentGateway.getDescription());
+        
+        Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getPaymentGatewayOptions();
+        for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
+            PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
+            paymentMethodViewBean.getPaymentMethodOptions().add(buildPaymentMethodOptionViewBean(requestData, paymentGatewayOption));
+        }
+        
+        return paymentMethodViewBean;
+    }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    public PaymentMethodOptionViewBean buildPaymentMethodOptionViewBean(final RequestData requestData, final PaymentGatewayOption paymentGatewayOption) throws Exception {
+        final PaymentMethodOptionViewBean paymentMethodOptionViewBean = new PaymentMethodOptionViewBean();
+
+        paymentMethodOptionViewBean.setCode(paymentGatewayOption.getCode());
+        paymentMethodOptionViewBean.setName(paymentGatewayOption.getName());
+        paymentMethodOptionViewBean.setDescription(paymentGatewayOption.getDescription());
+        
+        return paymentMethodOptionViewBean;
     }
 
 }

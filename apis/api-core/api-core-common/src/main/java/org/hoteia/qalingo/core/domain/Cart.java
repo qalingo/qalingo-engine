@@ -68,7 +68,7 @@ public class Cart extends AbstractEntity {
 	private Set<CartItem> cartItems = new HashSet<CartItem>();
 
 	@Transient
-	private Set<Shipping> shippings = new HashSet<Shipping>();
+	private Set<DeliveryMethod> shippings = new HashSet<DeliveryMethod>();
 	
 	@Transient
 	private Set<Tax> taxes = new HashSet<Tax>();
@@ -155,11 +155,11 @@ public class Cart extends AbstractEntity {
        return 0;
     }
 	
-	public Set<Shipping> getShippings() {
+	public Set<DeliveryMethod> getShippings() {
 		return shippings;
 	}
 
-	public void setShippings(Set<Shipping> shippings) {
+	public void setShippings(Set<DeliveryMethod> shippings) {
 		this.shippings = shippings;
 	}
 

@@ -489,6 +489,21 @@ INSERT INTO teco_asset
 (37, 'image ...', 'PS_IMG7', 'prod-1-img-1.png', 0, 'image 7', 1, 'BACKGROUND', null, 1, 3, 'PRODUCT_SKU'), 
 (38, 'image ...', 'PS_IMG8', 'prod-1-img-1.png', 0, 'image 8', 1, 'BACKGROUND', null, 1, 4, 'PRODUCT_SKU');
 
+-- DELIVERY METHODS
+
+INSERT INTO teco_delivery_methods  
+(id, code, name, description, version)
+ VALUES 
+(10, 'UPS', 'UPS', 'UPS', 1), 
+(20, 'CHONOPOST', 'Chronopost', 'Chronopost', 1), 
+(30, 'COLISSIMO', 'Collisimo', 'Collisimo', 1);
+
+INSERT INTO teco_market_area_delivery_method_rel  
+(market_area_id, payment_gateway_id)
+ VALUES 
+(1, 10),
+(1, 20),
+(1, 30);
 
 -- RULE | PROMO
 

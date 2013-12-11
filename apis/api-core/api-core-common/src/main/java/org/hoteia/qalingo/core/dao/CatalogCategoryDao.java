@@ -42,7 +42,7 @@ public interface CatalogCategoryDao {
 
 	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId);
 
-	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(Long marketAreaId, Long productMarketingId);
+	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(Long marketAreaId, String productMarketingCode);
 	
 	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 

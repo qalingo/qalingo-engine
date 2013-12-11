@@ -40,7 +40,7 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK        = "customer-permalink";
 	public static final String REQUEST_PARAMETER_ORDER_CODE                = "order-code";
 	public static final String REQUEST_PARAMETER_RULE_CODE                 = "rule-code";
-	public static final String REQUEST_PARAMETER_SHIPPING_CODE             = "shipping-code";
+	public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE      = "delivery-method-code";
 	public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE       = "engine-setting-code";
 	public static final String REQUEST_PARAMETER_RETAILER_DETAILS_CODE     = "retailer-details-code";
 

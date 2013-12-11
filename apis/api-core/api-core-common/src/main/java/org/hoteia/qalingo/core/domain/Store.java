@@ -28,6 +28,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -35,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 
 @Entity
-@Table(name="TECO_STORE")
+@Table(name="TECO_STORE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class Store extends AbstractEntity {
 
 	/**

@@ -15,15 +15,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("catalogCategoryService")
 @Transactional
@@ -109,8 +107,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return catalogCategoryDao.getVirtualCatalogCategoryByCode(marketAreaId, catalogCategoryCode);
 	}
 
-	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final Long productMarketingId) {
-		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketingId);
+	public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(final Long marketAreaId, final String productMarketingCode) {
+		List<CatalogCategoryVirtual> categories = catalogCategoryDao.findCatalogCategoriesByProductMarketingCode(marketAreaId, productMarketingCode);
 		CatalogCategoryVirtual catalogCategoryVirtual = null;
 		if(categories != null){
 			for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {
@@ -137,8 +135,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 		return orderCategoryVirtualList(marketAreaId, categories);
 	}
 
-	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final Long productMarketingId) {
-		return catalogCategoryDao.findCatalogCategoriesByProductMarketingId(marketAreaId, productMarketingId);
+	public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long marketAreaId, final String productMarketingCode) {
+		return catalogCategoryDao.findCatalogCategoriesByProductMarketingCode(marketAreaId, productMarketingCode);
 	}
 	
 	public List<CatalogCategoryVirtual> orderCategoryVirtualList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories){

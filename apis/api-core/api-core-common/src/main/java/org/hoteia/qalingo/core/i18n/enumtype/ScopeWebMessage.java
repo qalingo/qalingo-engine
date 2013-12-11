@@ -97,7 +97,7 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
-	SHIPPING("shipping"),
+	DELIVERY_METHOD("Delivery_method"),
 	
 	/**
 	 * 

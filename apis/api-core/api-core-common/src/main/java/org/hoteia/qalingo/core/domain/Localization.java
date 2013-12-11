@@ -20,13 +20,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_LOCALIZATION")
+@Table(name="TECO_LOCALIZATION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class Localization extends AbstractEntity {
 
 	/**

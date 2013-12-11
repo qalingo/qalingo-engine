@@ -36,7 +36,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.Shipping;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -119,9 +119,9 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         AbstractRuleReferential rule = (AbstractRuleReferential) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_RULE_CODE, handleParamValue(rule.getId().toString()));
                         break;
-                    } else if (param instanceof Shipping) {
-                        Shipping shipping = (Shipping) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_SHIPPING_CODE, handleParamValue(shipping.getId().toString()));
+                    } else if (param instanceof DeliveryMethod) {
+                        DeliveryMethod shipping = (DeliveryMethod) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE, handleParamValue(shipping.getId().toString()));
                         break;
                     } else if (param instanceof OrderCustomer) {
                         OrderCustomer order = (OrderCustomer) param;
