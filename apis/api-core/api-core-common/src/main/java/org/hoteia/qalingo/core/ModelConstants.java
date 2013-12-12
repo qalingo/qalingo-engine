@@ -119,7 +119,6 @@ public final class ModelConstants {
     public static final String RETAILERS_BY_QUALITY_OF_SERVICE  = "retailersByQualityOfService";
     public static final String RETAILERS_BY_RATIO_QUALITY_PRICE = "retailersByRatioQualityPrice";
     public static final String LAST_RETAILERS                   = "lastRetailers";
-
     // OTHERS
     public static final String HEADER_CART      = "headerCart";
     public static final String HEADER_TITLE     = "headerTitle";
