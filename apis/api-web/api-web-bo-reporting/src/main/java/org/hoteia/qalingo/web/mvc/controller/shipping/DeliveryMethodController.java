@@ -30,11 +30,11 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  */
 @Controller("shippingController")
-public class ShippingController extends AbstractReportingBackofficeController {
+public class DeliveryMethodController extends AbstractReportingBackofficeController {
 
-	@RequestMapping(value = BoUrls.SHIPPING_LIST_URL, method = RequestMethod.GET)
+	@RequestMapping(value = BoUrls.DELIVERY_METHOD_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView shipping(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.SHIPPING_LIST.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         

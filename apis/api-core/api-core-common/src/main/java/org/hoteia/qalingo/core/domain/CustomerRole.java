@@ -25,10 +25,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_ROLE")
+@Table(name="TECO_ROLE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class CustomerRole extends AbstractEntity {
 
 	/**

@@ -26,11 +26,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_SHIPPING")
-public class Shipping extends AbstractEntity {
+@Table(name="TECO_DELIVERY_METHODS", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+public class DeliveryMethod extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -62,9 +63,6 @@ public class Shipping extends AbstractEntity {
     @JoinColumn(name="SHIPPING_ID")
 	private Set<ShippingCountry> shippingCountries = new HashSet<ShippingCountry>(); 
 	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -73,7 +71,7 @@ public class Shipping extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 	
-	public Shipping() {
+	public DeliveryMethod() {
 	}
 	
 	public Long getId() {
@@ -148,12 +146,4 @@ public class Shipping extends AbstractEntity {
 		this.shippingCountries = shippingCountries;
 	}
 	
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
-	
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
-
 }

@@ -171,6 +171,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         criteria.setFetchMode("productSkus", FetchMode.JOIN); 
         criteria.setFetchMode("productAssociationLinks", FetchMode.JOIN); 
         criteria.setFetchMode("assets", FetchMode.JOIN); 
+        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
     }
     
     // PRODUCT SKU
@@ -178,7 +179,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     public ProductSku getProductSkuById(final Long productSkuId) {
         Criteria criteria = getSession().createCriteria(ProductSku.class);
         
-        addDefaultFetch(criteria);
+        addDefaultProductSkuFetch(criteria);
 
         criteria.add(Restrictions.eq("id", productSkuId));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
@@ -188,7 +189,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     public ProductSku getProductSkuByCode(final String productSkuCode) {
         Criteria criteria = getSession().createCriteria(ProductSku.class);
         
-        addDefaultFetch(criteria);
+        addDefaultProductSkuFetch(criteria);
 
         criteria.add(Restrictions.eq("code", productSkuCode));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
@@ -198,7 +199,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing) {
         Criteria criteria = getSession().createCriteria(ProductSku.class);
         
-        addDefaultFetch(criteria);
+        addDefaultProductSkuFetch(criteria);
 
         criteria.add(Restrictions.eq("productMarketing", productMarketing));
         criteria.addOrder(Order.asc("id"));
@@ -211,7 +212,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     public List<ProductSku> findProductSkus(final String text) {
         Criteria criteria = getSession().createCriteria(ProductSku.class);
         
-        addDefaultFetch(criteria);
+        addDefaultProductSkuFetch(criteria);
         
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
@@ -272,9 +273,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productSkuAsset);
     }
     
-    private void addDefaultFetch(Criteria criteria) {
+    private void addDefaultProductSkuFetch(Criteria criteria) {
         criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("productSku", FetchMode.JOIN); 
+        criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
         criteria.setFetchMode("assets", FetchMode.JOIN); 
         criteria.setFetchMode("prices", FetchMode.JOIN); 
         criteria.setFetchMode("stocks", FetchMode.JOIN); 

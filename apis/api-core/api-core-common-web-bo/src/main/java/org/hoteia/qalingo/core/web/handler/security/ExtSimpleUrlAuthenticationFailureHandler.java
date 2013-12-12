@@ -29,33 +29,32 @@ import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
-@Component(value="extSimpleUrlAuthenticationFailureHandler")
+@Component(value = "extSimpleUrlAuthenticationFailureHandler")
 public class ExtSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
     protected BackofficeUrlService backofficeUrlService;
-	
-	@Autowired
+
+    @Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
+
+    @Autowired
     protected ExtRedirectStrategy redirectStrategy;
-    
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-			throws IOException, ServletException {
-		try {
-			Map<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR, "true");
-			String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
-			setDefaultFailureUrl(url);
-	        saveException(request, exception);
-	        redirectStrategy.sendRedirect(request, response, url);
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-	}
-	
+
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        try {
+            Map<String, String> urlParams = new HashMap<String, String>();
+            urlParams.put(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR, "true");
+            String url = backofficeUrlService.generateUrl(BoUrls.LOGIN, requestUtil.getRequestData(request), urlParams);
+            setDefaultFailureUrl(url);
+            saveException(request, exception);
+            redirectStrategy.sendRedirect(request, response, url);
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+    }
+
 }

@@ -152,7 +152,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         
-		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 
 		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryCode);
 
@@ -173,7 +173,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
         
-		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryCode);
 
 		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId());
@@ -212,7 +212,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
 
-		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		
 		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId());
 		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
@@ -410,7 +410,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
 		final Locale locale = requestData.getLocale();
 
-		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 
 		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryCode);
 
@@ -431,7 +431,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
 
-		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryCode);
 
 		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId());
@@ -470,7 +470,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
 
-		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_CATEGORY_CODE);
+		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		
 		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategoriesByMarketIdAndRetailerId(currentMarketArea.getId());
 		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {

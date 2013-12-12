@@ -17,130 +17,175 @@ import java.util.Map;
 
 public class CatalogCategoryViewBean extends AbstractViewBean implements Serializable {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 8297814352511603492L;
-	
-	protected String businessName;
-	protected String code;
-	protected String description;
-	protected int countProduct;
-	protected CatalogCategoryViewBean defaultParentCategory;
-	
-	protected List<CatalogCategoryViewBean> subCategories = new ArrayList<CatalogCategoryViewBean>();
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 5107897401068601858L;
 
-	private Map<String, String> globalAttributes = new HashMap<String, String>();
-	private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    protected String code;
+    protected String name;
+    protected String description;
+    protected String backgroundImage;
+    protected String carouselImage;
+    protected String iconImage;
+    protected boolean isRoot;
+    protected int countProduct;
+    protected CatalogCategoryViewBean defaultParentCategory;
 
-	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
-	protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    private Map<String, String> globalAttributes = new HashMap<String, String>();
+    private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 
-	private String createdDate;
-	private String updatedDate;
-	
-	protected String detailsUrl;
-	protected String editUrl;
-	
-	public CatalogCategoryViewBean() {
-	}
-	
-	public String getBusinessName() {
-		return businessName;
-	}
-	
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public int getCountProduct() {
-		return countProduct;
-	}
-	
-	public void setCountProduct(int countProduct) {
-		this.countProduct = countProduct;
-	}
-	
-	public CatalogCategoryViewBean getDefaultParentCategory() {
-		return defaultParentCategory;
-	}
-	
-	public void setDefaultParentCategory(CatalogCategoryViewBean defaultParentCategory) {
-		this.defaultParentCategory = defaultParentCategory;
-	}
-	
-	public List<CatalogCategoryViewBean> getSubCategories() {
-		return subCategories;
-	}
-	
-	public void setSubCategories(List<CatalogCategoryViewBean> subCategories) {
-		this.subCategories = subCategories;
-	}
-	
-	public Map<String, String> getGlobalAttributes() {
-		return globalAttributes;
-	}
-	
-	public void setGlobalAttributes(Map<String, String> globalAttributes) {
-		this.globalAttributes = globalAttributes;
-	}
-	
-	public Map<String, String> getMarketAreaAttributes() {
-		return marketAreaAttributes;
-	}
-	
-	public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
-		this.marketAreaAttributes = marketAreaAttributes;
-	}
-	
-	public List<ProductMarketingViewBean> getProductMarketings() {
-		return productMarketings;
-	}
-	
-	public void setProductMarketings(List<ProductMarketingViewBean> ProductMarketings) {
-		this.productMarketings = ProductMarketings;
-	}
-	
-	public List<AssetViewBean> getAssets() {
-		return assets;
-	}
-	
-	public void setAssets(List<AssetViewBean> assets) {
-		this.assets = assets;
-	}
-	
-	public String getCreatedDate() {
-		return createdDate;
-	}
+    protected List<CatalogCategoryViewBean> subCategories = new ArrayList<CatalogCategoryViewBean>();
+    protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
+    protected List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
-	}
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-	
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+    protected String productAxeUrl;
+    protected String productLineUrl;
 
+    protected String detailsUrl;
+    protected String editUrl;
+    
+    protected String createdDate;
+    protected String updatedDate;
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
+    public String getCarouselImage() {
+        return carouselImage;
+    }
+
+    public void setCarouselImage(String carouselImage) {
+        this.carouselImage = carouselImage;
+    }
+
+    public String getIconImage() {
+        return iconImage;
+    }
+
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
+    }
+
+    public boolean isRoot() {
+        return isRoot;
+    }
+
+    public void setRoot(boolean isRoot) {
+        this.isRoot = isRoot;
+    }
+
+    public int getCountProduct() {
+        return countProduct;
+    }
+
+    public void setCountProduct(int countProduct) {
+        this.countProduct = countProduct;
+    }
+
+    public CatalogCategoryViewBean getDefaultParentCategory() {
+        return defaultParentCategory;
+    }
+
+    public void setDefaultParentCategory(CatalogCategoryViewBean defaultParentCategory) {
+        this.defaultParentCategory = defaultParentCategory;
+    }
+
+    public Map<String, String> getGlobalAttributes() {
+        return globalAttributes;
+    }
+    
+    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+        this.globalAttributes = globalAttributes;
+    }
+    
+    public Map<String, String> getMarketAreaAttributes() {
+        return marketAreaAttributes;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+        this.marketAreaAttributes = marketAreaAttributes;
+    }
+
+    public List<CatalogCategoryViewBean> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(List<CatalogCategoryViewBean> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public List<ProductMarketingViewBean> getProductMarketings() {
+        return productMarketings;
+    }
+
+    public void setProductMarketings(List<ProductMarketingViewBean> productMarketings) {
+        this.productMarketings = productMarketings;
+    }
+
+    public List<ProductMarketingViewBean> getFeaturedProductMarketings() {
+        return featuredProductMarketings;
+    }
+
+    public void setFeaturedProductMarketings(List<ProductMarketingViewBean> featuredProductMarketings) {
+        this.featuredProductMarketings = featuredProductMarketings;
+    }
+    
+    public List<AssetViewBean> getAssets() {
+        return assets;
+    }
+    
+    public void setAssets(List<AssetViewBean> assets) {
+        this.assets = assets;
+    }
+    
+    public String getProductAxeUrl() {
+        return productAxeUrl;
+    }
+
+    public void setProductAxeUrl(String productAxeUrl) {
+        this.productAxeUrl = productAxeUrl;
+    }
+
+    public String getProductLineUrl() {
+        return productLineUrl;
+    }
+
+    public void setProductLineUrl(String productLineUrl) {
+        this.productLineUrl = productLineUrl;
+    }
+    
     public String getDetailsUrl() {
         return detailsUrl;
     }
@@ -155,6 +200,22 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
+    }
+    
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+    
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+    
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
 }

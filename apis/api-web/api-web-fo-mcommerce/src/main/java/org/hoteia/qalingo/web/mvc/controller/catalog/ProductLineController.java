@@ -9,9 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +20,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +45,7 @@ public class ProductLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
-        
-        final String viewBy = request.getParameter("viewBy");
-        final String sortBy = request.getParameter("sortBy");
-        
+
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
@@ -65,53 +58,8 @@ public class ProductLineController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
-		
-		List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
-		Collections.sort(productMarketings, new Comparator<ProductMarketingViewBean>() {
-			@Override
-			public int compare(ProductMarketingViewBean o1,
-					ProductMarketingViewBean o2) {
-				// TODO Auto-generated method stub
-				if("name".equals(viewBy)){
-					if("desc".equals(sortBy)){
-						return o2.getI18nName().compareTo(o1.getI18nName());
-					}else{
-						return o1.getI18nName().compareTo(o2.getI18nName());
-					}
-				}else if("price".equals(viewBy)){
-						if("desc".equals(sortBy)){
-							if(o2.getPrice()!=null && o1.getPrice()!=null){
-								return o2.getPrice().compareTo(o1.getPrice());
-							}else{
-								if(o1.getPrice()==null){
-									return 1 ;
-								}else{
-									return -1;
-								}
-							}
-						}else{
-							if(o1.getPrice()!= null && o2.getPrice()!=null){
-								return o1.getPrice().compareTo(o2.getPrice());
-							}else{
-								if(o1.getPrice()==null){
-									return -1 ;
-								}else{
-									return 1;
-								}
-							}
-						}
-				}else{
-					return 0;
-				}
-			}
-		});
-		
-		productCategoryViewBean.setProductMarketings(productMarketings);
-		
+		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
-		model.addAttribute("viewBy",viewBy);
-		
 		
         return modelAndView;
 	}

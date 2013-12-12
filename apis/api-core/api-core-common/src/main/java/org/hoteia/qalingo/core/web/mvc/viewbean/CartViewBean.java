@@ -34,7 +34,7 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 	private String cartTotal;
 	
 	private List<CartItemViewBean> cartItems = new ArrayList<CartItemViewBean>();
-	private List<CartShippingViewBean> cartShippings = new ArrayList<CartShippingViewBean>();
+	private List<CartDeliveryMethodViewBean> cartDeliveryMethods = new ArrayList<CartDeliveryMethodViewBean>();
 	private List<CartTaxViewBean> cartTaxes = new ArrayList<CartTaxViewBean>();
 
 	public CartViewBean() {
@@ -130,19 +130,26 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 	}
 	
     public int getTotalCartItems() {
-        if(cartItems != null){
+        if (cartItems != null) {
             return cartItems.size();
         }
         return 0;
-     }
+    }
 	
-	public List<CartShippingViewBean> getCartShippings() {
-		return cartShippings;
+	public List<CartDeliveryMethodViewBean> getCartDeliveryMethods() {
+		return cartDeliveryMethods;
 	}
 	
-	public void setCartShippings(List<CartShippingViewBean> cartShippings) {
-		this.cartShippings = cartShippings;
+	public void setCartDeliveryMethods(List<CartDeliveryMethodViewBean> cartDeliveryMethods) {
+		this.cartDeliveryMethods = cartDeliveryMethods;
 	}
+	
+    public int getTotalDeliveryMethods() {
+        if (cartDeliveryMethods != null) {
+            return cartDeliveryMethods.size();
+        }
+        return 0;
+    }
 	
 	public List<CartTaxViewBean> getCartTaxes() {
 		return cartTaxes;
@@ -151,5 +158,12 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 	public void setCartTaxes(List<CartTaxViewBean> cartTaxes) {
 		this.cartTaxes = cartTaxes;
 	}
+	
+    public int getTotalCartTaxes() {
+        if (cartTaxes != null) {
+            return cartTaxes.size();
+        }
+        return 0;
+    }
 	
 }

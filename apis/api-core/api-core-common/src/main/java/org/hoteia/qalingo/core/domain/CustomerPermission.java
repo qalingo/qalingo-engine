@@ -19,10 +19,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PERMISSION")
+@Table(name="TECO_PERMISSION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class CustomerPermission extends AbstractEntity {
 
 	/**

@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.Shipping;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
@@ -51,7 +51,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
 
 public interface BackofficeViewBeanFactory extends ViewBeanFactory {
@@ -109,8 +109,6 @@ public interface BackofficeViewBeanFactory extends ViewBeanFactory {
 	UserViewBean buildUserViewBean(RequestData requestData, User user) throws Exception;
 	
 	List<UserViewBean> buildUserViewBeans(RequestData requestData, List<User> users) throws Exception;
-	
-	ShippingViewBean buildShippingViewBean(RequestData requestData, Shipping shipping) throws Exception;
 	
 	OrderViewBean buildOrderViewBean(RequestData requestData, OrderCustomer order) throws Exception;
 	
