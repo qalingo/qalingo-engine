@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +75,11 @@ public class ProductDetailsController extends AbstractMCommerceController {
 
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productCategory, productMarketing);
         model.addAttribute("productMarketing", productMarketingViewBean);
+
+        //for now, get the featured products in same category
+        //TODO: define related products
+        List<ProductMarketingViewBean> relatedProducts = productCategoryViewBean.getFeaturedProductMarketings();
+        model.addAttribute("relatedProductMarketings", relatedProducts);
 
         return modelAndView;
 	}
