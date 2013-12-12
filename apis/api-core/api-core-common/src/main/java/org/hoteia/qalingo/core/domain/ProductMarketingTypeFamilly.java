@@ -11,11 +11,15 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,13 +27,13 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CURRENCY_REFERENTIAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-public class CurrencyReferential extends AbstractEntity {
+@Table(name="TECO_PRODUCT_MARKETING_TYPE_FAMILLY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+public class ProductMarketingTypeFamilly extends AbstractEntity {
 
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -8773291277705820667L;
+	private static final long serialVersionUID = -3980707330914384779L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,12 +53,10 @@ public class CurrencyReferential extends AbstractEntity {
 	@Column(name="CODE")
 	private String code;
 	
-	@Column(name="SIGN")
-	private String sign;
-	
-	@Column(name="ABBREVIATED")
-	private String abbreviated;
-	
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "TAX_ID", insertable = false, updatable = false)
+    private Tax tax;
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -62,8 +64,8 @@ public class CurrencyReferential extends AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
-	
-	public CurrencyReferential() {
+
+	public ProductMarketingTypeFamilly(){
 	}
 	
 	public Long getId() {
@@ -73,7 +75,7 @@ public class CurrencyReferential extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public int getVersion() {
 		return version;
 	}
@@ -89,7 +91,7 @@ public class CurrencyReferential extends AbstractEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
@@ -97,30 +99,22 @@ public class CurrencyReferential extends AbstractEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public String getCode() {
 		return code;
 	}
-
+	
 	public void setCode(String code) {
 		this.code = code;
 	}
-
-	public String getSign() {
-		return sign;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-
-	public String getAbbreviated() {
-		return abbreviated;
-	}
-
-	public void setAbbreviated(String abbreviated) {
-		this.abbreviated = abbreviated;
-	}
+	
+	public Tax getTax() {
+        return tax;
+    }
+	
+	public void setTax(Tax tax) {
+        this.tax = tax;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

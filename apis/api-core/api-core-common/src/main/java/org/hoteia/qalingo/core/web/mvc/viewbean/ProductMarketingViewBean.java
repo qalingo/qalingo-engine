@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -256,24 +255,20 @@ public class ProductMarketingViewBean extends AbstractViewBean implements Serial
         return null;
     }
     
-    public String getPrice(){
+    public String getPriceWithCurrencySign(){
     	if(productSkus != null){
-    		DecimalFormat df = new DecimalFormat("0.00##");
-    		String priceTemplate = "%s%s";
             for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
                 ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
                 if(productSkuViewBean.isDefault()){
-                	if(productSkuViewBean.getPrice() != null){
-	                	String price = df.format(productSkuViewBean.getPrice().doubleValue());
-	                	return String.format(priceTemplate, productSkuViewBean.getCurrencySign(), price);
+                	if(productSkuViewBean.getPriceWithCurrencySign() != null){
+	                	return productSkuViewBean.getPriceWithCurrencySign();
                 	}
                 }
             }
             if(!productSkus.isEmpty()){
                 ProductSkuViewBean productSkuViewBean = productSkus.get(0);
-                if(productSkuViewBean != null && productSkuViewBean.getPrice() != null){
-                	String price = df.format(productSkuViewBean.getPrice().doubleValue());
-                	return String.format(priceTemplate, productSkuViewBean.getCurrencySign(), price); 
+                if(productSkuViewBean != null && productSkuViewBean.getPriceWithCurrencySign() != null){
+                	return productSkuViewBean.getPriceWithCurrencySign(); 
                 }
             }
         }

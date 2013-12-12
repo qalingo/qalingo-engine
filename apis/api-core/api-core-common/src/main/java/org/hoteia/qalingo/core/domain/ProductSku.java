@@ -240,6 +240,18 @@ public class ProductSku extends AbstractEntity {
 		return prices;
 	}
 	
+	public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId){
+	    if(prices != null){
+	        for (ProductSkuPrice productSkuPrice : prices) {
+	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
+	                    && productSkuPrice.getRetailerId().equals(retailerId)) {
+	                return productSkuPrice;
+	            }
+	        }    
+	    }
+	    return null;
+	}
+	
 	public void setPrices(Set<ProductSkuPrice> prices) {
 		this.prices = prices;
 	}
@@ -389,6 +401,22 @@ public class ProductSku extends AbstractEntity {
 	public Integer getOrder(Long marketAreaId) {
 		return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
+	
+    public Integer getWidth() {
+        return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_WIDTH, null, null);
+    }
+    
+    public Integer getHeight() {
+        return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_HEIGHT, null, null);
+    }
+    
+    public Integer getLength() {
+        return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_LENGTH, null, null);
+    }
+    
+    public Integer getWeight() {
+        return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_WEIGHT, null, null);
+    }
 
 	// ASSET
 	public Asset getDefaultPaskshotImage(String size) {

@@ -27,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -92,6 +93,10 @@ public class Retailer extends AbstractEntity {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "WAREHOUSE_ID")
+    private Warehouse warehouse;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerLink> links = new HashSet<RetailerLink>();
@@ -248,6 +253,14 @@ public class Retailer extends AbstractEntity {
         this.ratioQualityPrice = ratioQualityPrice;
     }
 
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+    
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+    
     public Set<RetailerLink> getLinks() {
         return links;
     }

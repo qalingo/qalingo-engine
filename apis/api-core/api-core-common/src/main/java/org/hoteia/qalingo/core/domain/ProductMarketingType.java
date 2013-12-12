@@ -11,11 +11,15 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +53,10 @@ public class ProductMarketingType extends AbstractEntity {
 	@Column(name="CODE")
 	private String code;
 	
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID", insertable = false, updatable = false)
+    private ProductMarketingTypeFamilly productMarketingTypeFamilly;
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -100,6 +108,14 @@ public class ProductMarketingType extends AbstractEntity {
 		this.code = code;
 	}
 	
+	public ProductMarketingTypeFamilly getProductMarketingTypeFamilly() {
+        return productMarketingTypeFamilly;
+    }
+	
+	public void setProductMarketingTypeFamilly(ProductMarketingTypeFamilly productMarketingTypeFamilly) {
+        this.productMarketingTypeFamilly = productMarketingTypeFamilly;
+    }
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -116,5 +132,4 @@ public class ProductMarketingType extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 
-	
 }

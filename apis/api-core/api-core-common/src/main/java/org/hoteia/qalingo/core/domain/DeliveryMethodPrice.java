@@ -27,8 +27,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_PRICE")
-public class ProductSkuPrice extends AbstractPrice {
+@Table(name="TECO_DELIVERY_METHOD_PRICE")
+public class DeliveryMethodPrice extends AbstractPrice {
 
 	/**
 	 * Generated UID
@@ -44,8 +44,8 @@ public class ProductSkuPrice extends AbstractPrice {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@Column(name="PRICE_CATALOG")
-	private BigDecimal catalogPrice;
+	@Column(name="PRICE")
+	private BigDecimal price;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
@@ -64,7 +64,7 @@ public class ProductSkuPrice extends AbstractPrice {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_END")
     private Date dateEnd;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -73,7 +73,7 @@ public class ProductSkuPrice extends AbstractPrice {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
     
-	public ProductSkuPrice() {
+	public DeliveryMethodPrice() {
 	}
 	
 	public Long getId() {
@@ -92,18 +92,18 @@ public class ProductSkuPrice extends AbstractPrice {
 		this.version = version;
 	}
 
-	public BigDecimal getCatalogPrice() {
-        return catalogPrice;
+	public BigDecimal getPrice() {
+        return price;
     }
 	
-	public void setCatalogPrice(BigDecimal catalogPrice) {
-        this.catalogPrice = catalogPrice;
+	public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 	
 	@Override
     public BigDecimal getSalePrice() {
         if (salePrice == null) {
-            return catalogPrice;
+            return price;
         }
         return salePrice;
     }
@@ -132,7 +132,7 @@ public class ProductSkuPrice extends AbstractPrice {
 	public void setRetailerId(Long retailerId) {
 		this.retailerId = retailerId;
 	}
-	
+
     public Date getDateStart() {
         return dateStart;
     }
