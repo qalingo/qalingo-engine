@@ -15,6 +15,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
@@ -150,8 +151,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 
         addDefaultCatalogCategoryFetch(criteria);
         
-        criteria.add(Restrictions.eq("defaultParentCatalogCategory", null));
+        criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
         criteria.addOrder(Order.asc("id"));
+        
 
         @SuppressWarnings("unchecked")
         List<CatalogCategoryVirtual> categories = criteria.list();
