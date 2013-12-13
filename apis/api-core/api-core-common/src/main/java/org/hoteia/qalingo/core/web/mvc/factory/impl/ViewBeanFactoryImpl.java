@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1075,7 +1078,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
-
+        
+        final String viewBy = request.getParameter("viewBy");
+        final String sortBy = request.getParameter("sortBy");
+       
         final Asset defaultBackgroundImage = catalogCategory.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
             final String backgroundImage = requestUtil.getCatalogImageWebPath(request, defaultBackgroundImage);
@@ -1129,6 +1135,46 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 }
             }
         }
+        
+        Collections.sort(productMarketingViewBeans, new Comparator<ProductMarketingViewBean>() {
+        	@Override
+			public int compare(ProductMarketingViewBean o1,
+					ProductMarketingViewBean o2) {
+				// TODO Auto-generated method stub
+				if("name".equals(viewBy)){
+					if("desc".equals(sortBy)){
+						return o2.getI18nName().compareTo(o1.getI18nName());
+					}else{
+						return o1.getI18nName().compareTo(o2.getI18nName());
+					}
+				}else if("price".equals(viewBy)){
+						if("desc".equals(sortBy)){
+							if(o2.getPrice()!=null && o1.getPrice()!=null){
+								return o2.getPrice().compareTo(o1.getPrice());
+							}else{
+								if(o1.getPrice()==null){
+									return 1 ;
+								}else{
+									return -1;
+								}
+							}
+						}else{
+							if(o1.getPrice()!= null && o2.getPrice()!=null){
+								return o1.getPrice().compareTo(o2.getPrice());
+							}else{
+								if(o1.getPrice()==null){
+									return -1 ;
+								}else{
+									return 1;
+								}
+							}
+						}
+				}else{
+					return 0;
+				}
+			}
+		});
+       
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
         for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
@@ -1139,7 +1185,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         return catalogCategoryViewBean;
     }
-    
     /**
      * 
      */
