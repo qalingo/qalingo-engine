@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +61,10 @@ public class ProductLineController extends AbstractMCommerceController {
         model.addAttribute("seoPageTitle", seoPageTitle);
         
 		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
-		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);		
+		
+		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
+		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		
         return modelAndView;
 	}

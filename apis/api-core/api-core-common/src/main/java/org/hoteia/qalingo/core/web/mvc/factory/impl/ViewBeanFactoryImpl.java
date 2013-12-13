@@ -1530,10 +1530,15 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
         
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+        //some time, productSkuPrice.getCatalogPrice is null
         if(productSkuPrice != null){
-            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
-            productSkuViewBean.setPriceWithCurrencySign(formatter.format(productSkuPrice.getSalePrice()));
+        	if(productSkuPrice.getCatalogPrice() != null){
+        		productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
+        	}
+        	if(productSkuPrice.getSalePrice() != null){
+        		productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
+        		productSkuViewBean.setPriceWithCurrencySign(formatter.format(productSkuPrice.getSalePrice()));
+        	}            
         } else {
             productSkuViewBean.setPriceWithCurrencySign("NA");
         }

@@ -12,9 +12,11 @@ package org.hoteia.qalingo.core.web.mvc.factory;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -32,5 +34,7 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 	List<SearchFacetViewBean> buildSearchFacetViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 	
 	SearchFacetViewBean buildSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
+	
+	List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception;
 
 }

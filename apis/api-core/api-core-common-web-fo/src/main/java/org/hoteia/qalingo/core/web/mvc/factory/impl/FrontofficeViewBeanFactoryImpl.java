@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -209,6 +210,21 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         }
         searchFacetViewBean.setValues(values);
         return searchFacetViewBean;
+    }
+    
+    @Override
+    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(
+    		RequestData requestData, MarketArea marketArea) throws Exception {
+    	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
+    	
+    	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+    	
+    	for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
+    		CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategoryVirtual);
+    		catalogCategoryViewBeans.add(catalogCategoryViewBean);
+		}
+    	
+    	return catalogCategoryViewBeans;
     }
 
 }
