@@ -25,15 +25,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PAYMENT_GATEWAY")
+@Table(name="TECO_PAYMENT_GATEWAY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
     name="PAYMENT_GATEWAY_TYPE",
@@ -68,9 +71,13 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
     @JoinColumn(name="PAYMENT_GATEWAY_ID")
 	private Set<PaymentGatewayAttribute> paymentGatewayAttributes = new HashSet<PaymentGatewayAttribute>(); 
 	
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_PAYMENT_GATEWAY_OPTION_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_OPTION_ID"))
+    private Set<PaymentGatewayOption> paymentGatewayOptions = new HashSet<PaymentGatewayOption>();
+	   
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
-	private Date dateCreate;
+    private Date dateCreate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_UPDATE")
@@ -126,6 +133,14 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 	public void setPaymentGatewayAttributes(Set<PaymentGatewayAttribute> paymentGatewayAttributes) {
 		this.paymentGatewayAttributes = paymentGatewayAttributes;
 	}
+	
+	public Set<PaymentGatewayOption> getPaymentGatewayOptions() {
+        return paymentGatewayOptions;
+    }
+	
+	public void setPaymentGatewayOptions(Set<PaymentGatewayOption> paymentGatewayOptions) {
+        this.paymentGatewayOptions = paymentGatewayOptions;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

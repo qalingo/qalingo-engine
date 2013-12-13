@@ -19,10 +19,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_BRAND")
+@Table(name="TECO_PRODUCT_BRAND", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class ProductBrand extends AbstractEntity {
 
 	/**

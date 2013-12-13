@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -51,7 +52,6 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
-import org.hoteia.qalingo.core.domain.Shipping;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.UserGroup;
@@ -73,6 +73,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingValueViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.GlobalSearchViewBean;
@@ -89,7 +90,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
 import org.springframework.beans.BeanUtils;
@@ -408,7 +408,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (category != null) {
             final String categoryCode = category.getCode();
 
-            catalogCategoryViewBean.setBusinessName(category.getBusinessName());
+            catalogCategoryViewBean.setName(category.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(category.getDescription());
 
@@ -482,7 +482,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (category != null) {
             final String categoryCode = category.getCode();
 
-            catalogCategoryViewBean.setBusinessName(category.getBusinessName());
+            catalogCategoryViewBean.setName(category.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(category.getDescription());
 
@@ -903,34 +903,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public ShippingViewBean buildShippingViewBean(final RequestData requestData, final Shipping shipping) throws Exception {
-        ShippingViewBean shippingViewBean = new ShippingViewBean();
-        shippingViewBean.setId(shipping.getId());
+    public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+        final DeliveryMethodViewBean deliveryMethodViewBean = super.buildDeliveryMethodViewBean(requestData, deliveryMethod);
 
-        shippingViewBean.setVersion(shipping.getVersion());
-        shippingViewBean.setName(shipping.getName());
-        shippingViewBean.setDescription(shipping.getDescription());
-        shippingViewBean.setCode(shipping.getCode());
-        shippingViewBean.setPrice(shipping.getPrice());
+        deliveryMethodViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
+        deliveryMethodViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_EDIT, requestData, deliveryMethod));
 
-        shippingViewBean.setMarketAreaId(shipping.getMarketAreaId());
-
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (shipping.getDateCreate() != null) {
-            shippingViewBean.setDateCreate(dateFormat.format(shipping.getDateCreate()));
-        } else {
-            shippingViewBean.setDateCreate("NA");
-        }
-        if (shipping.getDateUpdate() != null) {
-            shippingViewBean.setDateUpdate(dateFormat.format(shipping.getDateUpdate()));
-        } else {
-            shippingViewBean.setDateUpdate("NA");
-        }
-
-        shippingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_DETAILS, requestData, shipping));
-        shippingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.SHIPPING_EDIT, requestData, shipping));
-
-        return shippingViewBean;
+        return deliveryMethodViewBean;
     }
 
     /**

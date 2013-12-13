@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
 
-public class CartShippingViewBean extends AbstractViewBean implements Serializable {
+public class CartDeliveryMethodViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID
@@ -22,7 +22,7 @@ public class CartShippingViewBean extends AbstractViewBean implements Serializab
 	private String cartShippingTotalLabel;
 	private String cartShippingTotal;
 
-	public CartShippingViewBean() {
+	public CartDeliveryMethodViewBean() {
 	}
 
 	public String getCartShippingCode() {

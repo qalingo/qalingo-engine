@@ -31,12 +31,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_RULE_REFERENTIAL")
+@Table(name="TECO_RULE_REFERENTIAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
     name="RULE_TYPE",

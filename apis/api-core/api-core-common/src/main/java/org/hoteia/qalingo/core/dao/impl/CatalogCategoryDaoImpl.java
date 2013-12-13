@@ -172,12 +172,13 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingId(final Long marketAreaId, final Long productMarketingId) {
+	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(final Long marketAreaId, final String productMarketingCode) {
         Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
 
         addDefaultCatalogCategoryFetch(criteria);
         
-        criteria.add(Restrictions.eq("productMarketing.code", productMarketingId));
+        criteria.createAlias("productMarketings", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("productMarketing.code", productMarketingCode));
         
         criteria.addOrder(Order.asc("id"));
 

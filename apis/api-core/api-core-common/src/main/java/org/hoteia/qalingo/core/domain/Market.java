@@ -27,12 +27,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_MARKET")
+@Table(name="TECO_MARKET", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class Market extends AbstractEntity {
 
 	/**

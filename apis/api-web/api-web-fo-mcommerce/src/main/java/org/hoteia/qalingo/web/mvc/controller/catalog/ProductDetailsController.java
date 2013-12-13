@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -68,11 +70,16 @@ public class ProductDetailsController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
+		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productCategory", productCategoryViewBean);
 
         final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productCategory, productMarketing);
         model.addAttribute("productMarketing", productMarketingViewBean);
+
+        //for now, get the featured products in same category
+        //TODO: define related products
+        List<ProductMarketingViewBean> relatedProducts = productCategoryViewBean.getFeaturedProductMarketings();
+        model.addAttribute("relatedProductMarketings", relatedProducts);
 
         return modelAndView;
 	}

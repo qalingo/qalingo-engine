@@ -48,59 +48,63 @@ public class ProductMarketing extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 5408836788685407465L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="BUSINESS_NAME")
-	private String businessName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="CODE", nullable=false)
-	private String code;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="BRAND_ID", insertable=false, updatable=false)
-	private ProductBrand productBrand;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_TYPE_ID", insertable=false, updatable=false)
-	private ProductMarketingType productMarketingType;
+    @Column(name = "BUSINESS_NAME")
+    private String businessName;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	private Set<ProductMarketingAttribute> productMarketingAttributes = new HashSet<ProductMarketingAttribute>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	private Set<ProductSku> productSkus = new HashSet<ProductSku>();
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	private Set<ProductAssociationLink> productAssociationLinks = new HashSet<ProductAssociationLink>();
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_MARKETING_ID")
-	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assets = new HashSet<Asset>(); 
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "BRAND_ID", insertable = false, updatable = false)
+    private ProductBrand productBrand;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_TYPE_ID", insertable = false, updatable = false)
+    private ProductMarketingType productMarketingType;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductMarketingAttribute> productMarketingAttributes = new HashSet<ProductMarketingAttribute>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductSku> productSkus = new HashSet<ProductSku>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    private Set<ProductAssociationLink> productAssociationLinks = new HashSet<ProductAssociationLink>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID")
+    @OrderBy(clause = "ordering asc")
+    private Set<Asset> assets = new HashSet<Asset>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
+    private CatalogCategoryVirtual defaultCatalogCategory;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public ProductMarketing(){
 	}
@@ -279,6 +283,14 @@ public class ProductMarketing extends AbstractEntity {
         return assetsIsGlobal;
 	}
 	
+	public CatalogCategoryVirtual getDefaultCatalogCategory() {
+        return defaultCatalogCategory;
+    }
+	
+	public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
+        this.defaultCatalogCategory = defaultCatalogCategory;
+    }
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -331,7 +343,7 @@ public class ProductMarketing extends AbstractEntity {
 		ProductMarketingAttribute productMarketingAttributeToReturn = null;
 		List<ProductMarketingAttribute> productMarketingAttributesFilter = new ArrayList<ProductMarketingAttribute>();
 		if(productMarketingAttributes != null) {
-			// GET ALL CategoryAttributes FOR THIS ATTRIBUTE
+			// GET ALL ProductMarketingAttributes FOR THIS ATTRIBUTE
 			for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
 				ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = productMarketingAttribute.getAttributeDefinition();
@@ -340,7 +352,7 @@ public class ProductMarketing extends AbstractEntity {
 					productMarketingAttributesFilter.add(productMarketingAttribute);
 				}
 			}
-			// REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
+			// REMOVE ALL ProductMarketingAttributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
 				for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
@@ -353,7 +365,7 @@ public class ProductMarketing extends AbstractEntity {
 					}
 				}
 			}
-			// FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
+			// FINALLY RETAIN ONLY ProductMarketingAttributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
 				for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributesFilter.iterator(); iterator.hasNext();) {
 					ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
@@ -366,7 +378,7 @@ public class ProductMarketing extends AbstractEntity {
 				if(productMarketingAttributesFilter.size() == 0){
 					// TODO : warning ?
 
-					// NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					// NOT ANY ProductMarketingAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
 					for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
 						ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
 						

@@ -1,9 +1,8 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
-public class ShippingViewBean extends AbstractViewBean implements Serializable {
+public class DeliveryMethodViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID
@@ -14,12 +13,10 @@ public class ShippingViewBean extends AbstractViewBean implements Serializable {
 	private String name;
 	private String description;
 	private String code;
-	private BigDecimal price;
+	private String price;
 
 	// private Set<ShippingCountry> shippingCountries = new
 	// HashSet<ShippingCountry>();
-
-	private Long marketAreaId;
 
 	private String dateCreate;
 	private String dateUpdate;
@@ -67,21 +64,13 @@ public class ShippingViewBean extends AbstractViewBean implements Serializable {
 		this.code = code;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
-
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
+	public String getPrice() {
+        return price;
+    }
+	
+	public void setPrice(String price) {
+        this.price = price;
+    }
 
 	public String getDateCreate() {
 		return dateCreate;

@@ -622,6 +622,14 @@ public class RequestUtilImpl implements RequestUtil {
                 CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
                 cartItem.setCatalogCategoryCode(catalogCategoryCode);
                 cartItem.setCatalogCategory(catalogCategory);
+            } else {
+                if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
+                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+                    if(catalogCategory != null){
+                        cartItem.setCatalogCategoryCode(catalogCategory.getCode());
+                        cartItem.setCatalogCategory(catalogCategory);
+                    }
+                }
             }
             cart.getCartItems().add(cartItem);
         }
@@ -677,7 +685,7 @@ public class RequestUtilImpl implements RequestUtil {
     public void removeCartItemFromCurrentCart(final HttpServletRequest request, final String skuCode) throws Exception {
         Cart cart = getCurrentCart(request);
         Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+        for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
             if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
                 cartItems.remove(cartItem);

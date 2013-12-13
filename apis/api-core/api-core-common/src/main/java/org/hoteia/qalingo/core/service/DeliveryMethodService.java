@@ -11,18 +11,18 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
-import org.hoteia.qalingo.core.domain.Shipping;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 
-public interface ShippingService {
+public interface DeliveryMethodService {
 
-	Shipping getShippingById(String shippingId);
+	DeliveryMethod getDeliveryMethodById(String deliveryMethodId);
 
-	Shipping getShippingByCode(String code);
+	DeliveryMethod getDeliveryMethodByCode(String code);
 
-	List<Shipping> findShippings();
+	List<DeliveryMethod> findDeliveryMethods();
 	
-	void saveOrUpdateShipping(Shipping shipping);
+	void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
 	
-	void deleteShipping(Shipping shipping);
+	void deleteDeliveryMethod(DeliveryMethod deliveryMethod);
 
 }

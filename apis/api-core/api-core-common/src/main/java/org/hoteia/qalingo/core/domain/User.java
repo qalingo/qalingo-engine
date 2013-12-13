@@ -32,10 +32,11 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_USER")
+@Table(name="TBO_USER", uniqueConstraints = {@UniqueConstraint(columnNames= {"login", "email"})})
 public class User extends AbstractEntity {
 
 	/**

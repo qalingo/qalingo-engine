@@ -29,10 +29,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_COMPANY")
+@Table(name="TBO_COMPANY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
 public class Company extends AbstractEntity {
 
 	/**

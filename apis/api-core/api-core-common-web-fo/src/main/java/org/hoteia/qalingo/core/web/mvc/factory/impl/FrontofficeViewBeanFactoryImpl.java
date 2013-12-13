@@ -163,7 +163,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final String productSkuCode = productMarketingSolr.getCode();
         final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
         final ProductMarketing productMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing);
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
 
         final String productName = productMarketing.getCode();
         final String categoryName = catalogCategory.getI18nName(localeCode);

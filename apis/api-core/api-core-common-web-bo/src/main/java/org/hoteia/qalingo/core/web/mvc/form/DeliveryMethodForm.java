@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * 
  * 
  */
-public class ShippingForm {
+public class DeliveryMethodForm {
 
 	private Long id;
 	private int version;

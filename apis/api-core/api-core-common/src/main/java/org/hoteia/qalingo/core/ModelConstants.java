@@ -84,10 +84,14 @@ public final class ModelConstants {
 
     public static final String CART_VIEW_BEAN                   = "cart";
     public static final String ADDRESSES_VIEW_BEAN              = "addresses";
+    public static final String PAYMENT_METHODS_VIEW_BEAN        = "paymentMethods";
 
     public static final String RULE_VIEW_BEAN                   = "rule";
     public static final String ORDER_VIEW_BEAN                  = "order";
-    public static final String SHIPPING_VIEW_BEAN               = "shipping";
+    
+    public static final String DELIVERY_METHODS_VIEW_BEAN       = "deliveryMethods";
+    public static final String DELIVERY_METHOD_VIEW_BEAN        = "deliveryMethod";
+
     public static final String CUSTOMER_VIEW_BEAN               = "customer";
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";
@@ -97,7 +101,7 @@ public final class ModelConstants {
     public static final String ASSET_FORM           = "assetForm";
     public static final String RULE_FORM            = "ruleForm";
     public static final String ORDER_FORM           = "orderForm";
-    public static final String SHIPPING_FORM        = "shippingForm";
+    public static final String DELIVERY_METHOD_FORM = "shippingForm";
     public static final String CUSTOMER_FORM        = "customerForm";
     public static final String USER_FORM            = "userForm";
     public static final String CART_FORM            = "cartForm";
