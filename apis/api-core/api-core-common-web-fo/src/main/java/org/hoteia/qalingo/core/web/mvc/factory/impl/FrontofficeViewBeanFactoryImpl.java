@@ -15,11 +15,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
@@ -230,10 +231,35 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     
     @Override
     public List<ProductBrandViewBean> buildListProductBrands(
-    		RequestData requestData,
-    		CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
-    	// TODO Auto-generated method stub
-    	return null;
+    		final RequestData requestData,
+    		final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();    	
+    	final MarketArea marketArea = requestData.getMarketArea();
+    	final Long marketAreaId = marketArea.getId();
+    	ProductBrandViewBean productBrandViewBean;
+    	if(!catalogCategoryVirtual.isRoot()){
+    		List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogCategoryVirtual.getCode());
+    		for (final ProductMarketing productMarketing : productMarketings) {
+    			productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
+    			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+                productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
+                productBrandViewBeans.add(productBrandViewBean);
+    		}
+    	} else {
+    		for(CatalogCategoryVirtual catalogSubCategory : catalogCategoryVirtual.getCatalogCategories()){
+    			catalogSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogSubCategory.getId().toString());
+    			List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogSubCategory.getCode());
+    			if(productMarketings != null){
+    				for (ProductMarketing productMarketing : productMarketings) {
+    					productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
+	        			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+	                    productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
+	                    productBrandViewBeans.add(productBrandViewBean);
+					}
+    			}
+    		}
+    	}
+    	return productBrandViewBeans;
     }
 
 }
