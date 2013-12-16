@@ -183,9 +183,9 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 	
 	public boolean isRoot() {
 		if(getDefaultParentCatalogCategory() == null){
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public CatalogCategoryVirtual getDefaultParentCatalogCategory() {

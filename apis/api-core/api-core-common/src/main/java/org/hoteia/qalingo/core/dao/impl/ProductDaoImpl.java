@@ -115,7 +115,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         List<ProductMarketing> productMarketings = criteria.list();
         return productMarketings;
 	}
-	
+	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode) {
+        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        
+        addDefaultProductMarketingFetch(criteria);
+
+        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
+        
+        criteria.add(Restrictions.eq("dc.code", categoryCode));
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<ProductMarketing> productMarketings = criteria.list();
+        return productMarketings;
+	}
 	public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
 		if(productMarketing.getDateCreate() == null){
 			productMarketing.setDateCreate(new Date());

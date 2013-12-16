@@ -30,6 +30,8 @@ public interface ProductService {
     List<ProductMarketing> findProductMarketingsByBrandId(Long marketAreaId, Long brandId);
 
     List<ProductMarketing> findProductMarketingsByBrandCode(Long marketAreaId, String brandCode);
+    
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(Long marketAreaId,String categoryCode);
 
 	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 	

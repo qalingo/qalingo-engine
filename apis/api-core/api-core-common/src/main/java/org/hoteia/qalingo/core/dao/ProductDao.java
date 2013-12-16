@@ -30,6 +30,8 @@ public interface ProductDao {
     List<ProductMarketing> findProductMarketingsByBrandId(Long brandId);
 
     List<ProductMarketing> findProductMarketingsByBrandCode(String brandCode);
+    
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode);
 
 	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 

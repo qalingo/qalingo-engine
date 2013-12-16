@@ -66,6 +66,10 @@ public class ProductServiceImpl implements ProductService {
         List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByBrandCode(brandCode);
         return orderProductMarketingList(marketAreaId, productMarketings);
     }
+    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final Long marketAreaId,final String categoryCode){
+    	List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByCatalogCategoryCode(categoryCode);
+    	return orderProductMarketingList(marketAreaId, productMarketings);
+    }
 
     public void saveOrUpdateProductMarketing(ProductMarketing productMarketing) {
         productMarketingDao.saveOrUpdateProductMarketing(productMarketing);
