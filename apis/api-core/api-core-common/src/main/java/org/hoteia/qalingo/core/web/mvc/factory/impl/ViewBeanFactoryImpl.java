@@ -1079,8 +1079,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
         
-        final String viewBy = request.getParameter("viewBy");
         final String sortBy = request.getParameter("sortBy");
+        final String oderBy = request.getParameter("oderBy");
        
         final Asset defaultBackgroundImage = catalogCategory.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
@@ -1141,14 +1141,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 			public int compare(ProductMarketingViewBean o1,
 					ProductMarketingViewBean o2) {
 				// TODO Auto-generated method stub
-				if("name".equals(viewBy)){
-					if("desc".equals(sortBy)){
+				if("name".equals(sortBy)){
+					if("desc".equals(oderBy)){
 						return o2.getI18nName().compareTo(o1.getI18nName());
 					}else{
 						return o1.getI18nName().compareTo(o2.getI18nName());
 					}
-				}else if("price".equals(viewBy)){
-						if("desc".equals(sortBy)){
+				}else if("price".equals(sortBy)){
+						if("desc".equals(oderBy)){
 							if(o2.getPrice()!=null && o1.getPrice()!=null){
 								return o2.getPrice().compareTo(o1.getPrice());
 							}else{

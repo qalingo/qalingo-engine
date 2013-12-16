@@ -9,12 +9,14 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Collections;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+
+
+
 
 //import org.hibernate.engine.internal.Collections;
 import org.hoteia.qalingo.core.ModelConstants;
@@ -52,7 +54,7 @@ public class ProductLineController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         
-        final String viewBy = request.getParameter("viewBy");
+        final String sortBy = request.getParameter("sortBy");
 
         String paraItem = request.getParameter("item");
         String paraPaged = request.getParameter("paged"); 
@@ -73,36 +75,42 @@ public class ProductLineController extends AbstractMCommerceController {
 		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
 		
 		int page = 1;
-	    int item = 9;
-	    
+	    int item = 1;
+	    int total = 0;
 		try { 
 			page = Integer.parseInt(paraPaged);
 		    item = Integer.parseInt(paraItem);
+		    List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
+			
+			int size = productMarketings.size();
+			total = size/ item;
+			if(size%item != 0){
+				total = total + 1;
+			}
+			if(page > total){
+				page = total ;
+			}
+			int itemTo = page * item;
+			int itemFrom = itemTo - item;
+			if(itemTo>size){
+				itemTo = size;
+			}
+			if(size > 0){
+				productMarketings = productMarketings.subList(itemFrom, itemTo);
+				productCategoryViewBean.setProductMarketings(productMarketings);
+			}
 	    } catch(NumberFormatException e) { 
 	        //return false; 
 	    }
-		
 	        
-		List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
 		
-		int size = productMarketings.size();
-		int pages = size/ item;
-		if(page > pages + 1){
-			page = pages + 1 ;
-		}
-		int itemTo = page * item;
-		int itemFrom = itemTo - item;
-		if(itemTo>size){
-			itemTo = size;
-		}
-		productMarketings = productMarketings.subList(itemFrom, itemTo);
-		
-		productCategoryViewBean.setProductMarketings(productMarketings);
-	
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
-		model.addAttribute("viewBy",viewBy);
-		
-        return modelAndView;
+		model.addAttribute("sortBy",sortBy);
+		model.addAttribute("item",item);
+		model.addAttribute("pagesCurrent",page);
+		model.addAttribute("totalPage",total);
+
+		return modelAndView;
 	}
     
 }
