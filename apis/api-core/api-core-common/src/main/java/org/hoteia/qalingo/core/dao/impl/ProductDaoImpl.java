@@ -17,8 +17,10 @@ import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.hibernate.transform.ResultTransformer;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
@@ -115,6 +117,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         List<ProductMarketing> productMarketings = criteria.list();
         return productMarketings;
 	}
+	
 	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode) {
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         
@@ -131,6 +134,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         List<ProductMarketing> productMarketings = criteria.list();
         return productMarketings;
 	}
+	
 	public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
 		if(productMarketing.getDateCreate() == null){
 			productMarketing.setDateCreate(new Date());

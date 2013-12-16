@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.hoteia.qalingo.core.dao.ProductDao;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -202,6 +203,13 @@ public class ProductServiceImpl implements ProductService {
 
     public void deleteProductSkuAsset(Asset productSkuAsset) {
         productMarketingDao.deleteProductSkuAsset(productSkuAsset);
+    }
+    
+    @Override
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(
+    		String categoryCode) {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
 }

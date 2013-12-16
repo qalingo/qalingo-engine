@@ -61,7 +61,7 @@ public class ProductAxeController extends AbstractMCommerceController {
         model.addAttribute("seoPageTitle", seoPageTitle);
         
         final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), catalogCategory);
-		model.addAttribute("productBranViewBeans", productBrandViewBeans);
+		model.addAttribute("productBrandViewBeans", productBrandViewBeans);
 		
 		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
