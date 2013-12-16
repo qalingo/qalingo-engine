@@ -63,22 +63,26 @@ VALUES
 (6, 'yen ', 'JPY', 'yen', 'Yen', '¥');
 
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, planned, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
 VALUES 
 (1, 'Market Area Email From Address (Generic)', 'Market Area Email From Address (Generic)', 'MARKET_AREA_EMAIL_FROM_ADDRESS', 1, 8, 0, 0, 0, 1),
 (2, 'Market Area Email From Name (Generic)', 'Market Area Email From Name(Generic)', 'MARKET_AREA_EMAIL_FROM_NAME', 1, 8, 0, 0, 0, 1),
 (3, 'Market Area Email Contact (To)', 'Market Area Email Contact (To)', 'MARKET_AREA_EMAIL_CONTACT', 1, 8, 0, 0, 0, 1),
 (5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (6, 'Market Area Share Option', 'Market Area Share Option', 'MARKET_AREA_SHARE_OPTIONS', 1, 8, 0, 0, 0, 1),
-(10, 'Customer attribute screen name', 'Customer attribute screen name description', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
-(20, 'Product Category attribute name', 'Product Category attribute name description', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
-(21, 'Product Category attribute order', 'Product Category attribute order description', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
-(30, 'Product Marketing attribute name', 'Product Marketing attribute name description', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
-(31, 'Product Marketing attribute order', 'Product Marketing attribute order description', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
-(40, 'Product Sku attribute name', 'Product Sku attribute name description', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
-(41, 'Product Sku attribute order', 'Product Sku attribute order description', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
-(50, 'Store attribute order', 'Store attribute order description', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
-(51, 'Store attribute city name', 'Store attribute city name description', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
+(10, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
+(20, 'Product Category attribute name', 'Product Category attribute name', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
+(21, 'Product Category attribute order', 'Product Category attribute order', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
+(30, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
+(31, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
+(40, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
+(41, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
+(42, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_ATTRIBUTE_WIDTH', 4, 3, 0, 1, 0, 1),
+(43, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_ATTRIBUTE_HEIGHT', 4, 3, 1, 0, 0, 1),
+(44, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_ATTRIBUTE_LENGTH', 4, 3, 1, 0, 0, 1),
+(45, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_ATTRIBUTE_WEIGHT', 4, 3, 1, 0, 0, 1),
+(50, 'Store attribute order', 'Store attribute order', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
+(51, 'Store attribute city name', 'Store attribute city name', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
 (52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
 (60, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (70, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1);

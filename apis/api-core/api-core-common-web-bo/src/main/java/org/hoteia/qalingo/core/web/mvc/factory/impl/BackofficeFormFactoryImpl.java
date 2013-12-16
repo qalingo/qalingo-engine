@@ -291,6 +291,9 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     }
     
     public DeliveryMethodForm buildDeliveryMethodForm(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        
         final DeliveryMethodForm deliveryMethodForm = new DeliveryMethodForm();
         if(deliveryMethod != null){
             deliveryMethodForm.setId(deliveryMethod.getId());
@@ -298,7 +301,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             deliveryMethodForm.setName(deliveryMethod.getName());
             deliveryMethodForm.setDescription(deliveryMethod.getDescription());
             deliveryMethodForm.setCode(deliveryMethod.getCode());
-            deliveryMethodForm.setPrice(deliveryMethod.getPrice());
+            deliveryMethodForm.setPrice(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
         }
         return deliveryMethodForm;
     }

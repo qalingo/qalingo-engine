@@ -30,120 +30,160 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_DELIVERY_METHODS", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_DELIVERY_METHODS", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class DeliveryMethod extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 411290584124623828L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -6023814328491726235L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="PRICE")
-	private BigDecimal price;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="SHIPPING_ID")
-	private Set<ShippingCountry> shippingCountries = new HashSet<ShippingCountry>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public DeliveryMethod() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "CODE")
+    private String code;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "DELIVERY_TIME")
+    private String deliveryTime;
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "SHIPPING_ID")
+    private Set<ShippingCountry> shippingCountries = new HashSet<ShippingCountry>();
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="DELIVERY_METHOD_ID")
+    private Set<DeliveryMethodPrice> prices = new HashSet<DeliveryMethodPrice>(); 
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public String getDescription() {
-		return description;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public DeliveryMethod() {
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
-	
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Set<ShippingCountry> getShippingCountries() {
-		return shippingCountries;
-	}
-	
-	public void setShippingCountries(Set<ShippingCountry> shippingCountries) {
-		this.shippingCountries = shippingCountries;
-	}
-	
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+    
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public Set<ShippingCountry> getShippingCountries() {
+        return shippingCountries;
+    }
+
+    public void setShippingCountries(Set<ShippingCountry> shippingCountries) {
+        this.shippingCountries = shippingCountries;
+    }
+
+    public Set<DeliveryMethodPrice> getPrices() {
+        return prices;
+    }
+
+    public DeliveryMethodPrice getDeliveryMethodPrice(final Long marketAreaId, final Long retailerId){
+        if(prices != null){
+            for (DeliveryMethodPrice deliveryMethodPrice : prices) {
+                if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
+                        && deliveryMethodPrice.getRetailerId().equals(retailerId)) {
+                    return deliveryMethodPrice;
+                }
+            }    
+        }
+        return null;
+    }
+    
+    public BigDecimal getPrice(final Long marketAreaId, final Long retailerId){
+        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
+        if(deliveryMethodPrice != null){
+            return deliveryMethodPrice.getPrice(); 
+        }
+        return null;
+    }
+    
+    public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId){
+        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
+        if(deliveryMethodPrice != null){
+            return deliveryMethodPrice.getPriceWithStandardCurrencySign(); 
+        }
+        return null;
+    }
+    
+    public void setPrices(Set<DeliveryMethodPrice> prices) {
+        this.prices = prices;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }
