@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -225,6 +226,14 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 		}
     	
     	return catalogCategoryViewBeans;
+    }
+    
+    @Override
+    public List<ProductBrandViewBean> buildListProductBrands(
+    		RequestData requestData,
+    		CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
 }
