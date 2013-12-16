@@ -54,8 +54,8 @@ public class ProductLineController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         
-        final String sortBy = request.getParameter("sortBy");
-
+        String sortBy = request.getParameter("sortBy");
+        String orderBy = request.getParameter("orderBy");
         String paraItem = request.getParameter("item");
         String paraPaged = request.getParameter("paged"); 
        
@@ -109,6 +109,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
 		model.addAttribute("sortBy",sortBy);
 		model.addAttribute("item",item);
+		model.addAttribute("orderBy",orderBy);
 		model.addAttribute("pagesCurrent",page);
 		model.addAttribute("totalPage",total);
 

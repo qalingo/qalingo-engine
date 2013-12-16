@@ -1141,13 +1141,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 			public int compare(ProductMarketingViewBean o1,
 					ProductMarketingViewBean o2) {
 				// TODO Auto-generated method stub
-				if("name".equals(sortBy)){
-					if("desc".equals(orderBy)){
-						return o2.getI18nName().compareTo(o1.getI18nName());
-					}else{
-						return o1.getI18nName().compareTo(o2.getI18nName());
-					}
-				}else if("price".equals(sortBy)){
+				if("price".equals(sortBy)){
 						if("desc".equals(orderBy)){
 							if(o2.getPriceWithCurrencySign()!=null && o1.getPriceWithCurrencySign()!=null){
 								return o2.getPriceWithCurrencySign().compareTo(o1.getPriceWithCurrencySign());
@@ -1170,7 +1164,12 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 							}
 						}
 				}else{
-					return 0;
+					// default sort By Name
+					if("desc".equals(orderBy)){
+						return o2.getI18nName().compareTo(o1.getI18nName());
+					}else{
+						return o1.getI18nName().compareTo(o2.getI18nName());
+					}
 				}
 			}
 		});
