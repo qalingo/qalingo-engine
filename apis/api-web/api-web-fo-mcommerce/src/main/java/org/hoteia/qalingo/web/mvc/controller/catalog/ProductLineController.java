@@ -80,30 +80,32 @@ public class ProductLineController extends AbstractMCommerceController {
 		try { 
 			page = Integer.parseInt(paraPaged);
 		    item = Integer.parseInt(paraItem);
-		    List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
-			
-			int size = productMarketings.size();
-			total = size/ item;
-			if(size%item != 0){
-				total = total + 1;
-			}
-			if(page > total){
-				page = total ;
-			}
-			int itemTo = page * item;
-			int itemFrom = itemTo - item;
-			if(itemTo>size){
-				itemTo = size;
-			}
-			if(size > 0){
-				productMarketings = productMarketings.subList(itemFrom, itemTo);
-				productCategoryViewBean.setProductMarketings(productMarketings);
-			}
+		   
 	    } catch(NumberFormatException e) { 
 	        //return false; 
 	    }
-	        
 		
+		List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
+		int size = productMarketings.size();
+		total = size/ item;
+		if(size%item != 0){
+			total = total + 1;
+		}
+		if(page > total){
+			page = total ;
+		}
+		int itemTo = page * item;
+		int itemFrom = itemTo - item;
+		if(itemTo>size){
+			itemTo = size;
+		}
+		if(size > 0){
+			productMarketings = productMarketings.subList(itemFrom, itemTo);
+			productCategoryViewBean.setProductMarketings(productMarketings);
+		}
+		
+		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
+		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
 		model.addAttribute("sortBy",sortBy);
 		model.addAttribute("item",item);

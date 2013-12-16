@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1071,7 +1073,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final MarketArea marketArea = requestData.getMarketArea();
         
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
-
+        
+        final String sortBy = request.getParameter("sortBy");
+        final String orderBy = request.getParameter("orderBy");
 //         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
         catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
@@ -1130,6 +1134,49 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 }
             }
         }
+        
+               
+        Collections.sort(productMarketingViewBeans, new Comparator<ProductMarketingViewBean>() {
+        	@Override
+			public int compare(ProductMarketingViewBean o1,
+					ProductMarketingViewBean o2) {
+				// TODO Auto-generated method stub
+				if("name".equals(sortBy)){
+					if("desc".equals(orderBy)){
+						return o2.getI18nName().compareTo(o1.getI18nName());
+					}else{
+						return o1.getI18nName().compareTo(o2.getI18nName());
+					}
+				}else if("price".equals(sortBy)){
+						if("desc".equals(orderBy)){
+							if(o2.getPriceWithCurrencySign()!=null && o1.getPriceWithCurrencySign()!=null){
+								return o2.getPriceWithCurrencySign().compareTo(o1.getPriceWithCurrencySign());
+							}else{
+								if(o1.getPriceWithCurrencySign()==null){
+									return 1 ;
+								}else{
+									return -1;
+								}
+							}
+						}else{
+							if(o1.getPriceWithCurrencySign()!= null && o2.getPriceWithCurrencySign()!=null){
+								return o1.getPriceWithCurrencySign().compareTo(o2.getPriceWithCurrencySign());
+							}else{
+								if(o1.getPriceWithCurrencySign()==null){
+									return -1 ;
+								}else{
+									return 1;
+								}
+							}
+						}
+				}else{
+					return 0;
+				}
+			}
+		});
+       
+        catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
+        
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
         for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
