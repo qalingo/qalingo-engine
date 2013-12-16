@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
+//import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -35,8 +35,8 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 	
 	SearchFacetViewBean buildSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
 	
-	List<CategoryViewBean> buildVirtualCategoryViewBeans(RequestData requestData, List<CatalogCategoryVirtual> categories, boolean fullPopulate) throws Exception;
+/*	List<CategoryViewBean> buildVirtualCategoryViewBeans(RequestData requestData, List<CatalogCategoryVirtual> categories, boolean fullPopulate) throws Exception;
 	
 	CategoryViewBean buildVirtualCategoryViewBean(RequestData requestData, CatalogCategoryVirtual categories, boolean fullPopulate) throws Exception;
-
+*/
 }

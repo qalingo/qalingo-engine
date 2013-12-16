@@ -33,7 +33,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -214,7 +213,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /* (non-Javadoc)
      * @see org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory#buildCategoryViewBean(org.hoteia.qalingo.core.pojo.RequestData, java.util.List)
      */
-    public List<CategoryViewBean> buildVirtualCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryVirtual> categories, boolean fullPopulate) throws Exception {
+/*    public List<CategoryViewBean> buildVirtualCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryVirtual> categories, boolean fullPopulate) throws Exception {
     	List<CategoryViewBean> categoryViewBeans = new ArrayList<CategoryViewBean>();
     	long lc = 0;
         for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator();iterator.hasNext();) {
@@ -226,10 +225,10 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         }
         return categoryViewBeans;
     }
-    /**
+    *//**
      * @throws Exception
      * 
-     */
+     *//*
     public CategoryViewBean buildVirtualCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
 
         final String localeCode = category.getCode();
@@ -255,5 +254,5 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             categoryViewBean.setCategoryUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, category));
             }
         return categoryViewBean;
-    }
+    }*/
 }
