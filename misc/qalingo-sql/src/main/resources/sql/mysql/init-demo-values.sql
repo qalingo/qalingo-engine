@@ -411,7 +411,7 @@ VALUES (1,0,1,0,1,52,1), (1,0,1,0,1,52,2), (1,0,1,0,1,52,3), (1,0,1,0,1,52,4);
 
 -- MARKET PLACE INT
 INSERT INTO teco_product_sku_price  
-(id, market_area_id, price, retailer_id, currency_id, product_sku_id)
+(id, market_area_id, price_catalog, retailer_id, currency_id, product_sku_id)
 VALUES 
 (30, 1, 14.35, 1, 2, 1),
 (40, 1, 15.35, 1, 2, 2),
@@ -422,7 +422,7 @@ VALUES
 
 -- MARKET PLACE EUR
 INSERT INTO teco_product_sku_price  
-(id, market_area_id, price, retailer_id, currency_id, product_sku_id)
+(id, market_area_id, price_catalog, retailer_id, currency_id, product_sku_id)
 VALUES 
 (130, 101, 14.45, 1, 1, 1),
 (140, 101, 15.45, 1, 1, 2),

@@ -25,10 +25,10 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
     private String status;
     private String orderNum;
 
-    private String orderItemsTotal;
-    private String orderShippingTotal;
-    private String orderFeesTotal;
-    private String orderTotal;
+    private String orderItemsTotalWithCurrencySign;
+    private String orderShippingTotalWithCurrencySign;
+    private String orderFeesTotalWithCurrencySign;
+    private String orderTotalWithCurrencySign;
 
     private String cardHolder;
     private String cardNumber;
@@ -85,39 +85,39 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 		this.orderNum = orderNum;
 	}
 
-	public String getOrderItemsTotal() {
-		return orderItemsTotal;
-	}
+	public String getOrderItemsTotalWithCurrencySign() {
+        return orderItemsTotalWithCurrencySign;
+    }
 
-	public void setOrderItemsTotal(String orderItemsTotal) {
-		this.orderItemsTotal = orderItemsTotal;
-	}
+    public void setOrderItemsTotalWithCurrencySign(String orderItemsTotalWithCurrencySign) {
+        this.orderItemsTotalWithCurrencySign = orderItemsTotalWithCurrencySign;
+    }
 
-	public String getOrderShippingTotal() {
-		return orderShippingTotal;
-	}
+    public String getOrderShippingTotalWithCurrencySign() {
+        return orderShippingTotalWithCurrencySign;
+    }
 
-	public void setOrderShippingTotal(String orderShippingTotal) {
-		this.orderShippingTotal = orderShippingTotal;
-	}
+    public void setOrderShippingTotalWithCurrencySign(String orderShippingTotalWithCurrencySign) {
+        this.orderShippingTotalWithCurrencySign = orderShippingTotalWithCurrencySign;
+    }
 
-	public String getOrderFeesTotal() {
-		return orderFeesTotal;
-	}
+    public String getOrderFeesTotalWithCurrencySign() {
+        return orderFeesTotalWithCurrencySign;
+    }
 
-	public void setOrderFeesTotal(String orderFeesTotal) {
-		this.orderFeesTotal = orderFeesTotal;
-	}
+    public void setOrderFeesTotalWithCurrencySign(String orderFeesTotalWithCurrencySign) {
+        this.orderFeesTotalWithCurrencySign = orderFeesTotalWithCurrencySign;
+    }
 
-	public String getOrderTotal() {
-		return orderTotal;
-	}
+    public String getOrderTotalWithCurrencySign() {
+        return orderTotalWithCurrencySign;
+    }
 
-	public void setOrderTotal(String orderTotal) {
-		this.orderTotal = orderTotal;
-	}
+    public void setOrderTotalWithCurrencySign(String orderTotalWithCurrencySign) {
+        this.orderTotalWithCurrencySign = orderTotalWithCurrencySign;
+    }
 
-	public String getCardHolder() {
+    public String getCardHolder() {
 		return cardHolder;
 	}
 

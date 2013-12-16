@@ -15,6 +15,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -72,8 +73,8 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 
         addDefaultCatalogCategoryFetch(criteria);
         
-        criteria.add(Restrictions.eq("defaultParentCatalogCategory", null));
-        criteria.addOrder(Order.asc("id"));
+        criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
+        criteria.addOrder(Order.asc("id"));        
 
         @SuppressWarnings("unchecked")
         List<CatalogCategoryMaster> categories = criteria.list();
@@ -152,8 +153,8 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         addDefaultCatalogCategoryFetch(criteria);
         
         criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         criteria.addOrder(Order.asc("id"));
-        
 
         @SuppressWarnings("unchecked")
         List<CatalogCategoryVirtual> categories = criteria.list();

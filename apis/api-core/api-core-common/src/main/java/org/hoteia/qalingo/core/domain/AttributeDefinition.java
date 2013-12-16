@@ -80,8 +80,8 @@ public class AttributeDefinition extends AbstractEntity {
 	@Column(name="MULTI_VALUE", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean multiValue;
 	
-	@Column(name="PLANNED", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean planned;
+	@Column(name="WITH_PLANNER", nullable=false, columnDefinition="tinyint(1) default 0")
+	private boolean withPlanner;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -174,13 +174,13 @@ public class AttributeDefinition extends AbstractEntity {
 		this.multiValue = multiValue;
 	}
 
-	public boolean isPlanned() {
-		return planned;
-	}
-
-	public void setPlanned(boolean planned) {
-		this.planned = planned;
-	}
+	public boolean isWithPlanner() {
+        return withPlanner;
+    }
+	
+	public void setWithPlanner(boolean withPlanner) {
+        this.withPlanner = withPlanner;
+    }
 
 	public Date getDateCreate() {
 		return dateCreate;
@@ -216,7 +216,7 @@ public class AttributeDefinition extends AbstractEntity {
 		result = prime * result + (multiValue ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + objectType;
-		result = prime * result + (planned ? 1231 : 1237);
+		result = prime * result + (withPlanner ? 1231 : 1237);
 		result = prime * result + version;
 		return result;
 	}
@@ -270,7 +270,7 @@ public class AttributeDefinition extends AbstractEntity {
 			return false;
 		if (objectType != other.objectType)
 			return false;
-		if (planned != other.planned)
+		if (withPlanner != other.withPlanner)
 			return false;
 		if (version != other.version)
 			return false;
@@ -283,8 +283,8 @@ public class AttributeDefinition extends AbstractEntity {
 				+ ", name=" + name + ", description=" + description + ", code="
 				+ code + ", attributeType=" + attributeType + ", objectType="
 				+ objectType + ", localizable=" + localizable + ", global="
-				+ global + ", multiValue=" + multiValue + ", planned="
-				+ planned + ", dateCreate=" + dateCreate + ", dateUpdate="
+				+ global + ", multiValue=" + multiValue + ", withPlanner="
+				+ withPlanner + ", dateCreate=" + dateCreate + ", dateUpdate="
 				+ dateUpdate + "]";
 	}
 

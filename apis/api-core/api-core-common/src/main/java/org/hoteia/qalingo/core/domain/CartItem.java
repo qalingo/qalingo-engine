@@ -135,10 +135,23 @@ public class CartItem extends AbstractEntity {
 				&& productSku.getPrices() != null
 				&& productSku.getPrices().size() > 0){
 			ProductSkuPrice productSkuPrice = productSku.getPrices().iterator().next();
-			return productSkuPrice.getPrice();
+			return productSkuPrice.getSalePrice();
 		}
 		return null;
 	}
+    
+    public String getPriceWithSign() {
+        
+        // TODO !
+        
+        if(productSku != null
+                && productSku.getPrices() != null
+                && productSku.getPrices().size() > 0){
+            ProductSkuPrice productSkuPrice = productSku.getPrices().iterator().next();
+            return productSkuPrice.getPriceWithStandardCurrencySign();
+        }
+        return null;
+    }
 	
 	public BigDecimal getTotalAmountCartItem() {
 		BigDecimal totalAmount = new BigDecimal("0");

@@ -18,35 +18,53 @@ public class CartDeliveryMethodViewBean extends AbstractViewBean implements Seri
 	 */
 	private static final long serialVersionUID = 251889000239105026L;
 
-	private String cartShippingCode;
-	private String cartShippingTotalLabel;
-	private String cartShippingTotal;
+	private String code;
+	private String label;
+	private String deliveryTime;
+    private String estimatedDeliveryDate;
+    private String amountWithCurrencySign;
 
 	public CartDeliveryMethodViewBean() {
 	}
 
-	public String getCartShippingCode() {
-		return cartShippingCode;
-	}
+	public String getCode() {
+        return code;
+    }
 	
-	public void setCartShippingCode(String cartShippingCode) {
-		this.cartShippingCode = cartShippingCode;
-	}
+	public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public String getEstimatedDeliveryDate() {
+        return estimatedDeliveryDate;
+    }
+
+    public void setEstimatedDeliveryDate(String estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+    }
+
+    public String getAmountWithCurrencySign() {
+        return amountWithCurrencySign;
+    }
+
+    public void setAmountWithCurrencySign(String amountWithCurrencySign) {
+        this.amountWithCurrencySign = amountWithCurrencySign;
+    }
 	
-	public String getCartShippingTotalLabel() {
-		return cartShippingTotalLabel;
-	}
-
-	public void setCartShippingTotalLabel(String cartShippingTotalLabel) {
-		this.cartShippingTotalLabel = cartShippingTotalLabel;
-	}
-
-	public String getCartShippingTotal() {
-		return cartShippingTotal;
-	}
-
-	public void setCartShippingTotal(String cartShippingTotal) {
-		this.cartShippingTotal = cartShippingTotal;
-	}
-
 }

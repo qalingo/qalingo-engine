@@ -24,12 +24,12 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_PAYMENT_GATEWAY_OPTION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-public class PaymentGatewayOption {
+public class PaymentGatewayOption extends AbstractEntity {
 
     /**
 	 * Generated UID
 	 */
-    private static final long serialVersionUID = -762210950763446853L;
+    private static final long serialVersionUID = -7653306435642835721L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -192,7 +192,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
 	 *
 	 */
-    public NumberFormat getCartItemPriceNumberFormat(final RequestData requestData, final String currencyCode) throws Exception {
+    public NumberFormat getFrontofficePriceNumberFormat(final RequestData requestData, final String currencyCode) throws Exception {
         return getNumberFormat(requestData, currencyCode, RoundingMode.HALF_EVEN, 2, 2, 1000000, 1);
     }
 

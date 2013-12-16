@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,6 +22,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,6 @@ public class ProductLineController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
 
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
-		final List<CatalogCategoryVirtual> categories = productCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId());
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
@@ -59,11 +60,11 @@ public class ProductLineController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		/*final ProductCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
-		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);*/
+		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);		
 		
-		/*final List<CategoryViewBean> categoriesViewBean = frontofficeViewBeanFactory.buildVirtualCategoryViewBeans(requestUtil.getRequestData(request), categories, true);
-		model.addAttribute("categories",categoriesViewBean);*/
+		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
+		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		
         return modelAndView;
 	}

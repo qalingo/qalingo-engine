@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -87,7 +86,7 @@ public interface RequestUtil {
 	/**
 	 *
 	 */
-	NumberFormat getCartItemPriceNumberFormat(RequestData requestData, String currencyCode) throws Exception;
+	NumberFormat getFrontofficePriceNumberFormat(RequestData requestData, String currencyCode) throws Exception;
 	
 	/**
 	 *

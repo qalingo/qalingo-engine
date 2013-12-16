@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -76,8 +77,8 @@ import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.service.openid.OpenProvider;
 import org.hoteia.qalingo.core.web.mvc.factory.AbstractViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
@@ -1214,6 +1215,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public CartViewBean buildCartViewBean(final RequestData requestData, final Cart cart) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         
         final CartViewBean cartViewBean = new CartViewBean();
@@ -1237,9 +1239,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         // SUB PART : Subtotal
         final String currencyCode = marketArea.getCurrency().getCode();
-        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+        final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
         BigDecimal cartItemsTotal = new BigDecimal("0");
-        BigDecimal cartShippingTotal = new BigDecimal("0");
+        BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
         BigDecimal cartFeesTotal = new BigDecimal("0");
         BigDecimal carTotal = new BigDecimal("0");
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
@@ -1250,21 +1252,20 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         // SUB PART : Shippings
-        final List<CartDeliveryMethodViewBean> cartShippingViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
-        final Set<DeliveryMethod> shippings = cart.getShippings();
-        if (shippings != null) {
-            for (Iterator<DeliveryMethod> iterator = shippings.iterator(); iterator.hasNext();) {
-                final DeliveryMethod shipping = (DeliveryMethod) iterator.next();
-                final CartDeliveryMethodViewBean cartShippingViewBean = new CartDeliveryMethodViewBean();
-                if (shipping.getPrice() != null) {
-                    cartShippingTotal = cartShippingTotal.add(shipping.getPrice());
-                    cartShippingViewBean.setCartShippingTotal(formatter.format(shipping.getPrice()));
-                }
-                Object[] params = { shipping.getName() };
-                cartShippingViewBean.setCartShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
-                cartShippingViewBeans.add(cartShippingViewBean);
+        final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
+        final Set<DeliveryMethod> deliveryMethods = cart.getShippings();
+        if (deliveryMethods != null) {
+            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
+                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
+                final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
+                cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
+                cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
+                cartDeliveryMethodViewBean.setAmountWithCurrencySign(formatter.format(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId())));
+                Object[] params = { deliveryMethod.getName() };
+                cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
+                cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
             }
-            cartViewBean.setCartDeliveryMethods(cartShippingViewBeans);
+            cartViewBean.setCartDeliveryMethods(cartDeliveryMethodViewBeans);
         }
 
         // SUB PART : Taxes
@@ -1286,10 +1287,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             cartViewBean.setCartTaxes(cartTaxViewBeans);
         }
         carTotal = carTotal.add(cartItemsTotal);
-        carTotal = carTotal.add(cartShippingTotal);
+        carTotal = carTotal.add(cartDeliveryMethodTotal);
         carTotal = carTotal.add(cartFeesTotal);
         cartViewBean.setCartItemsTotal(formatter.format(cartItemsTotal));
-        cartViewBean.setCartShippingTotal(formatter.format(cartShippingTotal));
+        cartViewBean.setCartShippingTotal(formatter.format(cartDeliveryMethodTotal));
         cartViewBean.setCartFeesTotal(formatter.format(cartFeesTotal));
         cartViewBean.setCartTotal(formatter.format(carTotal));
 
@@ -1311,12 +1312,12 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
         final String currencyCode = marketArea.getCurrency().getCode();
-        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+        final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
         
         // UNIT PRICE
         final BigDecimal price = cartItem.getPrice();
         if (price != null) {
-            cartItemViewBean.setUnitPrice(formatter.format(price));
+            cartItemViewBean.setUnitPriceWithCurrencySign(formatter.format(price));
         }
 
         // FEES AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
@@ -1326,7 +1327,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         // TOTAL AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
         final BigDecimal totalAmountCartItem = cartItem.getTotalAmountCartItem();
         if (totalAmountCartItem != null) {
-            cartItemViewBean.setAmount(formatter.format(totalAmountCartItem));
+            cartItemViewBean.setAmountWithCurrencySign(formatter.format(totalAmountCartItem));
         }
 
         Map<String, String> getParams = new HashMap<String, String>();
@@ -1371,7 +1372,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
             // SUB PART : Subtotal
             final String currencyCode = marketArea.getCurrency().getCode();
-            final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+            final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
             BigDecimal orderItemsTotal = new BigDecimal("0");
             BigDecimal orderShippingTotal = new BigDecimal("0");
             BigDecimal orderFeesTotal = new BigDecimal("0");
@@ -1395,7 +1396,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                         orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
                     }
                     Object[] params = { orderShipment.getName() };
-                    orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.shippings", params, locale));
+                    orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                     orderShippingViewBeans.add(orderShippingViewBean);
                 }
                 orderViewBean.setOrderShippings(orderShippingViewBeans);
@@ -1422,10 +1423,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             orderTotal = orderTotal.add(orderItemsTotal);
             orderTotal = orderTotal.add(orderShippingTotal);
             orderTotal = orderTotal.add(orderFeesTotal);
-            orderViewBean.setOrderItemsTotal(formatter.format(orderItemsTotal));
-            orderViewBean.setOrderShippingTotal(formatter.format(orderShippingTotal));
-            orderViewBean.setOrderFeesTotal(formatter.format(orderFeesTotal));
-            orderViewBean.setOrderTotal(formatter.format(orderTotal));
+            orderViewBean.setOrderItemsTotalWithCurrencySign(formatter.format(orderItemsTotal));
+            orderViewBean.setOrderShippingTotalWithCurrencySign(formatter.format(orderShippingTotal));
+            orderViewBean.setOrderFeesTotalWithCurrencySign(formatter.format(orderFeesTotal));
+            orderViewBean.setOrderTotalWithCurrencySign(formatter.format(orderTotal));
 
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, order.getId().toString());
@@ -1450,7 +1451,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         orderItemViewBean.setName(orderItem.getProductSku().getI18nName(localizationCode));
 
         String currencyCode = marketArea.getCurrency().getCode();
-        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
+        final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
         final BigDecimal price = orderItem.getPrice();
         if (price != null) {
             orderItemViewBean.setPrice(formatter.format(price));
@@ -1515,8 +1516,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer currentRetailer = requestData.getMarketAreaRetailer();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         
         final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
 
@@ -1525,15 +1526,23 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productSkuViewBean.setDefault(productSku.isDefault());
         productSkuViewBean.setCode(productSku.getCode());
         
-        Set<ProductSkuPrice> prices = productSku.getPrices();
-        for (ProductSkuPrice productSkuPrice : prices) {
-			if(productSkuPrice.getMarketAreaId().equals(currentMarketArea.getId()) && productSkuPrice.getRetailerId().equals(currentRetailer.getId())) {
-				productSkuViewBean.setPrice(productSkuPrice.getPrice());
-				productSkuViewBean.setCurrencySign(currentMarketArea.getCurrency().getSign());
-				break;
-			}
-		}
-
+        final String currencyCode = marketArea.getCurrency().getCode();
+        final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
+        
+        final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+        //some time, productSkuPrice.getCatalogPrice is null
+        if(productSkuPrice != null){
+        	if(productSkuPrice.getCatalogPrice() != null){
+        		productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
+        	}
+        	if(productSkuPrice.getSalePrice() != null){
+        		productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
+        		productSkuViewBean.setPriceWithCurrencySign(formatter.format(productSkuPrice.getSalePrice()));
+        	}            
+        } else {
+            productSkuViewBean.setPriceWithCurrencySign("NA");
+        }
+        
         final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
             String backgroundImage = requestUtil.getProductSkuImageWebPath(request, defaultBackgroundImage);
@@ -1577,7 +1586,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+
         final DeliveryMethodViewBean deliveryMethodViewBean = new DeliveryMethodViewBean();
         deliveryMethodViewBean.setId(deliveryMethod.getId());
 
@@ -1587,11 +1597,20 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         deliveryMethodViewBean.setCode(deliveryMethod.getCode());
         
         final String currencyCode = marketArea.getCurrency().getCode();
-        final NumberFormat formatter = requestUtil.getCartItemPriceNumberFormat(requestData, currencyCode);
-        // PRICE
-        final BigDecimal price = deliveryMethod.getPrice();
-        if (price != null) {
-            deliveryMethodViewBean.setPrice(formatter.format(price));
+        final NumberFormat formatter = requestUtil.getFrontofficePriceNumberFormat(requestData, currencyCode);
+        
+        Set<DeliveryMethodPrice> prices = deliveryMethod.getPrices();
+        for (DeliveryMethodPrice deliveryMethodPrice : prices) {
+            if(deliveryMethodPrice.getMarketAreaId().equals(marketArea.getId()) && deliveryMethodPrice.getRetailerId().equals(retailer.getId())) {
+                deliveryMethodViewBean.setCatalogPrice(deliveryMethodPrice.getPrice().toString());
+                deliveryMethodViewBean.setSalePrice(deliveryMethodPrice.getSalePrice().toString());
+                deliveryMethodViewBean.setPriceWithCurrencySign(formatter.format(deliveryMethodPrice.getSalePrice()));
+                
+                deliveryMethodViewBean.setCurrencySign(deliveryMethodPrice.getCurrency().getSign());
+                deliveryMethodViewBean.setCurrencyAbbreviated(deliveryMethodPrice.getCurrency().getAbbreviated());
+
+                break;
+            }
         }
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);

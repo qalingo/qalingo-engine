@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -210,49 +211,20 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         searchFacetViewBean.setValues(values);
         return searchFacetViewBean;
     }
-    /* (non-Javadoc)
-     * @see org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory#buildCategoryViewBean(org.hoteia.qalingo.core.pojo.RequestData, java.util.List)
-     */
-/*    public List<CategoryViewBean> buildVirtualCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryVirtual> categories, boolean fullPopulate) throws Exception {
-    	List<CategoryViewBean> categoryViewBeans = new ArrayList<CategoryViewBean>();
-    	long lc = 0;
-        for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator();iterator.hasNext();) {
-            final CatalogCategoryVirtual category = (CatalogCategoryVirtual) iterator.next();
-            if(lc != category.getId()){
-            	categoryViewBeans.add(buildVirtualCategoryViewBean(requestData, category, fullPopulate));
-            	lc = category.getId();
-            }
-        }
-        return categoryViewBeans;
+    
+    @Override
+    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(
+    		RequestData requestData, MarketArea marketArea) throws Exception {
+    	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
+    	
+    	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+    	
+    	for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
+    		CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategoryVirtual);
+    		catalogCategoryViewBeans.add(catalogCategoryViewBean);
+		}
+    	
+    	return catalogCategoryViewBeans;
     }
-    *//**
-     * @throws Exception
-     * 
-     *//*
-    public CategoryViewBean buildVirtualCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
 
-        final String localeCode = category.getCode();
-        final CategoryViewBean categoryViewBean = new CategoryViewBean();
-
-        if (category != null) {
-            final String categoryCode = category.getCode();
-
-            categoryViewBean.setName(category.getI18nName(localeCode));
-            categoryViewBean.setCode(categoryCode);
-
-            if (fullPopulate) {
-                if (category.getCatalogCategories() != null) {
-                	List<CategoryViewBean> subCategoryViewBeans = new ArrayList<CategoryViewBean>();
-                	List<CatalogCategoryVirtual> subCategories = new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories());
-                    for (Iterator<CatalogCategoryVirtual> iterator = subCategories.iterator();iterator.hasNext();) {
-                        final CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iterator.next();
-                        	subCategoryViewBeans.add(buildVirtualCategoryViewBean(requestData, subCategory, false));
-                        }
-                    	categoryViewBean.setSubCategories(subCategoryViewBeans);
-                    }
-                }
-            categoryViewBean.setCategoryUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, category));
-            }
-        return categoryViewBean;
-    }*/
 }
