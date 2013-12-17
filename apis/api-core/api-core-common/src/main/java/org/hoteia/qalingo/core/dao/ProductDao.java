@@ -33,6 +33,8 @@ public interface ProductDao {
     
     List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode);
     
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(String categoryCode,int page, int pageSize, String sortBy, String orderBy);
+    
 	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 
 	void deleteProductMarketing(ProductMarketing productMarketing);

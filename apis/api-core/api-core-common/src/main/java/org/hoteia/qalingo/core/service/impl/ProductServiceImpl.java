@@ -17,7 +17,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -70,6 +69,11 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final Long marketAreaId,final String categoryCode){
     	List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByCatalogCategoryCode(categoryCode);
     	return orderProductMarketingList(marketAreaId, productMarketings);
+    }
+    
+    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(String categoryCode,int page, int pageSize, String sortBy, String orderBy){
+    	List<ProductMarketing> productmaketings = productMarketingDao.findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(categoryCode, page, pageSize, sortBy, orderBy);
+    	return productmaketings;
     }
 
     public void saveOrUpdateProductMarketing(ProductMarketing productMarketing) {
