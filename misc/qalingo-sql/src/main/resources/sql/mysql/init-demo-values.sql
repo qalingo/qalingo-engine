@@ -75,11 +75,11 @@ INSERT INTO teco_catalog_virtual
 (302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1);
 
 INSERT INTO teco_retailer 
-(id, name, description, code, is_brand, is_default, is_official_retailer)
+(id, name, description, code, is_brand, is_official_retailer)
  VALUES 
-(1, 'Default Retailer', 'Default Retailer', 'DRE', 0, 1, 0), 
-(2, 'Default Retailer', 'Brand Retailer', 'BRE', 1, 0, 0), 
-(3, 'Default Retailer', 'Official Retailer', 'ORE', 0, 0, 1);
+(1, 'Default Retailer', 'Default Retailer', 'DRE', 0, 0), 
+(2, 'Default Retailer', 'Brand Retailer', 'BRE', 1, 0), 
+(3, 'Default Retailer', 'Official Retailer', 'ORE', 0, 1);
 
 INSERT INTO teco_retailer_address 
 (id, version, address1, address2, additional_information, postal_code, city, country_code, email, fax, mobile, phone, retailer_id, latitude, longitude, is_default)
@@ -117,19 +117,18 @@ INSERT INTO teco_market
 (21, 'Market 4 = example South America', 'SAM', null, 0, 'South America', 1, 20),
 (30, 'Market 5 = example Asia', 'ASIA', null, 1, 'Asia', 1, 30);
 
-
 INSERT INTO teco_market_area 
-(id, description, name, code, theme, is_default, version, default_localization_id, market_id, virtual_catalog_id, default_retailer_id, default_currency_id, latitude, longitude)
+(id, description, name, code, theme, is_default, version, market_id, virtual_catalog_id, default_localization_id, default_retailer_id, default_currency_id, latitude, longitude)
  VALUES 
-(1, 'Market INT description', 'market area 1 : INT',   'INT', null, 1, 1, 1,  1, 100, 2, 1, 159, '-30.000', '45.000'),
-(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 2, 10, 101, 1, 1, 45, '48.480', '2.200'),	
-(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 3, 10, 102, 1, 1, 45, '40.260', '3.420'),	
-(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 1, 20, 201, 2, 1, 159, '40.000', '-90.000'),
-(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 1, 20, 202, 4, 1, 27, '55.000', '-90.000'),
-(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 8, 21, 210, 2, 1, 21, '-22.570', '-43.120'),
-(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 3, 21, 211, 2, 1, 8, '-34.350', '-58.220'),
-(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 9, 30, 301, 5, 1, 31, '121.280', '31.100'),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 7, 30, 302, 6, 1, 72, '35.400', '139.450');
+(  1, 'Market INT description', 'market area 1 : INT', 'INT', null, 1, 1,  1, 100, 1, 1, 150, '-30.000', '45.000'),
+(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 10, 101, 2, 1, 45, '48.480', '2.200'),	
+(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 10, 102, 3, 1, 45, '40.260', '3.420'),	
+(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 20, 201, 1, 1, 150, '40.000', '-90.000'),
+(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 20, 202, 1, 1, 27, '55.000', '-90.000'),
+(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 21, 210, 8, 1, 21, '-22.570', '-43.120'),
+(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 21, 211, 3, 1, 8, '-34.350', '-58.220'),
+(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 30, 301, 9, 1, 31, '121.280', '31.100'),
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450');
 
 /*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
@@ -427,12 +426,12 @@ VALUES (1,0,1,0,1,52,1), (1,0,1,0,1,52,2), (1,0,1,0,1,52,3), (1,0,1,0,1,52,4);
 INSERT INTO teco_product_sku_price  
 (id, market_area_id, price_catalog, retailer_id, currency_id, product_sku_id)
 VALUES 
-(30, 1, 14.35, 1, 159, 1),
-(40, 1, 15.35, 1, 159, 2),
-(50, 1, 16.35, 1, 159, 3),
-(60, 1, 15.35, 1, 159, 4),
-(70, 1, 16.35, 1, 159, 5),
-(80, 1, 17.35, 1, 159, 6);
+(30, 1, 14.35, 1, 150, 1),
+(40, 1, 15.35, 1, 150, 2),
+(50, 1, 16.35, 1, 150, 3),
+(60, 1, 15.35, 1, 150, 4),
+(70, 1, 16.35, 1, 150, 5),
+(80, 1, 17.35, 1, 150, 6);
 
 -- MARKET PLACE EUR
 INSERT INTO teco_product_sku_price  

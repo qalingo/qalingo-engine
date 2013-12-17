@@ -53,7 +53,7 @@ INSERT INTO tbo_group_role_rel VALUES
 
 -- ECO GLOBAL
 INSERT INTO teco_currency_referential  
-(id, abbreviated, code, description, name, sign, format_mocale) 
+(id, code, description, abbreviated, name, sign, format_locale) 
 VALUES 
 (2, 'AED', 'United Arab Emirates Dirham', 'AED', 'United Arab Emirates Dirham', 'AED','en_US'),
 (3, 'AFN', 'Afghanistan Afghani', 'AFN', 'Afghanistan Afghani', 'AFN','en_US'),
@@ -98,7 +98,7 @@ VALUES
 (42, 'EGP', 'Egypt Pound', 'EGP', 'Egypt Pound', 'EGP','en_US'),
 (43, 'ERN', 'Eritrea Nakfa', 'ERN', 'Eritrea Nakfa', 'ERN','en_US'),
 (44, 'ETB', 'Ethiopia Birr', 'ETB', 'Ethiopia Birr', 'ETB','en_US'),
-(45, 'EUR', 'Euro Member Countries', 'EUR', 'Euro Member Countries', '€','fr_FR'),
+(45, 'EUR', 'Euro Member Countries', 'EUR', 'Euro', '€','fr_FR'),
 (46, 'FJD', 'Fiji Dollar', 'FJD', 'Fiji Dollar', 'FJD','en_US'),
 (47, 'FKP', 'Falkland Islands (Malvinas) Pound', 'FKP', 'Falkland Islands (Malvinas) Pound', 'FKP','en_US'),
 (48, 'GBP', 'United Kingdom Pound', 'GBP', 'United Kingdom Pound', '£','en_GB'),

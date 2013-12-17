@@ -220,7 +220,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 //      
 //      projections.add(Projections.property("markets.marketAreas.marketAreaAttributes"));
       
-      criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
       
   }
     
@@ -241,7 +240,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.createAlias("marketAreas.marketAreaAttributes", "marketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
         
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     }
     
     private void addDefaultMarketAreaFetch(Criteria criteria) {
@@ -263,7 +261,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.setFetchMode("deliveryMethods", FetchMode.JOIN);
         criteria.setFetchMode("paymentGateways", FetchMode.JOIN);
         
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     }
 	
 }

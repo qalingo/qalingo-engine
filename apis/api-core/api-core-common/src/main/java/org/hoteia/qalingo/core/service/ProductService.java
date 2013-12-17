@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 
@@ -30,7 +31,11 @@ public interface ProductService {
     List<ProductMarketing> findProductMarketingsByBrandId(Long marketAreaId, Long brandId);
 
     List<ProductMarketing> findProductMarketingsByBrandCode(Long marketAreaId, String brandCode);
-
+    
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(Long marketAreaId,String categoryCode);
+    
+    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
+    
 	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 	
 	void deleteProductMarketing(ProductMarketing productMarketing);

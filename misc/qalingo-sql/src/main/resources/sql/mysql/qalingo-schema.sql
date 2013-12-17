@@ -379,11 +379,11 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
   `RETAILER_ID` bigint(20) DEFAULT NULL,
-  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
   KEY `FK475D66AE820B6ACF` (`PRODUCT_MARKETING_ID`),
@@ -437,13 +437,21 @@ CREATE TABLE `teco_cart` (
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
+  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
   `SHIPPING_ADDRESS_ID` bigint(20) DEFAULT NULL,
   `STATUS` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
+  `CURRENCY_ID` bigint(20) DEFAULT NULL,
   `SESSION_ID` bigint(20) DEFAULT NULL,
+  `ECO_ENGINE_SESSION_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
+  KEY `FKA900B8224F2670D` (`CURRENCY_ID`),
+  KEY `FKA900B82FA5C5FAE` (`ECO_ENGINE_SESSION_ID`),
   KEY `FKA900B82FE3792BF` (`SESSION_ID`),
-  CONSTRAINT `FKA900B82FE3792BF` FOREIGN KEY (`SESSION_ID`) REFERENCES `teco_engine_session` (`ID`)
+  CONSTRAINT `FKA900B82FE3792BF` FOREIGN KEY (`SESSION_ID`) REFERENCES `teco_engine_session` (`ID`),
+  CONSTRAINT `FKA900B8224F2670D` FOREIGN KEY (`CURRENCY_ID`) REFERENCES `teco_currency_referential` (`ID`),
+  CONSTRAINT `FKA900B82FA5C5FAE` FOREIGN KEY (`ECO_ENGINE_SESSION_ID`) REFERENCES `teco_engine_session` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -833,6 +841,7 @@ CREATE TABLE `teco_currency_referential` (
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `FORMAT_LOCALE` varchar(255) DEFAULT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `SIGN` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
@@ -1144,6 +1153,61 @@ CREATE TABLE `teco_customer_wishlist` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_delivery_method`
+--
+
+DROP TABLE IF EXISTS `teco_delivery_method`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_delivery_method` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DELIVERY_TIME` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_delivery_method_country`
+--
+
+DROP TABLE IF EXISTS `teco_delivery_method_country`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_delivery_method_country` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE_COUNTRY` varchar(255) DEFAULT NULL,
+  `SHIPPING_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK69AD2218601A5F5` (`SHIPPING_ID`),
+  CONSTRAINT `FK69AD2218601A5F5` FOREIGN KEY (`SHIPPING_ID`) REFERENCES `teco_delivery_method` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_delivery_method_county`
+--
+
+DROP TABLE IF EXISTS `teco_delivery_method_county`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_delivery_method_county` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE_COUNTY` varchar(255) DEFAULT NULL,
+  `DELIVERY_METHOD_COUNTRY_ID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FKA55FD53F6956AFA4` (`DELIVERY_METHOD_COUNTRY_ID`),
+  CONSTRAINT `FKA55FD53F6956AFA4` FOREIGN KEY (`DELIVERY_METHOD_COUNTRY_ID`) REFERENCES `teco_delivery_method_country` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_delivery_method_price`
 --
 
@@ -1165,29 +1229,8 @@ CREATE TABLE `teco_delivery_method_price` (
   PRIMARY KEY (`ID`),
   KEY `FKAB37569424F2670D` (`CURRENCY_ID`),
   KEY `FKAB3756945CAFB757` (`DELIVERY_METHOD_ID`),
-  CONSTRAINT `FKAB3756945CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_methods` (`ID`),
+  CONSTRAINT `FKAB3756945CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_method` (`ID`),
   CONSTRAINT `FKAB37569424F2670D` FOREIGN KEY (`CURRENCY_ID`) REFERENCES `teco_currency_referential` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_delivery_methods`
---
-
-DROP TABLE IF EXISTS `teco_delivery_methods`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_delivery_methods` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
-  `DATE_CREATE` datetime DEFAULT NULL,
-  `DATE_UPDATE` datetime DEFAULT NULL,
-  `DELIVERY_TIME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `CODE` (`CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1204,10 +1247,7 @@ CREATE TABLE `teco_engine_session` (
   `DATE_UPDATE` datetime DEFAULT NULL,
   `JSESSION_ID` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `CART_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK3ECC475B10E2356E` (`CART_ID`),
-  CONSTRAINT `FK3ECC475B10E2356E` FOREIGN KEY (`CART_ID`) REFERENCES `teco_cart` (`ID`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1357,19 +1397,22 @@ CREATE TABLE `teco_market_area` (
   `THEME` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
   `VIRTUAL_CATALOG_ID` bigint(20) DEFAULT NULL,
-  `CURRENCY_ID` bigint(20) DEFAULT NULL,
+  `DEFAULT_CURRENCY_ID` bigint(20) DEFAULT NULL,
   `DEFAULT_LOCALIZATION_ID` bigint(20) DEFAULT NULL,
+  `DEFAULT_RETAILER_ID` bigint(20) DEFAULT NULL,
   `MARKET_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
-  KEY `FK6179540E24F2670D` (`CURRENCY_ID`),
   KEY `FK6179540E2DE532EE` (`MARKET_ID`),
   KEY `FK6179540E74A8201B` (`VIRTUAL_CATALOG_ID`),
+  KEY `FK6179540EEE26420F` (`DEFAULT_CURRENCY_ID`),
   KEY `FK6179540EBB52ECD0` (`DEFAULT_LOCALIZATION_ID`),
-  CONSTRAINT `FK6179540EBB52ECD0` FOREIGN KEY (`DEFAULT_LOCALIZATION_ID`) REFERENCES `teco_localization` (`ID`),
-  CONSTRAINT `FK6179540E24F2670D` FOREIGN KEY (`CURRENCY_ID`) REFERENCES `teco_currency_referential` (`ID`),
+  KEY `FK6179540E8A1A8470` (`DEFAULT_RETAILER_ID`),
+  CONSTRAINT `FK6179540E8A1A8470` FOREIGN KEY (`DEFAULT_RETAILER_ID`) REFERENCES `teco_retailer` (`ID`),
   CONSTRAINT `FK6179540E2DE532EE` FOREIGN KEY (`MARKET_ID`) REFERENCES `teco_market` (`ID`),
-  CONSTRAINT `FK6179540E74A8201B` FOREIGN KEY (`VIRTUAL_CATALOG_ID`) REFERENCES `teco_catalog_virtual` (`ID`)
+  CONSTRAINT `FK6179540E74A8201B` FOREIGN KEY (`VIRTUAL_CATALOG_ID`) REFERENCES `teco_catalog_virtual` (`ID`),
+  CONSTRAINT `FK6179540EBB52ECD0` FOREIGN KEY (`DEFAULT_LOCALIZATION_ID`) REFERENCES `teco_localization` (`ID`),
+  CONSTRAINT `FK6179540EEE26420F` FOREIGN KEY (`DEFAULT_CURRENCY_ID`) REFERENCES `teco_currency_referential` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1406,6 +1449,24 @@ CREATE TABLE `teco_market_area_attribute` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_market_area_currency_rel`
+--
+
+DROP TABLE IF EXISTS `teco_market_area_currency_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_market_area_currency_rel` (
+  `MARKET_AREA_ID` bigint(20) NOT NULL,
+  `CURRENCY_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`MARKET_AREA_ID`,`CURRENCY_ID`),
+  KEY `FKF42D77DC24F2670D` (`CURRENCY_ID`),
+  KEY `FKF42D77DCD93FD4A7` (`MARKET_AREA_ID`),
+  CONSTRAINT `FKF42D77DCD93FD4A7` FOREIGN KEY (`MARKET_AREA_ID`) REFERENCES `teco_market_area` (`ID`),
+  CONSTRAINT `FKF42D77DC24F2670D` FOREIGN KEY (`CURRENCY_ID`) REFERENCES `teco_currency_referential` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_market_area_delivery_method_rel`
 --
 
@@ -1418,7 +1479,7 @@ CREATE TABLE `teco_market_area_delivery_method_rel` (
   PRIMARY KEY (`MARKET_AREA_ID`,`DELIVERY_METHOD_ID`),
   KEY `FKF8892F95D93FD4A7` (`MARKET_AREA_ID`),
   KEY `FKF8892F955CAFB757` (`DELIVERY_METHOD_ID`),
-  CONSTRAINT `FKF8892F955CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_methods` (`ID`),
+  CONSTRAINT `FKF8892F955CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_method` (`ID`),
   CONSTRAINT `FKF8892F95D93FD4A7` FOREIGN KEY (`MARKET_AREA_ID`) REFERENCES `teco_market_area` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1454,7 +1515,7 @@ CREATE TABLE `teco_market_area_payment_gateway_rel` (
   PRIMARY KEY (`MARKET_AREA_ID`,`PAYMENT_GATEWAY_ID`),
   KEY `FK61404D54D93FD4A7` (`MARKET_AREA_ID`),
   KEY `FK61404D5444663178` (`PAYMENT_GATEWAY_ID`),
-  CONSTRAINT `FK61404D5444663178` FOREIGN KEY (`PAYMENT_GATEWAY_ID`) REFERENCES `teco_delivery_methods` (`ID`),
+  CONSTRAINT `FK61404D5444663178` FOREIGN KEY (`PAYMENT_GATEWAY_ID`) REFERENCES `teco_delivery_method` (`ID`),
   CONSTRAINT `FK61404D54D93FD4A7` FOREIGN KEY (`MARKET_AREA_ID`) REFERENCES `teco_market_area` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2023,11 +2084,26 @@ CREATE TABLE `teco_product_marketing_type_familly` (
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   `NAME` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `TAX_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `CODE` (`CODE`),
-  KEY `FKD32D88C8575EEFA6` (`TAX_ID`),
-  CONSTRAINT `FKD32D88C8575EEFA6` FOREIGN KEY (`TAX_ID`) REFERENCES `teco_tax` (`ID`)
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teco_product_marketing_type_familly_tax_rel`
+--
+
+DROP TABLE IF EXISTS `teco_product_marketing_type_familly_tax_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_product_marketing_type_familly_tax_rel` (
+  `PRODUCT_MARKETING_TYPE_FAMILLY_ID` bigint(20) NOT NULL,
+  `TAX_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PRODUCT_MARKETING_TYPE_FAMILLY_ID`,`TAX_ID`),
+  KEY `FKE2A6D94E9A35C3F1` (`PRODUCT_MARKETING_TYPE_FAMILLY_ID`),
+  KEY `FKE2A6D94ECD7C3933` (`TAX_ID`),
+  CONSTRAINT `FKE2A6D94ECD7C3933` FOREIGN KEY (`TAX_ID`) REFERENCES `teco_currency_referential` (`ID`),
+  CONSTRAINT `FKE2A6D94E9A35C3F1` FOREIGN KEY (`PRODUCT_MARKETING_TYPE_FAMILLY_ID`) REFERENCES `teco_product_marketing_type_familly` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2176,7 +2252,6 @@ CREATE TABLE `teco_retailer` (
   `DESCRIPTION` varchar(255) DEFAULT NULL,
   `IS_BRAND` tinyint(1) NOT NULL DEFAULT '0',
   `IS_CORNER` tinyint(1) NOT NULL DEFAULT '0',
-  `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `IS_ECOMMERCE` tinyint(1) NOT NULL DEFAULT '0',
   `IS_OFFICIAL_RETAILER` tinyint(1) NOT NULL DEFAULT '0',
   `LOGO` varchar(255) DEFAULT NULL,
@@ -2277,11 +2352,11 @@ CREATE TABLE `teco_retailer_customer_comment` (
   `CUSTOMER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK14A532BE42F1AAE` (`CUSTOMER_ID`),
-  KEY `FK14A532BC0E6A96E` (`RETAILER_ID`),
   KEY `FK14A532BE6A20827` (`RETAILER_ID`),
-  CONSTRAINT `FK14A532BE6A20827` FOREIGN KEY (`RETAILER_ID`) REFERENCES `teco_retailer_customer_comment` (`ID`),
+  KEY `FK14A532BC0E6A96E` (`RETAILER_ID`),
   CONSTRAINT `FK14A532BC0E6A96E` FOREIGN KEY (`RETAILER_ID`) REFERENCES `teco_retailer` (`ID`),
-  CONSTRAINT `FK14A532BE42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`)
+  CONSTRAINT `FK14A532BE42F1AAE` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `teco_customer` (`ID`),
+  CONSTRAINT `FK14A532BE6A20827` FOREIGN KEY (`RETAILER_ID`) REFERENCES `teco_retailer_customer_comment` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2503,8 +2578,8 @@ CREATE TABLE `teco_rule_repository_attribute_rel` (
   `RULE_REPOSITORY_ID` bigint(20) NOT NULL,
   `RULE_REPOSITORY_ATTRIBUTE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`RULE_REPOSITORY_ID`,`RULE_REPOSITORY_ATTRIBUTE_ID`),
-  KEY `FK8FA169C2501BA447` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C29E84E6E4` (`RULE_REPOSITORY_ID`),
+  KEY `FK8FA169C2501BA447` (`RULE_REPOSITORY_ID`),
   KEY `FK8FA169C289EF4DD2` (`RULE_REPOSITORY_ATTRIBUTE_ID`),
   CONSTRAINT `FK8FA169C289EF4DD2` FOREIGN KEY (`RULE_REPOSITORY_ATTRIBUTE_ID`) REFERENCES `teco_rule_repository_attribute` (`ID`),
   CONSTRAINT `FK8FA169C2501BA447` FOREIGN KEY (`RULE_REPOSITORY_ID`) REFERENCES `teco_rule_repository` (`ID`),
@@ -2527,40 +2602,6 @@ CREATE TABLE `teco_rule_repository_referential_rel` (
   KEY `FK2477FFAF6BFDE76B` (`RULE_REFERENTIAL_ID`),
   CONSTRAINT `FK2477FFAF6BFDE76B` FOREIGN KEY (`RULE_REFERENTIAL_ID`) REFERENCES `teco_rule_referential` (`ID`),
   CONSTRAINT `FK2477FFAF501BA447` FOREIGN KEY (`RULE_REPOSITORY_ID`) REFERENCES `teco_rule_repository` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_shipping_country`
---
-
-DROP TABLE IF EXISTS `teco_shipping_country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_shipping_country` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKB02EDF478601A5F5` (`SHIPPING_ID`),
-  CONSTRAINT `FKB02EDF478601A5F5` FOREIGN KEY (`SHIPPING_ID`) REFERENCES `teco_delivery_methods` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_shipping_county`
---
-
-DROP TABLE IF EXISTS `teco_shipping_county`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_shipping_county` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE_COUNTY` varchar(255) DEFAULT NULL,
-  `SHIPPING_COUNTRY_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKD4228B59EBFB6B69` (`SHIPPING_COUNTRY_ID`),
-  CONSTRAINT `FKD4228B59EBFB6B69` FOREIGN KEY (`SHIPPING_COUNTRY_ID`) REFERENCES `teco_shipping_country` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2646,8 +2687,11 @@ CREATE TABLE `teco_tax` (
   `NAME` varchar(255) DEFAULT NULL,
   `PERCENT` decimal(19,2) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
+  `TAX_TYPE_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `CODE` (`CODE`)
+  UNIQUE KEY `CODE` (`CODE`),
+  KEY `FKCECB16E99FF9BCFD` (`TAX_TYPE_ID`),
+  CONSTRAINT `FKCECB16E99FF9BCFD` FOREIGN KEY (`TAX_TYPE_ID`) REFERENCES `teco_tax_type` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2686,6 +2730,26 @@ CREATE TABLE `teco_tax_state` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teco_tax_type`
+--
+
+DROP TABLE IF EXISTS `teco_tax_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teco_tax_type` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) DEFAULT NULL,
+  `DATE_CREATE` datetime DEFAULT NULL,
+  `DATE_UPDATE` datetime DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `VERSION` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teco_warehouse`
 --
 
@@ -2715,4 +2779,4 @@ CREATE TABLE `teco_warehouse` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-12-12 20:39:39
+-- Dump completed on 2013-12-17 10:39:03
