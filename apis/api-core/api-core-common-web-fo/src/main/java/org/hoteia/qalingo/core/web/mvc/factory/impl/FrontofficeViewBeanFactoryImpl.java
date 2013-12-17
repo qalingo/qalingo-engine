@@ -35,9 +35,11 @@ import org.hoteia.qalingo.core.service.ProductBrandService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -233,39 +235,60 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     }
     
     public List<ProductBrandViewBean> buildListProductBrands(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
-    	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();    	
+    	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
     	
     	List<ProductBrand> productBrands = productBrandService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
-    	
     	for (ProductBrand productBrand : productBrands) {
     		ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
     		productBrandViewBeans.add(productBrandViewBean);
 		}
-    	
-//    	ProductBrandViewBean productBrandViewBean;
-//    	if(!catalogCategoryVirtual.isRoot()){
-//    		List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogCategoryVirtual.getCode());
-//    		for (final ProductMarketing productMarketing : productMarketings) {
-//    			productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
-//    			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-//                productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
-//                productBrandViewBeans.add(productBrandViewBean);
-//    		}
-//    	} else {
-//    		for(CatalogCategoryVirtual catalogSubCategory : catalogCategoryVirtual.getCatalogCategories()){
-//    			catalogSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogSubCategory.getId().toString());
-//    			List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogSubCategory.getCode());
-//    			if(productMarketings != null){
-//    				for (ProductMarketing productMarketing : productMarketings) {
-//    					productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
-//	        			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-//	                    productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
-//	                    productBrandViewBeans.add(productBrandViewBean);
-//					}
-//    			}
-//    		}
-//    	}
     	return productBrandViewBeans;
+    }
+    
+    @Override
+    public List<RecentProductViewBean> buildRecentProductViewBean(
+    		final RequestData requestData,
+    		final List<String> listCode) throws Exception {
+    	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
+    	final Localization localization = requestData.getMarketAreaLocalization();
+        final String localeCode = localization.getCode();
+    	final MarketArea marketArea = requestData.getMarketArea();
+    	for (String value : listCode) {
+    		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
+    		ProductMarketing productMarketing = productService.getProductMarketingById(value);
+    		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+        	recentProductViewBean.setId(productMarketing.getId());
+    		recentProductViewBean.setCode(value);
+    		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
+        	recentProductViewBean.setI18nName(productMarketing.getI18nName(localeCode));
+        	recentProductViewBeans.add(recentProductViewBean);
+    	}
+    	return recentProductViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+//    	 final HttpServletRequest request = requestData.getRequest();	
+    	 final Localization localization =  requestData.getMarketAreaLocalization();
+    	 final String localizationCode = localization.getCode();
+    	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
+    	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
+//    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
+    	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
+		
+		 if (catalogCategory.isRoot()) {
+			 catalogBreadCumViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
+		 } else {
+			 catalogBreadCumViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
+		 }
+		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
+		 if(!catalogCategory.isRoot()){
+				catalogBreadCumViewBean.setDefaultParentCategory(buildCatalogBreadcrumbViewBean(requestData,parentCatalogCategoryVirtual));
+		 }
+
+    	return catalogBreadCumViewBean;
     }
 
 }

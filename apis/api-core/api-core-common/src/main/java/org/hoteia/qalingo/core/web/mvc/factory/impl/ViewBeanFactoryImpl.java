@@ -11,7 +11,10 @@ package org.hoteia.qalingo.core.web.mvc.factory.impl;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,6 +49,7 @@ import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -57,6 +61,7 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -78,6 +83,7 @@ import org.hoteia.qalingo.core.web.mvc.factory.AbstractViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.ViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
@@ -104,6 +110,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
@@ -195,7 +202,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         commonViewBean.setCurrentMarketAreaLocalization(buildLocalizationViewBean(requestData, localization));
         commonViewBean.setCurrentMarketAreaRetailer(buildRetailerViewBean(requestData, retailer));
         commonViewBean.setCurrentMarketAreaCurrency(buildCurrencyReferentialViewBean(requestData, currency));
-        
+
         return commonViewBean;
     }
 
@@ -379,7 +386,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         return security;
     }
-    
+
     /**
      * 
      */
@@ -781,10 +788,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
         return localizationViewBean;
     }
-
-    /**
-     * 
-     */
+    
     public List<CurrencyReferentialViewBean> buildCurrenciesViewBeansByMarketArea(final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<CurrencyReferential> currencies = new ArrayList<CurrencyReferential>(marketArea.getCurrencies());
@@ -793,7 +797,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     }
 
     /**
-     * 
+     *
      */
     public List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(final RequestData requestData, final List<CurrencyReferential> currencyReferentials) throws Exception {
         final List<CurrencyReferentialViewBean> currencyReferentialViewBeans = new ArrayList<CurrencyReferentialViewBean>();
@@ -807,7 +811,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     }
     
     /**
-     * 
+     *
      */
     public CurrencyReferentialViewBean buildCurrencyReferentialViewBean(final RequestData requestData, final CurrencyReferential currencyReferential) throws Exception {
         final CurrencyReferentialViewBean currencyReferentialViewBean = new CurrencyReferentialViewBean();
@@ -844,7 +848,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
         return currencyReferentialViewBean;
     }
-    
+
     /**
      * 
      */
@@ -1130,10 +1134,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public CatalogCategoryViewBean buildCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
-        
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
-
-//         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
+        
         catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
@@ -1191,6 +1195,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 }
             }
         }
+               
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
         for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
@@ -1201,6 +1206,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         return catalogCategoryViewBean;
     }
+    
+    
     
     /**
      * 
@@ -1321,6 +1328,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //            for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
 //                final Tax tax = (Tax) iterator.next();
 //                final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
+//                BigDecimal taxesCalc = cartItemsTotal;
+//                taxesCalc = taxesCalc.multiply(tax.getPercent());
+//                taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+//                cartFeesTotal = cartFeesTotal.add(taxesCalc);
 //                Object[] params = { tax.getName() };
 //                cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
 //                cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
@@ -1328,7 +1339,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //            }
 //            cartViewBean.setCartTaxes(cartTaxViewBeans);
 //        }
-//        
+        
+        
         cartViewBean.setCartItemsTotal(cart.getCartItemTotalWithStandardCurrencySign());
         cartViewBean.setCartShippingTotal(cart.getDeliveryMethodTotalWithStandardCurrencySign());
         cartViewBean.setCartFeesTotal(cart.getTaxTotalWithStandardCurrencySign());
@@ -1490,6 +1502,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //        if (totalAmountOrderItem != null) {
 //            orderItemViewBean.setAmount(formatter.format(totalAmountOrderItem));
 //        }
+        
         return orderItemViewBean;
     }
 
@@ -1555,9 +1568,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
-            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
-            productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
+        	productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
+    		productSkuViewBean.setSalePrice(productSkuPrice.getPriceWithStandardCurrencySign());
         } else {
             productSkuViewBean.setPriceWithCurrencySign("NA");
         }
@@ -1681,5 +1693,4 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         return paymentMethodOptionViewBean;
     }
-
 }
