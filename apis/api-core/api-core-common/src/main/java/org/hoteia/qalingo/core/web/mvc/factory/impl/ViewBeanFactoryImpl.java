@@ -1090,7 +1090,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
         final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
         // set catalogCategoryViewBean.isRoot() is false
-        if(catalogCategoryViewBean.isRoot()){
+        if(!catalogCategoryViewBean.isRoot()){
         	catalogCategoryViewBean.setDefaultParentCategory(buildCatalogCategoryViewBean(requestData , parentCatalogCategoryVirtual) );
         }
         final Asset defaultPaskshotImage = catalogCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
