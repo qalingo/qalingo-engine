@@ -10,6 +10,8 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="TECO_CART_ITEM")
@@ -42,6 +45,12 @@ public class CartItem extends AbstractEntity {
     @Column(name = "PRODUCT_SKU_CODE")
     private String productSkuCode;
 
+    @Transient
+    private CartItemPrice cartItemPrice;
+    
+    @Transient
+    private Set<CartItemTax> taxes = new HashSet<CartItemTax>();
+    
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
     private ProductSku productSku;
@@ -87,6 +96,22 @@ public class CartItem extends AbstractEntity {
 		this.productSkuCode = productSkuCode;
 	}
 	
+	public CartItemPrice getCartItemPrice() {
+        return cartItemPrice;
+    }
+	
+	public void setCartItemPrice(CartItemPrice cartItemPrice) {
+        this.cartItemPrice = cartItemPrice;
+    }
+	
+	public Set<CartItemTax> getTaxes() {
+        return taxes;
+    }
+	
+	public void setTaxes(Set<CartItemTax> taxes) {
+        this.taxes = taxes;
+    }
+	
 	public ProductSku getProductSku() {
 		return productSku;
 	}
@@ -127,7 +152,7 @@ public class CartItem extends AbstractEntity {
         this.catalogCategory = catalogCategory;
     }
 
-    public BigDecimal getPrice() {
+    public ProductSkuPrice getPrice() {
 		
 		// TODO !
 		
@@ -135,20 +160,19 @@ public class CartItem extends AbstractEntity {
 				&& productSku.getPrices() != null
 				&& productSku.getPrices().size() > 0){
 			ProductSkuPrice productSkuPrice = productSku.getPrices().iterator().next();
-			return productSkuPrice.getSalePrice();
+			return productSkuPrice;
 		}
 		return null;
 	}
     
-    public String getPriceWithSign() {
+    public String getPriceWithStandardCurrencySign() {
         
         // TODO !
         
         if(productSku != null
                 && productSku.getPrices() != null
                 && productSku.getPrices().size() > 0){
-            ProductSkuPrice productSkuPrice = productSku.getPrices().iterator().next();
-            return productSkuPrice.getPriceWithStandardCurrencySign();
+            return getPrice().getPriceWithStandardCurrencySign();
         }
         return null;
     }
@@ -156,9 +180,19 @@ public class CartItem extends AbstractEntity {
 	public BigDecimal getTotalAmountCartItem() {
 		BigDecimal totalAmount = new BigDecimal("0");
 		if(getPrice() != null){
-			totalAmount = totalAmount.add(getPrice());
+			totalAmount = totalAmount.add(getPrice().getSalePrice());
 		}
 		totalAmount = totalAmount.multiply(new BigDecimal(quantity));
 		return totalAmount;
 	}
+	
+    public String getTotalAmountWithStandardCurrencySign() {
+        BigDecimal totalAmount = new BigDecimal("0");
+        if(getPrice() != null){
+            totalAmount = totalAmount.add(getPrice().getSalePrice());
+        }
+        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
+        return getPrice().getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
+    }
+    
 }

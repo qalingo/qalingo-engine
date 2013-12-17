@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
-import org.hoteia.qalingo.core.service.WebCommerceService;
+import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-    protected WebCommerceService webCommerceService;
+    protected WebManagementService webManagementService;
 	
 	@Autowired
     protected FormFactory formFactory;

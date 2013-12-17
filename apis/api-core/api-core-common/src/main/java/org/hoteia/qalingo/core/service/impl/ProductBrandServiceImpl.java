@@ -23,34 +23,33 @@ import org.hoteia.qalingo.core.service.ProductBrandService;
 @Transactional
 public class ProductBrandServiceImpl implements ProductBrandService {
 
-	@Autowired
-	private ProductBrandDao productBrandDao;
+    @Autowired
+    private ProductBrandDao productBrandDao;
 
-	public ProductBrand getProductBrandById(String rawProductBrandId) {
-		long ProductBrandId = -1;
-		try {
-			ProductBrandId = Long.parseLong(rawProductBrandId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return productBrandDao.getProductBrandById(ProductBrandId);
-	}
-	
-	public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
-		return productBrandDao.getProductBrandByCode(marketAreaId, productBrandCode);
-	}
+    public ProductBrand getProductBrandById(String rawProductBrandId) {
+        long ProductBrandId = -1;
+        try {
+            ProductBrandId = Long.parseLong(rawProductBrandId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return productBrandDao.getProductBrandById(ProductBrandId);
+    }
 
-	public void saveOrUpdateProductBrand(ProductBrand productBrand) {
-		productBrandDao.saveOrUpdateProductBrand(productBrand);
-	}
+    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
+        return productBrandDao.getProductBrandByCode(marketAreaId, productBrandCode);
+    }
 
-	public void deleteProductBrand(ProductBrand productBrand) {
-		productBrandDao.deleteProductBrand(productBrand);
-	}
-	
-	@Override
-	public List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode) {
-		return productBrandDao.findProductBrandsByCatalogCategoryCode(categoryCode);
-	}
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode) {
+        return productBrandDao.findProductBrandsByCatalogCategoryCode(categoryCode);
+    }
+
+    public void saveOrUpdateProductBrand(ProductBrand productBrand) {
+        productBrandDao.saveOrUpdateProductBrand(productBrand);
+    }
+
+    public void deleteProductBrand(ProductBrand productBrand) {
+        productBrandDao.deleteProductBrand(productBrand);
+    }
 
 }

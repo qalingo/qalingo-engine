@@ -53,7 +53,7 @@ public class ForgottentPasswordController extends AbstractBackofficeQalingoContr
 			return displayForgottenPassword(request, response, modelMap);
 		}
 		
-//		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(request, forgottenPasswordForm);
+//		webManagementService.buildAndSaveCustomerForgottenPasswordMail(request, forgottenPasswordForm);
 		
         return modelAndView;
 	}

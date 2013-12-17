@@ -22,12 +22,13 @@ public final class RequestConstants {
 	public static final String ENGINE_ECO_SESSION_OBJECT	= "ENGINE_ECO_SESSION_OBJECT";
 	public static final String ENGINE_BO_SESSION_OBJECT		= "ENGINE_BO_SESSION_OBJECT";
 
-	// REQUEST PARAMETER
-	public static final String REQUEST_PARAMETER_MARKET_PLACE_CODE			= "market-place-code";
-	public static final String REQUEST_PARAMETER_MARKET_CODE				= "market-code";
-	public static final String REQUEST_PARAMETER_MARKET_AREA_CODE			= "market-area-code";
-	public static final String REQUEST_PARAMETER_MARKET_LANGUAGE			= "market-area-language-code";
-	public static final String REQUEST_PARAMETER_RETAILER_CODE				= "market-area-retailer-code";
+    // REQUEST PARAMETER
+    public static final String REQUEST_PARAMETER_MARKET_PLACE_CODE          = "market-place-code";
+    public static final String REQUEST_PARAMETER_MARKET_CODE                = "market-code";
+    public static final String REQUEST_PARAMETER_MARKET_AREA_CODE           = "market-area-code";
+    public static final String REQUEST_PARAMETER_MARKET_AREA_LANGUAGE       = "market-area-language-code";
+    public static final String REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE  = "market-area-retailer-code";
+    public static final String REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE  = "market-area-currency-code";
 	
 	public static final String REQUEST_PARAMETER_CATALOG_CODE              = "catalog-code";
 	public static final String REQUEST_PARAMETER_CATALOG_CATEGORY_CODE     = "category-code";

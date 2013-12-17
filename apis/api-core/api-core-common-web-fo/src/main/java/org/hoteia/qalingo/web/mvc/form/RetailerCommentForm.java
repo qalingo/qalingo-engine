@@ -25,9 +25,9 @@ public class RetailerCommentForm implements Serializable {
 
 	private String retailerCode;
 
-    private int qualityOfService;
-    private int ratioQualityPrice;
-    private int priceScore;
+    private String qualityOfService;
+    private String ratioQualityPrice;
+    private String priceScore;
     
     private String comment;
     
@@ -39,27 +39,27 @@ public class RetailerCommentForm implements Serializable {
 	    this.retailerCode = retailerCode;
     }
     
-	public int getQualityOfService() {
+	public String getQualityOfService() {
     	return qualityOfService;
     }
 
-	public void setQualityOfService(int qualityOfService) {
+	public void setQualityOfService(String qualityOfService) {
     	this.qualityOfService = qualityOfService;
     }
 
-	public int getRatioQualityPrice() {
+	public String getRatioQualityPrice() {
     	return ratioQualityPrice;
     }
 
-	public void setRatioQualityPrice(int ratioQualityPrice) {
+	public void setRatioQualityPrice(String ratioQualityPrice) {
     	this.ratioQualityPrice = ratioQualityPrice;
     }
 	
-	public int getPriceScore() {
+	public String getPriceScore() {
     	return priceScore;
     }
 
-	public void setPriceScore(int priceScore) {
+	public void setPriceScore(String priceScore) {
     	this.priceScore = priceScore;
     }
 

@@ -24,8 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TECO_SHIPPING_COUNTRY")
-public class ShippingCountry extends AbstractEntity {
+@Table(name="TECO_DELIVERY_METHOD_COUNTRY")
+public class DeliveryMethodCountry extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -41,10 +41,10 @@ public class ShippingCountry extends AbstractEntity {
 	private String codeCountry;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="SHIPPING_COUNTRY_ID")
-	private Set<ShippingCounty> shippingCounties = new HashSet<ShippingCounty>(); 
+    @JoinColumn(name="DELIVERY_METHOD_COUNTRY_ID")
+	private Set<DeliveryMethodCounty> deliveryMethodCounties = new HashSet<DeliveryMethodCounty>(); 
 	
-	public ShippingCountry() {
+	public DeliveryMethodCountry() {
 	}
 	
 	public Long getId() {
@@ -63,12 +63,12 @@ public class ShippingCountry extends AbstractEntity {
 		this.codeCountry = codeCountry;
 	}
 
-	public Set<ShippingCounty> getShippingCounties() {
-		return shippingCounties;
+	public Set<DeliveryMethodCounty> getDeliveryMethodCounties() {
+		return deliveryMethodCounties;
 	}
 	
-	public void setShippingCounties(Set<ShippingCounty> shippingCounties) {
-		this.shippingCounties = shippingCounties;
+	public void setDeliveryMethodCounties(Set<DeliveryMethodCounty> deliveryMethodCounties) {
+		this.deliveryMethodCounties = deliveryMethodCounties;
 	}
 	
 }

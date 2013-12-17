@@ -44,7 +44,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             
             modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildCommonViewBean(requestData));
             
-            final Customer customer = requestUtil.getCurrentCustomer(request);
+            final Customer customer = requestData.getCustomer();
             if(customer != null){
                 modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
             }

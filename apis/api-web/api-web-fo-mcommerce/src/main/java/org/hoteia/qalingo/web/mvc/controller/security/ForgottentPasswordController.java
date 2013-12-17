@@ -59,7 +59,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute("forgottenPasswordForm") ForgottenPasswordForm forgottenPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE);
-
+		final RequestData requestData = requestUtil.getRequestData(request);
 		if (result.hasErrors()) {
 			return displayForgottenPassword(request, modelMap);
 		}
@@ -77,9 +77,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		}
 		
 		// FLAG THE CREDENTIAL WITH A TOKEN
-		CustomerCredential customerCredential = webCommerceService.flagCustomerCredentialWithToken(request, requestUtil.getRequestData(request), customer);
+		CustomerCredential customerCredential = webManagementService.flagCustomerCredentialWithToken(requestData, customer);
 		
-		webCommerceService.buildAndSaveCustomerForgottenPasswordMail(requestUtil.getRequestData(request), customer, customerCredential, forgottenPasswordForm);
+		webManagementService.buildAndSaveCustomerForgottenPasswordMail(requestData, customer, customerCredential, forgottenPasswordForm);
 		
         return modelAndView;
 	}
@@ -118,7 +118,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	public ModelAndView resetPassword(final HttpServletRequest request, @Valid @ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD_SUCCESS_VELOCITY_PAGE);
-
+		final RequestData requestData = requestUtil.getRequestData(request);
 		if (result.hasErrors()) {
 			return displayResetPassword(request, modelMap);
 		}
@@ -142,11 +142,11 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 			return displayResetPassword(request, modelMap);
 		}
 		
-		webCommerceService.resetCustomerCredential(request, requestUtil.getRequestData(request), customer, resetPasswordForm);
+		webManagementService.resetCustomerCredential(requestData, customer, resetPasswordForm);
 
-		webCommerceService.buildAndSaveCustomerResetPasswordConfirmationMail(requestUtil.getRequestData(request), customer);
+		webManagementService.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer);
 		
-		webCommerceService.cancelCustomerCredentialToken(request, requestUtil.getRequestData(request), customer);
+		webManagementService.cancelCustomerCredentialToken(requestData, customer);
 
         return modelAndView;
 	}
@@ -172,7 +172,7 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		}
 		
 		// CANCEL TOKEN
-		webCommerceService.cancelCustomerCredentialToken(request, requestUtil.getRequestData(request), customer);
+		webManagementService.cancelCustomerCredentialToken(requestData, customer);
 		// ADD INFO/WARNING MESSAGE
 		request.getSession().setAttribute(Constants.INFO_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "reset_password_is_cancel", locale));
 		

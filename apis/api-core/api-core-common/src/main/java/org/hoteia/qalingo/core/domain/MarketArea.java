@@ -89,8 +89,12 @@ public class MarketArea extends AbstractEntity {
     private Market market;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CURRENCY_ID", insertable = false, updatable = false)
-    private CurrencyReferential currency;
+    @JoinColumn(name = "DEFAULT_CURRENCY_ID", insertable = false, updatable = false)
+    private CurrencyReferential defaultCurrency;
+    
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_MARKET_AREA_CURRENCY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "CURRENCY_ID"))
+    private Set<CurrencyReferential> currencies = new HashSet<CurrencyReferential>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MARKET_AREA_ID")
@@ -104,6 +108,10 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_LOCALIZATION_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "LOCALIZATION_ID"))
     private Set<Localization> localizations = new HashSet<Localization>();
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DEFAULT_RETAILER_ID", insertable = false, updatable = false)
+    private Retailer defaultRetailer;
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_MARKET_AREA_RETAILER_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
@@ -212,15 +220,36 @@ public class MarketArea extends AbstractEntity {
     public void setMarket(Market market) {
         this.market = market;
     }
-
-    public CurrencyReferential getCurrency() {
-        return currency;
+    
+    public CurrencyReferential getDefaultCurrency() {
+        return defaultCurrency;
     }
 
-    public void setCurrency(CurrencyReferential currency) {
-        this.currency = currency;
+    public void setDefaultCurrency(CurrencyReferential defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public Set<CurrencyReferential> getCurrencies() {
+        return currencies;
     }
     
+    public CurrencyReferential getCurrency(String currencyCode) {
+        CurrencyReferential currencyToReturn = null;
+        if (currencies != null && !currencies.isEmpty()) {
+            for (Iterator<CurrencyReferential> iterator = currencies.iterator(); iterator.hasNext();) {
+                CurrencyReferential currency = (CurrencyReferential) iterator.next();
+                if (currency.getCode().equalsIgnoreCase(currencyCode)) {
+                    currencyToReturn = currency;
+                }
+            }
+        }
+        return currencyToReturn;
+    }
+
+    public void setCurrencies(Set<CurrencyReferential> currencies) {
+        this.currencies = currencies;
+    }
+
     public Set<MarketAreaAttribute> getMarketAreaAttributes() {
         return marketAreaAttributes;
     }
@@ -258,25 +287,16 @@ public class MarketArea extends AbstractEntity {
         this.localizations = localizations;
     }
 
-    public Set<Retailer> getRetailers() {
-        return retailers;
+    public Retailer getDefaultRetailer() {
+        return defaultRetailer;
+    }
+    
+    public void setDefaultRetailer(Retailer defaultRetailer) {
+        this.defaultRetailer = defaultRetailer;
     }
 
-    public Retailer getDefaultRetailer() {
-        Retailer defaultRetailer = null;
-        if (retailers != null && !retailers.isEmpty()) {
-            for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-                Retailer retailer = (Retailer) iterator.next();
-                if (retailer.isDefault()) {
-                    defaultRetailer = retailer;
-                }
-            }
-            if (defaultRetailer == null) {
-                Iterator<Retailer> iterator = retailers.iterator();
-                defaultRetailer = (Retailer) iterator.next();
-            }
-        }
-        return defaultRetailer;
+    public Set<Retailer> getRetailers() {
+        return retailers;
     }
 
     public Retailer getRetailer(String retailerCode) {

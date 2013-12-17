@@ -50,7 +50,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public ContactForm buildContactForm(final RequestData requestData) throws Exception {
 		final ContactForm contactUsForm = new ContactForm();
-		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
+		String languageCode = requestData.getMarketAreaLocalization().getCode();
 		if(languageCode.equals("en")) {
 			contactUsForm.setCountry("US");
 		} else if(languageCode.equals("fr")) {
@@ -87,7 +87,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public CreateAccountForm buildCreateAccountForm(final RequestData requestData) throws Exception {
 		final CreateAccountForm createAccountForm = new CreateAccountForm();
-		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
+		String languageCode = requestData.getMarketAreaLocalization().getCode();
 		if(languageCode.equals("en")) {
 			createAccountForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {
@@ -108,7 +108,7 @@ public class FormFactoryImpl implements FormFactory {
 	}
 	
 	public CustomerEditForm buildCustomerEditForm(final RequestData requestData, final Customer customer) throws Exception {
-		final MarketArea marketArea = requestUtil.getCurrentMarketArea(requestData);
+		final MarketArea marketArea = requestData.getMarketArea();
 		CustomerEditForm customerEditForm = new CustomerEditForm();
 		if(customer != null){
 			customerEditForm.setTitle(customer.getTitle());
@@ -129,8 +129,7 @@ public class FormFactoryImpl implements FormFactory {
 	
 	public CustomerAddressForm buildCustomerAddressForm(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
 		final CustomerAddressForm customerAddressForm = new CustomerAddressForm();
-		
-		String languageCode = requestUtil.getCurrentMarketAreaLocalization(requestData).getCode();
+		String languageCode = requestData.getMarketAreaLocalization().getCode();
 		if(languageCode.equals("en")) {
 			customerAddressForm.setCountryCode("US");
 		} else if(languageCode.equals("fr")) {

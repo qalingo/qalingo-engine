@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 
  */
@@ -60,7 +59,7 @@ public class ProductLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
-        final Cart currentCart = requestUtil.getCurrentCart(request);
+        final Cart currentCart = requestData.getCart();
         
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		
@@ -96,7 +95,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
 		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		
-		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadCumViewBean(requestUtil.getRequestData(request) , productCategory);
+		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request) , productCategory);
 		model.addAttribute("breadcrumb", catalogBreadcrumbViewBean);
 		
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);

@@ -10,12 +10,18 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +55,10 @@ public class ProductBrand extends AbstractEntity {
 	@Column(name="CODE")
 	private String code;
 	
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_BRAND_ID")
+    private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -99,6 +109,14 @@ public class ProductBrand extends AbstractEntity {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	public Set<ProductMarketing> getProductMarketings() {
+        return productMarketings;
+    }
+	
+	public void setProductMarketings(Set<ProductMarketing> productMarketings) {
+        this.productMarketings = productMarketings;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

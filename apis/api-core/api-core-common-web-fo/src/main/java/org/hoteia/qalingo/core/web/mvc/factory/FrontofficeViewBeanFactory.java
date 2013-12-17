@@ -17,6 +17,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -43,4 +44,6 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 	List<ProductBrandViewBean> buildListProductBrands(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
 
 	List<RecentProductViewBean> buildRecentProductViewBean(RequestData requestData, List<String> listId) throws Exception;
+	
+	CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 }

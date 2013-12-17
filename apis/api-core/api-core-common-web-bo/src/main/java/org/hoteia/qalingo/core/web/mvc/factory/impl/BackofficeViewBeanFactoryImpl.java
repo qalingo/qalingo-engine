@@ -33,7 +33,6 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
-import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -71,7 +70,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.BrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingValueViewBean;
@@ -1119,51 +1117,6 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         batchViewBean.setTypeObject(batchProcessObject.getTypeObject().getPropertyKey());
         batchViewBean.setProcessedCount(batchProcessObject.getProcessedCount());
         return batchViewBean;
-    }
-
-    /**
-     * 
-     */
-    public List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(final RequestData requestData, final List<CurrencyReferential> currencyReferentials) throws Exception {
-        final List<CurrencyReferentialViewBean> currencyReferentialViewBeans = new ArrayList<CurrencyReferentialViewBean>();
-        if (currencyReferentials != null) {
-            for (Iterator<CurrencyReferential> iterator = currencyReferentials.iterator(); iterator.hasNext();) {
-                CurrencyReferential currencyReferential = (CurrencyReferential) iterator.next();
-                currencyReferentialViewBeans.add(buildCurrencyReferentialViewBean(requestData, currencyReferential));
-            }
-        }
-        return currencyReferentialViewBeans;
-    }
-
-    /**
-     * 
-     */
-    public CurrencyReferentialViewBean buildCurrencyReferentialViewBean(final RequestData requestData, final CurrencyReferential currencyReferential) throws Exception {
-        final CurrencyReferentialViewBean currencyReferentialViewBean = new CurrencyReferentialViewBean();
-        if (currencyReferential != null) {
-            currencyReferentialViewBean.setName(currencyReferential.getName());
-            currencyReferentialViewBean.setDescription(currencyReferential.getDescription());
-            currencyReferentialViewBean.setCode(currencyReferential.getCode());
-            currencyReferentialViewBean.setSign(currencyReferential.getSign());
-            currencyReferentialViewBean.setAbbreviated(currencyReferential.getAbbreviated());
-
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-            Date dateCreate = currencyReferential.getDateCreate();
-            if (dateCreate != null) {
-                currencyReferentialViewBean.setDateCreate(dateFormat.format(dateCreate));
-            } else {
-                currencyReferentialViewBean.setDateCreate("NA");
-            }
-
-            Date dateUpdate = currencyReferential.getDateUpdate();
-            if (dateUpdate != null) {
-                currencyReferentialViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-            } else {
-                currencyReferentialViewBean.setDateUpdate("NA");
-            }
-
-        }
-        return currencyReferentialViewBean;
     }
 
     /**

@@ -6,7 +6,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Company;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
@@ -33,6 +35,8 @@ public class RequestData implements Serializable {
 	private MarketArea marketArea;
 	private Localization marketAreaLocalization;
 	private Retailer marketAreaRetailer;
+    private CurrencyReferential marketAreaCurrency;
+    private Cart cart;
 
     private Localization backoffcieLocalization;
 
@@ -133,6 +137,22 @@ public class RequestData implements Serializable {
 
     public void setMarketAreaRetailer(Retailer retailer) {
         this.marketAreaRetailer = retailer;
+    }
+
+    public CurrencyReferential getMarketAreaCurrency() {
+        return marketAreaCurrency;
+    }
+
+    public void setMarketAreaCurrency(CurrencyReferential marketAreaCurrency) {
+        this.marketAreaCurrency = marketAreaCurrency;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public Localization getBackoffcieLocalization() {

@@ -295,8 +295,13 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     private void addDefaultProductSkuFetch(Criteria criteria) {
         criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
         criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN);
+        
         criteria.setFetchMode("prices", FetchMode.JOIN); 
+        
+        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("currency", FetchMode.JOIN);
+
         criteria.setFetchMode("stocks", FetchMode.JOIN); 
         criteria.setFetchMode("retailers", FetchMode.JOIN); 
     }

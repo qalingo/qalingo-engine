@@ -25,29 +25,37 @@ import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
-public interface WebCommerceService {
+public interface WebManagementService {
 
-	CustomerCredential flagCustomerCredentialWithToken(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
+    void updateCurrentCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;
+    
+    void updateCurrentCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
+    
+    void updateCurrentCart(RequestData requestData, Long billingAddressId, Long shippingAddressId) throws Exception;
+    
+    void cleanCurrentCart(HttpServletRequest request) throws Exception;
+    
+	CustomerCredential flagCustomerCredentialWithToken(RequestData requestData, Customer customer) throws Exception;
 
-	void cancelCustomerCredentialToken(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
+	void cancelCustomerCredentialToken(RequestData requestData, Customer customer) throws Exception;
 
-	void resetCustomerCredential(HttpServletRequest request, RequestData requestData, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
+	void resetCustomerCredential(RequestData requestData, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
 
-	Customer buildAndSaveNewCustomer(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode, CreateAccountForm createAccountForm) throws Exception;
+	Customer buildAndSaveNewCustomer(RequestData requestData, Market market, MarketArea marketMode, CreateAccountForm createAccountForm) throws Exception;
 	
-	Customer updateCurrentCustomer(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode, CustomerEditForm customerEditForm) throws Exception;
+	Customer updateCurrentCustomer(RequestData requestData, Market market, MarketArea marketMode, CustomerEditForm customerEditForm) throws Exception;
 
-	Customer activeNewCustomer(HttpServletRequest request, RequestData requestData, Customer customer) throws Exception;
+	Customer activeNewCustomer(RequestData requestData, Customer customer) throws Exception;
 
-	Customer updateOrSaveAddressCustomer(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode, CustomerAddressForm customerAddressForm) throws Exception;
+	Customer updateOrSaveAddressCustomer(RequestData requestData, Market market, MarketArea marketMode, CustomerAddressForm customerAddressForm) throws Exception;
 	
-	Customer deleteAddressCustomer(HttpServletRequest request, RequestData requestData, String customerAddressId) throws Exception;
+	Customer deleteAddressCustomer(RequestData requestData, String customerAddressId) throws Exception;
 	
-	Customer addProductSkuToWishlist(HttpServletRequest request, RequestData requestData, String skuCode) throws Exception;
+	Customer addProductSkuToWishlist(RequestData requestData, String skuCode) throws Exception;
 	
-	Customer removeProductSkuFromWishlist(HttpServletRequest request, RequestData requestData, String skuCode) throws Exception;
+	Customer removeProductSkuFromWishlist(RequestData requestData, String skuCode) throws Exception;
 	
-	OrderCustomer buildAndSaveNewOrder(HttpServletRequest request, RequestData requestData, Market market, MarketArea marketMode) throws Exception;
+	OrderCustomer buildAndSaveNewOrder(RequestData requestData, Market market, MarketArea marketMode) throws Exception;
 	
 	Customer saveNewsletterSubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;
 
