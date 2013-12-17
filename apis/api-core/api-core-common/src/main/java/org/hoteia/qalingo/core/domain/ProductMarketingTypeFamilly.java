@@ -10,6 +10,8 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +21,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,109 +30,109 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_MARKETING_TYPE_FAMILLY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class ProductMarketingTypeFamilly extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -3980707330914384779L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -3980707330914384779L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "TAX_ID", insertable = false, updatable = false)
-    private Tax tax;
-    
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	public ProductMarketingTypeFamilly(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "CODE")
+    private String code;
 
-	public String getName() {
-		return name;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY_TAX_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
+    private Set<Tax> taxes = new HashSet<Tax>();
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public Tax getTax() {
-        return tax;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
+
+    public ProductMarketingTypeFamilly() {
     }
-	
-	public void setTax(Tax tax) {
-        this.tax = tax;
+
+    public Long getId() {
+        return id;
     }
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-	
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Set<Tax> getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(Set<Tax> taxes) {
+        this.taxes = taxes;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }

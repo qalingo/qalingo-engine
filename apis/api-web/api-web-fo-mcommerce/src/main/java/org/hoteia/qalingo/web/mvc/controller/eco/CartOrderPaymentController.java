@@ -50,14 +50,14 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	public ModelAndView displayOrderPayment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_PAYMENT.getVelocityPage());
 
-		// SANITY CHECK
-		final Cart currentCart = requestUtil.getCurrentCart(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+        // SANITY CHECK
+		final Cart currentCart = requestData.getCart();
 		if(currentCart.getTotalCartItems() == 0){
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 		
-        final RequestData requestData = requestUtil.getRequestData(request);
-        
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
@@ -71,9 +71,10 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	@RequestMapping(value = FoUrls.CART_ORDER_PAYMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+
 	       // SANITY CHECK
-        final Cart currentCart = requestUtil.getCurrentCart(request);
+        final Cart currentCart = requestData.getCart();
         if(currentCart.getTotalCartItems() == 0){
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
@@ -83,7 +84,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		}
 		
 		// Create and Save a new order
-//		webCommerceService.buildAndSaveNewOrder(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea);
+//		webManagementService.buildAndSaveNewOrder(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

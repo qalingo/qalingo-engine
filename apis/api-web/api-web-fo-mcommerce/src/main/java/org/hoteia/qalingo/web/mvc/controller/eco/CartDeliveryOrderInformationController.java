@@ -58,12 +58,11 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_DELIVERY.getVelocityPage());
 
         // SANITY CHECK
-        final Cart currentCart = requestUtil.getCurrentCart(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
-
-        final RequestData requestData = requestUtil.getRequestData(request);
 
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
@@ -79,8 +78,9 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
     public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm, 
                                             BindingResult result, ModelMap modelMap) throws Exception {
 
+        final RequestData requestData = requestUtil.getRequestData(request);
         // SANITY CHECK
-        final Cart currentCart = requestUtil.getCurrentCart(request);
+        final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
@@ -89,7 +89,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return displayOrderDelivery(request, response);
         }
 
-        requestUtil.updateCurrentCart(request, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
+        webManagementService.updateCurrentCart(requestData, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 
         final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -100,7 +100,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         List<CustomerAddressViewBean> addressesValues = new ArrayList<CustomerAddressViewBean>();
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
-            final Customer customer = requestUtil.getCurrentCustomer(request);
+            final Customer customer = requestData.getCustomer();
             Set<CustomerAddress> addresses = customer.getAddresses();
             for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
                 final CustomerAddress customerAddress = (CustomerAddress) iterator.next();

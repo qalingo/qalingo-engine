@@ -1,11 +1,8 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Currency;
 
 import javax.persistence.Transient;
-
 
 public abstract class AbstractPrice extends AbstractEntity {
 
@@ -39,16 +36,8 @@ public abstract class AbstractPrice extends AbstractEntity {
     
     public abstract CurrencyReferential getCurrency();
     
-    public NumberFormat getCurrencyformat(){
-        NumberFormat formatter = NumberFormat.getInstance();
-        Currency currency = Currency.getInstance(getCurrency().getCode());
-        formatter.setCurrency(currency);
-        return formatter;
-    }
-
     public String getPriceWithStandardCurrencySign(){
-        NumberFormat formatter = getCurrencyformat();
-        return formatter.format(getSalePrice());
+        return getCurrency().formatPriceWithStandardCurrencySign(getSalePrice());
     }
     
 }

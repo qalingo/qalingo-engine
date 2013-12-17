@@ -35,6 +35,7 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	protected MarketAreaViewBean currentMarketArea;
 	protected LocalizationViewBean currentMarketAreaLocalization;
     protected RetailerViewBean currentMarketAreaRetailer;
+    protected CurrencyReferentialViewBean currentMarketAreaCurrency;
 
 	public String getThemeResourcePrefixPath() {
 		return themeResourcePrefixPath;
@@ -154,6 +155,14 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	
 	public void setCurrentMarketAreaRetailer(RetailerViewBean currentMarketAreaRetailer) {
         this.currentMarketAreaRetailer = currentMarketAreaRetailer;
+    }
+	
+	public CurrencyReferentialViewBean getCurrentMarketAreaCurrency() {
+        return currentMarketAreaCurrency;
+    }
+	
+	public void setCurrentMarketAreaCurrency(CurrencyReferentialViewBean currentMarketAreaCurrency) {
+        this.currentMarketAreaCurrency = currentMarketAreaCurrency;
     }
 	
 }

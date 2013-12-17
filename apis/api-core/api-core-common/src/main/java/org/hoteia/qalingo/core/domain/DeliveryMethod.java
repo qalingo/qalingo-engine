@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_DELIVERY_METHODS", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
+@Table(name = "TECO_DELIVERY_METHOD", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class DeliveryMethod extends AbstractEntity {
 
     /**
@@ -61,7 +61,7 @@ public class DeliveryMethod extends AbstractEntity {
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "SHIPPING_ID")
-    private Set<ShippingCountry> shippingCountries = new HashSet<ShippingCountry>();
+    private Set<DeliveryMethodCountry> deliveryMethodCountries = new HashSet<DeliveryMethodCountry>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DELIVERY_METHOD_ID")
@@ -126,12 +126,12 @@ public class DeliveryMethod extends AbstractEntity {
         this.deliveryTime = deliveryTime;
     }
 
-    public Set<ShippingCountry> getShippingCountries() {
-        return shippingCountries;
+    public Set<DeliveryMethodCountry> getDeliveryMethodCountries() {
+        return deliveryMethodCountries;
     }
 
-    public void setShippingCountries(Set<ShippingCountry> shippingCountries) {
-        this.shippingCountries = shippingCountries;
+    public void setDeliveryMethodCountries(Set<DeliveryMethodCountry> deliveryMethodCountries) {
+        this.deliveryMethodCountries = deliveryMethodCountries;
     }
 
     public Set<DeliveryMethodPrice> getPrices() {

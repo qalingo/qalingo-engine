@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -32,8 +33,8 @@ public class TimeoutController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.TIMEOUT_URL)
 	public ModelAndView timeout(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.TIMEOUT.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+		final Customer currentCustomer = requestData.getCustomer();
 		if(currentCustomer != null){
 			final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
 	        return new ModelAndView(new RedirectView(urlRedirect));

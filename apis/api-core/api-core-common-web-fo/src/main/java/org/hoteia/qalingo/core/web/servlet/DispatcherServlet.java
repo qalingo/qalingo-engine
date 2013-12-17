@@ -82,17 +82,17 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
         // THEME
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
-            final MarketArea marketArea = requestUtil.getCurrentMarketArea(requestData);
+            final MarketArea marketArea = requestData.getMarketArea();
             if (marketArea != null && StringUtils.isNotEmpty(marketArea.getTheme())) {
                 String themeFolder = marketArea.getTheme();
                 requestUtil.updateCurrentTheme(request, themeFolder);
             } else {
-                final Market market = requestUtil.getCurrentMarket(requestData);
+                final Market market = requestData.getMarket();
                 if (market != null && StringUtils.isNotEmpty(market.getTheme())) {
                     String themeFolder = market.getTheme();
                     requestUtil.updateCurrentTheme(request, themeFolder);
                 } else {
-                    final MarketPlace marketPlace = requestUtil.getCurrentMarketPlace(requestData);
+                    final MarketPlace marketPlace = requestData.getMarketPlace();
                     if (marketPlace != null && StringUtils.isNotEmpty(marketPlace.getTheme())) {
                         String themeFolder = marketPlace.getTheme();
                         requestUtil.updateCurrentTheme(request, themeFolder);

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentsViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -31,8 +32,8 @@ public class CustomerProductCommentController extends AbstractCustomerController
 	@RequestMapping(FoUrls.PERSONAL_PRODUCT_COMMENT_LIST_URL)
 	public ModelAndView customerProductComments(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session

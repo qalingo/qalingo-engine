@@ -51,8 +51,8 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.PERSONAL_ADDRESS_LIST_URL)
 	public ModelAndView customerListAddress(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADDRESS_LIST.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
@@ -69,7 +69,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
 		
 		try {
-			webCommerceService.deleteAddressCustomer(request, requestUtil.getRequestData(request), customerAddressId);
+			webManagementService.deleteAddressCustomer( requestUtil.getRequestData(request), customerAddressId);
 			
 		} catch (Exception e) {
 			logger.error("Error with the address to edit, customerAddressId:" + customerAddressId, e);
@@ -82,8 +82,8 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_ADD_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerAddAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ADD_ADDRESS.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
@@ -107,7 +107,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.updateOrSaveAddressCustomer(request, requestUtil.getRequestData(request),  currentMarket, currentMarketArea, customerAddressForm);
+		webManagementService.updateOrSaveAddressCustomer(requestData,  currentMarket, currentMarketArea, customerAddressForm);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -116,8 +116,8 @@ public class CustomerAddressController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_ADDRESS_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerEditAddress(final HttpServletRequest request, final Model model, @ModelAttribute("customerAddressForm") CustomerAddressForm customerAddressForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT_ADDRESS.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
@@ -148,8 +148,6 @@ public class CustomerAddressController extends AbstractCustomerController {
 	        return new ModelAndView(new RedirectView(urlRedirect));
 		}
 		
-        final RequestData requestData = requestUtil.getRequestData(request);
-        
 		if(customerAddressForm == null 
         		|| customerAddressForm.equals(new CustomerAddressForm())){
 			customerAddressForm = formFactory.buildCustomerAddressForm(requestData, customerAddress);
@@ -171,7 +169,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		}
 		
 		// Save the new address customer
-		webCommerceService.updateOrSaveAddressCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, customerAddressForm);
+		webManagementService.updateOrSaveAddressCustomer(requestData, currentMarket, currentMarketArea, customerAddressForm);
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_ADDRESS_LIST,requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

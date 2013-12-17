@@ -66,9 +66,6 @@ public class Retailer extends AbstractEntity {
     @Column(name = "LOGO")
     private String logo;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
-
     @Column(name = "IS_OFFICIAL_RETAILER", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isOfficialRetailer;
 
@@ -179,14 +176,6 @@ public class Retailer extends AbstractEntity {
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(boolean isDefault) {
-        this.isDefault = isDefault;
     }
 
     public boolean isOfficialRetailer() {
@@ -535,7 +524,6 @@ public class Retailer extends AbstractEntity {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (isBrand ? 1231 : 1237);
-        result = prime * result + (isDefault ? 1231 : 1237);
         result = prime * result + (isEcommerce ? 1231 : 1237);
         result = prime * result + (isOfficialRetailer ? 1231 : 1237);
         result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -582,8 +570,6 @@ public class Retailer extends AbstractEntity {
             return false;
         if (isBrand != other.isBrand)
             return false;
-        if (isDefault != other.isDefault)
-            return false;
         if (isEcommerce != other.isEcommerce)
             return false;
         if (isOfficialRetailer != other.isOfficialRetailer)
@@ -606,7 +592,7 @@ public class Retailer extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Retailer [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", isOfficialRetailer=" + isOfficialRetailer
+        return "Retailer [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isOfficialRetailer=" + isOfficialRetailer
                 + ", isBrand=" + isBrand + ", isEcommerce=" + isEcommerce + ", code=" + code + ", qualityOfService=" + qualityOfService + ", priceScore=" + priceScore + ", ratioQualityPrice="
                 + ratioQualityPrice + ", addresses=" + addresses + ", stores=" + stores + ", assets=" + assets + ", retailerAttributes=" + retailerAttributes + ", customerRates=" + customerRates
                 + ", customerComments=" + customerComments + ", retailerTags=" + retailerTags + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";

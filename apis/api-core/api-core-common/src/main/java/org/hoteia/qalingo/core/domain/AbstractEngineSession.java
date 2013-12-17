@@ -39,5 +39,9 @@ public abstract class AbstractEngineSession extends AbstractEntity {
 	abstract public Retailer getCurrentMarketAreaRetailer();
 	
 	abstract public void setCurrentMarketAreaRetailer(Retailer retailer);
+    
+    abstract public CurrencyReferential getCurrentMarketAreaCurrency();
+    
+    abstract public void setCurrentMarketAreaCurrency(CurrencyReferential currency);
 	
 }

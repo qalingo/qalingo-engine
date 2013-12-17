@@ -17,8 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TECO_SHIPPING_COUNTY")
-public class ShippingCounty extends AbstractEntity {
+@Table(name="TECO_DELIVERY_METHOD_COUNTY")
+public class DeliveryMethodCounty extends AbstractEntity {
 
 	/**
 	 * Generated UID
@@ -33,7 +33,7 @@ public class ShippingCounty extends AbstractEntity {
 	@Column(name="CODE_COUNTY")
 	private String codeCounty;
 	
-	public ShippingCounty() {
+	public DeliveryMethodCounty() {
 	}
 	
 	public Long getId() {

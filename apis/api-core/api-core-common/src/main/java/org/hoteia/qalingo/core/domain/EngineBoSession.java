@@ -66,6 +66,9 @@ public class EngineBoSession extends AbstractEngineSession {
 	@Transient 
 	private Retailer currentMarketAreaRetailer;
 
+    @Transient
+    private CurrencyReferential currentMarketAreaCurrency;
+    
 	@Transient 
 	private Localization currentBackofficeLocalization;
 
@@ -172,7 +175,15 @@ public class EngineBoSession extends AbstractEngineSession {
 		this.currentMarketAreaRetailer = retailer;
 	}
 	
-	public Localization getCurrentBackofficeLocalization() {
+	public CurrencyReferential getCurrentMarketAreaCurrency() {
+        return currentMarketAreaCurrency;
+    }
+
+    public void setCurrentMarketAreaCurrency(CurrencyReferential currentMarketAreaCurrency) {
+        this.currentMarketAreaCurrency = currentMarketAreaCurrency;
+    }
+
+    public Localization getCurrentBackofficeLocalization() {
 		return currentBackofficeLocalization;
 	}
 	

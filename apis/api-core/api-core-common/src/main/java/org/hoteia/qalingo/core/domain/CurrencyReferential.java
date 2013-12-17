@@ -9,7 +9,12 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +26,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+
+import org.apache.commons.lang.StringUtils;
 
 @Entity
 @Table(name="TECO_CURRENCY_REFERENTIAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
@@ -54,7 +61,10 @@ public class CurrencyReferential extends AbstractEntity {
 	
 	@Column(name="ABBREVIATED")
 	private String abbreviated;
-	
+
+    @Column(name = "FORMAT_LOCALE")
+    private String formatLocale;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -122,6 +132,26 @@ public class CurrencyReferential extends AbstractEntity {
 		this.abbreviated = abbreviated;
 	}
 	
+	public String getFormatLocale() {
+        return formatLocale;
+    }
+	
+    public Locale getLocale() {
+        if(StringUtils.isNotEmpty(formatLocale)){
+            String[] split = formatLocale.split("_");
+            if(split.length == 1){
+                return new Locale(split[0]);
+            } else if(split.length == 2){
+                return new Locale(split[0], split[1]);
+            }
+        }
+        return Locale.ENGLISH;
+    }
+    
+	public void setFormatLocale(String formatLocale) {
+        this.formatLocale = formatLocale;
+    }
+	
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -137,5 +167,34 @@ public class CurrencyReferential extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+	
+    public NumberFormat getStandardCurrencyformat(){
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        if(StringUtils.isNotEmpty(getFormatLocale())){
+            formatter = NumberFormat.getCurrencyInstance(getLocale());
+        }
+        Currency currency = Currency.getInstance(getCode());
+        formatter.setCurrency(currency);
+        return formatter;
+    }
+    
+    public NumberFormat getEcoCurrencyformat(){
+        NumberFormat formatter = getStandardCurrencyformat();
+        formatter.setGroupingUsed(true);
+        formatter.setParseIntegerOnly(false);
+        formatter.setRoundingMode(RoundingMode.HALF_EVEN);
+
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+
+        formatter.setMaximumIntegerDigits(1000000);
+        formatter.setMinimumIntegerDigits(1);
+        return formatter;
+    }
+
+    public String formatPriceWithStandardCurrencySign(BigDecimal price){
+        NumberFormat formatter = getEcoCurrencyformat();
+        return formatter.format(price);
+    }
 	
 }

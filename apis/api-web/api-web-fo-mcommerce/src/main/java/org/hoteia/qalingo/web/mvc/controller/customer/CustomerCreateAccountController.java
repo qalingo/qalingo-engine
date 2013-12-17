@@ -52,9 +52,9 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
 	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		// SANITY CHECK: Customer logged
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		if(currentCustomer != null){
 			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
@@ -73,7 +73,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final MarketArea currentMarketArea = requestData.getMarketArea();
 
 		// SANITY CHECK: Customer logged
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		if(currentCustomer != null){
 			final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS,requestUtil.getRequestData(request));
 			return new ModelAndView(new RedirectView(url));
@@ -94,24 +94,24 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		}
 
 		// Save the new customer
-		final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, createAccountForm);
+		final Customer newCustomer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
 
 		// Save the email confirmation
-		webCommerceService.buildAndSaveCustomerNewAccountMail(requestUtil.getRequestData(request), createAccountForm);
+		webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
 
 		// Login the new customer
 		securityUtil.authenticationCustomer(request, newCustomer);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	
     @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
     public ModelAndView displayCheckoutCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
-        
+        final RequestData requestData = requestUtil.getRequestData(request);
         // SANITY CHECK: Customer logged
-        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
         if(currentCustomer != null){
             final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
@@ -132,7 +132,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final MarketArea currentMarketArea = requestData.getMarketArea();
 
         // SANITY CHECK: Customer logged
-        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
         if(currentCustomer != null){
             final String url = urlService.generateUrl(FoUrls.CART_DELIVERY,requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
@@ -147,21 +147,21 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
         final String email = createAccountForm.getEmail();
         final Customer customer = customerService.getCustomerByLoginOrEmail(email);
         if(customer != null){
-            final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
+            final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData);
             final Object[] objects = {forgottenPasswordUrl};
             result.rejectValue("email", "error.form.create.account.account.already.exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
         }
 
         // Save the new customer
-        final Customer newCustomer = webCommerceService.buildAndSaveNewCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, createAccountForm);
+        final Customer newCustomer = webManagementService.buildAndSaveNewCustomer(requestData, currentMarket, currentMarketArea, createAccountForm);
 
         // Save the email confirmation
-        webCommerceService.buildAndSaveCustomerNewAccountMail(requestUtil.getRequestData(request), createAccountForm);
+        webManagementService.buildAndSaveCustomerNewAccountMail(requestData, createAccountForm);
 
         // Login the new customer
         securityUtil.authenticationCustomer(request, newCustomer);
         
-        final String urlRedirect = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+        final String urlRedirect = urlService.generateUrl(FoUrls.CART_DELIVERY, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     
@@ -186,13 +186,13 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		}
 		
 		// Save customer as active
-		webCommerceService.activeNewCustomer(request, requestUtil.getRequestData(request), customer);
+		webManagementService.activeNewCustomer(requestData, customer);
 
 		// ADD SUCCESS MESSAGE
 		String successMessage = getSpecificMessage(ScopeWebMessage.CUSTOMER, "form_new_account_validation_success_message", locale);
 		addSuccessMessage(request, successMessage);
 
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

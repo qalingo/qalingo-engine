@@ -126,10 +126,6 @@ public interface BackofficeViewBeanFactory extends ViewBeanFactory {
 	
 	BatchViewBean buildBatchViewBean(RequestData requestData, BatchProcessObject batchProcessObject) throws Exception;
 	
-	List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(RequestData requestData, List<CurrencyReferential> currencyReferentials) throws Exception;
-	
-	CurrencyReferentialViewBean buildCurrencyReferentialViewBean(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
-	
 	List<PaymentGatewayViewBean> buildPaymentGatewayViewBeans(RequestData requestData, List<AbstractPaymentGateway> paymentGateways) throws Exception;
 	
 	PaymentGatewayViewBean buildPaymentGatewayViewBean(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;

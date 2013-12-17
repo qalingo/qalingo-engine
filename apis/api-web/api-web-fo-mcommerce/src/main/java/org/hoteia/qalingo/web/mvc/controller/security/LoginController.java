@@ -43,7 +43,7 @@ public class LoginController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
 
         // SANITY CHECK: Customer logged
-        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
         if (currentCustomer != null) {
             final String url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
@@ -66,7 +66,7 @@ public class LoginController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
 
         // SANITY CHECK: Customer logged
-        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
         if (currentCustomer != null) {
             final String url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(url));
@@ -86,9 +86,10 @@ public class LoginController extends AbstractMCommerceController {
 
     @RequestMapping(FoUrls.LOGIN_CHECK_URL)
     public ModelAndView loginCheck(final HttpServletRequest request, final Model model) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
         ModelAndView modelAndView = new ModelAndView(FoUrls.LOGIN.getVelocityPage());
 
-        final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
         if (currentCustomer != null) {
             final String urlRedirect = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
             return new ModelAndView(new RedirectView(urlRedirect));

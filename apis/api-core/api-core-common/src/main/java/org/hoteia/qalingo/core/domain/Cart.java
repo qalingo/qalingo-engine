@@ -9,8 +9,10 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,6 +23,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,6 +53,16 @@ public class Cart extends AbstractEntity {
 	@Column(name="STATUS")
 	private String status;
 
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Column(name = "RETAILER_ID")
+    private Long retailerId;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CURRENCY_ID", insertable = false, updatable = false)
+    private CurrencyReferential currency;
+    
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 
@@ -108,7 +121,31 @@ public class Cart extends AbstractEntity {
 		this.status = status;
 	}
 	
-	public Long getCustomerId() {
+	public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+
+    public Long getRetailerId() {
+        return retailerId;
+    }
+
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
+    }
+    
+    public CurrencyReferential getCurrency() {
+        return currency;
+    }
+    
+    public void setCurrency(CurrencyReferential currency) {
+        this.currency = currency;
+    }
+
+    public Long getCustomerId() {
 		return customerId;
 	}
 	
@@ -186,5 +223,69 @@ public class Cart extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+	
+	public BigDecimal getDeliveryMethodTotal(){
+	    final Set<DeliveryMethod> deliveryMethods = getShippings();
+	    BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
+	    if (deliveryMethods != null) {
+	        for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
+	            final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
+	            cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(deliveryMethod.getPrice(getMarketAreaId(), getRetailerId()));
+	        }
+	    }
+	    return cartDeliveryMethodTotal;
+	}
+	
+	public String getDeliveryMethodTotalWithStandardCurrencySign(){
+	    return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
+	}
+    
+    public BigDecimal getCartItemTotal(){
+        BigDecimal cartItemsTotal = new BigDecimal("0");
+        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+            final CartItem cartItem = (CartItem) iterator.next();
+            if (cartItem.getPrice() != null) {
+                cartItemsTotal = cartItemsTotal.add(cartItem.getPrice().getSalePrice());
+            }
+        }
+        return cartItemsTotal;
+    }
+    
+    public String getCartItemTotalWithStandardCurrencySign(){
+        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
+    }
+    
+    public BigDecimal getTaxTotal(){
+        BigDecimal cartFeesTotal = new BigDecimal("0");
+        final Set<Tax> taxes = getTaxes();
+        if (taxes != null) {
+            for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
+                final Tax tax = (Tax) iterator.next();
+                
+                // TODO TAX can be only on product or deliveyMethod or both
+                
+                BigDecimal taxesCalc = getDeliveryMethodTotal();
+                taxesCalc = taxesCalc.multiply(tax.getPercent());
+                taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+                cartFeesTotal = cartFeesTotal.add(taxesCalc);
+            }
+        }
+        return cartFeesTotal;
+    }
+    
+    public String getTaxTotalWithStandardCurrencySign(){
+        return getCurrency().formatPriceWithStandardCurrencySign(getTaxTotal());
+    }
+    
+	public BigDecimal getCartTotal(){
+        BigDecimal carTotal = new BigDecimal("0");
+        carTotal.add(getCartItemTotal());
+        carTotal.add(getDeliveryMethodTotal());
+        carTotal.add(getTaxTotal());
+        return carTotal;
+	}
 
+    public String getCartTotalWithStandardCurrencySign(){
+        return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
+    }
 }
