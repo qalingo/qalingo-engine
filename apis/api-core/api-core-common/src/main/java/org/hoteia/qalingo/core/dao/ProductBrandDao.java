@@ -19,8 +19,6 @@ public interface ProductBrandDao {
 
     ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
 
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
-
     void saveOrUpdateProductBrand(ProductBrand productBrand);
 
     void deleteProductBrand(ProductBrand productBrand);

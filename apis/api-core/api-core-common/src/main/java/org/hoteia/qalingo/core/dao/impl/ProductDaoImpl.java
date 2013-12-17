@@ -14,10 +14,10 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.hibernate.transform.ResultTransformer;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -304,6 +304,17 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 
         criteria.setFetchMode("stocks", FetchMode.JOIN); 
         criteria.setFetchMode("retailers", FetchMode.JOIN); 
+    }
+    
+    @Override
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
+    	StringBuilder queryString = new StringBuilder("select distinct mk.productBrand from ProductMarketing mk where ")
+    									.append("mk.defaultCatalogCategory.code = :code or mk.defaultCatalogCategory.defaultParentCatalogCategory.code = :code ");
+    	
+    	Query query = getSession().createQuery(queryString.toString());
+    	query.setString("code", categoryCode);
+    	
+    	return query.list();
     }
     
 }
