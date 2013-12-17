@@ -1072,13 +1072,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public CatalogCategoryViewBean buildCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
-        
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
         
         final String sortBy = request.getParameter("sortBy");
         final String orderBy = request.getParameter("orderBy");
-//         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
-        catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
+        catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
 
