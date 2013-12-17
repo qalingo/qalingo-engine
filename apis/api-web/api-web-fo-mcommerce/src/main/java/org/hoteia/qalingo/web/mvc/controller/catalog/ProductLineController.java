@@ -9,26 +9,30 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +52,8 @@ public class ProductLineController extends AbstractMCommerceController {
 
 	@Autowired
 	protected CatalogCategoryService productCategoryService;
-	
+	@Autowired
+	protected ProductService productService;
 	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
 	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
@@ -103,7 +108,39 @@ public class ProductLineController extends AbstractMCommerceController {
 		
 		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), productCategory);
 		model.addAttribute("productBrandViewBeans", productBrandViewBeans);
-
+		
+		Cookie info=null;
+        Cookie[] cookies = request.getCookies();
+        Boolean found = false;
+        if(cookies !=  null){
+	        for(int i=0;i<cookies.length;i++)
+	        {
+	            info=cookies[i];
+	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            {
+	                found = true;
+	                break;
+	            }
+	        }
+        }   
+        List<String> listId = new ArrayList<String>();
+        if(found){
+        	if(!info.getValue().isEmpty()){
+	        	String[] splits = info.getValue().split(" ");
+	        	if(splits.length >= 3){
+		        	for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
+		        		listId.add(splits[i]);
+		        	}
+	        	} else {
+	        		for (int i = splits.length - 1; i >= 0 ; i--) {
+	        			listId.add(splits[i]);
+					}
+	        	}
+        	}
+        } 
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        model.addAttribute("recentProducts", recentProductViewBeans);
+        
 		return modelAndView;
 	}
     

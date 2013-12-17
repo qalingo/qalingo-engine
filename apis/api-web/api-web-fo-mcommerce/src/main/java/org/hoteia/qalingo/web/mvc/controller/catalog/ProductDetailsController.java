@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -48,7 +51,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	protected ProductService productService;
 	
 	@RequestMapping(FoUrls.PRODUCT_DETAILS_URL)
-	public ModelAndView productDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
+	public ModelAndView productDetails(final HttpServletRequest request, final HttpServletResponse response ,final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_DETAILS.getVelocityPage());
@@ -81,6 +84,41 @@ public class ProductDetailsController extends AbstractMCommerceController {
         List<ProductMarketingViewBean> relatedProducts = productCategoryViewBean.getFeaturedProductMarketings();
         model.addAttribute("relatedProductMarketings", relatedProducts);
 
+        Cookie info=null;
+        Cookie[] cookies = request.getCookies();
+        Boolean found = false;
+        if(cookies !=  null){
+	        for(int i=0;i<cookies.length;i++)
+	        {
+	            info=cookies[i];
+	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            {
+	                found = true;
+	                break;
+	            }
+	        }
+        }   
+        if(found){
+        	Boolean flag = false;
+        	String[] splits = info.getValue().split(" ");
+        	for(String value:splits){
+        		if(value.equals(Long.toString(productMarketing.getId()))){
+        			flag = true;
+        		} 
+        	}
+        	if(!flag){
+        		String values = info.getValue();
+        		values += " "+ Long.toString(productMarketing.getId());
+        		info.setValue(values);
+        		info.setPath("/");
+    			response.addCookie(info);
+        	} 
+        } else {
+			info = new Cookie(Constants.RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
+			info.setMaxAge(Constants.COOKIES_LENGTH);
+			info.setPath("/");
+			response.addCookie(info);
+        }
         return modelAndView;
 	}
 
