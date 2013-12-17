@@ -25,18 +25,23 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.ProductBrandService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +52,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implements FrontofficeViewBeanFactory {
 
+	@Autowired
+	protected ProductBrandService productBrandService;
+	
     /**
      * 
      */
@@ -209,6 +217,62 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         }
         searchFacetViewBean.setValues(values);
         return searchFacetViewBean;
+    }
+    
+    @Override
+    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(
+    		RequestData requestData, MarketArea marketArea) throws Exception {
+    	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
+    	
+    	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+    	
+    	for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
+    		CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategoryVirtual);
+    		catalogCategoryViewBeans.add(catalogCategoryViewBean);
+		}
+    	
+    	return catalogCategoryViewBeans;
+    }
+    
+    @Override
+    public List<ProductBrandViewBean> buildListProductBrands(
+    		final RequestData requestData,
+    		final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();    	
+//    	final MarketArea marketArea = requestData.getMarketArea();
+//    	final Long marketAreaId = marketArea.getId();
+    	
+    	List<ProductBrand> productBrands = productBrandService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
+    	
+    	for (ProductBrand productBrand : productBrands) {
+    		ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
+    		productBrandViewBeans.add(productBrandViewBean);
+		}
+    	
+//    	ProductBrandViewBean productBrandViewBean;
+//    	if(!catalogCategoryVirtual.isRoot()){
+//    		List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogCategoryVirtual.getCode());
+//    		for (final ProductMarketing productMarketing : productMarketings) {
+//    			productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
+//    			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+//                productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
+//                productBrandViewBeans.add(productBrandViewBean);
+//    		}
+//    	} else {
+//    		for(CatalogCategoryVirtual catalogSubCategory : catalogCategoryVirtual.getCatalogCategories()){
+//    			catalogSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogSubCategory.getId().toString());
+//    			List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogSubCategory.getCode());
+//    			if(productMarketings != null){
+//    				for (ProductMarketing productMarketing : productMarketings) {
+//    					productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
+//	        			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+//	                    productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
+//	                    productBrandViewBeans.add(productBrandViewBean);
+//					}
+//    			}
+//    		}
+//    	}
+    	return productBrandViewBeans;
     }
 
 }

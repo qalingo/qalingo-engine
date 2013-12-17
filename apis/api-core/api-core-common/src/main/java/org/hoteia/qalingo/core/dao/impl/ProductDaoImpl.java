@@ -17,8 +17,10 @@ import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.hibernate.transform.ResultTransformer;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
@@ -108,6 +110,23 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         criteria.createAlias("productBrand", "pb", JoinType.LEFT_OUTER_JOIN);
         
         criteria.add(Restrictions.eq("pb.code", brandCode));
+        
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<ProductMarketing> productMarketings = criteria.list();
+        return productMarketings;
+	}
+	
+	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode) {
+        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        
+        addDefaultProductMarketingFetch(criteria);
+
+        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
+        
+        criteria.add(Restrictions.eq("dc.code", categoryCode));
         
         criteria.addOrder(Order.asc("id"));
 
