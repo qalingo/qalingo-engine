@@ -82,15 +82,12 @@ public class ProductLineController extends AbstractMCommerceController {
 		productList.setPage(page-1);		
 		productCategoryViewBean.setProductMarketings(productList.getPageList());
 		
-		
-
-		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestData, currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-
 		
-		
-		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
+		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestData, currentMarketArea);
 		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
+		
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("pageSize", pageSize);
@@ -98,7 +95,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPage", productList.getPageCount());
 		
-		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), productCategory);
+		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestData, productCategory);
 		model.addAttribute("productBrandViewBeans", productBrandViewBeans);
 
 		return modelAndView;

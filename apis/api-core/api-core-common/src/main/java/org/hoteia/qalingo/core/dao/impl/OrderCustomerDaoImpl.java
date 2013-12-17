@@ -33,7 +33,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public OrderCustomer getOrderById(final Long orderCustomerId) {
-        Criteria criteria = getSession().createCriteria(OrderCustomer.class);
+        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);
         
@@ -43,7 +43,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 
 	public OrderCustomer getOrderByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(OrderCustomer.class);
+        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
         addDefaultFetch(criteria);
 
@@ -53,7 +53,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 	
 	public List<OrderCustomer> findOrders() {
-        Criteria criteria = getSession().createCriteria(OrderCustomer.class);
+        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);
 
@@ -66,7 +66,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 	}
 	
 	public List<OrderCustomer> findOrdersByCustomerId(final Long customerId) {
-        Criteria criteria = getSession().createCriteria(OrderCustomer.class);
+        Criteria criteria = createDefaultCriteria(OrderCustomer.class);
         
         addDefaultFetch(criteria);
 

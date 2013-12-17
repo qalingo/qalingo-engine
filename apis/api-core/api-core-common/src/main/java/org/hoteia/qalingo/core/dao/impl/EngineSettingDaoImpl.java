@@ -32,7 +32,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 
 	// Engine Setting
 	public EngineSetting getEngineSettingById(final Long engineSettingId) {
-        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("id", engineSettingId));
         
         addDefaultFetch(criteria);
@@ -42,7 +42,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 	}
 	
 	public EngineSetting getEngineSettingByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("code", code));
         
         addDefaultFetch(criteria);
@@ -52,7 +52,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 	}
 	
 	public List<EngineSetting> findEngineSettings() {
-        Criteria criteria = getSession().createCriteria(EngineSetting.class);
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
         
         addDefaultFetch(criteria);
         

@@ -35,7 +35,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET PLACE
 	
     public MarketPlace getDefaultMarketPlace() {
-        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
         criteria.add(Restrictions.eq("isDefault", true));
@@ -44,7 +44,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public MarketPlace getMarketPlaceById(final Long marketPlaceId) {
-        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
 
@@ -54,7 +54,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public MarketPlace getMarketPlaceByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
         addDefaultMarketPlaceFetch(criteria);
 
@@ -64,7 +64,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     }
     
     public List<MarketPlace> findMarketPlaces() {
-        Criteria criteria = getSession().createCriteria(MarketPlace.class);
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
 
         addDefaultMarketPlaceFetch(criteria);
         
@@ -95,7 +95,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET
 	
 	public Market getDefaultMarket() {
-        Criteria criteria = getSession().createCriteria(Market.class);
+        Criteria criteria = createDefaultCriteria(Market.class);
         
         addDefaultMarketFetch(criteria);
         
@@ -105,7 +105,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public Market getMarketById(final Long marketId) {
-        Criteria criteria = getSession().createCriteria(Market.class);
+        Criteria criteria = createDefaultCriteria(Market.class);
 
         addDefaultMarketFetch(criteria);
 
@@ -115,7 +115,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 
 	public Market getMarketByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(Market.class);
+        Criteria criteria = createDefaultCriteria(Market.class);
 
         addDefaultMarketFetch(criteria);
 
@@ -125,7 +125,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public List<Market> findMarkets() {
-        Criteria criteria = getSession().createCriteria(Market.class);
+        Criteria criteria = createDefaultCriteria(Market.class);
         
         addDefaultMarketFetch(criteria);
 
@@ -137,7 +137,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
     public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode) {
-        Criteria criteria = getSession().createCriteria(Market.class);
+        Criteria criteria = createDefaultCriteria(Market.class);
 
         addDefaultMarketFetch(criteria);
 
@@ -170,7 +170,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	// MARKET AREA
 
 	public MarketArea getMarketAreaById(final Long marketAreaId) {
-        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
         
         addDefaultMarketAreaFetch(criteria);
 
@@ -180,7 +180,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	}
 	
 	public MarketArea getMarketAreaByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
         
         addDefaultMarketAreaFetch(criteria);
         

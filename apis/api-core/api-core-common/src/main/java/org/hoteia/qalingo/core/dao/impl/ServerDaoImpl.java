@@ -26,7 +26,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.ServerDao;
-import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +39,14 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ServerStatus getServerStatusById(final Long serverStatusId) {
-        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("id", serverStatusId));
         ServerStatus serverStatus = (ServerStatus) criteria.uniqueResult();
         return serverStatus;
 	}
 	
     public List<ServerStatus> findServerStatus(final String serverName) {
-        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("serverName", serverName));
         
         criteria.addOrder(Order.asc("lastCheckReceived"));
@@ -58,7 +57,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
     }
     
     public List<ServerStatus> findServerStatus() {
-        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        Criteria criteria = createDefaultCriteria(ServerStatus.class);
         
         criteria.addOrder(Order.asc("serverName"));
         criteria.addOrder(Order.asc("lastCheckReceived"));
@@ -69,7 +68,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
     }
 
     public List<ServerStatus> getServerList(){
-        Criteria criteria = getSession().createCriteria(ServerStatus.class);
+        Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.setProjection(Projections.groupProperty("serverName").as("serverName"));
 
         List<String> serverNames = (List<String>) criteria.list();

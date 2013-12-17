@@ -31,14 +31,14 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductBrand getProductBrandById(final Long productBrandId) {
-        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
         return productBrand;
 	}
 
 	public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
-        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
 		return productBrand;
@@ -46,18 +46,20 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 	
     @Override
     public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
-        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
         
         addDefaultProductBrandFetch(criteria);
-        
+
+        criteria.setFetchMode("productMarketings", FetchMode.JOIN);
+
         criteria.createAlias("productMarketings.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
 
-        criteria.createAlias("defaultCatalogCategory.defaultParentCatalogCategory", "defaultParentCatalogCategory", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("defaultParentCatalogCategory", FetchMode.JOIN);
+//        criteria.createAlias("productMarketings.defaultCatalogCategory.defaultParentCatalogCategory", "defaultParentCatalogCategory", JoinType.LEFT_OUTER_JOIN);
+//        criteria.setFetchMode("defaultParentCatalogCategory", FetchMode.JOIN);
 
         criteria.add(Restrictions.or(Restrictions.eq("defaultCatalogCategory.code", categoryCode)));
-        criteria.add(Restrictions.or(Restrictions.eq("defaultParentCatalogCategory.code", categoryCode)));
+//        criteria.add(Restrictions.or(Restrictions.eq("defaultParentCatalogCategory.code", categoryCode)));
         
         criteria.addOrder(Order.asc("id"));
 

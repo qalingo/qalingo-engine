@@ -29,14 +29,14 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId) {
-        Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("id", customerProductCommentId));
         CustomerProductComment customerProductComments = (CustomerProductComment) criteria.uniqueResult();
         return customerProductComments;
 	}
 	
 	public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId) {
-        Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("customerId", customerId));
 
         criteria.addOrder(Order.asc("id"));
@@ -48,7 +48,7 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 	}
 	
 	public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId) {
-        Criteria criteria = getSession().createCriteria(CustomerProductComment.class);
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("productSkuId", productSkuId));
 
         criteria.addOrder(Order.asc("id"));

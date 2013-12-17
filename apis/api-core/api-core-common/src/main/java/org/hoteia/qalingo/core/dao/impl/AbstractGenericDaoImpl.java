@@ -20,6 +20,7 @@ import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hoteia.qalingo.core.dao.GenericDao;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 
 public abstract class AbstractGenericDaoImpl<T, ID extends Serializable> implements GenericDao<T, ID> {  
 
@@ -55,5 +56,11 @@ public abstract class AbstractGenericDaoImpl<T, ID extends Serializable> impleme
         }
         return crit.list();
     } 
+    
+    protected Criteria createDefaultCriteria(Class entityClass) {
+        Criteria criteria = getSession().createCriteria(entityClass);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return criteria;
+    }
 	
 }
