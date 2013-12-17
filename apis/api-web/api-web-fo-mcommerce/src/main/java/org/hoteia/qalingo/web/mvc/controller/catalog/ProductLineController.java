@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
@@ -115,7 +116,7 @@ public class ProductLineController extends AbstractMCommerceController {
 	        for(int i=0;i<cookies.length;i++)
 	        {
 	            info=cookies[i];
-	            if(info.getName().equals("RecentProduct"))
+	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
 	            {
 	                found = true;
 	                break;

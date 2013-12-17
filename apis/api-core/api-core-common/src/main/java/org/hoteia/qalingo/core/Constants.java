@@ -183,4 +183,8 @@ public final class Constants {
 	public static final String INFO_MESSAGE = "infoMessage";
 	public static final String SUCCESS_MESSAGE = "successMessage";
 	
+	//in seconds
+	public static final int COOKIES_LENGTH = 86400;
+	public static final String RECENT_PRODUCT_COOKIE_NAME = "RecentProduct";
+	
 }
