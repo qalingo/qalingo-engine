@@ -1569,7 +1569,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
         	productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-    		productSkuViewBean.setSalePrice(productSkuPrice.getPriceWithStandardCurrencySign());
+    		productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
+            productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
         } else {
             productSkuViewBean.setPriceWithCurrencySign("NA");
         }
