@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public interface ProductBrandService {
@@ -21,4 +23,5 @@ public interface ProductBrandService {
 	
 	void deleteProductBrand(ProductBrand productBrand);
 
+	List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
 }
