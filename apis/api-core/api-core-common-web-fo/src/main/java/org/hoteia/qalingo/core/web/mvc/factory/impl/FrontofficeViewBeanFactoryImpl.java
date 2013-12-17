@@ -219,9 +219,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         return searchFacetViewBean;
     }
     
-    @Override
-    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(
-    		RequestData requestData, MarketArea marketArea) throws Exception {
+    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception {
     	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
     	
     	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
@@ -234,13 +232,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	return catalogCategoryViewBeans;
     }
     
-    @Override
-    public List<ProductBrandViewBean> buildListProductBrands(
-    		final RequestData requestData,
-    		final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    public List<ProductBrandViewBean> buildListProductBrands(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
     	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();    	
-//    	final MarketArea marketArea = requestData.getMarketArea();
-//    	final Long marketAreaId = marketArea.getId();
     	
     	List<ProductBrand> productBrands = productBrandService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
     	

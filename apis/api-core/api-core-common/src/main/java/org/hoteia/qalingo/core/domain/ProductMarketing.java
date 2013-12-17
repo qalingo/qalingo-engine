@@ -34,7 +34,6 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
@@ -91,7 +90,6 @@ public class ProductMarketing extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
-    @OrderBy(clause = "ordering asc")
     private Set<Asset> assets = new HashSet<Asset>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
