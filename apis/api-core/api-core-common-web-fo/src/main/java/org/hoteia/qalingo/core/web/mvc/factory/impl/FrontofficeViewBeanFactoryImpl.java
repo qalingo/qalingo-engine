@@ -38,6 +38,7 @@ import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
@@ -239,40 +240,33 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     		final RequestData requestData,
     		final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
     	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();    	
-//    	final MarketArea marketArea = requestData.getMarketArea();
-//    	final Long marketAreaId = marketArea.getId();
-    	
     	List<ProductBrand> productBrands = productBrandService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
-    	
     	for (ProductBrand productBrand : productBrands) {
     		ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
     		productBrandViewBeans.add(productBrandViewBean);
 		}
-    	
-//    	ProductBrandViewBean productBrandViewBean;
-//    	if(!catalogCategoryVirtual.isRoot()){
-//    		List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogCategoryVirtual.getCode());
-//    		for (final ProductMarketing productMarketing : productMarketings) {
-//    			productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
-//    			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-//                productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
-//                productBrandViewBeans.add(productBrandViewBean);
-//    		}
-//    	} else {
-//    		for(CatalogCategoryVirtual catalogSubCategory : catalogCategoryVirtual.getCatalogCategories()){
-//    			catalogSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogSubCategory.getId().toString());
-//    			List<ProductMarketing> productMarketings = productService.findProductMarketingsByCatalogCategoryCode(marketAreaId, catalogSubCategory.getCode());
-//    			if(productMarketings != null){
-//    				for (ProductMarketing productMarketing : productMarketings) {
-//    					productBrandViewBean = buildProductBrandViewBean(requestData, productMarketing.getProductBrand());
-//	        			CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-//	                    productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
-//	                    productBrandViewBeans.add(productBrandViewBean);
-//					}
-//    			}
-//    		}
-//    	}
     	return productBrandViewBeans;
+    }
+    
+    @Override
+    public List<RecentProductViewBean> buildRecentProductViewBean(
+    		final RequestData requestData,
+    		final List<String> listCode) throws Exception {
+    	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
+    	final Localization localization = requestData.getMarketAreaLocalization();
+        final String localeCode = localization.getCode();
+    	final MarketArea marketArea = requestData.getMarketArea();
+    	for (String value : listCode) {
+    		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
+    		ProductMarketing productMarketing = productService.getProductMarketingById(value);
+    		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+        	recentProductViewBean.setId(productMarketing.getId());
+    		recentProductViewBean.setCode(value);
+    		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
+        	recentProductViewBean.setI18nName(productMarketing.getI18nName(localeCode));
+        	recentProductViewBeans.add(recentProductViewBean);
+    	}
+    	return recentProductViewBeans;
     }
 
 }
