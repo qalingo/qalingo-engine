@@ -164,5 +164,4 @@ public interface ViewBeanFactory {
     DeliveryMethodViewBean buildDeliveryMethodViewBean(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
 
     PaymentMethodViewBean buildPaymentMethodViewBean(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
-    
 }
