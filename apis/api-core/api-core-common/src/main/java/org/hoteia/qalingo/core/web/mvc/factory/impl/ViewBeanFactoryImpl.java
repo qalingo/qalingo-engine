@@ -83,6 +83,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
@@ -1185,6 +1186,31 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         catalogCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
 
         return catalogCategoryViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public CatalogBreadcrumbViewBean buildCatalogBreadCumViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+//    	 final HttpServletRequest request = requestData.getRequest();	
+    	 final Localization localization =  requestData.getMarketAreaLocalization();
+    	 final String localizationCode = localization.getCode();
+    	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
+    	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
+//    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
+    	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
+		
+		 if (catalogCategory.isRoot()) {
+			 catalogBreadCumViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
+		 } else {
+			 catalogBreadCumViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
+		 }
+		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
+		 if(!catalogCategory.isRoot()){
+				catalogBreadCumViewBean.setDefaultParentCategory(buildCatalogBreadCumViewBean(requestData,parentCatalogCategoryVirtual));
+		 }
+
+    	return catalogBreadCumViewBean;
     }
     
     /**

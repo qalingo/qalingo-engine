@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -83,7 +84,6 @@ public class ProductDetailsController extends AbstractMCommerceController {
         List<ProductMarketingViewBean> relatedProducts = productCategoryViewBean.getFeaturedProductMarketings();
         model.addAttribute("relatedProductMarketings", relatedProducts);
 
-        
         Cookie info=null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
@@ -91,7 +91,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	        for(int i=0;i<cookies.length;i++)
 	        {
 	            info=cookies[i];
-	            if(info.getName().equals("RecentProduct"))
+	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
 	            {
 	                found = true;
 	                break;
@@ -114,8 +114,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
     			response.addCookie(info);
         	} 
         } else {
-			info = new Cookie("RecentProduct", Long.toString(productMarketing.getId()));
-			info.setMaxAge(60);
+			info = new Cookie(Constants.RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
+			info.setMaxAge(Constants.COOKIES_LENGTH);
 			info.setPath("/");
 			response.addCookie(info);
         }
