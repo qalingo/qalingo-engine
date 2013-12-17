@@ -32,7 +32,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadCumViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
@@ -137,7 +137,7 @@ public interface ViewBeanFactory {
 
 	CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
-	CatalogBreadCumViewBean buildCatalogBreadCumViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogBreadcrumbViewBean buildCatalogBreadCumViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 

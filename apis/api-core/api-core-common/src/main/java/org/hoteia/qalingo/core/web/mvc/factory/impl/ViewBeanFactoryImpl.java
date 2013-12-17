@@ -83,7 +83,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CartDeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadCumViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
@@ -1089,11 +1089,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             catalogCategoryViewBean.setBackgroundImage("");
         }
-//        final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
-//        // set catalogCategoryViewBean.isRoot() is false
-//        if(!catalogCategoryViewBean.isRoot()){
-//        	catalogCategoryViewBean.setDefaultParentCategory(buildCatalogCategoryViewBean(requestData , parentCatalogCategoryVirtual) );
-//        }
         final Asset defaultPaskshotImage = catalogCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
         if (defaultPaskshotImage != null) {
             final String carouselImage = requestUtil.getCatalogImageWebPath(request, defaultPaskshotImage);
@@ -1196,11 +1191,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CatalogBreadCumViewBean buildCatalogBreadCumViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogBreadcrumbViewBean buildCatalogBreadCumViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
 //    	 final HttpServletRequest request = requestData.getRequest();	
     	 final Localization localization =  requestData.getMarketAreaLocalization();
     	 final String localizationCode = localization.getCode();
-    	 final CatalogBreadCumViewBean catalogBreadCumViewBean = new CatalogBreadCumViewBean();
+    	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
     	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
 //    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
     	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());

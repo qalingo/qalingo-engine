@@ -25,7 +25,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadCumViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
@@ -84,8 +84,6 @@ public class ProductLineController extends AbstractMCommerceController {
 		productList.setPageSize(pageSize);
 		productList.setPage(page-1);		
 		productCategoryViewBean.setProductMarketings(productList.getPageList());
-		
-		
 
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
@@ -93,8 +91,8 @@ public class ProductLineController extends AbstractMCommerceController {
 		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
 		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		
-		final CatalogBreadCumViewBean catalogBreadCumViewBean = frontofficeViewBeanFactory.buildCatalogBreadCumViewBean(requestUtil.getRequestData(request) , productCategory);
-		model.addAttribute("breadCum", catalogBreadCumViewBean);
+		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadCumViewBean(requestUtil.getRequestData(request) , productCategory);
+		model.addAttribute("breadcrumb", catalogBreadcrumbViewBean);
 		
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
 		model.addAttribute("sortBy", sortBy);
