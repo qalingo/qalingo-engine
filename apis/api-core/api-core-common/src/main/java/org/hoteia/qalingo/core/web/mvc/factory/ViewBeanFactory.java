@@ -137,7 +137,7 @@ public interface ViewBeanFactory {
 
 	CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
-	CatalogBreadcrumbViewBean buildCatalogBreadCumViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
 	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 

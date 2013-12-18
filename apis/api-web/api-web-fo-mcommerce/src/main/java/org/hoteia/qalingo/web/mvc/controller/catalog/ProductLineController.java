@@ -96,7 +96,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
 		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
 		
-		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadCumViewBean(requestUtil.getRequestData(request) , productCategory);
+		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request) , productCategory);
 		model.addAttribute("breadcrumb", catalogBreadcrumbViewBean);
 		
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
