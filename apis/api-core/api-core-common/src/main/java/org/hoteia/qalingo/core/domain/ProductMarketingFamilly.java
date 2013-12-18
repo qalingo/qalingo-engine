@@ -31,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
-public class ProductMarketingTypeFamilly extends AbstractEntity {
+public class ProductMarketingFamilly extends AbstractEntity {
 
     /**
      * Generated UID
@@ -60,6 +60,10 @@ public class ProductMarketingTypeFamilly extends AbstractEntity {
     @JoinTable(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY_TAX_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
     private Set<Tax> taxes = new HashSet<Tax>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_PRODUCT_SKU_OPTION_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "SKU_OPTION_ID"))
+    private Set<ProductSkuOption> productSkuOptions = new HashSet<ProductSkuOption>();
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -68,7 +72,7 @@ public class ProductMarketingTypeFamilly extends AbstractEntity {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-    public ProductMarketingTypeFamilly() {
+    public ProductMarketingFamilly() {
     }
 
     public Long getId() {
@@ -117,6 +121,14 @@ public class ProductMarketingTypeFamilly extends AbstractEntity {
 
     public void setTaxes(Set<Tax> taxes) {
         this.taxes = taxes;
+    }
+    
+    public Set<ProductSkuOption> getProductSkuOptions() {
+        return productSkuOptions;
+    }
+    
+    public void setProductSkuOptions(Set<ProductSkuOption> productSkuOptions) {
+        this.productSkuOptions = productSkuOptions;
     }
 
     public Date getDateCreate() {

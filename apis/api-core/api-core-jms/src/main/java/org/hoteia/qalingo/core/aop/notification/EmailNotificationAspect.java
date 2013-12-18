@@ -31,13 +31,13 @@ public class EmailNotificationAspect {
     @Value("${app.name}")  
     protected String applicationName;
     
-    public void beforeRuning(JoinPoint joinPoint) {
+    public void beforeRuning(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
             logger.debug("EmailNotificationAspect, beforeRuning");
         }
     }
 
-    public void afterRuning(StaticPart staticPart, Object result) {
+    public void afterRuning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
             logger.debug("EmailNotificationAspect, afterRuning");
         }

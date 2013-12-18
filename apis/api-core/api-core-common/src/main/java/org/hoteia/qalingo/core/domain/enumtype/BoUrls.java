@@ -6,19 +6,19 @@ public enum BoUrls {
 
     HOME(BoUrls.HOME_URL, BoUrls.HOME_KEY, BoUrls.HOME_VELOCITY_PAGE, true),
     INDEX(BoUrls.INDEX_URL, BoUrls.HOME_KEY, BoUrls.HOME_VELOCITY_PAGE, true),
-    FAQ(BoUrls.FAQ_URL, BoUrls.FAQ_KEY, BoUrls.FAQ_VELOCITY_PAGE, true),
-    LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE, true),
+    FAQ(BoUrls.FAQ_URL, BoUrls.FAQ_KEY, BoUrls.FAQ_VELOCITY_PAGE, false),
+    LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE, false),
     
-    LOGIN(BoUrls.LOGIN_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, true),
-    LOGIN_CHECK(BoUrls.LOGIN_CHECK_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, true),
-    LOGOUT(BoUrls.LOGOUT_URL, BoUrls.LOGOUT_KEY, BoUrls.LOGOUT_VELOCITY_PAGE, true),
-    FORBIDDEN(BoUrls.FORBIDDEN_URL, BoUrls.FORBIDDEN_KEY, BoUrls.FORBIDDEN_VELOCITY_PAGE, true),
-    TIMEOUT(BoUrls.TIMEOUT_URL, BoUrls.TIMEOUT_KEY, BoUrls.TIMEOUT_VELOCITY_PAGE, true),
-    FORGOTTEN_PASSWORD(BoUrls.FORGOTTEN_PASSWORD_URL, BoUrls.FORGOTTEN_PASSWORD_KEY, BoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
-    RESET_PASSWORD(BoUrls.RESET_PASSWORD_URL, BoUrls.RESET_PASSWORD_KEY, BoUrls.RESET_PASSWORD_VELOCITY_PAGE, true),
+    LOGIN(BoUrls.LOGIN_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, false),
+    LOGIN_CHECK(BoUrls.LOGIN_CHECK_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, false),
+    LOGOUT(BoUrls.LOGOUT_URL, BoUrls.LOGOUT_KEY, BoUrls.LOGOUT_VELOCITY_PAGE, false),
+    FORBIDDEN(BoUrls.FORBIDDEN_URL, BoUrls.FORBIDDEN_KEY, BoUrls.FORBIDDEN_VELOCITY_PAGE, false),
+    TIMEOUT(BoUrls.TIMEOUT_URL, BoUrls.TIMEOUT_KEY, BoUrls.TIMEOUT_VELOCITY_PAGE, false),
+    FORGOTTEN_PASSWORD(BoUrls.FORGOTTEN_PASSWORD_URL, BoUrls.FORGOTTEN_PASSWORD_KEY, BoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, false),
+    RESET_PASSWORD(BoUrls.RESET_PASSWORD_URL, BoUrls.RESET_PASSWORD_KEY, BoUrls.RESET_PASSWORD_VELOCITY_PAGE, false),
     
-    PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, true),
-    PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, true),
+    PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, false),
+    PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, false),
 
     SEARCH(BoUrls.SEARCH_URL, BoUrls.SEARCH_KEY, BoUrls.SEARCH_VELOCITY_PAGE, true),
     SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE, true),
@@ -100,12 +100,12 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     
-    ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, true),
-    ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, true),
-    ERROR_403(BoUrls.ERROR_403_URL, BoUrls.ERROR_403_KEY, BoUrls.ERROR_403_VELOCITY_PAGE, true),
-    ERROR_404(BoUrls.ERROR_404_URL, BoUrls.ERROR_404_KEY, BoUrls.ERROR_404_VELOCITY_PAGE, true),
+    ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, false),
+    ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, false),
+    ERROR_403(BoUrls.ERROR_403_URL, BoUrls.ERROR_403_KEY, BoUrls.ERROR_403_VELOCITY_PAGE, false),
+    ERROR_404(BoUrls.ERROR_404_URL, BoUrls.ERROR_404_KEY, BoUrls.ERROR_404_VELOCITY_PAGE, false),
     
-    VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE, true);
+    VELOCITY_CACHE(BoUrls.VELOCITY_CACHE_URL, BoUrls.VELOCITY_CACHE_KEY, BoUrls.VELOCITY_CACHE_PAGE, false);
 
 	public static final String HOME_KEY				= "home";
 	public static final String HOME_URL				= "/**/home.html";
@@ -113,49 +113,49 @@ public enum BoUrls {
 	public static final String HOME_VELOCITY_PAGE	= "home";
 
 	public static final String FAQ_KEY				= "faq";
-	public static final String FAQ_URL				= "/**/faq.html";
+	public static final String FAQ_URL				= "/faq.html";
 	public static final String FAQ_VELOCITY_PAGE	= "faq/faq";
 
 	public static final String LEGAL_TERMS_KEY				= "legal-terms";
-	public static final String LEGAL_TERMS_URL				= "/**/legal-terms.html";
+	public static final String LEGAL_TERMS_URL				= "/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
 	public static final String LOGIN_KEY				= "login";
-	public static final String LOGIN_URL				= "/**/login.html";
+	public static final String LOGIN_URL				= "/login.html";
 	public static final String LOGIN_VELOCITY_PAGE		= "security/login";
 
-	public static final String LOGIN_CHECK_URL				= "/**/login-check.html";
+	public static final String LOGIN_CHECK_URL				= "/login-check.html";
 
 	public static final String LOGOUT_KEY				= "logout";
-	public static final String LOGOUT_URL				= "/**/logout.html";
+	public static final String LOGOUT_URL				= "/logout.html";
 	public static final String LOGOUT_VELOCITY_PAGE		= "security/logout";
 
 	public static final String FORBIDDEN_KEY				= "forbidden";
-	public static final String FORBIDDEN_URL				= "/**/forbidden.html";
+	public static final String FORBIDDEN_URL				= "/forbidden.html";
 	public static final String FORBIDDEN_VELOCITY_PAGE		= "security/forbidden";
 
 	public static final String TIMEOUT_KEY				= "timeout";
-	public static final String TIMEOUT_URL				= "/**/timeout.html";
+	public static final String TIMEOUT_URL				= "/timeout.html";
 	public static final String TIMEOUT_VELOCITY_PAGE	= "security/timeout";
 	
 	public static final String FORGOTTEN_PASSWORD_KEY			= "forgotten-password";
-	public static final String FORGOTTEN_PASSWORD_URL			= "/**/forgotten-password.html";
+	public static final String FORGOTTEN_PASSWORD_URL			= "/forgotten-password.html";
 	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE	= "security/forgotten-password-edit";
 
 	public static final String RESET_PASSWORD_KEY				= "reset-password";
-	public static final String RESET_PASSWORD_URL				= "/**/reset-password.html";
+	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
 	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-edit";
 	
-	public static final String LOGOUT_SESSION_URL		= "/**/logout-session.html";
+	public static final String LOGOUT_SESSION_URL		= "/logout-session.html";
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
 	public static final String GLOBAL_SEARCH_URL		= "/**/global-search.html";
 	
     public static final String PERSONAL_DETAILS_KEY                 = "personal-details";
-    public static final String PERSONAL_DETAILS_URL                 = "/**/personal-details.html";
+    public static final String PERSONAL_DETAILS_URL                 = "/personal-details.html";
     public static final String PERSONAL_DETAILS_VELOCITY_PAGE       = "user/personal-details";
 	    
     public static final String PERSONAL_EDIT_KEY                = "personal-edit";
-    public static final String PERSONAL_EDIT_URL                = "/**/personal-edit.html";
+    public static final String PERSONAL_EDIT_URL                = "/personal-edit.html";
     public static final String PERSONAL_EDIT_VELOCITY_PAGE      = "user/personal-edit";
 	    
 	public static final String CHANGE_LANGUAGE_URL		= "/**/change-language.html";
@@ -401,23 +401,23 @@ public enum BoUrls {
     public static final String USER_EDIT_VELOCITY_PAGE      = "user/user-edit";
     
     public static final String ERROR_500_KEY            = "error-500";
-    public static final String ERROR_500_URL            = "/**/500.html";
+    public static final String ERROR_500_URL            = "/500.html";
     public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";
 
     public static final String ERROR_400_KEY            = "error-400";
-    public static final String ERROR_400_URL            = "/**/400.html";
+    public static final String ERROR_400_URL            = "/400.html";
     public static final String ERROR_400_VELOCITY_PAGE  = "error/error-400";
 
     public static final String ERROR_403_KEY            = "error-403";
-    public static final String ERROR_403_URL            = "/**/403.html";
+    public static final String ERROR_403_URL            = "/403.html";
     public static final String ERROR_403_VELOCITY_PAGE  = "error/error-403";
 
     public static final String ERROR_404_KEY            = "error-404";
-    public static final String ERROR_404_URL            = "/**/404.html";
+    public static final String ERROR_404_URL            = "/404.html";
     public static final String ERROR_404_VELOCITY_PAGE  = "error/error-404";
     
     public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
-    public static final String VELOCITY_CACHE_URL           = "/**/flush-cache-ihm.html";
+    public static final String VELOCITY_CACHE_URL           = "/flush-cache-ihm.html";
     public static final String VELOCITY_CACHE_PAGE          = "tools/flush-cache-ihm";
     
     private final String url;

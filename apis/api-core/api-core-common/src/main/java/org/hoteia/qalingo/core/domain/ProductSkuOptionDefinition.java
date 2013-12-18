@@ -10,6 +10,8 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,13 +29,13 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_MARKETING_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
-public class ProductMarketingType extends AbstractEntity {
+@Table(name="TECO_PRODUCT_SKU_OPTION_DEFINITION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+public class ProductSkuOptionDefinition extends AbstractEntity {
 
-	/**
+    /**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = -3980707330914384779L;
+    private static final long serialVersionUID = -9092846667992339554L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,10 +55,10 @@ public class ProductMarketingType extends AbstractEntity {
 	@Column(name="CODE")
 	private String code;
 	
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = false, updatable = false)
-    private ProductMarketingFamilly productMarketingFamilly;
-    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
+    private Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
 	private Date dateCreate;
@@ -65,7 +67,7 @@ public class ProductMarketingType extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	public ProductMarketingType(){
+	public ProductSkuOptionDefinition(){
 	}
 	
 	public Long getId() {
@@ -108,12 +110,12 @@ public class ProductMarketingType extends AbstractEntity {
 		this.code = code;
 	}
 	
-	public ProductMarketingFamilly getProductMarketingFamilly() {
-        return productMarketingFamilly;
+	public Set<ProductSkuOptionDefinitionAttribute> getProductSkuOptionDefinitionAttributes() {
+        return productSkuOptionDefinitionAttributes;
     }
 	
-	public void setProductMarketingFamilly(ProductMarketingFamilly productMarketingFamilly) {
-        this.productMarketingFamilly = productMarketingFamilly;
+	public void setProductSkuOptionDefinitionAttributes(Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes) {
+        this.productSkuOptionDefinitionAttributes = productSkuOptionDefinitionAttributes;
     }
 	
 	public Date getDateCreate() {

@@ -133,7 +133,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
         MenuViewBean menu = new MenuViewBean();
         menu.setCssIcon("icon-paper-clip");
-        menu.setName("FAQ");
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
         menuViewBeans.add(menu);
 
@@ -146,10 +146,10 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         menu = new MenuViewBean();
         menu.setCssIcon("icon-lock");
         if(currentUser != null){
-            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "header_title_logout", locale));
+            menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_logout", locale));
             menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
         } else {
-            menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "header_title_login", locale));
+            menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_login", locale));
             menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
         }
         menuViewBeans.add(menu);
