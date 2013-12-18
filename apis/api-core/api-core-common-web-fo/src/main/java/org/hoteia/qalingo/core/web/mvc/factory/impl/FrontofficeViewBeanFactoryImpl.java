@@ -279,9 +279,9 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
 		
 		 if (catalogCategory.isRoot()) {
-			 catalogBreadCumViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
+			 catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
 		 } else {
-			 catalogBreadCumViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
+			 catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
 		 }
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
 		 if(!catalogCategory.isRoot()){
