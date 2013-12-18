@@ -50,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductLineController extends AbstractMCommerceController {
 
 	@Autowired
-	protected CatalogCategoryService productCategoryService;
+	protected CatalogCategoryService catalogCategoryService;
 	@Autowired
 	protected ProductService productService;
 	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
@@ -61,7 +61,7 @@ public class ProductLineController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         final Cart currentCart = requestData.getCart();
         
-		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
@@ -73,7 +73,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
+		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
 
 		String sortBy = request.getParameter("sortBy");
         String orderBy = request.getParameter("orderBy");
@@ -83,31 +83,30 @@ public class ProductLineController extends AbstractMCommerceController {
 		int page = NumberUtils.toInt(pageParameter, 1);
 	    int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
 		
-		List<ProductMarketingViewBean> productMarketings = productCategoryViewBean.getProductMarketings();
+		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
 		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
 		productList.setPageSize(pageSize);
 		productList.setPage(page-1);		
-		productCategoryViewBean.setProductMarketings(productList.getPageList());
+		catalogCategoryViewBean.setProductMarketings(productList.getPageList());
 
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 	
-		final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
-		model.addAttribute("catalogCategories", catalogCategoryViewBeans);
+		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request) , catalogCategory);
+		model.addAttribute(ModelConstants.CATALOG_BREADCRUMB_VIEW_BEAN, catalogBreadcrumbViewBean);
 		
-		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request) , productCategory);
-		model.addAttribute("breadcrumb", catalogBreadcrumbViewBean);
-		
-		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, productCategoryViewBean);
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPage", productList.getPageCount());
 		
-		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), productCategory);
-		model.addAttribute("productBrandViewBeans", productBrandViewBeans);
+		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), catalogCategory);
+		model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
 		
+		
+		// TODO : Denis : move this part, Cookie, in RequestUtilImpl.java
 		Cookie info=null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
@@ -115,7 +114,7 @@ public class ProductLineController extends AbstractMCommerceController {
 	        for(int i=0;i<cookies.length;i++)
 	        {
 	            info=cookies[i];
-	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
 	            {
 	                found = true;
 	                break;
@@ -138,7 +137,7 @@ public class ProductLineController extends AbstractMCommerceController {
         	}
         } 
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
-        model.addAttribute("recentProducts", recentProductViewBeans);
+        model.addAttribute(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
         
 		return modelAndView;
 	}

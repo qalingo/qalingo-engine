@@ -20,7 +20,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
@@ -37,7 +36,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     // PRODUCT MARKETING
 	
 	public ProductMarketing getProductMarketingById(final Long productMarketingId) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
         
@@ -47,7 +46,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	}
 
 	public ProductMarketing getProductMarketingByCode(final String productMarketingCode) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -57,7 +56,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	}
 	
 	public List<ProductMarketing> findProductMarketings() {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -69,7 +68,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	}
 	
 	public List<ProductMarketing> findProductMarketings(final String text) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -85,7 +84,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	}
 
     public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -102,7 +101,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     }
 
 	public List<ProductMarketing> findProductMarketingsByBrandCode(final String brandCode) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -119,7 +118,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	}
 	
 	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         
         addDefaultProductMarketingFetch(criteria);
 
@@ -154,14 +153,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	// PRODUCT MARKETING ASSET
 	
 	public Asset getProductMarketingAssetById(final Long productMarketingAssetId) {
-        Criteria criteria = getSession().createCriteria(Asset.class);
+        Criteria criteria = createDefaultCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productMarketingAssetId));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();
         return productMarketingAsset;
 	}
 
 	public Asset getProductMarketingAssetByCode(final String assetCode) {
-        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
+        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         criteria.add(Restrictions.eq("code", assetCode));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();
 		return productMarketingAsset;
@@ -196,7 +195,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     // PRODUCT SKU
 	
     public ProductSku getProductSkuById(final Long productSkuId) {
-        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
         
         addDefaultProductSkuFetch(criteria);
 
@@ -206,7 +205,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     }
     
     public ProductSku getProductSkuByCode(final String productSkuCode) {
-        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
         
         addDefaultProductSkuFetch(criteria);
 
@@ -216,7 +215,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     }
         
     public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing) {
-        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
         
         addDefaultProductSkuFetch(criteria);
 
@@ -229,7 +228,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     }
     
     public List<ProductSku> findProductSkus(final String text) {
-        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
         
         addDefaultProductSkuFetch(criteria);
         
@@ -263,14 +262,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     // ASSET
     
     public Asset getProductSkuAssetById(final Long productSkuAssetId) {
-        Criteria criteria = getSession().createCriteria(Asset.class);
+        Criteria criteria = createDefaultCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productSkuAssetId));
         Asset productSkuAsset = (Asset) criteria.uniqueResult();
         return productSkuAsset;
     }
 
     public Asset getProductSkuAssetByCode(final String assetCode) {
-        Criteria criteria = getSession().createCriteria(ProductSku.class);
+        Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.add(Restrictions.eq("code", assetCode));
         Asset productSkuAsset = (Asset) criteria.uniqueResult();
         return productSkuAsset;

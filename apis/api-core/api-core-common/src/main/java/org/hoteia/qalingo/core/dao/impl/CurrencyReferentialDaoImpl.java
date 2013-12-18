@@ -29,21 +29,21 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
-        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("id", currencyReferentialId));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
         return currencyReferential;
 	}
 
 	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
-        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("code", currencyReferentialCode));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
         return currencyReferential;
 	}
 	
 	public List<CurrencyReferential> findCurrencyReferentials() {
-        Criteria criteria = getSession().createCriteria(CurrencyReferential.class);
+        Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         
         criteria.addOrder(Order.asc("code"));
 

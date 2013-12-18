@@ -185,6 +185,6 @@ public final class Constants {
 	
 	//in seconds
 	public static final int COOKIES_LENGTH = 86400;
-	public static final String RECENT_PRODUCT_COOKIE_NAME = "RecentProduct";
+	public static final String COOKIE_RECENT_PRODUCT_COOKIE_NAME = "RecentProduct";
 	
 }

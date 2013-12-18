@@ -42,14 +42,14 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Email getEmailById(final Long emailId) {
-        Criteria criteria = getSession().createCriteria(Email.class);
+        Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("id", emailId));
         Email email = (Email) criteria.uniqueResult();
         return email;
     }
 
     public List<Email> findEmailByStatus(final String status) {
-        Criteria criteria = getSession().createCriteria(Email.class);
+        Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("status", status));
         
         criteria.addOrder(Order.asc("id"));
@@ -61,7 +61,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     }
 
     public List<Long> findIdsForEmailSync() {
-        Criteria criteria = getSession().createCriteria(Email.class);
+        Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));
         
@@ -74,7 +74,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
     }
 
     public List<Long> findIdsForEmailSync(final String type) {
-        Criteria criteria = getSession().createCriteria(Email.class);
+        Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("type", type));
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));

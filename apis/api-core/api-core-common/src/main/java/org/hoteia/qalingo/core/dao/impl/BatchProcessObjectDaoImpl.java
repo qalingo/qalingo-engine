@@ -31,14 +31,14 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 
 	public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId) {
 	    
-        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+        Criteria criteria = createDefaultCriteria(BatchProcessObject.class);
         criteria.add(Restrictions.eq("id", batchProcessObjectId));
         BatchProcessObject batchProcessObject = (BatchProcessObject) criteria.uniqueResult();
         return batchProcessObject;
 	}
 
 	public List<BatchProcessObject> findBatchProcessObjects() {
-        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+        Criteria criteria = createDefaultCriteria(BatchProcessObject.class);
 
         @SuppressWarnings("unchecked")
         List<BatchProcessObject> batchProcessObjects = criteria.list();
@@ -49,7 +49,7 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 	}
 	
 	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
-        Criteria criteria = getSession().createCriteria(BatchProcessObject.class);
+        Criteria criteria = createDefaultCriteria(BatchProcessObject.class);
 
         criteria.add(Restrictions.eq("typeObject", typeObject));
         

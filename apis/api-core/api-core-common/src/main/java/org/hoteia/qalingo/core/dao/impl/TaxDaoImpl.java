@@ -26,7 +26,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Tax getTaxById(final Long taxId) {
-        Criteria criteria = getSession().createCriteria(Tax.class);
+        Criteria criteria = createDefaultCriteria(Tax.class);
         
         addDefaultFetch(criteria);
         

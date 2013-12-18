@@ -29,7 +29,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId) {
-        Criteria criteria = getSession().createCriteria(DeliveryMethod.class);
+        Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
         addDefaultFetch(criteria);
 
@@ -39,7 +39,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	}
 
 	public DeliveryMethod getDeliveryMethodByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(DeliveryMethod.class);
+        Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
         addDefaultFetch(criteria);
 
@@ -49,7 +49,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	}
 	
 	public List<DeliveryMethod> findDeliveryMethods() {
-        Criteria criteria = getSession().createCriteria(DeliveryMethod.class);
+        Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
         addDefaultFetch(criteria);
         

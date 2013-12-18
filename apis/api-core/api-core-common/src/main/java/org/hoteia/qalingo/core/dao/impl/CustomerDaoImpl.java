@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerDao {
 
 	public Customer getCustomerById(final Long customerId) {
-        Criteria criteria = getSession().createCriteria(Customer.class);
+        Criteria criteria = createDefaultCriteria(Customer.class);
         
         addDefaultFetch(criteria);
 
@@ -43,7 +43,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public Customer getCustomerByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(Customer.class);
+        Criteria criteria = createDefaultCriteria(Customer.class);
         
         addDefaultFetch(criteria);
 
@@ -53,7 +53,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public Customer getCustomerByPermalink(final String permalink) {
-        Criteria criteria = getSession().createCriteria(Customer.class);
+        Criteria criteria = createDefaultCriteria(Customer.class);
         
         addDefaultFetch(criteria);
 
@@ -63,7 +63,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
-        Criteria criteria = getSession().createCriteria(Customer.class);
+        Criteria criteria = createDefaultCriteria(Customer.class);
         
         addDefaultFetch(criteria);
 
@@ -73,7 +73,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
 	public List<Customer> findCustomers() {
-        Criteria criteria = getSession().createCriteria(Customer.class);
+        Criteria criteria = createDefaultCriteria(Customer.class);
         
         addDefaultFetch(criteria);
         

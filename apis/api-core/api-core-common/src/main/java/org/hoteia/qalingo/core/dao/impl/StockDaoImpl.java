@@ -25,7 +25,7 @@ public class StockDaoImpl extends AbstractGenericDaoImpl implements StockDao {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductSkuStock getStockById(final Long productSkuStockId) {
-        Criteria criteria = getSession().createCriteria(ProductSkuStock.class);
+        Criteria criteria = createDefaultCriteria(ProductSkuStock.class);
         criteria.add(Restrictions.eq("id", productSkuStockId));
         ProductSkuStock productSkuStock = (ProductSkuStock) criteria.uniqueResult();
         return productSkuStock;

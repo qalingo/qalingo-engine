@@ -34,7 +34,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	// MASTER
 	
 	public CatalogCategoryMaster getMasterCatalogCategoryById(final Long catalogCategoryId) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -45,7 +45,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String catalogCategoryCode) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -56,7 +56,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -67,7 +67,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public List<CatalogCategoryMaster> findRootCatalogCategories() {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
 
         addDefaultCatalogCategoryFetch(criteria);
         
@@ -80,7 +80,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
 
         addDefaultCatalogCategoryFetch(criteria);
         
@@ -113,7 +113,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	// VIRTUAL
 	
 	public CatalogCategoryVirtual getVirtualCatalogCategoryById(final Long catalogCategoryId) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -124,7 +124,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -135,7 +135,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         addDefaultCatalogCategoryFetch(criteria);
 
@@ -146,7 +146,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
         addDefaultCatalogCategoryFetch(criteria);
         
@@ -159,7 +159,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         addDefaultCatalogCategoryFetch(criteria);
         
@@ -171,7 +171,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
 	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(final Long marketAreaId, final String productMarketingCode) {
-        Criteria criteria = getSession().createCriteria(CatalogCategoryVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
         addDefaultCatalogCategoryFetch(criteria);
         
@@ -202,6 +202,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	}
 	
     private void addDefaultCatalogCategoryFetch(Criteria criteria) {
+        
         criteria.setFetchMode("categoryMaster", FetchMode.JOIN);
 
         criteria.setFetchMode("defaultParentCatalogCategory", FetchMode.JOIN);
@@ -219,6 +220,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.setFetchMode("productMarketingAttributes", FetchMode.JOIN);
 
         criteria.setFetchMode("assets", FetchMode.JOIN);
+        
     }
 
 }

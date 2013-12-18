@@ -28,7 +28,7 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public CustomerGroup getCustomerGroupById(final Long customerGroupId) {
-        Criteria criteria = getSession().createCriteria(CustomerGroup.class);
+        Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
         addDefaultFetch(criteria);
         
@@ -38,7 +38,7 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 	}
 	
 	public CustomerGroup getCustomerGroupByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(CustomerGroup.class);
+        Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
         addDefaultFetch(criteria);
         

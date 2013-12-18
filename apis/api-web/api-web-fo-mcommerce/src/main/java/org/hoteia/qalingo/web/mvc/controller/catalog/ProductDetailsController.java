@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -43,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductDetailsController extends AbstractMCommerceController {
 
 	@Autowired
-	protected CatalogCategoryService productCategoryService;
+	protected CatalogCategoryService catalogCategoryService;
 	
 	@Autowired
 	protected ProductService productService;
@@ -57,7 +58,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
 
-		CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
+		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
 		
 		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
@@ -70,17 +71,18 @@ public class ProductDetailsController extends AbstractMCommerceController {
 		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
         
-		final CatalogCategoryViewBean productCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), productCategory);
-		model.addAttribute("productCategory", productCategoryViewBean);
+		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
-        final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), productCategory, productMarketing);
-        model.addAttribute("productMarketing", productMarketingViewBean);
+        final ProductMarketingViewBean productMarketingViewBean = frontofficeViewBeanFactory.buildProductMarketingViewBean(requestUtil.getRequestData(request), catalogCategory, productMarketing);
+        model.addAttribute(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 
         //for now, get the featured products in same category
         //TODO: define related products
-        List<ProductMarketingViewBean> relatedProducts = productCategoryViewBean.getFeaturedProductMarketings();
-        model.addAttribute("relatedProductMarketings", relatedProducts);
+        List<ProductMarketingViewBean> relatedProducts = catalogCategoryViewBean.getFeaturedProductMarketings();
+        model.addAttribute(ModelConstants.RELATED_PPRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
 
+        // TODO : Denis : move this part, Cookie, in RequestUtilImpl.java
         Cookie info=null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
@@ -88,7 +90,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	        for(int i=0;i<cookies.length;i++)
 	        {
 	            info=cookies[i];
-	            if(Constants.RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
 	            {
 	                found = true;
 	                break;
@@ -111,7 +113,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
     			response.addCookie(info);
         	} 
         } else {
-			info = new Cookie(Constants.RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
+			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
 			info.setMaxAge(Constants.COOKIES_LENGTH);
 			info.setPath("/");
 			response.addCookie(info);

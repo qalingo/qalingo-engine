@@ -32,7 +32,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public CatalogMaster getProductCatalogById(final Long catalogMasterId) {
-        Criteria criteria = getSession().createCriteria(CatalogMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogMaster.class);
         addDefaultCatalogFetch(criteria);
         criteria.add(Restrictions.eq("id", catalogMasterId));
         
@@ -41,7 +41,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	}
 
 	public CatalogVirtual getCatalogVirtual(final Long marketAreaId) {
-        Criteria criteria = getSession().createCriteria(CatalogVirtual.class);
+        Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
         addDefaultCatalogFetch(criteria);
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
         criteria.createAlias("marketArea", "ma", JoinType.LEFT_OUTER_JOIN);
@@ -52,7 +52,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	}
 	
     public List<CatalogMaster> findAllCatalogMasters() {
-        Criteria criteria = getSession().createCriteria(CatalogMaster.class);
+        Criteria criteria = createDefaultCriteria(CatalogMaster.class);
         addDefaultCatalogFetch(criteria);
         criteria.addOrder(Order.asc("id"));
 
