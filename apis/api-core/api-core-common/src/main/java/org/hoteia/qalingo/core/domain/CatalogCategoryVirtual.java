@@ -86,7 +86,7 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@OrderBy(clause = "ordering asc")
+    @OrderBy(clause = "ordering asc")
 	private Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryVirtualAttribute>(); 
 	
 	@ManyToMany(
@@ -115,7 +115,6 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	@OrderBy(clause = "ordering asc")
 	private Set<Asset> assets = new HashSet<Asset>(); 
 
 	@Temporal(TemporalType.TIMESTAMP)

@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
+@Table(name = "TECO_PRODUCT_MARKETING_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class ProductMarketingFamilly extends AbstractEntity {
 
     /**
@@ -57,11 +57,11 @@ public class ProductMarketingFamilly extends AbstractEntity {
     private String code;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "TECO_PRODUCT_MARKETING_TYPE_FAMILLY_TAX_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_TAX_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
     private Set<Tax> taxes = new HashSet<Tax>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_PRODUCT_SKU_OPTION_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "SKU_OPTION_ID"))
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOption.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_PRODUCT_MARKETING_FAMILLY_PRODUCT_SKU_OPTION_REL", joinColumns = @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_SKU_OPTION_ID"))
     private Set<ProductSkuOption> productSkuOptions = new HashSet<ProductSkuOption>();
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -122,11 +122,11 @@ public class ProductMarketingFamilly extends AbstractEntity {
     public void setTaxes(Set<Tax> taxes) {
         this.taxes = taxes;
     }
-    
+
     public Set<ProductSkuOption> getProductSkuOptions() {
         return productSkuOptions;
     }
-    
+
     public void setProductSkuOptions(Set<ProductSkuOption> productSkuOptions) {
         this.productSkuOptions = productSkuOptions;
     }

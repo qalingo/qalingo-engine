@@ -29,109 +29,109 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_OPTION_DEFINITION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class ProductSkuOptionDefinition extends AbstractEntity {
 
     /**
-	 * Generated UID
-	 */
-    private static final long serialVersionUID = -9092846667992339554L;
+     * Generated UID
+     */
+    private static final long serialVersionUID = 8407137582137874358L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "CODE")
+    private String code;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
     private Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public ProductSkuOptionDefinition(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    public ProductSkuOptionDefinition() {
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public Set<ProductSkuOptionDefinitionAttribute> getProductSkuOptionDefinitionAttributes() {
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Set<ProductSkuOptionDefinitionAttribute> getProductSkuOptionDefinitionAttributes() {
         return productSkuOptionDefinitionAttributes;
     }
-	
-	public void setProductSkuOptionDefinitionAttributes(Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes) {
+
+    public void setProductSkuOptionDefinitionAttributes(Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes) {
         this.productSkuOptionDefinitionAttributes = productSkuOptionDefinitionAttributes;
     }
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
 }

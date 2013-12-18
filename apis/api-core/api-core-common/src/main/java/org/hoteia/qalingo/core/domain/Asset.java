@@ -80,7 +80,7 @@ public class Asset extends AbstractEntity {
 	private boolean isGlobal;
 
 	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+	private int ordering;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -192,11 +192,11 @@ public class Asset extends AbstractEntity {
 		this.isGlobal = isGlobal;
 	}
 	
-	public Integer getOrdering() {
+	public int getOrdering() {
 		return ordering;
 	}
 	
-	public void setOrdering(Integer ordering) {
+	public void setOrdering(int ordering) {
 		this.ordering = ordering;
 	}
 	
@@ -241,8 +241,6 @@ public class Asset extends AbstractEntity {
 		result = prime * result
 				+ ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((ordering == null) ? 0 : ordering.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -297,11 +295,6 @@ public class Asset extends AbstractEntity {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (ordering == null) {
-			if (other.ordering != null)
-				return false;
-		} else if (!ordering.equals(other.ordering))
 			return false;
 		if (path == null) {
 			if (other.path != null)

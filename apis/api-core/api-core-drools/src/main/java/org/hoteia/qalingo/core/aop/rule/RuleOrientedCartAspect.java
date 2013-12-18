@@ -19,24 +19,24 @@ import org.springframework.stereotype.Component;
 public class RuleOrientedCartAspect {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    
+
     @Autowired
     protected RequestUtil requestUtil;
-    
+
     @Autowired
     protected RuleUtil ruleUtil;
-    
+
     @Autowired
     private HttpServletRequest httpServletRequest;
 
     public void beforeRuning(final JoinPoint joinPoint) {
-        if(logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.debug("RuleEcoAspect, beforeRuning");
         }
     }
 
     public void afterRuning(final StaticPart staticPart, final Object result) {
-        if(logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.debug("RuleEcoAspect, afterRuning");
         }
         try {
@@ -48,7 +48,7 @@ public class RuleOrientedCartAspect {
                 logger.error("Failed to load EngineEcoSession from Request", e);
             }
             ruleUtil.handleRuleSession(objects);
-            
+
         } catch (Exception e) {
             logger.error("RuleEcoAspect Target Object error: " + e);
         }

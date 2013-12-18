@@ -29,121 +29,120 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_OPTION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_PRODUCT_SKU_OPTION", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class ProductSkuOption extends AbstractEntity {
 
     /**
-	 * Generated UID
-	 */
-    private static final long serialVersionUID = -6505379586429603202L;
+     * Generated UID
+     */
+    private static final long serialVersionUID = 2179540095678304872L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
     @Version
-    @Column(name = "ORDER", nullable = false, columnDefinition = "int(11) default 1")
-    private int order;
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "CODE")
+    private String code;
+
+    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    private int ordering;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_ID")
     private Set<ProductSkuOptionDefinition> productSkuOptionDefinitions = new HashSet<ProductSkuOptionDefinition>();
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public ProductSkuOption(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public int getOrder() {
-        return order;
+    public ProductSkuOption() {
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public int getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(int ordering) {
+        this.ordering = ordering;
     }
 
     public Set<ProductSkuOptionDefinition> getProductSkuOptionDefinitions() {
         return productSkuOptionDefinitions;
     }
-	
-	public void setProductSkuOptionDefinitions(Set<ProductSkuOptionDefinition> productSkuOptionDefinitions) {
+
+    public void setProductSkuOptionDefinitions(Set<ProductSkuOptionDefinition> productSkuOptionDefinitions) {
         this.productSkuOptionDefinitions = productSkuOptionDefinitions;
     }
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
 }

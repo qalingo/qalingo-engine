@@ -26,68 +26,68 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE")
+@Table(name = "TECO_PRODUCT_SKU_OPTION_DEFINITION_ATTRIBUTE")
 public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
 
     /**
-	 * Generated UID
-	 */
-    private static final long serialVersionUID = 2826610743636726607L;
+     * Generated UID
+     */
+    private static final long serialVersionUID = -3520685421449381337L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ID", nullable=false)
+    @Column(name = "ID", nullable = false)
     private Long id;
-    
+
     @Version
-    @Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
-    
+
     @ManyToOne
-    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID")
+    @JoinColumn(name = "ATTRIBUTE_DEFINITION_ID")
     private AttributeDefinition attributeDefinition;
-    
-    @Column(name="STRING_VALUE")
+
+    @Column(name = "STRING_VALUE")
     private String stringValue;
-    
-    @Column(name="INTEGER_VALUE")
+
+    @Column(name = "INTEGER_VALUE")
     private Integer integerValue;
-    
-    @Column(name="DOUBLE_VALUE")
+
+    @Column(name = "DOUBLE_VALUE")
     private Double doubleValue;
-    
-    @Column(name="FLOAT_VALUE")
+
+    @Column(name = "FLOAT_VALUE")
     private Float floatValue;
-    
-    @Column(name="BLOB_VALUE")
+
+    @Column(name = "BLOB_VALUE")
     @Lob
     private byte[] blobValue;
-    
-    @Column(name="BOOLEAN_VALUE")
+
+    @Column(name = "BOOLEAN_VALUE")
     private Boolean booleanValue;
-    
-    @Column(name="LOCALIZATION_CODE")
+
+    @Column(name = "LOCALIZATION_CODE")
     private String localizationCode;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="START_DATE")
+    @Column(name = "START_DATE")
     private Date startDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="END_DATE")
+    @Column(name = "END_DATE")
     private Date endDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="DATE_CREATE")
+    @Column(name = "DATE_CREATE")
     private Date dateCreate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="DATE_UPDATE")
+    @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
     public ProductSkuOptionDefinitionAttribute() {
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -95,7 +95,7 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public int getVersion() {
         return version;
     }
@@ -155,7 +155,7 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
     public Boolean getBooleanValue() {
         return booleanValue;
     }
-    
+
     public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
@@ -204,32 +204,19 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime
-                * result
-                + ((attributeDefinition == null) ? 0 : attributeDefinition
-                        .hashCode());
+        result = prime * result + ((attributeDefinition == null) ? 0 : attributeDefinition.hashCode());
         result = prime * result + Arrays.hashCode(blobValue);
-        result = prime * result
-                + ((booleanValue == null) ? 0 : booleanValue.hashCode());
-        result = prime * result
-                + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result
-                + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime * result
-                + ((doubleValue == null) ? 0 : doubleValue.hashCode());
+        result = prime * result + ((booleanValue == null) ? 0 : booleanValue.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+        result = prime * result + ((doubleValue == null) ? 0 : doubleValue.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result
-                + ((floatValue == null) ? 0 : floatValue.hashCode());
+        result = prime * result + ((floatValue == null) ? 0 : floatValue.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result
-                + ((integerValue == null) ? 0 : integerValue.hashCode());
-        result = prime
-                * result
-                + ((localizationCode == null) ? 0 : localizationCode.hashCode());
-        result = prime * result
-                + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result
-                + ((stringValue == null) ? 0 : stringValue.hashCode());
+        result = prime * result + ((integerValue == null) ? 0 : integerValue.hashCode());
+        result = prime * result + ((localizationCode == null) ? 0 : localizationCode.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
         result = prime * result + version;
         return result;
     }
@@ -312,15 +299,9 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version="
-                + version + ", attributeDefinition=" + attributeDefinition
-                + ", stringValue=" + stringValue + ", integerValue="
-                + integerValue + ", doubleValue=" + doubleValue
-                + ", floatValue=" + floatValue + ", blobValue="
-                + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue
-                + ", localizationCode=" + localizationCode + ", startDate="
-                + startDate + ", endDate=" + endDate + ", dateCreate="
-                + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version=" + version + ", attributeDefinition=" + attributeDefinition + ", stringValue=" + stringValue + ", integerValue="
+                + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode="
+                + localizationCode + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
-    
+
 }

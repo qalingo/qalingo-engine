@@ -63,7 +63,7 @@ public class Menu extends AbstractEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="MENU_ID")
-	@OrderBy("POSITION") 
+    @OrderBy("POSITION") 	
 	private Set<Menu> subMenus = new HashSet<Menu>(); 
 	
 	@ManyToMany(

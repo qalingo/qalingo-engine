@@ -115,7 +115,6 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @OrderBy(clause = "ordering asc")
     private Set<Asset> assets = new HashSet<Asset>();
 
     @Temporal(TemporalType.TIMESTAMP)

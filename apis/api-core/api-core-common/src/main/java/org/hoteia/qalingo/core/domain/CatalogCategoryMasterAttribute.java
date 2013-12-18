@@ -73,7 +73,7 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 	private boolean isGlobal;
 	
 	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+	private int ordering;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -185,11 +185,11 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 		this.isGlobal = isGlobal;
 	}
 	
-	public Integer getOrdering() {
+	public int getOrdering() {
 		return ordering;
 	}
 	
-	public void setOrdering(Integer ordering) {
+	public void setOrdering(int ordering) {
 		this.ordering = ordering;
 	}
 	

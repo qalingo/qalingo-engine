@@ -70,7 +70,7 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 	private String localizationCode;
 	
 	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+	private int ordering;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="START_DATE")
@@ -171,11 +171,11 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
-	public Integer getOrdering() {
+	public int getOrdering() {
 		return ordering;
 	}
 	
-	public void setOrdering(Integer ordering) {
+	public void setOrdering(int ordering) {
 		this.ordering = ordering;
 	}
 	
@@ -267,8 +267,6 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 				* result
 				+ ((localizationCode == null) ? 0 : localizationCode.hashCode());
 		result = prime * result
-				+ ((ordering == null) ? 0 : ordering.hashCode());
-		result = prime * result
 				+ ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result
 				+ ((stringValue == null) ? 0 : stringValue.hashCode());
@@ -336,11 +334,6 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 			if (other.localizationCode != null)
 				return false;
 		} else if (!localizationCode.equals(other.localizationCode))
-			return false;
-		if (ordering == null) {
-			if (other.ordering != null)
-				return false;
-		} else if (!ordering.equals(other.ordering))
 			return false;
 		if (startDate == null) {
 			if (other.startDate != null)

@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.domain;
 
-
 public abstract class AbstractAttribute extends AbstractEntity {
 
 	/**
