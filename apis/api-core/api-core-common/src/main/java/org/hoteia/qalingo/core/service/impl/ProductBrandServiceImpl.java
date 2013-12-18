@@ -40,10 +40,6 @@ public class ProductBrandServiceImpl implements ProductBrandService {
         return productBrandDao.getProductBrandByCode(marketAreaId, productBrandCode);
     }
 
-    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode) {
-        return productBrandDao.findProductBrandsByCatalogCategoryCode(categoryCode);
-    }
-
     public void saveOrUpdateProductBrand(ProductBrand productBrand) {
         productBrandDao.saveOrUpdateProductBrand(productBrand);
     }
