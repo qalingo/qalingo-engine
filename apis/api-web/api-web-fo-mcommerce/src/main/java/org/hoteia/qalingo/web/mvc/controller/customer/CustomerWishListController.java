@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -36,8 +37,9 @@ public class CustomerWishListController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.PERSONAL_WISHLIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_WISHLIST.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+		final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
@@ -52,24 +54,25 @@ public class CustomerWishListController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.WISHLIST_REMOVE_ITEM_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-		webCommerceService.removeProductSkuFromWishlist(request, requestUtil.getRequestData(request), skuCode);
+		final RequestData requestData = requestUtil.getRequestData(request);
+		webManagementService.removeProductSkuFromWishlist(requestData, skuCode);
 
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData);
         return new ModelAndView(new RedirectView(url));
 	}
 	
 	@RequestMapping(FoUrls.WISHLIST_ADD_PRODUCT_URL)
 	public ModelAndView AddToWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		try {
-			webCommerceService.addProductSkuToWishlist(request, requestUtil.getRequestData(request), skuCode);
+			webManagementService.addProductSkuToWishlist(requestData, skuCode);
 			
 		} catch (Exception e) {
 			logger.error("Error with the wishlist, skuCode:" + skuCode, e);
 		}
 		
-		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestUtil.getRequestData(request));
+		final String url = urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData);
         return new ModelAndView(new RedirectView(url));
 	}
 

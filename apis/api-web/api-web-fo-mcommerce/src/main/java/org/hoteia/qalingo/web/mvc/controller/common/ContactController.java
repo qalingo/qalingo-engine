@@ -69,7 +69,7 @@ public class ContactController extends AbstractMCommerceController {
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 
 		try {
-			webCommerceService.buildAndSaveContactMail(requestUtil.getRequestData(request), contactForm);
+			webManagementService.buildAndSaveContactMail(requestUtil.getRequestData(request), contactForm);
 	        
         } catch (Exception e) {
         	logger.error("Can't send contact email!", e);

@@ -18,6 +18,7 @@ public class CurrencyReferentialViewBean extends AbstractViewBean implements Ser
 	 */
 	private static final long serialVersionUID = -6255298063899030646L;
 	
+    // ENTITY
 	private String name;
 	private String description;
 	private String code;
@@ -26,6 +27,11 @@ public class CurrencyReferentialViewBean extends AbstractViewBean implements Ser
 	private String dateCreate;
 	private String dateUpdate;
 	
+    // MENU
+    protected String img;
+    protected String changeContextUrl;
+    protected String homeUrl;
+    
 	public String getName() {
 		return name;
 	}
@@ -81,5 +87,29 @@ public class CurrencyReferentialViewBean extends AbstractViewBean implements Ser
 	public void setDateUpdate(String dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getChangeContextUrl() {
+        return changeContextUrl;
+    }
+
+    public void setChangeContextUrl(String changeContextUrl) {
+        this.changeContextUrl = changeContextUrl;
+    }
+
+    public String getHomeUrl() {
+        return homeUrl;
+    }
+
+    public void setHomeUrl(String homeUrl) {
+        this.homeUrl = homeUrl;
+    }
 	
 }

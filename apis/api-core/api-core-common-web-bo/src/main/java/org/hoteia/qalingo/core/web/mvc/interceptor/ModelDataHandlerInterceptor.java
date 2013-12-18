@@ -92,7 +92,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
 
             // RETAILERS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildRetailerViewBeansForTheMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildRetailerViewBeansByMarketArea(requestData));
 
             // CURRENT MARKET AREA
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));

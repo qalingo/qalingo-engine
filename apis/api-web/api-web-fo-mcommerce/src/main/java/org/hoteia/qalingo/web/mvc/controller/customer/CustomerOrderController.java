@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -47,8 +48,8 @@ public class CustomerOrderController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.PERSONAL_ORDER_LIST_URL)
 	public ModelAndView customerWishList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_LIST.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
@@ -92,14 +93,14 @@ public class CustomerOrderController extends AbstractCustomerController {
 	@RequestMapping(FoUrls.PERSONAL_ORDER_DETAILS_URL)
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
-		
+		final RequestData requestData = requestUtil.getRequestData(request);
 		final String orderCustomerId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID);
 		if(StringUtils.isNotEmpty(orderCustomerId)){
 			final OrderCustomer orderCustomer = orderCustomerService.getOrderById(orderCustomerId);
 			if(orderCustomer != null){
 				// SANITY CHECK
 
-				final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		        final Customer currentCustomer = requestData.getCustomer();
 				
 				// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 				// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session

@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 /**
  * 
  */
@@ -60,7 +59,7 @@ public class ProductLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
-        final Cart currentCart = requestUtil.getCurrentCart(request);
+        final Cart currentCart = requestData.getCart();
         
 		final CatalogCategoryVirtual productCategory = productCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		

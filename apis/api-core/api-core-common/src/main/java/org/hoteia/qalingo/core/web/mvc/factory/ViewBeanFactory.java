@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
@@ -32,10 +33,10 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductCommentViewBean;
@@ -92,7 +93,7 @@ public interface ViewBeanFactory {
 
 	ConditionsViewBean buildConditionsViewBean(RequestData requestData) throws Exception;
 	
-	List<RetailerViewBean> buildRetailerViewBeansForTheMarketArea(RequestData requestData) throws Exception;
+	List<RetailerViewBean> buildRetailerViewBeansByMarketArea(RequestData requestData) throws Exception;
 	
 	List<RetailerViewBean> buildRetailerViewBeans(RequestData requestData, List<Retailer> retailers) throws Exception;
 
@@ -112,6 +113,12 @@ public interface ViewBeanFactory {
 
 	List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(RequestData requestData, Localization localization) throws Exception;
 	
+    List<CurrencyReferentialViewBean> buildCurrenciesViewBeansByMarketArea(RequestData requestData) throws Exception;
+
+    List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(RequestData requestData, List<CurrencyReferential> currencyReferentials) throws Exception;
+
+    CurrencyReferentialViewBean buildCurrencyReferentialViewBean(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
+
 	StoreLocatorViewBean buildStoreLocatorViewBean(RequestData requestData, List<Store> stores) throws Exception;
 	
 	StoreViewBean buildStoreViewBean(RequestData requestData, Store store) throws Exception;
@@ -137,8 +144,6 @@ public interface ViewBeanFactory {
 
 	CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 	
-	CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
-	
 	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
 
 	CartViewBean buildCartViewBean(RequestData requestData, Cart cart) throws Exception;
@@ -159,5 +164,4 @@ public interface ViewBeanFactory {
     DeliveryMethodViewBean buildDeliveryMethodViewBean(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
 
     PaymentMethodViewBean buildPaymentMethodViewBean(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
-    
 }

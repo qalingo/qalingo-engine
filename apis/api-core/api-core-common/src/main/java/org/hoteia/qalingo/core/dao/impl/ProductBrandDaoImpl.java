@@ -10,10 +10,8 @@
 package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.ProductBrandDao;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -58,19 +56,8 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 		em.remove(productBrand);
 	}
 	
-	@Override
-	public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
-		StringBuilder queryString = new StringBuilder();
-		
-		queryString.append("select distinct productBrand from ProductMarketing pm where ")
-				   .append("pm.defaultCatalogCategory.code = :code or pm.defaultCatalogCategory.defaultParentCatalogCategory.code = :code");
-		
-		Query query = getSession().createQuery(queryString.toString());
-		query.setString("code", categoryCode);
-		
-		List list = query.list();
-		
-		return list;
-	}
-
+    private void addDefaultProductBrandFetch(Criteria criteria) {
+        
+    }
+	
 }

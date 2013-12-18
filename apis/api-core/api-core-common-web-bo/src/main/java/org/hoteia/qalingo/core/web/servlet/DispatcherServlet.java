@@ -30,6 +30,7 @@ import org.springframework.web.servlet.View;
 
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 public class DispatcherServlet extends org.springframework.web.servlet.DispatcherServlet {
@@ -80,7 +81,8 @@ public class DispatcherServlet extends org.springframework.web.servlet.Dispatche
 
 		// THEME
 		try {
-			User user = requestUtil.getCurrentUser(request);
+		    final RequestData requestData = requestUtil.getRequestData(request);
+			User user = requestData.getUser();
 			if(user !=null){
 				final Company company = user.getCompany();
 				if(company != null

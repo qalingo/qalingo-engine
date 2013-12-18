@@ -10,6 +10,9 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,10 +52,10 @@ public class EngineEcoSession extends AbstractEngineSession {
     @Column(name = "JSESSION_ID")
     private String jSessionId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CART_ID")
-    private Cart cart;
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="ECO_ENGINE_SESSION_ID")
+    private Set<Cart> carts = new HashSet<Cart>(); 
+    
     @Transient
     private boolean environmentStagingModeEnabled;
     
@@ -77,6 +80,9 @@ public class EngineEcoSession extends AbstractEngineSession {
     @Transient
     private Retailer currentMarketAreaRetailer;
 
+    @Transient
+    private CurrencyReferential currentMarketAreaCurrency;
+    
     @Transient
     private User currentUser;
 
@@ -124,12 +130,49 @@ public class EngineEcoSession extends AbstractEngineSession {
         this.jSessionId = jSessionId;
     }
 
-    public Cart getCart() {
-        return cart;
+    public Set<Cart> getCarts() {
+        return carts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public Cart getCart() {
+        if(carts != null){
+            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
+                Cart cart = (Cart) iterator.next();
+                if(cart != null 
+                        && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                        && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                    return cart;
+            }
+        }
+        return null;
+    }
+    
+    public Cart newCart() {
+        Cart cart = new Cart();
+        cart.setMarketAreaId(getCurrentMarketArea().getId());
+        cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
+        this.carts.add(cart);
+        return cart;
+    }
+    
+    public Cart resetCart() {
+        Cart cart = getCart();
+        cart = new Cart();
+        cart.setMarketAreaId(getCurrentMarketArea().getId());
+        cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
+        return cart;
+    }
+    
+    public Cart setCart(final Cart cart) {
+        if(carts != null
+                && cart != null){
+            carts.add(cart);
+        }
+        return null;
+    }
+    
+    public void setCarts(Set<Cart> carts) {
+        this.carts = carts;
     }
 
     public boolean isEnvironmentStagingModeEnabled() {
@@ -194,6 +237,14 @@ public class EngineEcoSession extends AbstractEngineSession {
 
     public void setCurrentMarketAreaRetailer(Retailer retailer) {
         this.currentMarketAreaRetailer = retailer;
+    }
+    
+    public CurrencyReferential getCurrentMarketAreaCurrency() {
+        return currentMarketAreaCurrency;
+    }
+    
+    public void setCurrentMarketAreaCurrency(CurrencyReferential currentMarketAreaCurrency) {
+        this.currentMarketAreaCurrency = currentMarketAreaCurrency;
     }
 
     public User getCurrentUser() {

@@ -220,7 +220,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 //      
 //      projections.add(Projections.property("markets.marketAreas.marketAreaAttributes"));
       
-      criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
       
   }
     
@@ -241,7 +240,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.createAlias("marketAreas.marketAreaAttributes", "marketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
         
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     }
     
     private void addDefaultMarketAreaFetch(Criteria criteria) {
@@ -249,17 +247,20 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.setFetchMode("virtualCatalog", FetchMode.JOIN);
         criteria.setFetchMode("market", FetchMode.JOIN);
         
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);
+        criteria.setFetchMode("defaultCurrency", FetchMode.JOIN);
+        criteria.setFetchMode("currencies", FetchMode.JOIN);
 
         criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
 
+        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN);
         criteria.setFetchMode("localizations", FetchMode.JOIN);
+
+        criteria.setFetchMode("defaultRetailer", FetchMode.JOIN);
         criteria.setFetchMode("retailers", FetchMode.JOIN);
+
         criteria.setFetchMode("deliveryMethods", FetchMode.JOIN);
         criteria.setFetchMode("paymentGateways", FetchMode.JOIN);
         
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     }
 	
 }

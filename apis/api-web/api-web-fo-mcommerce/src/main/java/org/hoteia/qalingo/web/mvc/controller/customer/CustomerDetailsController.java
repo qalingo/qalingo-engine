@@ -71,14 +71,12 @@ public class CustomerDetailsController extends AbstractCustomerController {
 	@RequestMapping(value = FoUrls.PERSONAL_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute("customerEditForm") CustomerEditForm customerEditForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_EDIT.getVelocityPage());
-		
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
-
-        final RequestData requestData = requestUtil.getRequestData(request);
         
 		if(customerEditForm == null 
         		|| customerEditForm.equals(new CustomerEditForm())){
@@ -101,19 +99,19 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		}
 		
 		final String newEmail = customerEditForm.getEmail();
-		final Customer currentCustomer = requestUtil.getCurrentCustomer(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		final Customer checkCustomer = customerService.getCustomerByLoginOrEmail(newEmail);
 		if(checkCustomer != null
 				&& !currentCustomer.getEmail().equalsIgnoreCase(newEmail)) {
-			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
+			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData);
 			final Object[] objects = {forgottenPasswordUrl};
 			result.rejectValue("email", "fo.customer.error_form_create_account_account_already_exist", objects,"This email customer account already exist! Go on this <a href=\"${0}\" alt=\"\">page</a> to get a new password.");
 		}
 
 		// Update the customer
-		webCommerceService.updateCurrentCustomer(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, customerEditForm);
+		webManagementService.updateCurrentCustomer(requestData, currentMarket, currentMarketArea, customerEditForm);
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+		final String urlRedirect = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

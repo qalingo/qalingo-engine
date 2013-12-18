@@ -15,14 +15,12 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public interface ProductBrandDao {
 
-	ProductBrand getProductBrandById(Long productBrandId);
+    ProductBrand getProductBrandById(Long productBrandId);
 
-	ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
-	
-	void saveOrUpdateProductBrand(ProductBrand productBrand);
+    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
 
-	void deleteProductBrand(ProductBrand productBrand);
-	
-	List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
+    void saveOrUpdateProductBrand(ProductBrand productBrand);
+
+    void deleteProductBrand(ProductBrand productBrand);
 
 }

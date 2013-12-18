@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -104,7 +103,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 */
 	protected void overrideSeoTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketPlace currentMarketPlace = requestUtil.getCurrentMarketPlace(requestData);
+		final MarketPlace currentMarketPlace = requestData.getMarketPlace();
 		final String fullTitle = currentMarketPlace.getName() + " - " + title;
 		if(StringUtils.isNotEmpty(fullTitle)){
 	        modelAndView.addObject("seoPageTitle", fullTitle);

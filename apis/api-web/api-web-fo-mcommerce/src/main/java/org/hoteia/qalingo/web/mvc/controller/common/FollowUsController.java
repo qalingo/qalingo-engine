@@ -56,7 +56,7 @@ public class FollowUsController extends AbstractMCommerceController {
 		}
 
 		try {
-			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), followUsForm.getEmail());
+			webManagementService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), followUsForm.getEmail());
 	        
         } catch (UniqueNewsletterSubscriptionException e) {
 			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
@@ -78,7 +78,7 @@ public class FollowUsController extends AbstractMCommerceController {
 
 		try {
 			String email = request.getParameter(RequestConstants.REQUEST_PARAMETER_NEWSLETTER_EMAIL);
-			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), email);
+			webManagementService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), email);
 	        
         } catch (Exception e) {
 	        displayFollowUs(request, model, new FollowUsForm());
@@ -93,7 +93,7 @@ public class FollowUsController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FOLLOW_US_SUCCESS_VELOCITY_PAGE);
 
 		try {
-			webCommerceService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), newsletterQuickRegistrationForm.getEmail());
+			webManagementService.saveNewsletterSubscriptionAndSendEmail(requestUtil.getRequestData(request), newsletterQuickRegistrationForm.getEmail());
 	        
         } catch (Exception e) {
 	        displayFollowUs(request, model, new FollowUsForm());
@@ -114,7 +114,7 @@ public class FollowUsController extends AbstractMCommerceController {
 			RequestData requestData = requestUtil.getRequestData(request);
 			requestData.setMarketArea(marketService.getMarketAreaByCode(marketAreaCode));
 			
-			webCommerceService.saveNewsletterUnsubscriptionAndSendEmail(requestData, email);
+			webManagementService.saveNewsletterUnsubscriptionAndSendEmail(requestData, email);
 	        
         } catch (Exception e) {
 	        displayFollowUs(request, model, new FollowUsForm());
