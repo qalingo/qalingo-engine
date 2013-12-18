@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.dao;
 import java.util.List;
 
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 
@@ -70,4 +71,6 @@ public interface ProductDao {
     void saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     
     void deleteProductSkuAsset(Asset productSkuAsset);
+    
+    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
 }

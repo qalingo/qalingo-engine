@@ -237,7 +237,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     public List<ProductBrandViewBean> buildListProductBrands(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
     	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
     	
-    	List<ProductBrand> productBrands = productBrandService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
+    	List<ProductBrand> productBrands = productService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
     	for (ProductBrand productBrand : productBrands) {
     		ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
     		productBrandViewBeans.add(productBrandViewBean);
@@ -273,19 +273,21 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 //    	 final HttpServletRequest request = requestData.getRequest();	
     	 final Localization localization =  requestData.getMarketAreaLocalization();
     	 final String localizationCode = localization.getCode();
+    	 final MarketArea currentMarketArea = requestData.getMarketArea();
     	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
     	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
-//    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
-    	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
+    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
+//    	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
 		
 		 if (catalogCategory.isRoot()) {
-			 catalogBreadCumViewBean.setProductAxeUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
+			catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
 		 } else {
-			 catalogBreadCumViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
+			catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
 		 }
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
-		 if(!catalogCategory.isRoot()){
-				catalogBreadCumViewBean.setDefaultParentCategory(buildCatalogBreadcrumbViewBean(requestData,parentCatalogCategoryVirtual));
+		 if(!catalogCategory.isRoot() && parentCatalogCategoryVirtual != null){
+			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), parentCatalogCategoryVirtual.getCode());
+			catalogBreadCumViewBean.setDefaultParentCategory(buildCatalogBreadcrumbViewBean(requestData,pareCatalogCategoryVirtualReload));
 		 }
 
     	return catalogBreadCumViewBean;

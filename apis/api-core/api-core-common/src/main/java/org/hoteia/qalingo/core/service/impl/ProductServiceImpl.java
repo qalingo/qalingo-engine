@@ -206,10 +206,8 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(
-    		String categoryCode) {
-    	// TODO Auto-generated method stub
-    	return null;
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode) {
+    	return productMarketingDao.findProductBrandsByCatalogCategoryCode(categoryCode);
     }
 
 }

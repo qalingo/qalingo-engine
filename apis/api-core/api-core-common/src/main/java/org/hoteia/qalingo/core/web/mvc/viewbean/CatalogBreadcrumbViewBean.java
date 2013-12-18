@@ -25,8 +25,7 @@ public class CatalogBreadcrumbViewBean extends AbstractViewBean implements Seria
 
     protected CatalogBreadcrumbViewBean defaultParentCategory;
 
-    protected String productAxeUrl;
-    protected String productLineUrl;
+    protected String detailsUrl;
     
     public String getCode() {
         return code;
@@ -62,20 +61,14 @@ public class CatalogBreadcrumbViewBean extends AbstractViewBean implements Seria
         this.defaultParentCategory = defaultParentCategory;
     }
 
-    public String getProductAxeUrl(){
-    	return this.productAxeUrl;
+    public String getDetailsUrl(){
+    	return this.detailsUrl;
     }
     
-    public void setProductAxeUrl( String productAxeUrl){
-    	this.productAxeUrl = productAxeUrl;
+    public void setDetailsUrl( String detailsUrl){
+    	this.detailsUrl = detailsUrl;
     }
     
-    public String getProductLineUrl(){
-    	return this.productLineUrl;
-    }
-    
-    public void setProductLineUrl( String productLineUrl){
-    	this.productLineUrl = productLineUrl;
-    }
+   
 
 }

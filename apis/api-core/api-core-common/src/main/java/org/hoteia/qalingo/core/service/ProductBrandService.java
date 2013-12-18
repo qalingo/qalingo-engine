@@ -19,8 +19,6 @@ public interface ProductBrandService {
 
     ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode);
 
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
-
     void saveOrUpdateProductBrand(ProductBrand productBrand);
 
     void deleteProductBrand(ProductBrand productBrand);

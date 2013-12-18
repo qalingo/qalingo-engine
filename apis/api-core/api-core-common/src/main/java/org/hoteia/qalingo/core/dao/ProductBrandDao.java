@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public interface ProductBrandDao {
@@ -18,8 +16,6 @@ public interface ProductBrandDao {
     ProductBrand getProductBrandById(Long productBrandId);
 
     ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
-
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
 
     void saveOrUpdateProductBrand(ProductBrand productBrand);
 
