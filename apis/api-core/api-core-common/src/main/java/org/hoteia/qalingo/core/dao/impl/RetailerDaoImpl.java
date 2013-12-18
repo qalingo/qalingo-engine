@@ -38,7 +38,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	// RETAILER
 
 	public Retailer getRetailerById(final Long retailerId) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
         
@@ -48,7 +48,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 
     public Retailer getRetailerByCode(final String retailerCode) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
 
         addDefaultRetailerFetch(criteria);
 
@@ -58,7 +58,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
     }
 
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
 
         addDefaultRetailerFetch(criteria);
 
@@ -68,7 +68,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
     public List<Retailer> findAllRetailers() {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -80,7 +80,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
     }
     
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
-        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
 
         criteria.add(Restrictions.eq("code", marketAreaCode));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
@@ -90,7 +90,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
   }
 
     public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -102,7 +102,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
 
         addDefaultRetailerFetch(criteria);
 
@@ -117,7 +117,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 
 	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -129,7 +129,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -141,7 +141,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -153,7 +153,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-        Criteria criteria = getSession().createCriteria(Retailer.class);
+        Criteria criteria = createDefaultCriteria(Retailer.class);
         
         addDefaultRetailerFetch(criteria);
 
@@ -215,7 +215,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	// STORE
 	
 	public Store getStoreById(final Long storeId) {
-        Criteria criteria = getSession().createCriteria(Store.class);
+        Criteria criteria = createDefaultCriteria(Store.class);
         
         criteria.addOrder(Order.asc("code"));
         
@@ -225,7 +225,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 
 	public Store getStoreByCode(final String storeCode) {
-        Criteria criteria = getSession().createCriteria(Store.class);
+        Criteria criteria = createDefaultCriteria(Store.class);
         
         criteria.addOrder(Order.asc("code"));
         
@@ -235,7 +235,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	}
 	
 	public List<Store> findStores() {
-        Criteria criteria = getSession().createCriteria(Store.class);
+        Criteria criteria = createDefaultCriteria(Store.class);
         
         addDefaultStoreFetch(criteria);
         

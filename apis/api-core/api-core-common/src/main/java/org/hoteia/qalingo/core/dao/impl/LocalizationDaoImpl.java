@@ -30,21 +30,21 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Localization getLocalizationById(final Long localizationId) {
-        Criteria criteria = getSession().createCriteria(Localization.class);
+        Criteria criteria = createDefaultCriteria(Localization.class);
         criteria.add(Restrictions.eq("id", localizationId));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
 
 	public Localization getLocalizationByCode(final String code) {
-        Criteria criteria = getSession().createCriteria(Localization.class);
+        Criteria criteria = createDefaultCriteria(Localization.class);
         criteria.add(Restrictions.eq("code", code));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
 	
 	public List<Localization> findLocalizations() {
-        Criteria criteria = getSession().createCriteria(Localization.class);
+        Criteria criteria = createDefaultCriteria(Localization.class);
         
         criteria.addOrder(Order.asc("language"));
 
@@ -55,7 +55,7 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 	}
 	
     public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
-        Criteria criteria = getSession().createCriteria(MarketArea.class);
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
         
         criteria.add(Restrictions.eq("code", marketAreaCode));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();

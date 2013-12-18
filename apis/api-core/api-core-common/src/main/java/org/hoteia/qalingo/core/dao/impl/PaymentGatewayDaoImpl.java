@@ -30,7 +30,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
-        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
         addDefaultFetch(criteria);
 
@@ -40,7 +40,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 
 	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode) {
-        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
         addDefaultFetch(criteria);
 
@@ -50,7 +50,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 	
 	public List<AbstractPaymentGateway> findPaymentGateways() {
-        Criteria criteria = getSession().createCriteria(AbstractPaymentGateway.class);
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
         addDefaultFetch(criteria);
         

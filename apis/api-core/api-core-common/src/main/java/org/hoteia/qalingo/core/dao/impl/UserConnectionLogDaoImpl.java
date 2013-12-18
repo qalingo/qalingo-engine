@@ -28,14 +28,14 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId) {
-        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("id", userConnectionLogId));
         UserConnectionLog userConnectionLog = (UserConnectionLog) criteria.uniqueResult();
         return userConnectionLog;
 	}
 
 	public List<UserConnectionLog> findUserConnectionLogsByUserId(final Long userId) {
-        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("userId", userId));
 
         criteria.addOrder(Order.asc("loginDate"));
@@ -46,7 +46,7 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	}
 	
 	public List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(final Long userId, final String appCode) {
-        Criteria criteria = getSession().createCriteria(UserConnectionLog.class);
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
         criteria.add(Restrictions.eq("userId", userId));
         criteria.add(Restrictions.eq("app", appCode));
         

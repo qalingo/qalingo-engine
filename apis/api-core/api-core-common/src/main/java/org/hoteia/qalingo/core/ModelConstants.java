@@ -54,15 +54,21 @@ public final class ModelConstants {
     public static final String COMMON_VIEW_BEAN                     = "common";
     public static final String MENUS_VIEW_BEAN                      = "menus";
     public static final String MORE_PAGE_MENUS_VIEW_BEAN            = "morePageMenus";
+    public static final String BREADCRUMB_VIEW_BEAN                 = "breadcrumb";
+    public static final String CATALOG_BREADCRUMB_VIEW_BEAN         = "catalogBreadcrumb";
+
     public static final String MARKET_PLACES_VIEW_BEAN              = "marketPlaces";
     public static final String MARKETS_VIEW_BEAN                    = "markets";
+    
     public static final String MARKET_AREA_VIEW_BEAN                = "marketArea";
     public static final String MARKET_AREAS_VIEW_BEAN               = "marketAreas";
     public static final String MARKET_AREA_LANGUAGES_VIEW_BEAN      = "marketAreaLocalizations";
     public static final String MARKET_AREA_RETAILERS_VIEW_BEAN      = "marketAreaRetailers";
     public static final String MARKET_AREA_CURRENCIES_VIEW_BEAN     = "marketAreaCurrencies";
+
     public static final String RETAILERS_VIEW_BEAN                  = "retailers";
     public static final String RETAILER_VIEW_BEAN                   = "retailer";
+    
     public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalizations";
     public static final String LEGAl_TERMS_VIEW_BEAN                = "legalTerms";
     public static final String CONDITIONS_OF_USE_VIEW_BEAN          = "conditions";
@@ -73,13 +79,17 @@ public final class ModelConstants {
     public static final String SECURITY_VIEW_BEAN                   = "security";
     public static final String XRDS_URL_VIEW_BEAN                   = "xrdsUrl";
 
-    public static final String TRACKING_VIEW_BEAN               = "tracking";
-    public static final String MONITORING_VIEW_BEAN             = "monitoring";
+    public static final String TRACKING_VIEW_BEAN                   = "tracking";
+    public static final String MONITORING_VIEW_BEAN                 = "monitoring";
 
-    public static final String CATALOG_VIEW_BEAN                = "catalog";
-    public static final String CATALOG_CATEGORY_VIEW_BEAN       = "catalogCategory";
-    public static final String PRODUCT_MARKETING_VIEW_BEAN      = "productMarketing";
-    public static final String PRODUCT_SKU_VIEW_BEAN            = "productSku";
+    public static final String CATALOG_VIEW_BEAN                    = "catalog";
+    public static final String CATALOG_CATEGORY_VIEW_BEAN           = "catalogCategory";
+    public static final String CATALOG_CATEGORIES_VIEW_BEAN         = "catalogCategories";
+    public static final String PRODUCT_MARKETING_VIEW_BEAN          = "productMarketing";
+    public static final String PRODUCT_SKU_VIEW_BEAN                = "productSku";
+    public static final String PRODUCT_BRANDS_VIEW_BEAN             = "productBrands";
+    public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
+    public static final String RELATED_PPRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
 
     public static final String ASSET_VIEW_BEAN                  = "asset";
 

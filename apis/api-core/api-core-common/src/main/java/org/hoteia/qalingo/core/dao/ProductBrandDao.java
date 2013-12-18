@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.dao;
 
-import java.util.List;
-
 import org.hoteia.qalingo.core.domain.ProductBrand;
 
 public interface ProductBrandDao {

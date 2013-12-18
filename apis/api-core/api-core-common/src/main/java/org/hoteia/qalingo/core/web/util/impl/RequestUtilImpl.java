@@ -1152,8 +1152,10 @@ public class RequestUtilImpl implements RequestUtil {
                             CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
                             if (newCurrency == null) {
                                 CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                                engineEcoSession.getCart().setCurrency(defaultCurrency);
                                 setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
                             } else {
+                                engineEcoSession.getCart().setCurrency(newCurrency);
                                 setSessionMarketAreaCurrency(engineEcoSession, newCurrency);
                             }
                         }
@@ -1309,6 +1311,7 @@ public class RequestUtilImpl implements RequestUtil {
                     } else {
                         setSessionMarketAreaRetailer(engineBoSession, retailer);
                     }
+                    
                 } else {
                     MarketArea marketArea = engineBoSession.getCurrentMarketArea();
                     if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
@@ -1338,6 +1341,7 @@ public class RequestUtilImpl implements RequestUtil {
                         } else {
                             setSessionMarketAreaRetailer(engineBoSession, retailer);
                         }
+                        
                     } else {
                         Localization localization = engineBoSession.getCurrentMarketAreaLocalization();
                         if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(marketAreaLanguageCode)) {

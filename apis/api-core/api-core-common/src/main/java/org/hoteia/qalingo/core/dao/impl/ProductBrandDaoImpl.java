@@ -27,14 +27,14 @@ public class ProductBrandDaoImpl extends AbstractGenericDaoImpl implements Produ
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ProductBrand getProductBrandById(final Long productBrandId) {
-        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
         return productBrand;
 	}
 
 	public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
-        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
 		return productBrand;
