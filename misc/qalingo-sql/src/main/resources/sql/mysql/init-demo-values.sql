@@ -470,30 +470,36 @@ VALUES
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, master_category_id, scope)
  VALUES 
-(1, 'image ...', 'CAT_IMG1', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'BACKGROUND', null, 1, 10, 'MASTER_CATEGORY'), 
-(2, 'image ...', 'CAT_IMG2', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'BACKGROUND', null, 1, 20, 'MASTER_CATEGORY'), 
-(3, 'image ...', 'CAT_IMG3', 'cat-1-img-1.jpg', 0, 'image 7', 1, 'BACKGROUND', null, 1, 30, 'MASTER_CATEGORY'), 
-(4, 'image ...', 'CAT_IMG4', 'cat-1-img-1.jpg', 0, 'image 8', 1, 'BACKGROUND', null, 1, 40, 'MASTER_CATEGORY'), 
-(5, 'image ...', 'CAT_IMG5', 'cat-1-img-1.jpg', 0, 'image 9', 1, 'BACKGROUND', null, 1, 50, 'MASTER_CATEGORY'),
-(6, 'image ...', 'CAT_IMG6', 'cat-1-img-1-small.png', 1, 'image 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'MASTER_CATEGORY'), 
-(7, 'image ...', 'CAT_IMG7', 'cat-1-img-1-small.jpg', 0, 'image 11', 1, 'PACKSHOT', 'SMALL', 1, 20, 'MASTER_CATEGORY'), 
-(8, 'image ...', 'CAT_IMG8', 'cat-1-img-1-small.jpg', 0, 'image 12', 1, 'PACKSHOT', 'SMALL', 1, 30, 'MASTER_CATEGORY'), 
-(9, 'image ...', 'CAT_IMG9', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 40, 'MASTER_CATEGORY'),
-(10, 'image ...', 'CAT_IMG10', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 50, 'MASTER_CATEGORY');
+(1,  'image ...', 'MCAT_BACKGROUND_10', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'BACKGROUND', null, 1, 10, 'MASTER_CATEGORY'), 
+(2,  'image ...', 'MCAT_BACKGROUND_20', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'BACKGROUND', null, 1, 20, 'MASTER_CATEGORY'), 
+(3,  'image ...', 'MCAT_BACKGROUND_30', 'cat-1-img-1.jpg', 0, 'image 7', 1, 'BACKGROUND', null, 1, 30, 'MASTER_CATEGORY'), 
+(4,  'image ...', 'MCAT_BACKGROUND_40', 'cat-1-img-1.jpg', 0, 'image 8', 1, 'BACKGROUND', null, 1, 40, 'MASTER_CATEGORY'), 
+(5,  'image ...', 'MCAT_BACKGROUND_50', 'cat-1-img-1.jpg', 0, 'image 9', 1, 'BACKGROUND', null, 1, 50, 'MASTER_CATEGORY'),
+(6,  'image ...', 'MCAT_PACKSHOT_10', 'cat-1-img-1-small.png', 1, 'image 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'MASTER_CATEGORY'), 
+(7,  'image ...', 'MCAT_PACKSHOT_20', 'cat-1-img-1-small.jpg', 0, 'image 11', 1, 'PACKSHOT', 'SMALL', 1, 20, 'MASTER_CATEGORY'), 
+(8,  'image ...', 'MCAT_PACKSHOT_30', 'cat-1-img-1-small.jpg', 0, 'image 12', 1, 'PACKSHOT', 'SMALL', 1, 30, 'MASTER_CATEGORY'), 
+(9,  'image ...', 'MCAT_PACKSHOT_40', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 40, 'MASTER_CATEGORY'),
+(10, 'image ...', 'MCAT_PACKSHOT_50', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 50, 'MASTER_CATEGORY');
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, virtual_category_id, scope)
  VALUES 
-(11, 'image ...', 'CAT_IMG11', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'BACKGROUND', null, 1, 10, 'VIRTUAL_CATEGORY'), 
-(12, 'image ...', 'CAT_IMG12', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'BACKGROUND', null, 1, 20, 'VIRTUAL_CATEGORY'), 
-(13, 'image ...', 'CAT_IMG13', 'cat-1-img-1.jpg', 0, 'image 7', 1, 'BACKGROUND', null, 1, 30, 'VIRTUAL_CATEGORY'), 
-(14, 'image ...', 'CAT_IMG14', 'cat-1-img-1.jpg', 0, 'image 8', 1, 'BACKGROUND', null, 1, 40, 'VIRTUAL_CATEGORY'), 
-(15, 'image ...', 'CAT_IMG15', 'cat-1-img-1.jpg', 0, 'image 9', 1, 'BACKGROUND', null, 1, 50, 'VIRTUAL_CATEGORY'),
-(16, 'image ...', 'CAT_IMG16', 'cat-1-img-1-small.png', 1, 'image 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'VIRTUAL_CATEGORY'), 
-(17, 'image ...', 'CAT_IMG17', 'cat-1-img-1-small.jpg', 0, 'image 11', 1, 'PACKSHOT', 'SMALL', 1, 20, 'VIRTUAL_CATEGORY'), 
-(18, 'image ...', 'CAT_IMG18', 'cat-1-img-1-small.jpg', 0, 'image 12', 1, 'PACKSHOT', 'SMALL', 1, 30, 'VIRTUAL_CATEGORY'), 
-(19, 'image ...', 'CAT_IMG19', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 40, 'VIRTUAL_CATEGORY'),
-(20, 'image ...', 'CAT_IMG20', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 50, 'VIRTUAL_CATEGORY');
+(11, 'image ...', 'VCAT_BACKGROUND_10', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'BACKGROUND', null, 1, 10, 'VIRTUAL_CATEGORY'), 
+(12, 'image ...', 'VCAT_BACKGROUND_20', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'BACKGROUND', null, 1, 20, 'VIRTUAL_CATEGORY'), 
+(13, 'image ...', 'VCAT_BACKGROUND_30', 'cat-1-img-1.jpg', 0, 'image 7', 1, 'BACKGROUND', null, 1, 30, 'VIRTUAL_CATEGORY'), 
+(14, 'image ...', 'VCAT_BACKGROUND_40', 'cat-1-img-1.jpg', 0, 'image 8', 1, 'BACKGROUND', null, 1, 40, 'VIRTUAL_CATEGORY'), 
+(15, 'image ...', 'VCAT_BACKGROUND_50', 'cat-1-img-1.jpg', 0, 'image 9', 1, 'BACKGROUND', null, 1, 50, 'VIRTUAL_CATEGORY'),
+(16, 'image ...', 'VCAT_PACKSHOT_10', 'cat-1-img-1-small.png', 1, 'image 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'VIRTUAL_CATEGORY'), 
+(17, 'image ...', 'VCAT_PACKSHOT_20', 'cat-1-img-1-small.jpg', 0, 'image 11', 1, 'PACKSHOT', 'SMALL', 1, 20, 'VIRTUAL_CATEGORY'), 
+(18, 'image ...', 'VCAT_PACKSHOT_30', 'cat-1-img-1-small.jpg', 0, 'image 12', 1, 'PACKSHOT', 'SMALL', 1, 30, 'VIRTUAL_CATEGORY'), 
+(19, 'image ...', 'VCAT_PACKSHOT_40', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 40, 'VIRTUAL_CATEGORY'),
+(20, 'image ...', 'VCAT_PACKSHOT_50', 'cat-1-img-1-small.jpg', 0, 'image 13', 1, 'PACKSHOT', 'SMALL', 1, 50, 'VIRTUAL_CATEGORY');
+
+INSERT INTO teco_asset  
+(id, description, code, path, is_default, name, version, type, size, is_global, virtual_category_id, scope)
+ VALUES 
+(301, 'image ...', 'VCAT_SLIDESHOW_301', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'SLIDESHOW', null, 1, 301, 'VIRTUAL_CATEGORY'), 
+(302, 'image ...', 'VCAT_SLIDESHOW_302', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'SLIDESHOW', null, 1, 302, 'VIRTUAL_CATEGORY');
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, product_marketing_id, scope)

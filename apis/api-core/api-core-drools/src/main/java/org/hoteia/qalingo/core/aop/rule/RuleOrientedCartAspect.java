@@ -26,20 +26,23 @@ public class RuleOrientedCartAspect {
     @Autowired
     protected RuleUtil ruleUtil;
     
-    public void beforeRuning(final JoinPoint joinPoint, final HttpServletRequest request) {
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    public void beforeRuning(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
             logger.debug("RuleEcoAspect, beforeRuning");
         }
     }
 
-    public void afterRuning(final StaticPart staticPart, final HttpServletRequest request, final Object result) {
+    public void afterRuning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
             logger.debug("RuleEcoAspect, afterRuning");
         }
         try {
             List<Object> objects = new ArrayList<Object>();
             try {
-                EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+                EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(httpServletRequest);
                 objects.add(engineEcoSession);
             } catch (Exception e) {
                 logger.error("Failed to load EngineEcoSession from Request", e);

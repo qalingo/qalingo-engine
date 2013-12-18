@@ -27,6 +27,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String description;
     protected String backgroundImage;
     protected String carouselImage;
+    protected String slideshowImage;
     protected String iconImage;
     protected boolean isRoot;
     protected int countProduct;
@@ -90,6 +91,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.carouselImage = carouselImage;
     }
 
+    public String getSlideshowImage() {
+        return slideshowImage;
+    }
+    
+    public void setSlideshowImage(String slideshowImage) {
+        this.slideshowImage = slideshowImage;
+    }
+    
     public String getIconImage() {
         return iconImage;
     }

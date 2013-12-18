@@ -24,6 +24,11 @@ public enum AssetType {
 	 */
 	BACKGROUND("BACKGROUND"),
 	
+    /**
+     * 
+     */
+	SLIDESHOW("SLIDESHOW"),
+    
 	/**
 	 * 
 	 */

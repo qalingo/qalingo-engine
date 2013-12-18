@@ -1142,6 +1142,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             catalogCategoryViewBean.setBackgroundImage("");
         }
+        final Asset defaultSlideshowImage = catalogCategory.getDefaultSlideshowImage();
+        if (defaultSlideshowImage != null) {
+            final String slideshowImage = requestUtil.getCatalogImageWebPath(request, defaultSlideshowImage);
+            catalogCategoryViewBean.setSlideshowImage(slideshowImage);
+        } else {
+            catalogCategoryViewBean.setBackgroundImage("");
+        }
+
         final Asset defaultPaskshotImage = catalogCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
         if (defaultPaskshotImage != null) {
             final String carouselImage = requestUtil.getCatalogImageWebPath(request, defaultPaskshotImage);
