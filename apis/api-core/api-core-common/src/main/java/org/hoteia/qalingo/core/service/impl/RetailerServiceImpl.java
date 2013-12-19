@@ -94,6 +94,8 @@ public class RetailerServiceImpl implements RetailerService {
 		retailerDao.deleteRetailer(retailer);
 	}
 	
+    // RETAILER COMMENT/RATE
+	
 	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
 		retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
 	}

@@ -15,6 +15,8 @@ import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 
 public interface ProductService {
 
@@ -40,6 +42,16 @@ public interface ProductService {
 	
 	void deleteProductMarketing(ProductMarketing productMarketing);
 
+    // PRODUCT MARKETING COMMENT/RATE
+    
+    void saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
+    
+    void deleteProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
+    
+    void saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
+    
+    void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
+    
 	// PRODUCT MARKETING ASSET
 	
 	Asset getProductMarketingAssetById(String productMarketingId);

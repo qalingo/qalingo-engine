@@ -14,16 +14,17 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.ProductDao;
+import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.ProductDao;
-import org.hoteia.qalingo.core.domain.ProductBrand;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.service.ProductService;
 
 @Service("productMarketingService")
 @Transactional
@@ -101,6 +102,24 @@ public class ProductServiceImpl implements ProductService {
             return sortedObjects;
         }
         return null;
+    }
+    
+    // PRODUCT MARKETING COMMENT/RATE
+    
+    public void saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        productMarketingDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
+    }
+
+    public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        productMarketingDao.deleteProductMarketingCustomerRate(productMarketingCustomerRate);
+    }
+    
+    public void saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
+        productMarketingDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
+    }
+
+    public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
+        productMarketingDao.deleteProductMarketingCustomerComment(productMarketingCustomerRate);
     }
 
     // PRODUCT MARKETING ASSET

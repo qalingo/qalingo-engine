@@ -22,6 +22,8 @@ import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
+import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,6 +175,36 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	public void deleteProductMarketing(final ProductMarketing productMarketing) {
 		em.remove(productMarketing);
 	}
+	
+    // PRODUCT MARKETING COMMENT/RATE
+	
+    public void saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        if(productMarketingCustomerRate.getId() == null){
+            em.persist(productMarketingCustomerRate);
+        } else {
+            em.merge(productMarketingCustomerRate);
+        }
+    }
+
+    public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        em.remove(productMarketingCustomerRate);
+    }
+    
+    public void saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
+        if(productMarketingCustomerComment.getDateCreate() == null){
+            productMarketingCustomerComment.setDateCreate(new Date());
+        }
+        productMarketingCustomerComment.setDateUpdate(new Date());
+        if(productMarketingCustomerComment.getId() == null){
+            em.persist(productMarketingCustomerComment);
+        } else {
+            em.merge(productMarketingCustomerComment);
+        }
+    }
+
+    public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
+        em.remove(productMarketingCustomerComment);
+    }
 
 	// PRODUCT MARKETING ASSET
 	

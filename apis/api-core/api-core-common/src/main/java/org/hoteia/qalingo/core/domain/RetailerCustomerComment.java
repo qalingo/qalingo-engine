@@ -55,7 +55,7 @@ public class RetailerCustomerComment extends AbstractAddress {
 	private Long retailerId;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="RETAILER_ID")
+    @JoinColumn(name="RETAILER_CUSTOMER_COMMENT_ID")
 	private Set<RetailerCustomerComment> customerComments = new HashSet<RetailerCustomerComment>(); 
 	
 	@Temporal(TemporalType.TIMESTAMP)
