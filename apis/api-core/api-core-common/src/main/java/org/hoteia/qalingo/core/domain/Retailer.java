@@ -108,7 +108,7 @@ public class Retailer extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
-    @OrderBy(clause = "ordering asc")
+    @OrderBy(clause = "ordering asc")    
     private Set<Asset> assets = new HashSet<Asset>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

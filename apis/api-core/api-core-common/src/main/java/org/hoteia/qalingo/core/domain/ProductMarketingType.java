@@ -54,8 +54,8 @@ public class ProductMarketingType extends AbstractEntity {
 	private String code;
 	
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PRODUCT_MARKETING_TYPE_FAMILLY_ID", insertable = false, updatable = false)
-    private ProductMarketingTypeFamilly productMarketingTypeFamilly;
+    @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = false, updatable = false)
+    private ProductMarketingFamilly productMarketingFamilly;
     
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_CREATE")
@@ -108,12 +108,12 @@ public class ProductMarketingType extends AbstractEntity {
 		this.code = code;
 	}
 	
-	public ProductMarketingTypeFamilly getProductMarketingTypeFamilly() {
-        return productMarketingTypeFamilly;
+	public ProductMarketingFamilly getProductMarketingFamilly() {
+        return productMarketingFamilly;
     }
 	
-	public void setProductMarketingTypeFamilly(ProductMarketingTypeFamilly productMarketingTypeFamilly) {
-        this.productMarketingTypeFamilly = productMarketingTypeFamilly;
+	public void setProductMarketingFamilly(ProductMarketingFamilly productMarketingFamilly) {
+        this.productMarketingFamilly = productMarketingFamilly;
     }
 	
 	public Date getDateCreate() {

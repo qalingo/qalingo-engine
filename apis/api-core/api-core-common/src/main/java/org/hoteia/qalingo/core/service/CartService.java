@@ -13,6 +13,12 @@ import org.hoteia.qalingo.core.domain.Cart;
 
 public interface CartService {
 
+    Cart addToCart(Cart cart);
+
+    Cart updateToCart(Cart cart);
+
+    Cart deleteToCart(Cart cart);
+    
 	Cart getCartById(String cartId);
 	
 	void saveOrUpdateCart(Cart cart);

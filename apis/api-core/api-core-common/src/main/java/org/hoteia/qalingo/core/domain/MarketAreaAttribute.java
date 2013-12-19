@@ -70,7 +70,7 @@ public class MarketAreaAttribute extends AbstractAttribute {
 	private String context;
 	
 	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+	private int ordering;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -174,11 +174,11 @@ public class MarketAreaAttribute extends AbstractAttribute {
 	    this.context = context;
     }
 	
-	public Integer getOrdering() {
+	public int getOrdering() {
 		return ordering;
 	}
 	
-	public void setOrdering(Integer ordering) {
+	public void setOrdering(int ordering) {
 		this.ordering = ordering;
 	}
 	
@@ -237,7 +237,6 @@ public class MarketAreaAttribute extends AbstractAttribute {
 	    result = prime * result + ((id == null) ? 0 : id.hashCode());
 	    result = prime * result + ((integerValue == null) ? 0 : integerValue.hashCode());
 	    result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-	    result = prime * result + ((ordering == null) ? 0 : ordering.hashCode());
 	    result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 	    result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
 	    result = prime * result + version;
@@ -304,11 +303,6 @@ public class MarketAreaAttribute extends AbstractAttribute {
 		    if (other.marketAreaId != null)
 			    return false;
 	    } else if (!marketAreaId.equals(other.marketAreaId))
-		    return false;
-	    if (ordering == null) {
-		    if (other.ordering != null)
-			    return false;
-	    } else if (!ordering.equals(other.ordering))
 		    return false;
 	    if (startDate == null) {
 		    if (other.startDate != null)

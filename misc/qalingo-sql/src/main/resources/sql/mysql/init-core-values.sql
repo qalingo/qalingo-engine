@@ -203,7 +203,7 @@ VALUES
 (147, 'TZS', 'Tanzania Shilling', 'TZS', 'Tanzania Shilling', 'TZS','en_US'),
 (148, 'UAH', 'Ukraine Hryvna', 'UAH', 'Ukraine Hryvna', 'UAH','en_US'),
 (149, 'UGX', 'Uganda Shilling', 'UGX', 'Uganda Shilling', 'UGX','en_US'),
-(150, 'USD', 'United States Dollar', 'USD', 'United States Dollar', '$','en_US'),
+(150, 'USD', 'United States Dollar', 'USD', 'Dollar', '$','en_US'),
 (151, 'UYU', 'Uruguay Peso', 'UYU', 'Uruguay Peso', 'UYU','en_US'),
 (152, 'UZS', 'Uzbekistan Som', 'UZS', 'Uzbekistan Som', 'UZS','en_US'),
 (153, 'VEF', 'Venezuela Bolivar', 'VEF', 'Venezuela Bolivar', 'VEF','en_US'),
