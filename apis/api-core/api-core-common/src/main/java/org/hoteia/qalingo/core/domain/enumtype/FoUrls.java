@@ -61,21 +61,30 @@ public enum FoUrls {
     WISHLIST_REMOVE_ITEM(FoUrls.WISHLIST_REMOVE_ITEM_URL, FoUrls.WISHLIST_REMOVE_ITEM_KEY, FoUrls.WISHLIST_REMOVE_ITEM_VELOCITY_PAGE, true),
 
     CART_DETAILS(FoUrls.CART_DETAILS_URL, FoUrls.CART_DETAILS_KEY, FoUrls.CART_DETAILS_VELOCITY_PAGE, true),
-    CART_ADD_ITEM(FoUrls.CART_ADD_PRODUCT_URL, FoUrls.CART_ADD_PRODUCT_KEY, FoUrls.CART_ADD_PRODUCT_VELOCITY_PAGE, true),
-    CART_REMOVE_ITEM(FoUrls.CART_REMOVE_ITEM_URL, FoUrls.CART_REMOVE_ITEM_KEY, FoUrls.CART_REMOVE_ITEM_VELOCITY_PAGE, true),
+    CART_MULTIPLE_ADD_ITEM(FoUrls.CART_MULTIPLE_ADD_PRODUCT_URL, FoUrls.CART_MULTIPLE_ADD_PRODUCT_KEY, null, true),
+    CART_ADD_ITEM(FoUrls.CART_ADD_PRODUCT_URL, FoUrls.CART_ADD_PRODUCT_KEY, null, true),
+    CART_REMOVE_ITEM(FoUrls.CART_REMOVE_ITEM_URL, FoUrls.CART_REMOVE_ITEM_KEY, null, true),
     CART_AUTH(FoUrls.CART_AUTH_URL, FoUrls.CART_AUTH_KEY, FoUrls.LOGIN_VELOCITY_PAGE, true),
     CART_CREATE_ACCOUNT(FoUrls.CART_CREATE_ACCOUNT_URL, FoUrls.CART_CREATE_ACCOUNT_KEY, FoUrls.CUSTOMER_CREATE_ACCOUNT_VELOCITY_PAGE, true),
     CART_DELIVERY(FoUrls.CART_DELIVERY_URL, FoUrls.CART_DELIVERY_KEY, FoUrls.CART_DELIVERY_VELOCITY_PAGE, true),
     CART_ORDER_PAYMENT(FoUrls.CART_ORDER_PAYMENT_URL, FoUrls.CART_ORDER_PAYMENT_KEY, FoUrls.CART_ORDER_PAYMENT_VELOCITY_PAGE, true),
     CART_ORDER_CONFIRMATION(FoUrls.CART_ORDER_CONFIRMATION_URL, FoUrls.CART_ORDER_CONFIRMATION_KEY, FoUrls.CART_ORDER_CONFIRMATION_VELOCITY_PAGE, true),
 
+    GET_CART_AJAX(FoUrls.GET_CART_AJAX_URL, FoUrls.GET_CART_AJAX_KEY, null, false),
+    UPDATE_CART_ITEM_AJAX(FoUrls.UPDATE_CART_ITEM_AJAX_URL, FoUrls.UPDATE_CART_ITEM_AJAX_KEY, null, false),
+    DELETE_CART_ITEM_AJAX(FoUrls.DELETE_CART_ITEM_AJAX_URL, FoUrls.DELETE_CART_ITEM_AJAX_KEY, null, false),
+    APPLY_PROMO_CODE_AJAX(FoUrls.APPLY_PROMO_CODE_AJAX_URL, FoUrls.APPLY_PROMO_CODE_AJAX_KEY, null, false),
+    SET_SHIPPING_ADDRESS_AJAX(FoUrls.SET_SHIPPING_ADDRESS_AJAX_URL, FoUrls.SET_SHIPPING_ADDRESS_AJAX_KEY, null, false),
+    SET_BILLING_ADDRESS_AJAX(FoUrls.SET_BILLING_ADDRESS_AJAX_URL, FoUrls.SET_BILLING_ADDRESS_AJAX_KEY, null, false),
+    SET_DELIVERY_METHOD_AJAX(FoUrls.SET_DELIVERY_METHOD_AJAX_URL, FoUrls.SET_DELIVERY_METHOD_AJAX_KEY, null, false),
+   
     FORBIDDEN(FoUrls.FORBIDDEN_URL, FoUrls.FORBIDDEN_KEY, FoUrls.FORBIDDEN_VELOCITY_PAGE, true),
     FORGOTTEN_PASSWORD(FoUrls.FORGOTTEN_PASSWORD_URL, FoUrls.FORGOTTEN_PASSWORD_KEY, FoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, true),
     RESET_PASSWORD(FoUrls.RESET_PASSWORD_URL, FoUrls.RESET_PASSWORD_KEY, FoUrls.RESET_PASSWORD_VELOCITY_PAGE, true),
     CANCEL_RESET_PASSWORD(FoUrls.CANCEL_RESET_PASSWORD_URL, FoUrls.CANCEL_RESET_PASSWORD_KEY, FoUrls.CANCEL_RESET_PASSWORD_VELOCITY_PAGE, true),
     TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE, true),
 
-    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, true),
+    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, false),
     ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE, true),
     ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE, true),
     ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE, true),
@@ -261,13 +270,14 @@ public enum FoUrls {
 	public static final String CART_DETAILS_URL					= "/**/cart-details.html";
 	public static final String CART_DETAILS_VELOCITY_PAGE		= "cart/cart-details";
 
-	public static final String CART_ADD_PRODUCT_KEY				= "add-to-cart";
-	public static final String CART_ADD_PRODUCT_URL				= "/**/add-to-cart.html";
-	public static final String CART_ADD_PRODUCT_VELOCITY_PAGE	= "";
+    public static final String CART_MULTIPLE_ADD_PRODUCT_KEY    = "multiple-add-to-cart";
+    public static final String CART_MULTIPLE_ADD_PRODUCT_URL    = "/**/multiple-add-to-cart.html";
+
+    public static final String CART_ADD_PRODUCT_KEY             = "add-to-cart";
+    public static final String CART_ADD_PRODUCT_URL             = "/**/add-to-cart.html";
 
 	public static final String CART_REMOVE_ITEM_KEY				= "remove-from-cart";
 	public static final String CART_REMOVE_ITEM_URL				= "/**/remove-from-cart.html";
-	public static final String CART_REMOVE_ITEM_VELOCITY_PAGE	= "";
 
 	public static final String CART_AUTH_KEY					= "cart-auth";
 	public static final String CART_AUTH_URL					= "/**/cart-auth.html";
@@ -287,6 +297,27 @@ public enum FoUrls {
 	public static final String CART_ORDER_CONFIRMATION_URL				= "/**/cart-order-confirmation.html";
 	public static final String CART_ORDER_CONFIRMATION_VELOCITY_PAGE	= "cart/cart-order-confirmation";
 	
+    public static final String GET_CART_AJAX_KEY                        = "get-cart-ajax";
+    public static final String GET_CART_AJAX_URL                        = "/**/get-cart.ajax";
+
+    public static final String UPDATE_CART_ITEM_AJAX_KEY                = "update-item-quantity-ajax";
+    public static final String UPDATE_CART_ITEM_AJAX_URL                = "/**/update-item-quantity.ajax";
+
+    public static final String DELETE_CART_ITEM_AJAX_KEY                = "delete-item-ajax";
+    public static final String DELETE_CART_ITEM_AJAX_URL                = "/**/delete-item.ajax";
+
+    public static final String APPLY_PROMO_CODE_AJAX_KEY                = "apply-promo-code-ajax";
+    public static final String APPLY_PROMO_CODE_AJAX_URL                = "/**/apply-promo-code.ajax";
+
+    public static final String SET_SHIPPING_ADDRESS_AJAX_KEY            = "set-shipping-address-ajax";
+    public static final String SET_SHIPPING_ADDRESS_AJAX_URL            = "/**/set-shipping-address.ajax";
+
+    public static final String SET_BILLING_ADDRESS_AJAX_KEY             = "set-billing-address-ajax";
+    public static final String SET_BILLING_ADDRESS_AJAX_URL             = "/**/set-billing-address.ajax";
+
+    public static final String SET_DELIVERY_METHOD_AJAX_KEY             = "set-delivery-method-ajax";
+    public static final String SET_DELIVERY_METHOD_AJAX_URL             = "/**/set-delivery-method.ajax";
+
 	public static final String FORBIDDEN_KEY				= "forbidden";
 	public static final String FORBIDDEN_URL				= "/**/forbidden.html";
 	public static final String FORBIDDEN_VELOCITY_PAGE		= "security/forbidden";

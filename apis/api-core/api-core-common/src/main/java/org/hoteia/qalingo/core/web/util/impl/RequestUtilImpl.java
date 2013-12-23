@@ -14,11 +14,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +27,6 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractEngineSession;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
-import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -250,6 +247,21 @@ public class RequestUtilImpl implements RequestUtil {
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
+    /**
+    * 
+    */
+    public String getLastRequestForEmptyCartUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
+        final List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add("login");
+        excludedPatterns.add("auth");
+        excludedPatterns.add("logout");
+        excludedPatterns.add("timeout");
+        excludedPatterns.add("forbidden");
+        excludedPatterns.add("cart");
+        String lastUrl = getLastRequestUrl(request, excludedPatterns, fallbackUrl);
+        return lastUrl;
+    }
+    
     /**
     * 
     */
@@ -529,95 +541,6 @@ public class RequestUtilImpl implements RequestUtil {
         engineEcoSession.updateCart(cart);
         updateCurrentEcoSession(request, engineEcoSession);
     }
-//
-//    /**
-//     * 
-//     */
-//    public void updateCurrentCart(final RequestData requestData, final String skuCode, final int quantity) throws Exception {
-//        updateCurrentCart(requestData, null, skuCode, quantity);
-//    }
-//    
-//    /**
-//     * 
-//     */
-//    public void updateCurrentCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
-//        final HttpServletRequest request = requestData.getRequest();
-//        
-//        // SANITY CHECK : sku code is empty or null : no sense
-//        if (StringUtils.isEmpty(productSkuCode)) {
-//            throw new Exception("");
-//        }
-//
-//        // SANITY CHECK : quantity is equal zero : no sense
-//        if (quantity == 0) {
-//            throw new Exception("");
-//        }
-//
-//        final Cart cart = requestData.getCart();
-//        Set<CartItem> cartItems = cart.getCartItems();
-//        boolean productSkuIsNew = true;
-//        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-//            CartItem cartItem = (CartItem) iterator.next();
-//            if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
-//                int newQuantity = cartItem.getQuantity() + quantity;
-//                cartItem.setQuantity(newQuantity);
-//                productSkuIsNew = false;
-//            }
-//        }
-//        if (productSkuIsNew) {
-//            CartItem cartItem = new CartItem();
-//            
-//            final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
-//            cartItem.setProductSkuCode(productSkuCode);
-//            cartItem.setProductSku(productSku);
-//            
-//            final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-//            cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
-//            cartItem.setProductMarketing(reloadedProductMarketing);
-//            
-//            cartItem.setQuantity(quantity);
-//            if(catalogCategoryCode != null){
-//                CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
-//                cartItem.setCatalogCategoryCode(catalogCategoryCode);
-//                cartItem.setCatalogCategory(catalogCategory);
-//            } else {
-//                if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
-//                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-//                    if(catalogCategory != null){
-//                        cartItem.setCatalogCategoryCode(catalogCategory.getCode());
-//                        cartItem.setCatalogCategory(catalogCategory);
-//                    }
-//                }
-//            }
-//            cart.getCartItems().add(cartItem);
-//        }
-//        updateCurrentCart(request, cart);
-//
-//        // TODO update session/cart db ?
-//    }
-//
-//    /**
-//     * 
-//     */
-//    public void updateCurrentCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
-//        final HttpServletRequest request = requestData.getRequest();
-//        final Cart cart = requestData.getCart();
-//        cart.setBillingAddressId(billingAddressId);
-//        cart.setShippingAddressId(shippingAddressId);
-//        updateCurrentCart(request, cart);
-//
-//        // TODO update session/cart db ?
-//    }
-//
-//    /**
-//     * 
-//     */
-//    public void cleanCurrentCart(final HttpServletRequest request) throws Exception {
-//        Cart cart = new Cart();
-//        updateCurrentCart(request, cart);
-//
-//        // TODO update session/cart db ?
-//    }
 
     /**
      * 
@@ -638,26 +561,6 @@ public class RequestUtilImpl implements RequestUtil {
             engineEcoSession.setLastOrder(order);
             updateCurrentEcoSession(request, engineEcoSession);
         }
-    }
-
-    /**
-     * 
-     */
-    public void removeCartItemFromCurrentCart(final RequestData requestData, final String skuCode) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final Cart cart = requestData.getCart();
-        Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
-        for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
-                cartItems.remove(cartItem);
-            }
-        }
-        cart.setCartItems(cartItems);
-        updateCurrentCart(request, cart);
-
-        // TODO update session/cart db ?
-
     }
 
     /**
@@ -763,25 +666,6 @@ public class RequestUtilImpl implements RequestUtil {
         }
         return localization;
     }
-
-//    /**
-//     * 
-//     */
-//    public Locale getCurrentLocale(final HttpServletRequest request) throws Exception {
-//        Localization localization = getCurrentMarketAreaLocalization(request);
-//        if (localization != null) {
-//            return localization.getLocale();
-//        } else {
-//            logger.warn("Current Locale is null and it is not possible. Need to reset session.");
-//            if (isBackoffice()) {
-//                initDefaultBoMarketPlace(request);
-//            } else {
-//                initDefaultEcoMarketPlace(request);
-//            }
-//            localization = getCurrentMarketAreaLocalization(request);
-//            return localization.getLocale();
-//        }
-//    }
 
     /**
      * 

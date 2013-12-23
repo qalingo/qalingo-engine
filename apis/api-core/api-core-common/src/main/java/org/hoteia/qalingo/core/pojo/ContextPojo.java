@@ -18,6 +18,16 @@ public class ContextPojo {
     private String userCode;
     private String companyCode;
     
+    private int cartMaxItemQuantity;
+    
+    public int getCartMaxItemQuantity() {
+        return cartMaxItemQuantity;
+    }
+    
+    public void setCartMaxItemQuantity(int cartMaxItemQuantity) {
+        this.cartMaxItemQuantity = cartMaxItemQuantity;
+    }
+    
     private List<UrlPojo> urls = new ArrayList<UrlPojo>();
     
     public List<UrlPojo> getUrls() {

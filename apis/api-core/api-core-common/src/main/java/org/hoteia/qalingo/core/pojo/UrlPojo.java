@@ -4,6 +4,7 @@ public class UrlPojo {
 
     private String code;
     private String url;
+    private String method;
     
     public String getCode() {
         return code;
@@ -19,6 +20,14 @@ public class UrlPojo {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+    
+    public String getMethod() {
+        return method;
+    }
+    
+    public void setMethod(String method) {
+        this.method = method;
     }
     
 }

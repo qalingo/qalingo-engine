@@ -12,9 +12,13 @@ package org.hoteia.qalingo.web.mvc.controller.eco;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
-import org.hoteia.qalingo.core.pojo.cart.CheckoutPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoErrorPojo;
 import org.hoteia.qalingo.core.service.pojo.CartPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
@@ -36,70 +40,154 @@ public class CartAjaxController extends AbstractMCommerceController {
     @Autowired
     protected CartPojoService cartPojoService;
 
-    @RequestMapping(value = "/get-cart.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo getCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo getCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        injectCart(requestData, checkout);
         return checkout;
     }
 
-    @RequestMapping(value = "/update-item-quantity.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.UPDATE_CART_ITEM_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo updateItemQuantity(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo updateItemQuantity(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_CODE);
+        final String quantity = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_QUANTITY);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        try {
+            int quantityValue = Integer.parseInt(quantity);
+            webManagementService.updateCart(requestData, productSkuCode, quantityValue);
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-update-quantity");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+            return checkout;
+        }
+        injectCart(requestData, checkout);
         return checkout;
     }
     
-    @RequestMapping(value = "/delete-item.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.DELETE_CART_ITEM_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo deleteItem(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo deleteItem(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_CODE);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        try {
+            webManagementService.deleteCartItem(requestData, productSkuCode);
+            
+            final Cart cart = requestData.getCart();
+            if(cart != null
+                    && cart.getTotalCartItems() == 0){
+                FoErrorPojo error = new FoErrorPojo();
+                error.setId("warning-empty-cart");
+                error.setMessage("Your cart is empty");
+                checkout.getErrors().add(error);
+            }
+            
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-delete-item");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+            return checkout;
+        }
+        injectCart(requestData, checkout);
         return checkout;
     }
     
-    @RequestMapping(value = "/set-shipping-address.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.APPLY_PROMO_CODE_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo setShippingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo applyPromoCode(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        injectCart(requestData, checkout);
         return checkout;
     }
     
-    @RequestMapping(value = "/set-billing-address.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.SET_SHIPPING_ADDRESS_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo setBillingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo setShippingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final String shippingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_SHIPPING_ADDRESS_GUID);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        try {
+//            webManagementService.deleteCartItem(requestData, productSkuCode);
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-set-shipping-address");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+            return checkout;
+        }
+        injectCart(requestData, checkout);
         return checkout;
     }
     
-    @RequestMapping(value = "/set-delivery-method.json", method = RequestMethod.GET)
+    @RequestMapping(value = FoUrls.SET_BILLING_ADDRESS_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public CheckoutPojo setDeliveryMethod(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public FoCheckoutPojo setBillingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final CheckoutPojo checkout = new CheckoutPojo();
-        checkout.setStatuts(true);
-        CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
-        checkout.setCart(cart);
+        final String billingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_BILLING_ADDRESS_GUID);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        try {
+//            webManagementService.deleteCartItem(requestData, productSkuCode);
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-set-billing-address");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+            return checkout;
+        }
+        injectCart(requestData, checkout);
         return checkout;
+    }
+    
+    @RequestMapping(value = FoUrls.SET_DELIVERY_METHOD_AJAX_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public FoCheckoutPojo setDeliveryMethod(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+        final FoCheckoutPojo checkout = new FoCheckoutPojo();
+        try {
+//            webManagementService.deleteCartItem(requestData, productSkuCode);
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-set-delivery-method");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+            return checkout;
+        }
+        injectCart(requestData, checkout);
+        return checkout;
+    }
+    
+    private void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
+        try {
+            CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
+            checkout.setCart(cart);
+            
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-cart");
+            error.setMessage(e.getMessage());
+            checkout.getErrors().add(error);
+            checkout.setStatuts(false);
+        }
     }
 
 }

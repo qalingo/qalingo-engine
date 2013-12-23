@@ -240,7 +240,7 @@ public class Cart extends AbstractEntity {
         return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
     }
 
-    public BigDecimal getCartItemsTotal() {
+    public BigDecimal getCartItemTotal() {
         BigDecimal cartItemsTotal = new BigDecimal("0");
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             final CartItem cartItem = (CartItem) iterator.next();
@@ -250,7 +250,7 @@ public class Cart extends AbstractEntity {
     }
 
     public String getCartItemTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemsTotal());
+        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
     }
 
     public BigDecimal getTaxTotal() {
@@ -277,7 +277,7 @@ public class Cart extends AbstractEntity {
 
     public BigDecimal getCartTotal() {
         BigDecimal carTotal = new BigDecimal("0");
-        carTotal = carTotal.add(getCartItemsTotal());
+        carTotal = carTotal.add(getCartItemTotal());
         carTotal = carTotal.add(getDeliveryMethodTotal());
         carTotal = carTotal.add(getTaxTotal());
         return carTotal;

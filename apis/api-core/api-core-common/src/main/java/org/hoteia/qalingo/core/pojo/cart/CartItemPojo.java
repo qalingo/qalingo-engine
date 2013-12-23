@@ -23,6 +23,7 @@ public class CartItemPojo {
     private Long id;
     private int quantity;
     private String productSkuCode;
+    
     private CartItemPricePojo cartItemPrice;
     private Set<CartItemTaxPojo> taxes = new HashSet<CartItemTaxPojo>();
     private ProductSkuPojo productSku;
@@ -31,9 +32,7 @@ public class CartItemPojo {
     private String catalogCategoryCode;
     private CatalogCategoryPojo catalogCategory;
     private ProductSkuPricePojo price;
-    private String priceWithStandardCurrencySign;
     private BigDecimal totalAmountCartItem;
-    private String totalAmountWithStandardCurrencySign;
     
 	public CartItemPojo(){
 	}
@@ -126,14 +125,6 @@ public class CartItemPojo {
         this.price = price;
     }
 
-    public String getPriceWithStandardCurrencySign() {
-        return priceWithStandardCurrencySign;
-    }
-
-    public void setPriceWithStandardCurrencySign(String priceWithStandardCurrencySign) {
-        this.priceWithStandardCurrencySign = priceWithStandardCurrencySign;
-    }
-
     public BigDecimal getTotalAmountCartItem() {
         return totalAmountCartItem;
     }
@@ -141,13 +132,5 @@ public class CartItemPojo {
     public void setTotalAmountCartItem(BigDecimal totalAmountCartItem) {
         this.totalAmountCartItem = totalAmountCartItem;
     }
-
-    public String getTotalAmountWithStandardCurrencySign() {
-        return totalAmountWithStandardCurrencySign;
-    }
-
-    public void setTotalAmountWithStandardCurrencySign(String totalAmountWithStandardCurrencySign) {
-        this.totalAmountWithStandardCurrencySign = totalAmountWithStandardCurrencySign;
-    }
-
+    
 }

@@ -26,6 +26,46 @@ public class CartActionsController extends AbstractMCommerceController {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequestMapping(FoUrls.CART_MULTIPLE_ADD_PRODUCT_URL)
+    public ModelAndView multipleAddToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final String skuCodes = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_SKU_CODES);
+        final String quantities = request.getParameter(RequestConstants.REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITIES);
+        if(StringUtils.isNotEmpty(skuCodes)){
+            try {
+                String[] splitSkuCodes = skuCodes.split(";");
+                String[] splitQuantities = null;
+                if(StringUtils.isNotEmpty(quantities)){
+                    splitQuantities = skuCodes.split(";");
+                }
+                for (int i = 0; i < splitSkuCodes.length; i++) {
+                    String skuCode = splitSkuCodes[i];
+                    int quantity = 1;
+                    try {
+                        if(splitQuantities != null){
+                            quantity = Integer.parseInt(splitQuantities[i]);
+                        }
+                        webManagementService.updateCart(requestData, skuCode, quantity);
+                    } catch (Exception e) {
+                        logger.error("Error to add product sku to cart, skuCode:" + skuCode, e);
+                    }
+                }
+                
+            } catch (Exception e) {
+                logger.error("Error to add product sku to cart.", e);
+            }
+            
+            final String url = urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request));
+            return new ModelAndView(new RedirectView(url));
+        }
+        List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(FoUrls.CART_ADD_PRODUCT_URL);
+        String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
+        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
+        return new ModelAndView(new RedirectView(lastRequestUrl));
+    }
+    
     @RequestMapping(FoUrls.CART_ADD_PRODUCT_URL)
     public ModelAndView addToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -35,11 +75,10 @@ public class CartActionsController extends AbstractMCommerceController {
         if(StringUtils.isNotEmpty(skuCode)){
             try {
                 if(StringUtils.isNotEmpty(categoryCode)){
-                    webManagementService.updateCurrentCart(requestData, categoryCode, skuCode, 1);
+                    webManagementService.updateCart(requestData, categoryCode, skuCode, 1);
                     
                 } else {
-                    webManagementService.updateCurrentCart(requestData, skuCode, 1);
-                    
+                    webManagementService.updateCart(requestData, skuCode, 1);
                 }
                 
             } catch (Exception e) {
@@ -61,9 +100,8 @@ public class CartActionsController extends AbstractMCommerceController {
     public ModelAndView removeFromCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
-        
-        requestUtil.removeCartItemFromCurrentCart(requestData, skuCode);
+        final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
+        webManagementService.deleteCartItem(requestData, productSkuCode);
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
     }

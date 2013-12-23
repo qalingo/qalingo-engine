@@ -98,7 +98,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID);
+		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID);
 		modelAndView.addObject("engineSettingId",engineSettingId);
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
@@ -127,7 +127,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID);
+        final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID);
         if(StringUtils.isNotEmpty(engineSettingValueId)){
             final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
             if(engineSettingValue != null){
@@ -170,7 +170,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_ADD_URL, method = RequestMethod.POST)
     public ModelAndView submitEngineSettingValueAdd(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID);
+        final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID);
         final EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
  
         EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
@@ -196,7 +196,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     }
      
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_ADD_URL, method = RequestMethod.GET)
-    public ModelAndView engineSettingValueAdd(final HttpServletRequest request, final HttpServletResponse response, @RequestParam(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID) final String engineSettingId) throws Exception{
+    public ModelAndView engineSettingValueAdd(final HttpServletRequest request, final HttpServletResponse response, @RequestParam(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID) final String engineSettingId) throws Exception{
     	ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_VALUE_ADD.getVelocityPage());
     	modelAndView.addObject("pageContextPath", request.getContextPath());
     	

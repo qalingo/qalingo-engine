@@ -1,6 +1,6 @@
 package org.hoteia.qalingo.core.pojo.cart;
 
-public class ErrorPojo {
+public class FoErrorPojo {
 
     private String id;
     private String message;

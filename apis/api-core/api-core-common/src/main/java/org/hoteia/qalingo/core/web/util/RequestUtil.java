@@ -125,6 +125,11 @@ public interface RequestUtil {
     /**
      * 
      */
+    String getLastRequestForEmptyCartUrl(HttpServletRequest request, String fallbackUrl) throws Exception;
+    
+    /**
+     * 
+     */
     String getRequestUrl(HttpServletRequest request, List<String> excludedPatterns, int position) throws Exception;
 
     /**
@@ -175,27 +180,7 @@ public interface RequestUtil {
     /**
      * 
      */
-    void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception;
-
-//    /**
-//     * 
-//     */
-//    void updateCurrentCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;
-//
-//    /**
-//     * 
-//     */
-//    void updateCurrentCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
-//
-//    /**
-//     * 
-//     */
-//    void updateCurrentCart(RequestData requestData, Long billingAddressId, Long shippingAddressId) throws Exception;
-//
-//    /**
-//     * 
-//     */
-//    void cleanCurrentCart(HttpServletRequest request) throws Exception;
+    void updateCurrentCart(HttpServletRequest request, Cart cart) throws Exception;
 
     /**
      * 
@@ -206,11 +191,6 @@ public interface RequestUtil {
      * 
      */
     void saveLastOrder(RequestData requestData, OrderCustomer order) throws Exception;
-
-    /**
-     * 
-     */
-    void removeCartItemFromCurrentCart(RequestData requestData, String skuCode) throws Exception;
 
     // /**
     // *

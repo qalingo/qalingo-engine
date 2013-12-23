@@ -106,14 +106,7 @@ public class WebManagementServiceImpl implements WebManagementService {
     /**
      * 
      */
-    public void updateCurrentCart(final RequestData requestData, final String skuCode, final int quantity) throws Exception {
-        updateCurrentCart(requestData, null, skuCode, quantity);
-    }
-    
-    /**
-     * 
-     */
-    public void updateCurrentCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+    public void updateCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
         // SANITY CHECK : sku code is empty or null : no sense
@@ -132,47 +125,74 @@ public class WebManagementServiceImpl implements WebManagementService {
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             CartItem cartItem = (CartItem) iterator.next();
             if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
-                int newQuantity = cartItem.getQuantity() + quantity;
-                cartItem.setQuantity(newQuantity);
+                cartItem.setQuantity(quantity);
                 productSkuIsNew = false;
             }
         }
         if (productSkuIsNew) {
-            CartItem cartItem = new CartItem();
-            
             final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
-            cartItem.setProductSkuCode(productSkuCode);
-            cartItem.setProductSku(productSku);
-            
-            final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-            cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
-            cartItem.setProductMarketing(reloadedProductMarketing);
-            
-            cartItem.setQuantity(quantity);
-            if(catalogCategoryCode != null){
-                CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
-                cartItem.setCatalogCategoryCode(catalogCategoryCode);
-                cartItem.setCatalogCategory(catalogCategory);
-            } else {
-                if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
-                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-                    if(catalogCategory != null){
-                        cartItem.setCatalogCategoryCode(catalogCategory.getCode());
-                        cartItem.setCatalogCategory(catalogCategory);
+            if(productSku != null){
+                CartItem cartItem = new CartItem();
+                cartItem.setProductSkuCode(productSkuCode);
+                cartItem.setProductSku(productSku);
+                
+                final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+                cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
+                cartItem.setProductMarketing(reloadedProductMarketing);
+                
+                cartItem.setQuantity(quantity);
+                if(catalogCategoryCode != null){
+                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
+                    cartItem.setCatalogCategoryCode(catalogCategoryCode);
+                    cartItem.setCatalogCategory(catalogCategory);
+                } else {
+                    if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
+                        CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+                        if(catalogCategory != null){
+                            cartItem.setCatalogCategoryCode(catalogCategory.getCode());
+                            cartItem.setCatalogCategory(catalogCategory);
+                        }
                     }
                 }
+                cart.getCartItems().add(cartItem);
+            } else {
+                // TODO : throw ??
             }
-            cart.getCartItems().add(cartItem);
+
         }
         requestUtil.updateCurrentCart(request, cart);
 
         // TODO update session/cart db ?
     }
-
+    
     /**
      * 
      */
-    public void updateCurrentCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
+    public void updateCart(final RequestData requestData, final String skuCode, final int quantity) throws Exception {
+        updateCart(requestData, null, skuCode, quantity);
+    }
+    
+    /**
+     * 
+     */
+    public void deleteCartItem(final RequestData requestData, final String skuCode) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Cart cart = requestData.getCart();
+        Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
+        for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
+            CartItem cartItem = (CartItem) iterator.next();
+            if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
+                cartItems.remove(cartItem);
+            }
+        }
+        cart.setCartItems(cartItems);
+        requestUtil.updateCurrentCart(request, cart);
+    }
+    
+    /**
+     * 
+     */
+    public void updateCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
         cart.setBillingAddressId(billingAddressId);
@@ -185,14 +205,14 @@ public class WebManagementServiceImpl implements WebManagementService {
     /**
      * 
      */
-    public void cleanCurrentCart(final HttpServletRequest request) throws Exception {
+    public void cleanCart(final HttpServletRequest request) throws Exception {
         Cart cart = new Cart();
         requestUtil.updateCurrentCart(request, cart);
 
         // TODO update session/cart db ?
     }    
     
-    
+
     
     
     
@@ -655,7 +675,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         orderCustomer = orderCustomerService.createNewOrder(orderCustomer);
         
         // Clean Cart
-        cleanCurrentCart(request);
+        cleanCart(request);
 
         requestUtil.saveLastOrder(requestData, orderCustomer);
         

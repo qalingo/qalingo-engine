@@ -124,6 +124,8 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,6 +138,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements ViewBeanFactory {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     @Autowired
     protected RequestUtil requestUtil;
 
@@ -190,6 +194,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setPersonalDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+
+        commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
 
         commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(requestData, marketPlace));
         commonViewBean.setCurrentMarket(buildMarketViewBean(requestData, market));
@@ -1082,7 +1088,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         Long customerAddressId = customerAddress.getId();
 
         Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID, customerAddressId.toString());
+        urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
 
         customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
         customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
@@ -1526,7 +1532,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //            orderViewBean.setOrderTotalWithCurrencySign(formatter.format(orderTotal));
 
             Map<String, String> getParams = new HashMap<String, String>();
-            getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, order.getId().toString());
+            getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
 
             orderViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, getParams));
         }

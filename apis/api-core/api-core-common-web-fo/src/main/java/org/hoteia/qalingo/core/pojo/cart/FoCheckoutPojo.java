@@ -3,11 +3,13 @@ package org.hoteia.qalingo.core.pojo.cart;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckoutPojo {
+public class FoCheckoutPojo {
 
-    private boolean statuts;
+    private boolean statuts = true;
     private CartPojo cart;
-    
+
+    private List<FoErrorPojo> errors = new ArrayList<FoErrorPojo>();
+
     public boolean isStatuts() {
         return statuts;
     }
@@ -24,13 +26,11 @@ public class CheckoutPojo {
         this.cart = cart;
     }
     
-    private List<ErrorPojo> errors = new ArrayList<ErrorPojo>();
-    
-    public List<ErrorPojo> getErrors() {
+    public List<FoErrorPojo> getErrors() {
         return errors;
     }
     
-    public void setErrors(List<ErrorPojo> errors) {
+    public void setErrors(List<FoErrorPojo> errors) {
         this.errors = errors;
     }
     

@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hoteia.qalingo.core.pojo.CurrencyReferentialPojo;
+import org.hoteia.qalingo.core.pojo.RulePojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.tax.TaxPojo;
 
@@ -31,14 +32,19 @@ public class CartPojo {
     private Long shippingAddressId;
     
     private Set<CartItemPojo> cartItems = new HashSet<CartItemPojo>();
+    private BigDecimal cartItemTotal;
+    private String cartItemTotalWithStandardCurrencySign;
+
     private Set<DeliveryMethodPojo> deliveryMethods = new HashSet<DeliveryMethodPojo>();
-    private Set<TaxPojo> taxes = new HashSet<TaxPojo>();
-    
     private BigDecimal deliveryMethodTotal;
     private String deliveryMethodTotalWithStandardCurrencySign;
-    private BigDecimal cartItemsTotal;
+
+    private Set<TaxPojo> taxes = new HashSet<TaxPojo>();
     private BigDecimal taxTotal;
     private String taxTotalWithStandardCurrencySign;
+
+    private Set<RulePojo> rules = new HashSet<RulePojo>();
+
     private BigDecimal cartTotal;
     private String cartTotalWithStandardCurrencySign;
     
@@ -135,6 +141,22 @@ public class CartPojo {
         return 0;
     }
 
+    public BigDecimal getCartItemTotal() {
+        return cartItemTotal;
+    }
+
+    public void setCartItemTotal(BigDecimal cartItemTotal) {
+        this.cartItemTotal = cartItemTotal;
+    }
+    
+    public String getCartItemTotalWithStandardCurrencySign() {
+        return cartItemTotalWithStandardCurrencySign;
+    }
+    
+    public void setCartItemTotalWithStandardCurrencySign(String cartItemTotalWithStandardCurrencySign) {
+        this.cartItemTotalWithStandardCurrencySign = cartItemTotalWithStandardCurrencySign;
+    }
+    
     public Set<DeliveryMethodPojo> getDeliveryMethods() {
         return deliveryMethods;
     }
@@ -142,15 +164,7 @@ public class CartPojo {
     public void setDeliveryMethods(Set<DeliveryMethodPojo> deliveryMethods) {
         this.deliveryMethods = deliveryMethods;
     }
-
-    public Set<TaxPojo> getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(Set<TaxPojo> taxes) {
-        this.taxes = taxes;
-    }
-
+    
     public BigDecimal getDeliveryMethodTotal() {
         return deliveryMethodTotal;
     }
@@ -167,14 +181,14 @@ public class CartPojo {
         this.deliveryMethodTotalWithStandardCurrencySign = deliveryMethodTotalWithStandardCurrencySign;
     }
 
-    public BigDecimal getCartItemsTotal() {
-        return cartItemsTotal;
+    public Set<TaxPojo> getTaxes() {
+        return taxes;
     }
-
-    public void setCartItemsTotal(BigDecimal cartItemsTotal) {
-        this.cartItemsTotal = cartItemsTotal;
+    
+    public void setTaxes(Set<TaxPojo> taxes) {
+        this.taxes = taxes;
     }
-
+    
     public BigDecimal getTaxTotal() {
         return taxTotal;
     }
@@ -191,6 +205,14 @@ public class CartPojo {
         this.taxTotalWithStandardCurrencySign = taxTotalWithStandardCurrencySign;
     }
 
+    public Set<RulePojo> getRules() {
+        return rules;
+    }
+    
+    public void setRules(Set<RulePojo> rules) {
+        this.rules = rules;
+    }
+    
     public BigDecimal getCartTotal() {
         return cartTotal;
     }

@@ -66,7 +66,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.PERSONAL_DELETE_ADDRESS_URL)
 	public ModelAndView customerDeleteAddress(final HttpServletRequest request, final Model model) throws Exception {
-		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
+		final String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID);
 		
 		try {
 			webManagementService.deleteAddressCustomer( requestUtil.getRequestData(request), customerAddressId);
@@ -127,7 +127,7 @@ public class CustomerAddressController extends AbstractCustomerController {
 		model.addAttribute("customerAdresses", customerAdressesViewBean);
 		
 
-		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID);
+		String customerAddressId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID);
 		if(StringUtils.isEmpty(customerAddressId)){
 			customerAddressId = customerAddressForm.getIdOrGuid();
 		}
