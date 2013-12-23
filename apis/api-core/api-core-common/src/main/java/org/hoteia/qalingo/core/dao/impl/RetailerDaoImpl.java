@@ -184,6 +184,8 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		em.remove(retailer);
 	}
 	
+    // RETAILER COMMENT/RATE
+	
 	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
 		if(retailerCustomerRate.getId() == null){
 			em.persist(retailerCustomerRate);

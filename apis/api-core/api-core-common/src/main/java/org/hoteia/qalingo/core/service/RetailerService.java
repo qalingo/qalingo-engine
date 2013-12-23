@@ -48,6 +48,8 @@ public interface RetailerService {
 	
 	void deleteRetailer(Retailer retailer);
 	
+    // RETAILER COMMENT/RATE
+	
 	void saveOrUpdateRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
 	
 	void deleteRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
