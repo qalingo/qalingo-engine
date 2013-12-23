@@ -75,6 +75,7 @@ public enum FoUrls {
     CANCEL_RESET_PASSWORD(FoUrls.CANCEL_RESET_PASSWORD_URL, FoUrls.CANCEL_RESET_PASSWORD_KEY, FoUrls.CANCEL_RESET_PASSWORD_VELOCITY_PAGE, true),
     TIMEOUT(FoUrls.TIMEOUT_URL, FoUrls.TIMEOUT_KEY, FoUrls.TIMEOUT_VELOCITY_PAGE, true),
 
+    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, true),
     ERROR_500(FoUrls.ERROR_500_URL, FoUrls.ERROR_500_KEY, FoUrls.ERROR_500_VELOCITY_PAGE, true),
     ERROR_400(FoUrls.ERROR_400_URL, FoUrls.ERROR_400_KEY, FoUrls.ERROR_400_VELOCITY_PAGE, true),
     ERROR_403(FoUrls.ERROR_403_URL, FoUrls.ERROR_403_KEY, FoUrls.ERROR_403_VELOCITY_PAGE, true),
@@ -309,6 +310,10 @@ public enum FoUrls {
 	public static final String CANCEL_RESET_PASSWORD_VELOCITY_PAGE			= "";
 
 	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
+
+    public static final String CONTEXT_KEY            = "context";
+    public static final String CONTEXT_URL            = "/**/fo-context.config"; // WARN: *.config pattern must be without any web cache
+    public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
 
     public static final String ERROR_500_KEY            = "error-500";
     public static final String ERROR_500_URL            = "/**/500.html";

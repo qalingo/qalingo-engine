@@ -14,6 +14,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class MarketAttribute extends AbstractAttribute {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID")
 	private AttributeDefinition attributeDefinition;
 	

@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +43,7 @@ public class EngineSettingValue extends AbstractEntity {
 	@Column(name="VALUE")
 	private String value;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ENGINE_SETTING_ID")
 	private EngineSetting engineSetting;
 	

@@ -59,7 +59,7 @@ public class Cart extends AbstractEntity {
     @Column(name = "RETAILER_ID")
     private Long retailerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = false, updatable = false)
     private CurrencyReferential currency;
 
@@ -81,7 +81,7 @@ public class Cart extends AbstractEntity {
     private Set<CartItem> cartItems = new HashSet<CartItem>();
 
     @Transient
-    private Set<DeliveryMethod> shippings = new HashSet<DeliveryMethod>();
+    private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
 
     @Transient
     private Set<Tax> taxes = new HashSet<Tax>();
@@ -192,12 +192,12 @@ public class Cart extends AbstractEntity {
         return 0;
     }
 
-    public Set<DeliveryMethod> getShippings() {
-        return shippings;
+    public Set<DeliveryMethod> getDeliveryMethods() {
+        return deliveryMethods;
     }
 
-    public void setShippings(Set<DeliveryMethod> shippings) {
-        this.shippings = shippings;
+    public void setDeliveryMethods(Set<DeliveryMethod> deliveryMethods) {
+        this.deliveryMethods = deliveryMethods;
     }
 
     public Set<Tax> getTaxes() {
@@ -225,7 +225,7 @@ public class Cart extends AbstractEntity {
     }
 
     public BigDecimal getDeliveryMethodTotal() {
-        final Set<DeliveryMethod> deliveryMethods = getShippings();
+        final Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
         BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
         if (deliveryMethods != null) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
@@ -240,19 +240,17 @@ public class Cart extends AbstractEntity {
         return getCurrency().formatPriceWithStandardCurrencySign(getDeliveryMethodTotal());
     }
 
-    public BigDecimal getCartItemTotal() {
+    public BigDecimal getCartItemsTotal() {
         BigDecimal cartItemsTotal = new BigDecimal("0");
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
             final CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getPrice() != null) {
-                cartItemsTotal = cartItemsTotal.add(cartItem.getPrice().getSalePrice());
-            }
+            cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId(), getRetailerId()));
         }
         return cartItemsTotal;
     }
 
     public String getCartItemTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
+        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemsTotal());
     }
 
     public BigDecimal getTaxTotal() {
@@ -279,13 +277,14 @@ public class Cart extends AbstractEntity {
 
     public BigDecimal getCartTotal() {
         BigDecimal carTotal = new BigDecimal("0");
-        carTotal.add(getCartItemTotal());
-        carTotal.add(getDeliveryMethodTotal());
-        carTotal.add(getTaxTotal());
+        carTotal = carTotal.add(getCartItemsTotal());
+        carTotal = carTotal.add(getDeliveryMethodTotal());
+        carTotal = carTotal.add(getTaxTotal());
         return carTotal;
     }
 
     public String getCartTotalWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
     }
+
 }

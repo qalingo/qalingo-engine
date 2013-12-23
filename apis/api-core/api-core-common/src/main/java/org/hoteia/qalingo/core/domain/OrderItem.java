@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,7 +44,7 @@ public class OrderItem extends AbstractEntity {
 	@Column(name="PRODUCT_SKU_CODE")
 	private String productSkuCode;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
 	private ProductSku productSku;
 

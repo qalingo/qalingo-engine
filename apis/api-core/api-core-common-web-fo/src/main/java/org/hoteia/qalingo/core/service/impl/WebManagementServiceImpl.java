@@ -633,6 +633,8 @@ public class WebManagementServiceImpl implements WebManagementService {
         
         OrderCustomer orderCustomer = new OrderCustomer();
         orderCustomer.setStatus(OrderCustomer.ORDER_STATUS_PENDING);
+        orderCustomer.setMarketAreaId(cart.getMarketAreaId());
+        orderCustomer.setRetailerId(cart.getRetailerId());
         orderCustomer.setCustomerId(customer.getId());
         orderCustomer.setBillingAddressId(cart.getBillingAddressId());
         orderCustomer.setShippingAddressId(cart.getShippingAddressId());
@@ -644,7 +646,7 @@ public class WebManagementServiceImpl implements WebManagementService {
             OrderItem orderItem = new OrderItem();
             orderItem.setProductSkuCode(cartItem.getProductSkuCode());
             orderItem.setProductSku(cartItem.getProductSku());
-            orderItem.setPrice(cartItem.getPrice().getSalePrice());
+            orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItems.add(orderItem);
         }

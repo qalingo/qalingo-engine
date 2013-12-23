@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -54,7 +53,7 @@ public class ProductAssociationLink extends AbstractEntity {
 	@Enumerated(EnumType.STRING) 
 	private ProductAssociationLinkType type;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
 	private ProductMarketing productMarketing;
 	

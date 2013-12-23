@@ -19,7 +19,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ChangeContextController extends AbstractFrontofficeQalingoController {
 
 	@RequestMapping(FoUrls.CHANGE_LANGUAGE_URL)
-	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView changeLanguage(final HttpServletRequest request) throws Exception {
 	    final RequestData requestData = requestUtil.getRequestData(request);
 	    
         List<String> excludedPatterns = new ArrayList<String>();
@@ -58,7 +57,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	}
 	
 	@RequestMapping(FoUrls.CHANGE_CONTEXT_URL)
-	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView changeContext(final HttpServletRequest request) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         List<String> excludedPatterns = new ArrayList<String>();

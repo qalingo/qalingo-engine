@@ -147,7 +147,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         return null;
     }
     
-    public Cart newCart() {
+    public Cart addNewCart() {
         Cart cart = new Cart();
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
@@ -156,7 +156,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         return cart;
     }
     
-    public Cart resetCart() {
+    public Cart resetCurrentCart() {
         Cart cart = getCart();
         cart = new Cart();
         cart.setMarketAreaId(getCurrentMarketArea().getId());
@@ -165,12 +165,11 @@ public class EngineEcoSession extends AbstractEngineSession {
         return cart;
     }
     
-    public Cart setCart(final Cart cart) {
-        if(carts != null
-                && cart != null){
-            carts.add(cart);
-        }
-        return null;
+    public Cart updateCart(Cart cart) {
+        Cart cartToUpdate = getCart();
+        cartToUpdate = cart;
+        this.carts.add(cartToUpdate);
+        return cartToUpdate;
     }
     
     public void setCarts(Set<Cart> carts) {

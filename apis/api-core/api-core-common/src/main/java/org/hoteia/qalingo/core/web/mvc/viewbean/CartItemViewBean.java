@@ -19,6 +19,7 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -7032831815877311774L;
 	
 	protected String skuCode;
+    protected String summaryImage;
 	protected String i18nName;
 	protected int quantity;
 	protected String unitPriceWithCurrencySign;
@@ -35,6 +36,14 @@ public class CartItemViewBean extends AbstractViewBean implements Serializable {
 	public void setSkuCode(String skuCode) {
 		this.skuCode = skuCode;
 	}
+	
+	public String getSummaryImage() {
+        return summaryImage;
+    }
+	
+	public void setSummaryImage(String summaryImage) {
+        this.summaryImage = summaryImage;
+    }
 	
 	public String getI18nName() {
         return i18nName;

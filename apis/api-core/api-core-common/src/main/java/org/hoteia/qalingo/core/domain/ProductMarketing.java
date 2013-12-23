@@ -36,7 +36,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
@@ -68,11 +67,11 @@ public class ProductMarketing extends AbstractEntity {
     @Column(name = "CODE", nullable = false)
     private String code;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BRAND_ID", insertable = false, updatable = false)
     private ProductBrand productBrand;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_MARKETING_TYPE_ID", insertable = false, updatable = false)
     private ProductMarketingType productMarketingType;
 
@@ -92,7 +91,7 @@ public class ProductMarketing extends AbstractEntity {
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryVirtual defaultCatalogCategory;
 
@@ -429,14 +428,14 @@ public class ProductMarketing extends AbstractEntity {
     }
 
 	// ASSET
-	public Asset getDefaultPaskshotImage(ImageSize size) {
+	public Asset getDefaultPaskshotImage(String size) {
 		Asset defaultProductImage = null;
 		if(getAssetsIsGlobal() != null
 				&& size != null){
 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
 				Asset productAsset = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productAsset.getType())
-						&& size.equals(productAsset.getSize())
+						&& size.equals(productAsset.getSize().name())
 						&& productAsset.isDefault()){
 					defaultProductImage = productAsset;
 				}
@@ -444,7 +443,7 @@ public class ProductMarketing extends AbstractEntity {
 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productImage.getType())
-						&& size.equals(productImage.getSize())){
+						&& size.equals(productImage.getSize().name())){
 					defaultProductImage = productImage;
 				}
 			}

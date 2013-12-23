@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,11 +59,11 @@ public class Tax extends AbstractEntity {
 	@Column(name="PERCENT")
 	private BigDecimal percent;
 	
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAX_TYPE_ID", insertable = false, updatable = false)
     private TaxType taxType;
     
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="TAX_ID")
 	private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>(); 
 	

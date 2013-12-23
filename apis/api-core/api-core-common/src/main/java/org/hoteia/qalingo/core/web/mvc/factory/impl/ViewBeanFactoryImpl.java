@@ -1275,7 +1275,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productMarketingViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             final String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
             productMarketingViewBean.setCarouselImage(carouselImage);
@@ -1353,7 +1353,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         // SUB PART : Shippings
         final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
-        final Set<DeliveryMethod> deliveryMethods = cart.getShippings();
+        final Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
         if (deliveryMethods != null) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
@@ -1387,10 +1387,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //        }
         
         
-        cartViewBean.setCartItemsTotal(cart.getCartItemTotalWithStandardCurrencySign());
-        cartViewBean.setCartShippingTotal(cart.getDeliveryMethodTotalWithStandardCurrencySign());
-        cartViewBean.setCartFeesTotal(cart.getTaxTotalWithStandardCurrencySign());
-        cartViewBean.setCartTotal(cart.getCartTotalWithStandardCurrencySign());
+        cartViewBean.setCartItemsTotalWithCurrencySign(cart.getCartItemTotalWithStandardCurrencySign());
+        cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
+        cartViewBean.setCartFeesTotalWithCurrencySign(cart.getTaxTotalWithStandardCurrencySign());
+        cartViewBean.setCartTotalWithCurrencySign(cart.getCartTotalWithStandardCurrencySign());
 
         return cartViewBean;
     }
@@ -1399,7 +1399,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     private CartItemViewBean buildCartItemViewBean(final RequestData requestData, final CartItem cartItem) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         
@@ -1409,15 +1411,23 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         cartItemViewBean.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
+        final Asset defaultPaskshotImage = cartItem.getProductSku().getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            String summaryImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
+            cartItemViewBean.setSummaryImage(summaryImage);
+        } else {
+            cartItemViewBean.setSummaryImage("");
+        }
+        
         // UNIT PRICE
-        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign());
+        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
         // FEES AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
         
         //...
         
         // TOTAL AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
-        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign());
+        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
@@ -1574,7 +1584,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productAssociationLinkViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
             productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
@@ -1628,7 +1638,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productSkuViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             String carouselImage = requestUtil.getProductSkuImageWebPath(request, defaultPaskshotImage);
             productSkuViewBean.setCarouselImage(carouselImage);

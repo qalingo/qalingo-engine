@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,8 +52,8 @@ public class ProductMarketingType extends AbstractEntity {
 	@Column(name="CODE")
 	private String code;
 	
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = false, updatable = false)
     private ProductMarketingFamilly productMarketingFamilly;
     
 	@Temporal(TemporalType.TIMESTAMP)

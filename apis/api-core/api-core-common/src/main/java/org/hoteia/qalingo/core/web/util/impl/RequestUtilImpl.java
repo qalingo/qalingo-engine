@@ -526,12 +526,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        for (Iterator<Cart> iterator = engineEcoSession.getCarts().iterator(); iterator.hasNext();) {
-            Cart cartEngineEcoSession = (Cart) iterator.next();
-            if(cartEngineEcoSession.getId().equals(cart.getId())){
-                cartEngineEcoSession = cart;
-            }
-        }
+        engineEcoSession.updateCart(cart);
         updateCurrentEcoSession(request, engineEcoSession);
     }
 //
@@ -1661,9 +1656,8 @@ public class RequestUtilImpl implements RequestUtil {
         Cart cart = engineEcoSession.getCart();
         if (cart == null) {
             // Init a new empty Cart with a default configuration
-            engineEcoSession.newCart();
+            engineEcoSession.addNewCart();
         }
-        engineEcoSession.setCart(cart);
         updateCurrentEcoSession(request, engineEcoSession);
     }
 
@@ -1674,7 +1668,7 @@ public class RequestUtilImpl implements RequestUtil {
     protected void resetCart(final HttpServletRequest request) throws Exception {
         // Reset Cart
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        engineEcoSession.resetCart();
+        engineEcoSession.resetCurrentCart();
         updateCurrentEcoSession(request, engineEcoSession);
     }
 

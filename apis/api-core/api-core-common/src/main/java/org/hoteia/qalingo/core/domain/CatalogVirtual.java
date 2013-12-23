@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,173 +35,163 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CATALOG_VIRTUAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_CATALOG_VIRTUAL", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class CatalogVirtual extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -1012950853049724224L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -1012950853049724224L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="BUSINESS_NAME")
-	private String businessName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="CODE", nullable=false)
-	private String code;
-	
-	@OneToOne(mappedBy="catalog")
-	private MarketArea marketArea;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MASTER_CATALOG_ID", insertable=false, updatable=false)
-	private CatalogMaster catalogMaster;
-	
-	@ManyToMany(
-	        targetEntity=org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class,
-       		fetch = FetchType.LAZY,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_CATALOG_VIRTUAL_CATEGORY_VIRTUAL_REL",
-	        joinColumns=@JoinColumn(name="VIRTUAL_CATALOG_ID"),
-	        inverseJoinColumns=@JoinColumn(name="VIRTUAL_CATEGORY_ID")
-	    )	
-	private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "BUSINESS_NAME")
+    private String businessName;
 
-	public CatalogVirtual(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	public String getBusinessName() {
-		return businessName;
-	}
-	
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
-	
-	public boolean isDefault() {
-		return isDefault;
-	}
+    @OneToOne(mappedBy = "catalog")
+    private MarketArea marketArea;
 
-	public String getDescription() {
-		return description;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MASTER_CATALOG_ID", insertable = false, updatable = false)
+    private CatalogMaster catalogMaster;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    @ManyToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "TECO_CATALOG_VIRTUAL_CATEGORY_VIRTUAL_REL", joinColumns = @JoinColumn(name = "VIRTUAL_CATALOG_ID"), inverseJoinColumns = @JoinColumn(name = "VIRTUAL_CATEGORY_ID"))
+    private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
 
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public MarketArea getMarketArea() {
-		return marketArea;
-	}
-	
-	public void setMarketArea(MarketArea marketArea) {
-		this.marketArea = marketArea;
-	}
-	
-	public CatalogMaster getCatalogMaster() {
-		return catalogMaster;
-	}
-	
-	public void setCatalogMaster(CatalogMaster catalogMaster) {
-		this.catalogMaster = catalogMaster;
-	}
-	
-	public Set<CatalogCategoryVirtual> getCatalogCategories() {
-		return catalogCategories;
-	}
-	
-	public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
-		List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-		Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
-			@Override
-			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-				if(o1 != null
-						&& o2 != null){
-					Integer order1 = o1.getOrder(marketAreaId);
-					Integer order2 = o2.getOrder(marketAreaId);
-					if(order1 != null
-							&& order2 != null){
-						return order1.compareTo(order2);				
-					} else {
-						return o1.getId().compareTo(o2.getId());	
-					}
-				}
-				return 0;
-			}
-		});
-		return sortedObjects;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
-		this.catalogCategories = catalogCategories;
-	}
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public CatalogVirtual() {
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-	
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public MarketArea getMarketArea() {
+        return marketArea;
+    }
+
+    public void setMarketArea(MarketArea marketArea) {
+        this.marketArea = marketArea;
+    }
+
+    public CatalogMaster getCatalogMaster() {
+        return catalogMaster;
+    }
+
+    public void setCatalogMaster(CatalogMaster catalogMaster) {
+        this.catalogMaster = catalogMaster;
+    }
+
+    public Set<CatalogCategoryVirtual> getCatalogCategories() {
+        return catalogCategories;
+    }
+
+    public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
+        List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+        Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
+            @Override
+            public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+                if (o1 != null && o2 != null) {
+                    Integer order1 = o1.getOrder(marketAreaId);
+                    Integer order2 = o2.getOrder(marketAreaId);
+                    if (order1 != null && order2 != null) {
+                        return order1.compareTo(order2);
+                    } else {
+                        return o1.getId().compareTo(o2.getId());
+                    }
+                }
+                return 0;
+            }
+        });
+        return sortedObjects;
+    }
+
+    public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
+        this.catalogCategories = catalogCategories;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }
