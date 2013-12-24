@@ -230,7 +230,10 @@ public class Cart extends AbstractEntity {
         if (deliveryMethods != null) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(deliveryMethod.getPrice(getMarketAreaId(), getRetailerId()));
+                BigDecimal price = deliveryMethod.getPrice(getMarketAreaId(), getRetailerId());
+                if(price != null){
+                    cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
+                }
             }
         }
         return cartDeliveryMethodTotal;

@@ -9,16 +9,23 @@
  */
 package org.hoteia.qalingo.core.service.pojo.impl;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogMaster;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
+import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
+import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
+import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 import org.hoteia.qalingo.core.service.CartService;
-import org.hoteia.qalingo.core.service.pojo.CartPojoService;
+import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +33,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service("cartPojoService")
+@Service("checkoutPojoService")
 @Transactional(readOnly = true)
-public class CartPojoServiceImpl implements CartPojoService {
+public class CheckoutPojoServiceImpl implements CheckoutPojoService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -60,6 +67,12 @@ public class CartPojoServiceImpl implements CartPojoService {
         }
         
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
+    }
+    
+    public List<DeliveryMethodPojo> getAvailableDeliveryMethods(final MarketArea marketArea) {
+        final List<DeliveryMethod> deliveryMethods = new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods());
+        logger.debug("Found {} deliveryMethods", deliveryMethods.size());
+        return PojoUtil.mapAll(dozerBeanMapper, deliveryMethods, DeliveryMethodPojo.class);
     }
 
 }

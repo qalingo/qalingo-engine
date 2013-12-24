@@ -60,8 +60,8 @@ public class DeliveryMethod extends AbstractEntity {
     private String deliveryTime;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "SHIPPING_ID")
-    private Set<DeliveryMethodCountry> deliveryMethodCountries = new HashSet<DeliveryMethodCountry>();
+    @JoinColumn(name = "DELIVERY_METHOD_ID")
+    private Set<DeliveryMethodCountry> countries = new HashSet<DeliveryMethodCountry>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DELIVERY_METHOD_ID")
@@ -126,12 +126,12 @@ public class DeliveryMethod extends AbstractEntity {
         this.deliveryTime = deliveryTime;
     }
 
-    public Set<DeliveryMethodCountry> getDeliveryMethodCountries() {
-        return deliveryMethodCountries;
+    public Set<DeliveryMethodCountry> getCountries() {
+        return countries;
     }
-
-    public void setDeliveryMethodCountries(Set<DeliveryMethodCountry> deliveryMethodCountries) {
-        this.deliveryMethodCountries = deliveryMethodCountries;
+    
+    public void setCountries(Set<DeliveryMethodCountry> countries) {
+        this.countries = countries;
     }
 
     public Set<DeliveryMethodPrice> getPrices() {

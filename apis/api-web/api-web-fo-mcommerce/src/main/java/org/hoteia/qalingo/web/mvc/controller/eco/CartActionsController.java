@@ -105,4 +105,5 @@ public class CartActionsController extends AbstractMCommerceController {
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
     }
+    
 }

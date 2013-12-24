@@ -9,17 +9,21 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.eco;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoErrorPojo;
-import org.hoteia.qalingo.core.service.pojo.CartPojoService;
+import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
+import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +42,7 @@ public class CartAjaxController extends AbstractMCommerceController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected CartPojoService cartPojoService;
+    protected CheckoutPojoService checkoutPojoService;
 
     @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
@@ -158,9 +162,14 @@ public class CartAjaxController extends AbstractMCommerceController {
     @ResponseBody
     public FoCheckoutPojo setDeliveryMethod(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+        final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_DELIVERY_METHOD_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
+            final MarketArea marketArea = requestData.getMarketArea();
+            final Cart cart = requestData.getCart();
+            cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+            requestUtil.updateCurrentCart(request, cart);
+            
 //            webManagementService.deleteCartItem(requestData, productSkuCode);
         } catch (Exception e) {
             logger.error("", e);
@@ -177,9 +186,12 @@ public class CartAjaxController extends AbstractMCommerceController {
     
     private void injectCart(final RequestData requestData, final FoCheckoutPojo checkout){
         try {
-            CartPojo cart = (CartPojo) cartPojoService.handleCartMapping(requestData.getCart());
+            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             checkout.setCart(cart);
-            
+
+            List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(requestData.getMarketArea());
+            checkout.setAvailableDeliveryMethods(availableDeliveryMethods);
+
         } catch (Exception e) {
             logger.error("", e);
             FoErrorPojo error = new FoErrorPojo();

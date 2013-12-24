@@ -434,7 +434,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         if (getAssetsIsGlobal() != null) {
             for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType()) && productImage.isDefault()) {
+                if (AssetType.BACKGROUND.equals(productImage.getType()) 
+                        && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
@@ -453,7 +454,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         if (getAssetsIsGlobal() != null) {
             for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.equals(productImage.getType()) && productImage.isDefault()) {
+                if (AssetType.SLIDESHOW.equals(productImage.getType()) 
+                        && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
@@ -472,13 +474,16 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         if (getAssetsIsGlobal() != null && StringUtils.isNotEmpty(size)) {
             for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productAsset = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productAsset.getType()) && size.equals(productAsset.getSize()) && productAsset.isDefault()) {
+                if (AssetType.PACKSHOT.equals(productAsset.getType()) 
+                        && size.equals(productAsset.getSize().name()) 
+                        && productAsset.isDefault()) {
                     defaultProductImage = productAsset;
                 }
             }
             for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productImage.getType()) && size.equals(productImage.getSize())) {
+                if (AssetType.PACKSHOT.equals(productImage.getType()) 
+                        && size.equals(productImage.getSize().name())) {
                     defaultProductImage = productImage;
                 }
             }
@@ -491,7 +496,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         if (getAssetsIsGlobal() != null) {
             for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.ICON.equals(productImage.getType()) && productImage.isDefault()) {
+                if (AssetType.ICON.equals(productImage.getType()) 
+                        && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }

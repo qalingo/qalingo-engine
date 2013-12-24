@@ -152,6 +152,11 @@ public class EngineEcoSession extends AbstractEngineSession {
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
+        
+        if(getCurrentCustomer() != null){
+            cart.setCustomerId(getCurrentCustomer().getId());
+        }
+        
         this.carts.add(cart);
         return cart;
     }

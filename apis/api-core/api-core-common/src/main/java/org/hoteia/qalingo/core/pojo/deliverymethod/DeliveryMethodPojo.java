@@ -9,7 +9,6 @@
  */
 package org.hoteia.qalingo.core.pojo.deliverymethod;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -90,34 +89,6 @@ public class DeliveryMethodPojo {
         return prices;
     }
 
-    public DeliveryMethodPricePojo getDeliveryMethodPrice(final Long marketAreaId, final Long retailerId){
-        if(prices != null){
-            for (DeliveryMethodPricePojo deliveryMethodPrice : prices) {
-                if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
-                        && deliveryMethodPrice.getRetailerId().equals(retailerId)) {
-                    return deliveryMethodPrice;
-                }
-            }    
-        }
-        return null;
-    }
-    
-    public BigDecimal getPrice(final Long marketAreaId, final Long retailerId){
-        DeliveryMethodPricePojo deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
-        if(deliveryMethodPrice != null){
-            return deliveryMethodPrice.getPrice(); 
-        }
-        return null;
-    }
-    
-    public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId){
-        DeliveryMethodPricePojo deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
-        if(deliveryMethodPrice != null){
-            return deliveryMethodPrice.getPriceWithStandardCurrencySign(); 
-        }
-        return null;
-    }
-    
     public void setPrices(Set<DeliveryMethodPricePojo> prices) {
         this.prices = prices;
     }

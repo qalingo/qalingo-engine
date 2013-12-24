@@ -58,8 +58,8 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 		
-		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+//		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+//		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
 		modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 4);
 		
