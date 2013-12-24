@@ -27,13 +27,15 @@ import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
 public interface WebManagementService {
 
-    void updateCurrentCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;
+    void updateCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
+
+    void updateCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;
     
-    void updateCurrentCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
-    
-    void updateCurrentCart(RequestData requestData, Long billingAddressId, Long shippingAddressId) throws Exception;
-    
-    void cleanCurrentCart(HttpServletRequest request) throws Exception;
+    void updateCart(RequestData requestData, Long billingAddressId, Long shippingAddressId) throws Exception;
+
+    void deleteCartItem(RequestData requestData, String productSkuCode) throws Exception;
+
+    void cleanCart(HttpServletRequest request) throws Exception;
     
 	CustomerCredential flagCustomerCredentialWithToken(RequestData requestData, Customer customer) throws Exception;
 

@@ -89,7 +89,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return displayOrderDelivery(request, response);
         }
 
-        webManagementService.updateCurrentCart(requestData, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
+        webManagementService.updateCart(requestData, Long.parseLong(cartForm.getBillingAddressId()), Long.parseLong(cartForm.getShippingAddressId()));
 
         final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_PAYMENT, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

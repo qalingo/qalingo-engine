@@ -133,20 +133,20 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         break;
                     } else if (param instanceof EngineSetting) {
                         EngineSetting engineSetting = (EngineSetting) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_ID, handleParamValue(engineSetting.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID, handleParamValue(engineSetting.getId().toString()));
                         break;
                     } else if (param instanceof EngineSettingValue) {
                         EngineSettingValue engineSettingValue = (EngineSettingValue) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID, handleParamValue(engineSettingValue.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID, handleParamValue(engineSettingValue.getId().toString()));
                         break;
                     } else if (param instanceof AbstractPaymentGateway) {
                         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID, handleParamValue(paymentGateway.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID, handleParamValue(paymentGateway.getId().toString()));
                         break;
                     } else if (param instanceof User
                             && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
                         User user = (User) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_USER_ID, handleParamValue(user.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_USER_GUID, handleParamValue(user.getId().toString()));
                         break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;

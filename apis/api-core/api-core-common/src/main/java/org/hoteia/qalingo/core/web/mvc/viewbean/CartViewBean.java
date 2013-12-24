@@ -28,10 +28,10 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 
 	private String addNewAddressUrl;
 
-	private String cartItemsTotal;
-	private String cartShippingTotal;
-	private String cartFeesTotal;
-	private String cartTotal;
+	private String cartItemsTotalWithCurrencySign;
+	private String cartShippingTotalWithCurrencySign;
+	private String cartFeesTotalWithCurrencySign;
+	private String cartTotalWithCurrencySign;
 	
 	private List<CartItemViewBean> cartItems = new ArrayList<CartItemViewBean>();
 	private List<CartDeliveryMethodViewBean> cartDeliveryMethods = new ArrayList<CartDeliveryMethodViewBean>();
@@ -89,39 +89,39 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 		this.addNewAddressUrl = addNewAddressUrl;
 	}
 	
-	public String getCartItemsTotal() {
-		return cartItemsTotal;
-	}
+	public String getCartItemsTotalWithCurrencySign() {
+        return cartItemsTotalWithCurrencySign;
+    }
 
-	public void setCartItemsTotal(String cartItemsTotal) {
-		this.cartItemsTotal = cartItemsTotal;
-	}
+    public void setCartItemsTotalWithCurrencySign(String cartItemsTotalWithCurrencySign) {
+        this.cartItemsTotalWithCurrencySign = cartItemsTotalWithCurrencySign;
+    }
 
-	public String getCartShippingTotal() {
-		return cartShippingTotal;
-	}
+    public String getCartShippingTotalWithCurrencySign() {
+        return cartShippingTotalWithCurrencySign;
+    }
 
-	public void setCartShippingTotal(String cartShippingTotal) {
-		this.cartShippingTotal = cartShippingTotal;
-	}
+    public void setCartShippingTotalWithCurrencySign(String cartShippingTotalWithCurrencySign) {
+        this.cartShippingTotalWithCurrencySign = cartShippingTotalWithCurrencySign;
+    }
 
-	public String getCartFeesTotal() {
-		return cartFeesTotal;
-	}
+    public String getCartFeesTotalWithCurrencySign() {
+        return cartFeesTotalWithCurrencySign;
+    }
 
-	public void setCartFeesTotal(String cartFeesTotal) {
-		this.cartFeesTotal = cartFeesTotal;
-	}
+    public void setCartFeesTotalWithCurrencySign(String cartFeesTotalWithCurrencySign) {
+        this.cartFeesTotalWithCurrencySign = cartFeesTotalWithCurrencySign;
+    }
 
-	public String getCartTotal() {
-		return cartTotal;
-	}
+    public String getCartTotalWithCurrencySign() {
+        return cartTotalWithCurrencySign;
+    }
 
-	public void setCartTotal(String cartTotal) {
-		this.cartTotal = cartTotal;
-	}
+    public void setCartTotalWithCurrencySign(String cartTotalWithCurrencySign) {
+        this.cartTotalWithCurrencySign = cartTotalWithCurrencySign;
+    }
 
-	public List<CartItemViewBean> getCartItems() {
+    public List<CartItemViewBean> getCartItems() {
 		return cartItems;
 	}
 	

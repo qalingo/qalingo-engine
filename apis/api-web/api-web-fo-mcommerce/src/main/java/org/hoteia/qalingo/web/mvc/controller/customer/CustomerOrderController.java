@@ -94,7 +94,7 @@ public class CustomerOrderController extends AbstractCustomerController {
 	public ModelAndView removeFromWishlist(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_ORDER_DETAILS.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final String orderCustomerId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID);
+		final String orderCustomerId = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID);
 		if(StringUtils.isNotEmpty(orderCustomerId)){
 			final OrderCustomer orderCustomer = orderCustomerService.getOrderById(orderCustomerId);
 			if(orderCustomer != null){

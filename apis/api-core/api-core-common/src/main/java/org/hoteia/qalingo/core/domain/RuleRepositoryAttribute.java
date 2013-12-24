@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,13 +41,13 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
 	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
 	private int version;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID")
 	private AttributeDefinition attributeDefinition;
 	
-	@ManyToOne
-    @JoinColumn(name="RULE_REFERENTIAL_ID", insertable=false, updatable=false)
-	private AbstractRuleReferential ruleReferential;
+//	@ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name="RULE_REFERENTIAL_ID", insertable=false, updatable=false)
+//	private AbstractRuleReferential ruleReferential;
 	
 	@Column(name="STRING_VALUE")
 	private String stringValue;
@@ -94,13 +95,13 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 	
-	public AbstractRuleReferential getRuleReferential() {
-		return ruleReferential;
-	}
-
-	public void setRuleReferential(AbstractRuleReferential ruleReferential) {
-		this.ruleReferential = ruleReferential;
-	}
+//	public AbstractRuleReferential getRuleReferential() {
+//		return ruleReferential;
+//	}
+//
+//	public void setRuleReferential(AbstractRuleReferential ruleReferential) {
+//		this.ruleReferential = ruleReferential;
+//	}
 
 	public String getStringValue() {
 		return stringValue;
@@ -165,8 +166,6 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
 		result = prime * result
 				+ ((integerValue == null) ? 0 : integerValue.hashCode());
 		result = prime * result
-				+ ((ruleReferential == null) ? 0 : ruleReferential.hashCode());
-		result = prime * result
 				+ ((stringValue == null) ? 0 : stringValue.hashCode());
 		result = prime * result + version;
 		return result;
@@ -208,11 +207,6 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
 				return false;
 		} else if (!integerValue.equals(other.integerValue))
 			return false;
-		if (ruleReferential == null) {
-			if (other.ruleReferential != null)
-				return false;
-		} else if (!ruleReferential.equals(other.ruleReferential))
-			return false;
 		if (stringValue == null) {
 			if (other.stringValue != null)
 				return false;
@@ -226,7 +220,7 @@ public class RuleRepositoryAttribute extends AbstractAttribute {
 	@Override
 	public String toString() {
 		return "RuleRepositoryAttribute [id=" + id + ", version=" + version
-				+ ", ruleReferential=" + ruleReferential + ", stringValue="
+				+ ", stringValue="
 				+ stringValue + ", integerValue=" + integerValue
 				+ ", doubleValue=" + doubleValue + ", floatValue=" + floatValue
 				+ ", blobValue=" + Arrays.toString(blobValue)

@@ -14,6 +14,7 @@ import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CartDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.slf4j.Logger;
@@ -54,9 +55,37 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	}
 	   
     private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("session", FetchMode.JOIN); 
-        criteria.setFetchMode("cartItems", FetchMode.JOIN); 
-        criteria.setFetchMode("shippings", FetchMode.JOIN); 
+        criteria.setFetchMode("session", FetchMode.JOIN);
+        criteria.setFetchMode("cartItems", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productSku.productSkuAttributes", "productSkuAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productSku.assets", "productSkuAssets", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSkuAssets", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productSku.prices", "productSkuPrices", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSkuPrices", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productSku.stocks", "productSkuStocks", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSkuStocks", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productMarketing", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productMarketing", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productMarketing.productMarketingAttributes", "productMarketingAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productMarketingAttributes", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.productMarketing.assets", "productMarketingAssets", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productMarketingAssets", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.catalogCategory.catalogCategoryAttributes", "catalogCategoryAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("catalogCategoryAttributes", FetchMode.JOIN);
+
+        criteria.createAlias("cartItems.catalogCategory.assets", "catalogCategoryAssets", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("catalogCategoryAssets", FetchMode.JOIN);
+
+        criteria.setFetchMode("shippings", FetchMode.JOIN);
     }
     
 }

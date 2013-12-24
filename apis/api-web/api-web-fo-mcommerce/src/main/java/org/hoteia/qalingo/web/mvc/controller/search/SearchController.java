@@ -57,7 +57,7 @@ public class SearchController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
+		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
 		modelAndView.addObject("search", search);
 		
 		modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
@@ -70,17 +70,18 @@ public class SearchController extends AbstractMCommerceController {
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
 
 		if (result.hasErrors()) {
 			return displaySearch(request, response, modelMap);
 		}
 
-		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestUtil.getRequestData(request));
+		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
 		modelAndView.addObject("search", search);
 		
 		try {
 			ProductMarketingResponseBean productMarketingResponseBean = productMarketingSolrService.searchProductMarketing();
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean));
+			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
 			
 			String url = requestUtil.getCurrentRequestUrl(request);
 			

@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +46,7 @@ public class ProductSkuPrice extends AbstractPrice {
 	@Column(name="PRICE_CATALOG")
 	private BigDecimal catalogPrice;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
 	private CurrencyReferential currency;
 	

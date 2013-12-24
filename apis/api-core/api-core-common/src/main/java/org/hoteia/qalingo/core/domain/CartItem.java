@@ -11,9 +11,9 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,21 +51,21 @@ public class CartItem extends AbstractEntity {
     @Transient
     private Set<CartItemTax> taxes = new HashSet<CartItemTax>();
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
     private ProductSku productSku;
 
     @Column(name = "PRODUCT_MARKETING_CODE")
     private String productMarketingCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
     private ProductMarketing productMarketing;
 
     @Column(name = "VIRTUAL_CATEGORY_CODE")
     private String catalogCategoryCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryVirtual catalogCategory;
 	
@@ -152,47 +152,47 @@ public class CartItem extends AbstractEntity {
         this.catalogCategory = catalogCategory;
     }
 
-    public ProductSkuPrice getPrice() {
-		
-		// TODO !
-		
+    public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId) {
 		if(productSku != null
 				&& productSku.getPrices() != null
 				&& productSku.getPrices().size() > 0){
-			ProductSkuPrice productSkuPrice = productSku.getPrices().iterator().next();
-			return productSkuPrice;
+		    for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
+		        final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
+                if(productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId)
+                        && productSkuPrice.getRetailerId() != null && productSkuPrice.getRetailerId().equals(retailerId)){
+                    return productSkuPrice;
+                }
+            }
 		}
 		return null;
 	}
     
-    public String getPriceWithStandardCurrencySign() {
-        
-        // TODO !
-        
-        if(productSku != null
-                && productSku.getPrices() != null
-                && productSku.getPrices().size() > 0){
-            return getPrice().getPriceWithStandardCurrencySign();
+    public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+        if(productSkuPrice != null){
+            return productSkuPrice.getPriceWithStandardCurrencySign();
         }
         return null;
     }
 	
-	public BigDecimal getTotalAmountCartItem() {
+	public BigDecimal getTotalAmountCartItem(final Long marketAreaId, final Long retailerId) {
 		BigDecimal totalAmount = new BigDecimal("0");
-		if(getPrice() != null){
-			totalAmount = totalAmount.add(getPrice().getSalePrice());
+		final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+		if(productSkuPrice != null){
+			totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
 		}
 		totalAmount = totalAmount.multiply(new BigDecimal(quantity));
 		return totalAmount;
 	}
 	
-    public String getTotalAmountWithStandardCurrencySign() {
+    public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
         BigDecimal totalAmount = new BigDecimal("0");
-        if(getPrice() != null){
-            totalAmount = totalAmount.add(getPrice().getSalePrice());
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+        if(productSkuPrice != null){
+            totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
         }
         totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-        return getPrice().getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
+        return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
     }
     
 }

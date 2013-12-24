@@ -84,15 +84,15 @@ public class MarketArea extends AbstractEntity {
     @JoinColumn(name = "VIRTUAL_CATALOG_ID")
     private CatalogVirtual catalog;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MARKET_ID", insertable = false, updatable = false)
     private Market market;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_CURRENCY_ID", insertable = false, updatable = false)
     private CurrencyReferential defaultCurrency;
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
     @JoinTable(name = "TECO_MARKET_AREA_CURRENCY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "CURRENCY_ID"))
     private Set<CurrencyReferential> currencies = new HashSet<CurrencyReferential>();
 
@@ -100,27 +100,27 @@ public class MarketArea extends AbstractEntity {
     @JoinColumn(name = "MARKET_AREA_ID")
     private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>();
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = false, updatable = false)
     private Localization defaultLocalization;
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
     @JoinTable(name = "TECO_MARKET_AREA_LOCALIZATION_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "LOCALIZATION_ID"))
     private Set<Localization> localizations = new HashSet<Localization>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_RETAILER_ID", insertable = false, updatable = false)
     private Retailer defaultRetailer;
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
     @JoinTable(name = "TECO_MARKET_AREA_RETAILER_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
     @JoinTable(name = "TECO_MARKET_AREA_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
     private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
     @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"))
     private Set<AbstractPaymentGateway> paymentGateways = new HashSet<AbstractPaymentGateway>();
 

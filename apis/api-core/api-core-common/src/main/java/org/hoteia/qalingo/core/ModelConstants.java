@@ -147,4 +147,6 @@ public final class ModelConstants {
     public static final String TITLES           = "titles";
     public static final String COUNTRIES        = "countries";
 
+    public static final String CONTEXT_JSON     = "contextJson";
+
 }

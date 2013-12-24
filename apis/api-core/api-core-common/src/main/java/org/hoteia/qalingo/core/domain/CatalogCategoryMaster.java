@@ -44,7 +44,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = {@UniqueConstraint(columnNames = {"code"})})
+@Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
 public class CatalogCategoryMaster extends AbstractEntity {
 
     /**
@@ -70,17 +70,18 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @Column(name = "CODE", nullable = false)
     private String code;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = false, updatable = false)
     private CatalogCategoryType catalogCategoryType;
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-//	@Column(name="IS_ROOT", nullable=false, columnDefinition="tinyint(1) default 0")
-//	private boolean isRoot;
+    // @Column(name="IS_ROOT", nullable=false,
+    // columnDefinition="tinyint(1) default 0")
+    // private boolean isRoot;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID")
     private CatalogCategoryMaster defaultParentCatalogCategory;
 
@@ -89,31 +90,15 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @OrderBy(clause = "ordering asc")
     private Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryMasterAttribute>();
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-            name = "TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL",
-            joinColumns = @JoinColumn(name = "PARENT_MASTER_CATALOG_CATEGORY_ID"),
-            inverseJoinColumns = @JoinColumn(name = "CHILD_MASTER_CATALOG_CATEGORY_ID")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
+    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL", joinColumns = @JoinColumn(name = "PARENT_MASTER_CATALOG_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "CHILD_MASTER_CATALOG_CATEGORY_ID"))
     private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-            name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL",
-            joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
+    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"))
     private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
@@ -167,13 +152,13 @@ public class CatalogCategoryMaster extends AbstractEntity {
         return true;
     }
 
-//	public boolean isRoot() {
-//	return isRoot;
-//}
-//
-//public void setRoot(boolean isRoot) {
-//	this.isRoot = isRoot;
-//}
+    // public boolean isRoot() {
+    // return isRoot;
+    // }
+    //
+    // public void setRoot(boolean isRoot) {
+    // this.isRoot = isRoot;
+    // }
 
     public CatalogCategoryMaster getDefaultParentCatalogCategory() {
         return defaultParentCatalogCategory;
@@ -210,23 +195,22 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public Set<CatalogCategoryMasterAttribute> getCatalogCategoryAttributes() {
         return catalogCategoryAttributes;
     }
-    
+
     public void setCatalogCategoryAttributes(Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes) {
         this.catalogCategoryAttributes = catalogCategoryAttributes;
     }
-    
+
     public List<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
         List<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
         if (catalogCategoryAttributes != null) {
             for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && attributeDefinition.isGlobal()) {
+                if (attributeDefinition != null && attributeDefinition.isGlobal()) {
                     catalogCategoryGlobalAttributes.add(attribute);
                 }
             }
-        }        
+        }
         return catalogCategoryGlobalAttributes;
     }
 
@@ -236,12 +220,11 @@ public class CatalogCategoryMaster extends AbstractEntity {
             for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                if (attributeDefinition != null 
-                        && !attributeDefinition.isGlobal()) {
+                if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
                     catalogCategoryMarketAreaAttributes.add(attribute);
                 }
             }
-        }        
+        }
         return catalogCategoryMarketAreaAttributes;
     }
 
@@ -254,12 +237,10 @@ public class CatalogCategoryMaster extends AbstractEntity {
         Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
             @Override
             public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-                if (o1 != null
-                        && o2 != null) {
+                if (o1 != null && o2 != null) {
                     Integer order1 = o1.getOrder(marketAreaId);
                     Integer order2 = o2.getOrder(marketAreaId);
-                    if (order1 != null
-                            && order2 != null) {
+                    if (order1 != null && order2 != null) {
                         return order1.compareTo(order2);
                     } else {
                         return o1.getId().compareTo(o2.getId());
@@ -286,22 +267,21 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public Set<Asset> getAssets() {
         return assets;
     }
-    
+
     public void setAssets(Set<Asset> assets) {
         this.assets = assets;
     }
-    
+
     public List<Asset> getAssetsIsGlobal() {
         List<Asset> assetsIsGlobal = new ArrayList<Asset>();
         if (assets != null) {
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
-                if (asset != null 
-                        && asset.isGlobal()) {
+                if (asset != null && asset.isGlobal()) {
                     assetsIsGlobal.add(asset);
                 }
             }
-        }        
+        }
         return assetsIsGlobal;
     }
 
@@ -310,12 +290,11 @@ public class CatalogCategoryMaster extends AbstractEntity {
         if (assets != null) {
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
-                if (asset != null 
-                        && !asset.isGlobal()) {
+                if (asset != null && !asset.isGlobal()) {
                     assetsIsGlobal.add(asset);
                 }
             }
-        }        
+        }
         return assetsIsGlobal;
     }
 
@@ -368,28 +347,25 @@ public class CatalogCategoryMaster extends AbstractEntity {
         return catalogCategoryAttributeToReturn;
     }
 
-    private CatalogCategoryMasterAttribute getCatalogCategoryAttribute(List<CatalogCategoryMasterAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId,
-                                                                       String localizationCode) {
+    private CatalogCategoryMasterAttribute getCatalogCategoryAttribute(List<CatalogCategoryMasterAttribute> catalogCategoryAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
         CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
         List<CatalogCategoryMasterAttribute> catalogCategoryAttributesFilter = new ArrayList<CatalogCategoryMasterAttribute>();
         if (catalogCategoryAttributes != null) {
             // GET ALL CategoryAttributes FOR THIS ATTRIBUTE
-            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext(); ) {
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
-                if (attributeDefinition != null
-                        && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
+                if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
                     catalogCategoryAttributesFilter.add(catalogCategoryAttribute);
                 }
             }
             // REMOVE ALL CategoryAttributes NOT ON THIS MARKET AREA
             if (marketAreaId != null) {
-                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext(); ) {
+                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
                     CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
                     AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
-                        if (catalogCategoryAttribute.getMarketAreaId() != null
-                                && BooleanUtils.negate(catalogCategoryAttribute.getMarketAreaId().equals(marketAreaId))) {
+                        if (catalogCategoryAttribute.getMarketAreaId() != null && BooleanUtils.negate(catalogCategoryAttribute.getMarketAreaId().equals(marketAreaId))) {
                             iterator.remove();
                         }
                     }
@@ -397,13 +373,12 @@ public class CatalogCategoryMaster extends AbstractEntity {
             }
             // FINALLY RETAIN ONLY CategoryAttributes FOR THIS LOCALIZATION CODE
             if (StringUtils.isNotEmpty(localizationCode)) {
-                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext(); ) {
+                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributesFilter.iterator(); iterator.hasNext();) {
                     CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
                     AttributeDefinition attributeDefinition = catalogCategoryAttribute.getAttributeDefinition();
                     if (BooleanUtils.negate(attributeDefinition.isGlobal())) {
                         String attributeLocalizationCode = catalogCategoryAttribute.getLocalizationCode();
-                        if (StringUtils.isNotEmpty(attributeLocalizationCode)
-                                && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
+                        if (StringUtils.isNotEmpty(attributeLocalizationCode) && BooleanUtils.negate(attributeLocalizationCode.equals(localizationCode))) {
                             iterator.remove();
                         }
                     }
@@ -411,11 +386,13 @@ public class CatalogCategoryMaster extends AbstractEntity {
                 if (catalogCategoryAttributesFilter.size() == 0) {
                     // TODO : warning ?
 
-                    // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getCatalogCategoryMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext(); ) {
+                    // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE -
+                    // GET A FALLBACK
+                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getCatalogCategoryMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext();) {
                         CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 
-                        // TODO : get a default locale code from setting database ?
+                        // TODO : get a default locale code from setting
+                        // database ?
 
                         if (Constants.DEFAULT_LOCALE_CODE.equals(catalogCategoryAttribute.getLocalizationCode())) {
                             catalogCategoryAttributeToReturn = catalogCategoryAttribute;
@@ -461,20 +438,16 @@ public class CatalogCategoryMaster extends AbstractEntity {
     // ASSET
     public Asset getDefaultPaskshotImage(String size) {
         Asset defaultProductImage = null;
-        if (getAssetsIsGlobal() != null
-                && StringUtils.isNotEmpty(size)) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+        if (getAssetsIsGlobal() != null && StringUtils.isNotEmpty(size)) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productAsset = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productAsset.getType())
-                        && size.equals(productAsset.getSize())
-                        && productAsset.isDefault()) {
+                if (AssetType.PACKSHOT.equals(productAsset.getType()) && size.equals(productAsset.getSize()) && productAsset.isDefault()) {
                     defaultProductImage = productAsset;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productImage.getType())
-                        && size.equals(productImage.getSize())) {
+                if (AssetType.PACKSHOT.equals(productImage.getType()) && size.equals(productImage.getSize())) {
                     defaultProductImage = productImage;
                 }
             }
@@ -485,14 +458,13 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public Asset getDefaultBackgroundImage() {
         Asset defaultProductImage = null;
         if (getAssetsIsGlobal() != null) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType())
-                        && productImage.isDefault()) {
+                if (AssetType.BACKGROUND.equals(productImage.getType()) && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.BACKGROUND.equals(productImage.getType())) {
                     defaultProductImage = productImage;
@@ -505,14 +477,13 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public Asset getDefaultIconImage() {
         Asset defaultProductImage = null;
         if (getAssetsIsGlobal() != null) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.ICON.equals(productImage.getType())
-                        && productImage.isDefault()) {
+                if (AssetType.ICON.equals(productImage.getType()) && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext(); ) {
+            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.ICON.equals(productImage.getType())) {
                     defaultProductImage = productImage;
@@ -526,15 +497,11 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((businessName == null) ? 0 : businessName.hashCode());
+        result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
         result = prime * result + ((code == null) ? 0 : code.hashCode());
-        result = prime * result
-                + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result
-                + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime * result
-                + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (isDefault ? 1231 : 1237);
         result = prime * result + version;
@@ -589,12 +556,8 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "ProductCategoryMaster [id=" + id + ", version=" + version
-                + "businessName=" + businessName  + ","
-                + "description=" + description + ", " 
-                + "code=" + code + ", isDefault=" + isDefault + ","
-                + "dateCreate=" + dateCreate + ","
-                + "dateUpdate=" + dateUpdate + "]";
+        return "ProductCategoryMaster [id=" + id + ", version=" + version + "businessName=" + businessName + "," + "description=" + description + ", " + "code=" + code + ", isDefault=" + isDefault
+                + "," + "dateCreate=" + dateCreate + "," + "dateUpdate=" + dateUpdate + "]";
     }
 
 }

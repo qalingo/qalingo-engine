@@ -124,6 +124,8 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,6 +138,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements ViewBeanFactory {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     @Autowired
     protected RequestUtil requestUtil;
 
@@ -190,6 +194,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setPersonalDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
         commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+
+        commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
 
         commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(requestData, marketPlace));
         commonViewBean.setCurrentMarket(buildMarketViewBean(requestData, market));
@@ -1082,7 +1088,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         Long customerAddressId = customerAddress.getId();
 
         Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID, customerAddressId.toString());
+        urlParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID, customerAddressId.toString());
 
         customerAddressViewBean.setEditUrl(urlService.generateUrl(FoUrls.PERSONAL_EDIT_ADDRESS, requestData, urlParams));
         customerAddressViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.PERSONAL_DELETE_ADDRESS, requestData, urlParams));
@@ -1275,7 +1281,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productMarketingViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             final String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
             productMarketingViewBean.setCarouselImage(carouselImage);
@@ -1353,7 +1359,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         // SUB PART : Shippings
         final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
-        final Set<DeliveryMethod> deliveryMethods = cart.getShippings();
+        final Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
         if (deliveryMethods != null) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
@@ -1387,10 +1393,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //        }
         
         
-        cartViewBean.setCartItemsTotal(cart.getCartItemTotalWithStandardCurrencySign());
-        cartViewBean.setCartShippingTotal(cart.getDeliveryMethodTotalWithStandardCurrencySign());
-        cartViewBean.setCartFeesTotal(cart.getTaxTotalWithStandardCurrencySign());
-        cartViewBean.setCartTotal(cart.getCartTotalWithStandardCurrencySign());
+        cartViewBean.setCartItemsTotalWithCurrencySign(cart.getCartItemTotalWithStandardCurrencySign());
+        cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
+        cartViewBean.setCartFeesTotalWithCurrencySign(cart.getTaxTotalWithStandardCurrencySign());
+        cartViewBean.setCartTotalWithCurrencySign(cart.getCartTotalWithStandardCurrencySign());
 
         return cartViewBean;
     }
@@ -1399,7 +1405,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     private CartItemViewBean buildCartItemViewBean(final RequestData requestData, final CartItem cartItem) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
         
@@ -1409,15 +1417,23 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         cartItemViewBean.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
+        final Asset defaultPaskshotImage = cartItem.getProductSku().getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            String summaryImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
+            cartItemViewBean.setSummaryImage(summaryImage);
+        } else {
+            cartItemViewBean.setSummaryImage("");
+        }
+        
         // UNIT PRICE
-        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign());
+        cartItemViewBean.setUnitPriceWithCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
         // FEES AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
         
         //...
         
         // TOTAL AMOUNT FOR THIS PRODUCT SKU AND THIS QUANTITY
-        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign());
+        cartItemViewBean.setAmountWithCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
@@ -1516,7 +1532,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //            orderViewBean.setOrderTotalWithCurrencySign(formatter.format(orderTotal));
 
             Map<String, String> getParams = new HashMap<String, String>();
-            getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_ID, order.getId().toString());
+            getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
 
             orderViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_ORDER_DETAILS, requestData, getParams));
         }
@@ -1574,7 +1590,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productAssociationLinkViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
             productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
@@ -1628,7 +1644,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productSkuViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL);
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             String carouselImage = requestUtil.getProductSkuImageWebPath(request, defaultPaskshotImage);
             productSkuViewBean.setCarouselImage(carouselImage);

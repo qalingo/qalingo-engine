@@ -55,6 +55,12 @@ public class OrderCustomer extends AbstractEntity {
 	@Column(name="ORDER_NUM")
 	private String orderNum;
 	
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Column(name = "RETAILER_ID")
+    private Long retailerId;
+    
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
 
@@ -123,7 +129,23 @@ public class OrderCustomer extends AbstractEntity {
 		this.orderNum = orderNum;
 	}
 	
-	public Long getCustomerId() {
+	public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
+
+    public Long getRetailerId() {
+        return retailerId;
+    }
+
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
+    }
+
+    public Long getCustomerId() {
 		return customerId;
 	}
 	

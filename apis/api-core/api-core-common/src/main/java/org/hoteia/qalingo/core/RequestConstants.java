@@ -48,13 +48,21 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";
 	public static final String REQUEST_PARAMETER_SEARCH_TXT					= "search-txt";
 
-    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_ID          = "payment-gateway-id";
+    public static final String REQUEST_PARAMETER_CART_ITEM_SKU_CODE         = "cart-item-sku-code";
+    public static final String REQUEST_PARAMETER_CART_ITEM_SKU_QUANTITY     = "cart-item-sku-quantity";
+    public static final String REQUEST_PARAMETER_CART_SHIPPING_ADDRESS_GUID = "cart-shipping-address-guid";
+    public static final String REQUEST_PARAMETER_CART_BILLING_ADDRESS_GUID  = "cart-billing-address-guid";
+    
+    public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_SKU_CODES     = "sku-codes";
+    public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITIES    = "qties";
 
-	public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_ID		= "customer-address-id";
-	public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_ID			= "customer-order-id";
-	public static final String REQUEST_PARAMETER_ENGINE_SETTING_ID			= "engine-setting-id";
-	public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_ID	= "engine-setting-value-id";
-	public static final String REQUEST_PARAMETER_USER_ID					= "user-id";
+    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID       = "payment-gateway-guid";
+    public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID      = "customer-address-guid";
+    public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_GUID        = "customer-order-guid";
+    public static final String REQUEST_PARAMETER_ENGINE_SETTING_GUID        = "engine-setting-guid";
+    public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID  = "engine-setting-value-guid";
+    public static final String REQUEST_PARAMETER_USER_GUID                  = "user-guid";
+
 	public static final String REQUEST_PARAMETER_PAGE_ID					= "page-id";
 
 	public static final String REQUEST_PARAMETER_NEW_CUSTOMER_VALIDATION_EMAIL	= "customer-email";

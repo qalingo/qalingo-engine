@@ -75,7 +75,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
     public ModelAndView paymentGatewayDetails(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_DETAILS.getVelocityPage());
         
-        final String paymentGatewayId = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID);
+        final String paymentGatewayId = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID);
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){
@@ -93,7 +93,7 @@ public class ReferenceDataController extends AbstractTechnicalBackofficeControll
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        final String paymentGatewayId = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_ID);
+        final String paymentGatewayId = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID);
         if(StringUtils.isNotEmpty(paymentGatewayId)){
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayId);
             if(paymentGateway != null){

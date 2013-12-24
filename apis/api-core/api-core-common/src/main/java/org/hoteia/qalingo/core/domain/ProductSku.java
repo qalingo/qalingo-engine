@@ -74,7 +74,7 @@ public class ProductSku extends AbstractEntity {
     @JoinColumn(name="PRODUCT_SKU_ID")
 	private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>(); 
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
 	private ProductMarketing productMarketing;
 	
@@ -91,7 +91,7 @@ public class ProductSku extends AbstractEntity {
     @JoinColumn(name="PRODUCT_SKU_ID")
 	private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>(); 
 	
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
     @JoinTable(name = "TECO_PRODUCT_SKU_RETAILER_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
 	private Set<Retailer> retailers = new HashSet<Retailer>();
 	

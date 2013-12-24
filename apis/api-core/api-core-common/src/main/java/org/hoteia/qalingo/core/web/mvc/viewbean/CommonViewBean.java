@@ -29,6 +29,7 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	protected String customerDetailsUrl;
     protected String personalDetailsUrl;
 	protected String contactUrl;
+    protected String contextJsonUrl;
 
 	protected MarketPlaceViewBean currentMarketPlace;
 	protected MarketViewBean currentMarket;
@@ -116,6 +117,14 @@ public class CommonViewBean extends AbstractViewBean implements Serializable {
 	public void setContactUrl(String contactUrl) {
 		this.contactUrl = contactUrl;
 	}
+	
+	public String getContextJsonUrl() {
+        return contextJsonUrl;
+    }
+	
+	public void setContextJsonUrl(String contextJsonUrl) {
+        this.contextJsonUrl = contextJsonUrl;
+    }
 
 	public MarketPlaceViewBean getCurrentMarketPlace() {
 		return currentMarketPlace;

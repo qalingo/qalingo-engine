@@ -1,8 +1,8 @@
 package org.hoteia.qalingo.core.pojo.product;
 
-import org.hoteia.qalingo.core.pojo.CurrencyReferentialPojo;
-
 import java.math.BigDecimal;
+
+import org.hoteia.qalingo.core.pojo.CurrencyReferentialPojo;
 
 public class ProductSkuPricePojo {
 
@@ -12,7 +12,10 @@ public class ProductSkuPricePojo {
     private CurrencyReferentialPojo currency;
     private Long marketAreaId;
     private Long retailerId;
-
+    protected BigDecimal salePrice;
+    protected BigDecimal moneySaving;
+    protected String priceWithStandardCurrencySign;
+    
     public Long getId() {
         return id;
     }
@@ -60,4 +63,29 @@ public class ProductSkuPricePojo {
     public void setRetailerId(Long retailerId) {
         this.retailerId = retailerId;
     }
+
+    public BigDecimal getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(BigDecimal salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public BigDecimal getMoneySaving() {
+        return moneySaving;
+    }
+
+    public void setMoneySaving(BigDecimal moneySaving) {
+        this.moneySaving = moneySaving;
+    }
+
+    public String getPriceWithStandardCurrencySign() {
+        return priceWithStandardCurrencySign;
+    }
+
+    public void setPriceWithStandardCurrencySign(String priceWithStandardCurrencySign) {
+        this.priceWithStandardCurrencySign = priceWithStandardCurrencySign;
+    }
+    
 }
