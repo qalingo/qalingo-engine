@@ -60,6 +60,7 @@ public class CartDetailsController extends AbstractMCommerceController {
     public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm, 
                                             BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {

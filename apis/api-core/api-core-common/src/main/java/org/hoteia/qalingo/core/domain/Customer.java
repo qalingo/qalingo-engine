@@ -112,13 +112,19 @@ public class Customer extends AbstractEntity {
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>(); 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerAddress> addresses = new HashSet<CustomerAddress>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerConnectionLog> connectionLogs = new HashSet<CustomerConnectionLog>(); 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerAddress> addresses = new HashSet<CustomerAddress>();
+
+    @Column(name = "DEFAULT_SHIPPING_ADDRESS")
+    private Long defaultShippingAddressId;
+
+    @Column(name = "DEFAULT_BILLING_ADDRESS")
+    private Long defaultBillingAddressId;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerConnectionLog> connectionLogs = new HashSet<CustomerConnectionLog>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
@@ -354,7 +360,37 @@ public class Customer extends AbstractEntity {
 	public void setAddresses(Set<CustomerAddress> addresses) {
 		this.addresses = addresses;
 	}
-
+	
+	public Long getDefaultShippingAddressId() {
+        if(defaultShippingAddressId != null){
+            return defaultShippingAddressId;
+        } else {
+            if(getAddresses() != null){
+                return getAddresses().iterator().next().getId();
+            }
+        }
+        return null;
+    }
+	
+	public void setDefaultShippingAddressId(Long defaultShippingAddressId) {
+        this.defaultShippingAddressId = defaultShippingAddressId;
+    }
+	
+	public Long getDefaultBillingAddressId() {
+	    if(defaultBillingAddressId != null){
+	        return defaultBillingAddressId;
+	    } else {
+	        if(getAddresses() != null){
+	            return getAddresses().iterator().next().getId();
+	        }
+	    }
+	    return null;
+    }
+	
+	public void setDefaultBillingAddressId(Long defaultBillingAddressId) {
+        this.defaultBillingAddressId = defaultBillingAddressId;
+    }
+	
 	public Set<CustomerConnectionLog> getConnectionLogs() {
 		return connectionLogs;
 	}

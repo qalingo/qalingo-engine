@@ -541,6 +541,13 @@ INSERT INTO teco_market_area_delivery_method_rel
 (1, 20),
 (1, 30);
 
+INSERT INTO teco_delivery_method_price  
+(id, market_area_id, price, retailer_id, currency_id, delivery_method_id)
+VALUES 
+(10, 1, 14.35, 1, 150, 10),
+(20, 1, 15.35, 1, 150, 20),
+(30, 1, 16.35, 1, 150, 30);
+
 -- RULE | PROMO
 
 

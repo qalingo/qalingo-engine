@@ -259,6 +259,13 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.setFetchMode("retailers", FetchMode.JOIN);
 
         criteria.setFetchMode("deliveryMethods", FetchMode.JOIN);
+        
+        criteria.createAlias("deliveryMethods.countries", "deliveryMethodCountries", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("deliveryMethodCountries", FetchMode.JOIN);
+
+        criteria.createAlias("deliveryMethods.prices", "deliveryMethodPrices", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("deliveryMethodPrices", FetchMode.JOIN);
+
         criteria.setFetchMode("paymentGateways", FetchMode.JOIN);
         
     }

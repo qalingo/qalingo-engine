@@ -17,20 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerConnectionLogService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.qalingo.core.web.handler.security.ExtRedirectStrategy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -60,11 +58,11 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException, ServletException {
 
-    	// Find the current customer
-    	Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
-
 		try {
-	    	// Persit the new CustomerConnectionLog
+	        // CUSTOMER
+	        Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
+
+	        // Persit the new CustomerConnectionLog
 	    	CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
 	    	customerConnectionLog.setCustomerId(customer.getId());
 	    	customerConnectionLog.setLoginDate(new Date());
@@ -74,9 +72,20 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	    	customer.getConnectionLogs().add(customerConnectionLog);
 	    	customerConnectionLogService.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
 
+	    	requestUtil.updateCurrentCustomer(request, customer);
+	    	
+	    	// CART
+	    	RequestData requestData = requestUtil.getRequestData(request);
+	    	Cart cart = requestData.getCart();
+	    	cart.setCustomerId(customer.getId());
+            cart.setBillingAddressId(customer.getDefaultBillingAddressId());
+            cart.setShippingAddressId(customer.getDefaultShippingAddressId());
+            requestUtil.updateCurrentCart(request, cart);
+	    	
 	    	setUseReferer(false);
 			String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
 			String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+			
 	        // SANITY CHECK
             if(StringUtils.isNotEmpty(lastUrl)
                     && (lastUrl.contains("cart") || lastUrl.contains("checkout"))){

@@ -95,6 +95,8 @@ public final class ModelConstants {
 
     public static final String CART_VIEW_BEAN                   = "cart";
     public static final String ADDRESSES_VIEW_BEAN              = "addresses";
+    public static final String SHIPPING_ADDRESSES_VIEW_BEAN     = "shippingAddresses";
+    public static final String BILLING_ADDRESSES_VIEW_BEAN      = "billingAddresses";
     public static final String PAYMENT_METHODS_VIEW_BEAN        = "paymentMethods";
 
     public static final String RULE_VIEW_BEAN                   = "rule";

@@ -24,13 +24,9 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -64,8 +60,8 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+//        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+//        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 3);
 
@@ -95,8 +91,32 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 
-    @ModelAttribute(ModelConstants.ADDRESSES_VIEW_BEAN)
-    public List<CustomerAddressViewBean> getAddresses(HttpServletRequest request) {
+    @ModelAttribute(ModelConstants.BILLING_ADDRESSES_VIEW_BEAN)
+    public List<CustomerAddressViewBean> getBillingAddresses(HttpServletRequest request) {
+        List<CustomerAddressViewBean> addressesValues = new ArrayList<CustomerAddressViewBean>();
+        try {
+            final RequestData requestData = requestUtil.getRequestData(request);
+            final Customer customer = requestData.getCustomer();
+            Set<CustomerAddress> addresses = customer.getAddresses();
+            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+                final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+                addressesValues.add(frontofficeViewBeanFactory.buildCustomeAddressViewBean(requestData, customerAddress));
+            }
+
+            Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {
+                @Override
+                public int compare(CustomerAddressViewBean o1, CustomerAddressViewBean o2) {
+                    return o1.getAddressName().compareTo(o2.getAddressName());
+                }
+            });
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+        return addressesValues;
+    }
+    
+    @ModelAttribute(ModelConstants.SHIPPING_ADDRESSES_VIEW_BEAN)
+    public List<CustomerAddressViewBean> getshippingAddresses(HttpServletRequest request) {
         List<CustomerAddressViewBean> addressesValues = new ArrayList<CustomerAddressViewBean>();
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
@@ -119,28 +139,28 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         return addressesValues;
     }
 
-    @ModelAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN)
-    public List<DeliveryMethodViewBean> getDeliveryMethods(HttpServletRequest request) {
-        List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
-        try {
-            final RequestData requestData = requestUtil.getRequestData(request);
-            final MarketArea marketArea = requestData.getMarketArea();
-            final Set<DeliveryMethod> deliveryMethods = marketArea.getDeliveryMethods();
-            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
-                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                deliveryMethodViewBeans.add(frontofficeViewBeanFactory.buildDeliveryMethodViewBean(requestData, deliveryMethod));
-            }
-
-            Collections.sort(deliveryMethodViewBeans, new Comparator<DeliveryMethodViewBean>() {
-                @Override
-                public int compare(DeliveryMethodViewBean o1, DeliveryMethodViewBean o2) {
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
-        } catch (Exception e) {
-            logger.error("", e);
-        }
-        return deliveryMethodViewBeans;
-    }
+//    @ModelAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN)
+//    public List<DeliveryMethodViewBean> getDeliveryMethods(HttpServletRequest request) {
+//        List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
+//        try {
+//            final RequestData requestData = requestUtil.getRequestData(request);
+//            final MarketArea marketArea = requestData.getMarketArea();
+//            final Set<DeliveryMethod> deliveryMethods = marketArea.getDeliveryMethods();
+//            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
+//                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
+//                deliveryMethodViewBeans.add(frontofficeViewBeanFactory.buildDeliveryMethodViewBean(requestData, deliveryMethod));
+//            }
+//
+//            Collections.sort(deliveryMethodViewBeans, new Comparator<DeliveryMethodViewBean>() {
+//                @Override
+//                public int compare(DeliveryMethodViewBean o1, DeliveryMethodViewBean o2) {
+//                    return o1.getName().compareTo(o2.getName());
+//                }
+//            });
+//        } catch (Exception e) {
+//            logger.error("", e);
+//        }
+//        return deliveryMethodViewBeans;
+//    }
 
 }
