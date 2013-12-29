@@ -64,11 +64,7 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 			customerProductComment.setDateCreate(new Date());
 		}
 		customerProductComment.setDateUpdate(new Date());
-		if(customerProductComment.getId() == null){
-			em.persist(customerProductComment);
-		} else {
-			em.merge(customerProductComment);
-		}
+		em.merge(customerProductComment);
 	}
 
 	public void deleteCustomerProductComment(final CustomerProductComment customerProductComment) {

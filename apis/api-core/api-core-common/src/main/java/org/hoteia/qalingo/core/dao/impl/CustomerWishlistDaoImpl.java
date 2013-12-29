@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.Date;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.CustomerWishlistDao;
@@ -22,25 +24,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("customerWishlistDao")
 public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements CustomerWishlistDao {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
         Criteria criteria = createDefaultCriteria(CustomerWishlist.class);
         criteria.add(Restrictions.eq("id", customerWishlistId));
         CustomerWishlist customerWishlist = (CustomerWishlist) criteria.uniqueResult();
         return customerWishlist;
-	}
+    }
 
-	public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {
-		if(customerWishlist.getId() == null){
-			em.persist(customerWishlist);
-		} else {
-			em.merge(customerWishlist);
-		}
-	}
+    public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {
+        if (customerWishlist.getDateCreate() == null) {
+            customerWishlist.setDateCreate(new Date());
+        }
+        customerWishlist.setDateUpdate(new Date());
+        em.merge(customerWishlist);
+    }
 
-	public void deleteCustomerWishlist(CustomerWishlist customerWishlist) {
-		em.remove(customerWishlist);
-	}
+    public void deleteCustomerWishlist(CustomerWishlist customerWishlist) {
+        em.remove(customerWishlist);
+    }
 
 }

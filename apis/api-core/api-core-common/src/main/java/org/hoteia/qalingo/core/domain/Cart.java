@@ -60,7 +60,7 @@ public class Cart extends AbstractEntity {
     private Long retailerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CURRENCY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
 
     @Column(name = "CUSTOMER_ID")

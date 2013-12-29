@@ -66,11 +66,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 			catalogMaster.setDateCreate(new Date());
 		}
 		catalogMaster.setDateUpdate(new Date());
-		if(catalogMaster.getId() == null){
-			em.persist(catalogMaster);
-		} else {
-			em.merge(catalogMaster);
-		}
+		em.merge(catalogMaster);
 	}
 
 	public void deleteProductCatalog(final CatalogMaster catalogMaster) {

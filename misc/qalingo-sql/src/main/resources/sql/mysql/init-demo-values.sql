@@ -550,4 +550,8 @@ VALUES
 
 -- RULE | PROMO
 
-
+-- ORDER
+INSERT INTO teco_order_number  
+(id, last_order_number, version)
+VALUES 
+(1, 1000, 1);

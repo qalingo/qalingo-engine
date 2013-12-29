@@ -32,11 +32,7 @@ public class StockDaoImpl extends AbstractGenericDaoImpl implements StockDao {
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock productSkuStock) {
-		if(productSkuStock.getId() == null){
-			em.persist(productSkuStock);
-		} else {
-			em.merge(productSkuStock);
-		}
+		em.merge(productSkuStock);
 	}
 
 	public void deleteStock(ProductSkuStock productSkuStock) {

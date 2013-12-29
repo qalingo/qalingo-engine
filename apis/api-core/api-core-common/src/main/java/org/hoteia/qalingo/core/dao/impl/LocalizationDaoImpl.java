@@ -65,11 +65,7 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
     }
 	
 	public void saveOrUpdateLocalization(Localization localization) {
-		if(localization.getId() == null){
-			em.persist(localization);
-		} else {
-			em.merge(localization);
-		}
+		em.merge(localization);
 	}
 
 	public void deleteLocalization(Localization localization) {

@@ -58,11 +58,7 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
 	}
 	
 	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
-		if(customerConnectionLog.getId() == null){
-			em.persist(customerConnectionLog);
-		} else {
-			em.merge(customerConnectionLog);
-		}
+		em.merge(customerConnectionLog);
 	}
 
 	public void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {

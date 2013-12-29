@@ -26,13 +26,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="TECO_CART_ITEM")
+@Table(name = "TECO_CART_ITEM")
 public class CartItem extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 6636336983669678530L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 6636336983669678530L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,80 +47,80 @@ public class CartItem extends AbstractEntity {
 
     @Transient
     private CartItemPrice cartItemPrice;
-    
-    @Transient
-    private Set<CartItemTax> taxes = new HashSet<CartItemTax>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
 
     @Column(name = "PRODUCT_MARKETING_CODE")
     private String productMarketingCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = false, updatable = false)
-    private ProductMarketing productMarketing;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
+//    private ProductMarketing productMarketing;
 
     @Column(name = "VIRTUAL_CATEGORY_CODE")
     private String catalogCategoryCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = false, updatable = false)
-    private CatalogCategoryVirtual catalogCategory;
-	
-	public CartItem(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = true, updatable = true)
+//    private CatalogCategoryVirtual catalogCategory;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public int getQuantity() {
-		return quantity;
-	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	public String getProductSkuCode() {
-		return productSkuCode;
-	}
-	
-	public void setProductSkuCode(String productSkuCode) {
-		this.productSkuCode = productSkuCode;
-	}
-	
-	public CartItemPrice getCartItemPrice() {
+    @Transient
+    private DeliveryMethod deliveryMethod;
+
+    @Transient
+    private Set<CartItemTax> taxes = new HashSet<CartItemTax>();
+
+    public CartItem() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int addQuantity(int newQuantity) {
+        this.quantity = quantity + newQuantity;
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getProductSkuCode() {
+        return productSkuCode;
+    }
+
+    public void setProductSkuCode(String productSkuCode) {
+        this.productSkuCode = productSkuCode;
+    }
+
+    public CartItemPrice getCartItemPrice() {
         return cartItemPrice;
     }
-	
-	public void setCartItemPrice(CartItemPrice cartItemPrice) {
+
+    public void setCartItemPrice(CartItemPrice cartItemPrice) {
         this.cartItemPrice = cartItemPrice;
     }
-	
-	public Set<CartItemTax> getTaxes() {
-        return taxes;
+
+    public ProductSku getProductSku() {
+        return productSku;
     }
-	
-	public void setTaxes(Set<CartItemTax> taxes) {
-        this.taxes = taxes;
+
+    public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
     }
-	
-	public ProductSku getProductSku() {
-		return productSku;
-	}
-	
-	public void setProductSku(ProductSku productSku) {
-		this.productSku = productSku;
-	}
-	
-	public String getProductMarketingCode() {
+
+    public String getProductMarketingCode() {
         return productMarketingCode;
     }
 
@@ -128,13 +128,13 @@ public class CartItem extends AbstractEntity {
         this.productMarketingCode = productMarketingCode;
     }
 
-    public ProductMarketing getProductMarketing() {
-        return productMarketing;
-    }
-
-    public void setProductMarketing(ProductMarketing productMarketing) {
-        this.productMarketing = productMarketing;
-    }
+//    public ProductMarketing getProductMarketing() {
+//        return productMarketing;
+//    }
+//
+//    public void setProductMarketing(ProductMarketing productMarketing) {
+//        this.productMarketing = productMarketing;
+//    }
 
     public String getCatalogCategoryCode() {
         return catalogCategoryCode;
@@ -144,55 +144,69 @@ public class CartItem extends AbstractEntity {
         this.catalogCategoryCode = catalogCategoryCode;
     }
 
-    public CatalogCategoryVirtual getCatalogCategory() {
-        return catalogCategory;
+//    public CatalogCategoryVirtual getCatalogCategory() {
+//        return catalogCategory;
+//    }
+//
+//    public void setCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+//        this.catalogCategory = catalogCategory;
+//    }
+
+    public DeliveryMethod getDeliveryMethod() {
+        return deliveryMethod;
     }
-    
-    public void setCatalogCategory(CatalogCategoryVirtual catalogCategory) {
-        this.catalogCategory = catalogCategory;
+
+    public void setDeliveryMethod(DeliveryMethod deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
+    }
+
+    public Set<CartItemTax> getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(Set<CartItemTax> taxes) {
+        this.taxes = taxes;
     }
 
     public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId) {
-		if(productSku != null
-				&& productSku.getPrices() != null
-				&& productSku.getPrices().size() > 0){
-		    for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
-		        final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
-                if(productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId)
-                        && productSkuPrice.getRetailerId() != null && productSkuPrice.getRetailerId().equals(retailerId)){
+        if (productSku != null && productSku.getPrices() != null && productSku.getPrices().size() > 0) {
+            for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
+                final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
+                if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.getRetailerId() != null
+                        && productSkuPrice.getRetailerId().equals(retailerId)) {
                     return productSkuPrice;
                 }
             }
-		}
-		return null;
-	}
-    
+        }
+        return null;
+    }
+
     public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
         final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
-        if(productSkuPrice != null){
+        if (productSkuPrice != null) {
             return productSkuPrice.getPriceWithStandardCurrencySign();
         }
         return null;
     }
-	
-	public BigDecimal getTotalAmountCartItem(final Long marketAreaId, final Long retailerId) {
-		BigDecimal totalAmount = new BigDecimal("0");
-		final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
-		if(productSkuPrice != null){
-			totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
-		}
-		totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-		return totalAmount;
-	}
-	
+
+    public BigDecimal getTotalAmountCartItem(final Long marketAreaId, final Long retailerId) {
+        BigDecimal totalAmount = new BigDecimal("0");
+        final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
+        if (productSkuPrice != null) {
+            totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
+        }
+        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
+        return totalAmount;
+    }
+
     public String getTotalAmountWithStandardCurrencySign(final Long marketAreaId, final Long retailerId) {
         BigDecimal totalAmount = new BigDecimal("0");
         final ProductSkuPrice productSkuPrice = getPrice(marketAreaId, retailerId);
-        if(productSkuPrice != null){
+        if (productSkuPrice != null) {
             totalAmount = totalAmount.add(productSkuPrice.getSalePrice());
         }
         totalAmount = totalAmount.multiply(new BigDecimal(quantity));
         return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
     }
-    
+
 }

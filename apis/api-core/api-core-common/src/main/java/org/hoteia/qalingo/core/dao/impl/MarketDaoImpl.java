@@ -81,11 +81,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
             marketPlace.setDateCreate(new Date());
         }
         marketPlace.setDateUpdate(new Date());
-        if(marketPlace.getId() == null){
-            em.persist(marketPlace);
-        } else {
-            em.merge(marketPlace);
-        }
+        em.merge(marketPlace);
     }
 
     public void deleteMarketPlace(MarketPlace marketPlace) {
@@ -156,11 +152,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 			market.setDateCreate(new Date());
 		}
 		market.setDateUpdate(new Date());
-		if(market.getId() == null){
-			em.persist(market);
-		} else {
-			em.merge(market);
-		}
+	    em.merge(market);
 	}
 
 	public void deleteMarket(Market market) {

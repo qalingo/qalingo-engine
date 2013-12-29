@@ -87,8 +87,8 @@ public class EngineEcoSession extends AbstractEngineSession {
     private User currentUser;
 
     @Transient
-    private OrderCustomer lastOrder;
-
+    private Set<OrderCustomer> lastOrders = new HashSet<OrderCustomer>(); 
+    
     @Transient
     private String theme;
 
@@ -261,14 +261,43 @@ public class EngineEcoSession extends AbstractEngineSession {
         this.currentUser = user;
     }
 
+    public Set<OrderCustomer> getLastOrders() {
+        return lastOrders;
+    }
+
     public OrderCustomer getLastOrder() {
-        return lastOrder;
+        if(lastOrders != null){
+            for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
+                OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+                if(orderCustomer != null 
+                        && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                        && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                    return orderCustomer;
+            }
+        }
+        return null;
     }
-
+    
     public void setLastOrder(OrderCustomer lastOrder) {
-        this.lastOrder = lastOrder;
+        if(lastOrders != null){
+            if(getLastOrder() != null){
+                for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
+                    OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
+                    if(orderCustomer != null 
+                            && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                            && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                        orderCustomer = lastOrder;
+                }
+            } else {
+                lastOrders.add(lastOrder);
+            }
+        }
     }
 
+    public void setLastOrders(Set<OrderCustomer> lastOrders) {
+        this.lastOrders = lastOrders;
+    }
+    
     public String getTheme() {
         return theme;
     }

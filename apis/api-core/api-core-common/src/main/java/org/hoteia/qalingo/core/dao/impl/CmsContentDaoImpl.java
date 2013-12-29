@@ -38,11 +38,7 @@ public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsCont
 			cmsContent.setDateCreate(new Date());
 		}
 		cmsContent.setDateUpdate(new Date());
-		if(cmsContent.getId() == null){
-			em.persist(cmsContent);
-		} else {
-			em.merge(cmsContent);
-		}
+		em.merge(cmsContent);
 	}
 
 	public void deleteCmsContent(CmsContent cmsContent) {

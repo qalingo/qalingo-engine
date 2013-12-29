@@ -68,7 +68,7 @@ public class Market extends AbstractEntity {
     private String theme;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MARKETPLACE_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "MARKETPLACE_ID", insertable = true, updatable = true)
     private MarketPlace marketPlace;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

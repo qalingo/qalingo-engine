@@ -173,11 +173,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 			retailer.setDateCreate(new Date());
 		}
 		retailer.setDateUpdate(new Date());
-		if(retailer.getId() == null){
-			em.persist(retailer);
-		} else {
-			em.merge(retailer);
-		}
+		em.merge(retailer);
 	}
 
 	public void deleteRetailer(final Retailer retailer) {
@@ -203,11 +199,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 			retailerCustomerComment.setDateCreate(new Date());
 		}
 		retailerCustomerComment.setDateUpdate(new Date());
-		if(retailerCustomerComment.getId() == null){
-			em.persist(retailerCustomerComment);
-		} else {
-			em.merge(retailerCustomerComment);
-		}
+		em.merge(retailerCustomerComment);
 	}
 
 	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
@@ -253,11 +245,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 			store.setDateCreate(new Date());
 		}
 		store.setDateUpdate(new Date());
-		if(store.getId() == null){
-			em.persist(store);
-		} else {
-			em.merge(store);
-		}
+		em.merge(store);
 	}
 
 	public void deleteStore(final Store store) {

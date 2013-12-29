@@ -42,7 +42,7 @@ public class PaymentGatewayAttribute extends AbstractAttribute {
 	private int version;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID")
+    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
 	@Column(name="STRING_VALUE")

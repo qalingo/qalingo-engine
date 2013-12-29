@@ -19,7 +19,6 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.ProductBrandService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -38,10 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BrandLineController extends AbstractMCommerceController {
 
 	@Autowired
-	protected ProductService productMarketingService;
-	
-	@Autowired
-	protected ProductBrandService productBrandService;
+	protected ProductService productService;
 	
 	@RequestMapping(FoUrls.BRAND_LINE_URL)
 	public ModelAndView brandLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
@@ -49,9 +45,9 @@ public class BrandLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         
-		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
+		final ProductBrand productBrand = productService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		List<ProductMarketing>  productMarketings = productMarketingService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
+		List<ProductMarketing>  productMarketings = productService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand, productMarketings);
 		model.addAttribute("productBrand", productBrandViewBean);
 		

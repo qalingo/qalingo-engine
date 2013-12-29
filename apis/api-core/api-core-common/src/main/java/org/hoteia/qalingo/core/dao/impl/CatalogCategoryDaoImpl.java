@@ -99,11 +99,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 			catalogCategory.setDateCreate(new Date());
 		}
 		catalogCategory.setDateUpdate(new Date());
-		if(catalogCategory.getId() == null){
-			em.persist(catalogCategory);
-		} else {
-			em.merge(catalogCategory);
-		}
+		em.merge(catalogCategory);
 	}
 
 	public void deleteCatalogCategory(CatalogCategoryMaster catalogCategory) {
@@ -190,11 +186,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 			catalogCategory.setDateCreate(new Date());
 		}
 		catalogCategory.setDateUpdate(new Date());
-		if(catalogCategory.getId() == null){
-			em.persist(catalogCategory);
-		} else {
-			em.merge(catalogCategory);
-		}
+		em.merge(catalogCategory);
 	}
 
 	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {

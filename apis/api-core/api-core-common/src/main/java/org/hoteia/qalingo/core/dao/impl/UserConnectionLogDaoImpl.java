@@ -58,11 +58,7 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 	}
 
 	public void saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
-		if(userConnectionLog.getId() == null){
-			em.persist(userConnectionLog);
-		} else {
-			em.merge(userConnectionLog);
-		}
+		em.merge(userConnectionLog);
 	}
 
 	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {

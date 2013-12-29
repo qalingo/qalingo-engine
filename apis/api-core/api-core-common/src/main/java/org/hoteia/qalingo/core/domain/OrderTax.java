@@ -22,85 +22,96 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_ORDER_TAX")
+@Table(name = "TECO_ORDER_TAX")
 public class OrderTax extends AbstractEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1091976459740418306L;
+    private static final long serialVersionUID = -1091976459740418306L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="tax_ID")
-	private Long taxId;
-	
-	@Column(name="PERCENT")
-	private BigDecimal percent;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public OrderTax(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "tax_ID")
+    private Long taxId;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "PERCENT")
+    private BigDecimal percent;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column(name = "AMOUNT")
+    private BigDecimal amount;
 
-	public Long getTaxId() {
-		return taxId;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setTaxId(Long taxId) {
-		this.taxId = taxId;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public BigDecimal getPercent() {
-		return percent;
-	}
+    public OrderTax() {
+    }
 
-	public void setPercent(BigDecimal percent) {
-		this.percent = percent;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-	
+    public Long getTaxId() {
+        return taxId;
+    }
+
+    public void setTaxId(Long taxId) {
+        this.taxId = taxId;
+    }
+
+    public BigDecimal getPercent() {
+        return percent;
+    }
+
+    public void setPercent(BigDecimal percent) {
+        this.percent = percent;
+    }
+    
+    public BigDecimal getAmount() {
+        return amount;
+    }
+    
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }

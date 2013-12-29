@@ -66,7 +66,7 @@ public class Company extends AbstractEntity {
     private Set<User> users = new HashSet<User>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)

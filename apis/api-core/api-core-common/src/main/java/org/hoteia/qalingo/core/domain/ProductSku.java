@@ -75,7 +75,7 @@ public class ProductSku extends AbstractEntity {
 	private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>(); 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_MARKETING_ID", insertable=false, updatable=false)
+    @JoinColumn(name="PRODUCT_MARKETING_ID", insertable = true, updatable = true)
 	private ProductMarketing productMarketing;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

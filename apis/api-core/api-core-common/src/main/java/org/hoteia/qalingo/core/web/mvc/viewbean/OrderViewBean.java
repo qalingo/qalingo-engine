@@ -23,12 +23,18 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
     private Long id;
     private int version;
     private String status;
+    private String confirmationMessage;
     private String orderNum;
 
+    private String expectedDeliveryDate;
+    
     private String orderItemsTotalWithCurrencySign;
     private String orderShippingTotalWithCurrencySign;
-    private String orderFeesTotalWithCurrencySign;
+    private String orderTaxesTotalWithCurrencySign;
     private String orderTotalWithCurrencySign;
+
+    private String paymentGateway;
+    private String paymentMethod;
 
     private String cardHolder;
     private String cardNumber;
@@ -76,7 +82,15 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-	    
+    
+    public String getConfirmationMessage() {
+        return confirmationMessage;
+    }
+    
+    public void setConfirmationMessage(String confirmationMessage) {
+        this.confirmationMessage = confirmationMessage;
+    }
+    
 	public String getOrderNum() {
 		return orderNum;
 	}
@@ -84,6 +98,14 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
+	
+	public String getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
+    }
+	
+	public void setExpectedDeliveryDate(String expectedDeliveryDate) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
+    }
 
 	public String getOrderItemsTotalWithCurrencySign() {
         return orderItemsTotalWithCurrencySign;
@@ -101,12 +123,12 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
         this.orderShippingTotalWithCurrencySign = orderShippingTotalWithCurrencySign;
     }
 
-    public String getOrderFeesTotalWithCurrencySign() {
-        return orderFeesTotalWithCurrencySign;
+    public String getOrderTaxesTotalWithCurrencySign() {
+        return orderTaxesTotalWithCurrencySign;
     }
 
-    public void setOrderFeesTotalWithCurrencySign(String orderFeesTotalWithCurrencySign) {
-        this.orderFeesTotalWithCurrencySign = orderFeesTotalWithCurrencySign;
+    public void setOrderTaxesTotalWithCurrencySign(String orderFeesTotalWithCurrencySign) {
+        this.orderTaxesTotalWithCurrencySign = orderFeesTotalWithCurrencySign;
     }
 
     public String getOrderTotalWithCurrencySign() {
@@ -115,6 +137,22 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 
     public void setOrderTotalWithCurrencySign(String orderTotalWithCurrencySign) {
         this.orderTotalWithCurrencySign = orderTotalWithCurrencySign;
+    }
+
+    public String getPaymentGateway() {
+        return paymentGateway;
+    }
+
+    public void setPaymentGateway(String paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public String getCardHolder() {
@@ -196,23 +234,44 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 	public void setOrderItems(List<OrderItemViewBean> orderItems) {
 		this.orderItems = orderItems;
 	}
+	
+    public int getTotalCartItems() {
+        if (orderItems != null) {
+            return orderItems.size();
+        }
+        return 0;
+    }
+    
+    public List<OrderShippingViewBean> getOrderShippings() {
+        return orderShippings;
+    }
 
-	public List<OrderShippingViewBean> getOrderShippings() {
-		return orderShippings;
-	}
+    public void setOrderShippings(List<OrderShippingViewBean> orderShippings) {
+        this.orderShippings = orderShippings;
+    }
 
-	public void setOrderShippings(List<OrderShippingViewBean> orderShippings) {
-		this.orderShippings = orderShippings;
-	}
-
+    public int getTotalOrderShippings() {
+        if (orderShippings != null) {
+            return orderShippings.size();
+        }
+        return 0;
+    }
+    
     public List<OrderTaxViewBean> getOrderTaxes() {
         return orderTaxes;
     }
-
+    
     public void setOrderTaxes(List<OrderTaxViewBean> orderTaxes) {
         this.orderTaxes = orderTaxes;
     }
-
+    
+    public int getTotalOrderTaxes() {
+        if (orderTaxes != null) {
+            return orderTaxes.size();
+        }
+        return 0;
+    }
+    
     public String getDetailsUrl() {
         return detailsUrl;
     }

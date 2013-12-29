@@ -68,11 +68,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
             user.setDateCreate(new Date());
         }
         user.setDateUpdate(new Date());
-        if (user.getId() == null) {
-            em.persist(user);
-        } else {
-            em.merge(user);
-        }
+        em.merge(user);
     }
 
     public void deleteUser(User user) {
@@ -122,11 +118,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
             company.setDateCreate(new Date());
         }
         company.setDateUpdate(new Date());
-        if (company.getId() == null) {
-            em.persist(company);
-        } else {
-            em.merge(company);
-        }
+        em.merge(company);
     }
 
     public void deleteCompany(Company company) {

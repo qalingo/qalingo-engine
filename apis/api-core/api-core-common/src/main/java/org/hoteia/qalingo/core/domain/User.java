@@ -72,11 +72,11 @@ public class User extends AbstractEntity {
     private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMPANY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "COMPANY_ID", insertable = true, updatable = true)
     private Company company;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class)

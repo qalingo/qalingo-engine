@@ -93,11 +93,7 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 			notification.setDateCreate(new Date());
 		}
 		notification.setDateUpdate(new Date());
-		if(notification.getId() == null){
-			em.persist(notification);
-		} else {
-			em.merge(notification);
-		}
+		em.merge(notification);
 	}
 
 	public void deleteNotification(Notification notification) {

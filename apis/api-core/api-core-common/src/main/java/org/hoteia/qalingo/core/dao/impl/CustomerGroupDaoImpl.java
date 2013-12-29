@@ -52,11 +52,7 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
 			customerGroup.setDateCreate(new Date());
 		}
 		customerGroup.setDateUpdate(new Date());
-		if(customerGroup.getId() == null){
-			em.persist(customerGroup);
-		} else {
-			em.merge(customerGroup);
-		}
+		em.merge(customerGroup);
 	}
 
 	public void deleteCustomerGroup(CustomerGroup customerGroup) {

@@ -16,7 +16,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.ProductBrandService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -34,7 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BrandDetailsController extends AbstractMCommerceController {
 
 	@Autowired
-	protected ProductBrandService productBrandService;
+	protected ProductService productService;
 	
 	@RequestMapping(FoUrls.BRAND_DETAILS_URL)
 	public ModelAndView brandDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_BRAND_CODE) final String brandCode) throws Exception {
@@ -42,7 +42,7 @@ public class BrandDetailsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         
-		final ProductBrand productBrand = productBrandService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
+		final ProductBrand productBrand = productService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute("productBrand", productBrandViewBean);

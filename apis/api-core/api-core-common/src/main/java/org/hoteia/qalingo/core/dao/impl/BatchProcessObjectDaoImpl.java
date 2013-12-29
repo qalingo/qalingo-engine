@@ -68,11 +68,7 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 			batchProcessObject.setDateCreate(new Date());
 		}
 		batchProcessObject.setDateUpdate(new Date());
-		if(batchProcessObject.getId() == null){
-			em.persist(batchProcessObject);
-		} else {
-			em.merge(batchProcessObject);
-		}
+		em.merge(batchProcessObject);
 	}
 
 	public void deleteBatchProcessObject(BatchProcessObject batchProcessObject) {
