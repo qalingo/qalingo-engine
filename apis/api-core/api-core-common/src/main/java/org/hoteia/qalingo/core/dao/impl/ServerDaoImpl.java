@@ -111,11 +111,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
     }
     
 	public void saveOrUpdateServerStatus(final ServerStatus serverStatus) {
-		if(serverStatus.getId() == null){
-			em.persist(serverStatus);
-		} else {
-			em.merge(serverStatus);
-		}
+		em.merge(serverStatus);
 	}
 
 	public void deleteServerStatus(final ServerStatus serverStatus) {

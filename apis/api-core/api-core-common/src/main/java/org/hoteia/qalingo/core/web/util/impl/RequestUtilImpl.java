@@ -46,6 +46,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
@@ -109,6 +110,9 @@ public class RequestUtilImpl implements RequestUtil {
     
     @Autowired
     protected UserService userService;
+    
+    @Autowired
+    protected EngineSessionService engineSessionService;
 
     /**
 	 *
@@ -533,6 +537,15 @@ public class RequestUtilImpl implements RequestUtil {
         request.getSession().setAttribute(Constants.ENGINE_BO_SESSION_OBJECT, engineBoSession);
     }
 
+    /**
+     * 
+     */
+    public void resetCurrentCart(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        engineEcoSession.resetCurrentCart();
+        updateCurrentEcoSession(request, engineEcoSession);
+    }
+    
     /**
      * 
      */
@@ -1420,6 +1433,9 @@ public class RequestUtilImpl implements RequestUtil {
         initDefaultEcoMarketPlace(request);
         initCart(request);
         updateCurrentEcoSession(request, engineEcoSession);
+        
+        engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+        
         return engineEcoSession;
     }
 

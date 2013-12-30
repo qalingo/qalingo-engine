@@ -52,6 +52,12 @@ public class ContextController extends AbstractFrontofficeQalingoController {
         context.getUrls().add(url);
 
         url = new UrlPojo();
+        url.setCode(FoUrls.ADD_TO_CART_AJAX.name());
+        url.setUrl(urlService.generateUrl(FoUrls.ADD_TO_CART_AJAX, requestData));
+        url.setMethod("GET");
+        context.getUrls().add(url);
+        
+        url = new UrlPojo();
         url.setCode(FoUrls.UPDATE_CART_ITEM_AJAX.name());
         url.setUrl(urlService.generateUrl(FoUrls.UPDATE_CART_ITEM_AJAX, requestData));
         url.setMethod("GET");

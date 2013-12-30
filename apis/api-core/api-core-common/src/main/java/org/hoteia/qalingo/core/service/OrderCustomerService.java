@@ -17,8 +17,8 @@ public interface OrderCustomerService {
 
 	OrderCustomer getOrderById(String orderCustomerId);
 
-	OrderCustomer getOrderByCode(String code);
-
+	OrderCustomer getOrderByOrderNum(String orderNum);
+	
 	List<OrderCustomer> findOrders();
 	
 	List<OrderCustomer> findOrdersByCustomerId(String customerId);

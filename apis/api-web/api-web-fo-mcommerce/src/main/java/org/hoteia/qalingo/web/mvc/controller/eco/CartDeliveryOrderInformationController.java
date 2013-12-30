@@ -26,6 +26,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -60,8 +61,8 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
-//        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-//        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 3);
 
@@ -82,6 +83,11 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         }
 
         if (result.hasErrors()) {
+            return displayOrderDelivery(request, response);
+        }
+
+        if (currentCart.getDeliveryMethods() == null) {
+            addErrorMessage(request, "DELIVERY");
             return displayOrderDelivery(request, response);
         }
 

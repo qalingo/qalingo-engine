@@ -21,6 +21,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoDeliveryMethodInformationPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoErrorPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
@@ -167,10 +168,14 @@ public class CartAjaxController extends AbstractMCommerceController {
         try {
             final MarketArea marketArea = requestData.getMarketArea();
             final Cart cart = requestData.getCart();
-            cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+            if(cart.getDeliveryMethods().isEmpty()){
+                cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+            } else {
+                cart.getDeliveryMethods().clear();
+                cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+            }
             requestUtil.updateCurrentCart(request, cart);
             
-//            webManagementService.deleteCartItem(requestData, productSkuCode);
         } catch (Exception e) {
             logger.error("", e);
             FoErrorPojo error = new FoErrorPojo();
@@ -190,7 +195,11 @@ public class CartAjaxController extends AbstractMCommerceController {
             checkout.setCart(cart);
 
             List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(requestData.getMarketArea());
-            checkout.setAvailableDeliveryMethods(availableDeliveryMethods);
+            
+            // TODO : SPLIT availableDeliveryMethods by items which matchs : drools ? and display deliveyMethods group by items : customer will choose 2 or more deliveyMethod
+            FoDeliveryMethodInformationPojo deliveryMethodInformation = new FoDeliveryMethodInformationPojo();
+            deliveryMethodInformation.setAvailableDeliveryMethods(availableDeliveryMethods);
+            checkout.getDeliveryMethodInformations().add(deliveryMethodInformation);
 
         } catch (Exception e) {
             logger.error("", e);

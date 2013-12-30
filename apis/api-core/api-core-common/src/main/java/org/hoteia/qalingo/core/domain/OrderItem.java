@@ -10,7 +10,10 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,85 +22,110 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TECO_ORDER_ITEM")
+@Table(name = "TECO_ORDER_ITEM")
 public class OrderItem extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 6982641911557993534L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 6982641911557993534L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Column(name="PRICE")
-	private BigDecimal price;
-	
-	@Column(name="QUANTITY", nullable=false, columnDefinition="int(11) default 0")
-	private int quantity;
-	
-	@Column(name="PRODUCT_SKU_CODE")
-	private String productSkuCode;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_SKU_ID", insertable=false, updatable=false)
-	private ProductSku productSku;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	public OrderItem(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
+    private CurrencyReferential currency;
+    
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public BigDecimal getPrice() {
-		return price;
-	}
-	
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	
-	public int getQuantity() {
-		return quantity;
-	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	public String getProductSkuCode() {
-		return productSkuCode;
-	}
-	
-	public void setProductSkuCode(String productSkuCode) {
-		this.productSkuCode = productSkuCode;
-	}
-	
-	public ProductSku getProductSku() {
-		return productSku;
-	}
-	
-	public void setProductSku(ProductSku productSku) {
-		this.productSku = productSku;
-	}
-	
-	public BigDecimal getTotalAmountOrderItem() {
-		BigDecimal totalAmount = new BigDecimal("0");
-		if(price != null){
-			totalAmount = totalAmount.add(price);
-		}
-		totalAmount = totalAmount.multiply(new BigDecimal(quantity));
-		return totalAmount;
-	}
-	
+    @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
+    private int quantity;
+
+    @Column(name = "PRODUCT_SKU_CODE")
+    private String productSkuCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
+    private ProductSku productSku;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ORDER_TAX_ID")
+    private Set<OrderTax> orderTaxes = new HashSet<OrderTax>();
+
+    public OrderItem() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public CurrencyReferential getCurrency() {
+        return currency;
+    }
+    
+    public void setCurrency(CurrencyReferential currency) {
+        this.currency = currency;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getProductSkuCode() {
+        return productSkuCode;
+    }
+
+    public void setProductSkuCode(String productSkuCode) {
+        this.productSkuCode = productSkuCode;
+    }
+
+    public ProductSku getProductSku() {
+        return productSku;
+    }
+
+    public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
+    }
+
+    public Set<OrderTax> getOrderTaxes() {
+        return orderTaxes;
+    }
+
+    public void setOrderTaxes(Set<OrderTax> orderTaxes) {
+        this.orderTaxes = orderTaxes;
+    }
+    
+    public BigDecimal getTotalAmountOrderItem() {
+        BigDecimal totalAmount = new BigDecimal("0");
+        if (price != null) {
+            totalAmount = totalAmount.add(price);
+        }
+        totalAmount = totalAmount.multiply(new BigDecimal(quantity));
+        return totalAmount;
+    }
+
 }

@@ -25,7 +25,9 @@ public class CartItemPojo {
     private String productSkuCode;
     
     private CartItemPricePojo cartItemPrice;
+    
     private Set<CartItemTaxPojo> taxes = new HashSet<CartItemTaxPojo>();
+
     private ProductSkuPojo productSku;
     private String productMarketingCode;
     private ProductMarketingPojo productMarketing;

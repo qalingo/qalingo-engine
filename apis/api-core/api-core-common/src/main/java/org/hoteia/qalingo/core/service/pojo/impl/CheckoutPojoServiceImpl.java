@@ -17,11 +17,9 @@ import java.util.Set;
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
-import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 import org.hoteia.qalingo.core.service.CartService;
@@ -55,15 +53,15 @@ public class CheckoutPojoServiceImpl implements CheckoutPojoService {
             cartItem.getProductSku().setProductMarketing(null);
             cartItem.getProductSku().setRetailers(null);
 
-            cartItem.getProductMarketing().setProductBrand(null);
-            cartItem.getProductMarketing().setProductMarketingType(null);
-            cartItem.getProductMarketing().setProductSkus(null);
-            cartItem.getProductMarketing().setProductAssociationLinks(null);
-            cartItem.getProductMarketing().setDefaultCatalogCategory(null);
+//            cartItem.getProductMarketing().setProductBrand(null);
+//            cartItem.getProductMarketing().setProductMarketingType(null);
+//            cartItem.getProductMarketing().setProductSkus(null);
+//            cartItem.getProductMarketing().setProductAssociationLinks(null);
+//            cartItem.getProductMarketing().setDefaultCatalogCategory(null);
 
-            cartItem.getCatalogCategory().setDefaultParentCatalogCategory(null);
-            cartItem.getCatalogCategory().setCatalogCategories(null);
-            cartItem.getCatalogCategory().setProductMarketings(null);
+//            cartItem.getCatalogCategory().setDefaultParentCatalogCategory(null);
+//            cartItem.getCatalogCategory().setCatalogCategories(null);
+//            cartItem.getCatalogCategory().setProductMarketings(null);
         }
         
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);

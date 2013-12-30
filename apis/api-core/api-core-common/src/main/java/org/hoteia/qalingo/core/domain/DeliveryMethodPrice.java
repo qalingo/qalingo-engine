@@ -47,7 +47,7 @@ public class DeliveryMethodPrice extends AbstractPrice {
 	private BigDecimal price;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="CURRENCY_ID", insertable=false, updatable=false)
+    @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
 	private CurrencyReferential currency;
 	
 	@Column(name="MARKET_AREA_ID")

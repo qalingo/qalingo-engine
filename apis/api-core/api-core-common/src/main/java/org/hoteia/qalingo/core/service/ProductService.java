@@ -86,4 +86,14 @@ public interface ProductService {
     
     void deleteProductSkuAsset(Asset productSkuAsset);
     
+    // PRODUCT BRAND
+    
+
+    ProductBrand getProductBrandById(String productBrandId);
+
+    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
+
+    void saveOrUpdateProductBrand(ProductBrand productBrand);
+
+    void deleteProductBrand(ProductBrand productBrand);
 }

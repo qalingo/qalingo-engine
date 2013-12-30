@@ -45,7 +45,7 @@ public class StoreAttribute extends AbstractAttribute {
 	private int version;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable=false, updatable=false)
+    @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable=true, updatable=true)
 	private AttributeDefinition attributeDefinition;
 	
 	@Column(name="STRING_VALUE")

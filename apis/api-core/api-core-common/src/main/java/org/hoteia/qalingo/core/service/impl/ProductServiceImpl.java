@@ -26,12 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("productMarketingService")
+@Service("productService")
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductDao productMarketingDao;
+    private ProductDao productDao;
 
     // PRODUCT MARKETING
 
@@ -42,43 +42,43 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productMarketingDao.getProductMarketingById(productMarketingId);
+        return productDao.getProductMarketingById(productMarketingId);
     }
 
     public ProductMarketing getProductMarketingByCode(final String productMarketingCode) {
-        return productMarketingDao.getProductMarketingByCode(productMarketingCode);
+        return productDao.getProductMarketingByCode(productMarketingCode);
     }
 
     public List<ProductMarketing> findProductMarketings(final Long marketAreaId) {
-        List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketings();
+        List<ProductMarketing> productMarketings = productDao.findProductMarketings();
         return orderProductMarketingList(marketAreaId, productMarketings);
     }
 
     public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final String text) {
-        List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketings(text);
+        List<ProductMarketing> productMarketings = productDao.findProductMarketings(text);
         return orderProductMarketingList(marketAreaId, productMarketings);
     }
 
     public List<ProductMarketing> findProductMarketingsByBrandId(final Long marketAreaId, final Long brandId) {
-        List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByBrandId(brandId);
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsByBrandId(brandId);
         return orderProductMarketingList(marketAreaId, productMarketings);
     }
 
     public List<ProductMarketing> findProductMarketingsByBrandCode(final Long marketAreaId, final String brandCode) {
-        List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByBrandCode(brandCode);
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsByBrandCode(brandCode);
         return orderProductMarketingList(marketAreaId, productMarketings);
     }
     public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final Long marketAreaId,final String categoryCode){
-    	List<ProductMarketing> productMarketings = productMarketingDao.findProductMarketingsByCatalogCategoryCode(categoryCode);
+    	List<ProductMarketing> productMarketings = productDao.findProductMarketingsByCatalogCategoryCode(categoryCode);
     	return orderProductMarketingList(marketAreaId, productMarketings);
     }
 
-    public void saveOrUpdateProductMarketing(ProductMarketing productMarketing) {
-        productMarketingDao.saveOrUpdateProductMarketing(productMarketing);
+    public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
+        productDao.saveOrUpdateProductMarketing(productMarketing);
     }
 
-    public void deleteProductMarketing(ProductMarketing productMarketing) {
-        productMarketingDao.deleteProductMarketing(productMarketing);
+    public void deleteProductMarketing(final ProductMarketing productMarketing) {
+        productDao.deleteProductMarketing(productMarketing);
     }
 
     protected List<ProductMarketing> orderProductMarketingList(final Long marketAreaId, final List<ProductMarketing> productMarketings) {
@@ -107,19 +107,19 @@ public class ProductServiceImpl implements ProductService {
     // PRODUCT MARKETING COMMENT/RATE
     
     public void saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        productMarketingDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
+        productDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
     }
 
     public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        productMarketingDao.deleteProductMarketingCustomerRate(productMarketingCustomerRate);
+        productDao.deleteProductMarketingCustomerRate(productMarketingCustomerRate);
     }
     
     public void saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
-        productMarketingDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
+        productDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
     }
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
-        productMarketingDao.deleteProductMarketingCustomerComment(productMarketingCustomerRate);
+        productDao.deleteProductMarketingCustomerComment(productMarketingCustomerRate);
     }
 
     // PRODUCT MARKETING ASSET
@@ -131,19 +131,19 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productMarketingDao.getProductMarketingAssetById(productMarketingId);
+        return productDao.getProductMarketingAssetById(productMarketingId);
     }
 
-    public Asset getProductMarketingAssetByCode(String assetCode) {
-        return productMarketingDao.getProductMarketingAssetByCode(assetCode);
+    public Asset getProductMarketingAssetByCode(final String assetCode) {
+        return productDao.getProductMarketingAssetByCode(assetCode);
     }
 
-    public void saveOrUpdateProductMarketingAsset(Asset productMarketingAsset) {
-        productMarketingDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
+    public void saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
+        productDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
     }
 
-    public void deleteProductMarketingAsset(Asset productMarketingAsset) {
-        productMarketingDao.deleteProductMarketingAsset(productMarketingAsset);
+    public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
+        productDao.deleteProductMarketingAsset(productMarketingAsset);
     }
 
     // PRODUCT SKU
@@ -155,29 +155,29 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productMarketingDao.getProductSkuById(productSkuId);
+        return productDao.getProductSkuById(productSkuId);
     }
 
     public ProductSku getProductSkuByCode(final String productSkuCode) {
-        return productMarketingDao.getProductSkuByCode(productSkuCode);
+        return productDao.getProductSkuByCode(productSkuCode);
     }
 
     public List<ProductSku> findProductSkusByproductMarketingId(final Long marketAreaId, final Long productMarketing) {
-        List<ProductSku> skus = productMarketingDao.findProductSkusByproductMarketingId(productMarketing);
+        List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketing);
         return orderProductSkuList(marketAreaId, skus);
     }
 
     public List<ProductSku> findProductSkus(final Long marketAreaId, final String text) {
-        List<ProductSku> skus = productMarketingDao.findProductSkus(text);
+        List<ProductSku> skus = productDao.findProductSkus(text);
         return orderProductSkuList(marketAreaId, skus);
     }
 
-    public void saveOrUpdateProductSku(ProductSku productSku) {
-        productMarketingDao.saveOrUpdateProductSku(productSku);
+    public void saveOrUpdateProductSku(final ProductSku productSku) {
+        productDao.saveOrUpdateProductSku(productSku);
     }
 
-    public void deleteProductSku(ProductSku productSku) {
-        productMarketingDao.deleteProductSku(productSku);
+    public void deleteProductSku(final ProductSku productSku) {
+        productDao.deleteProductSku(productSku);
     }
 
     protected List<ProductSku> orderProductSkuList(final Long marketAreaId, final List<ProductSku> skus) {
@@ -209,24 +209,47 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productMarketingDao.getProductSkuAssetById(productSkuId);
+        return productDao.getProductSkuAssetById(productSkuId);
     }
 
-    public Asset getProductSkuAssetByCode(String assetCode) {
-        return productMarketingDao.getProductSkuAssetByCode(assetCode);
+    public Asset getProductSkuAssetByCode(final String assetCode) {
+        return productDao.getProductSkuAssetByCode(assetCode);
     }
 
-    public void saveOrUpdateProductSkuAsset(Asset productSkuAsset) {
-        productMarketingDao.saveOrUpdateProductSkuAsset(productSkuAsset);
+    public void saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {
+        productDao.saveOrUpdateProductSkuAsset(productSkuAsset);
     }
 
-    public void deleteProductSkuAsset(Asset productSkuAsset) {
-        productMarketingDao.deleteProductSkuAsset(productSkuAsset);
+    public void deleteProductSkuAsset(final Asset productSkuAsset) {
+        productDao.deleteProductSkuAsset(productSkuAsset);
     }
     
-    @Override
-    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode) {
-    	return productMarketingDao.findProductBrandsByCatalogCategoryCode(categoryCode);
+    // PRODUCT BRAND
+    
+    public ProductBrand getProductBrandById(String rawProductBrandId) {
+        long ProductBrandId = -1;
+        try {
+            ProductBrandId = Long.parseLong(rawProductBrandId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return productDao.getProductBrandById(ProductBrandId);
+    }
+
+    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
+        return productDao.getProductBrandByCode(marketAreaId, productBrandCode);
+    }
+    
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
+        return productDao.findProductBrandsByCatalogCategoryCode(categoryCode);
+    }
+
+    public void saveOrUpdateProductBrand(final ProductBrand productBrand) {
+        productDao.saveOrUpdateProductBrand(productBrand);
+    }
+
+    public void deleteProductBrand(final ProductBrand productBrand) {
+        productDao.deleteProductBrand(productBrand);
     }
 
 }

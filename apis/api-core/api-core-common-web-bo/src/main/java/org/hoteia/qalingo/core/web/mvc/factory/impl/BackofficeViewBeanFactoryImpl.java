@@ -922,8 +922,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         orderViewBean.setStatus(order.getStatus());
         orderViewBean.setOrderNum(order.getOrderNum());
         orderViewBean.setCustomerId(order.getCustomerId());
-        orderViewBean.setBillingAddressId(order.getBillingAddressId());
-        orderViewBean.setShippingAddressId(order.getShippingAddressId());
+        orderViewBean.setBillingAddressId(order.getBillingAddress().getId());
+        orderViewBean.setShippingAddressId(order.getShippingAddress().getId());
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (order.getDateCreate() != null) {

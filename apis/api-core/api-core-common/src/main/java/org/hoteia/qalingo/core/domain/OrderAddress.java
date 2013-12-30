@@ -22,13 +22,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_CUSTOMER_ADDRESS")
-public class CustomerAddress extends AbstractAddress {
+@Table(name = "TECO_ORDER_ADDRESS")
+public class OrderAddress extends AbstractAddress {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 2501911341288490523L;
+    private static final long serialVersionUID = 3628591425494221266L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,9 +38,6 @@ public class CustomerAddress extends AbstractAddress {
     @Version
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
-
-    @Column(name = "ADDRESS_NAME")
-    private String addressName;
 
     @Column(name = "TITLE")
     private String title;
@@ -75,18 +72,6 @@ public class CustomerAddress extends AbstractAddress {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
-    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
-    private boolean isDefault;
-
-    @Column(name = "CUSTOMER_ID")
-    private Long customerId;
-
-    @Column(name = "IS_DEFAULT_BILLING", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean isDefaultBilling;
-
-    @Column(name = "IS_DEFAULT_SHIPPING", nullable = false, columnDefinition = "tinyint(1) default 1")
-    private boolean isDefaultShipping;
-
     @Column(name = "LONGITUDE")
     private String longitude;
 
@@ -101,7 +86,7 @@ public class CustomerAddress extends AbstractAddress {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-    public CustomerAddress() {
+    public OrderAddress() {
     }
 
     public Long getId() {
@@ -110,14 +95,6 @@ public class CustomerAddress extends AbstractAddress {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAddressName() {
-        return addressName;
-    }
-
-    public void setAddressName(String addressName) {
-        this.addressName = addressName;
     }
 
     public String getTitle() {
@@ -216,38 +193,6 @@ public class CustomerAddress extends AbstractAddress {
         this.countryCode = countryCode;
     }
 
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public boolean isDefaultBilling() {
-        return isDefaultBilling;
-    }
-
-    public void setDefaultBilling(boolean isDefaultBilling) {
-        this.isDefaultBilling = isDefaultBilling;
-    }
-
-    public boolean isDefaultShipping() {
-        return isDefaultShipping;
-    }
-
-    public void setDefaultShipping(boolean isDefaultShipping) {
-        this.isDefaultShipping = isDefaultShipping;
-    }
-
     public String getLongitude() {
         return longitude;
     }
@@ -287,18 +232,13 @@ public class CustomerAddress extends AbstractAddress {
         result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
         result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
         result = prime * result + ((addressAdditionalInformation == null) ? 0 : addressAdditionalInformation.hashCode());
-        result = prime * result + ((addressName == null) ? 0 : addressName.hashCode());
         result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
-        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isDefault ? 1231 : 1237);
-        result = prime * result + (isDefaultBilling ? 1231 : 1237);
-        result = prime * result + (isDefaultShipping ? 1231 : 1237);
         result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
         result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
@@ -317,7 +257,7 @@ public class CustomerAddress extends AbstractAddress {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CustomerAddress other = (CustomerAddress) obj;
+        OrderAddress other = (OrderAddress) obj;
         if (address1 == null) {
             if (other.address1 != null)
                 return false;
@@ -333,11 +273,6 @@ public class CustomerAddress extends AbstractAddress {
                 return false;
         } else if (!addressAdditionalInformation.equals(other.addressAdditionalInformation))
             return false;
-        if (addressName == null) {
-            if (other.addressName != null)
-                return false;
-        } else if (!addressName.equals(other.addressName))
-            return false;
         if (areaCode == null) {
             if (other.areaCode != null)
                 return false;
@@ -352,11 +287,6 @@ public class CustomerAddress extends AbstractAddress {
             if (other.countryCode != null)
                 return false;
         } else if (!countryCode.equals(other.countryCode))
-            return false;
-        if (customerId == null) {
-            if (other.customerId != null)
-                return false;
-        } else if (!customerId.equals(other.customerId))
             return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
@@ -377,12 +307,6 @@ public class CustomerAddress extends AbstractAddress {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (isDefault != other.isDefault)
-            return false;
-        if (isDefaultBilling != other.isDefaultBilling)
-            return false;
-        if (isDefaultShipping != other.isDefaultShipping)
             return false;
         if (lastname == null) {
             if (other.lastname != null)
@@ -421,10 +345,9 @@ public class CustomerAddress extends AbstractAddress {
 
     @Override
     public String toString() {
-        return "CustomerAddress [id=" + id + ", addressName=" + addressName + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", version=" + version + ", address1="
-                + address1 + ", address2=" + address2 + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode
-                + ", areaCode=" + areaCode + ", countryCode=" + countryCode + ", isDefault=" + isDefault + ", customerId=" + customerId + ", isDefaultBilling=" + isDefaultBilling
-                + ", isDefaultShipping=" + isDefaultShipping + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "OrderAddress [id=" + id + ", version=" + version + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", address1=" + address1 + ", address2=" + address2
+                + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode
+                + ", countryCode=" + countryCode + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

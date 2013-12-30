@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -61,11 +62,11 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	}
 
 	public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
-		if(deliveryMethod.getId() == null){
-			em.persist(deliveryMethod);
-		} else {
-			em.merge(deliveryMethod);
-		}
+        if (deliveryMethod.getDateCreate() == null) {
+            deliveryMethod.setDateCreate(new Date());
+        }
+        deliveryMethod.setDateUpdate(new Date());
+		em.merge(deliveryMethod);
 	}
 
 	public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {

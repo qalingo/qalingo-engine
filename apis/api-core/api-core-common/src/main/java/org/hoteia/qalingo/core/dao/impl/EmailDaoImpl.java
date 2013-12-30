@@ -97,11 +97,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         }
         email.setDateUpdate(new Timestamp(new Date().getTime()));
 
-        if (email.getId() == null) {
-            em.persist(email);
-        } else {
-            em.merge(email);
-        }
+        em.merge(email);
     }
 
     /**

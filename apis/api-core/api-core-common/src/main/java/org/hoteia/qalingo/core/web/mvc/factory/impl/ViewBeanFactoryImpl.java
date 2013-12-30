@@ -48,6 +48,7 @@ import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -106,6 +107,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OurCompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentMethodOptionViewBean;
@@ -211,8 +213,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public HeaderCartViewBean buildHeaderCartViewBean(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         final HeaderCartViewBean headerCartViewBean = new HeaderCartViewBean();
 
         // NO CACHE FOR THIS PART
@@ -245,9 +246,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public List<FooterMenuViewBean> buildFooterMenuViewBeans(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 
         FooterMenuViewBean footerMenuList = new FooterMenuViewBean();
@@ -287,8 +286,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public FollowUsViewBean buildFollowUsViewBean(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
 
         final FollowUsViewBean followUs = new FollowUsViewBean();
 
@@ -325,8 +323,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public LegalTermsViewBean buildLegalTermsViewBean(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
 
         final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
 
@@ -421,8 +418,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
 
         final RetailerViewBean retailerViewBean = new RetailerViewBean();
 
@@ -558,8 +554,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
 
         List<CutomerMenuViewBean> customerLinks = new ArrayList<CutomerMenuViewBean>();
         CutomerMenuViewBean cutomerMenuViewBean = new CutomerMenuViewBean();
@@ -762,8 +757,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public LocalizationViewBean buildLocalizationViewBean(final RequestData requestData, final Localization localization) throws Exception {
-        final Localization currentLocalization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         final String localizationCodeNavigation = localization.getCode();
 
         final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
@@ -784,7 +778,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
         localizationViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
-        if (localization.getCode().equals(currentLocalization.getCode())) {
+        if (localization.getLocale().equals(locale)) {
             localizationViewBean.setActive(true);
         }
         return localizationViewBean;
@@ -854,8 +848,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public StoreLocatorViewBean buildStoreLocatorViewBean(final RequestData requestData, final List<Store> stores) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         StoreLocatorViewBean storeLocator = new StoreLocatorViewBean();
         storeLocator.setPageTitle(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "header.title", locale));
         storeLocator.setTextHtml(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "content.text", locale));
@@ -896,8 +889,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public ShareOptionViewBean buildShareOptionViewBean(final RequestData requestData, final String shareOption, final String relativeUrl) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
 
         String shareOptionCode = shareOption;
         String shareOptionColor = "";
@@ -931,9 +923,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public CustomerViewBean buildCustomerViewBean(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        final Localization localization = requestData.getMarketAreaLocalization();
-
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         final CustomerViewBean customerViewBean = new CustomerViewBean();
         if (customer != null) {
             customerViewBean.setAvatarImg(requestUtil.getCustomerAvatar(request, customer));
@@ -1051,8 +1041,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public CustomerAddressViewBean buildCustomeAddressViewBean(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
         customerAddressViewBean.setId(customerAddress.getId());
 
@@ -1339,6 +1328,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final Locale locale = requestData.getLocale();
         
         final CartViewBean cartViewBean = new CartViewBean();
+        cartViewBean.setWithPromoCode(true);
+        cartViewBean.setWithItemQuantityActions(true);
 
         cartViewBean.setCartDetailsUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
         cartViewBean.setCartAuthUrl(urlService.generateUrl(FoUrls.CART_AUTH, requestData));
@@ -1439,7 +1430,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, cartItem.getProductSkuCode());
         cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
-        cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
+        final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode());
+        
+        cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
 
         return cartItemViewBean;
     }
@@ -1461,11 +1455,18 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
+        final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
-
+        orderViewBean.setOrderNum(order.getOrderNum());
+        
         if (order != null) {
+            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            if (order.getExpectedDeliveryDate() != null) {
+                orderViewBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
+            } else {
+                orderViewBean.setExpectedDeliveryDate("NA");
+            }
+            
             // ITEMS PART
             final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
             final Set<OrderItem> orderItems = order.getOrderItems();
@@ -1475,18 +1476,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             }
             orderViewBean.setOrderItems(orderItemViewBeans);
 
-            // SUB PART : Subtotal
-            BigDecimal orderItemsTotal = new BigDecimal("0");
-            BigDecimal orderShippingTotal = new BigDecimal("0");
-            BigDecimal orderFeesTotal = new BigDecimal("0");
-            BigDecimal orderTotal = new BigDecimal("0");
-            for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-                final OrderItem orderItem = (OrderItem) iterator.next();
-                if (orderItem.getPrice() != null) {
-                    orderItemsTotal = orderItemsTotal.add(orderItem.getPrice());
-                }
-            }
-
             // SUB PART : Shippings
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
             final Set<OrderShipment> orderShipments = order.getOrderShipments();
@@ -1494,10 +1483,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                     final OrderShipment orderShipment = (OrderShipment) iterator.next();
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
-                    if (orderShipment.getPrice() != null) {
-                        orderShippingTotal = orderShippingTotal.add(orderShipment.getPrice());
-//                        orderShippingViewBean.setOrderShippingTotal(formatter.format(orderShipment.getPrice()));
-                    }
                     Object[] params = { orderShipment.getName() };
                     orderShippingViewBean.setOrderShippingTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                     orderShippingViewBeans.add(orderShippingViewBean);
@@ -1506,30 +1491,23 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             }
 
             // SUB PART : Taxes
-//            final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
-//            final Set<OrderTax> orderTaxes = order.getOrderTaxes();
-//            if (orderTaxes != null) {
-//                for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
-//                    final OrderTax orderTax = (OrderTax) iterator.next();
-//                    final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
-//                    BigDecimal taxesCalc = orderItemsTotal;
-//                    taxesCalc = taxesCalc.multiply(orderTax.getPercent());
-//                    taxesCalc = taxesCalc.divide(new BigDecimal("100"));
-//                    orderFeesTotal = orderFeesTotal.add(taxesCalc);
-//                    Object[] params = { orderTax.getName() };
-//                    orderTaxViewBean.setOrderTaxTotal(formatter.format(taxesCalc));
-//                    orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
-//                    orderTaxViewBeans.add(orderTaxViewBean);
-//                }
-//                orderViewBean.setOrderTaxes(orderTaxViewBeans);
-//            }
-//            orderTotal = orderTotal.add(orderItemsTotal);
-//            orderTotal = orderTotal.add(orderShippingTotal);
-//            orderTotal = orderTotal.add(orderFeesTotal);
-//            orderViewBean.setOrderItemsTotalWithCurrencySign(formatter.format(orderItemsTotal));
-//            orderViewBean.setOrderShippingTotalWithCurrencySign(formatter.format(orderShippingTotal));
-//            orderViewBean.setOrderFeesTotalWithCurrencySign(formatter.format(orderFeesTotal));
-//            orderViewBean.setOrderTotalWithCurrencySign(formatter.format(orderTotal));
+            final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
+            final Set<OrderTax> orderTaxes = order.getOrderTaxes();
+            if (orderTaxes != null) {
+                for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
+                    final OrderTax orderTax = (OrderTax) iterator.next();
+                    final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
+                    Object[] params = { orderTax.getAmount() };
+                    orderTaxViewBean.setOrderTaxTotal(order.getCurrency().formatPriceWithStandardCurrencySign(orderTax.getAmount()));
+                    orderTaxViewBean.setOrderTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
+                    orderTaxViewBeans.add(orderTaxViewBean);
+                }
+                orderViewBean.setOrderTaxes(orderTaxViewBeans);
+            }
+            orderViewBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithStandardCurrencySign());
+            orderViewBean.setOrderShippingTotalWithCurrencySign(order.getShippingTotalWithStandardCurrencySign());
+            orderViewBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
+            orderViewBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
 
             Map<String, String> getParams = new HashMap<String, String>();
             getParams.put(RequestConstants.REQUEST_PARAMETER_CUSTOMER_ORDER_GUID, order.getId().toString());
@@ -1551,19 +1529,22 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final OrderItemViewBean orderItemViewBean = new OrderItemViewBean();
 
         orderItemViewBean.setSkuCode(orderItem.getProductSkuCode());
-        orderItemViewBean.setName(orderItem.getProductSku().getI18nName(localizationCode));
+        if(StringUtils.isNotEmpty(orderItem.getProductSkuCode())){
+            ProductSku ProductSku = productService.getProductSkuByCode(orderItem.getProductSkuCode());
+            orderItemViewBean.setName(ProductSku.getI18nName(localizationCode));
+        }
 
-//        final BigDecimal price = orderItem.getPrice();
-//        if (price != null) {
-//            orderItemViewBean.setPrice(formatter.format(price));
-//        }
+        final BigDecimal price = orderItem.getPrice();
+        if (price != null) {
+            orderItemViewBean.setPrice(orderItem.getCurrency().formatPriceWithStandardCurrencySign(price));
+        }
 
         orderItemViewBean.setQuantity(orderItem.getQuantity());
 
-//        final BigDecimal totalAmountOrderItem = orderItem.getTotalAmountOrderItem();
-//        if (totalAmountOrderItem != null) {
-//            orderItemViewBean.setAmount(formatter.format(totalAmountOrderItem));
-//        }
+        final BigDecimal totalAmountOrderItem = orderItem.getTotalAmountOrderItem();
+        if (totalAmountOrderItem != null) {
+            orderItemViewBean.setAmount(orderItem.getCurrency().formatPriceWithStandardCurrencySign(totalAmountOrderItem));
+        }
         
         return orderItemViewBean;
     }

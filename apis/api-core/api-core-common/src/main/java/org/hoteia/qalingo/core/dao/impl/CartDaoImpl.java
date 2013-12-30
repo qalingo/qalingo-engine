@@ -43,11 +43,7 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 			cart.setDateCreate(new Date());
 		}
 		cart.setDateUpdate(new Date());
-		if(cart.getId() == null){
-			em.persist(cart);
-		} else {
-			em.merge(cart);
-		}
+		em.merge(cart);
 	}
 
 	public void deleteCart(Cart cart) {

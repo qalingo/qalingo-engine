@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -25,23 +26,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("attributeDao")
 public class AttributeDaoImpl extends AbstractGenericDaoImpl implements AttributeDao {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("id", attributeDefinitionId));
         AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinitions;
-	}
+    }
 
-	public AttributeDefinition getAttributeDefinitionByCode(final String code) {
+    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("code", code));
         AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinition;
-	}
-	
-	public List<AttributeDefinition> findAttributeDefinitions() {
+    }
+
+    public List<AttributeDefinition> findAttributeDefinitions() {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
 
         criteria.addOrder(Order.asc("attributeType"));
@@ -50,29 +51,33 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
         @SuppressWarnings("unchecked")
         List<AttributeDefinition> attributeDefinitions = criteria.list();
         return attributeDefinitions;
-	}
-	
-	public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
+    }
+
+    public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("objectType", objectType));
-        
+
         criteria.addOrder(Order.asc("attributeType"));
 
         @SuppressWarnings("unchecked")
         List<AttributeDefinition> attributeDefinitions = criteria.list();
         return attributeDefinitions;
-	}
-	
-	public void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition) {
-		if(attributeDefinition.getId() == null){
-			em.persist(attributeDefinition);
-		} else {
-			em.merge(attributeDefinition);
-		}
-	}
+    }
 
-	public void deleteAttributeDefinition(AttributeDefinition attributeDefinition) {
-		em.remove(attributeDefinition);
-	}
+    public void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition) {
+        if (attributeDefinition.getDateCreate() == null) {
+            attributeDefinition.setDateCreate(new Date());
+        }
+        attributeDefinition.setDateUpdate(new Date());
+        if (attributeDefinition.getId() == null) {
+            em.persist(attributeDefinition);
+        } else {
+            em.merge(attributeDefinition);
+        }
+    }
+
+    public void deleteAttributeDefinition(AttributeDefinition attributeDefinition) {
+        em.remove(attributeDefinition);
+    }
 
 }

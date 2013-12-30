@@ -85,11 +85,11 @@ public class MarketArea extends AbstractEntity {
     private CatalogVirtual catalog;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MARKET_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "MARKET_ID", insertable = true, updatable = true)
     private Market market;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_CURRENCY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "DEFAULT_CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential defaultCurrency;
     
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CurrencyReferential.class)
@@ -101,7 +101,7 @@ public class MarketArea extends AbstractEntity {
     private Set<MarketAreaAttribute> marketAreaAttributes = new HashSet<MarketAreaAttribute>();
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
     
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)

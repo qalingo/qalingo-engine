@@ -20,12 +20,15 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 8804558925159158979L;
 
+    boolean withItemQuantityActions = false;
+    boolean withPromoCode = false;
+
 	private String cartDetailsUrl;
 	private String cartAuthUrl;
 	private String cartDeliveryAndOrderDetailsUrl;
 	private String cartOrderPaymentUrl;
 	private String cartOrderConfirmationUrl;
-
+	
 	private String addNewAddressUrl;
 
 	private String cartItemsTotalWithCurrencySign;
@@ -40,7 +43,23 @@ public class CartViewBean extends AbstractViewBean implements Serializable {
 	public CartViewBean() {
 	}
 
-	public String getCartDetailsUrl() {
+	public boolean isWithItemQuantityActions() {
+        return withItemQuantityActions;
+    }
+
+    public void setWithItemQuantityActions(boolean withItemQuantityActions) {
+        this.withItemQuantityActions = withItemQuantityActions;
+    }
+
+    public boolean isWithPromoCode() {
+        return withPromoCode;
+    }
+
+    public void setWithPromoCode(boolean withPromoCode) {
+        this.withPromoCode = withPromoCode;
+    }
+
+    public String getCartDetailsUrl() {
 		return cartDetailsUrl;
 	}
 

@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.Market;
@@ -35,7 +33,7 @@ public interface WebManagementService {
 
     void deleteCartItem(RequestData requestData, String productSkuCode) throws Exception;
 
-    void cleanCart(HttpServletRequest request) throws Exception;
+    void cleanCart(RequestData requestData) throws Exception;
     
 	CustomerCredential flagCustomerCredentialWithToken(RequestData requestData, Customer customer) throws Exception;
 
@@ -57,7 +55,7 @@ public interface WebManagementService {
 	
 	Customer removeProductSkuFromWishlist(RequestData requestData, String skuCode) throws Exception;
 	
-	OrderCustomer buildAndSaveNewOrder(RequestData requestData, Market market, MarketArea marketMode) throws Exception;
+	OrderCustomer buildAndSaveNewOrder(RequestData requestData) throws Exception;
 	
 	Customer saveNewsletterSubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;
 

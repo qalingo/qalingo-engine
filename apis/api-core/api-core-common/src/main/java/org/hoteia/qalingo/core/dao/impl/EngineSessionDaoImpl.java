@@ -45,11 +45,7 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
 			engineSession.setDateCreate(new Date());
 		}
 		engineSession.setDateUpdate(new Date());
-		if(engineSession.getId() == null){
-			em.persist(engineSession);
-		} else {
-			em.merge(engineSession);
-		}
+		em.merge(engineSession);
 	}
 
 	public void deleteEngineEcoSession(EngineEcoSession engineSession) {
@@ -73,11 +69,7 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
 			engineSession.setDateCreate(new Date());
 		}
 		engineSession.setDateUpdate(new Date());
-		if(engineSession.getId() == null){
-			em.persist(engineSession);
-		} else {
-			em.merge(engineSession);
-		}
+		em.merge(engineSession);
 	}
 
 	public void deleteEngineBoSession(EngineBoSession engineSession) {

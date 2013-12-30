@@ -68,7 +68,7 @@ public class CatalogVirtual extends AbstractEntity {
     private MarketArea marketArea;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MASTER_CATALOG_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "MASTER_CATALOG_ID", insertable = true, updatable = true)
     private CatalogMaster catalogMaster;
 
     @ManyToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class, fetch = FetchType.LAZY)

@@ -36,11 +36,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 	}
 
 	public void saveOrUpdateTax(Tax tax) {
-		if(tax.getId() == null){
-			em.persist(tax);
-		} else {
-			em.merge(tax);
-		}
+		em.merge(tax);
 	}
 
 	public void deleteTax(Tax tax) {

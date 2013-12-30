@@ -44,7 +44,7 @@ public class EngineSettingValue extends AbstractEntity {
 	private String value;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ENGINE_SETTING_ID")
+    @JoinColumn(name="ENGINE_SETTING_ID", insertable = true, updatable = true)
 	private EngineSetting engineSetting;
 	
 	@Temporal(TemporalType.TIMESTAMP)
