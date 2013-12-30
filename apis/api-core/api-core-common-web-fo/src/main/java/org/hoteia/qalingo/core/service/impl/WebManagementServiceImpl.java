@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CartItemTax;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
@@ -29,11 +30,15 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerOptin;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.OrderAddress;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
+import org.hoteia.qalingo.core.domain.OrderShipment;
+import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -47,6 +52,7 @@ import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
+import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerGroupService;
 import org.hoteia.qalingo.core.service.CustomerService;
@@ -87,6 +93,9 @@ public class WebManagementServiceImpl implements WebManagementService {
     
     @Autowired
     protected ProductService productService;
+    
+    @Autowired
+    protected CartService cartService;
     
     @Autowired
     protected OrderCustomerService orderCustomerService;
@@ -135,24 +144,25 @@ public class WebManagementServiceImpl implements WebManagementService {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSkuCode(productSkuCode);
                 cartItem.setProductSku(productSku);
-                
-                final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-                cartItem.setProductMarketingCode(reloadedProductMarketing.getCode());
-                cartItem.setProductMarketing(reloadedProductMarketing);
-                
+
+                cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
+//                cartItem.setProductMarketing(reloadedProductMarketing);
                 cartItem.setQuantity(quantity);
-                if(catalogCategoryCode != null){
-                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
+                if(StringUtils.isNotEmpty(catalogCategoryCode)){
+//                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
                     cartItem.setCatalogCategoryCode(catalogCategoryCode);
-                    cartItem.setCatalogCategory(catalogCategory);
+//                    cartItem.setCatalogCategory(catalogCategory);
                 } else {
-                    if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
-                        CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-                        if(catalogCategory != null){
-                            cartItem.setCatalogCategoryCode(catalogCategory.getCode());
-                            cartItem.setCatalogCategory(catalogCategory);
-                        }
-                    }
+                    final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+                    cartItem.setCatalogCategoryCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+
+//                    if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
+//                        CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+//                        cartItem.setCatalogCategoryCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+//                        if(catalogCategory != null){
+//                            cartItem.setCatalogCategory(catalogCategory);
+//                        }
+//                    }
                 }
                 cart.getCartItems().add(cartItem);
             } else {
@@ -161,8 +171,7 @@ public class WebManagementServiceImpl implements WebManagementService {
 
         }
         requestUtil.updateCurrentCart(request, cart);
-
-        // TODO update session/cart db ?
+        cartService.saveOrUpdateCart(cart);
     }
     
     /**
@@ -187,6 +196,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         }
         cart.setCartItems(cartItems);
         requestUtil.updateCurrentCart(request, cart);
+        cartService.saveOrUpdateCart(cart);
     }
     
     /**
@@ -198,18 +208,17 @@ public class WebManagementServiceImpl implements WebManagementService {
         cart.setBillingAddressId(billingAddressId);
         cart.setShippingAddressId(shippingAddressId);
         requestUtil.updateCurrentCart(request, cart);
-
-        // TODO update session/cart db ?
+        cartService.saveOrUpdateCart(cart);
     }
 
     /**
      * 
      */
-    public void cleanCart(final HttpServletRequest request) throws Exception {
-        Cart cart = new Cart();
-        requestUtil.updateCurrentCart(request, cart);
-
-        // TODO update session/cart db ?
+    public void cleanCart(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Cart cart = requestData.getCart();
+        cartService.deleteCart(cart);
+        requestUtil.resetCurrentCart(request);
     }    
     
 
@@ -646,37 +655,80 @@ public class WebManagementServiceImpl implements WebManagementService {
         return customer;
     }
     
-    public OrderCustomer buildAndSaveNewOrder(final RequestData requestData, final Market market, final MarketArea marketArea) throws Exception {
+    public OrderCustomer buildAndSaveNewOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        Customer customer = requestData.getCustomer();
-        Cart cart = requestData.getCart();
+        final Customer customer = requestData.getCustomer();
+        final Cart cart = requestData.getCart();
         
         OrderCustomer orderCustomer = new OrderCustomer();
+        // ORDER NUMBER IS CREATE BY DAO
+        
         orderCustomer.setStatus(OrderCustomer.ORDER_STATUS_PENDING);
+
+        orderCustomer.setCurrency(cart.getCurrency());
         orderCustomer.setMarketAreaId(cart.getMarketAreaId());
         orderCustomer.setRetailerId(cart.getRetailerId());
         orderCustomer.setCustomerId(customer.getId());
-        orderCustomer.setBillingAddressId(cart.getBillingAddressId());
-        orderCustomer.setShippingAddressId(cart.getShippingAddressId());
         
-        Set<CartItem> cartItems = cart.getCartItems();
-        Set<OrderItem> orderItems = new HashSet<OrderItem>();
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
-            OrderItem orderItem = new OrderItem();
-            orderItem.setProductSkuCode(cartItem.getProductSkuCode());
-            orderItem.setProductSku(cartItem.getProductSku());
-            orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItems.add(orderItem);
+        OrderAddress billingAddress = new OrderAddress();
+        BeanUtils.copyProperties(customer.getAddress(cart.getBillingAddressId()), billingAddress);
+        orderCustomer.setBillingAddress(billingAddress);
+
+        OrderAddress shippingAddress = new OrderAddress();
+        BeanUtils.copyProperties(customer.getAddress(cart.getShippingAddressId()), shippingAddress);
+        orderCustomer.setShippingAddress(shippingAddress);
+        
+        // SHIPMENT
+        Set<OrderShipment> orderShipments = new HashSet<OrderShipment>();
+        Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
+        if(deliveryMethods != null){
+            for (Iterator<DeliveryMethod> iteratorDeliveryMethod = deliveryMethods.iterator(); iteratorDeliveryMethod.hasNext();) {
+                DeliveryMethod deliveryMethod = (DeliveryMethod) iteratorDeliveryMethod.next();
+                OrderShipment orderShipment = new OrderShipment();
+                orderShipment.setName(deliveryMethod.getName());
+                orderShipment.setExpectedDeliveryDate(null);
+                orderShipment.setDeliveryMethodId(deliveryMethod.getId());
+                orderShipment.setPrice(deliveryMethod.getPrice(cart.getMarketAreaId(), cart.getRetailerId()));
+                
+                Set<CartItem> cartItems = cart.getCartItems();
+                Set<OrderItem> orderItems = new HashSet<OrderItem>();
+                for (Iterator<CartItem> iteratorCartItem = cartItems.iterator(); iteratorCartItem.hasNext();) {
+                    CartItem cartItem = (CartItem) iteratorCartItem.next();
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setCurrency(cart.getCurrency());
+                    orderItem.setProductSkuCode(cartItem.getProductSkuCode());
+                    orderItem.setProductSku(cartItem.getProductSku());
+                    orderItem.setPrice(cartItem.getPrice(cart.getMarketAreaId(), cart.getRetailerId()).getSalePrice());
+                    orderItem.setQuantity(cartItem.getQuantity());
+                    
+                    // TAXES
+                    Set<CartItemTax> taxes = cartItem.getTaxes();
+                    if(taxes != null){
+                        for (Iterator<CartItemTax> iteratorCartItemTax = taxes.iterator(); iteratorCartItemTax.hasNext();) {
+                            CartItemTax cartItemTax = (CartItemTax) iteratorCartItemTax.next();
+                            OrderTax orderTax = new OrderTax();
+                            orderTax.setName(cartItemTax.getTax().getName());
+                            orderTax.setPercent(cartItemTax.getTax().getPercent());
+                            orderTax.setAmount(cartItemTax.getTaxAmount());
+                            orderItem.getOrderTaxes().add(orderTax);
+                        }
+                    }
+                    
+                    orderItems.add(orderItem);
+                }
+                orderShipment.setOrderItems(orderItems);
+                orderShipments.add(orderShipment);
+            }
         }
-        orderCustomer.setOrderItems(orderItems);
+        orderCustomer.setOrderShipments(orderShipments);
         
         orderCustomer = orderCustomerService.createNewOrder(orderCustomer);
         
-        // Clean Cart
-        cleanCart(request);
+        cartService.deleteCart(cart);
+        requestUtil.resetCurrentCart(request);
 
+        // RELOAD ORDER FOR THE SESSION
+        orderCustomer = orderCustomerService.getOrderByOrderNum(orderCustomer.getOrderNum());
         requestUtil.saveLastOrder(requestData, orderCustomer);
         
         return orderCustomer;

@@ -77,11 +77,11 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     // private boolean isRoot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID")
+    @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID", insertable = true, updatable = true)
     private CatalogCategoryVirtual defaultParentCatalogCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MASTER_CATEGORY_ID")
+    @JoinColumn(name = "MASTER_CATEGORY_ID", insertable = true, updatable = true)
     private CatalogCategoryMaster categoryMaster;
 
     @OneToMany(fetch = FetchType.LAZY)

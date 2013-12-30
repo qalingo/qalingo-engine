@@ -82,7 +82,7 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
-	CHECKOUT_SHOPPING_CART("checkou_shopping_cart"),
+	CHECKOUT_SHOPPING_CART("checkout_shopping_cart"),
 	
 	/**
 	 * 

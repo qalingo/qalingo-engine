@@ -53,7 +53,7 @@ public class ProductMarketingType extends AbstractEntity {
 	private String code;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "PRODUCT_MARKETING_FAMILLY_ID", insertable = true, updatable = true)
     private ProductMarketingFamilly productMarketingFamilly;
     
 	@Temporal(TemporalType.TIMESTAMP)

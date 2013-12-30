@@ -180,6 +180,11 @@ public interface RequestUtil {
     /**
      * 
      */
+    void resetCurrentCart(HttpServletRequest request) throws Exception;
+    
+    /**
+     * 
+     */
     void updateCurrentCart(HttpServletRequest request, Cart cart) throws Exception;
 
     /**

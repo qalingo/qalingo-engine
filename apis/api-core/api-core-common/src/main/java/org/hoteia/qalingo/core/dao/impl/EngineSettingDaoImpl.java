@@ -86,11 +86,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 			engineSettingValue.setDateCreate(new Date());
 		}
 		engineSettingValue.setDateUpdate(new Date());
-		if(engineSettingValue.getId() == null){
-			em.persist(engineSettingValue);
-		} else {
-			em.merge(engineSettingValue);
-		}
+		em.merge(engineSettingValue);
 	}
 	
     private void addDefaultFetch(Criteria criteria) {

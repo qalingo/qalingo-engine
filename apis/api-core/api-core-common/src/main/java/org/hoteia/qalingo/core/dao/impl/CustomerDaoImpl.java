@@ -131,12 +131,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			}
 		}
 		customerCredential.setDateUpdate(new Date());
-		
-		if(customerCredential.getId() == null){
-			em.persist(customerCredential);
-		} else {
-			em.merge(customerCredential);
-		}
+		em.merge(customerCredential);
 	}
 	
     private void addDefaultFetch(Criteria criteria) {

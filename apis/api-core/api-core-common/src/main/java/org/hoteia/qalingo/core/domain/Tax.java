@@ -60,7 +60,7 @@ public class Tax extends AbstractEntity {
 	private BigDecimal percent;
 	
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TAX_TYPE_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "TAX_TYPE_ID", insertable = true, updatable = true)
     private TaxType taxType;
     
 	@OneToMany(fetch = FetchType.LAZY)

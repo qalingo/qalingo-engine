@@ -11,96 +11,126 @@ package org.hoteia.qalingo.core.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TECO_ORDER_SHIPMENT")
+@Table(name = "TECO_ORDER_SHIPMENT")
 public class OrderShipment extends AbstractEntity {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 3793149119444763336L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 3793149119444763336L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Column(name="NAME")
-	private String name;
-	
-	@Column(name="PRICE")
-	private BigDecimal price;
-	
-	@Column(name="SHIPPING_ID")
-	private Long shippingId;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public OrderShipment(){
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public BigDecimal getPrice() {
-		return price;
-	}
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    @Column(name = "DELIVERY_METHOD_ID")
+    private Long deliveryMethodId;
 
-	public Long getShippingId() {
-		return shippingId;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EXPECTED_DELIVERY_DATE")
+    private Date expectedDeliveryDate;
 
-	public void setShippingId(Long shippingId) {
-		this.shippingId = shippingId;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="ORDER_SHIPMENT_ID")
+    private Set<OrderItem> orderItems = new HashSet<OrderItem>();
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public OrderShipment() {
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-	
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Long getDeliveryMethodId() {
+        return deliveryMethodId;
+    }
+    
+    public void setDeliveryMethodId(Long deliveryMethodId) {
+        this.deliveryMethodId = deliveryMethodId;
+    }
+    
+    public Date getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
+    }
+    
+    public void setExpectedDeliveryDate(Date expectedDeliveryDate) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
+    }
+
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+    
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+    
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
 }

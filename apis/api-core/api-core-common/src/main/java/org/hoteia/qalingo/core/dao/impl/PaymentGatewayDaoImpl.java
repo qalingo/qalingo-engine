@@ -66,11 +66,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 			paymentGateway.setDateCreate(new Date());
 		}
 		paymentGateway.setDateUpdate(new Date());
-		if(paymentGateway.getId() == null){
-			em.persist(paymentGateway);
-		} else {
-			em.merge(paymentGateway);
-		}
+		em.merge(paymentGateway);
 	}
 
 	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {

@@ -7,15 +7,19 @@ import org.dozer.event.DozerEvent;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
@@ -33,6 +37,12 @@ public class FrontofficePojoEventListener implements DozerEventListener {
     
     @Autowired
     protected RequestUtil requestUtil;
+    
+    @Autowired 
+    protected ProductService productService;
+
+    @Autowired 
+    protected CatalogCategoryService catalogCategoryService;
     
     @Autowired 
     protected UrlService urlService;
@@ -75,7 +85,10 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     cartItemPojo.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
                     
-                    cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
+                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode());
+                    
+                    cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
 
                     cartItemPojo.setPriceWithStandardCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
                     cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));

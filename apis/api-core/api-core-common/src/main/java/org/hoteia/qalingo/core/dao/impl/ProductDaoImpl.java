@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -137,39 +136,35 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketings;
 	}
 	
-	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(String categoryCode,int pageNumber, int pageSize, String sortBy, String orderBy){
-		 Criteria criteria = getSession().createCriteria(ProductMarketing.class);
-	        
-	        addDefaultProductMarketingFetch(criteria);
+    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(final String categoryCode, int pageNumber, int pageSize, String sortBy, String orderBy) {
+        Criteria criteria = getSession().createCriteria(ProductMarketing.class);
 
-	        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
-	        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
-	        
-	        criteria.add(Restrictions.eq("dc.code", categoryCode));
-	        if("desc".equals(orderBy)){
-	        	criteria.addOrder(Order.desc(sortBy));
-	        }else{
-	        	criteria.addOrder(Order.asc(sortBy));
-	        }
-	        
-	        criteria.setFirstResult((pageNumber - 1) * pageSize);
-	        criteria.setMaxResults(pageSize);
+        addDefaultProductMarketingFetch(criteria);
 
-	        @SuppressWarnings("unchecked")
-	        List<ProductMarketing> productMarketings = criteria.list();
-	        return productMarketings;
-	}
+        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
+
+        criteria.add(Restrictions.eq("dc.code", categoryCode));
+        if ("desc".equals(orderBy)) {
+            criteria.addOrder(Order.desc(sortBy));
+        } else {
+            criteria.addOrder(Order.asc(sortBy));
+        }
+
+        criteria.setFirstResult((pageNumber - 1) * pageSize);
+        criteria.setMaxResults(pageSize);
+
+        @SuppressWarnings("unchecked")
+        List<ProductMarketing> productMarketings = criteria.list();
+        return productMarketings;
+    }
 	
 	public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
 		if(productMarketing.getDateCreate() == null){
 			productMarketing.setDateCreate(new Date());
 		}
 		productMarketing.setDateUpdate(new Date());
-		if(productMarketing.getId() == null){
-			em.persist(productMarketing);
-		} else {
-			em.merge(productMarketing);
-		}
+		em.merge(productMarketing);
 	}
 
 	public void deleteProductMarketing(final ProductMarketing productMarketing) {
@@ -195,11 +190,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
             productMarketingCustomerComment.setDateCreate(new Date());
         }
         productMarketingCustomerComment.setDateUpdate(new Date());
-        if(productMarketingCustomerComment.getId() == null){
-            em.persist(productMarketingCustomerComment);
-        } else {
-            em.merge(productMarketingCustomerComment);
-        }
+        em.merge(productMarketingCustomerComment);
     }
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
@@ -227,11 +218,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 			productMarketingAsset.setDateCreate(new Date());
 		}
 		productMarketingAsset.setDateUpdate(new Date());
-		if(productMarketingAsset.getId() == null){
-			em.persist(productMarketingAsset);
-		} else {
-			em.merge(productMarketingAsset);
-		}
+		em.merge(productMarketingAsset);
 	}
 
 	public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
@@ -304,15 +291,25 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
             productSku.setDateCreate(new Date());
         }
         productSku.setDateUpdate(new Date());
-        if(productSku.getId() == null){
-            em.persist(productSku);
-        } else {
-            em.merge(productSku);
-        }
+        em.merge(productSku);
     }
 
     public void deleteProductSku(final ProductSku productSku) {
         em.remove(productSku);
+    }
+    
+    private void addDefaultProductSkuFetch(Criteria criteria) {
+        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN);
+        
+        criteria.setFetchMode("prices", FetchMode.JOIN); 
+        
+        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("currency", FetchMode.JOIN);
+
+        criteria.setFetchMode("stocks", FetchMode.JOIN); 
+        criteria.setFetchMode("retailers", FetchMode.JOIN); 
     }
     
     // ASSET
@@ -336,40 +333,61 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
             productSkuAsset.setDateCreate(new Date());
         }
         productSkuAsset.setDateUpdate(new Date());
-        if(productSkuAsset.getId() == null){
-            em.persist(productSkuAsset);
-        } else {
-            em.merge(productSkuAsset);
-        }
+        em.merge(productSkuAsset);
     }
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
         em.remove(productSkuAsset);
     }
     
-    private void addDefaultProductSkuFetch(Criteria criteria) {
-        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN);
-        
-        criteria.setFetchMode("prices", FetchMode.JOIN); 
-        
-        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
+    // PRODUCT BRAND
+    
+    public ProductBrand getProductBrandById(final Long productBrandId) {
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
+        addDefaultProductBrandFetch(criteria);
+        criteria.add(Restrictions.eq("id", productBrandId));
+        ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
+        return productBrand;
+    }
 
-        criteria.setFetchMode("stocks", FetchMode.JOIN); 
-        criteria.setFetchMode("retailers", FetchMode.JOIN); 
+    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
+        addDefaultProductBrandFetch(criteria);
+        criteria.add(Restrictions.eq("code", productBrandCode));
+        ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
+        return productBrand;
     }
     
-    @Override
     public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
-    	StringBuilder queryString = new StringBuilder("select distinct mk.productBrand from ProductMarketing mk where ")
-    									.append("mk.defaultCatalogCategory.code = :code or mk.defaultCatalogCategory.defaultParentCatalogCategory.code = :code ");
-    	
-    	Query query = getSession().createQuery(queryString.toString());
-    	query.setString("code", categoryCode);
-    	
-    	return query.list();
+        Criteria criteria = getSession().createCriteria(ProductBrand.class);
+
+        addDefaultProductBrandFetch(criteria);
+
+        criteria.setFetchMode("productMarketings", FetchMode.JOIN);
+
+        criteria.createAlias("productMarketings.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
+
+        criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
+
+        @SuppressWarnings("unchecked")
+        List<ProductBrand> productBrands = criteria.list();
+        return productBrands;
+    }
+    
+    public void saveOrUpdateProductBrand(final ProductBrand productBrand) {
+        if(productBrand.getDateCreate() == null){
+            productBrand.setDateCreate(new Date());
+        }
+        productBrand.setDateUpdate(new Date());
+        em.merge(productBrand);
+    }
+
+    public void deleteProductBrand(final ProductBrand productBrand) {
+        em.remove(productBrand);
+    }
+    
+    private void addDefaultProductBrandFetch(Criteria criteria) {
     }
     
 }

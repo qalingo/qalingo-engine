@@ -57,11 +57,7 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
 			currencyReferential.setDateCreate(new Date());
 		}
 		currencyReferential.setDateUpdate(new Date());
-		if(currencyReferential.getId() == null){
-			em.persist(currencyReferential);
-		} else {
-			em.merge(currencyReferential);
-		}
+		em.merge(currencyReferential);
 	}
 
 	public void deleteCurrencyReferential(CurrencyReferential currencyReferential) {

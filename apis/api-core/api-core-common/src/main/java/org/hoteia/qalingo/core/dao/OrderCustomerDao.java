@@ -17,7 +17,7 @@ public interface OrderCustomerDao {
 
 	OrderCustomer getOrderById(Long orderCustomerId);
 
-	OrderCustomer getOrderByCode(String code);
+	OrderCustomer getOrderByOrderNum(String orderNum);
 	
 	List<OrderCustomer> findOrders();
 	

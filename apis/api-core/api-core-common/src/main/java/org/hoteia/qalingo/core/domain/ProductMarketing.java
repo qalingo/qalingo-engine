@@ -68,11 +68,11 @@ public class ProductMarketing extends AbstractEntity {
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BRAND_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "BRAND_ID", insertable = true, updatable = true)
     private ProductBrand productBrand;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_MARKETING_TYPE_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "PRODUCT_MARKETING_TYPE_ID", insertable = true, updatable = true)
     private ProductMarketingType productMarketingType;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -272,8 +272,8 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             orderForm.setStatus(order.getStatus());
             orderForm.setOrderNum(order.getOrderNum());
             orderForm.setCustomerId(order.getCustomerId());
-            orderForm.setBillingAddressId(order.getBillingAddressId());
-            orderForm.setShippingAddressId(order.getShippingAddressId());
+            orderForm.setBillingAddressId(order.getBillingAddress().getId());
+            orderForm.setShippingAddressId(order.getShippingAddress().getId());
         }
         return orderForm;
     }

@@ -58,8 +58,12 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
 		
-//		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-//		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		// HIDE PROMO CODE PART
+		cartViewBean.setWithPromoCode(false);
+        cartViewBean.setWithItemQuantityActions(false);
+
+		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
 		modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 4);
 		
@@ -72,7 +76,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-
+        
 	       // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if(currentCart.getTotalCartItems() == 0){
@@ -84,7 +88,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		}
 		
 		// Create and Save a new order
-//		webManagementService.buildAndSaveNewOrder(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea);
+		webManagementService.buildAndSaveNewOrder(requestUtil.getRequestData(request));
 		
 		final String urlRedirect = urlService.generateUrl(FoUrls.CART_ORDER_CONFIRMATION, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));

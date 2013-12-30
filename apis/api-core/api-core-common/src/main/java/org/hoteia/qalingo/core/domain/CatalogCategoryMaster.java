@@ -71,7 +71,7 @@ public class CatalogCategoryMaster extends AbstractEntity {
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = true, updatable = true)
     private CatalogCategoryType catalogCategoryType;
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
@@ -82,7 +82,7 @@ public class CatalogCategoryMaster extends AbstractEntity {
     // private boolean isRoot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID")
+    @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryMaster defaultParentCatalogCategory;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
