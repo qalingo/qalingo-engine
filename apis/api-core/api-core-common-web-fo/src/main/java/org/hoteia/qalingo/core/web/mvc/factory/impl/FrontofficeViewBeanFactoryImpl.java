@@ -42,6 +42,11 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -265,14 +270,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      * 
      */
     public CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
-//    	 final HttpServletRequest request = requestData.getRequest();	
     	 final Localization localization =  requestData.getMarketAreaLocalization();
     	 final String localizationCode = localization.getCode();
     	 final MarketArea currentMarketArea = requestData.getMarketArea();
     	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
     	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
     	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
-//    	 catalogBreadCumViewBean.setName(catalogCategory.getBusinessName());
 		
 		 if (catalogCategory.isRoot()) {
 			catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));
@@ -286,6 +289,47 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 		 }
 
     	return catalogBreadCumViewBean;
+    }
+    
+    @Override
+    public StoreLocatorFilterBean buildStoreLocatorFilterBean(
+    		StoreLocatorViewBean storeLocatorViewBean) {
+    	
+    	List<StoreViewBean> stores = storeLocatorViewBean.getStores();
+    	
+    	StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
+    	
+    	Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();
+    	Map<String, StoreLocatorCityFilterBean> cityFilterMap = new HashMap<String, StoreLocatorCityFilterBean>();
+    	
+    	for (StoreViewBean store : stores) {
+			String country = store.getCountry();
+			String city = store.getCity();
+			StoreLocatorCountryFilterBean countryFilter = null;
+			StoreLocatorCityFilterBean cityFilter = null;
+			
+			if(countryFilterMap.containsKey(country)){
+				countryFilter = countryFilterMap.get(country);
+			}else{
+				countryFilter = new StoreLocatorCountryFilterBean();
+				countryFilter.setCode(country);
+				filter.addCountry(countryFilter);
+				//TODO: set i18nName
+			}
+			
+			if(cityFilterMap.containsKey(city)){
+				cityFilter = cityFilterMap.get(city);
+			}else{
+				cityFilter = new StoreLocatorCityFilterBean();
+				cityFilter.setName(city);
+				countryFilter.addCity(cityFilter);
+				//TODO: set code?
+			}
+			
+			cityFilter.addStore(store);
+		}
+    	
+    	return filter;
     }
 
 }
