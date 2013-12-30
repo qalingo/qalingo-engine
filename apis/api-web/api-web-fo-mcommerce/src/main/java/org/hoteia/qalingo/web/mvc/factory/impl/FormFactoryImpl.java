@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -28,6 +29,7 @@ import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
+import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,4 +189,11 @@ public class FormFactoryImpl implements FormFactory {
 		final PaymentForm paymentForm = new PaymentForm();
 		return paymentForm;
 	}
+	
+    public ProductCommentForm buildProductCommentForm(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+        final ProductCommentForm productCommentForm = new ProductCommentForm();
+        productCommentForm.setProductCode(productMarketing.getCode());
+        return productCommentForm;
+    }
+
 }
