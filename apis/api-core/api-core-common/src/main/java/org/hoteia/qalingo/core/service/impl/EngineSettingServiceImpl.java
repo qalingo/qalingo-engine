@@ -12,14 +12,13 @@ package org.hoteia.qalingo.core.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.EngineSettingDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("engineSettingService")
 @Transactional
@@ -130,7 +129,11 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 	public EngineSetting withEscapeAccent() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL);
 	}
-	
+    
+    public EngineSetting getProductMaxScoreValue() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX);
+    }
+    
 	public EngineSetting getRetailerMaxScoreValue() {
 		return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX);
 	}

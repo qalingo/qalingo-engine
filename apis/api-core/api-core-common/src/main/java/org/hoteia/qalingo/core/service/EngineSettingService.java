@@ -73,6 +73,7 @@ public interface EngineSettingService {
 
 	// SCORE
 	public final String ENGINE_SETTING_CONTEXT_STAR_SCORE_MAX		= "STAR_SCORE_MAX";
+    public final String ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX   = "PRODUCT_QUALITY_OF_SERVICE";
 	public final String ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX	= "RETAILER_QUALITY_OF_SERVICE";
 
 	// Engine Setting
@@ -117,7 +118,9 @@ public interface EngineSettingService {
 
 	EngineSetting withEscapeAccent();
 	
-	EngineSetting getRetailerMaxScoreValue();
+    EngineSetting getProductMaxScoreValue();
+
+    EngineSetting getRetailerMaxScoreValue();
 	
 	EngineSetting getOAuthAppKeyOrId();
 	
