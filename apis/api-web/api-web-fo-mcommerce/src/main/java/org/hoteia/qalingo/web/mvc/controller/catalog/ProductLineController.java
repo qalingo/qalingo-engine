@@ -49,96 +49,99 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("productLineController")
 public class ProductLineController extends AbstractMCommerceController {
 
-    @Autowired
-    protected CatalogCategoryService catalogCategoryService;
-
-    @Autowired
-    protected ProductService productService;
-
-    @RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
-    public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
-        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
+	@Autowired
+	protected CatalogCategoryService catalogCategoryService;
+	@Autowired
+	protected ProductService productService;
+	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
+	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         final Cart currentCart = requestData.getCart();
-
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
-
-        String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
+        
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
+		
+		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
         model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
 
-        String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
+		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
         model.addAttribute("seoPageMetaDescription", seoPageMetaDescription);
 
-        String pageTitleKey = "header.title." + "";
-        String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
+		String pageTitleKey = "header.title." + "";
+		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
         model.addAttribute("seoPageTitle", seoPageTitle);
+        
+		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
 
-        final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildCatalogCategoryViewBean(requestUtil.getRequestData(request), catalogCategory);
-
-        String sortBy = request.getParameter("sortBy");
+		String sortBy = request.getParameter("sortBy");
         String orderBy = request.getParameter("orderBy");
         String pageSizeParameter = request.getParameter("pageSize");
         String pageParameter = request.getParameter("page");
+        String mode = request.getParameter("mode");
+        
+		int page = NumberUtils.toInt(pageParameter, 1);
+	    int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
+		
+		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
+		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
+		productList.setPageSize(pageSize);
+		productList.setPage(page-1);		
+		catalogCategoryViewBean.setProductMarketings(productList.getPageList());
 
-        int page = NumberUtils.toInt(pageParameter, 1);
-        int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
-
-        List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
-        PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
-        productList.setPageSize(pageSize);
-        productList.setPage(page - 1);
-        catalogCategoryViewBean.setProductMarketings(productList.getPageList());
-
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-
-        final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request), catalogCategory);
-        model.addAttribute(ModelConstants.CATALOG_BREADCRUMB_VIEW_BEAN, catalogBreadcrumbViewBean);
-
-        model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("orderBy", orderBy);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPage", productList.getPageCount());
-
-        final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), catalogCategory);
-        model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
-
-        // TODO : Denis : move this part, Cookie, in RequestUtilImpl.java
-        Cookie info = null;
+	
+		final CatalogBreadcrumbViewBean catalogBreadcrumbViewBean = frontofficeViewBeanFactory.buildCatalogBreadcrumbViewBean(requestUtil.getRequestData(request) , catalogCategory);
+		model.addAttribute(ModelConstants.CATALOG_BREADCRUMB_VIEW_BEAN, catalogBreadcrumbViewBean);
+		
+		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("mode",mode);
+		model.addAttribute("totalPage", productList.getPageCount());
+		
+		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), catalogCategory);
+		model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
+		
+		
+		// TODO : Denis : move this part, Cookie, in RequestUtilImpl.java
+		Cookie info=null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                info = cookies[i];
-                if (Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName())) {
-                    found = true;
-                    break;
-                }
-            }
-        }
+        if(cookies !=  null){
+	        for(int i=0;i<cookies.length;i++)
+	        {
+	            info=cookies[i];
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            {
+	                found = true;
+	                break;
+	            }
+	        }
+        }   
         List<String> listId = new ArrayList<String>();
-        if (found) {
-            if (!info.getValue().isEmpty()) {
-                String[] splits = info.getValue().split(" ");
-                if (splits.length >= 3) {
-                    for (int i = splits.length - 1; i >= splits.length - 3; i--) {
-                        listId.add(splits[i]);
-                    }
-                } else {
-                    for (int i = splits.length - 1; i >= 0; i--) {
-                        listId.add(splits[i]);
-                    }
-                }
-            }
-        }
+        if(found){
+        	if(!info.getValue().isEmpty()){
+	        	String[] splits = info.getValue().split(" ");
+	        	if(splits.length >= 3){
+		        	for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
+		        		listId.add(splits[i]);
+		        	}
+	        	} else {
+	        		for (int i = splits.length - 1; i >= 0 ; i--) {
+	        			listId.add(splits[i]);
+					}
+	        	}
+        	}
+        } 
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
         model.addAttribute(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
-
-        return modelAndView;
-    }
-
+        
+		return modelAndView;
+	}
+    
 }
