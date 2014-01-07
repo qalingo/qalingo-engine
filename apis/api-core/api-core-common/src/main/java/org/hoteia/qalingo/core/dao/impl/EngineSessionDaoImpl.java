@@ -12,11 +12,19 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.SetAttribute;
+
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.EngineSessionDao;
+import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.slf4j.Logger;
@@ -31,27 +39,51 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // ECO SESSION
+    public static volatile SetAttribute<EngineEcoSession, Cart> carts;
+    public static volatile SetAttribute<Cart, CartItem> cartItems;
+    public static volatile SetAttribute<Cart, CurrencyReferential> cartCurrency;
 
     public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
-        Criteria criteria = createDefaultCriteria(EngineEcoSession.class);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<EngineEcoSession> criteriaQuery = builder.createQuery(EngineEcoSession.class);
+        Root<EngineEcoSession> root = criteriaQuery.from( EngineEcoSession.class );
+        
+//        Join<EngineEcoSession, Cart> cartFetch = root.join(carts);
+//
+//        Join<Cart, CartItem> cartItemFetch = cartFetch.join(cartItems);
+//        Join<Cart, CurrencyReferential> cartCurrencyFetch = cartFetch.join(cartCurrency);
 
-        addDefaultEngineEcoSessionFetch(criteria);
+//        cartFetch.fetch(cartItems);
+//        cartFetch.fetch(cartCurrency);
 
-        criteria.add(Restrictions.eq("id", engineSessionId));
-        EngineEcoSession engineSession = (EngineEcoSession) criteria.uniqueResult();
+//      criteria.join("carts.cartItems", JoinType.LEFT_OUTER_JOIN);
+//      criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("cartItems", FetchMode.JOIN);
+//      
+//      criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+//      criteria.setFetchMode("currency", FetchMode.JOIN);
+        
+        criteriaQuery.where(builder.equal(root.get("id"), engineSessionId));
+
+        EngineEcoSession engineSession = (EngineEcoSession) em.createQuery(criteriaQuery).getSingleResult();
         
         return engineSession;
     }
 
     public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid) {
-        Criteria criteria = createDefaultCriteria(EngineEcoSession.class);
+      CriteriaBuilder builder = em.getCriteriaBuilder();
+      CriteriaQuery<EngineEcoSession> criteriaQuery = builder.createQuery(EngineEcoSession.class);
+      Root<EngineEcoSession> root = criteriaQuery.from( EngineEcoSession.class );
+      
+//      Fetch<EngineEcoSession, Cart> cartFetch = root.fetch(carts);
+//      cartFetch.fetch(cartItems);
+//      cartFetch.fetch(cartCurrency);
 
-        addDefaultEngineEcoSessionFetch(criteria);
+      criteriaQuery.where(builder.equal(root.get("engineSessionGuid"), engineSessionGuid));
 
-        criteria.add(Restrictions.eq("engineSessionGuid", engineSessionGuid));
-        EngineEcoSession engineSession = (EngineEcoSession) criteria.uniqueResult();
-        
-        return engineSession;
+      EngineEcoSession engineSession = (EngineEcoSession) em.createQuery(criteriaQuery).getSingleResult();
+      
+      return engineSession;
     }
 
     public EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineSession) {
@@ -119,14 +151,16 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
     private void addDefaultEngineBoSessionFetch(Criteria criteria) {
     }
 
-    private void addDefaultEngineEcoSessionFetch(Criteria criteria) {
-        criteria.setFetchMode("carts", FetchMode.JOIN);
-        
-        criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("cartItems", FetchMode.JOIN);
-        
-        criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-    }
+//    private void addDefaultEngineEcoSessionFetch(CriteriaQuery criteria) {
+//        
+//        criteria.setFetchMode("carts", FetchMode.JOIN);
+//        
+//        criteria.join("carts.cartItems", JoinType.LEFT_OUTER_JOIN);
+//        criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
+//        criteria.setFetchMode("cartItems", FetchMode.JOIN);
+//        
+//        criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+//        criteria.setFetchMode("currency", FetchMode.JOIN);
+//    }
 
 }

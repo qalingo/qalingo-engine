@@ -573,10 +573,8 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
-        Cart currentCart = engineEcoSessionWithTransientValues.getCart();
         engineEcoSessionWithTransientValues.deleteCurrentCart();
         updateAndSynchronizeEngineEcoSession(request, engineEcoSessionWithTransientValues);
-        cartService.deleteCart(currentCart);
     }
     
     /**

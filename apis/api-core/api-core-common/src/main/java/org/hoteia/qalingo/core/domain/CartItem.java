@@ -39,7 +39,7 @@ public class CartItem extends AbstractEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Cart.class)
     @JoinColumn(name = "CART_ID", insertable = true, updatable = true)
     private Cart cart;
     
@@ -58,16 +58,8 @@ public class CartItem extends AbstractEntity {
     @Column(name = "PRODUCT_MARKETING_CODE")
     private String productMarketingCode;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
-//    private ProductMarketing productMarketing;
-
     @Column(name = "VIRTUAL_CATEGORY_CODE")
     private String catalogCategoryCode;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "VIRTUAL_CATEGORY_ID", insertable = true, updatable = true)
-//    private CatalogCategoryVirtual catalogCategory;
 
     @Transient
     private DeliveryMethod deliveryMethod;
@@ -139,14 +131,6 @@ public class CartItem extends AbstractEntity {
         this.productMarketingCode = productMarketingCode;
     }
 
-//    public ProductMarketing getProductMarketing() {
-//        return productMarketing;
-//    }
-//
-//    public void setProductMarketing(ProductMarketing productMarketing) {
-//        this.productMarketing = productMarketing;
-//    }
-
     public String getCatalogCategoryCode() {
         return catalogCategoryCode;
     }
@@ -154,14 +138,6 @@ public class CartItem extends AbstractEntity {
     public void setCatalogCategoryCode(String catalogCategoryCode) {
         this.catalogCategoryCode = catalogCategoryCode;
     }
-
-//    public CatalogCategoryVirtual getCatalogCategory() {
-//        return catalogCategory;
-//    }
-//
-//    public void setCatalogCategory(CatalogCategoryVirtual catalogCategory) {
-//        this.catalogCategory = catalogCategory;
-//    }
 
     public DeliveryMethod getDeliveryMethod() {
         return deliveryMethod;

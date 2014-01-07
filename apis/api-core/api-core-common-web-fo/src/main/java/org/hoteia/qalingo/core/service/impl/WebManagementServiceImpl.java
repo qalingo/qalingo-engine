@@ -150,7 +150,7 @@ public class WebManagementServiceImpl implements WebManagementService {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSkuCode(productSkuCode);
                 cartItem.setProductSku(productSku);
-                cartItem.setCart(cart);
+//                cartItem.setCart(cart);
 
                 cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
 //                cartItem.setProductMarketing(reloadedProductMarketing);

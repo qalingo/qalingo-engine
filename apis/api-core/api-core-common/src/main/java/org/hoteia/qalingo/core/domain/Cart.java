@@ -61,10 +61,6 @@ public class Cart extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ECO_ENGINE_SESSION_ID", insertable = true, updatable = true)
-    private EngineEcoSession ecoSession;
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
@@ -75,7 +71,8 @@ public class Cart extends AbstractEntity {
     @Column(name = "SHIPPING_ADDRESS_ID")
     private Long shippingAddressId;
 
-    @OneToMany(mappedBy="cart", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
+    @JoinColumn(name="CART_ID", referencedColumnName="ID")
     private Set<CartItem> cartItems = new HashSet<CartItem>();
 
     @Transient
@@ -142,14 +139,6 @@ public class Cart extends AbstractEntity {
     public void setCurrency(CurrencyReferential currency) {
         this.currency = currency;
     }
-    
-    public EngineEcoSession getEcoSession() {
-        return ecoSession;
-    }
-    
-    public void setEcoSession(EngineEcoSession ecoSession) {
-        this.ecoSession = ecoSession;
-    }
 
     public Long getCustomerId() {
         return customerId;
@@ -183,18 +172,24 @@ public class Cart extends AbstractEntity {
         this.cartItems = cartItems;
     }
 
+    public void deleteAllCartItem() {
+        if (this.cartItems != null) {
+            cartItems.clear();
+        }
+    }
+
     public void deleteCartItem(CartItem cartItemToDelete) {
-        if(this.cartItems != null){
-            Set<CartItem> checkedCartItems = new HashSet<CartItem>(this.cartItems); 
+        if (this.cartItems != null) {
+            Set<CartItem> checkedCartItems = new HashSet<CartItem>(this.cartItems);
             for (Iterator<CartItem> iterator = checkedCartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
-                if(cartItem != null 
-                        && cartItem.getProductSkuCode().equals(cartItemToDelete.getProductSkuCode()))
-                    cartItem.setCart(null);
+                if (cartItem != null && cartItem.getProductSkuCode().equals(cartItemToDelete.getProductSkuCode())) {
                     this.cartItems.remove(cartItem);
+                }
             }
         }
     }
+
     public int getTotalCartItems() {
         if (cartItems != null) {
             return cartItems.size();
@@ -241,7 +236,7 @@ public class Cart extends AbstractEntity {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
                 BigDecimal price = deliveryMethod.getPrice(getMarketAreaId(), getRetailerId());
-                if(price != null){
+                if (price != null) {
                     cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
                 }
             }

@@ -56,17 +56,18 @@ public class EngineEcoSession extends AbstractEngineSession {
 
     @Column(name = "ENGINE_SESSION_GUID")
     private String engineSessionGuid;
-    
-    @OneToMany(mappedBy="ecoSession", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
-    private Set<Cart> carts = new HashSet<Cart>(); 
-    
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name="ECO_ENGINE_SESSION_ID", referencedColumnName="ID")
+    private Set<Cart> carts = new HashSet<Cart>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
     private Customer currentCustomer;
-    
+
     @Transient
     private boolean environmentStagingModeEnabled;
-    
+
     @Transient
     private EnvironmentType environmentType;
 
@@ -87,13 +88,13 @@ public class EngineEcoSession extends AbstractEngineSession {
 
     @Transient
     private CurrencyReferential currentMarketAreaCurrency;
-    
+
     @Transient
     private User currentUser;
 
     @Transient
-    private Set<OrderCustomer> lastOrders = new HashSet<OrderCustomer>(); 
-    
+    private Set<OrderCustomer> lastOrders = new HashSet<OrderCustomer>();
+
     @Transient
     private String theme;
 
@@ -134,11 +135,11 @@ public class EngineEcoSession extends AbstractEngineSession {
     public void setjSessionId(String jSessionId) {
         this.jSessionId = jSessionId;
     }
-    
+
     public String getEngineSessionGuid() {
         return engineSessionGuid;
     }
-    
+
     public void setEngineSessionGuid(String engineSessionGuid) {
         this.engineSessionGuid = engineSessionGuid;
     }
@@ -148,43 +149,40 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public Cart getCart() {
-        if(this.carts != null){
+        if (this.carts != null) {
             for (Iterator<Cart> iterator = this.carts.iterator(); iterator.hasNext();) {
                 Cart cart = (Cart) iterator.next();
-                if(cart != null 
-                        && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
                         && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                     return cart;
             }
         }
-        // GET CART IS NULL WE CREATE A NEW ONE
         return null;
     }
-    
+
     public Cart addNewCart() {
         Cart cart = new Cart();
         cart.setVersion(1);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
-        cart.setEcoSession(this);
         Date date = new Date();
         cart.setDateCreate(date);
         cart.setDateUpdate(date);
-        
-        if(getCurrentCustomer() != null){
+
+        if (getCurrentCustomer() != null) {
             cart.setCustomerId(getCurrentCustomer().getId());
             cart.setBillingAddressId(getCurrentCustomer().getDefaultBillingAddressId());
             cart.setShippingAddressId(getCurrentCustomer().getDefaultShippingAddressId());
         }
-        
+
         this.carts.add(cart);
         return cart;
     }
-    
+
     public Cart resetCurrentCart() {
         Cart cart = getCart();
-        cart.setCartItems(null);
+        cart.getCartItems().clear();
         cart.setStatus(null);
         cart.setDeliveryMethods(null);
         cart.setTaxes(null);
@@ -193,17 +191,16 @@ public class EngineEcoSession extends AbstractEngineSession {
         cart.setCurrency(getCurrentMarketAreaCurrency());
         return cart;
     }
-        
+
     public void deleteCurrentCart() {
-        if(this.carts != null){
-            Set<Cart> checkedCarts = new HashSet<Cart>(this.carts); 
+        if (this.carts != null) {
+            Set<Cart> checkedCarts = new HashSet<Cart>(this.carts);
             for (Iterator<Cart> iterator = checkedCarts.iterator(); iterator.hasNext();) {
                 Cart cart = (Cart) iterator.next();
-                if(cart != null 
-                        && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
-                        && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
-                    cart.setEcoSession(null);
+                if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
+                        && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId())) {
                     this.carts.remove(cart);
+                }
             }
         }
     }
@@ -214,7 +211,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         this.carts.add(cartToUpdate);
         return cartToUpdate;
     }
-    
+
     public void setCarts(Set<Cart> carts) {
         this.carts = carts;
     }
@@ -230,11 +227,11 @@ public class EngineEcoSession extends AbstractEngineSession {
     public EnvironmentType getEnvironmentType() {
         return environmentType;
     }
-    
+
     public void setEnvironmentType(EnvironmentType environmentType) {
         this.environmentType = environmentType;
     }
-    
+
     public Customer getCurrentCustomer() {
         return currentCustomer;
     }
@@ -282,11 +279,11 @@ public class EngineEcoSession extends AbstractEngineSession {
     public void setCurrentMarketAreaRetailer(Retailer retailer) {
         this.currentMarketAreaRetailer = retailer;
     }
-    
+
     public CurrencyReferential getCurrentMarketAreaCurrency() {
         return currentMarketAreaCurrency;
     }
-    
+
     public void setCurrentMarketAreaCurrency(CurrencyReferential currentMarketAreaCurrency) {
         this.currentMarketAreaCurrency = currentMarketAreaCurrency;
     }
@@ -304,10 +301,10 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public OrderCustomer getLastOrder() {
-        if(lastOrders != null){
+        if (lastOrders != null) {
             for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                 OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
-                if(orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
+                if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                         && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                     return orderCustomer;
@@ -315,13 +312,13 @@ public class EngineEcoSession extends AbstractEngineSession {
         }
         return null;
     }
-    
+
     public void setLastOrder(OrderCustomer lastOrder) {
-        if(lastOrders != null && lastOrder != null){
-            if(getLastOrder() != null){
+        if (lastOrders != null && lastOrder != null) {
+            if (getLastOrder() != null) {
                 for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                     OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
-                    if(orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
+                    if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                             && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                             && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                         orderCustomer = lastOrder;
@@ -335,7 +332,7 @@ public class EngineEcoSession extends AbstractEngineSession {
     public void setLastOrders(Set<OrderCustomer> lastOrders) {
         this.lastOrders = lastOrders;
     }
-    
+
     public String getTheme() {
         return theme;
     }
@@ -351,7 +348,7 @@ public class EngineEcoSession extends AbstractEngineSession {
     public void setDevice(String device) {
         this.device = device;
     }
-    
+
     public Date getDateCreate() {
         return dateCreate;
     }

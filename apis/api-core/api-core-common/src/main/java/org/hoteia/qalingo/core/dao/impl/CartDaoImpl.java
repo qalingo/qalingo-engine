@@ -57,7 +57,13 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	}
 
 	public void deleteCart(final Cart cart) {
-	    em.remove(em.contains(cart) ? cart : em.merge(cart));
+	    if(em.contains(cart)){
+	        cart.deleteAllCartItem();
+	        em.remove(cart);
+	    } else {
+            cart.deleteAllCartItem();
+	        em.remove(em.merge(cart));
+	    }
 	}
 	   
     private void addDefaultFetch(Criteria criteria) {
