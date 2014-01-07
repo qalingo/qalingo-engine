@@ -79,6 +79,7 @@ public class ProductLineController extends AbstractMCommerceController {
         String orderBy = request.getParameter("orderBy");
         String pageSizeParameter = request.getParameter("pageSize");
         String pageParameter = request.getParameter("page");
+        String mode = request.getParameter("mode");
         
 		int page = NumberUtils.toInt(pageParameter, 1);
 	    int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
@@ -100,6 +101,7 @@ public class ProductLineController extends AbstractMCommerceController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("currentPage", page);
+		model.addAttribute("mode",mode);
 		model.addAttribute("totalPage", productList.getPageCount());
 		
 		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListProductBrands(requestUtil.getRequestData(request), catalogCategory);

@@ -315,6 +315,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 				countryFilter.setCode(country);
 				filter.addCountry(countryFilter);
 				//TODO: set i18nName
+				countryFilterMap.put(country, countryFilter);
 			}
 			
 			if(cityFilterMap.containsKey(city)){
@@ -324,6 +325,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 				cityFilter.setName(city);
 				countryFilter.addCity(cityFilter);
 				//TODO: set code?
+				cityFilterMap.put(city, cityFilter);
 			}
 			
 			cityFilter.addStore(store);
