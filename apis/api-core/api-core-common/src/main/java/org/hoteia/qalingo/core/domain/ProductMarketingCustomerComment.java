@@ -144,4 +144,47 @@ public class ProductMarketingCustomerComment extends AbstractAddress {
     	this.dateUpdate = dateUpdate;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProductMarketingCustomerComment other = (ProductMarketingCustomerComment) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
+                return false;
+        } else if (!marketAreaId.equals(other.marketAreaId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductMarketingCustomerComment [id=" + id + ", comment=" + comment + ", productMarketingCustomerCommentId=" + productMarketingCustomerCommentId + ", marketAreaId=" + marketAreaId
+                + ", productMarketingId=" + productMarketingId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

@@ -9,12 +9,16 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
@@ -86,6 +90,14 @@ public class RetailerAddress extends AbstractAddress {
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 	
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
+    
 	public RetailerAddress() {
 	}
 
@@ -241,4 +253,65 @@ public class RetailerAddress extends AbstractAddress {
 	    this.retailerId = retailerId;
     }
 	
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RetailerAddress other = (RetailerAddress) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (retailerId == null) {
+            if (other.retailerId != null)
+                return false;
+        } else if (!retailerId.equals(other.retailerId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RetailerAddress [id=" + id + ", version=" + version + ", address1=" + address1 + ", address2=" + address2 + ", addressAdditionalInformation=" + addressAdditionalInformation
+                + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode + ", countryCode=" + countryCode + ", phone=" + phone + ", mobile=" + mobile
+                + ", fax=" + fax + ", email=" + email + ", website=" + website + ", isDefault=" + isDefault + ", longitude=" + longitude + ", latitude=" + latitude + ", retailerId=" + retailerId
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+    
 }

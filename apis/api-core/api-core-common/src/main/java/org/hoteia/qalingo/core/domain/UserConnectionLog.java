@@ -100,5 +100,41 @@ public class UserConnectionLog extends AbstractEntity {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((loginDate == null) ? 0 : loginDate.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserConnectionLog other = (UserConnectionLog) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (loginDate == null) {
+            if (other.loginDate != null)
+                return false;
+        } else if (!loginDate.equals(other.loginDate))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserConnectionLog [id=" + id + ", loginDate=" + loginDate + ", app=" + app + ", host=" + host + ", address=" + address + ", userId=" + userId + "]";
+    }
 	
 }

@@ -114,71 +114,65 @@ public class CustomerCredential extends AbstractAddress {
 		this.dateUpdate = dateUpdate;
 	}
 
-	@Override
+    @Override
     public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-	    result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-	    result = prime * result + ((id == null) ? 0 : id.hashCode());
-	    result = prime * result + ((password == null) ? 0 : password.hashCode());
-	    result = prime * result + ((resetProcessedDate == null) ? 0 : resetProcessedDate.hashCode());
-	    result = prime * result + ((resetToken == null) ? 0 : resetToken.hashCode());
-	    result = prime * result + ((tokenTimestamp == null) ? 0 : tokenTimestamp.hashCode());
-	    return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((resetProcessedDate == null) ? 0 : resetProcessedDate.hashCode());
+        result = prime * result + ((resetToken == null) ? 0 : resetToken.hashCode());
+        result = prime * result + ((tokenTimestamp == null) ? 0 : tokenTimestamp.hashCode());
+        return result;
     }
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    if (getClass() != obj.getClass())
-		    return false;
-	    CustomerCredential other = (CustomerCredential) obj;
-	    if (dateCreate == null) {
-		    if (other.dateCreate != null)
-			    return false;
-	    } else if (!dateCreate.equals(other.dateCreate))
-		    return false;
-	    if (dateUpdate == null) {
-		    if (other.dateUpdate != null)
-			    return false;
-	    } else if (!dateUpdate.equals(other.dateUpdate))
-		    return false;
-	    if (id == null) {
-		    if (other.id != null)
-			    return false;
-	    } else if (!id.equals(other.id))
-		    return false;
-	    if (password == null) {
-		    if (other.password != null)
-			    return false;
-	    } else if (!password.equals(other.password))
-		    return false;
-	    if (resetProcessedDate == null) {
-		    if (other.resetProcessedDate != null)
-			    return false;
-	    } else if (!resetProcessedDate.equals(other.resetProcessedDate))
-		    return false;
-	    if (resetToken == null) {
-		    if (other.resetToken != null)
-			    return false;
-	    } else if (!resetToken.equals(other.resetToken))
-		    return false;
-	    if (tokenTimestamp == null) {
-		    if (other.tokenTimestamp != null)
-			    return false;
-	    } else if (!tokenTimestamp.equals(other.tokenTimestamp))
-		    return false;
-	    return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerCredential other = (CustomerCredential) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (resetProcessedDate == null) {
+            if (other.resetProcessedDate != null)
+                return false;
+        } else if (!resetProcessedDate.equals(other.resetProcessedDate))
+            return false;
+        if (resetToken == null) {
+            if (other.resetToken != null)
+                return false;
+        } else if (!resetToken.equals(other.resetToken))
+            return false;
+        if (tokenTimestamp == null) {
+            if (other.tokenTimestamp != null)
+                return false;
+        } else if (!tokenTimestamp.equals(other.tokenTimestamp))
+            return false;
+        return true;
     }
 
-	@Override
+    @Override
     public String toString() {
-	    return "CustomerCredential [id=" + id + ", password=" + password + ", resetToken=" + resetToken + ", tokenTimestamp=" + tokenTimestamp + ", resetProcessedDate=" + resetProcessedDate
-	            + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "CustomerCredential [id=" + id + ", password=" + password + ", resetToken=" + resetToken + ", tokenTimestamp=" + tokenTimestamp + ", resetProcessedDate=" + resetProcessedDate
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

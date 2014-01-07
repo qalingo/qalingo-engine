@@ -205,20 +205,8 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((attributeDefinition == null) ? 0 : attributeDefinition.hashCode());
-        result = prime * result + Arrays.hashCode(blobValue);
-        result = prime * result + ((booleanValue == null) ? 0 : booleanValue.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime * result + ((doubleValue == null) ? 0 : doubleValue.hashCode());
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result + ((floatValue == null) ? 0 : floatValue.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((integerValue == null) ? 0 : integerValue.hashCode());
-        result = prime * result + ((localizationCode == null) ? 0 : localizationCode.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
-        result = prime * result + version;
         return result;
     }
 
@@ -231,78 +219,24 @@ public class ProductSkuOptionDefinitionAttribute extends AbstractEntity {
         if (getClass() != obj.getClass())
             return false;
         ProductSkuOptionDefinitionAttribute other = (ProductSkuOptionDefinitionAttribute) obj;
-        if (attributeDefinition == null) {
-            if (other.attributeDefinition != null)
-                return false;
-        } else if (!attributeDefinition.equals(other.attributeDefinition))
-            return false;
-        if (!Arrays.equals(blobValue, other.blobValue))
-            return false;
-        if (booleanValue == null) {
-            if (other.booleanValue != null)
-                return false;
-        } else if (!booleanValue.equals(other.booleanValue))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
-            return false;
-        if (dateUpdate == null) {
-            if (other.dateUpdate != null)
-                return false;
-        } else if (!dateUpdate.equals(other.dateUpdate))
-            return false;
-        if (doubleValue == null) {
-            if (other.doubleValue != null)
-                return false;
-        } else if (!doubleValue.equals(other.doubleValue))
-            return false;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        } else if (!endDate.equals(other.endDate))
-            return false;
-        if (floatValue == null) {
-            if (other.floatValue != null)
-                return false;
-        } else if (!floatValue.equals(other.floatValue))
             return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (integerValue == null) {
-            if (other.integerValue != null)
-                return false;
-        } else if (!integerValue.equals(other.integerValue))
-            return false;
-        if (localizationCode == null) {
-            if (other.localizationCode != null)
-                return false;
-        } else if (!localizationCode.equals(other.localizationCode))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        } else if (!startDate.equals(other.startDate))
-            return false;
-        if (stringValue == null) {
-            if (other.stringValue != null)
-                return false;
-        } else if (!stringValue.equals(other.stringValue))
-            return false;
-        if (version != other.version)
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version=" + version + ", attributeDefinition=" + attributeDefinition + ", stringValue=" + stringValue + ", integerValue="
-                + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode="
-                + localizationCode + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuOptionDefinitionAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
+                + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", startDate=" + startDate
+                + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -192,11 +192,13 @@ public class Company extends AbstractEntity {
         int result = 1;
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
+        result = prime * result + ((defaultLocalization == null) ? 0 : defaultLocalization.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((localizations == null) ? 0 : localizations.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + version;
+        result = prime * result + ((theme == null) ? 0 : theme.hashCode());
+        result = prime * result + ((users == null) ? 0 : users.hashCode());
         return result;
     }
 
@@ -219,15 +221,10 @@ public class Company extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (dateUpdate == null) {
-            if (other.dateUpdate != null)
+        if (defaultLocalization == null) {
+            if (other.defaultLocalization != null)
                 return false;
-        } else if (!dateUpdate.equals(other.dateUpdate))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
+        } else if (!defaultLocalization.equals(other.defaultLocalization))
             return false;
         if (id == null) {
             if (other.id != null)
@@ -239,14 +236,18 @@ public class Company extends AbstractEntity {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (version != other.version)
+        if (theme == null) {
+            if (other.theme != null)
+                return false;
+        } else if (!theme.equals(other.theme))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Company [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "Company [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", theme=" + theme + ", dateCreate=" + dateCreate
+                + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -205,4 +205,116 @@ public class CustomerOrderAudit extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((calendarYearOrderAmountAudit == null) ? 0 : calendarYearOrderAmountAudit.hashCode());
+        result = prime * result + ((calendarYearProductAudit == null) ? 0 : calendarYearProductAudit.hashCode());
+        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((dayOrderAmountAudit == null) ? 0 : dayOrderAmountAudit.hashCode());
+        result = prime * result + ((dayProductAudit == null) ? 0 : dayProductAudit.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((lastOrderDate == null) ? 0 : lastOrderDate.hashCode());
+        result = prime * result + ((monthOrderAmountAudit == null) ? 0 : monthOrderAmountAudit.hashCode());
+        result = prime * result + ((monthProductAudit == null) ? 0 : monthProductAudit.hashCode());
+        result = prime * result + ((specificYearOrderAmountAudit == null) ? 0 : specificYearOrderAmountAudit.hashCode());
+        result = prime * result + ((specificYearProductAudit == null) ? 0 : specificYearProductAudit.hashCode());
+        result = prime * result + ((weekOrderAmountAudit == null) ? 0 : weekOrderAmountAudit.hashCode());
+        result = prime * result + ((weekProductAudit == null) ? 0 : weekProductAudit.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerOrderAudit other = (CustomerOrderAudit) obj;
+        if (calendarYearOrderAmountAudit == null) {
+            if (other.calendarYearOrderAmountAudit != null)
+                return false;
+        } else if (!calendarYearOrderAmountAudit.equals(other.calendarYearOrderAmountAudit))
+            return false;
+        if (calendarYearProductAudit == null) {
+            if (other.calendarYearProductAudit != null)
+                return false;
+        } else if (!calendarYearProductAudit.equals(other.calendarYearProductAudit))
+            return false;
+        if (customerId == null) {
+            if (other.customerId != null)
+                return false;
+        } else if (!customerId.equals(other.customerId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (dayOrderAmountAudit == null) {
+            if (other.dayOrderAmountAudit != null)
+                return false;
+        } else if (!dayOrderAmountAudit.equals(other.dayOrderAmountAudit))
+            return false;
+        if (dayProductAudit == null) {
+            if (other.dayProductAudit != null)
+                return false;
+        } else if (!dayProductAudit.equals(other.dayProductAudit))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (lastOrderDate == null) {
+            if (other.lastOrderDate != null)
+                return false;
+        } else if (!lastOrderDate.equals(other.lastOrderDate))
+            return false;
+        if (monthOrderAmountAudit == null) {
+            if (other.monthOrderAmountAudit != null)
+                return false;
+        } else if (!monthOrderAmountAudit.equals(other.monthOrderAmountAudit))
+            return false;
+        if (monthProductAudit == null) {
+            if (other.monthProductAudit != null)
+                return false;
+        } else if (!monthProductAudit.equals(other.monthProductAudit))
+            return false;
+        if (specificYearOrderAmountAudit == null) {
+            if (other.specificYearOrderAmountAudit != null)
+                return false;
+        } else if (!specificYearOrderAmountAudit.equals(other.specificYearOrderAmountAudit))
+            return false;
+        if (specificYearProductAudit == null) {
+            if (other.specificYearProductAudit != null)
+                return false;
+        } else if (!specificYearProductAudit.equals(other.specificYearProductAudit))
+            return false;
+        if (weekOrderAmountAudit == null) {
+            if (other.weekOrderAmountAudit != null)
+                return false;
+        } else if (!weekOrderAmountAudit.equals(other.weekOrderAmountAudit))
+            return false;
+        if (weekProductAudit == null) {
+            if (other.weekProductAudit != null)
+                return false;
+        } else if (!weekProductAudit.equals(other.weekProductAudit))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerOrderAudit [id=" + id + ", version=" + version + ", customerId=" + customerId + ", lastOrderDate=" + lastOrderDate + ", dayProductAudit=" + dayProductAudit
+                + ", weekProductAudit=" + weekProductAudit + ", monthProductAudit=" + monthProductAudit + ", calendarYearProductAudit=" + calendarYearProductAudit + ", specificYearProductAudit="
+                + specificYearProductAudit + ", dayOrderAmountAudit=" + dayOrderAmountAudit + ", weekOrderAmountAudit=" + weekOrderAmountAudit + ", monthOrderAmountAudit=" + monthOrderAmountAudit
+                + ", calendarYearOrderAmountAudit=" + calendarYearOrderAmountAudit + ", specificYearOrderAmountAudit=" + specificYearOrderAmountAudit + ", dateCreate=" + dateCreate + ", dateUpdate="
+                + dateUpdate + "]";
+    }
+
 }

@@ -146,4 +146,83 @@ public class CustomerPaymentInformation extends AbstractAddress {
         this.dateUpdate = dateUpdate;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((cardCVV == null) ? 0 : cardCVV.hashCode());
+        result = prime * result + ((cardExpMonth == null) ? 0 : cardExpMonth.hashCode());
+        result = prime * result + ((cardExpYear == null) ? 0 : cardExpYear.hashCode());
+        result = prime * result + ((cardHolderName == null) ? 0 : cardHolderName.hashCode());
+        result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
+        result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((paymentType == null) ? 0 : paymentType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerPaymentInformation other = (CustomerPaymentInformation) obj;
+        if (cardCVV == null) {
+            if (other.cardCVV != null)
+                return false;
+        } else if (!cardCVV.equals(other.cardCVV))
+            return false;
+        if (cardExpMonth == null) {
+            if (other.cardExpMonth != null)
+                return false;
+        } else if (!cardExpMonth.equals(other.cardExpMonth))
+            return false;
+        if (cardExpYear == null) {
+            if (other.cardExpYear != null)
+                return false;
+        } else if (!cardExpYear.equals(other.cardExpYear))
+            return false;
+        if (cardHolderName == null) {
+            if (other.cardHolderName != null)
+                return false;
+        } else if (!cardHolderName.equals(other.cardHolderName))
+            return false;
+        if (cardNumber == null) {
+            if (other.cardNumber != null)
+                return false;
+        } else if (!cardNumber.equals(other.cardNumber))
+            return false;
+        if (customerMarketAreaId == null) {
+            if (other.customerMarketAreaId != null)
+                return false;
+        } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (paymentType == null) {
+            if (other.paymentType != null)
+                return false;
+        } else if (!paymentType.equals(other.paymentType))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerPaymentInformation [id=" + id + ", paymentType=" + paymentType + ", cardHolderName=" + cardHolderName + ", cardNumber=" + cardNumber + ", cardExpMonth=" + cardExpMonth
+                + ", cardExpYear=" + cardExpYear + ", cardCVV=" + cardCVV + ", customerMarketAreaId=" + customerMarketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+    
 }

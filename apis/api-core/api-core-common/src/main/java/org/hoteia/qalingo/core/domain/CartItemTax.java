@@ -41,4 +41,34 @@ public class CartItemTax extends AbstractEntity {
         this.taxAmount = taxAmount;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((taxAmount == null) ? 0 : taxAmount.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CartItemTax other = (CartItemTax) obj;
+        if (taxAmount == null) {
+            if (other.taxAmount != null)
+                return false;
+        } else if (!taxAmount.equals(other.taxAmount))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItemTax [taxAmount=" + taxAmount + "]";
+    }
+
 }

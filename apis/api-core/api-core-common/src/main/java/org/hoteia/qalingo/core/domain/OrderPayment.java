@@ -212,5 +212,49 @@ public class OrderPayment extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-	
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((requestToken == null) ? 0 : requestToken.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderPayment other = (OrderPayment) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (requestToken == null) {
+            if (other.requestToken != null)
+                return false;
+        } else if (!requestToken.equals(other.requestToken))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderPayment [id=" + id + ", amount=" + amount + ", ipAddress=" + ipAddress + ", requestToken=" + requestToken + ", cardType=" + cardType + ", status=" + status + ", cardHolderName="
+                + cardHolderName + ", expirationMonth=" + expirationMonth + ", expirationYear=" + expirationYear + ", cvv2Code=" + cvv2Code + ", authorizationCode=" + authorizationCode
+                + ", currencyCode=" + currencyCode + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

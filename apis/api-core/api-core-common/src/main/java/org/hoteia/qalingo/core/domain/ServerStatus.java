@@ -96,9 +96,6 @@ public class ServerStatus extends AbstractEntity {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((lastCheckReceived == null) ? 0 : lastCheckReceived.hashCode());
-        result = prime * result + ((messageContent == null) ? 0 : messageContent.hashCode());
-        result = prime * result + ((serverIp == null) ? 0 : serverIp.hashCode());
-        result = prime * result + ((serverName == null) ? 0 : serverName.hashCode());
         return result;
     }
 
@@ -121,27 +118,12 @@ public class ServerStatus extends AbstractEntity {
                 return false;
         } else if (!lastCheckReceived.equals(other.lastCheckReceived))
             return false;
-        if (messageContent == null) {
-            if (other.messageContent != null)
-                return false;
-        } else if (!messageContent.equals(other.messageContent))
-            return false;
-        if (serverIp == null) {
-            if (other.serverIp != null)
-                return false;
-        } else if (!serverIp.equals(other.serverIp))
-            return false;
-        if (serverName == null) {
-            if (other.serverName != null)
-                return false;
-        } else if (!serverName.equals(other.serverName))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "ServerStatus [id=" + id + ", serverName=" + serverName + ", serverIp=" + serverIp + ", lastCheckReceived=" + lastCheckReceived + ", messageContent=" + messageContent + "]";
+        return "ServerStatus [id=" + id + ", serverName=" + serverName + ", serverIp=" + serverIp + ", lastCheckReceived=" + lastCheckReceived + "]";
     }
 
 }

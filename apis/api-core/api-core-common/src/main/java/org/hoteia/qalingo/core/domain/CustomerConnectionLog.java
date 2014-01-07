@@ -100,5 +100,65 @@ public class CustomerConnectionLog extends AbstractEntity {
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((appCode == null) ? 0 : appCode.hashCode());
+        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((host == null) ? 0 : host.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((loginDate == null) ? 0 : loginDate.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerConnectionLog other = (CustomerConnectionLog) obj;
+        if (address == null) {
+            if (other.address != null)
+                return false;
+        } else if (!address.equals(other.address))
+            return false;
+        if (appCode == null) {
+            if (other.appCode != null)
+                return false;
+        } else if (!appCode.equals(other.appCode))
+            return false;
+        if (customerId == null) {
+            if (other.customerId != null)
+                return false;
+        } else if (!customerId.equals(other.customerId))
+            return false;
+        if (host == null) {
+            if (other.host != null)
+                return false;
+        } else if (!host.equals(other.host))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (loginDate == null) {
+            if (other.loginDate != null)
+                return false;
+        } else if (!loginDate.equals(other.loginDate))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerConnectionLog [id=" + id + ", loginDate=" + loginDate + ", appCode=" + appCode + ", host=" + host + ", address=" + address + ", customerId=" + customerId + "]";
+    }
 	
 }

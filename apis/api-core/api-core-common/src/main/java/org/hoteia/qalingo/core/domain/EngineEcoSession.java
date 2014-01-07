@@ -370,14 +370,9 @@ public class EngineEcoSession extends AbstractEngineSession {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((device == null) ? 0 : device.hashCode());
         result = prime * result + ((engineSessionGuid == null) ? 0 : engineSessionGuid.hashCode());
-        result = prime * result + (environmentStagingModeEnabled ? 1231 : 1237);
-        result = prime * result + ((environmentType == null) ? 0 : environmentType.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((jSessionId == null) ? 0 : jSessionId.hashCode());
-        result = prime * result + ((theme == null) ? 0 : theme.hashCode());
-        result = prime * result + version;
         return result;
     }
 
@@ -395,19 +390,10 @@ public class EngineEcoSession extends AbstractEngineSession {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (device == null) {
-            if (other.device != null)
-                return false;
-        } else if (!device.equals(other.device))
-            return false;
         if (engineSessionGuid == null) {
             if (other.engineSessionGuid != null)
                 return false;
         } else if (!engineSessionGuid.equals(other.engineSessionGuid))
-            return false;
-        if (environmentStagingModeEnabled != other.environmentStagingModeEnabled)
-            return false;
-        if (environmentType != other.environmentType)
             return false;
         if (id == null) {
             if (other.id != null)
@@ -419,23 +405,13 @@ public class EngineEcoSession extends AbstractEngineSession {
                 return false;
         } else if (!jSessionId.equals(other.jSessionId))
             return false;
-        if (theme == null) {
-            if (other.theme != null)
-                return false;
-        } else if (!theme.equals(other.theme))
-            return false;
-        if (version != other.version)
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "EngineEcoSession [id=" + id + ", version=" + version + ", jSessionId=" + jSessionId + ", engineSessionGuid=" + engineSessionGuid + ", carts=" + carts + ", currentCustomer="
-                + currentCustomer + ", environmentStagingModeEnabled=" + environmentStagingModeEnabled + ", environmentType=" + environmentType + ", currentMarketPlace=" + currentMarketPlace
-                + ", currentMarket=" + currentMarket + ", currentMarketArea=" + currentMarketArea + ", currentMarketAreaLocalization=" + currentMarketAreaLocalization + ", currentMarketAreaRetailer="
-                + currentMarketAreaRetailer + ", currentMarketAreaCurrency=" + currentMarketAreaCurrency + ", currentUser=" + currentUser + ", lastOrders=" + lastOrders + ", theme=" + theme
-                + ", device=" + device + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "EngineEcoSession [id=" + id + ", version=" + version + ", jSessionId=" + jSessionId + ", engineSessionGuid=" + engineSessionGuid + ", theme=" + theme + ", device=" + device
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

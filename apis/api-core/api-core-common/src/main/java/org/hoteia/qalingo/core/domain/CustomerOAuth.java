@@ -131,4 +131,62 @@ public class CustomerOAuth extends AbstractAddress {
 		this.dateUpdate = dateUpdate;
 	}
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((expires == null) ? 0 : expires.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((oauthToken == null) ? 0 : oauthToken.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerOAuth other = (CustomerOAuth) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (expires == null) {
+            if (other.expires != null)
+                return false;
+        } else if (!expires.equals(other.expires))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (oauthToken == null) {
+            if (other.oauthToken != null)
+                return false;
+        } else if (!oauthToken.equals(other.oauthToken))
+            return false;
+        if (type != other.type)
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerOAuth [id=" + id + ", version=" + version + ", oauthToken=" + oauthToken + ", userId=" + userId + ", expires=" + expires + ", type=" + type + ", dateCreate=" + dateCreate
+                + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

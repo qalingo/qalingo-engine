@@ -262,126 +262,106 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 		}
 		return null;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(blobValue);
-		result = prime * result
-				+ ((booleanValue == null) ? 0 : booleanValue.hashCode());
-		result = prime * result
-				+ ((dateCreate == null) ? 0 : dateCreate.hashCode());
-		result = prime * result
-				+ ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-		result = prime * result
-				+ ((doubleValue == null) ? 0 : doubleValue.hashCode());
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result
-				+ ((floatValue == null) ? 0 : floatValue.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((integerValue == null) ? 0 : integerValue.hashCode());
-		result = prime
-				* result
-				+ ((localizationCode == null) ? 0 : localizationCode.hashCode());
-		result = prime * result
-				+ ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-		result = prime * result
-				+ ((startDate == null) ? 0 : startDate.hashCode());
-		result = prime * result
-				+ ((stringValue == null) ? 0 : stringValue.hashCode());
-		result = prime * result + version;
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CatalogCategoryVirtualAttribute other = (CatalogCategoryVirtualAttribute) obj;
-		if (!Arrays.equals(blobValue, other.blobValue))
-			return false;
-		if (booleanValue == null) {
-			if (other.booleanValue != null)
-				return false;
-		} else if (!booleanValue.equals(other.booleanValue))
-			return false;
-		if (dateCreate == null) {
-			if (other.dateCreate != null)
-				return false;
-		} else if (!dateCreate.equals(other.dateCreate))
-			return false;
-		if (dateUpdate == null) {
-			if (other.dateUpdate != null)
-				return false;
-		} else if (!dateUpdate.equals(other.dateUpdate))
-			return false;
-		if (doubleValue == null) {
-			if (other.doubleValue != null)
-				return false;
-		} else if (!doubleValue.equals(other.doubleValue))
-			return false;
-		if (endDate == null) {
-			if (other.endDate != null)
-				return false;
-		} else if (!endDate.equals(other.endDate))
-			return false;
-		if (floatValue == null) {
-			if (other.floatValue != null)
-				return false;
-		} else if (!floatValue.equals(other.floatValue))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (integerValue == null) {
-			if (other.integerValue != null)
-				return false;
-		} else if (!integerValue.equals(other.integerValue))
-			return false;
-		if (localizationCode == null) {
-			if (other.localizationCode != null)
-				return false;
-		} else if (!localizationCode.equals(other.localizationCode))
-			return false;
-		if (marketAreaId == null) {
-			if (other.marketAreaId != null)
-				return false;
-		} else if (!marketAreaId.equals(other.marketAreaId))
-			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
-			return false;
-		if (stringValue == null) {
-			if (other.stringValue != null)
-				return false;
-		} else if (!stringValue.equals(other.stringValue))
-			return false;
-		if (version != other.version)
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(blobValue);
+        result = prime * result + ((booleanValue == null) ? 0 : booleanValue.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((doubleValue == null) ? 0 : doubleValue.hashCode());
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + ((floatValue == null) ? 0 : floatValue.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((integerValue == null) ? 0 : integerValue.hashCode());
+        result = prime * result + (isGlobal ? 1231 : 1237);
+        result = prime * result + ((localizationCode == null) ? 0 : localizationCode.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
+        result = prime * result + ordering;
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "ProductCategoryAttribute [id=" + id + ", version=" + version
-				+ ", stringValue=" + stringValue + ", integerValue="
-				+ integerValue + ", doubleValue=" + doubleValue
-				+ ", floatValue=" + floatValue + ", blobValue="
-				+ Arrays.toString(blobValue) + ", booleanValue=" + booleanValue
-				+ ", localizationCode=" + localizationCode + ", marketAreaId="
-				+ marketAreaId + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", dateCreate=" + dateCreate + ", dateUpdate="
-				+ dateUpdate + "]";
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CatalogCategoryVirtualAttribute other = (CatalogCategoryVirtualAttribute) obj;
+        if (!Arrays.equals(blobValue, other.blobValue))
+            return false;
+        if (booleanValue == null) {
+            if (other.booleanValue != null)
+                return false;
+        } else if (!booleanValue.equals(other.booleanValue))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (doubleValue == null) {
+            if (other.doubleValue != null)
+                return false;
+        } else if (!doubleValue.equals(other.doubleValue))
+            return false;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        } else if (!endDate.equals(other.endDate))
+            return false;
+        if (floatValue == null) {
+            if (other.floatValue != null)
+                return false;
+        } else if (!floatValue.equals(other.floatValue))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (integerValue == null) {
+            if (other.integerValue != null)
+                return false;
+        } else if (!integerValue.equals(other.integerValue))
+            return false;
+        if (isGlobal != other.isGlobal)
+            return false;
+        if (localizationCode == null) {
+            if (other.localizationCode != null)
+                return false;
+        } else if (!localizationCode.equals(other.localizationCode))
+            return false;
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
+                return false;
+        } else if (!marketAreaId.equals(other.marketAreaId))
+            return false;
+        if (ordering != other.ordering)
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
+        if (stringValue == null) {
+            if (other.stringValue != null)
+                return false;
+        } else if (!stringValue.equals(other.stringValue))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CatalogCategoryVirtualAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
+                + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", isGlobal=" + isGlobal
+                + ", ordering=" + ordering + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
 	
 }

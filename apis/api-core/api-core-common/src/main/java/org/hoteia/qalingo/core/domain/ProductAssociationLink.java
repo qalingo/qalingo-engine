@@ -147,5 +147,42 @@ public class ProductAssociationLink extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProductAssociationLink other = (ProductAssociationLink) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductAssociationLink [id=" + id + ", version=" + version + ", rankPosition=" + rankPosition + ", type=" + type + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
 	
 }

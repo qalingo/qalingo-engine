@@ -518,11 +518,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (isDefault ? 1231 : 1237);
-        result = prime * result + version;
         return result;
     }
 
@@ -550,16 +547,6 @@ public class CatalogCategoryVirtual extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (dateUpdate == null) {
-            if (other.dateUpdate != null)
-                return false;
-        } else if (!dateUpdate.equals(other.dateUpdate))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -567,15 +554,13 @@ public class CatalogCategoryVirtual extends AbstractEntity {
             return false;
         if (isDefault != other.isDefault)
             return false;
-        if (version != other.version)
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "ProductCategoryVirtual [id=" + id + ", version=" + version + "," + "businessName=" + businessName + "," + "description=" + description + ", " + "code=" + code + ", isDefault="
-                + isDefault + "," + "dateCreate=" + dateCreate + "," + "dateUpdate=" + dateUpdate + "]";
+        return "CatalogCategoryVirtual [id=" + id + ", version=" + version + ", businessName=" + businessName + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

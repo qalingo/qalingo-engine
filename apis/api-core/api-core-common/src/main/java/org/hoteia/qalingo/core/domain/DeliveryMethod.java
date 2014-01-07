@@ -192,8 +192,6 @@ public class DeliveryMethod extends AbstractEntity {
         int result = 1;
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((deliveryTime == null) ? 0 : deliveryTime.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -217,16 +215,6 @@ public class DeliveryMethod extends AbstractEntity {
             if (other.dateCreate != null)
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
-            return false;
-        if (deliveryTime == null) {
-            if (other.deliveryTime != null)
-                return false;
-        } else if (!deliveryTime.equals(other.deliveryTime))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
             return false;
         if (id == null) {
             if (other.id != null)

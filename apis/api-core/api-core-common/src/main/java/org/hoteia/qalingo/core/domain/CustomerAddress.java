@@ -293,7 +293,6 @@ public class CustomerAddress extends AbstractAddress {
         result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
         result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (isDefault ? 1231 : 1237);
@@ -305,7 +304,6 @@ public class CustomerAddress extends AbstractAddress {
         result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
         result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + version;
         return result;
     }
 
@@ -363,11 +361,6 @@ public class CustomerAddress extends AbstractAddress {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (dateUpdate == null) {
-            if (other.dateUpdate != null)
-                return false;
-        } else if (!dateUpdate.equals(other.dateUpdate))
-            return false;
         if (firstname == null) {
             if (other.firstname != null)
                 return false;
@@ -414,17 +407,16 @@ public class CustomerAddress extends AbstractAddress {
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (version != other.version)
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "CustomerAddress [id=" + id + ", addressName=" + addressName + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", version=" + version + ", address1="
+        return "CustomerAddress [id=" + id + ", version=" + version + ", addressName=" + addressName + ", title=" + title + ", lastname=" + lastname + ", firstname=" + firstname + ", address1="
                 + address1 + ", address2=" + address2 + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode
                 + ", areaCode=" + areaCode + ", countryCode=" + countryCode + ", isDefault=" + isDefault + ", customerId=" + customerId + ", isDefaultBilling=" + isDefaultBilling
                 + ", isDefaultShipping=" + isDefaultShipping + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
+
 
 }

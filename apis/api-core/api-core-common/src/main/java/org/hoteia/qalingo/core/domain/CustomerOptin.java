@@ -104,65 +104,59 @@ public class CustomerOptin extends AbstractEntity {
     	this.dateUpdate = dateUpdate;
     }
 
-	@Override
+    @Override
     public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
-	    result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-	    result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-	    result = prime * result + ((id == null) ? 0 : id.hashCode());
-	    result = prime * result + ((origin == null) ? 0 : origin.hashCode());
-	    result = prime * result + ((type == null) ? 0 : type.hashCode());
-	    return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((origin == null) ? 0 : origin.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
     }
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    if (getClass() != obj.getClass())
-		    return false;
-	    CustomerOptin other = (CustomerOptin) obj;
-	    if (customerMarketAreaId == null) {
-		    if (other.customerMarketAreaId != null)
-			    return false;
-	    } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
-		    return false;
-	    if (dateCreate == null) {
-		    if (other.dateCreate != null)
-			    return false;
-	    } else if (!dateCreate.equals(other.dateCreate))
-		    return false;
-	    if (dateUpdate == null) {
-		    if (other.dateUpdate != null)
-			    return false;
-	    } else if (!dateUpdate.equals(other.dateUpdate))
-		    return false;
-	    if (id == null) {
-		    if (other.id != null)
-			    return false;
-	    } else if (!id.equals(other.id))
-		    return false;
-	    if (origin == null) {
-		    if (other.origin != null)
-			    return false;
-	    } else if (!origin.equals(other.origin))
-		    return false;
-	    if (type == null) {
-		    if (other.type != null)
-			    return false;
-	    } else if (!type.equals(other.type))
-		    return false;
-	    return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerOptin other = (CustomerOptin) obj;
+        if (customerMarketAreaId == null) {
+            if (other.customerMarketAreaId != null)
+                return false;
+        } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (origin == null) {
+            if (other.origin != null)
+                return false;
+        } else if (!origin.equals(other.origin))
+            return false;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
+            return false;
+        return true;
     }
 
-	@Override
+    @Override
     public String toString() {
-	    return "CustomerOptin [id=" + id + ", type=" + type + ", origin=" + origin + ", customerMarketAreaId=" + customerMarketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
-	            + "]";
+        return "CustomerOptin [id=" + id + ", type=" + type + ", origin=" + origin + ", customerMarketAreaId=" + customerMarketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + "]";
     }
 
 }

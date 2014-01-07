@@ -115,4 +115,56 @@ public class CustomerWishlist extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + position;
+        result = prime * result + ((productSkuCode == null) ? 0 : productSkuCode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerWishlist other = (CustomerWishlist) obj;
+        if (customerMarketAreaId == null) {
+            if (other.customerMarketAreaId != null)
+                return false;
+        } else if (!customerMarketAreaId.equals(other.customerMarketAreaId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (position != other.position)
+            return false;
+        if (productSkuCode == null) {
+            if (other.productSkuCode != null)
+                return false;
+        } else if (!productSkuCode.equals(other.productSkuCode))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerWishlist [id=" + id + ", version=" + version + ", position=" + position + ", productSkuCode=" + productSkuCode + ", customerMarketAreaId=" + customerMarketAreaId
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
+
 }

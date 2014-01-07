@@ -21,7 +21,6 @@ public class CartItemPrice extends AbstractPrice {
 	private BigDecimal catalogPrice;
 
 	private CurrencyReferential currency;
-	
     
 	public CartItemPrice() {
 	}
@@ -50,5 +49,35 @@ public class CartItemPrice extends AbstractPrice {
 	public void setCurrency(CurrencyReferential currency) {
 		this.currency = currency;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((catalogPrice == null) ? 0 : catalogPrice.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CartItemPrice other = (CartItemPrice) obj;
+        if (catalogPrice == null) {
+            if (other.catalogPrice != null)
+                return false;
+        } else if (!catalogPrice.equals(other.catalogPrice))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItemPrice [catalogPrice=" + catalogPrice + "]";
+    }
 
 }

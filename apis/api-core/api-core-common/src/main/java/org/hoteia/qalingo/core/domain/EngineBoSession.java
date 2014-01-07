@@ -249,5 +249,55 @@ public class EngineBoSession extends AbstractEngineSession {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((engineSessionGuid == null) ? 0 : engineSessionGuid.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((jSessionId == null) ? 0 : jSessionId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EngineBoSession other = (EngineBoSession) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (engineSessionGuid == null) {
+            if (other.engineSessionGuid != null)
+                return false;
+        } else if (!engineSessionGuid.equals(other.engineSessionGuid))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (jSessionId == null) {
+            if (other.jSessionId != null)
+                return false;
+        } else if (!jSessionId.equals(other.jSessionId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "EngineBoSession [id=" + id + ", version=" + version + ", jSessionId=" + jSessionId + ", engineSessionGuid=" + engineSessionGuid + ", environmentStagingModeEnabled="
+                + environmentStagingModeEnabled + ", environmentType=" + environmentType + ", theme=" + theme + ", device=" + device + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + "]";
+    }
 	
 }

@@ -340,5 +340,54 @@ public class OrderCustomer extends AbstractEntity {
     public String getOrderTotalWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(getOrderTotal());
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((orderNum == null) ? 0 : orderNum.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderCustomer other = (OrderCustomer) obj;
+        if (customerId == null) {
+            if (other.customerId != null)
+                return false;
+        } else if (!customerId.equals(other.customerId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (orderNum == null) {
+            if (other.orderNum != null)
+                return false;
+        } else if (!orderNum.equals(other.orderNum))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderCustomer [id=" + id + ", version=" + version + ", status=" + status + ", orderNum=" + orderNum + ", prefixHashFolder=" + prefixHashFolder + ", marketAreaId=" + marketAreaId
+                + ", retailerId=" + retailerId + ", customerId=" + customerId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+    }
 	
 }

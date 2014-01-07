@@ -458,13 +458,12 @@ public class MarketArea extends AbstractEntity {
         int result = 1;
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((dateUpdate == null) ? 0 : dateUpdate.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (isDefault ? 1231 : 1237);
+        result = prime * result + (isEcommerce ? 1231 : 1237);
+        result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
+        result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((theme == null) ? 0 : theme.hashCode());
-        result = prime * result + version;
         return result;
     }
 
@@ -487,16 +486,6 @@ public class MarketArea extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (dateUpdate == null) {
-            if (other.dateUpdate != null)
-                return false;
-        } else if (!dateUpdate.equals(other.dateUpdate))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -504,25 +493,30 @@ public class MarketArea extends AbstractEntity {
             return false;
         if (isDefault != other.isDefault)
             return false;
+        if (isEcommerce != other.isEcommerce)
+            return false;
+        if (latitude == null) {
+            if (other.latitude != null)
+                return false;
+        } else if (!latitude.equals(other.latitude))
+            return false;
+        if (longitude == null) {
+            if (other.longitude != null)
+                return false;
+        } else if (!longitude.equals(other.longitude))
+            return false;
         if (name == null) {
             if (other.name != null)
                 return false;
         } else if (!name.equals(other.name))
-            return false;
-        if (theme == null) {
-            if (other.theme != null)
-                return false;
-        } else if (!theme.equals(other.theme))
-            return false;
-        if (version != other.version)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "MarketArea [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault + ", theme=" + theme
-                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "MarketArea [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault + ", isEcommerce=" + isEcommerce
+                + ", theme=" + theme + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }
