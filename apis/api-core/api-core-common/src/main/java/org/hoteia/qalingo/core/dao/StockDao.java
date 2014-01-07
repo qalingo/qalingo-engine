@@ -15,7 +15,7 @@ public interface StockDao {
 
 	ProductSkuStock getStockById(Long stockId);
 
-	void saveOrUpdateStock(ProductSkuStock stock);
+	ProductSkuStock saveOrUpdateStock(ProductSkuStock stock);
 
 	void deleteStock(ProductSkuStock stock);
 

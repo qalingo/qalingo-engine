@@ -25,9 +25,9 @@ public interface ServerDao {
     
     List<ServerStatus> getServerList();
     
-    void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
+    ServerStatus saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
     
-	void saveOrUpdateServerStatus(ServerStatus serverStatus);
+    ServerStatus saveOrUpdateServerStatus(ServerStatus serverStatus);
 
 	void deleteServerStatus(ServerStatus serverStatus);
 

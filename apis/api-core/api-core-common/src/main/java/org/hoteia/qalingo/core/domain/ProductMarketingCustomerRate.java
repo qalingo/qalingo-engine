@@ -9,12 +9,16 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TECO_PRODUCT_MARKETING_CUSTOMER_RATE")
@@ -48,6 +52,14 @@ public class ProductMarketingCustomerRate extends AbstractAddress {
 	@Column(name="PROCESSED", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean processed;
 	
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_CREATE")
+    private Date dateCreate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_UPDATE")
+    private Date dateUpdate;
+    
 	public ProductMarketingCustomerRate() {
 	}
 
@@ -105,6 +117,22 @@ public class ProductMarketingCustomerRate extends AbstractAddress {
 
 	public void setProcessed(boolean processed) {
     	this.processed = processed;
+    }
+	
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
 }

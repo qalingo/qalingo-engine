@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TBO_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class UserGroup extends AbstractEntity {
 
 	/**

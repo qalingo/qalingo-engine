@@ -27,7 +27,7 @@ public interface MarketDao {
     
     List<MarketPlace> findMarketPlaces();
     
-    void saveOrUpdateMarketPlace(MarketPlace marketPlace);
+    MarketPlace saveOrUpdateMarketPlace(MarketPlace marketPlace);
 
     void deleteMarketPlace(MarketPlace marketPlace);
     
@@ -43,7 +43,7 @@ public interface MarketDao {
 	
     List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
 
-	void saveOrUpdateMarket(Market market);
+    Market saveOrUpdateMarket(Market market);
 
 	void deleteMarket(Market market);
 
@@ -52,4 +52,8 @@ public interface MarketDao {
 	MarketArea getMarketAreaById(Long marketAreaId);
 	
 	MarketArea getMarketAreaByCode(String code);
+	
+	MarketArea saveOrUpdateMarketArea(MarketArea marketArea);
+
+    void deleteMarketArea(MarketArea marketArea);
 }

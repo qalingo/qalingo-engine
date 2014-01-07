@@ -40,7 +40,7 @@ import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 
 @Entity
-@Table(name = "TECO_RETAILER", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_RETAILER", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Retailer extends AbstractEntity {
 
     /**

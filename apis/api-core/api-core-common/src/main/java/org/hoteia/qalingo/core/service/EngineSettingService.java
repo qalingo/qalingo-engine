@@ -41,7 +41,15 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CODE_SOLR           = "SOLR";
 	public final String ENGINE_SETTING_SOLR_MASTER_CONTEXT = "MASTER";
 	
-	// Email file mirroring
+    // Document order
+    public final String ENGINE_SETTING_DOCUMENT_FILE_FOLDER_PATH         = "DOCUMENT_FILE_FOLDER_PATH";
+    public final String ENGINE_SETTING_DOCUMENT_FILE_WEB_PATH            = "DOCUMENT_FILE_WEB_PATH";
+    
+    public final String ENGINE_SETTING_DEFAULT_ORDER_CONFIRMATION_TEMPLATE      = "DEFAULT_ORDER_CONFIRMATION_TEMPLATE";
+    public final String ENGINE_SETTING_DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE   = "DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE";
+    public final String ENGINE_SETTING_DEFAULT_INVOICE_TEMPLATE                 = "DEFAULT_INVOICE_TEMPLATE";
+
+    // Email file mirroring
 	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_ACTIVATED			= "EMAIL_FILE_MIRRORING_ACTIVATED";
 	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_FOLDER_PATH			= "EMAIL_FILE_MIRRORING_FOLDER_PATH";
 	public final String ENGINE_SETTING_EMAIL_FILE_MIRRORING_WEB_PATH			= "EMAIL_FILE_MIRRORING_FOLDER_WEB";
@@ -54,11 +62,11 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_CACHE_LIST			= "BO_TECHNICAL_CACHE_LIST";
 	public final String ENGINE_SETTING_CONTEXT_BO_TECHNICAL_BATCH_LIST			= "BO_TECHNICAL_BATCH_LIST";
 
-	// Web tracking like Google Analytics
+	// Web tracking like: Google Analytics
 	public final String ENGINE_SETTING_WEB_TRACKING_NUMBER						= "WEB_TRACKING_NUMBER";
 	public final String ENGINE_SETTING_WEB_TRACKING_NAME						= "WEB_TRACKING_NAME";
 
-	// Web monitoring like Pingdom
+	// Web monitoring like: Pingdom
 	public final String ENGINE_SETTING_WEB_MONITORING_NUMBER					= "WEB_MONITORING_NUMBER";
 	public final String ENGINE_SETTING_WEB_MONITORING_NAME						= "WEB_MONITORING_NAME";
 	
@@ -73,85 +81,101 @@ public interface EngineSettingService {
 
 	// SCORE
 	public final String ENGINE_SETTING_CONTEXT_STAR_SCORE_MAX		= "STAR_SCORE_MAX";
-    public final String ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX   = "PRODUCT_QUALITY_OF_SERVICE";
+    public final String ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX    = "PRODUCT_QUALITY_OF_SERVICE";
 	public final String ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX	= "RETAILER_QUALITY_OF_SERVICE";
 
-	// Engine Setting
-	
-	EngineSetting getEngineSettingById(String id);
+    // Engine Setting
 
-	EngineSetting getEngineSettingByCode(String code);
+    EngineSetting getEngineSettingById(Long engineSettingId);
 
-	List<EngineSetting> findEngineSettings();
+    EngineSetting getEngineSettingById(String engineSettingId);
 
-	void saveOrUpdateEngineSetting(EngineSetting engineSetting);
-	
-	void deleteEngineSetting(EngineSetting engineSetting);
-	
-	// Engine Setting Value
-	
-	EngineSettingValue getEngineSettingValueById(String id);
+    EngineSetting getEngineSettingByCode(String code);
 
-	void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
-	
-	String getEngineSettingValueByCode(String engineSettingCode, String engineSettingValueCode);
-	
-	String getEngineSettingDefaultValueByCode(String engineSettingCode);
+    List<EngineSetting> findEngineSettings();
 
-	// Common Engine Setting Value
-	
-	EngineSetting getEnvironmentStagingModeEnabled();
-	
+    void saveOrUpdateEngineSetting(EngineSetting engineSetting);
+
+    void deleteEngineSetting(EngineSetting engineSetting);
+
+    // Engine Setting Value
+
+    EngineSettingValue getEngineSettingValueById(Long engineSettingValueId);
+
+    EngineSettingValue getEngineSettingValueById(String engineSettingValueId);
+
+    void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
+
+    String getEngineSettingValueByCode(String engineSettingCode, String engineSettingValueCode);
+
+    String getEngineSettingDefaultValueByCode(String engineSettingCode);
+
+    // Common Engine Setting Value
+
+    EngineSetting getEnvironmentStagingModeEnabled();
+
     EngineSetting getEnvironmentType();
 
     EngineSetting getAssetFileRootPath();
 
-	EngineSetting getAssetWebRootPath();
+    EngineSetting getAssetWebRootPath();
 
-	EngineSetting getAssetCatalogFilePath();
+    EngineSetting getAssetCatalogFilePath();
 
-	EngineSetting getAssetProductMarketingFilePath();
-	
-	EngineSetting getAssetPoductSkuFilePath();
-	
-	EngineSetting getThemeResourcePrefixPath();
+    EngineSetting getAssetProductMarketingFilePath();
 
-	EngineSetting withEscapeAccent();
-	
+    EngineSetting getAssetPoductSkuFilePath();
+
+    EngineSetting getThemeResourcePrefixPath();
+
+    EngineSetting withEscapeAccent();
+
     EngineSetting getProductMaxScoreValue();
 
     EngineSetting getRetailerMaxScoreValue();
-	
-	EngineSetting getOAuthAppKeyOrId();
-	
-	EngineSetting getOAuthAppSecret();
-	
-	EngineSetting getOAuthAppPermissions();
-	
-	EngineSetting getWebTrackingNumber();
-	
-	EngineSetting getWebTrackingName();
-	
-	EngineSetting getWebMonitoringNumber();
-	
-	EngineSetting getWebMonitoringName();
-	
-	// EMAIL SETTINGS
-	
-	EngineSetting getEmailFileMirroringActivated();
 
-	boolean getEmailFileMirroringActivated(String context);
-	
-	EngineSetting getEmailFileMirroringFolderPath();
-	
-	String getEmailFileMirroringFolderPath(String context) ;
-	
-	EngineSetting getEmailFileMirroringWebPath();
-	
-	String getEmailFileMirroringWebPath(String context) ;
-	
-	EngineSetting getEmailFileMirroringExtension();
-	
-	String getEmailFileMirroringExtension(String context) ;
-	
+    EngineSetting getOAuthAppKeyOrId();
+
+    EngineSetting getOAuthAppSecret();
+
+    EngineSetting getOAuthAppPermissions();
+
+    EngineSetting getWebTrackingNumber();
+
+    EngineSetting getWebTrackingName();
+
+    EngineSetting getWebMonitoringNumber();
+
+    EngineSetting getWebMonitoringName();
+
+    // DOCUMENT SETTINGS
+
+    EngineSetting getDocumentFileRootPath();
+
+    EngineSetting getDocumentWebRootPath();
+
+    EngineSetting getDefaultOrderConfirmationTemplate();
+
+    EngineSetting getDefaultShippingConfirmationTemplate();
+
+    EngineSetting getDefaultInvoiceTemplate();
+    
+    // EMAIL SETTINGS
+
+    EngineSetting getEmailFileMirroringActivated();
+
+    boolean getEmailFileMirroringActivated(String context);
+
+    EngineSetting getEmailFileMirroringFolderPath();
+
+    String getEmailFileMirroringFolderPath(String context);
+
+    EngineSetting getEmailFileMirroringWebPath();
+
+    String getEmailFileMirroringWebPath(String context);
+
+    EngineSetting getEmailFileMirroringExtension();
+
+    String getEmailFileMirroringExtension(String context);
+
 }

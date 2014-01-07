@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -26,6 +25,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerConnectionLogService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.UrlService;
+import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,72 +34,70 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-@Component(value="extSimpleUrlAuthenticationSuccessHandler")
+@Component(value = "extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private CustomerService customerService;
 
     @Autowired
     private CustomerConnectionLogService customerConnectionLogService;
-    
-	@Autowired
+
+    @Autowired
     protected RequestUtil requestUtil;
-	
-	@Autowired
+
+    @Autowired
     protected UrlService urlService;
-	
-	@Autowired
+
+    @Autowired
     protected ExtRedirectStrategy redirectStrategy;
-	
+
+    @Autowired
+    protected WebManagementService webManagementService;
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-		try {
-	        // CUSTOMER
-	        Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
+        try {
+            final RequestData requestData = requestUtil.getRequestData(request);
+            // CUSTOMER
+            Customer customer = customerService.getCustomerByLoginOrEmail(authentication.getName());
 
-	        // Persit the new CustomerConnectionLog
-	    	CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
-	    	customerConnectionLog.setCustomerId(customer.getId());
-	    	customerConnectionLog.setLoginDate(new Date());
-	    	customerConnectionLog.setAppCode(Constants.APP_NAME_FO_MCOMMERCE_CODE);
-	    	customerConnectionLog.setHost(request.getRemoteHost());
-	    	customerConnectionLog.setAddress(request.getRemoteAddr());
-	    	customer.getConnectionLogs().add(customerConnectionLog);
-	    	customerConnectionLogService.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
+            // Persit the new CustomerConnectionLog
+            CustomerConnectionLog customerConnectionLog = new CustomerConnectionLog();
+            customerConnectionLog.setCustomerId(customer.getId());
+            customerConnectionLog.setLoginDate(new Date());
+            customerConnectionLog.setAppCode(Constants.APP_NAME_FO_MCOMMERCE_CODE);
+            customerConnectionLog.setHost(request.getRemoteHost());
+            customerConnectionLog.setAddress(request.getRemoteAddr());
+            customer.getConnectionLogs().add(customerConnectionLog);
+            customerConnectionLogService.saveOrUpdateCustomerConnectionLog(customerConnectionLog);
 
-	    	requestUtil.updateCurrentCustomer(request, customer);
-	    	
-	    	// CART
-	    	RequestData requestData = requestUtil.getRequestData(request);
-	    	Cart cart = requestData.getCart();
-	    	cart.setCustomerId(customer.getId());
-            cart.setBillingAddressId(customer.getDefaultBillingAddressId());
-            cart.setShippingAddressId(customer.getDefaultShippingAddressId());
-            requestUtil.updateCurrentCart(request, cart);
-	    	
-	    	setUseReferer(false);
-			String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
-			String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
-			
-	        // SANITY CHECK
-            if(StringUtils.isNotEmpty(lastUrl)
-                    && (lastUrl.contains("cart") || lastUrl.contains("checkout"))){
+            requestUtil.updateCurrentCustomer(request, customer);
+
+            // UPDATE CART WITH THE CUSTOMER INFORMATIONS
+            webManagementService.updateCart(requestData, customer);
+
+            setUseReferer(false);
+            String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
+            String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+
+            // SANITY CHECK
+            if (StringUtils.isNotEmpty(lastUrl) && (lastUrl.contains("cart") || lastUrl.contains("checkout"))) {
                 url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
             } else {
                 url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
             }
-			
-	    	setDefaultTargetUrl(url);
-	        redirectStrategy.sendRedirect(request, response, url);
-	        
-		} catch (Exception e) {
-			logger.error("", e);
-		}
+
+            setDefaultTargetUrl(url);
+            redirectStrategy.sendRedirect(request, response, url);
+
+        } catch (Exception e) {
+            logger.error("", e);
+        }
 
     }
+
 }

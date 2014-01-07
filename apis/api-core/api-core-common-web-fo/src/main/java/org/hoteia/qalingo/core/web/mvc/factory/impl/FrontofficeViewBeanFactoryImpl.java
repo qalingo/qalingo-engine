@@ -71,7 +71,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         menu.setUrl(urlService.generateUrl(FoUrls.HOME, requestData));
         menuViewBeans.add(menu);
 
-        CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(marketArea.getId());
+        CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(marketArea.getId());
         if (catalogVirtual != null) {
             final List<CatalogCategoryVirtual> catalogCategories = catalogVirtual.getCatalogCategories(marketArea.getId());
             if (catalogCategories != null) {

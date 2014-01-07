@@ -15,7 +15,7 @@ public interface CartDao {
 
 	Cart getCartById(Long cartId);
 
-	void saveOrUpdateCart(Cart cart);
+	Cart saveOrUpdateCart(Cart cart);
 
 	void deleteCart(Cart cart);
 

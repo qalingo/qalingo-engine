@@ -13,7 +13,9 @@ import org.hoteia.qalingo.core.domain.ProductSkuStock;
 
 public interface StockService {
 
-	ProductSkuStock getStockById(String stockId);
+    ProductSkuStock getStockById(Long stockId);
+
+    ProductSkuStock getStockById(String stockId);
 	
 	void saveOrUpdateStock(ProductSkuStock stock);
 	

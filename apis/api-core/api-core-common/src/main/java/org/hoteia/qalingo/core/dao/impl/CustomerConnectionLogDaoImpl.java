@@ -57,8 +57,18 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
         return customerConnectionLogs;
 	}
 	
-	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
-		em.merge(customerConnectionLog);
+	public CustomerConnectionLog saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
+        if (customerConnectionLog.getId() != null) {
+            if(em.contains(customerConnectionLog)){
+                em.refresh(customerConnectionLog);
+            }
+            CustomerConnectionLog mergedCustomerConnectionLog = em.merge(customerConnectionLog);
+            em.flush();
+            return mergedCustomerConnectionLog;
+        } else {
+            em.persist(customerConnectionLog);
+            return customerConnectionLog;
+        }
 	}
 
 	public void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {

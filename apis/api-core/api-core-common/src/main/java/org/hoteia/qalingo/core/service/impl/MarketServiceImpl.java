@@ -25,15 +25,19 @@ import org.hoteia.qalingo.core.service.MarketService;
 @Transactional
 public class MarketServiceImpl implements MarketService {
 
-	@Autowired
-	private MarketDao marketDao;
-	
-	// MARKET PLACE
-	
+    @Autowired
+    private MarketDao marketDao;
+
+    // MARKET PLACE
+
     public MarketPlace getDefaultMarketPlace() {
         return marketDao.getDefaultMarketPlace();
     }
-    
+
+    public MarketPlace getMarketPlaceById(final Long marketPlaceId) {
+        return marketDao.getMarketPlaceById(marketPlaceId);
+    }
+
     public MarketPlace getMarketPlaceById(final String rawMarketPlaceId) {
         long marketPlaceId = -1;
         try {
@@ -41,17 +45,17 @@ public class MarketServiceImpl implements MarketService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return marketDao.getMarketPlaceById(marketPlaceId);
+        return getMarketPlaceById(marketPlaceId);
     }
 
     public MarketPlace getMarketPlaceByCode(final String marketPlaceCode) {
         return marketDao.getMarketPlaceByCode(marketPlaceCode);
     }
-    
+
     public List<MarketPlace> findMarketPlaces() {
         return marketDao.findMarketPlaces();
     }
-    
+
     public void saveOrUpdateMarketPlace(final MarketPlace marketPlace) {
         marketDao.saveOrUpdateMarketPlace(marketPlace);
     }
@@ -60,55 +64,63 @@ public class MarketServiceImpl implements MarketService {
         marketDao.deleteMarketPlace(marketPlace);
     }
 
-	// MARKET
-	
-	public Market getDefaultMarket() {
-		return marketDao.getDefaultMarket();
-	}
-	
-	public Market getMarketById(final String rawMarketId) {
-		long marketId = -1;
-		try {
-			marketId = Long.parseLong(rawMarketId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return marketDao.getMarketById(marketId);
-	}
-	
-	public Market getMarketByCode(final String marketCode) {
-		return marketDao.getMarketByCode(marketCode);
-	}
+    // MARKET
 
-	public List<Market> findMarkets() {
-		return marketDao.findMarkets();
-	}
-	
+    public Market getDefaultMarket() {
+        return marketDao.getDefaultMarket();
+    }
+
+    public Market getMarketById(final Long marketId) {
+        return marketDao.getMarketById(marketId);
+    }
+
+    public Market getMarketById(final String rawMarketId) {
+        long marketId = -1;
+        try {
+            marketId = Long.parseLong(rawMarketId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMarketById(marketId);
+    }
+
+    public Market getMarketByCode(final String marketCode) {
+        return marketDao.getMarketByCode(marketCode);
+    }
+
+    public List<Market> findMarkets() {
+        return marketDao.findMarkets();
+    }
+
     public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode) {
         return marketDao.getMarketsByMarketPlaceCode(marketPlaceCode);
     }
 
-	public void saveOrUpdateMarket(Market market) {
-		marketDao.saveOrUpdateMarket(market);
-	}
+    public void saveOrUpdateMarket(Market market) {
+        marketDao.saveOrUpdateMarket(market);
+    }
 
-	public void deleteMarket(Market market) {
-		marketDao.deleteMarket(market);
-	}
+    public void deleteMarket(Market market) {
+        marketDao.deleteMarket(market);
+    }
 
-	// MARKET AREA
-	
-	public MarketArea getMarketAreaById(final String rawMarketAreaId) {
-		long marketAreaId = -1;
-		try {
-			marketAreaId = Long.parseLong(rawMarketAreaId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return marketDao.getMarketAreaById(marketAreaId);
-	}
-	
-	public MarketArea getMarketAreaByCode(final String marketAreaCode) {
-		return marketDao.getMarketAreaByCode(marketAreaCode);
-	}
+    // MARKET AREA
+
+    public MarketArea getMarketAreaById(final Long marketAreaId) {
+        return marketDao.getMarketAreaById(marketAreaId);
+    }
+
+    public MarketArea getMarketAreaById(final String rawMarketAreaId) {
+        long marketAreaId = -1;
+        try {
+            marketAreaId = Long.parseLong(rawMarketAreaId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMarketAreaById(marketAreaId);
+    }
+
+    public MarketArea getMarketAreaByCode(final String marketAreaCode) {
+        return marketDao.getMarketAreaByCode(marketAreaCode);
+    }
 }

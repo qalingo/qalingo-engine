@@ -27,7 +27,7 @@ public interface CatalogCategoryDao {
 	
 	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId);
 	
-	void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
+	CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
 	void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
 
@@ -44,7 +44,7 @@ public interface CatalogCategoryDao {
 
 	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(Long marketAreaId, String productMarketingCode);
 	
-	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
+	CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 
 	void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory);
 }

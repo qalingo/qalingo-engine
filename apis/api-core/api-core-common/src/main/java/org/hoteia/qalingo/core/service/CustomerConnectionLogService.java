@@ -9,15 +9,13 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import java.util.List;
-
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 
 public interface CustomerConnectionLogService {
 
+    CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId);
+    
 	CustomerConnectionLog getCustomerConnectionLogById(String customerConnectionLogId);
-	
-//	List<CustomerConnectionLog> findCustomerConnectionLog(CustomerConnectionLog criteria);
 	
 	void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 	

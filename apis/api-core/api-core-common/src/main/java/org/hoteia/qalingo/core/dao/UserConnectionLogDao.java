@@ -17,13 +17,11 @@ public interface UserConnectionLogDao {
 
 	UserConnectionLog getUserConnectionLogById(Long userConnectionLogId);
 
-//	List<UserConnectionLog> findByExample(UserConnectionLog userConnectionLogExample);
-
 	List<UserConnectionLog> findUserConnectionLogsByUserId(Long userId);
 
 	List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(Long userId, String appCode);
 
-	void saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog);
+	UserConnectionLog saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog);
 
 	void deleteUserConnectionLog(UserConnectionLog userConnectionLog);
 

@@ -35,7 +35,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_CATALOG_VIRTUAL", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
+@Table(name = "TECO_CATALOG_VIRTUAL", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class CatalogVirtual extends AbstractEntity {
 
     /**

@@ -57,7 +57,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         // SANITY CHECK
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
-        if (currentCart.getTotalCartItems() == 0) {
+        if (currentCart != null && currentCart.getTotalCartItems() == 0) {
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
@@ -74,8 +74,8 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
     @RequestMapping(value = FoUrls.CART_DELIVERY_URL, method = RequestMethod.POST)
     public ModelAndView submitOrderDelivery(final HttpServletRequest request, final HttpServletResponse response, @Valid CartForm cartForm, 
                                             BindingResult result, ModelMap modelMap) throws Exception {
-
         final RequestData requestData = requestUtil.getRequestData(request);
+        
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
         if (currentCart.getTotalCartItems() == 0) {
@@ -144,29 +144,5 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
         }
         return addressesValues;
     }
-
-//    @ModelAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN)
-//    public List<DeliveryMethodViewBean> getDeliveryMethods(HttpServletRequest request) {
-//        List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
-//        try {
-//            final RequestData requestData = requestUtil.getRequestData(request);
-//            final MarketArea marketArea = requestData.getMarketArea();
-//            final Set<DeliveryMethod> deliveryMethods = marketArea.getDeliveryMethods();
-//            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
-//                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-//                deliveryMethodViewBeans.add(frontofficeViewBeanFactory.buildDeliveryMethodViewBean(requestData, deliveryMethod));
-//            }
-//
-//            Collections.sort(deliveryMethodViewBeans, new Comparator<DeliveryMethodViewBean>() {
-//                @Override
-//                public int compare(DeliveryMethodViewBean o1, DeliveryMethodViewBean o2) {
-//                    return o1.getName().compareTo(o2.getName());
-//                }
-//            });
-//        } catch (Exception e) {
-//            logger.error("", e);
-//        }
-//        return deliveryMethodViewBeans;
-//    }
 
 }

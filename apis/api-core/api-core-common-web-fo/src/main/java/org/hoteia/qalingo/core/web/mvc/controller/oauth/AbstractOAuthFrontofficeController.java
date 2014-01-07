@@ -11,7 +11,7 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.service.CustomerGroupService;
+import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
@@ -37,7 +37,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	protected CustomerService customerService;
 	
 	@Autowired
-	protected CustomerGroupService customerGroupService;
+	protected GroupRoleService customerGroupService;
 	
 	@Autowired
 	protected AttributeService attributeService;

@@ -29,7 +29,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_CATALOG_CATEGORY_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_CATALOG_CATEGORY_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class CatalogCategoryType extends AbstractEntity {
 
 	/**

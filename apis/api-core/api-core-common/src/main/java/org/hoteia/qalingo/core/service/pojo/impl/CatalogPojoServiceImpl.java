@@ -44,7 +44,7 @@ public class CatalogPojoServiceImpl implements CatalogPojoService {
 
     @Override
     public CatalogPojo getCatalogById(String catalogId) {
-        final CatalogMaster catalog = catalogService.getProductCatalogById(catalogId);
+        final CatalogMaster catalog = catalogService.getMasterCatalogById(catalogId);
         logger.debug("Found catalog {} for id {}", catalog, catalogId);
         return dozerBeanMapper.map(catalog, CatalogPojo.class);
     }

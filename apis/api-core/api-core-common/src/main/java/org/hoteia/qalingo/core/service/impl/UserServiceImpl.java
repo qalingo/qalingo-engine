@@ -28,6 +28,10 @@ public class UserServiceImpl implements UserService {
 
 	// USER
 	
+    public User getUserById(Long userId) {
+        return userDao.getUserById(userId);
+    }
+    
 	public User getUserById(String rawUserId) {
 		long userId = -1;
 		try {
@@ -35,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return userDao.getUserById(userId);
+		return getUserById(userId);
 	}
 	
 	public User getUserByLoginOrEmail(String usernameOrEmail) {
@@ -56,6 +60,10 @@ public class UserServiceImpl implements UserService {
 	
 	// COMPANY
 	
+	public Company getCompanyById(Long companyId) {
+	    return userDao.getCompanyById(companyId);
+	}
+	
     public Company getCompanyById(String rawCompanyId) {
         long companyId = -1;
         try {
@@ -63,7 +71,7 @@ public class UserServiceImpl implements UserService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return userDao.getCompanyById(companyId);
+        return getCompanyById(companyId);
     }
     
     public List<Company> findCompanies() {

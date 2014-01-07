@@ -39,19 +39,22 @@ public class CartItem extends AbstractEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CART_ID", insertable = true, updatable = true)
+    private Cart cart;
+    
     @Column(name = "QUANTITY", nullable = false, columnDefinition = "int(11) default 0")
     private int quantity;
 
+    @Transient
+    private CartItemPrice cartItemPrice;
+    
     @Column(name = "PRODUCT_SKU_CODE")
     private String productSkuCode;
 
     @Transient
-    private CartItemPrice cartItemPrice;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_SKU_ID", insertable = true, updatable = true)
     private ProductSku productSku;
-
+    
     @Column(name = "PRODUCT_MARKETING_CODE")
     private String productMarketingCode;
 
@@ -82,6 +85,14 @@ public class CartItem extends AbstractEntity {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public Cart getCart() {
+        return cart;
+    }
+    
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     public int getQuantity() {
         return quantity;
@@ -96,14 +107,6 @@ public class CartItem extends AbstractEntity {
         this.quantity = quantity;
     }
 
-    public String getProductSkuCode() {
-        return productSkuCode;
-    }
-
-    public void setProductSkuCode(String productSkuCode) {
-        this.productSkuCode = productSkuCode;
-    }
-
     public CartItemPrice getCartItemPrice() {
         return cartItemPrice;
     }
@@ -112,10 +115,18 @@ public class CartItem extends AbstractEntity {
         this.cartItemPrice = cartItemPrice;
     }
 
+    public String getProductSkuCode() {
+        return productSkuCode;
+    }
+
+    public void setProductSkuCode(String productSkuCode) {
+        this.productSkuCode = productSkuCode;
+    }
+    
     public ProductSku getProductSku() {
         return productSku;
     }
-
+    
     public void setProductSku(ProductSku productSku) {
         this.productSku = productSku;
     }
@@ -207,6 +218,58 @@ public class CartItem extends AbstractEntity {
         }
         totalAmount = totalAmount.multiply(new BigDecimal(quantity));
         return productSkuPrice.getCurrency().formatPriceWithStandardCurrencySign(totalAmount);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((catalogCategoryCode == null) ? 0 : catalogCategoryCode.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((productMarketingCode == null) ? 0 : productMarketingCode.hashCode());
+        result = prime * result + ((productSkuCode == null) ? 0 : productSkuCode.hashCode());
+        result = prime * result + quantity;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CartItem other = (CartItem) obj;
+        if (catalogCategoryCode == null) {
+            if (other.catalogCategoryCode != null)
+                return false;
+        } else if (!catalogCategoryCode.equals(other.catalogCategoryCode))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (productMarketingCode == null) {
+            if (other.productMarketingCode != null)
+                return false;
+        } else if (!productMarketingCode.equals(other.productMarketingCode))
+            return false;
+        if (productSkuCode == null) {
+            if (other.productSkuCode != null)
+                return false;
+        } else if (!productSkuCode.equals(other.productSkuCode))
+            return false;
+        if (quantity != other.quantity)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem [id=" + id + ", quantity=" + quantity + ", productSkuCode=" + productSkuCode + ", productMarketingCode=" + productMarketingCode + ", catalogCategoryCode="
+                + catalogCategoryCode + "]";
     }
 
 }

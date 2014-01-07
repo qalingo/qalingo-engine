@@ -14,7 +14,7 @@ import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
-import org.hoteia.qalingo.core.dao.CustomerGroupDao;
+import org.hoteia.qalingo.core.dao.GroupRoleDao;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +22,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Repository("customerGroupDao")
-public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements CustomerGroupDao {
+@Repository("groupRoleDao")
+public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRoleDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -47,12 +47,22 @@ public class CustomerGroupDaoImpl extends AbstractGenericDaoImpl implements Cust
         return customerGroup;
 	}
 	
-	public void saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
+	public CustomerGroup saveOrUpdateCustomerGroup(CustomerGroup customerGroup) {
 		if(customerGroup.getDateCreate() == null){
 			customerGroup.setDateCreate(new Date());
 		}
 		customerGroup.setDateUpdate(new Date());
-		em.merge(customerGroup);
+        if (customerGroup.getId() != null) {
+            if(em.contains(customerGroup)){
+                em.refresh(customerGroup);
+            }
+            CustomerGroup mergedCustomerGroup = em.merge(customerGroup);
+            em.flush();
+            return mergedCustomerGroup;
+        } else {
+            em.persist(customerGroup);
+            return customerGroup;
+        }
 	}
 
 	public void deleteCustomerGroup(CustomerGroup customerGroup) {

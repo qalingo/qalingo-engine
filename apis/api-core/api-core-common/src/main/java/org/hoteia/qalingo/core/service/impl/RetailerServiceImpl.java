@@ -26,118 +26,127 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RetailerServiceImpl implements RetailerService {
 
-	@Autowired
-	private RetailerDao retailerDao;
+    @Autowired
+    private RetailerDao retailerDao;
 
     // RETAILER
-	public Retailer getRetailerById(final String rawRetailerId) {
-		long retailerId = -1;
-		try {
-			retailerId = Long.parseLong(rawRetailerId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return retailerDao.getRetailerById(retailerId);
-	}
+
+    public Retailer getRetailerById(final Long retailerId) {
+        return retailerDao.getRetailerById(retailerId);
+    }
+
+    public Retailer getRetailerById(final String rawRetailerId) {
+        long retailerId = -1;
+        try {
+            retailerId = Long.parseLong(rawRetailerId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return retailerDao.getRetailerById(retailerId);
+    }
 
     public Retailer getRetailerByCode(final String retailerCode) {
         return retailerDao.getRetailerByCode(retailerCode);
     }
-	   
-	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
-		return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
-	}
 
-	public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
-		return retailerDao.findRetailers(marketAreaId, retailerId);
-	}
-	
+    public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
+        return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
+    }
+
+    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
+        return retailerDao.findRetailers(marketAreaId, retailerId);
+    }
+
     public List<Retailer> findAllRetailers() {
         return retailerDao.findAllRetailers();
     }
-    
+
     public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
         return retailerDao.findRetailersByMarketAreaCode(marketAreaCode);
     }
-	
-	public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
-		List<String> tags = new ArrayList<String>();
-		tags.add(tag);
-		return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
-	}
-	
-	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
-		return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
-	}
-	
-	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults) {
-		return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults);
-	}
-	
-	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults) {
-		return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults);
-	}
-	
-	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults) {
-		return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
-	}
 
-	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-		return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt);
-	}
+    public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
+        List<String> tags = new ArrayList<String>();
+        tags.add(tag);
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
+    }
 
-	public void saveOrUpdateRetailer(final Retailer retailer) {
-		retailerDao.saveOrUpdateRetailer(retailer);
-	}
+    public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
+    }
 
-	public void deleteRetailer(final Retailer retailer) {
-		retailerDao.deleteRetailer(retailer);
-	}
-	
+    public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults) {
+        return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults);
+    }
+
+    public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults) {
+        return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults);
+    }
+
+    public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults) {
+        return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
+    }
+
+    public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+        return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt);
+    }
+
+    public void saveOrUpdateRetailer(final Retailer retailer) {
+        retailerDao.saveOrUpdateRetailer(retailer);
+    }
+
+    public void deleteRetailer(final Retailer retailer) {
+        retailerDao.deleteRetailer(retailer);
+    }
+
     // RETAILER COMMENT/RATE
-	
-	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-		retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
-	}
 
-	public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-		retailerDao.deleteRetailerCustomerRate(retailerCustomerRate);
-	}
-	
-	public void saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-		retailerDao.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
-	}
+    public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+    }
 
-	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
-		retailerDao.deleteRetailerCustomerComment(retailerCustomerComment);
-	}
-	
-	// STORE
-	
-	public Store getStoreById(final String rawStoreId) {
-		long storeId = -1;
-		try {
-			storeId = Long.parseLong(rawStoreId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return retailerDao.getStoreById(storeId);
-	}
-	
-	public Store getStoreByCode(final String storeCode) {
-		return retailerDao.getStoreByCode(storeCode);
-	}
+    public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        retailerDao.deleteRetailerCustomerRate(retailerCustomerRate);
+    }
 
-	public List<Store> findStores() {
-		return retailerDao.findStores();
-	}
-	
-	public void saveOrUpdateStore(final Store store) {
-		retailerDao.saveOrUpdateStore(store);
-	}
+    public void saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+        retailerDao.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
+    }
 
-	public void deleteStore(final Store store) {
-		retailerDao.deleteStore(store);
-	}
+    public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+        retailerDao.deleteRetailerCustomerComment(retailerCustomerComment);
+    }
+
+    // STORE
+
+    public Store getStoreById(final Long storeId) {
+        return retailerDao.getStoreById(storeId);
+    }
+    
+    public Store getStoreById(final String rawStoreId) {
+        long storeId = -1;
+        try {
+            storeId = Long.parseLong(rawStoreId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getStoreById(storeId);
+    }
+
+    public Store getStoreByCode(final String storeCode) {
+        return retailerDao.getStoreByCode(storeCode);
+    }
+
+    public List<Store> findStores() {
+        return retailerDao.findStores();
+    }
+
+    public void saveOrUpdateStore(final Store store) {
+        retailerDao.saveOrUpdateStore(store);
+    }
+
+    public void deleteStore(final Store store) {
+        retailerDao.deleteStore(store);
+    }
 
 }

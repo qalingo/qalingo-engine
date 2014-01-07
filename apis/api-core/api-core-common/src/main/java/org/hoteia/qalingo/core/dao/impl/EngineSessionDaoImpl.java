@@ -10,10 +10,12 @@
 package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.EngineSessionDao;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
@@ -26,61 +28,105 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("engineSessionDao")
 public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements EngineSessionDao {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	// ECO SESSION
-	
-	public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
+    // ECO SESSION
+
+    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
         Criteria criteria = createDefaultCriteria(EngineEcoSession.class);
-        
+
         addDefaultEngineEcoSessionFetch(criteria);
 
         criteria.add(Restrictions.eq("id", engineSessionId));
-        EngineEcoSession engineEcoSession = (EngineEcoSession) criteria.uniqueResult();
-        return engineEcoSession;
-	}
+        EngineEcoSession engineSession = (EngineEcoSession) criteria.uniqueResult();
+        
+        return engineSession;
+    }
 
-	public void saveOrUpdateEngineEcoSession(EngineEcoSession engineSession) {
-		if(engineSession.getDateCreate() == null){
-			engineSession.setDateCreate(new Date());
-		}
-		engineSession.setDateUpdate(new Date());
-		em.merge(engineSession);
-	}
+    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid) {
+        Criteria criteria = createDefaultCriteria(EngineEcoSession.class);
 
-	public void deleteEngineEcoSession(EngineEcoSession engineSession) {
-		em.remove(engineSession);
-	}
-	
-	// BO SESSION
-	
-	public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
+        addDefaultEngineEcoSessionFetch(criteria);
+
+        criteria.add(Restrictions.eq("engineSessionGuid", engineSessionGuid));
+        EngineEcoSession engineSession = (EngineEcoSession) criteria.uniqueResult();
+        
+        return engineSession;
+    }
+
+    public EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineSession) {
+        if (engineSession.getEngineSessionGuid() == null) {
+            engineSession.setEngineSessionGuid(UUID.randomUUID().toString());
+        }
+        if (engineSession.getDateCreate() == null) {
+            engineSession.setDateCreate(new Date());
+        }
+        engineSession.setDateUpdate(new Date());
+        if (engineSession.getId() != null) {
+            if(em.contains(engineSession)){
+                em.refresh(engineSession);
+            }
+            EngineEcoSession mergedEngineEcoSession = em.merge(engineSession);
+            em.flush();
+            return mergedEngineEcoSession;
+        } else {
+            em.persist(engineSession);
+            return engineSession;
+        }
+    }
+
+    public void deleteEngineEcoSession(EngineEcoSession engineSession) {
+        em.remove(em.contains(engineSession) ? engineSession : em.merge(engineSession));
+    }
+
+    // BO SESSION
+
+    public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
         Criteria criteria = createDefaultCriteria(EngineBoSession.class);
-        
+
         addDefaultEngineBoSessionFetch(criteria);
-        
+
         criteria.add(Restrictions.eq("id", engineSessionId));
-        EngineBoSession engineBoSession = (EngineBoSession) criteria.uniqueResult();
-        return engineBoSession;
-	}
-
-	public void saveOrUpdateEngineBoSession(EngineBoSession engineSession) {
-		if(engineSession.getDateCreate() == null){
-			engineSession.setDateCreate(new Date());
-		}
-		engineSession.setDateUpdate(new Date());
-		em.merge(engineSession);
-	}
-
-	public void deleteEngineBoSession(EngineBoSession engineSession) {
-		em.remove(engineSession);
-	}
-	
-    private void addDefaultEngineBoSessionFetch(Criteria criteria) {
+        EngineBoSession engineSession = (EngineBoSession) criteria.uniqueResult();
+        return engineSession;
     }
     
+    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid) {
+        Criteria criteria = createDefaultCriteria(EngineBoSession.class);
+
+        addDefaultEngineBoSessionFetch(criteria);
+
+        criteria.add(Restrictions.eq("engineSessionGuid", engineSessionGuid));
+        EngineBoSession engineSession = (EngineBoSession) criteria.uniqueResult();
+        return engineSession;
+    }
+
+    public EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineSession) {
+        if (engineSession.getEngineSessionGuid() == null) {
+            engineSession.setEngineSessionGuid(UUID.randomUUID().toString());
+        }
+        if (engineSession.getDateCreate() == null) {
+            engineSession.setDateCreate(new Date());
+        }
+        engineSession.setDateUpdate(new Date());
+        return em.merge(engineSession);
+    }
+
+    public void deleteEngineBoSession(EngineBoSession engineSession) {
+        em.remove(engineSession);
+    }
+
+    private void addDefaultEngineBoSessionFetch(Criteria criteria) {
+    }
+
     private void addDefaultEngineEcoSessionFetch(Criteria criteria) {
-        criteria.setFetchMode("cart", FetchMode.JOIN); 
+        criteria.setFetchMode("carts", FetchMode.JOIN);
+        
+        criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("cartItems", FetchMode.JOIN);
+        
+        criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("currency", FetchMode.JOIN);
     }
 
 }

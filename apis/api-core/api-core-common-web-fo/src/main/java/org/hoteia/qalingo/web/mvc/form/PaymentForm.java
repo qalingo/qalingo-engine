@@ -18,23 +18,33 @@ import java.io.Serializable;
 public class PaymentForm implements Serializable {
 	
     /**
-     * 
+     * Generated UID
      */
     private static final long serialVersionUID = -6292956614074854660L;
     
-	private String cardHolder;
+    private String paymentType;
+	private String cardHolderName;
     private String cardNumber;
-    private String cardCrypto;
-    private String cardMonth;
-    private String cardYear;
+    private String cardExpMonth;
+    private String cardExpYear;
+    private String cardCVV;
+    private boolean wantSavedPaymentInformations = false;
     
-	public String getCardHolder() {
-		return cardHolder;
-	}
+    public String getPaymentType() {
+        return paymentType;
+    }
+    
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+    
+	public String getCardHolderName() {
+        return cardHolderName;
+    }
 	
-	public void setCardHolder(String cardHolder) {
-		this.cardHolder = cardHolder;
-	}
+	public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
+    }
 
 	public String getCardNumber() {
 		return cardNumber;
@@ -44,82 +54,100 @@ public class PaymentForm implements Serializable {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getCardCrypto() {
-		return cardCrypto;
-	}
+    public String getCardExpMonth() {
+        return cardExpMonth;
+    }
 
-	public void setCardCrypto(String cardCrypto) {
-		this.cardCrypto = cardCrypto;
-	}
+    public void setCardExpMonth(String cardExpMonth) {
+        this.cardExpMonth = cardExpMonth;
+    }
 
-	public String getCardMonth() {
-		return cardMonth;
-	}
+    public String getCardExpYear() {
+        return cardExpYear;
+    }
 
-	public void setCardMonth(String cardMonth) {
-		this.cardMonth = cardMonth;
-	}
+    public void setCardExpYear(String cardExpYear) {
+        this.cardExpYear = cardExpYear;
+    }
 
-	public String getCardYear() {
-		return cardYear;
-	}
+    public String getCardCVV() {
+        return cardCVV;
+    }
 
-	public void setCardYear(String cardYear) {
-		this.cardYear = cardYear;
-	}
+    public void setCardCVV(String cardCVV) {
+        this.cardCVV = cardCVV;
+    }
 
-	@Override
+    public boolean isWantSavedPaymentInformations() {
+        return wantSavedPaymentInformations;
+    }
+
+    public void setWantSavedPaymentInformations(boolean wantSavedPaymentInformations) {
+        this.wantSavedPaymentInformations = wantSavedPaymentInformations;
+    }
+
+    @Override
     public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + ((cardCrypto == null) ? 0 : cardCrypto.hashCode());
-	    result = prime * result + ((cardHolder == null) ? 0 : cardHolder.hashCode());
-	    result = prime * result + ((cardMonth == null) ? 0 : cardMonth.hashCode());
-	    result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
-	    result = prime * result + ((cardYear == null) ? 0 : cardYear.hashCode());
-	    return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((cardCVV == null) ? 0 : cardCVV.hashCode());
+        result = prime * result + ((cardExpMonth == null) ? 0 : cardExpMonth.hashCode());
+        result = prime * result + ((cardExpYear == null) ? 0 : cardExpYear.hashCode());
+        result = prime * result + ((cardHolderName == null) ? 0 : cardHolderName.hashCode());
+        result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
+        result = prime * result + ((paymentType == null) ? 0 : paymentType.hashCode());
+        result = prime * result + (wantSavedPaymentInformations ? 1231 : 1237);
+        return result;
     }
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    if (getClass() != obj.getClass())
-		    return false;
-	    PaymentForm other = (PaymentForm) obj;
-	    if (cardCrypto == null) {
-		    if (other.cardCrypto != null)
-			    return false;
-	    } else if (!cardCrypto.equals(other.cardCrypto))
-		    return false;
-	    if (cardHolder == null) {
-		    if (other.cardHolder != null)
-			    return false;
-	    } else if (!cardHolder.equals(other.cardHolder))
-		    return false;
-	    if (cardMonth == null) {
-		    if (other.cardMonth != null)
-			    return false;
-	    } else if (!cardMonth.equals(other.cardMonth))
-		    return false;
-	    if (cardNumber == null) {
-		    if (other.cardNumber != null)
-			    return false;
-	    } else if (!cardNumber.equals(other.cardNumber))
-		    return false;
-	    if (cardYear == null) {
-		    if (other.cardYear != null)
-			    return false;
-	    } else if (!cardYear.equals(other.cardYear))
-		    return false;
-	    return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PaymentForm other = (PaymentForm) obj;
+        if (cardCVV == null) {
+            if (other.cardCVV != null)
+                return false;
+        } else if (!cardCVV.equals(other.cardCVV))
+            return false;
+        if (cardExpMonth == null) {
+            if (other.cardExpMonth != null)
+                return false;
+        } else if (!cardExpMonth.equals(other.cardExpMonth))
+            return false;
+        if (cardExpYear == null) {
+            if (other.cardExpYear != null)
+                return false;
+        } else if (!cardExpYear.equals(other.cardExpYear))
+            return false;
+        if (cardHolderName == null) {
+            if (other.cardHolderName != null)
+                return false;
+        } else if (!cardHolderName.equals(other.cardHolderName))
+            return false;
+        if (cardNumber == null) {
+            if (other.cardNumber != null)
+                return false;
+        } else if (!cardNumber.equals(other.cardNumber))
+            return false;
+        if (paymentType == null) {
+            if (other.paymentType != null)
+                return false;
+        } else if (!paymentType.equals(other.paymentType))
+            return false;
+        if (wantSavedPaymentInformations != other.wantSavedPaymentInformations)
+            return false;
+        return true;
     }
 
-	@Override
+    @Override
     public String toString() {
-	    return "PaymentForm [cardHolder=" + cardHolder + ", cardNumber=" + cardNumber + ", cardCrypto=" + cardCrypto + ", cardMonth=" + cardMonth + ", cardYear=" + cardYear + "]";
+        return "PaymentForm [paymentType=" + paymentType + ", cardHolderName=" + cardHolderName + ", cardNumber=" + cardNumber + ", cardExpMonth=" + cardExpMonth + ", cardExpYear=" + cardExpYear
+                + ", cardCVV=" + cardCVV + ", wantSavedPaymentInformations=" + wantSavedPaymentInformations + "]";
     }
-	
+    
 }

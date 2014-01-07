@@ -21,25 +21,29 @@ import org.hoteia.qalingo.core.service.CmsContentService;
 @Transactional
 public class CmsContentServiceImpl implements CmsContentService {
 
-	@Autowired
-	private CmsContentDao cmsContentDao;
+    @Autowired
+    private CmsContentDao cmsContentDao;
 
-	public CmsContent getCmsContentById(String rawCmsContentId) {
-		long cmsContentId = -1;
-		try {
-			cmsContentId = Long.parseLong(rawCmsContentId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return cmsContentDao.getCmsContentById(cmsContentId);
-	}
+    public CmsContent getCmsContentById(Long cmsContentId) {
+        return cmsContentDao.getCmsContentById(cmsContentId);
+    }
 
-	public void saveOrUpdateCmsContent(CmsContent cmsContent) {
-		cmsContentDao.saveOrUpdateCmsContent(cmsContent);
-	}
+    public CmsContent getCmsContentById(String rawCmsContentId) {
+        long cmsContentId = -1;
+        try {
+            cmsContentId = Long.parseLong(rawCmsContentId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCmsContentById(cmsContentId);
+    }
 
-	public void deleteCmsContent(CmsContent cmsContent) {
-		cmsContentDao.deleteCmsContent(cmsContent);
-	}
+    public void saveOrUpdateCmsContent(CmsContent cmsContent) {
+        cmsContentDao.saveOrUpdateCmsContent(cmsContent);
+    }
+
+    public void deleteCmsContent(CmsContent cmsContent) {
+        cmsContentDao.deleteCmsContent(cmsContent);
+    }
 
 }

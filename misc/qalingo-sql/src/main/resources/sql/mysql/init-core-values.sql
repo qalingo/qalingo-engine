@@ -228,22 +228,26 @@ VALUES
 (3, 'Market Area Email Contact (To)', 'Market Area Email Contact (To)', 'MARKET_AREA_EMAIL_CONTACT', 1, 8, 0, 0, 0, 1),
 (5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (6, 'Market Area Share Option', 'Market Area Share Option', 'MARKET_AREA_SHARE_OPTIONS', 1, 8, 0, 0, 0, 1),
-(10, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
-(20, 'Product Category attribute name', 'Product Category attribute name', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
-(21, 'Product Category attribute order', 'Product Category attribute order', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
-(30, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
-(31, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
-(40, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
-(41, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
-(42, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_ATTRIBUTE_WIDTH', 4, 3, 0, 1, 0, 1),
-(43, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_ATTRIBUTE_HEIGHT', 4, 3, 1, 0, 0, 1),
-(44, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_ATTRIBUTE_LENGTH', 4, 3, 1, 0, 0, 1),
-(45, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_ATTRIBUTE_WEIGHT', 4, 3, 1, 0, 0, 1),
-(50, 'Store attribute order', 'Store attribute order', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
-(51, 'Store attribute city name', 'Store attribute city name', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
-(52, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
-(60, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
-(70, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1);
+(7, 'Market Area Save Payment informations', 'Market Area Save Payment informations', 'MARKET_AREA_SAVE_PAYMENT_INFORMATION', 6, 8, 0, 0, 0, 1),
+(8, 'Market Area Order confirmation template file path', 'Market Area Order confirmation template file path', 'MARKET_AREA_ORDER_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
+(9, 'Market Area Shipping confirmation template file path', 'Market Area Shipping confirmation template file path', 'MARKET_AREA_SHIPPING_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
+(10, 'Market Area Invoice template file path', 'Market Area Invoice template file path', 'MARKET_AREA_INVOICE_TEMPLATE', 1, 8, 0, 0, 0, 1),
+(100, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
+(200, 'Product Category attribute name', 'Product Category attribute name', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
+(210, 'Product Category attribute order', 'Product Category attribute order', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
+(300, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
+(310, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
+(400, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
+(410, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
+(420, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_ATTRIBUTE_WIDTH', 4, 3, 0, 1, 0, 1),
+(430, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_ATTRIBUTE_HEIGHT', 4, 3, 1, 0, 0, 1),
+(440, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_ATTRIBUTE_LENGTH', 4, 3, 1, 0, 0, 1),
+(450, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_ATTRIBUTE_WEIGHT', 4, 3, 1, 0, 0, 1),
+(500, 'Store attribute order', 'Store attribute order', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
+(510, 'Store attribute city name', 'Store attribute city name', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
+(520, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
+(600, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
+(700, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1);
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting
@@ -252,6 +256,36 @@ INSERT INTO teco_engine_setting
 VALUES 
 (10, 'Environment Staging Mode enabled setting', 'Environment Staging Mode enabled setting', 'ENVIRONMENT_STAGING_MODE_ENABLED', 'false', 1),
 (11, 'Environment Type setting', 'Environment Type setting', 'ENVIRONMENT_TYPE', 'REEL', 1);
+
+-- Document folder path setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(301, 'Document folder path', 'Document folder path', 'DOCUMENT_FILE_FOLDER_PATH', '/home/tomcat/qalingo/datas/documents', 1);
+
+-- Document web path setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(302, 'Document web path', 'Document web path', 'DOCUMENT_FILE_WEB_PATH', '/documents', 1);
+
+-- Default Order Confirmation template setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(401, 'Default Order Confirmation template setting', 'Default Order Confirmation template setting', 'DEFAULT_ORDER_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/order-confirmation.jrxml', 1);
+
+-- Default shipping Confirmation template setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(402, 'Default shipping Confirmation template setting', 'Default shipping Confirmation template setting', 'DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/shipping-confirmation.jrxml', 1);
+
+-- Default Invoice template setting
+INSERT INTO teco_engine_setting 
+(id, name, description, code, default_value, version)
+VALUES 
+(403, 'Default Invoice template setting', 'Default Invoice template setting', 'DEFAULT_INVOICE_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/invoice.jrxml', 1);
 
 -- Save Email file mirroring setting
 INSERT INTO teco_engine_setting 

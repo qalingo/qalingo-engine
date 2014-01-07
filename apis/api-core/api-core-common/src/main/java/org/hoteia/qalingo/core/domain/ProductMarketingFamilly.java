@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_PRODUCT_MARKETING_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
+@Table(name = "TECO_PRODUCT_MARKETING_FAMILLY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class ProductMarketingFamilly extends AbstractEntity {
 
     /**

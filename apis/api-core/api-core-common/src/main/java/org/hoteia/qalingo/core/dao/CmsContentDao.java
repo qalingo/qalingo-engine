@@ -15,7 +15,7 @@ public interface CmsContentDao {
 
 	CmsContent getCmsContentById(Long cmsContentId);
 
-	void saveOrUpdateCmsContent(CmsContent cmsContent);
+	CmsContent saveOrUpdateCmsContent(CmsContent cmsContent);
 
 	void deleteCmsContent(CmsContent cmsContent);
 

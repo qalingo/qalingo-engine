@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository("userDao")
-public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements UserDao {
+public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -63,12 +63,22 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
         return users;
     }
 
-    public void saveOrUpdateUser(User user) {
+    public User saveOrUpdateUser(User user) {
         if (user.getDateCreate() == null) {
             user.setDateCreate(new Date());
         }
         user.setDateUpdate(new Date());
-        em.merge(user);
+        if (user.getId() != null) {
+            if(em.contains(user)){
+                em.refresh(user);
+            }
+            User mergedUser = em.merge(user);
+            em.flush();
+            return mergedUser;
+        } else {
+            em.persist(user);
+            return user;
+        }
     }
 
     public void deleteUser(User user) {
@@ -113,12 +123,22 @@ public class UserDaoImpl extends AbstractGenericDaoImpl<User, Long> implements U
         criteria.setFetchMode("localizations", FetchMode.JOIN); 
     }
     
-    public void saveOrUpdateCompany(Company company) {
+    public Company saveOrUpdateCompany(Company company) {
         if (company.getDateCreate() == null) {
             company.setDateCreate(new Date());
         }
         company.setDateUpdate(new Date());
-        em.merge(company);
+        if (company.getId() != null) {
+            if(em.contains(company)){
+                em.refresh(company);
+            }
+            Company mergedCompany = em.merge(company);
+            em.flush();
+            return mergedCompany;
+        } else {
+            em.persist(company);
+            return company;
+        }
     }
 
     public void deleteCompany(Company company) {

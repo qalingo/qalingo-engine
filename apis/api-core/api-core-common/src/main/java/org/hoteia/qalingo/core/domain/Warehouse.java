@@ -14,7 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TECO_WAREHOUSE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_WAREHOUSE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Warehouse extends AbstractEntity {
 
     /**

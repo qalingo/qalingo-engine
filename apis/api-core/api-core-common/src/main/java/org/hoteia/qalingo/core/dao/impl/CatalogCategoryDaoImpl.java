@@ -91,7 +91,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
+	public CatalogCategoryMaster saveOrUpdateCatalogCategory(final CatalogCategoryMaster catalogCategory) {
 		
 		// TODO : Denis : child object dates ?
 		
@@ -99,10 +99,20 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 			catalogCategory.setDateCreate(new Date());
 		}
 		catalogCategory.setDateUpdate(new Date());
-		em.merge(catalogCategory);
+        if (catalogCategory.getId() != null) {
+            if(em.contains(catalogCategory)){
+                em.refresh(catalogCategory);
+            }
+            CatalogCategoryMaster mergedCatalogCategoryMaster = em.merge(catalogCategory);
+            em.flush();
+            return mergedCatalogCategoryMaster;
+        } else {
+            em.persist(catalogCategory);
+            return catalogCategory;
+        }
 	}
 
-	public void deleteCatalogCategory(CatalogCategoryMaster catalogCategory) {
+	public void deleteCatalogCategory(final CatalogCategoryMaster catalogCategory) {
 		em.remove(catalogCategory);
 	}
 	
@@ -181,15 +191,25 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+	public CatalogCategoryVirtual saveOrUpdateCatalogCategory(final CatalogCategoryVirtual catalogCategory) {
 		if(catalogCategory.getDateCreate() == null){
 			catalogCategory.setDateCreate(new Date());
 		}
 		catalogCategory.setDateUpdate(new Date());
-		em.merge(catalogCategory);
+        if (catalogCategory.getId() != null) {
+            if(em.contains(catalogCategory)){
+                em.refresh(catalogCategory);
+            }
+            CatalogCategoryVirtual mergedCatalogCategoryVirtual = em.merge(catalogCategory);
+            em.flush();
+            return mergedCatalogCategoryVirtual;
+        } else {
+            em.persist(catalogCategory);
+            return catalogCategory;
+        }
 	}
 
-	public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+	public void deleteCatalogCategory(final CatalogCategoryVirtual catalogCategory) {
 		em.remove(catalogCategory);
 	}
 	

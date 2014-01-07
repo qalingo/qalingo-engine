@@ -86,7 +86,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
 
-		CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(currentMarketArea.getId());
+		CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(currentMarketArea.getId());
 		final CatalogMaster catalogMaster = catalogVirtual.getCatalogMaster();
 
 		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
@@ -120,7 +120,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
 		
-		CatalogVirtual catalogVirtual = catalogService.getCatalogVirtual(currentMarketArea.getId());
+		CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(currentMarketArea.getId());
 
 		final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);

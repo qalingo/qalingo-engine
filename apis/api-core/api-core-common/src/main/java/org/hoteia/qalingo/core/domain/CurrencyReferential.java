@@ -30,7 +30,7 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_CURRENCY_REFERENTIAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_CURRENCY_REFERENTIAL", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class CurrencyReferential extends AbstractEntity {
 
 	/**

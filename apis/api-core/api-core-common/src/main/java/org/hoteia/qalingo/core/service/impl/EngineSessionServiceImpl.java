@@ -9,66 +9,79 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.EngineSessionDao;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.service.EngineSessionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("engineSessionService")
 @Transactional
 public class EngineSessionServiceImpl implements EngineSessionService {
 
-	@Autowired
-	private EngineSessionDao engineSessionDao;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    @Autowired
+    private EngineSessionDao engineSessionDao;
 
-	// ECO SESSION
-	public EngineEcoSession getEngineEcoSessionById(String rawEngineSessionId) {
-		long engineSessionId = -1;
-		try {
-			engineSessionId = Long.parseLong(rawEngineSessionId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return engineSessionDao.getEngineEcoSessionById(engineSessionId);
-	}
+    // ECO SESSION
 
-//	public List<EngineEcoSession> findEngineEcoSession(EngineEcoSession criteria) {
-//		return engineSessionDao.findByExample(criteria);
-//	}
+    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
+        return engineSessionDao.getEngineEcoSessionById(engineSessionId);
+    }
 
-	public void saveOrUpdateEngineEcoSession(EngineEcoSession engineEcoSession) {
-		engineSessionDao.saveOrUpdateEngineEcoSession(engineEcoSession);
-	}
+    public EngineEcoSession getEngineEcoSessionById(final String rawEngineSessionId) {
+        long engineSessionId = -1;
+        try {
+            engineSessionId = Long.parseLong(rawEngineSessionId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getEngineEcoSessionById(engineSessionId);
+    }
+    
+    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid) {
+        return engineSessionDao.getEngineEcoSessionByEngineSessionGuid(engineSessionGuid);
+    }
 
-	public void deleteEngineEcoSession(EngineEcoSession engineEcoSession) {
-		engineSessionDao.deleteEngineEcoSession(engineEcoSession);
-	}
-	
-	// BO SESSION
-	public EngineBoSession getEngineBoSessionById(String rawEngineSessionId) {
-		long engineSessionId = -1;
-		try {
-			engineSessionId = Long.parseLong(rawEngineSessionId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return engineSessionDao.getEngineBoSessionById(engineSessionId);
-	}
+    public EngineEcoSession saveOrUpdateEngineEcoSession(final EngineEcoSession engineEcoSession) {
+        return engineSessionDao.saveOrUpdateEngineEcoSession(engineEcoSession);
+    }
 
-//	public List<EngineEcoSession> findEngineSession(EngineEcoSession criteria) {
-//		return engineSessionDao.findByExample(criteria);
-//	}
+    public void deleteEngineEcoSession(final EngineEcoSession engineEcoSession) {
+        engineSessionDao.deleteEngineEcoSession(engineEcoSession);
+    }
 
-	public void saveOrUpdateEngineBoSession(EngineBoSession engineBoSession) {
-		engineSessionDao.saveOrUpdateEngineBoSession(engineBoSession);
-	}
+    // BO SESSION
 
-	public void deleteEngineBoSession(EngineBoSession engineBoSession) {
-		engineSessionDao.deleteEngineBoSession(engineBoSession);
-	}
+    public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
+        return engineSessionDao.getEngineBoSessionById(engineSessionId);
+    }
 
+    public EngineBoSession getEngineBoSessionById(final String rawEngineSessionId) {
+        long engineSessionId = -1;
+        try {
+            engineSessionId = Long.parseLong(rawEngineSessionId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getEngineBoSessionById(engineSessionId);
+    }
+    
+    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid) {
+        return engineSessionDao.getEngineBoSessionByEngineSessionGuid(engineSessionGuid);
+    }
+
+    public EngineBoSession saveOrUpdateEngineBoSession(final EngineBoSession engineBoSession) {
+        return engineSessionDao.saveOrUpdateEngineBoSession(engineBoSession);
+    }
+
+    public void deleteEngineBoSession(final EngineBoSession engineBoSession) {
+        engineSessionDao.deleteEngineBoSession(engineBoSession);
+    }
+    
 }

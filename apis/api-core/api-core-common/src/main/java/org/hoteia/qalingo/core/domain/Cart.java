@@ -25,7 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,6 +61,10 @@ public class Cart extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ECO_ENGINE_SESSION_ID", insertable = true, updatable = true)
+    private EngineEcoSession ecoSession;
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
@@ -72,12 +75,7 @@ public class Cart extends AbstractEntity {
     @Column(name = "SHIPPING_ADDRESS_ID")
     private Long shippingAddressId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "SESSION_ID")
-    private EngineEcoSession session;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CART_ID")
+    @OneToMany(mappedBy="cart", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     private Set<CartItem> cartItems = new HashSet<CartItem>();
 
     @Transient
@@ -144,6 +142,14 @@ public class Cart extends AbstractEntity {
     public void setCurrency(CurrencyReferential currency) {
         this.currency = currency;
     }
+    
+    public EngineEcoSession getEcoSession() {
+        return ecoSession;
+    }
+    
+    public void setEcoSession(EngineEcoSession ecoSession) {
+        this.ecoSession = ecoSession;
+    }
 
     public Long getCustomerId() {
         return customerId;
@@ -169,14 +175,6 @@ public class Cart extends AbstractEntity {
         this.shippingAddressId = shippingAddressId;
     }
 
-    public EngineEcoSession getSession() {
-        return session;
-    }
-
-    public void setSession(EngineEcoSession session) {
-        this.session = session;
-    }
-
     public Set<CartItem> getCartItems() {
         return cartItems;
     }
@@ -185,6 +183,18 @@ public class Cart extends AbstractEntity {
         this.cartItems = cartItems;
     }
 
+    public void deleteCartItem(CartItem cartItemToDelete) {
+        if(this.cartItems != null){
+            Set<CartItem> checkedCartItems = new HashSet<CartItem>(this.cartItems); 
+            for (Iterator<CartItem> iterator = checkedCartItems.iterator(); iterator.hasNext();) {
+                CartItem cartItem = (CartItem) iterator.next();
+                if(cartItem != null 
+                        && cartItem.getProductSkuCode().equals(cartItemToDelete.getProductSkuCode()))
+                    cartItem.setCart(null);
+                    this.cartItems.remove(cartItem);
+            }
+        }
+    }
     public int getTotalCartItems() {
         if (cartItems != null) {
             return cartItems.size();
@@ -288,6 +298,79 @@ public class Cart extends AbstractEntity {
 
     public String getCartTotalWithStandardCurrencySign() {
         return getCurrency().formatPriceWithStandardCurrencySign(getCartTotal());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((billingAddressId == null) ? 0 : billingAddressId.hashCode());
+        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
+        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((shippingAddressId == null) ? 0 : shippingAddressId.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Cart other = (Cart) obj;
+        if (billingAddressId == null) {
+            if (other.billingAddressId != null)
+                return false;
+        } else if (!billingAddressId.equals(other.billingAddressId))
+            return false;
+        if (customerId == null) {
+            if (other.customerId != null)
+                return false;
+        } else if (!customerId.equals(other.customerId))
+            return false;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (marketAreaId == null) {
+            if (other.marketAreaId != null)
+                return false;
+        } else if (!marketAreaId.equals(other.marketAreaId))
+            return false;
+        if (retailerId == null) {
+            if (other.retailerId != null)
+                return false;
+        } else if (!retailerId.equals(other.retailerId))
+            return false;
+        if (shippingAddressId == null) {
+            if (other.shippingAddressId != null)
+                return false;
+        } else if (!shippingAddressId.equals(other.shippingAddressId))
+            return false;
+        if (status == null) {
+            if (other.status != null)
+                return false;
+        } else if (!status.equals(other.status))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart [id=" + id + ", version=" + version + ", status=" + status + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId + ", customerId=" + customerId
+                + ", billingAddressId=" + billingAddressId + ", shippingAddressId=" + shippingAddressId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

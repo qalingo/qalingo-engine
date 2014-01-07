@@ -145,8 +145,18 @@ public interface RequestUtil {
     /**
      * 
      */
+    EngineEcoSession updateCurrentEcoSession(HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception;
+    
+    /**
+     * 
+     */
     void setCurrentEcoSession(HttpServletRequest request, EngineEcoSession ecoSession) throws Exception;
 
+    /**
+     * 
+     */
+    void synchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues, EngineEcoSession engineEcoSession) throws Exception;
+    
     /**
      * 
      */
@@ -185,6 +195,11 @@ public interface RequestUtil {
     /**
      * 
      */
+    void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception;
+    
+    /**
+     * 
+     */
     void updateCurrentCart(HttpServletRequest request, Cart cart) throws Exception;
 
     /**
@@ -195,7 +210,7 @@ public interface RequestUtil {
     /**
      * 
      */
-    void saveLastOrder(RequestData requestData, OrderCustomer order) throws Exception;
+    void keepLastOrderInSession(RequestData requestData, OrderCustomer order) throws Exception;
 
     // /**
     // *

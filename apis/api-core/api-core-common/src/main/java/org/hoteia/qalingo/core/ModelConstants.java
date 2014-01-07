@@ -151,4 +151,6 @@ public final class ModelConstants {
 
     public static final String CONTEXT_JSON     = "contextJson";
 
+    public static final String ORDER_CONFIRMATION_PDF_URL   = "orderConfirmationPdfUrl";
+    
 }

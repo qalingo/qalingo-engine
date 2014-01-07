@@ -82,7 +82,6 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
                 
             }
         }
-        
         return serverStatus;
     }
 
@@ -90,7 +89,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
      * @throws IOException
      * @see org.hoteia.qalingo.core.dao.impl.ServerDaoImpl#saveOrUpdateServerStatus(ServerStatus serverStatus, String message)
      */
-    public void saveOrUpdateServerStatus(final ServerStatus serverStatus, final String message) throws IOException {
+    public ServerStatus saveOrUpdateServerStatus(final ServerStatus serverStatus, final String message) throws IOException {
         Session session = (Session) em.getDelegate();
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -108,10 +107,22 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
         serverStatus.setMessageContent(blob);
 
         saveOrUpdateServerStatus(serverStatus);
+        
+        return serverStatus;
     }
     
-	public void saveOrUpdateServerStatus(final ServerStatus serverStatus) {
-		em.merge(serverStatus);
+	public ServerStatus saveOrUpdateServerStatus(final ServerStatus serverStatus) {
+        if (serverStatus.getId() != null) {
+            if(em.contains(serverStatus)){
+                em.refresh(serverStatus);
+            }
+            ServerStatus mergedServerStatus = em.merge(serverStatus);
+            em.flush();
+            return mergedServerStatus;
+        } else {
+            em.persist(serverStatus);
+            return serverStatus;
+        }
 	}
 
 	public void deleteServerStatus(final ServerStatus serverStatus) {

@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="TECO_RETAILER_TAG", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_RETAILER_TAG", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class RetailerTag extends AbstractEntity {
 
 	/**

@@ -52,15 +52,25 @@ public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implement
         return users;
 	}
 
-	public void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential) {
+	public CurrencyReferential saveOrUpdateCurrencyReferential(final CurrencyReferential currencyReferential) {
 		if(currencyReferential.getDateCreate() == null){
 			currencyReferential.setDateCreate(new Date());
 		}
 		currencyReferential.setDateUpdate(new Date());
-		em.merge(currencyReferential);
+        if (currencyReferential.getId() != null) {
+            if(em.contains(currencyReferential)){
+                em.refresh(currencyReferential);
+            }
+            CurrencyReferential mergedCurrencyReferential = em.merge(currencyReferential);
+            em.flush();
+            return mergedCurrencyReferential;
+        } else {
+            em.persist(currencyReferential);
+            return currencyReferential;
+        }
 	}
 
-	public void deleteCurrencyReferential(CurrencyReferential currencyReferential) {
+	public void deleteCurrencyReferential(final CurrencyReferential currencyReferential) {
 		em.remove(currencyReferential);
 	}
 

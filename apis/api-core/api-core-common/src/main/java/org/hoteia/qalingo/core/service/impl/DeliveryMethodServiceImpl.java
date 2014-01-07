@@ -22,33 +22,37 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DeliveryMethodServiceImpl implements DeliveryMethodService {
 
-	@Autowired
-	private DeliveryMethodDao deliveryMethodDao;
+    @Autowired
+    private DeliveryMethodDao deliveryMethodDao;
 
-	public DeliveryMethod getDeliveryMethodById(String rawDeliveryMethodId) {
-		long deliveryMethodId = -1;
-		try {
-			deliveryMethodId = Long.parseLong(rawDeliveryMethodId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId);
-	}
+    public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId) {
+        return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId);
+    }
 
-	public DeliveryMethod getDeliveryMethodByCode(String code) {
-		return deliveryMethodDao.getDeliveryMethodByCode(code);
-	}
-	
-	public List<DeliveryMethod> findDeliveryMethods() {
-		return deliveryMethodDao.findDeliveryMethods();
-	}
+    public DeliveryMethod getDeliveryMethodById(final String rawDeliveryMethodId) {
+        long deliveryMethodId = -1;
+        try {
+            deliveryMethodId = Long.parseLong(rawDeliveryMethodId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getDeliveryMethodById(deliveryMethodId);
+    }
 
-	public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
-		deliveryMethodDao.saveOrUpdateDeliveryMethod(deliveryMethod);
-	}
+    public DeliveryMethod getDeliveryMethodByCode(String code) {
+        return deliveryMethodDao.getDeliveryMethodByCode(code);
+    }
 
-	public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {
-		deliveryMethodDao.deleteDeliveryMethod(deliveryMethod);
-	}
+    public List<DeliveryMethod> findDeliveryMethods() {
+        return deliveryMethodDao.findDeliveryMethods();
+    }
+
+    public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
+        deliveryMethodDao.saveOrUpdateDeliveryMethod(deliveryMethod);
+    }
+
+    public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {
+        deliveryMethodDao.deleteDeliveryMethod(deliveryMethod);
+    }
 
 }

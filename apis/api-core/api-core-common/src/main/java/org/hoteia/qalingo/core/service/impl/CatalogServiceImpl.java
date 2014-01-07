@@ -23,33 +23,55 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CatalogServiceImpl implements CatalogService {
 
-	@Autowired
-	private CatalogDao catalogDao;
+    @Autowired
+    private CatalogDao catalogDao;
 
-    public CatalogMaster getProductCatalogById(final String rawProductCatalogId) {
-		long catalogMasterId = -1;
-		try {
-			catalogMasterId = Long.parseLong(rawProductCatalogId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return catalogDao.getProductCatalogById(catalogMasterId);
-	}
-	
-	public CatalogVirtual getCatalogVirtual(final Long marketAreaId) {
-		return catalogDao.getCatalogVirtual(marketAreaId);
-	}
+    // MASTER CATALOG
+    
+    public CatalogMaster getMasterCatalogById(final Long masterCatalogId) {
+        return catalogDao.getMasterCatalogById(masterCatalogId);
+    }
 
+    public CatalogMaster getMasterCatalogById(final String rawMasterCatalogId) {
+        long masterCatalogId = -1;
+        try {
+            masterCatalogId = Long.parseLong(rawMasterCatalogId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMasterCatalogById(masterCatalogId);
+    }
+    
     public List<CatalogMaster> findAllCatalogMasters() {
         return catalogDao.findAllCatalogMasters();
     }
-    
-	public void saveOrUpdateProductCatalog(final CatalogMaster catalogMaster) {
-		catalogDao.saveOrUpdateProductCatalog(catalogMaster);
-	}
 
-	public void deleteProductCatalog(final CatalogMaster catalogMaster) {
-		catalogDao.deleteProductCatalog(catalogMaster);
-	}
+    public void saveOrUpdateCatalogMaster(final CatalogMaster catalogMaster) {
+        catalogDao.saveOrUpdateCatalogMaster(catalogMaster);
+    }
+
+    public void deleteCatalogMaster(final CatalogMaster catalogMaster) {
+        catalogDao.deleteCatalogMaster(catalogMaster);
+    }
+    
+    // VIRTUAL CATALOG
+    
+    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId) {
+        return catalogDao.getVirtualCatalogById(virtualCatalogId);
+    }
+
+    public CatalogVirtual getVirtualCatalogById(final String rawVirtualCatalogId) {
+        long virtualCatalogId = -1;
+        try {
+            virtualCatalogId = Long.parseLong(rawVirtualCatalogId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getVirtualCatalogById(virtualCatalogId);
+    }
+
+    public CatalogVirtual getVirtualCatalogbyMarketAreaId(final Long marketAreaId) {
+        return catalogDao.getVirtualCatalogByMarketAreaId(marketAreaId);
+    }
 
 }

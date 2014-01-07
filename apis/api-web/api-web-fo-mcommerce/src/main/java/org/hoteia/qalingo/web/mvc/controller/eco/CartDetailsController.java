@@ -63,7 +63,7 @@ public class CartDetailsController extends AbstractMCommerceController {
         
         // SANITY CHECK
         final Cart currentCart = requestData.getCart();
-        if (currentCart.getTotalCartItems() == 0) {
+        if (currentCart != null && currentCart.getTotalCartItems() == 0) {
             String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
             String lastUrl = requestUtil.getLastRequestForEmptyCartUrl(request, fallbackUrl);
             return new ModelAndView(new RedirectView(lastUrl));

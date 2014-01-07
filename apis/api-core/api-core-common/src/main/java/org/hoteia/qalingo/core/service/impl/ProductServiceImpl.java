@@ -35,6 +35,10 @@ public class ProductServiceImpl implements ProductService {
 
     // PRODUCT MARKETING
 
+    public ProductMarketing getProductMarketingById(final Long productMarketingId) {
+        return productDao.getProductMarketingById(productMarketingId);
+    }
+
     public ProductMarketing getProductMarketingById(final String rawProductMarketingId) {
         long productMarketingId = -1;
         try {
@@ -42,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productDao.getProductMarketingById(productMarketingId);
+        return getProductMarketingById(productMarketingId);
     }
 
     public ProductMarketing getProductMarketingByCode(final String productMarketingCode) {
@@ -124,14 +128,18 @@ public class ProductServiceImpl implements ProductService {
 
     // PRODUCT MARKETING ASSET
 
-    public Asset getProductMarketingAssetById(final String rawProductMarketingAssetId) {
-        long productMarketingId = -1;
+    public Asset getProductMarketingAssetById(final Long assetId) {
+        return productDao.getProductMarketingAssetById(assetId);
+    }
+
+    public Asset getProductMarketingAssetById(final String rawAssetId) {
+        long assetId = -1;
         try {
-            productMarketingId = Long.parseLong(rawProductMarketingAssetId);
+            assetId = Long.parseLong(rawAssetId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productDao.getProductMarketingAssetById(productMarketingId);
+        return getProductMarketingAssetById(assetId);
     }
 
     public Asset getProductMarketingAssetByCode(final String assetCode) {
@@ -148,6 +156,10 @@ public class ProductServiceImpl implements ProductService {
 
     // PRODUCT SKU
 
+    public ProductSku getProductSkuById(final Long productSkuId) {
+        return productDao.getProductSkuById(productSkuId);
+    }
+
     public ProductSku getProductSkuById(final String rawProductSkuId) {
         long productSkuId = -1;
         try {
@@ -155,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productDao.getProductSkuById(productSkuId);
+        return getProductSkuById(productSkuId);
     }
 
     public ProductSku getProductSkuByCode(final String productSkuCode) {
@@ -202,14 +214,18 @@ public class ProductServiceImpl implements ProductService {
 
     // PRODUCT SKU ASSET
 
-    public Asset getProductSkuAssetById(final String rawProductSkuAssetId) {
-        long productSkuId = -1;
+    public Asset getProductSkuAssetById(final Long assetId) {
+        return productDao.getProductSkuAssetById(assetId);
+    }
+
+    public Asset getProductSkuAssetById(final String rawAssetId) {
+        long assetId = -1;
         try {
-            productSkuId = Long.parseLong(rawProductSkuAssetId);
+            assetId = Long.parseLong(rawAssetId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productDao.getProductSkuAssetById(productSkuId);
+        return getProductSkuAssetById(assetId);
     }
 
     public Asset getProductSkuAssetByCode(final String assetCode) {
@@ -225,15 +241,19 @@ public class ProductServiceImpl implements ProductService {
     }
     
     // PRODUCT BRAND
-    
-    public ProductBrand getProductBrandById(String rawProductBrandId) {
-        long ProductBrandId = -1;
+
+    public ProductBrand getProductBrandById(final Long productBrandId) {
+        return productDao.getProductBrandById(productBrandId);
+    }
+
+    public ProductBrand getProductBrandById(final String rawProductBrandId) {
+        long productBrandId = -1;
         try {
-            ProductBrandId = Long.parseLong(rawProductBrandId);
+            productBrandId = Long.parseLong(rawProductBrandId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return productDao.getProductBrandById(ProductBrandId);
+        return getProductBrandById(productBrandId);
     }
 
     public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {

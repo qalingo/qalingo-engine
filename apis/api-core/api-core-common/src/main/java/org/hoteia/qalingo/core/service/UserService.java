@@ -18,7 +18,9 @@ public interface UserService {
 
     // USER
     
-	User getUserById(String userId);
+    User getUserById(Long userId);
+
+    User getUserById(String userId);
 
 	User getUserByLoginOrEmail(String loginOrEmail);
 
@@ -29,6 +31,8 @@ public interface UserService {
 	void deleteUser(User user);
 	
     // COMPANY
+
+    Company getCompanyById(Long companyId);
 
     Company getCompanyById(String companyId);
 

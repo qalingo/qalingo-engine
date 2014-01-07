@@ -16,6 +16,8 @@ import org.hoteia.qalingo.core.domain.CustomerCredential;
 
 public interface CustomerService {
 
+    Customer getCustomerById(Long customerId);
+    
 	Customer getCustomerById(String customerId);
 
 	Customer getCustomerByCode(String code);
@@ -33,4 +35,5 @@ public interface CustomerService {
 	// CREDENTIAL
 	
 	void saveOrUpdateCustomerCredential(CustomerCredential customerCredential) throws Exception;
+	
 }

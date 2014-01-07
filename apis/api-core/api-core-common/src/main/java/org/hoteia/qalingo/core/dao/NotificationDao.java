@@ -29,7 +29,7 @@ public interface NotificationDao {
 	 
 	void flagAsReadAllNewNotification(Long customerId);
 	 
-	void saveOrUpdateNotification(Notification notification);
+	Notification saveOrUpdateNotification(Notification notification);
 
 	void deleteNotification(Notification notification);
 

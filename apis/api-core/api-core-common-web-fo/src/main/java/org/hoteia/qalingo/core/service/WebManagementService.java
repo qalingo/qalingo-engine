@@ -20,6 +20,7 @@ import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
+import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
@@ -28,6 +29,8 @@ public interface WebManagementService {
     void updateCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
 
     void updateCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;
+    
+    void updateCart(RequestData requestData, Customer customer) throws Exception;
     
     void updateCart(RequestData requestData, Long billingAddressId, Long shippingAddressId) throws Exception;
 
@@ -54,7 +57,9 @@ public interface WebManagementService {
 	Customer addProductSkuToWishlist(RequestData requestData, String skuCode) throws Exception;
 	
 	Customer removeProductSkuFromWishlist(RequestData requestData, String skuCode) throws Exception;
-	
+
+    void savePaymentInformation(RequestData requestData, PaymentForm paymentForm) throws Exception;
+
 	OrderCustomer buildAndSaveNewOrder(RequestData requestData) throws Exception;
 	
 	Customer saveNewsletterSubscriptionAndSendEmail(RequestData requestData, String email) throws Exception;

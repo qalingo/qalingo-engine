@@ -59,12 +59,22 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 		return customerProductComments;
 	}
 
-	public void saveOrUpdateCustomerProductComment(final CustomerProductComment customerProductComment) {
+	public CustomerProductComment saveOrUpdateCustomerProductComment(final CustomerProductComment customerProductComment) {
 		if(customerProductComment.getDateCreate() == null){
 			customerProductComment.setDateCreate(new Date());
 		}
 		customerProductComment.setDateUpdate(new Date());
-		em.merge(customerProductComment);
+        if (customerProductComment.getId() != null) {
+            if(em.contains(customerProductComment)){
+                em.refresh(customerProductComment);
+            }
+            CustomerProductComment mergedCustomerProductComment = em.merge(customerProductComment);
+            em.flush();
+            return mergedCustomerProductComment;
+        } else {
+            em.persist(customerProductComment);
+            return customerProductComment;
+        }
 	}
 
 	public void deleteCustomerProductComment(final CustomerProductComment customerProductComment) {

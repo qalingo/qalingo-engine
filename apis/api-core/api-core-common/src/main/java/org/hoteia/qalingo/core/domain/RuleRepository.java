@@ -32,7 +32,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_RULE_REPOSITORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_RULE_REPOSITORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class RuleRepository extends AbstractEntity {
 
 	/**

@@ -26,21 +26,25 @@ public class OrderCustomerServiceImpl implements OrderCustomerService {
     @Autowired
     private OrderCustomerDao orderDao;
 
-    public OrderCustomer getOrderById(String rawOrderCustomerId) {
+    public OrderCustomer getOrderById(final Long orderCustomerId) {
+        return orderDao.getOrderById(orderCustomerId);
+    }
+    
+    public OrderCustomer getOrderById(final String rawOrderCustomerId) {
         long orderId = -1;
         try {
             orderId = Long.parseLong(rawOrderCustomerId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return orderDao.getOrderById(orderId);
+        return getOrderById(orderId);
     }
 
     public OrderCustomer getOrderByOrderNum(final String orderNum) {
         return orderDao.getOrderByOrderNum(orderNum);
     }
 
-    public List<OrderCustomer> findOrdersByCustomerId(String customerId) {
+    public List<OrderCustomer> findOrdersByCustomerId(final String customerId) {
         return orderDao.findOrdersByCustomerId(Long.parseLong(customerId));
     }
 
@@ -48,15 +52,15 @@ public class OrderCustomerServiceImpl implements OrderCustomerService {
         return orderDao.findOrders();
     }
 
-    public OrderCustomer createNewOrder(OrderCustomer orderCustomer) {
+    public OrderCustomer createNewOrder(final OrderCustomer orderCustomer) {
         return orderDao.createNewOrder(orderCustomer);
     }
 
-    public void updateOrder(OrderCustomer orderCustomer) {
-        orderDao.updateOrder(orderCustomer);
+    public void saveOrUpdateOrder(final OrderCustomer orderCustomer) {
+        orderDao.saveOrUpdateOrder(orderCustomer);
     }
 
-    public void deleteOrder(OrderCustomer orderCustomer) {
+    public void deleteOrder(final OrderCustomer orderCustomer) {
         orderDao.deleteOrder(orderCustomer);
     }
 

@@ -45,6 +45,9 @@ public class EngineBoSession extends AbstractEngineSession {
 	@Column(name="JSESSION_ID")
 	private String jSessionId;
 	
+    @Column(name = "ENGINE_SESSION_GUID")
+    private String engineSessionGuid;
+    
     @Transient
     private boolean environmentStagingModeEnabled;
     
@@ -118,6 +121,14 @@ public class EngineBoSession extends AbstractEngineSession {
 	public void setjSessionId(String jSessionId) {
 		this.jSessionId = jSessionId;
 	}
+	
+	public String getEngineSessionGuid() {
+        return engineSessionGuid;
+    }
+	
+	public void setEngineSessionGuid(String engineSessionGuid) {
+        this.engineSessionGuid = engineSessionGuid;
+    }
 	
     public boolean isEnvironmentStagingModeEnabled() {
         return environmentStagingModeEnabled;

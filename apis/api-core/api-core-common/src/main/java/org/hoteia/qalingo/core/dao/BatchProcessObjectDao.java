@@ -18,13 +18,11 @@ public interface BatchProcessObjectDao {
 
 	BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId);
 
-//	List<BatchProcessObject> findByExample(BatchProcessObject batchProcessObjectExample);
-
 	List<BatchProcessObject> findBatchProcessObjects();
 	
 	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject);
 
-	void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
+	BatchProcessObject saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
 
 	void deleteBatchProcessObject(BatchProcessObject batchProcessObject);
 

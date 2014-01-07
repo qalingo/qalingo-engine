@@ -76,15 +76,25 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         return marketPlaces;
     }
 
-    public void saveOrUpdateMarketPlace(MarketPlace marketPlace) {
+    public MarketPlace saveOrUpdateMarketPlace(final MarketPlace marketPlace) {
         if(marketPlace.getDateCreate() == null){
             marketPlace.setDateCreate(new Date());
         }
         marketPlace.setDateUpdate(new Date());
-        em.merge(marketPlace);
+        if (marketPlace.getId() != null) {
+            if(em.contains(marketPlace)){
+                em.refresh(marketPlace);
+            }
+            MarketPlace mergedMarketPlace = em.merge(marketPlace);
+            em.flush();
+            return mergedMarketPlace;
+        } else {
+            em.persist(marketPlace);
+            return marketPlace;
+        }
     }
 
-    public void deleteMarketPlace(MarketPlace marketPlace) {
+    public void deleteMarketPlace(final MarketPlace marketPlace) {
         em.remove(marketPlace);
     }
     
@@ -147,15 +157,25 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         return markets;
     }
 
-	public void saveOrUpdateMarket(Market market) {
+	public Market saveOrUpdateMarket(final Market market) {
 		if(market.getDateCreate() == null){
 			market.setDateCreate(new Date());
 		}
 		market.setDateUpdate(new Date());
-	    em.merge(market);
+        if (market.getId() != null) {
+            if(em.contains(market)){
+                em.refresh(market);
+            }
+            Market mergedMarket = em.merge(market);
+            em.flush();
+            return mergedMarket;
+        } else {
+            em.persist(market);
+            return market;
+        }
 	}
 
-	public void deleteMarket(Market market) {
+	public void deleteMarket(final Market market) {
 		em.remove(market);
 	}
 	
@@ -180,6 +200,28 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 		return marketArea;
 	}
+	
+    public MarketArea saveOrUpdateMarketArea(final MarketArea marketArea) {
+        if(marketArea.getDateCreate() == null){
+            marketArea.setDateCreate(new Date());
+        }
+        marketArea.setDateUpdate(new Date());
+        if (marketArea.getId() != null) {
+            if(em.contains(marketArea)){
+                em.refresh(marketArea);
+            }
+            MarketArea mergedMarketArea = em.merge(marketArea);
+            em.flush();
+            return mergedMarketArea;
+        } else {
+            em.persist(marketArea);
+            return marketArea;
+        }
+    }
+
+    public void deleteMarketArea(final MarketArea marketArea) {
+        em.remove(marketArea);
+    }
 	
     private void addDefaultMarketPlaceFetch(Criteria criteria) {
 //      ProjectionList projections = Projections.projectionList();

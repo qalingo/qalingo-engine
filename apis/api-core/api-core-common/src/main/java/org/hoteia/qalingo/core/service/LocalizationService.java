@@ -15,7 +15,9 @@ import org.hoteia.qalingo.core.domain.Localization;
 
 public interface LocalizationService {
 
-	Localization getLocalizationById(String localizationId);
+    Localization getLocalizationById(Long localizationId);
+
+    Localization getLocalizationById(String localizationId);
 	
 	Localization getLocalizationByCode(String localeCode);
 	

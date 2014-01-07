@@ -24,7 +24,7 @@ public interface UserDao extends GenericDao<User, Long> {
 	 
 	List<User> findUsers();
 	
-	void saveOrUpdateUser(User user);
+	User saveOrUpdateUser(User user);
 
 	void deleteUser(User user);
 	
@@ -34,7 +34,7 @@ public interface UserDao extends GenericDao<User, Long> {
 
     List<Company> findCompanies();
 
-    void saveOrUpdateCompany(Company company);
+    Company saveOrUpdateCompany(Company company);
 
     void deleteCompany(Company company);
 

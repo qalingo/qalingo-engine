@@ -32,7 +32,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_MENU", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TBO_MENU", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Menu extends AbstractEntity {
 
 	/**

@@ -15,6 +15,8 @@ import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 
 public interface PaymentGatewayService {
 
+    AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId);
+    
 	AbstractPaymentGateway getPaymentGatewayById(String paymentGatewayId);
 
 	List<AbstractPaymentGateway> findPaymentGateways();

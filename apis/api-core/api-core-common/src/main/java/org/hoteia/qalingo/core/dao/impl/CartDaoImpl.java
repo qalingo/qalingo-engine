@@ -38,16 +38,26 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
         return cart;
 	}
 
-	public void saveOrUpdateCart(Cart cart) {
+	public Cart saveOrUpdateCart(final Cart cart) {
 		if(cart.getDateCreate() == null){
 			cart.setDateCreate(new Date());
 		}
 		cart.setDateUpdate(new Date());
-		em.merge(cart);
+        if (cart.getId() != null) {
+            if(em.contains(cart)){
+                em.refresh(cart);
+            }
+            Cart mergedCart = em.merge(cart);
+            em.flush();
+            return mergedCart;
+        } else {
+            em.persist(cart);
+            return cart;
+        }
 	}
 
-	public void deleteCart(Cart cart) {
-		em.remove(cart);
+	public void deleteCart(final Cart cart) {
+	    em.remove(em.contains(cart) ? cart : em.merge(cart));
 	}
 	   
     private void addDefaultFetch(Criteria criteria) {

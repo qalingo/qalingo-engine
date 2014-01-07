@@ -7,18 +7,20 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.dao;
+package org.hoteia.qalingo.core.service;
 
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 
-public interface CustomerGroupDao {
+public interface GroupRoleService {
 
-	CustomerGroup getCustomerGroupById(Long customerGroupId);
+    CustomerGroup getCustomerGroupById(Long customerGroupId);
 
+	CustomerGroup getCustomerGroupById(String customerGroupId);
+	
 	CustomerGroup getCustomerGroupByCode(String code);
 	
 	void saveOrUpdateCustomerGroup(CustomerGroup customerGroup);
-
+	
 	void deleteCustomerGroup(CustomerGroup customerGroup);
 
 }

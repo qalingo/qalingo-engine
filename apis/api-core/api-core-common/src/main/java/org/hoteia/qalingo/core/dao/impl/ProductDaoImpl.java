@@ -159,12 +159,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketings;
     }
 	
-	public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
+	public ProductMarketing saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
 		if(productMarketing.getDateCreate() == null){
 			productMarketing.setDateCreate(new Date());
 		}
 		productMarketing.setDateUpdate(new Date());
-		em.merge(productMarketing);
+        if (productMarketing.getId() != null) {
+            if(em.contains(productMarketing)){
+                em.refresh(productMarketing);
+            }
+            ProductMarketing mergedProductMarketing = em.merge(productMarketing);
+            em.flush();
+            return mergedProductMarketing;
+        } else {
+            em.persist(productMarketing);
+            return productMarketing;
+        }
 	}
 
 	public void deleteProductMarketing(final ProductMarketing productMarketing) {
@@ -173,11 +183,21 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	
     // PRODUCT MARKETING COMMENT/RATE
 	
-    public void saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        if(productMarketingCustomerRate.getId() == null){
-            em.persist(productMarketingCustomerRate);
+    public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        if(productMarketingCustomerRate.getDateCreate() == null){
+            productMarketingCustomerRate.setDateCreate(new Date());
+        }
+        productMarketingCustomerRate.setDateUpdate(new Date());
+        if (productMarketingCustomerRate.getId() != null) {
+            if(em.contains(productMarketingCustomerRate)){
+                em.refresh(productMarketingCustomerRate);
+            }
+            ProductMarketingCustomerRate mergedProductMarketingCustomerRate = em.merge(productMarketingCustomerRate);
+            em.flush();
+            return mergedProductMarketingCustomerRate;
         } else {
-            em.merge(productMarketingCustomerRate);
+            em.persist(productMarketingCustomerRate);
+            return productMarketingCustomerRate;
         }
     }
 
@@ -185,12 +205,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productMarketingCustomerRate);
     }
     
-    public void saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
+    public ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
         if(productMarketingCustomerComment.getDateCreate() == null){
             productMarketingCustomerComment.setDateCreate(new Date());
         }
         productMarketingCustomerComment.setDateUpdate(new Date());
-        em.merge(productMarketingCustomerComment);
+        if (productMarketingCustomerComment.getId() != null) {
+            if(em.contains(productMarketingCustomerComment)){
+                em.refresh(productMarketingCustomerComment);
+            }
+            ProductMarketingCustomerComment mergedProductMarketingCustomerComment = em.merge(productMarketingCustomerComment);
+            em.flush();
+            return mergedProductMarketingCustomerComment;
+        } else {
+            em.persist(productMarketingCustomerComment);
+            return productMarketingCustomerComment;
+        }
     }
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
@@ -213,12 +243,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 		return productMarketingAsset;
 	}
 	
-	public void saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
+	public Asset saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
 		if(productMarketingAsset.getDateCreate() == null){
 			productMarketingAsset.setDateCreate(new Date());
 		}
 		productMarketingAsset.setDateUpdate(new Date());
-		em.merge(productMarketingAsset);
+        if (productMarketingAsset.getId() != null) {
+            if(em.contains(productMarketingAsset)){
+                em.refresh(productMarketingAsset);
+            }
+            Asset mergedAsset = em.merge(productMarketingAsset);
+            em.flush();
+            return mergedAsset;
+        } else {
+            em.persist(productMarketingAsset);
+            return productMarketingAsset;
+        }
 	}
 
 	public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
@@ -286,12 +326,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productSkus;
     }
     
-    public void saveOrUpdateProductSku(final ProductSku productSku) {
+    public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
         if(productSku.getDateCreate() == null){
             productSku.setDateCreate(new Date());
         }
         productSku.setDateUpdate(new Date());
-        em.merge(productSku);
+        if (productSku.getId() != null) {
+            if(em.contains(productSku)){
+                em.refresh(productSku);
+            }
+            ProductSku mergedProductSku = em.merge(productSku);
+            em.flush();
+            return mergedProductSku;
+        } else {
+            em.persist(productSku);
+            return productSku;
+        }
     }
 
     public void deleteProductSku(final ProductSku productSku) {
@@ -328,12 +378,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productSkuAsset;
     }
     
-    public void saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {
+    public Asset saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {
         if(productSkuAsset.getDateCreate() == null){
             productSkuAsset.setDateCreate(new Date());
         }
         productSkuAsset.setDateUpdate(new Date());
-        em.merge(productSkuAsset);
+        if (productSkuAsset.getId() != null) {
+            if(em.contains(productSkuAsset)){
+                em.refresh(productSkuAsset);
+            }
+            Asset mergedAsset = em.merge(productSkuAsset);
+            em.flush();
+            return mergedAsset;
+        } else {
+            em.persist(productSkuAsset);
+            return productSkuAsset;
+        }
     }
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
@@ -375,12 +435,22 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productBrands;
     }
     
-    public void saveOrUpdateProductBrand(final ProductBrand productBrand) {
+    public ProductBrand saveOrUpdateProductBrand(final ProductBrand productBrand) {
         if(productBrand.getDateCreate() == null){
             productBrand.setDateCreate(new Date());
         }
         productBrand.setDateUpdate(new Date());
-        em.merge(productBrand);
+        if (productBrand.getId() != null) {
+            if(em.contains(productBrand)){
+                em.refresh(productBrand);
+            }
+            ProductBrand mergedProductBrand = em.merge(productBrand);
+            em.flush();
+            return mergedProductBrand;
+        } else {
+            em.persist(productBrand);
+            return productBrand;
+        }
     }
 
     public void deleteProductBrand(final ProductBrand productBrand) {

@@ -26,7 +26,7 @@ public interface EmailDao {
 
     List<Long> findIdsForEmailSync(String type);
 	
-	void saveOrUpdateEmail(Email email);
+    Email saveOrUpdateEmail(Email email);
 
 	void saveEmail(Email email, MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException;
 	

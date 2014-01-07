@@ -21,6 +21,8 @@ public interface MarketService {
     
     MarketPlace getDefaultMarketPlace();
     
+    MarketPlace getMarketPlaceById(Long marketPlaceId);
+    
     MarketPlace getMarketPlaceById(String marketPlaceId);
     
     MarketPlace getMarketPlaceByCode(String marketPlaceCode);
@@ -35,6 +37,8 @@ public interface MarketService {
 	
 	Market getDefaultMarket();
 
+    Market getMarketById(Long marketId);
+    
 	Market getMarketById(String marketId);
 	
 	Market getMarketByCode(String marketCode);
@@ -49,7 +53,9 @@ public interface MarketService {
 
 	// MARKET AREA
 	
-	MarketArea getMarketAreaById(String rawMarketAreaId);
+    MarketArea getMarketAreaById(Long marketAreaId);
+    
+	MarketArea getMarketAreaById(String marketAreaId);
 	
 	MarketArea getMarketAreaByCode(String marketAreaCode);
 

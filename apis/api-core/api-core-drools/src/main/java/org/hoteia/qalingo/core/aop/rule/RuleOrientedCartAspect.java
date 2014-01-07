@@ -3,8 +3,6 @@ package org.hoteia.qalingo.core.aop.rule;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -26,9 +24,6 @@ public class RuleOrientedCartAspect {
     @Autowired
     protected RuleUtil ruleUtil;
 
-    @Autowired
-    private HttpServletRequest httpServletRequest;
-
     public void beforeRuning(final JoinPoint joinPoint) {
         if (logger.isDebugEnabled()) {
             logger.debug("RuleEcoAspect, beforeRuning");
@@ -42,7 +37,7 @@ public class RuleOrientedCartAspect {
         try {
             List<Object> objects = new ArrayList<Object>();
             try {
-                EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(httpServletRequest);
+                EngineEcoSession engineEcoSession = (EngineEcoSession) result;
                 objects.add(engineEcoSession);
             } catch (Exception e) {
                 logger.error("Failed to load EngineEcoSession from Request", e);

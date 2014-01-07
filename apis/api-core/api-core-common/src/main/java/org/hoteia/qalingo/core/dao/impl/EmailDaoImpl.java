@@ -88,7 +88,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         return emailIds;
     }
 
-    public void saveOrUpdateEmail(final Email email) {
+    public Email saveOrUpdateEmail(final Email email) {
         if (email.getDateCreate() == null) {
             email.setDateCreate(new Timestamp(new Date().getTime()));
         }
@@ -96,8 +96,17 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
             email.setStatus(Email.EMAIl_STATUS_PENDING);
         }
         email.setDateUpdate(new Timestamp(new Date().getTime()));
-
-        em.merge(email);
+        if (email.getId() != null) {
+            if(em.contains(email)){
+                em.refresh(email);
+            }
+            Email mergedEmail = em.merge(email);
+            em.flush();
+            return mergedEmail;
+        } else {
+            em.persist(email);
+            return email;
+        }
     }
 
     /**

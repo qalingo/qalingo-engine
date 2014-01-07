@@ -23,7 +23,7 @@ public interface AttributeDao {
 	
 	List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType);
 
-	void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
+	AttributeDefinition saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
 
 	void deleteAttributeDefinition(AttributeDefinition attributeDefinition);
 

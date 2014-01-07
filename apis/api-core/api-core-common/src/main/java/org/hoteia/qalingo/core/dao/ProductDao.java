@@ -36,17 +36,17 @@ public interface ProductDao {
     
     List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode);
     
-	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
+    ProductMarketing saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 
 	void deleteProductMarketing(ProductMarketing productMarketing);
 
     // PRODUCT MARKETING COMMENT/RATE
     
-    void saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
+	ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
     void deleteProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
-    void saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
+    ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
@@ -56,7 +56,7 @@ public interface ProductDao {
 
 	Asset getProductMarketingAssetByCode(String assetCode);
 
-	void saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
+	Asset saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
 	void deleteProductMarketingAsset(Asset productMarketingAsset);
 
@@ -70,7 +70,7 @@ public interface ProductDao {
     
     List<ProductSku> findProductSkus(String text);
     
-    void saveOrUpdateProductSku(ProductSku productSku);
+    ProductSku saveOrUpdateProductSku(ProductSku productSku);
 
     void deleteProductSku(ProductSku productSku);
 
@@ -80,7 +80,7 @@ public interface ProductDao {
 
     Asset getProductSkuAssetByCode(String assetCode);
 
-    void saveOrUpdateProductSkuAsset(Asset productSkuAsset);
+    Asset saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     
     void deleteProductSkuAsset(Asset productSkuAsset);
     
@@ -92,7 +92,8 @@ public interface ProductDao {
 
     List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
 
-    void saveOrUpdateProductBrand(ProductBrand productBrand);
+    ProductBrand saveOrUpdateProductBrand(ProductBrand productBrand);
 
     void deleteProductBrand(ProductBrand productBrand);
+
 }

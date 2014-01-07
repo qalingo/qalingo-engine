@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PAYMENT_GATEWAY_OPTION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_PAYMENT_GATEWAY_OPTION", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class PaymentGatewayOption extends AbstractEntity {
 
     /**

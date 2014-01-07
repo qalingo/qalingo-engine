@@ -24,6 +24,10 @@ public class StockServiceImpl implements StockService {
 	@Autowired
 	private StockDao stockDao;
 
+    public ProductSkuStock getStockById(Long stockId) {
+        return stockDao.getStockById(stockId);
+    }
+    
 	public ProductSkuStock getStockById(String rawStockId) {
 		long stockId = -1;
 		try {
@@ -31,7 +35,7 @@ public class StockServiceImpl implements StockService {
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return stockDao.getStockById(stockId);
+		return getStockById(stockId);
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock stock) {

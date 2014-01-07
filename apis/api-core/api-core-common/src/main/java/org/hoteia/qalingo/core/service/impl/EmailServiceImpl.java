@@ -80,27 +80,27 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 	
-	public Email getEmailById(Long id) {
+	public Email getEmailById(final Long id) {
 		return emailDao.getEmailById(id);
 	}
 
-	public List<Email> findEmailByStatus(String status) {
+	public List<Email> findEmailByStatus(final String status) {
 		return emailDao.findEmailByStatus(status);
 	}
 	
-	public List<Long> findIdsForEmailSync(String type) {
+	public List<Long> findIdsForEmailSync(final String type) {
 		return emailDao.findIdsForEmailSync(type);
 	}
 	
-	public void saveOrUpdateEmail(Email email) {
+	public void saveOrUpdateEmail(final Email email) {
 		emailDao.saveOrUpdateEmail(email);
 	}
 	
-	public void saveOrUpdateEmail(Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
+	public void saveOrUpdateEmail(final Email email, final MimeMessagePreparatorImpl mimeMessagePreparator) throws IOException {
 		emailDao.saveEmail(email, mimeMessagePreparator);
 	}
 	
-	public void deleteEmail(Email email) {
+	public void deleteEmail(final Email email) {
 		emailDao.deleteEmail(email);
 	}
 	

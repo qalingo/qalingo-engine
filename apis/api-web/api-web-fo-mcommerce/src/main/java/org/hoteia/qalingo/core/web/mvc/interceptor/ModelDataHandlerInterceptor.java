@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -33,9 +37,33 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     protected RequestUtil requestUtil;
 
+    @Autowired
+    protected EngineSessionService engineSessionService;
+    
     @Override
     public boolean preHandle(HttpServletRequest request, 
                              HttpServletResponse response, Object handler) throws Exception {
+        // SAVE COOKIE VALUE FOR ENGINE SESSION GUID
+        EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            Cookie ecoEngineSessionGuid = null;
+            for (int i = 0; i < cookies.length; i++) {
+                Cookie cookie = cookies[i];
+                if (Constants.COOKIE_ECO_ENGINE_SESSION_ID.equals(cookie.getName())) {
+                    cookie.setValue(engineEcoSession.getEngineSessionGuid());
+                    break;
+                }
+            }
+            if(ecoEngineSessionGuid == null){
+                ecoEngineSessionGuid = new Cookie(Constants.COOKIE_ECO_ENGINE_SESSION_ID, engineEcoSession.getEngineSessionGuid());
+                ecoEngineSessionGuid.setMaxAge(Constants.COOKIES_LENGTH);
+                ecoEngineSessionGuid.setPath("/");
+                ecoEngineSessionGuid.setDomain("fo-mcommerce.dev.qalingo.com");
+                ecoEngineSessionGuid.setSecure(true);
+                response.addCookie(ecoEngineSessionGuid);
+            }
+        }
         return true;
     }
 

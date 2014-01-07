@@ -48,7 +48,7 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 		return batchProcessObjects;
 	}
 	
-	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject) {
+	public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(final BatchProcessObjectType typeObject) {
         Criteria criteria = createDefaultCriteria(BatchProcessObject.class);
 
         criteria.add(Restrictions.eq("typeObject", typeObject));
@@ -63,15 +63,25 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
         return batchProcessObjects;
 	}
 	
-	public void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject) {
+	public BatchProcessObject saveOrUpdateBatchProcessObject(final BatchProcessObject batchProcessObject) {
 		if(batchProcessObject.getDateCreate() == null){
 			batchProcessObject.setDateCreate(new Date());
 		}
 		batchProcessObject.setDateUpdate(new Date());
-		em.merge(batchProcessObject);
+        if (batchProcessObject.getId() != null) {
+            if(em.contains(batchProcessObject)){
+                em.refresh(batchProcessObject);
+            }
+            BatchProcessObject mergedBatchProcessObject = em.merge(batchProcessObject);
+            em.flush();
+            return mergedBatchProcessObject;
+        } else {
+            em.persist(batchProcessObject);
+            return batchProcessObject;
+        }
 	}
 
-	public void deleteBatchProcessObject(BatchProcessObject batchProcessObject) {
+	public void deleteBatchProcessObject(final BatchProcessObject batchProcessObject) {
 		em.remove(batchProcessObject);
 	}
 

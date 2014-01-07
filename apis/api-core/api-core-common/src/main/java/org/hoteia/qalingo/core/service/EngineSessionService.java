@@ -14,22 +14,28 @@ import org.hoteia.qalingo.core.domain.EngineEcoSession;
 
 public interface EngineSessionService {
 
-	// ECO SESSION
-	EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId);
-	
-//	List<EngineEcoSession> findEngineSession(EngineEcoSession criteria);
-	
-	void saveOrUpdateEngineEcoSession(EngineEcoSession engineEcoSession);
-	
-	void deleteEngineEcoSession(EngineEcoSession engineEcoSession);
-	
-	// BO SESSION
-	EngineBoSession getEngineBoSessionById(String engineBoSessionId);
-	
-//	List<EngineBoSession> findEngineBoSession(EngineBoSession criteria);
-	
-	void saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
-	
-	void deleteEngineBoSession(EngineBoSession engineBoSession);
+    // ECO SESSION
+
+    EngineEcoSession getEngineEcoSessionById(Long engineEcoSessionId);
+
+    EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId);
+
+    EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String jSessionId);
+
+    EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineEcoSession);
+
+    void deleteEngineEcoSession(EngineEcoSession engineEcoSession);
+
+    // BO SESSION
+
+    EngineBoSession getEngineBoSessionById(Long engineBoSessionId);
+
+    EngineBoSession getEngineBoSessionById(String engineBoSessionId);
+
+    EngineBoSession getEngineBoSessionByEngineSessionGuid(String jSessionId);
+
+    EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
+
+    void deleteEngineBoSession(EngineBoSession engineBoSession);
 
 }

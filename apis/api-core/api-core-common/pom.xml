@@ -169,6 +169,12 @@
 			<artifactId>jackson-jaxrs-json-provider</artifactId>
 		</dependency>
 		
+		<!-- JASPERREPORT -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
+            
 		<!-- JACKSON Libs : XML -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

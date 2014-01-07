@@ -27,6 +27,10 @@ public class ServerServiceImpl implements ServerService {
     @Autowired
     private ServerDao serverStatusDao;
 
+    public ServerStatus getServerStatusById(Long serverStatusId) {
+        return serverStatusDao.getServerStatusById(serverStatusId);
+    }
+
     public ServerStatus getServerStatusById(String rawServerStatusId) {
         long serverStatusId = -1;
         try {
@@ -34,7 +38,7 @@ public class ServerServiceImpl implements ServerService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return serverStatusDao.getServerStatusById(serverStatusId);
+        return getServerStatusById(serverStatusId);
     }
 
     public List<ServerStatus> findServerStatus(String serverName) {

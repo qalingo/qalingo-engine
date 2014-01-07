@@ -120,6 +120,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
 			info.setMaxAge(Constants.COOKIES_LENGTH);
 			info.setPath("/");
+			info.setDomain("fo-mcommerce.dev.qalingo.com");
 			response.addCookie(info);
         }
         return modelAndView;

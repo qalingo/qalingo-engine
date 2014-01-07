@@ -15,7 +15,7 @@ public interface CustomerWishlistDao {
 
 	CustomerWishlist getCustomerWishlistById(Long customerWishlistId);
 
-	void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
+	CustomerWishlist saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
 
 	void deleteCustomerWishlist(CustomerWishlist customerWishlist);
 

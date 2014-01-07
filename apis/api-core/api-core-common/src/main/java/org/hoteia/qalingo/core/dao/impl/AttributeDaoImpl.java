@@ -64,19 +64,25 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
         return attributeDefinitions;
     }
 
-    public void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition) {
+    public AttributeDefinition saveOrUpdateAttributeDefinition(final AttributeDefinition attributeDefinition) {
         if (attributeDefinition.getDateCreate() == null) {
             attributeDefinition.setDateCreate(new Date());
         }
         attributeDefinition.setDateUpdate(new Date());
-        if (attributeDefinition.getId() == null) {
-            em.persist(attributeDefinition);
+        if (attributeDefinition.getId() != null) {
+            if(em.contains(attributeDefinition)){
+                em.refresh(attributeDefinition);
+            }
+            AttributeDefinition mergedAttributeDefinition = em.merge(attributeDefinition);
+            em.flush();
+            return mergedAttributeDefinition;
         } else {
-            em.merge(attributeDefinition);
+            em.persist(attributeDefinition);
+            return attributeDefinition;
         }
     }
 
-    public void deleteAttributeDefinition(AttributeDefinition attributeDefinition) {
+    public void deleteAttributeDefinition(final AttributeDefinition attributeDefinition) {
         em.remove(attributeDefinition);
     }
 

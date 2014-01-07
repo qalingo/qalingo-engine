@@ -33,7 +33,7 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_MARKET", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_MARKET", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Market extends AbstractEntity {
 
 	/**

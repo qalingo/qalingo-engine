@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_TAX_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_TAX_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class TaxType extends AbstractEntity {
 
 	/**

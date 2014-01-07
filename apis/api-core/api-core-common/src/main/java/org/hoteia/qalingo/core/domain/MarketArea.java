@@ -38,7 +38,7 @@ import javax.persistence.Version;
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name = "TECO_MARKET_AREA", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name = "TECO_MARKET_AREA", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class MarketArea extends AbstractEntity {
 
     /**
@@ -46,13 +46,8 @@ public class MarketArea extends AbstractEntity {
      */
     private static final long serialVersionUID = -6237479836764154416L;
 
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS = "MARKET_AREA_EMAIL_FROM_ADDRESS";
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME = "MARKET_AREA_EMAIL_FROM_NAME";
-    public final static String MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT = "MARKET_AREA_EMAIL_CONTACT";
-    public final static String MARKET_AREA_ATTRIBUTE_DOMAIN_NAME = "MARKET_AREA_DOMAIN_NAME";
-    public final static String MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS = "MARKET_AREA_SHARE_OPTIONS";
     public final static String MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT = "DEFAULT_CONTEXT";
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
@@ -391,27 +386,27 @@ public class MarketArea extends AbstractEntity {
     }
 
     public String getDomainName(String contextNameValue) {
-        return getAttributeValueString(MARKET_AREA_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_DOMAIN_NAME, contextNameValue);
     }
 
     public String getEmailFromAddress(String contextNameValue, String emailType) {
-        String emailFromAddress = getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, contextNameValue + "/" + emailType);
+        String emailFromAddress = (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, contextNameValue + "/" + emailType);
         if (StringUtils.isEmpty(emailFromAddress)) {
-            emailFromAddress = getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+            emailFromAddress = (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_EMAIL_FROM_ADDRESS, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
         }
         return emailFromAddress;
     }
 
     public String getEmailFromName(String contextNameValue, String emailType) {
-        return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME, contextNameValue + "/" + emailType);
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_EMAIL_FROM_NAME, contextNameValue + "/" + emailType);
     }
 
     public String getEmailToContact(String contextNameValue) {
-        return getAttributeValueString(MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT, contextNameValue);
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_EMAIL_TO_CONTACT, contextNameValue);
     }
 
     public List<String> getShareOptions(String contextNameValue) {
-        String value = getAttributeValueString(MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS, contextNameValue);
+        String value = (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_SHARE_OPTIONS, contextNameValue);
         if (StringUtils.isNotEmpty(value)) {
             if (value.contains(",")) {
                 return Arrays.asList(value.split("\\s*,\\s*"));
@@ -421,15 +416,36 @@ public class MarketArea extends AbstractEntity {
         }
         return null;
     }
+    
+    public boolean withSavedPaymentInformation() {
+        boolean withSavedPaymentInformation = false;
+        Boolean attributeValue = (Boolean) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_SAVE_PAYMENT_INFORMATION, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+        if(attributeValue != null){
+            withSavedPaymentInformation = attributeValue.booleanValue();
+        }
+        return withSavedPaymentInformation;
+    }
 
-    private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
+    public String getOrderConfirmationTemplate() {
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_ORDER_CONFIRMATION_TEMPLATE, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+    }
+    
+    public String getShippingConfirmationTemplate() {
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_SHIPPING_CONFIRMATION_TEMPLATE, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+    }
+    
+    public String getInvoiceTemplate() {
+        return (String) getAttributeValue(MarketAreaAttribute.MARKET_AREA_ATTRIBUTE_INVOICE_TEMPLATE, MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT);
+    }
+    
+    protected Object getAttributeValue(String attributeDefinitionCode, String contextNameValue) {
         if (marketAreaAttributes != null && !marketAreaAttributes.isEmpty()) {
             for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                 MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();
                 if (StringUtils.isNotEmpty(marketAreaAttribute.getContext()) && marketAreaAttribute.getContext().equals(contextNameValue)
                         && attributeDefinition.getCode().equals(attributeDefinitionCode)) {
-                    return (String) marketAreaAttribute.getValue();
+                    return (Object) marketAreaAttribute.getValue();
                 }
             }
         }

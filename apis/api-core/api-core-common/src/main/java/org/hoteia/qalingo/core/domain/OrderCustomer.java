@@ -33,7 +33,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_ORDER_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"ORDER_NUM"})})
+@Table(name="TECO_ORDER_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"ORDER_NUM", "PREFIX_HASH_FOLDER"})})
 public class OrderCustomer extends AbstractEntity {
 
 	/**
@@ -61,6 +61,9 @@ public class OrderCustomer extends AbstractEntity {
 	@Column(name="ORDER_NUM")
 	private String orderNum;
 	
+    @Column(name = "PREFIX_HASH_FOLDER")
+    private String prefixHashFolder;
+	   
     @Column(name = "MARKET_AREA_ID")
     private Long marketAreaId;
 
@@ -132,6 +135,14 @@ public class OrderCustomer extends AbstractEntity {
 	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
+	
+	public String getPrefixHashFolder() {
+        return prefixHashFolder;
+    }
+	
+	public void setPrefixHashFolder(String prefixHashFolder) {
+        this.prefixHashFolder = prefixHashFolder;
+    }
 	
 	public Long getMarketAreaId() {
         return marketAreaId;

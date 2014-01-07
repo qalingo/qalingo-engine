@@ -27,7 +27,7 @@ import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 
 @Entity
-@Table(name="TECO_LOCALIZATION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_LOCALIZATION", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Localization extends AbstractEntity {
 
 	/**

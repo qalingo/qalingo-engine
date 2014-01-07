@@ -61,15 +61,25 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 		return deliveryMethods;
 	}
 
-	public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
+	public DeliveryMethod saveOrUpdateDeliveryMethod(final DeliveryMethod deliveryMethod) {
         if (deliveryMethod.getDateCreate() == null) {
             deliveryMethod.setDateCreate(new Date());
         }
         deliveryMethod.setDateUpdate(new Date());
-		em.merge(deliveryMethod);
+        if (deliveryMethod.getId() != null) {
+            if(em.contains(deliveryMethod)){
+                em.refresh(deliveryMethod);
+            }
+            DeliveryMethod mergedDeliveryMethod = em.merge(deliveryMethod);
+            em.flush();
+            return mergedDeliveryMethod;
+        } else {
+            em.persist(deliveryMethod);
+            return deliveryMethod;
+        }
 	}
 
-	public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {
+	public void deleteDeliveryMethod(final DeliveryMethod deliveryMethod) {
 		em.remove(deliveryMethod);
 	}
 

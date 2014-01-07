@@ -13,12 +13,14 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
 
 public interface CatalogCategoryService {
 
 	// MASTER
-	CatalogCategoryMaster getMasterCatalogCategoryById(String catalogCategoryId);
+    
+    CatalogCategoryMaster getMasterCatalogCategoryById(Long catalogCategoryId);
+
+    CatalogCategoryMaster getMasterCatalogCategoryById(String catalogCategoryId);
 
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode);
 
@@ -36,6 +38,8 @@ public interface CatalogCategoryService {
 
 	// VIRTUAL
 	
+    CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId);
+    
 	CatalogCategoryVirtual getVirtualCatalogCategoryById(String catalogCategoryId);
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode);

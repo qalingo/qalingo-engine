@@ -46,7 +46,7 @@ import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
-@Table(name="TECO_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"login", "email"})})
+@Table(name="TECO_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"LOGIN", "EMAIL"})})
 public class Customer extends AbstractEntity {
 
 	/**
@@ -149,6 +149,10 @@ public class Customer extends AbstractEntity {
     @JoinColumn(name="CUSTOMER_ID")
 	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
 	
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerPaymentInformation> paymentInformations = new HashSet<CustomerPaymentInformation>();
+	   
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="CUSTOMER_ID")
 	private CustomerOrderAudit customerOrderAudit;
@@ -442,6 +446,14 @@ public class Customer extends AbstractEntity {
 	
 	public void setOauthAccesses(Set<CustomerOAuth> oauthAccesses) {
 	    this.oauthAccesses = oauthAccesses;
+    }
+	
+	public Set<CustomerPaymentInformation> getPaymentInformations() {
+        return paymentInformations;
+    }
+	
+	public void setPaymentInformations(Set<CustomerPaymentInformation> paymentInformations) {
+        this.paymentInformations = paymentInformations;
     }
 	
 	public CustomerOrderAudit getCustomerOrderAudit() {

@@ -26,7 +26,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired private CustomerDao customerDao;
 
-    @Override
+    public Customer getCustomerById(final Long customerId) {
+        return customerDao.getCustomerById(customerId);
+    }
+
     public Customer getCustomerById(final String rawCustomerId) {
         long customerId = -1;
         try {
@@ -34,42 +37,35 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return customerDao.getCustomerById(customerId);
+        return getCustomerById(customerId);
     }
 
-    @Override
     public Customer getCustomerByCode(final String code) {
         return customerDao.getCustomerByCode(code);
     }
 
-    @Override
     public Customer getCustomerByPermalink(final String permalink) {
         return customerDao.getCustomerByPermalink(permalink);
     }
 
-    @Override
     public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
         return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
     }
 
-    @Override
     public List<Customer> findCustomers() {
         return customerDao.findCustomers();
     }
 
-    @Override
     public void saveOrUpdateCustomer(final Customer customer) throws Exception {
         customerDao.saveOrUpdateCustomer(customer);
     }
 
-    @Override
     public void deleteCustomer(final Customer customer) {
         customerDao.deleteCustomer(customer);
     }
 
     // CREDENTIAL
 
-    @Override
     public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
         customerDao.saveOrUpdateCustomerCredential(customerCredential);
     }

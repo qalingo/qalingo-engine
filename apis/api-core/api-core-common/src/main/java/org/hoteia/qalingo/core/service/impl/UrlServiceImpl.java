@@ -114,7 +114,6 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
         return buildContextPath(requestData) + "/callback-openid.html";
     }
 
-    @SuppressWarnings("unchecked")
     public String generateUrl(final FoUrls url, final RequestData requestData, Object... params) {
         return generateUrl(url.getUrlWithoutWildcard(), url.withPrefixSEO(), requestData, params);
     }

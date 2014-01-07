@@ -168,12 +168,22 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public void saveOrUpdateRetailer(final Retailer retailer) {
+	public Retailer saveOrUpdateRetailer(final Retailer retailer) {
 		if(retailer.getDateCreate() == null){
 			retailer.setDateCreate(new Date());
 		}
 		retailer.setDateUpdate(new Date());
-		em.merge(retailer);
+        if (retailer.getId() != null) {
+            if(em.contains(retailer)){
+                em.refresh(retailer);
+            }
+            Retailer mergedRetailer = em.merge(retailer);
+            em.flush();
+            return mergedRetailer;
+        } else {
+            em.persist(retailer);
+            return retailer;
+        }
 	}
 
 	public void deleteRetailer(final Retailer retailer) {
@@ -182,24 +192,44 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	
     // RETAILER COMMENT/RATE
 	
-	public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
-		if(retailerCustomerRate.getId() == null){
-			em.persist(retailerCustomerRate);
-		} else {
-			em.merge(retailerCustomerRate);
-		}
-	}
+    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        if (retailerCustomerRate.getDateCreate() == null) {
+            retailerCustomerRate.setDateCreate(new Date());
+        }
+        retailerCustomerRate.setDateUpdate(new Date());
+        if (retailerCustomerRate.getId() != null) {
+            if(em.contains(retailerCustomerRate)){
+                em.refresh(retailerCustomerRate);
+            }
+            RetailerCustomerRate mergedRetailerCustomerRate = em.merge(retailerCustomerRate);
+            em.flush();
+            return mergedRetailerCustomerRate;
+        } else {
+            em.persist(retailerCustomerRate);
+            return retailerCustomerRate;
+        }
+    }
 
 	public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
 		em.remove(retailerCustomerRate);
 	}
 	
-	public void saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+	public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
 		if(retailerCustomerComment.getDateCreate() == null){
 			retailerCustomerComment.setDateCreate(new Date());
 		}
 		retailerCustomerComment.setDateUpdate(new Date());
-		em.merge(retailerCustomerComment);
+        if (retailerCustomerComment.getId() != null) {
+            if(em.contains(retailerCustomerComment)){
+                em.refresh(retailerCustomerComment);
+            }
+            RetailerCustomerComment mergedRetailerCustomerComment = em.merge(retailerCustomerComment);
+            em.flush();
+            return mergedRetailerCustomerComment;
+        } else {
+            em.persist(retailerCustomerComment);
+            return retailerCustomerComment;
+        }
 	}
 
 	public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
@@ -240,12 +270,22 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return stores;
 	}
 
-	public void saveOrUpdateStore(final Store store) {
+	public Store saveOrUpdateStore(final Store store) {
 		if(store.getDateCreate() == null){
 			store.setDateCreate(new Date());
 		}
 		store.setDateUpdate(new Date());
-		em.merge(store);
+        if (store.getId() != null) {
+            if(em.contains(store)){
+                em.refresh(store);
+            }
+            Store mergedStore = em.merge(store);
+            em.flush();
+            return mergedStore;
+        } else {
+            em.persist(store);
+            return store;
+        }
 	}
 
 	public void deleteStore(final Store store) {

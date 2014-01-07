@@ -29,7 +29,7 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
-@Table(name="TECO_ASSET", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_ASSET", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Asset extends AbstractEntity {
 
 	/**

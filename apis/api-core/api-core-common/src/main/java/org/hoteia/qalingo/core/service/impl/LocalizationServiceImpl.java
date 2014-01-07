@@ -22,37 +22,41 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LocalizationServiceImpl implements LocalizationService {
 
-	@Autowired
-	private LocalizationDao localizationDao;
+    @Autowired
+    private LocalizationDao localizationDao;
 
-	public Localization getLocalizationById(String rawLocalizationId) {
-		long LocalizationId = -1;
-		try {
-			LocalizationId = Long.parseLong(rawLocalizationId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return localizationDao.getLocalizationById(LocalizationId);
-	}
-	
-	public Localization getLocalizationByCode(final String code) {
-		return localizationDao.getLocalizationByCode(code);
-	}
+    public Localization getLocalizationById(final Long localizationId) {
+        return localizationDao.getLocalizationById(localizationId);
+    }
 
-	public List<Localization> findLocalizations() {
-		return localizationDao.findLocalizations();
-	}
-	
+    public Localization getLocalizationById(final String rawLocalizationId) {
+        long localizationId = -1;
+        try {
+            localizationId = Long.parseLong(rawLocalizationId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getLocalizationById(localizationId);
+    }
+
+    public Localization getLocalizationByCode(final String code) {
+        return localizationDao.getLocalizationByCode(code);
+    }
+
+    public List<Localization> findLocalizations() {
+        return localizationDao.findLocalizations();
+    }
+
     public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
         return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode);
     }
 
-	public void saveOrUpdateLocalization(Localization localization) {
-		localizationDao.saveOrUpdateLocalization(localization);
-	}
+    public void saveOrUpdateLocalization(final Localization localization) {
+        localizationDao.saveOrUpdateLocalization(localization);
+    }
 
-	public void deleteLocalization(Localization localization) {
-		localizationDao.deleteLocalization(localization);
-	}
+    public void deleteLocalization(final Localization localization) {
+        localizationDao.deleteLocalization(localization);
+    }
 
 }

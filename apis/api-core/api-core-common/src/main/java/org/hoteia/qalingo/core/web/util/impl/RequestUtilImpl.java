@@ -18,10 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.dozer.Mapper;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractEngineSession;
@@ -44,6 +46,7 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSessionService;
@@ -58,6 +61,7 @@ import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -113,7 +117,13 @@ public class RequestUtilImpl implements RequestUtil {
     
     @Autowired
     protected EngineSessionService engineSessionService;
-
+    
+    @Autowired
+    protected CartService cartService;
+    
+    @Autowired 
+    private Mapper dozerBeanMapper;
+    
     /**
 	 *
 	 */
@@ -503,8 +513,9 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public void updateCurrentEcoSession(final HttpServletRequest request, final EngineEcoSession engineEcoSession) throws Exception {
+    public EngineEcoSession updateCurrentEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
         setCurrentEcoSession(request, engineEcoSession);
+        return engineEcoSession;
     }
 
     /**
@@ -514,6 +525,17 @@ public class RequestUtilImpl implements RequestUtil {
         request.getSession().setAttribute(Constants.ENGINE_ECO_SESSION_OBJECT, engineEcoSession);
     }
 
+    /**
+     * 
+     */
+    public void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSession, final EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
+        try {
+            dozerBeanMapper.map(engineEcoSession, engineEcoSessionWithTransientValues);
+        } catch (BeansException e) {
+            logger.error("", e);
+        }
+    }
+    
     /**
      * 
      */
@@ -549,10 +571,33 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
+    public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
+        Cart currentCart = engineEcoSessionWithTransientValues.getCart();
+        engineEcoSessionWithTransientValues.deleteCurrentCart();
+        updateAndSynchronizeEngineEcoSession(request, engineEcoSessionWithTransientValues);
+        cartService.deleteCart(currentCart);
+    }
+    
+    /**
+     * 
+     */
     public void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception {
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        engineEcoSession.updateCart(cart);
-        updateCurrentEcoSession(request, engineEcoSession);
+        // SAVE AND UPDATE THE ENGINE SESSION AT THE END
+        EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
+        engineEcoSessionWithTransientValues.updateCart(cart);
+        updateAndSynchronizeEngineEcoSession(request, engineEcoSessionWithTransientValues);
+    }
+    
+    /**
+     * 
+     */
+    public void updateAndSynchronizeEngineEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
+        engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSessionWithTransientValues);
+        // RELOAD ENGINE SESSION - NOT A GOOD WAY FOR PERF - BUT A GOOD WAY TO ALWAYS KEEP RIGHT ENGINE SESSION DATAS LIKE TRANSIENT
+        EngineEcoSession engineEcoSession = engineSessionService.getEngineEcoSessionById(engineEcoSessionWithTransientValues.getId());
+        synchronizeEngineEcoSession(engineEcoSession, engineEcoSessionWithTransientValues);
+        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues); 
     }
 
     /**
@@ -567,7 +612,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public void saveLastOrder(final RequestData requestData, final OrderCustomer order) throws Exception {
+    public void keepLastOrderInSession(final RequestData requestData, final OrderCustomer order) throws Exception {
         if (order != null) {
             final HttpServletRequest request = requestData.getRequest();
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
@@ -1044,10 +1089,14 @@ public class RequestUtilImpl implements RequestUtil {
                             CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
                             if (newCurrency == null) {
                                 CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
-                                engineEcoSession.getCart().setCurrency(defaultCurrency);
+                                if(engineEcoSession.getCart() != null){
+                                    engineEcoSession.getCart().setCurrency(defaultCurrency);
+                                }
                                 setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
                             } else {
-                                engineEcoSession.getCart().setCurrency(newCurrency);
+                                if(engineEcoSession.getCart() != null){
+                                    engineEcoSession.getCart().setCurrency(newCurrency);
+                                }
                                 setSessionMarketAreaCurrency(engineEcoSession, newCurrency);
                             }
                         }
@@ -1404,7 +1453,7 @@ public class RequestUtilImpl implements RequestUtil {
 	 * 
 	 */
     protected EngineEcoSession initEcoSession(final HttpServletRequest request) throws Exception {
-        final EngineEcoSession engineEcoSession = new EngineEcoSession();
+        EngineEcoSession engineEcoSession = new EngineEcoSession();
         EngineSetting engineSettingEnvironmentStagingModeEnabled = engineSettingService.getEnvironmentStagingModeEnabled();
         if (engineSettingEnvironmentStagingModeEnabled != null) {
             engineEcoSession.setEnvironmentStagingModeEnabled(BooleanUtils.toBoolean(engineSettingEnvironmentStagingModeEnabled.getDefaultValue()));
@@ -1430,11 +1479,12 @@ public class RequestUtilImpl implements RequestUtil {
         setCurrentEcoSession(request, engineEcoSession);
         String jSessionId = request.getSession().getId();
         engineEcoSession.setjSessionId(jSessionId);
-        initDefaultEcoMarketPlace(request);
-        initCart(request);
-        updateCurrentEcoSession(request, engineEcoSession);
+        engineEcoSession = initDefaultEcoMarketPlace(request);
+        engineEcoSession = initCart(request);
         
-        engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
+        engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
+        
+        engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
         
         return engineEcoSession;
     }
@@ -1443,10 +1493,31 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     protected EngineEcoSession checkEngineEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
-        if (engineEcoSession == null) {
-            engineEcoSession = initEcoSession(request);
-        }
         String jSessionId = request.getSession().getId();
+        if (engineEcoSession == null) {
+            // RELOAD OLD SESSION
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                Cookie ecoEngineSessionGuid = null;
+                for (int i = 0; i < cookies.length; i++) {
+                    Cookie cookie = cookies[i];
+                    if (Constants.COOKIE_ECO_ENGINE_SESSION_ID.equals(cookie.getName())) {
+                        ecoEngineSessionGuid = cookies[i];
+                        break;
+                    }
+                }
+                if(ecoEngineSessionGuid != null){
+                    engineEcoSession =  engineSessionService.getEngineEcoSessionByEngineSessionGuid(ecoEngineSessionGuid.getValue());
+                    EngineEcoSession engineEcoSessionWithTransientValues = initEcoSession(request);
+                    synchronizeEngineEcoSession(engineEcoSession, engineEcoSessionWithTransientValues);
+                }
+            }
+            if(engineEcoSession == null){
+                engineEcoSession = initEcoSession(request);
+            }
+            
+        }
+        // SANITY CHECK
         if (!engineEcoSession.getjSessionId().equals(jSessionId)) {
             engineEcoSession.setjSessionId(jSessionId);
             updateCurrentEcoSession(request, engineEcoSession);
@@ -1551,7 +1622,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected void initCart(final HttpServletRequest request) throws Exception {
+    protected EngineEcoSession initCart(final HttpServletRequest request) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         Cart cart = engineEcoSession.getCart();
         if (cart == null) {
@@ -1559,6 +1630,7 @@ public class RequestUtilImpl implements RequestUtil {
             engineEcoSession.addNewCart();
         }
         updateCurrentEcoSession(request, engineEcoSession);
+        return engineEcoSession;
     }
 
     /**
@@ -1575,16 +1647,16 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected void initDefaultEcoMarketPlace(final HttpServletRequest request) throws Exception {
-        final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+    protected EngineEcoSession initDefaultEcoMarketPlace(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         MarketPlace marketPlace = marketService.getDefaultMarketPlace();
-        setSessionMarketPlace(engineEcoSession, marketPlace);
+        engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, marketPlace);
 
         Market market = marketPlace.getDefaultMarket();
-        setSessionMarket(engineEcoSession, market);
+        engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
 
         MarketArea marketArea = market.getDefaultMarketArea();
-        setSessionMarketArea(engineEcoSession, marketArea);
+        engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
 
         // DEFAULT LOCALE IS FROM THE REQUEST OR FROM THE MARKET AREA
         String requestLocale = request.getLocale().toString();
@@ -1599,45 +1671,53 @@ public class RequestUtilImpl implements RequestUtil {
                 }
             }
         }
-        setSessionMarketAreaLocalization(engineEcoSession, localization);
+        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
 
         Retailer retailer = marketArea.getDefaultRetailer();
-        setSessionMarketAreaRetailer(engineEcoSession, retailer);
+        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
 
         CurrencyReferential currency = marketArea.getDefaultCurrency();
-        setSessionMarketAreaCurrency(engineEcoSession, currency);
+        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
 
-        updateCurrentEcoSession(request, engineEcoSession);
+        setCurrentEcoSession(request, engineEcoSession);
+        
+        return  engineEcoSession; 
     }
     
-    protected void setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
+    protected AbstractEngineSession setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
         session.setCurrentMarketPlace(marketPlace);
+        return session;
     }
 
-    protected void setSessionMarket(final AbstractEngineSession session, final Market market){
+    protected AbstractEngineSession setSessionMarket(final AbstractEngineSession session, final Market market){
         // TODO : why : SET A RELOAD OBJECT MARKET -> event
         // LazyInitializationException: could not initialize proxy -
         // no Session
         session.setCurrentMarket(marketService.getMarketById(market.getId().toString()));
+        return session;
     }
 
-    protected void setSessionMarketArea(final AbstractEngineSession session, final MarketArea marketArea){
+    protected AbstractEngineSession setSessionMarketArea(final AbstractEngineSession session, final MarketArea marketArea){
         // TODO : why : SET A RELOAD OBJECT MARKET AREA -> event
         // LazyInitializationException: could not initialize proxy -
         // no Session
         session.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
+        return session;
     }
 
-    protected void setSessionMarketAreaLocalization(final AbstractEngineSession session, final Localization localization){
+    protected AbstractEngineSession setSessionMarketAreaLocalization(final AbstractEngineSession session, final Localization localization){
         session.setCurrentMarketAreaLocalization(localizationService.getLocalizationById(localization.getId().toString()));
+        return session;
     }
 
-    protected void setSessionMarketAreaRetailer(final AbstractEngineSession session, final Retailer retailer){
+    protected AbstractEngineSession setSessionMarketAreaRetailer(final AbstractEngineSession session, final Retailer retailer){
         session.setCurrentMarketAreaRetailer(retailerService.getRetailerById(retailer.getId().toString()));
+        return session;
     }
     
-    protected void setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
+    protected AbstractEngineSession setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
         session.setCurrentMarketAreaCurrency(currency);
+        return session;
     }
 
 }

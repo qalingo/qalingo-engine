@@ -16,9 +16,9 @@ import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 public interface BatchProcessObjectService {
 
+    BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId);
+    
 	BatchProcessObject getBatchProcessObjectById(String batchProcessObjectId);
-	
-//	List<BatchProcessObject> findBatchProcessObject(BatchProcessObject criteria);
 	
 	List<BatchProcessObject> findBatchProcessObjects();
 

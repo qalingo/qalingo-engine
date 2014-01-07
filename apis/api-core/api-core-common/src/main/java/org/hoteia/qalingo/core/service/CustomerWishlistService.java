@@ -13,6 +13,8 @@ import org.hoteia.qalingo.core.domain.CustomerWishlist;
 
 public interface CustomerWishlistService {
 
+    CustomerWishlist getCustomerWishlistById(Long customerWishlistId);
+
 	CustomerWishlist getCustomerWishlistById(String customerWishlistId);
 	
 	void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);

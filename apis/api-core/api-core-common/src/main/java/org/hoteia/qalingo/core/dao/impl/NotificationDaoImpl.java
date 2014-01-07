@@ -88,15 +88,25 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 		session.createSQLQuery(query).executeUpdate();
 	}
 
-	public void saveOrUpdateNotification(Notification notification) {
+	public Notification saveOrUpdateNotification(final Notification notification) {
 		if(notification.getDateCreate() == null){
 			notification.setDateCreate(new Date());
 		}
 		notification.setDateUpdate(new Date());
-		em.merge(notification);
+        if (notification.getId() != null) {
+            if(em.contains(notification)){
+                em.refresh(notification);
+            }
+            Notification mergedNotification = em.merge(notification);
+            em.flush();
+            return mergedNotification;
+        } else {
+            em.persist(notification);
+            return notification;
+        }
 	}
 
-	public void deleteNotification(Notification notification) {
+	public void deleteNotification(final Notification notification) {
 		em.remove(notification);
 	}
 

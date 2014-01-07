@@ -15,6 +15,8 @@ import org.hoteia.qalingo.core.domain.Notification;
 
 public interface NotificationService {
 
+    Notification getNotificationById(Long id);
+    
 	Notification getNotificationById(String id);
 	
 	List<Notification> findNotifications();
@@ -23,8 +25,6 @@ public interface NotificationService {
 
 	List<Notification> findNewNotificationByCustomerId(String customerId);
 
-//	List<Notification> findNotificationsByMetas(List<String> metas);
-	
 	 void flagAsReadAllNewNotification(String customerId);
 	 
 	void saveOrUpdateNotification(Notification notification);

@@ -33,15 +33,25 @@ public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements C
         return customerWishlist;
     }
 
-    public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {
+    public CustomerWishlist saveOrUpdateCustomerWishlist(final CustomerWishlist customerWishlist) {
         if (customerWishlist.getDateCreate() == null) {
             customerWishlist.setDateCreate(new Date());
         }
         customerWishlist.setDateUpdate(new Date());
-        em.merge(customerWishlist);
+        if (customerWishlist.getId() != null) {
+            if(em.contains(customerWishlist)){
+                em.refresh(customerWishlist);
+            }
+            CustomerWishlist mergedCustomerWishlist = em.merge(customerWishlist);
+            em.flush();
+            return mergedCustomerWishlist;
+        } else {
+            em.persist(customerWishlist);
+            return customerWishlist;
+        }
     }
 
-    public void deleteCustomerWishlist(CustomerWishlist customerWishlist) {
+    public void deleteCustomerWishlist(final CustomerWishlist customerWishlist) {
         em.remove(customerWishlist);
     }
 

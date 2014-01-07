@@ -22,7 +22,9 @@ public interface ProductService {
 
     // PRODUCT MARKETING
     
-	ProductMarketing getProductMarketingById(String productMarketingId);
+    ProductMarketing getProductMarketingById(Long productMarketingId);
+
+    ProductMarketing getProductMarketingById(String productMarketingId);
 
 	ProductMarketing getProductMarketingByCode(String productMarketingCode);
 	
@@ -54,7 +56,9 @@ public interface ProductService {
     
 	// PRODUCT MARKETING ASSET
 	
-	Asset getProductMarketingAssetById(String productMarketingId);
+    Asset getProductMarketingAssetById(Long assetId);
+    
+	Asset getProductMarketingAssetById(String assetId);
 
 	Asset getProductMarketingAssetByCode(String assetCode);
 
@@ -63,6 +67,8 @@ public interface ProductService {
 	void deleteProductMarketingAsset(Asset productMarketingAsset);
 
     // PRODUCT SKU
+    
+    ProductSku getProductSkuById(Long productSkuId);
     
     ProductSku getProductSkuById(String productSkuId);
     
@@ -78,7 +84,9 @@ public interface ProductService {
     
     // PRODUCT SKU ASSET
     
-    Asset getProductSkuAssetById(String productSkuId);
+    Asset getProductSkuAssetById(Long assetId);
+    
+    Asset getProductSkuAssetById(String assetId);
 
     Asset getProductSkuAssetByCode(String assetCode);
 
@@ -88,6 +96,7 @@ public interface ProductService {
     
     // PRODUCT BRAND
     
+    ProductBrand getProductBrandById(Long productBrandId);
 
     ProductBrand getProductBrandById(String productBrandId);
 
@@ -96,4 +105,5 @@ public interface ProductService {
     void saveOrUpdateProductBrand(ProductBrand productBrand);
 
     void deleteProductBrand(ProductBrand productBrand);
+
 }

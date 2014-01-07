@@ -23,33 +23,37 @@ import org.hoteia.qalingo.core.service.CurrencyReferentialService;
 @Transactional
 public class CurrencyReferentialServiceImpl implements CurrencyReferentialService {
 
-	@Autowired
-	private CurrencyReferentialDao currencyReferentialDao;
+    @Autowired
+    private CurrencyReferentialDao currencyReferentialDao;
 
-	public CurrencyReferential getCurrencyReferentialById(String rawCurrencyReferentialId) {
-		long currencyReferentialId = -1;
-		try {
-			currencyReferentialId = Long.parseLong(rawCurrencyReferentialId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId);
-	}
-	
-	public CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode) {
-		return currencyReferentialDao.getCurrencyReferentialByCode(currencyReferentialCode);
-	}
+    public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
+        return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId);
+    }
 
-	public List<CurrencyReferential> findCurrencyReferentials() {
-		return currencyReferentialDao.findCurrencyReferentials();
-	}
-	
-	public void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential) {
-		currencyReferentialDao.saveOrUpdateCurrencyReferential(currencyReferential);
-	}
+    public CurrencyReferential getCurrencyReferentialById(final String rawCurrencyReferentialId) {
+        long currencyReferentialId = -1;
+        try {
+            currencyReferentialId = Long.parseLong(rawCurrencyReferentialId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCurrencyReferentialById(currencyReferentialId);
+    }
 
-	public void deleteCurrencyReferential(CurrencyReferential currencyReferential) {
-		currencyReferentialDao.deleteCurrencyReferential(currencyReferential);
-	}
+    public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
+        return currencyReferentialDao.getCurrencyReferentialByCode(currencyReferentialCode);
+    }
+
+    public List<CurrencyReferential> findCurrencyReferentials() {
+        return currencyReferentialDao.findCurrencyReferentials();
+    }
+
+    public void saveOrUpdateCurrencyReferential(final CurrencyReferential currencyReferential) {
+        currencyReferentialDao.saveOrUpdateCurrencyReferential(currencyReferential);
+    }
+
+    public void deleteCurrencyReferential(final CurrencyReferential currencyReferential) {
+        currencyReferentialDao.deleteCurrencyReferential(currencyReferential);
+    }
 
 }

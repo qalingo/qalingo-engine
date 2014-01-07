@@ -21,25 +21,29 @@ import org.hoteia.qalingo.core.service.TaxService;
 @Transactional
 public class TaxServiceImpl implements TaxService {
 
-	@Autowired
-	private TaxDao taxDao;
+    @Autowired
+    private TaxDao taxDao;
 
-	public Tax getTaxById(String rawTaxId) {
-		long taxId = -1;
-		try {
-			taxId = Long.parseLong(rawTaxId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return taxDao.getTaxById(taxId);
-	}
+    public Tax getTaxById(Long taxId) {
+        return taxDao.getTaxById(taxId);
+    }
 
-	public void saveOrUpdateTax(Tax tax) {
-		taxDao.saveOrUpdateTax(tax);
-	}
+    public Tax getTaxById(String rawTaxId) {
+        long taxId = -1;
+        try {
+            taxId = Long.parseLong(rawTaxId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getTaxById(taxId);
+    }
 
-	public void deleteTax(Tax tax) {
-		taxDao.deleteTax(tax);
-	}
+    public void saveOrUpdateTax(Tax tax) {
+        taxDao.saveOrUpdateTax(tax);
+    }
+
+    public void deleteTax(Tax tax) {
+        taxDao.deleteTax(tax);
+    }
 
 }

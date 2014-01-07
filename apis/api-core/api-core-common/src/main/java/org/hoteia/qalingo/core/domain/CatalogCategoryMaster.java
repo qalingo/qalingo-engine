@@ -44,7 +44,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) })
+@Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class CatalogCategoryMaster extends AbstractEntity {
 
     /**

@@ -22,17 +22,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 
 @Entity
-@Table(name = "TECO_ENGINE_SESSION")
+@Table(name = "TECO_ENGINE_SESSION", uniqueConstraints = { @UniqueConstraint(columnNames = { "JSESSION_ID", "ENGINE_SESSION_GUID" }) })
 public class EngineEcoSession extends AbstractEngineSession {
 
     /**
@@ -52,18 +54,21 @@ public class EngineEcoSession extends AbstractEngineSession {
     @Column(name = "JSESSION_ID")
     private String jSessionId;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="ECO_ENGINE_SESSION_ID")
+    @Column(name = "ENGINE_SESSION_GUID")
+    private String engineSessionGuid;
+    
+    @OneToMany(mappedBy="ecoSession", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     private Set<Cart> carts = new HashSet<Cart>(); 
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUSTOMER_ID", insertable = true, updatable = true)
+    private Customer currentCustomer;
     
     @Transient
     private boolean environmentStagingModeEnabled;
     
     @Transient
     private EnvironmentType environmentType;
-
-    @Transient
-    private Customer currentCustomer;
 
     @Transient
     private MarketPlace currentMarketPlace;
@@ -129,14 +134,22 @@ public class EngineEcoSession extends AbstractEngineSession {
     public void setjSessionId(String jSessionId) {
         this.jSessionId = jSessionId;
     }
+    
+    public String getEngineSessionGuid() {
+        return engineSessionGuid;
+    }
+    
+    public void setEngineSessionGuid(String engineSessionGuid) {
+        this.engineSessionGuid = engineSessionGuid;
+    }
 
     public Set<Cart> getCarts() {
         return carts;
     }
 
     public Cart getCart() {
-        if(carts != null){
-            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
+        if(this.carts != null){
+            for (Iterator<Cart> iterator = this.carts.iterator(); iterator.hasNext();) {
                 Cart cart = (Cart) iterator.next();
                 if(cart != null 
                         && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
@@ -144,17 +157,25 @@ public class EngineEcoSession extends AbstractEngineSession {
                     return cart;
             }
         }
+        // GET CART IS NULL WE CREATE A NEW ONE
         return null;
     }
     
     public Cart addNewCart() {
         Cart cart = new Cart();
+        cart.setVersion(1);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
+        cart.setEcoSession(this);
+        Date date = new Date();
+        cart.setDateCreate(date);
+        cart.setDateUpdate(date);
         
         if(getCurrentCustomer() != null){
             cart.setCustomerId(getCurrentCustomer().getId());
+            cart.setBillingAddressId(getCurrentCustomer().getDefaultBillingAddressId());
+            cart.setShippingAddressId(getCurrentCustomer().getDefaultShippingAddressId());
         }
         
         this.carts.add(cart);
@@ -163,13 +184,30 @@ public class EngineEcoSession extends AbstractEngineSession {
     
     public Cart resetCurrentCart() {
         Cart cart = getCart();
-        cart = new Cart();
+        cart.setCartItems(null);
+        cart.setStatus(null);
+        cart.setDeliveryMethods(null);
+        cart.setTaxes(null);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
         return cart;
     }
-    
+        
+    public void deleteCurrentCart() {
+        if(this.carts != null){
+            Set<Cart> checkedCarts = new HashSet<Cart>(this.carts); 
+            for (Iterator<Cart> iterator = checkedCarts.iterator(); iterator.hasNext();) {
+                Cart cart = (Cart) iterator.next();
+                if(cart != null 
+                        && cart.getMarketAreaId().equals(getCurrentMarketArea().getId())
+                        && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
+                    cart.setEcoSession(null);
+                    this.carts.remove(cart);
+            }
+        }
+    }
+
     public Cart updateCart(Cart cart) {
         Cart cartToUpdate = getCart();
         cartToUpdate = cart;
@@ -269,7 +307,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         if(lastOrders != null){
             for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                 OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
-                if(orderCustomer != null 
+                if(orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                         && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                         && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                     return orderCustomer;
@@ -279,11 +317,11 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
     
     public void setLastOrder(OrderCustomer lastOrder) {
-        if(lastOrders != null){
+        if(lastOrders != null && lastOrder != null){
             if(getLastOrder() != null){
                 for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                     OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
-                    if(orderCustomer != null 
+                    if(orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                             && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                             && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                         orderCustomer = lastOrder;
@@ -328,6 +366,79 @@ public class EngineEcoSession extends AbstractEngineSession {
 
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
+        result = prime * result + ((device == null) ? 0 : device.hashCode());
+        result = prime * result + ((engineSessionGuid == null) ? 0 : engineSessionGuid.hashCode());
+        result = prime * result + (environmentStagingModeEnabled ? 1231 : 1237);
+        result = prime * result + ((environmentType == null) ? 0 : environmentType.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((jSessionId == null) ? 0 : jSessionId.hashCode());
+        result = prime * result + ((theme == null) ? 0 : theme.hashCode());
+        result = prime * result + version;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EngineEcoSession other = (EngineEcoSession) obj;
+        if (dateCreate == null) {
+            if (other.dateCreate != null)
+                return false;
+        } else if (!dateCreate.equals(other.dateCreate))
+            return false;
+        if (device == null) {
+            if (other.device != null)
+                return false;
+        } else if (!device.equals(other.device))
+            return false;
+        if (engineSessionGuid == null) {
+            if (other.engineSessionGuid != null)
+                return false;
+        } else if (!engineSessionGuid.equals(other.engineSessionGuid))
+            return false;
+        if (environmentStagingModeEnabled != other.environmentStagingModeEnabled)
+            return false;
+        if (environmentType != other.environmentType)
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (jSessionId == null) {
+            if (other.jSessionId != null)
+                return false;
+        } else if (!jSessionId.equals(other.jSessionId))
+            return false;
+        if (theme == null) {
+            if (other.theme != null)
+                return false;
+        } else if (!theme.equals(other.theme))
+            return false;
+        if (version != other.version)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "EngineEcoSession [id=" + id + ", version=" + version + ", jSessionId=" + jSessionId + ", engineSessionGuid=" + engineSessionGuid + ", carts=" + carts + ", currentCustomer="
+                + currentCustomer + ", environmentStagingModeEnabled=" + environmentStagingModeEnabled + ", environmentType=" + environmentType + ", currentMarketPlace=" + currentMarketPlace
+                + ", currentMarket=" + currentMarket + ", currentMarketArea=" + currentMarketArea + ", currentMarketAreaLocalization=" + currentMarketAreaLocalization + ", currentMarketAreaRetailer="
+                + currentMarketAreaRetailer + ", currentMarketAreaCurrency=" + currentMarketAreaCurrency + ", currentUser=" + currentUser + ", lastOrders=" + lastOrders + ", theme=" + theme
+                + ", device=" + device + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

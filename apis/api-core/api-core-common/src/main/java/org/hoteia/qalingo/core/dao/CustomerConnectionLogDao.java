@@ -17,13 +17,11 @@ public interface CustomerConnectionLogDao {
 
 	CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId);
 
-//	List<CustomerConnectionLog> findByExample(CustomerConnectionLog customerConnectionLogExample);
-
 	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId);
 
 	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(Long customerId, String appCode);
 	
-	void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
+	CustomerConnectionLog saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 
 	void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 

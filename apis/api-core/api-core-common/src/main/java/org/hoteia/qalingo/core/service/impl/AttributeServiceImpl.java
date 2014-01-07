@@ -23,45 +23,49 @@ import org.hoteia.qalingo.core.service.AttributeService;
 @Transactional
 public class AttributeServiceImpl implements AttributeService {
 
-	@Autowired
-	private AttributeDao attributeDao;
+    @Autowired
+    private AttributeDao attributeDao;
 
-	public AttributeDefinition getAttributeDefinitionById(String rawAttributeId) {
-		long AttributeId = -1;
-		try {
-			AttributeId = Long.parseLong(rawAttributeId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return attributeDao.getAttributeDefinitionById(AttributeId);
-	}
-	
-	public AttributeDefinition getAttributeDefinitionByCode(final String code) {
-		return attributeDao.getAttributeDefinitionByCode(code);
-	}
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeId) {
+        return attributeDao.getAttributeDefinitionById(attributeId);
+    }
 
-	public List<AttributeDefinition> findAttributeDefinitions() {
-		return attributeDao.findAttributeDefinitions();
-	}
-	
-	public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions() {
-		return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_CATEGORY);
-	}
-	
-	public List<AttributeDefinition> findProductMarketingAttributeDefinitions() {
-		return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
-	}
-	
-	public List<AttributeDefinition> findProductSkuAttributeDefinitions() {
-		return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
-	}
+    public AttributeDefinition getAttributeDefinitionById(final String rawAttributeId) {
+        long attributeId = -1;
+        try {
+            attributeId = Long.parseLong(rawAttributeId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getAttributeDefinitionById(attributeId);
+    }
 
-	public void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition) {
-		attributeDao.saveOrUpdateAttributeDefinition(attributeDefinition);
-	}
+    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
+        return attributeDao.getAttributeDefinitionByCode(code);
+    }
 
-	public void deleteAttributeDefinition(AttributeDefinition attributeDefinition) {
-		attributeDao.deleteAttributeDefinition(attributeDefinition);
-	}
+    public List<AttributeDefinition> findAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitions();
+    }
+
+    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_CATEGORY);
+    }
+
+    public List<AttributeDefinition> findProductMarketingAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
+    }
+
+    public List<AttributeDefinition> findProductSkuAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
+    }
+
+    public void saveOrUpdateAttributeDefinition(final AttributeDefinition attributeDefinition) {
+        attributeDao.saveOrUpdateAttributeDefinition(attributeDefinition);
+    }
+
+    public void deleteAttributeDefinition(final AttributeDefinition attributeDefinition) {
+        attributeDao.deleteAttributeDefinition(attributeDefinition);
+    }
 
 }

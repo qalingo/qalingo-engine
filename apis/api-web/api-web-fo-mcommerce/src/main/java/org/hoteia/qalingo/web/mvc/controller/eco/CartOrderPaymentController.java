@@ -46,18 +46,28 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("cartOrderPaymentController")
 public class CartOrderPaymentController extends AbstractMCommerceController {
 
-	@RequestMapping(FoUrls.CART_ORDER_PAYMENT_URL)
+	@RequestMapping(value = FoUrls.CART_ORDER_PAYMENT_URL, method = RequestMethod.GET)
 	public ModelAndView displayOrderPayment(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CART_ORDER_PAYMENT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);
 
-        // SANITY CHECK
+        // SANITY CHECK: EMPTY CART
 		final Cart currentCart = requestData.getCart();
-		if(currentCart.getTotalCartItems() == 0){
+		if(currentCart != null && currentCart.getTotalCartItems() == 0){
 			return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
 		}
-		
+
+        // SANITY CHECK: DELIVERY METHODS
+        if(currentCart != null && currentCart.getDeliveryMethods().isEmpty()){
+            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
+        }
+
+        // SANITY CHECK: ADDRESSES
+        if(currentCart != null && (currentCart.getBillingAddressId() == null || currentCart.getShippingAddressId() == null)){
+            return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
+        }
+
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
 		// HIDE PROMO CODE PART
 		cartViewBean.setWithPromoCode(false);
@@ -67,6 +77,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		
 		modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 4);
 		
+        modelAndView.addObject(ModelConstants.PAYMENT_FORM, formFactory.buildPaymentForm(requestData));
 		modelAndView.addObject(ModelConstants.PAYMENT_FORM, formFactory.buildPaymentForm(requestData));
 		
         return modelAndView;
@@ -76,6 +87,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 	public ModelAndView submitOrderPayment(final HttpServletRequest request, final HttpServletResponse response, @Valid PaymentForm paymentForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
         
 	       // SANITY CHECK
         final Cart currentCart = requestData.getCart();
@@ -85,6 +97,12 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
         
 		if (result.hasErrors()) {
 			return displayOrderPayment(request, response);
+		}
+		
+		if(marketArea.withSavedPaymentInformation()
+		        && paymentForm.isWantSavedPaymentInformations()){
+	        // Create and Save a new order
+	        webManagementService.savePaymentInformation(requestUtil.getRequestData(request), paymentForm);
 		}
 		
 		// Create and Save a new order

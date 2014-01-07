@@ -15,14 +15,16 @@ import org.hoteia.qalingo.core.domain.DeliveryMethod;
 
 public interface DeliveryMethodService {
 
-	DeliveryMethod getDeliveryMethodById(String deliveryMethodId);
+    DeliveryMethod getDeliveryMethodById(Long deliveryMethodId);
 
-	DeliveryMethod getDeliveryMethodByCode(String code);
+    DeliveryMethod getDeliveryMethodById(String deliveryMethodId);
 
-	List<DeliveryMethod> findDeliveryMethods();
-	
-	void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
-	
-	void deleteDeliveryMethod(DeliveryMethod deliveryMethod);
+    DeliveryMethod getDeliveryMethodByCode(String code);
+
+    List<DeliveryMethod> findDeliveryMethods();
+
+    void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
+
+    void deleteDeliveryMethod(DeliveryMethod deliveryMethod);
 
 }

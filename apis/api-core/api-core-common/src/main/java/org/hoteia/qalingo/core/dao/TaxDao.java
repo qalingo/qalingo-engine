@@ -15,7 +15,7 @@ public interface TaxDao {
 
 	Tax getTaxById(Long taxId);
 
-	void saveOrUpdateTax(Tax tax);
+	Tax saveOrUpdateTax(Tax tax);
 
 	void deleteTax(Tax tax);
 

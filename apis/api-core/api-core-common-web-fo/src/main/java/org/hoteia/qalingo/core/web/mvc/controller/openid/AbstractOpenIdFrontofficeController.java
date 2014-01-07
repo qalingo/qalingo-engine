@@ -13,7 +13,7 @@ import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.service.CustomerGroupService;
+import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.openid.OpenIdAuthentication;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
@@ -43,7 +43,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 	protected CustomerService customerService;
 	
 	@Autowired
-	protected CustomerGroupService customerGroupService;
+	protected GroupRoleService customerGroupService;
 	
 	@Autowired
 	protected AttributeService attributeService;

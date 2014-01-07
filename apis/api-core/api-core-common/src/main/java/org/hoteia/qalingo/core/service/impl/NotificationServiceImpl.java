@@ -23,48 +23,48 @@ import org.hoteia.qalingo.core.service.NotificationService;
 @Transactional
 public class NotificationServiceImpl implements NotificationService {
 
-	@Autowired
-	private NotificationDao notificationDao;
+    @Autowired
+    private NotificationDao notificationDao;
 
-	public Notification getNotificationById(String id) {
-		long notificationId = -1;
-		try {
-			notificationId = Long.parseLong(id);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return notificationDao.getNotificationById(notificationId);
-	}
+    public Notification getNotificationById(final Long notificationId) {
+        return notificationDao.getNotificationById(notificationId);
+    }
 
-	public List<Notification> findNotifications() {
-		return notificationDao.findNotifications();
-	}
-	
-	public List<Notification> findNotificationByCustomerId(String customerId) {
-		Long id = new Long(customerId);
-		return notificationDao.findNotificationByCustomerId(id);
-	}
-	
-	public List<Notification> findNewNotificationByCustomerId(String customerId) {
-		Long id = new Long(customerId);
-		return notificationDao.findNewNotificationByCustomerId(id);
-	}
-	
-//	public List<Notification> findNotificationsByMetas(List<String> metas) {
-//		return notificationDao.findNotificationsByMetas(metas);
-//	}
-	
-	public void flagAsReadAllNewNotification(String customerId) {
-		Long id = new Long(customerId);
-		notificationDao.flagAsReadAllNewNotification(id);
-	}
-	
-	public void saveOrUpdateNotification(Notification notification) {
-		notificationDao.saveOrUpdateNotification(notification);
-	}
+    public Notification getNotificationById(final String rawNotificationId) {
+        long notificationId = -1;
+        try {
+            notificationId = Long.parseLong(rawNotificationId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getNotificationById(notificationId);
+    }
 
-	public void deleteNotification(Notification notification) {
-		notificationDao.deleteNotification(notification);
-	}
+    public List<Notification> findNotifications() {
+        return notificationDao.findNotifications();
+    }
+
+    public List<Notification> findNotificationByCustomerId(final String customerId) {
+        Long id = new Long(customerId);
+        return notificationDao.findNotificationByCustomerId(id);
+    }
+
+    public List<Notification> findNewNotificationByCustomerId(final String customerId) {
+        Long id = new Long(customerId);
+        return notificationDao.findNewNotificationByCustomerId(id);
+    }
+
+    public void flagAsReadAllNewNotification(final String customerId) {
+        Long id = new Long(customerId);
+        notificationDao.flagAsReadAllNewNotification(id);
+    }
+
+    public void saveOrUpdateNotification(final Notification notification) {
+        notificationDao.saveOrUpdateNotification(notification);
+    }
+
+    public void deleteNotification(final Notification notification) {
+        notificationDao.deleteNotification(notification);
+    }
 
 }

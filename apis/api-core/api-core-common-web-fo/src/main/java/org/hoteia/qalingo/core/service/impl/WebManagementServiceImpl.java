@@ -22,16 +22,17 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CartItemTax;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerOptin;
+import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Email;
+import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderAddress;
@@ -54,9 +55,9 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.CustomerGroupService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EmailService;
+import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
@@ -68,6 +69,7 @@ import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerAddressForm;
 import org.hoteia.qalingo.web.mvc.form.CustomerEditForm;
 import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
+import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 import org.springframework.beans.BeanUtils;
@@ -101,7 +103,7 @@ public class WebManagementServiceImpl implements WebManagementService {
     protected OrderCustomerService orderCustomerService;
     
     @Autowired
-    protected CustomerGroupService customerGroupService;
+    protected GroupRoleService customerGroupService;
     
     @Autowired
     protected UrlService urlService;
@@ -129,6 +131,10 @@ public class WebManagementServiceImpl implements WebManagementService {
         }
 
         Cart cart = requestData.getCart();
+        if(cart == null){
+            EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+            cart = engineEcoSession.addNewCart();
+        }
         Set<CartItem> cartItems = cart.getCartItems();
         boolean productSkuIsNew = true;
         for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
@@ -144,6 +150,7 @@ public class WebManagementServiceImpl implements WebManagementService {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSkuCode(productSkuCode);
                 cartItem.setProductSku(productSku);
+                cartItem.setCart(cart);
 
                 cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
 //                cartItem.setProductMarketing(reloadedProductMarketing);
@@ -168,10 +175,8 @@ public class WebManagementServiceImpl implements WebManagementService {
             } else {
                 // TODO : throw ??
             }
-
         }
         requestUtil.updateCurrentCart(request, cart);
-        cartService.saveOrUpdateCart(cart);
     }
     
     /**
@@ -184,19 +189,15 @@ public class WebManagementServiceImpl implements WebManagementService {
     /**
      * 
      */
-    public void deleteCartItem(final RequestData requestData, final String skuCode) throws Exception {
+    public void updateCart(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
-        for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
-                cartItems.remove(cartItem);
-            }
+        if(cart != null){
+            cart.setCustomerId(customer.getId());
+            cart.setBillingAddressId(customer.getDefaultBillingAddressId());
+            cart.setShippingAddressId(customer.getDefaultShippingAddressId());
         }
-        cart.setCartItems(cartItems);
         requestUtil.updateCurrentCart(request, cart);
-        cartService.saveOrUpdateCart(cart);
     }
     
     /**
@@ -205,37 +206,39 @@ public class WebManagementServiceImpl implements WebManagementService {
     public void updateCart(final RequestData requestData, final Long billingAddressId, final Long shippingAddressId) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        cart.setBillingAddressId(billingAddressId);
-        cart.setShippingAddressId(shippingAddressId);
+        if(cart != null){
+            cart.setBillingAddressId(billingAddressId);
+            cart.setShippingAddressId(shippingAddressId);
+        }
         requestUtil.updateCurrentCart(request, cart);
-        cartService.saveOrUpdateCart(cart);
     }
 
     /**
      * 
      */
-    public void cleanCart(final RequestData requestData) throws Exception {
+    public void deleteCartItem(final RequestData requestData, final String skuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        cartService.deleteCart(cart);
+        if(cart != null){
+            Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
+            for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
+                CartItem cartItem = (CartItem) iterator.next();
+                if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
+                    cartItems.remove(cartItem);
+                }
+            }
+            cart.setCartItems(cartItems);
+        }
+        requestUtil.updateCurrentCart(request, cart);
+    }
+    
+    /**
+     * 
+     */
+    public void cleanCart(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
         requestUtil.resetCurrentCart(request);
     }    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * 
@@ -655,6 +658,28 @@ public class WebManagementServiceImpl implements WebManagementService {
         return customer;
     }
     
+    public void savePaymentInformation(RequestData requestData, PaymentForm paymentForm) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final MarketArea marketArea = requestData.getMarketArea();
+        Customer customer = requestData.getCustomer();
+        
+        final CustomerPaymentInformation customerPaymentInformation = new CustomerPaymentInformation();
+        customerPaymentInformation.setPaymentType(paymentForm.getPaymentType());
+        customerPaymentInformation.setCardHolderName(paymentForm.getCardHolderName());
+        customerPaymentInformation.setCardNumber(paymentForm.getCardNumber());
+        customerPaymentInformation.setCardExpMonth(paymentForm.getCardExpMonth());
+        customerPaymentInformation.setCardExpYear(paymentForm.getCardExpYear());
+        customerPaymentInformation.setCardCVV(paymentForm.getCardCVV());
+        customerPaymentInformation.setCustomerMarketAreaId(marketArea.getId());
+        customerPaymentInformation.setDateCreate(new Date());
+        customerPaymentInformation.setDateUpdate(new Date());
+        customer.getPaymentInformations().add(customerPaymentInformation);
+
+        customerService.saveOrUpdateCustomer(customer);
+        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        requestUtil.updateCurrentCustomer(request, customer);
+    }
+    
     public OrderCustomer buildAndSaveNewOrder(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Customer customer = requestData.getCustomer();
@@ -724,18 +749,16 @@ public class WebManagementServiceImpl implements WebManagementService {
         
         orderCustomer = orderCustomerService.createNewOrder(orderCustomer);
         
-        cartService.deleteCart(cart);
-        requestUtil.resetCurrentCart(request);
+        requestUtil.deleteCurrentCartAndSaveEngineSession(request);
 
         // RELOAD ORDER FOR THE SESSION
         orderCustomer = orderCustomerService.getOrderByOrderNum(orderCustomer.getOrderNum());
-        requestUtil.saveLastOrder(requestData, orderCustomer);
+        requestUtil.keepLastOrderInSession(requestData, orderCustomer);
         
         return orderCustomer;
     }
     
     public Customer saveNewsletterSubscription(final RequestData requestData, final String email) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         Customer customer = customerService.getCustomerByLoginOrEmail(email);
         MarketArea marketArea = requestData.getMarketArea();
         

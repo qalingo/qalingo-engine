@@ -33,15 +33,25 @@ public class CmsContentDaoImpl extends AbstractGenericDaoImpl implements CmsCont
         return cmsContent;
 	}
 
-	public void saveOrUpdateCmsContent(CmsContent cmsContent) {
+	public CmsContent saveOrUpdateCmsContent(final CmsContent cmsContent) {
 		if(cmsContent.getDateCreate() == null){
 			cmsContent.setDateCreate(new Date());
 		}
 		cmsContent.setDateUpdate(new Date());
-		em.merge(cmsContent);
+        if (cmsContent.getId() != null) {
+            if(em.contains(cmsContent)){
+                em.refresh(cmsContent);
+            }
+            CmsContent mergedCmsContent = em.merge(cmsContent);
+            em.flush();
+            return mergedCmsContent;
+        } else {
+            em.persist(cmsContent);
+            return cmsContent;
+        }
 	}
 
-	public void deleteCmsContent(CmsContent cmsContent) {
+	public void deleteCmsContent(final CmsContent cmsContent) {
 		em.remove(cmsContent);
 	}
 

@@ -86,7 +86,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 		return customers;
 	}
 	
-	public void saveOrUpdateCustomer(final Customer customer) throws Exception {
+	public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());
 			customer.setActive(true);
@@ -113,8 +113,17 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	        	throw new CustomerAttributeException("Market Area can't be null if Attribute is not global!");
 	        }
         }
-		
-		em.merge(customer);
+        if (customer.getId() != null) {
+            if(em.contains(customer)){
+                em.refresh(customer);
+            }
+            Customer mergedCustomer = em.merge(customer);
+            em.flush();
+            return mergedCustomer;
+        } else {
+            em.persist(customer);
+            return customer;
+        }
 	}
 
 	public void deleteCustomer(final Customer customer) {
@@ -123,7 +132,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	
 	// CREDENTIAL
 	
-	public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+	public CustomerCredential saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
 		if(customerCredential.getDateCreate() == null){
 			customerCredential.setDateCreate(new Date());
 			if(StringUtils.isEmpty(customerCredential.getResetToken())){
@@ -131,7 +140,17 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			}
 		}
 		customerCredential.setDateUpdate(new Date());
-		em.merge(customerCredential);
+        if (customerCredential.getId() != null) {
+            if(em.contains(customerCredential)){
+                em.refresh(customerCredential);
+            }
+            CustomerCredential mergedCustomerCredential = em.merge(customerCredential);
+            em.flush();
+            return mergedCustomerCredential;
+        } else {
+            em.persist(customerCredential);
+            return customerCredential;
+        }
 	}
 	
     private void addDefaultFetch(Criteria criteria) {

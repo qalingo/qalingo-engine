@@ -29,18 +29,22 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 
 	@Autowired
 	protected EngineSettingService engineSettingService;
-	
-	public CustomerConnectionLog getCustomerConnectionLogById(String rawCustomerConnectionLogId) {
+
+	   public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId) {
+	        return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId);
+	   }
+
+	public CustomerConnectionLog getCustomerConnectionLogById(final String rawCustomerConnectionLogId) {
 		long customerConnectionLogId = -1;
 		try {
 			customerConnectionLogId = Long.parseLong(rawCustomerConnectionLogId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId);
+		return getCustomerConnectionLogById(customerConnectionLogId);
 	}
 
-	public void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
+	public void saveOrUpdateCustomerConnectionLog(final CustomerConnectionLog customerConnectionLog) {
 		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_CUSTOMER_CONNECTION_LOG);
 		final Long customerId = customerConnectionLog.getCustomerId();
 		final String appCode = customerConnectionLog.getAppCode();
@@ -56,7 +60,7 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 		}
 	}
 
-	public void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
+	public void deleteCustomerConnectionLog(final CustomerConnectionLog customerConnectionLog) {
 		customerConnectionLogDao.deleteCustomerConnectionLog(customerConnectionLog);
 	}
 

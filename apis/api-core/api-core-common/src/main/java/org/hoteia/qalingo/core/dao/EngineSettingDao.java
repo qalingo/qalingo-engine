@@ -16,20 +16,21 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 
 public interface EngineSettingDao {
 
-	// Engine Setting
-	EngineSetting getEngineSettingById(Long id);
-	
-	EngineSetting getEngineSettingByCode(String code);
+    // Engine Setting
+    EngineSetting getEngineSettingById(Long id);
 
-	List<EngineSetting> findEngineSettings();
-	
-	void saveEngineSetting(EngineSetting engineSetting);
+    EngineSetting getEngineSettingByCode(String code);
 
-	void deleteEngineSetting(EngineSetting engineSetting);
+    List<EngineSetting> findEngineSettings();
 
-	// Engine Setting Value
-	EngineSettingValue getEngineSettingValueById(Long id);
-	
-	void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
+    EngineSetting saveEngineSetting(EngineSetting engineSetting);
 
+    void deleteEngineSetting(EngineSetting engineSetting);
+
+    // Engine Setting Value
+    EngineSettingValue getEngineSettingValueById(Long id);
+
+    EngineSettingValue saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
+
+    void deleteEngineSettingValue(EngineSettingValue engineSettingValue);
 }

@@ -30,6 +30,10 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 
+    public UserConnectionLog getUserConnectionLogById(Long userConnectionLogId) {
+        return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId);
+    }
+    
 	public UserConnectionLog getUserConnectionLogById(String rawUserConnectionLogId) {
 		long userConnectionLogId = -1;
 		try {
@@ -37,12 +41,8 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId);
+		return getUserConnectionLogById(userConnectionLogId);
 	}
-
-//	public List<UserConnectionLog> findUserConnectionLog(UserConnectionLog criteria) {
-//		return userConnectionLogDao.findByExample(criteria);
-//	}
 
 	public void saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog) {
 		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_USER_CONNECTION_LOG);

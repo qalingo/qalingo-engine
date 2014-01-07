@@ -21,25 +21,29 @@ import org.hoteia.qalingo.core.service.CustomerWishlistService;
 @Transactional
 public class CustomerWishlistServiceImpl implements CustomerWishlistService {
 
-	@Autowired
-	private CustomerWishlistDao customerWishlistDao;
+    @Autowired
+    private CustomerWishlistDao customerWishlistDao;
 
-	public CustomerWishlist getCustomerWishlistById(String rawCustomerWishlistId) {
-		long customerWishlistId = -1;
-		try {
-			customerWishlistId = Long.parseLong(rawCustomerWishlistId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return customerWishlistDao.getCustomerWishlistById(customerWishlistId);
-	}
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
+        return customerWishlistDao.getCustomerWishlistById(customerWishlistId);
+    }
 
-	public void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist) {
-		customerWishlistDao.saveOrUpdateCustomerWishlist(customerWishlist);
-	}
+    public CustomerWishlist getCustomerWishlistById(final String rawCustomerWishlistId) {
+        long customerWishlistId = -1;
+        try {
+            customerWishlistId = Long.parseLong(rawCustomerWishlistId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerWishlistById(customerWishlistId);
+    }
 
-	public void deleteCustomerWishlist(CustomerWishlist customerWishlist) {
-		customerWishlistDao.deleteCustomerWishlist(customerWishlist);
-	}
+    public void saveOrUpdateCustomerWishlist(final CustomerWishlist customerWishlist) {
+        customerWishlistDao.saveOrUpdateCustomerWishlist(customerWishlist);
+    }
+
+    public void deleteCustomerWishlist(final CustomerWishlist customerWishlist) {
+        customerWishlistDao.deleteCustomerWishlist(customerWishlist);
+    }
 
 }

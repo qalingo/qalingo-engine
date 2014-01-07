@@ -21,7 +21,7 @@ public interface CurrencyReferentialDao {
 	 
 	List<CurrencyReferential> findCurrencyReferentials();
 	
-	void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential);
+	CurrencyReferential saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential);
 
 	void deleteCurrencyReferential(CurrencyReferential currencyReferential);
 

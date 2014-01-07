@@ -35,11 +35,21 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
         return tax;
 	}
 
-	public void saveOrUpdateTax(Tax tax) {
-		em.merge(tax);
+	public Tax saveOrUpdateTax(final Tax tax) {
+        if (tax.getId() != null) {
+            if(em.contains(tax)){
+                em.refresh(tax);
+            }
+            Tax mergedTax = em.merge(tax);
+            em.flush();
+            return mergedTax;
+        } else {
+            em.persist(tax);
+            return tax;
+        }
 	}
 
-	public void deleteTax(Tax tax) {
+	public void deleteTax(final Tax tax) {
 		em.remove(tax);
 	}
 

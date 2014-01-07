@@ -15,7 +15,9 @@ import org.hoteia.qalingo.core.domain.CustomerProductComment;
 
 public interface CustomerProductCommentService {
 
-	CustomerProductComment getCustomerProductCommentById(String customerId);
+    CustomerProductComment getCustomerProductCommentById(Long customerId);
+
+    CustomerProductComment getCustomerProductCommentById(String customerId);
 
 	List<CustomerProductComment> findCustomerProductCommentByCustomerId(Long customerId);
 	

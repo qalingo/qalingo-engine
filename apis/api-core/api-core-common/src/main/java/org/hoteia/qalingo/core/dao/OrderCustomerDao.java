@@ -25,7 +25,7 @@ public interface OrderCustomerDao {
 	
 	OrderCustomer createNewOrder(OrderCustomer orderCustomer);
 	
-	void updateOrder(OrderCustomer orderCustomer);
+	OrderCustomer saveOrUpdateOrder(OrderCustomer orderCustomer);
 
 	void deleteOrder(OrderCustomer orderCustomer);
 

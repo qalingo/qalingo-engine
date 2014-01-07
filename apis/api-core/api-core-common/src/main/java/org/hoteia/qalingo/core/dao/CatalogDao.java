@@ -15,15 +15,21 @@ import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 
 public interface CatalogDao {
-    
-	CatalogMaster getProductCatalogById(Long productCatalogId);
 
-	CatalogVirtual getCatalogVirtual(Long marketAreaId);
+    // MASTER CATALOG
+
+    CatalogMaster getMasterCatalogById(Long masterCatalogId);
 
     List<CatalogMaster> findAllCatalogMasters();
 
-	void saveOrUpdateProductCatalog(CatalogMaster productCatalog);
+    CatalogMaster saveOrUpdateCatalogMaster(CatalogMaster productCatalog);
 
-	void deleteProductCatalog(CatalogMaster productCatalog);
+    void deleteCatalogMaster(CatalogMaster productCatalog);
+
+    // VIRTUAL CATALOG
+    
+    CatalogVirtual getVirtualCatalogById(Long virtualCatalogId);
+
+    CatalogVirtual getVirtualCatalogByMarketAreaId(Long marketAreaId);
 
 }

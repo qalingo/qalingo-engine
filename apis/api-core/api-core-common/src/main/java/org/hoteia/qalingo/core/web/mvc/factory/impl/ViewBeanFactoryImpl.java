@@ -220,15 +220,22 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         final Cart currentCart = requestData.getCart();
         headerCartViewBean.setCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
-        headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
-        if (currentCart.getCartItems().size() == 1) {
-            headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
-        } else if (currentCart.getCartItems().size() > 1) {
-            Object[] cartTotalSummaryLabelParams = { currentCart.getCartItems().size() };
-            headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
+        if(currentCart != null && currentCart.getCartItems() != null){
+            headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
+            if (currentCart.getCartItems().size() == 1) {
+                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
+            } else if (currentCart.getCartItems().size() > 1) {
+                Object[] cartTotalSummaryLabelParams = { currentCart.getCartItems().size() };
+                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
+            } else {
+                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+            }
+            
         } else {
+            headerCartViewBean.setCartTotalItems(0);
             headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
         }
+
 
         return headerCartViewBean;
     }
@@ -1339,55 +1346,57 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         cartViewBean.setAddNewAddressUrl(urlService.generateUrl(FoUrls.PERSONAL_ADD_ADDRESS, requestData));
 
-        // ITEMS PART
-        List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
-        Set<CartItem> cartItems = cart.getCartItems();
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            final CartItem cartItem = (CartItem) iterator.next();
-            cartItemViewBeans.add(buildCartItemViewBean(requestData, cartItem));
-        }
-        cartViewBean.setCartItems(cartItemViewBeans);
-
-        // SUB PART : Shippings
-        final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
-        final Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
-        if (deliveryMethods != null) {
-            for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
-                final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
-                cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
-                cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
-                Object[] params = { deliveryMethod.getName() };
-                cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
-                cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
+        if(cart != null){
+            // ITEMS PART
+            List<CartItemViewBean> cartItemViewBeans = new ArrayList<CartItemViewBean>();
+            Set<CartItem> cartItems = cart.getCartItems();
+            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+                final CartItem cartItem = (CartItem) iterator.next();
+                cartItemViewBeans.add(buildCartItemViewBean(requestData, cartItem));
             }
-            cartViewBean.setCartDeliveryMethods(cartDeliveryMethodViewBeans);
-        }
+            cartViewBean.setCartItems(cartItemViewBeans);
 
-        // SUB PART : Taxes
-//        final List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
-//        final Set<Tax> taxes = cart.getTaxes();
-//        if (taxes != null) {
-//            for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
-//                final Tax tax = (Tax) iterator.next();
-//                final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
-//                BigDecimal taxesCalc = cartItemsTotal;
-//                taxesCalc = taxesCalc.multiply(tax.getPercent());
-//                taxesCalc = taxesCalc.divide(new BigDecimal("100"));
-//                cartFeesTotal = cartFeesTotal.add(taxesCalc);
-//                Object[] params = { tax.getName() };
-//                cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
-//                cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
-//                cartTaxViewBeans.add(cartTaxViewBean);
+            // SUB PART : Shippings
+            final List<CartDeliveryMethodViewBean> cartDeliveryMethodViewBeans = new ArrayList<CartDeliveryMethodViewBean>();
+            final Set<DeliveryMethod> deliveryMethods = cart.getDeliveryMethods();
+            if (deliveryMethods != null) {
+                for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
+                    final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
+                    final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
+                    cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
+                    cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+                    Object[] params = { deliveryMethod.getName() };
+                    cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
+                    cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
+                }
+                cartViewBean.setCartDeliveryMethods(cartDeliveryMethodViewBeans);
+            }
+
+            // SUB PART : Taxes
+//            final List<CartTaxViewBean> cartTaxViewBeans = new ArrayList<CartTaxViewBean>();
+//            final Set<Tax> taxes = cart.getTaxes();
+//            if (taxes != null) {
+//                for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
+//                    final Tax tax = (Tax) iterator.next();
+//                    final CartTaxViewBean cartTaxViewBean = new CartTaxViewBean();
+//                    BigDecimal taxesCalc = cartItemsTotal;
+//                    taxesCalc = taxesCalc.multiply(tax.getPercent());
+//                    taxesCalc = taxesCalc.divide(new BigDecimal("100"));
+//                    cartFeesTotal = cartFeesTotal.add(taxesCalc);
+//                    Object[] params = { tax.getName() };
+//                    cartTaxViewBean.setCartTaxTotal(formatter.format(taxesCalc));
+//                    cartTaxViewBean.setCartTaxTotalLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.taxes", params, locale));
+//                    cartTaxViewBeans.add(cartTaxViewBean);
+//                }
+//                cartViewBean.setCartTaxes(cartTaxViewBeans);
 //            }
-//            cartViewBean.setCartTaxes(cartTaxViewBeans);
-//        }
-        
-        
-        cartViewBean.setCartItemsTotalWithCurrencySign(cart.getCartItemTotalWithStandardCurrencySign());
-        cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
-        cartViewBean.setCartFeesTotalWithCurrencySign(cart.getTaxTotalWithStandardCurrencySign());
-        cartViewBean.setCartTotalWithCurrencySign(cart.getCartTotalWithStandardCurrencySign());
+            
+            
+            cartViewBean.setCartItemsTotalWithCurrencySign(cart.getCartItemTotalWithStandardCurrencySign());
+            cartViewBean.setCartShippingTotalWithCurrencySign(cart.getDeliveryMethodTotalWithStandardCurrencySign());
+            cartViewBean.setCartFeesTotalWithCurrencySign(cart.getTaxTotalWithStandardCurrencySign());
+            cartViewBean.setCartTotalWithCurrencySign(cart.getCartTotalWithStandardCurrencySign());
+        }
 
         return cartViewBean;
     }
@@ -1405,10 +1414,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
         cartItemViewBean.setSkuCode(cartItem.getProductSkuCode());
-        cartItemViewBean.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
+        final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode());
+        cartItem.setProductSku(productSku);
+        
+        cartItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
-        final Asset defaultPaskshotImage = cartItem.getProductSku().getDefaultPaskshotImage(ImageSize.SMALL.name());
+        final Asset defaultPaskshotImage = productSku.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             String summaryImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
             cartItemViewBean.setSummaryImage(summaryImage);

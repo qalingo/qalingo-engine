@@ -36,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 
 @Entity
-@Table(name="TECO_STORE", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_STORE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class Store extends AbstractEntity {
 
 	/**

@@ -21,7 +21,7 @@ public interface CustomerProductCommentDao {
 	
 	List<CustomerProductComment> findCustomerProductCommentByProductSkuId(Long productSkuId);
 	
-	void saveOrUpdateCustomerProductComment(CustomerProductComment customerProductComment);
+	CustomerProductComment saveOrUpdateCustomerProductComment(CustomerProductComment customerProductComment);
 
 	void deleteCustomerProductComment(CustomerProductComment customerProductComment);
 

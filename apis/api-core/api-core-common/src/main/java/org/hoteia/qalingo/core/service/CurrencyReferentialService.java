@@ -15,6 +15,8 @@ import org.hoteia.qalingo.core.domain.CurrencyReferential;
 
 public interface CurrencyReferentialService {
 
+    CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId);
+    
 	CurrencyReferential getCurrencyReferentialById(String currencyReferentialId);
 
 	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode);

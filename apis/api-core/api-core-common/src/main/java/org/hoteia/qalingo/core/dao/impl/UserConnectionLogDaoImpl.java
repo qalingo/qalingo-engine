@@ -57,8 +57,18 @@ public class UserConnectionLogDaoImpl extends AbstractGenericDaoImpl implements 
 		return userConnectionLogs;
 	}
 
-	public void saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
-		em.merge(userConnectionLog);
+	public UserConnectionLog saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
+        if (userConnectionLog.getId() != null) {
+            if(em.contains(userConnectionLog)){
+                em.refresh(userConnectionLog);
+            }
+            UserConnectionLog mergedUserConnectionLog = em.merge(userConnectionLog);
+            em.flush();
+            return mergedUserConnectionLog;
+        } else {
+            em.persist(userConnectionLog);
+            return userConnectionLog;
+        }
 	}
 
 	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {

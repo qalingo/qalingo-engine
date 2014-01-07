@@ -15,20 +15,22 @@ import org.hoteia.qalingo.core.domain.EngineEcoSession;
 public interface EngineSessionDao {
 
 	// ECO SESSION
+    
 	EngineEcoSession getEngineEcoSessionById(Long engineSessionId);
 
-//	List<EngineEcoSession> findByExample(EngineEcoSession engineSessionExample);
-
-	void saveOrUpdateEngineEcoSession(EngineEcoSession engineSession);
+	EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String engineSessionGuid);
+	
+	EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineSession);
 
 	void deleteEngineEcoSession(EngineEcoSession engineSession);
 	
 	// BO SESSION
+	
 	EngineBoSession getEngineBoSessionById(Long engineBoSessionId);
 	
-//	List<EngineBoSession> findEngineBoSession(EngineBoSession criteria);
+    EngineBoSession getEngineBoSessionByEngineSessionGuid(String engineSessionGuid);
 	
-	void saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
+    EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
 	
 	void deleteEngineBoSession(EngineBoSession engineBoSession);
 

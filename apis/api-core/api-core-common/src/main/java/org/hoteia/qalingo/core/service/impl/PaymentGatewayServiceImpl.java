@@ -23,30 +23,33 @@ import org.hoteia.qalingo.core.service.PaymentGatewayService;
 @Transactional
 public class PaymentGatewayServiceImpl implements PaymentGatewayService {
 
-	@Autowired
-	private PaymentGatewayDao paymentGatewayDao;
+    @Autowired
+    private PaymentGatewayDao paymentGatewayDao;
 
-	public AbstractPaymentGateway getPaymentGatewayById(String rawPaymentGatewayId) {
-		long paymentGatewayId = -1;
-		try {
-			paymentGatewayId = Long.parseLong(rawPaymentGatewayId);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId);
-	}
-	
-	public List<AbstractPaymentGateway> findPaymentGateways() {
-		return paymentGatewayDao.findPaymentGateways();
-	}
+    public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
+        return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId);
+    }
 
+    public AbstractPaymentGateway getPaymentGatewayById(final String rawPaymentGatewayId) {
+        long paymentGatewayId = -1;
+        try {
+            paymentGatewayId = Long.parseLong(rawPaymentGatewayId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getPaymentGatewayById(paymentGatewayId);
+    }
 
-	public void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
-		paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);
-	}
+    public List<AbstractPaymentGateway> findPaymentGateways() {
+        return paymentGatewayDao.findPaymentGateways();
+    }
 
-	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {
-		paymentGatewayDao.deletePaymentGateway(paymentGateway);
-	}
+    public void saveOrUpdatePaymentGateway(final AbstractPaymentGateway paymentGateway) {
+        paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);
+    }
+
+    public void deletePaymentGateway(final AbstractPaymentGateway paymentGateway) {
+        paymentGatewayDao.deletePaymentGateway(paymentGateway);
+    }
 
 }

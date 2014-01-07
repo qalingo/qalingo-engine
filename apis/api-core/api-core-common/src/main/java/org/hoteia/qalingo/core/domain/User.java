@@ -36,7 +36,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "login", "email" }) })
+@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "LOGIN", "EMAIL" }) })
 public class User extends AbstractEntity {
 
     /**

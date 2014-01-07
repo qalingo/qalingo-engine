@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PERMISSION", uniqueConstraints = {@UniqueConstraint(columnNames= {"code"})})
+@Table(name="TECO_PERMISSION", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class CustomerPermission extends AbstractEntity {
 
 	/**

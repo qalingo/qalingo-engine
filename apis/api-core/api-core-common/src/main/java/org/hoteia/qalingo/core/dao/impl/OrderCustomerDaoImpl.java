@@ -11,6 +11,9 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.RollbackException;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -101,9 +104,10 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
             Integer previousLastOrderNumber = orderNumber.getLastOrderNumber();
             Integer newLastOrderNumber = new Integer(previousLastOrderNumber.intValue() + 1);
 
+            orderCustomer.setPrefixHashFolder(UUID.randomUUID().toString());
             orderCustomer.setOrderNum("" + newLastOrderNumber);
 
-            em.merge(orderCustomer);
+            orderCustomer = em.merge(orderCustomer);
 
             hql = "UPDATE OrderNumber SET lastOrderNumber = :newLastOrderNumber WHERE lastOrderNumber = :previousLastOrderNumber";
             query = session.createQuery(hql);
@@ -116,18 +120,30 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
                 createNewOrderWithCorrectOrderNumber(orderCustomer);
             }
 
+        } catch (RollbackException e) {
+            logger.debug("Failed to create a new Order with a specific OrderNumber increment", e);
         } catch (Exception e) {
             logger.error("Failed to create a new Order with a specific OrderNumber increment", e);
         }
         return orderCustomer;
     }
 
-    public void updateOrder(OrderCustomer orderCustomer) {
+    public OrderCustomer saveOrUpdateOrder(OrderCustomer orderCustomer) {
         if (orderCustomer.getDateCreate() == null) {
             orderCustomer.setDateCreate(new Date());
         }
         orderCustomer.setDateUpdate(new Date());
-        em.merge(orderCustomer);
+        if (orderCustomer.getId() != null) {
+            if(em.contains(orderCustomer)){
+                em.refresh(orderCustomer);
+            }
+            OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
+            em.flush();
+            return mergedOrderCustomer;
+        } else {
+            em.persist(orderCustomer);
+            return orderCustomer;
+        }
     }
 
     public void deleteOrder(OrderCustomer orderCustomer) {

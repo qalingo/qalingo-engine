@@ -16,6 +16,8 @@ import org.hoteia.qalingo.core.domain.ServerStatus;
 
 public interface ServerService {
 
+    ServerStatus getServerStatusById(Long serverStatusId);
+    
     ServerStatus getServerStatusById(String rawServerStatusId);
 	
     List<ServerStatus> findServerStatus(String serverName);

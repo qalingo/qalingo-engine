@@ -51,7 +51,7 @@ VALUES (1, 'MR', 'Customer', 'Qalingo', 'rue de versaille', '', '', 'address1', 
 
 INSERT INTO teco_customer_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, customer_id, attribute_definition_id, localization_code, market_area_id)
-VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 10, null, null);
+VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 100, null, null);
 
 INSERT INTO teco_customer_credential 
 (id, customer_id, password)
@@ -108,14 +108,14 @@ INSERT INTO teco_marketplace
 INSERT INTO teco_marketplace_attribute   
 (id, context, string_value, market_place_id, attribute_definition_id)
 VALUES 
-(161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 60),
-(162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 60),
-(1161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 10, 60),
-(1162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 10, 60),
-(1261, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 20, 60),
-(1262, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 20, 60),
-(1361, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 30, 60),
-(1362, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 30, 60);
+(161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 600),
+(162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 600),
+(1161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 10, 600),
+(1162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 10, 600),
+(1261, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 20, 600),
+(1262, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 20, 600),
+(1361, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 30, 600),
+(1362, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 30, 600);
 
 INSERT INTO teco_market 
 (id, description, code, theme, is_default, name, version, marketplace_id)
@@ -153,18 +153,23 @@ VALUES
 INSERT INTO teco_market_area_attribute   
 (id, context, string_value, market_area_id, attribute_definition_id)
 VALUES 
-(100, 'FO_MCOMMERCE', 'no-reply@YOURDOMAIN.com', 1, 1),
-(101, 'FO_MCOMMERCE',   'Demo Qalingo', 1, 2),
-(102, 'FO_MCOMMERCE',   'contact@YOURDOMAIN.com', 1, 3),
-(103, 'FO_MCOMMERCE',   'facebook,twitter', 1, 6);
-
-INSERT INTO teco_market_area_attribute   
-(id, context, string_value, market_area_id, attribute_definition_id)
-VALUES 
 (10, 'DEFAULT_CONTEXT', 'no-reply@YOURDOMAIN.com', 1, 1),
 (11, 'DEFAULT_CONTEXT', 'Demo Qalingo', 1, 2),
 (12, 'DEFAULT_CONTEXT', 'contact@YOURDOMAIN.com', 1, 3);
 
+INSERT INTO teco_market_area_attribute   
+(id, context, string_value, market_area_id, attribute_definition_id)
+VALUES 
+(20, 'DEFAULT_CONTEXT', true, 1, 7);
+
+
+INSERT INTO teco_market_area_attribute   
+(id, context, string_value, market_area_id, attribute_definition_id)
+VALUES 
+(100, 'FO_MCOMMERCE', 'no-reply@YOURDOMAIN.com', 1, 1),
+(101, 'FO_MCOMMERCE',   'Demo Qalingo', 1, 2),
+(102, 'FO_MCOMMERCE',   'contact@YOURDOMAIN.com', 1, 3),
+(103, 'FO_MCOMMERCE',   'facebook,twitter', 1, 6);
 
 INSERT INTO teco_market_area_localization_rel 
 (market_area_id, localization_id)
@@ -220,10 +225,10 @@ INSERT INTO teco_store
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)
 VALUES 
-(10, null, null, null, null, null, 'New-York en i18n', 10, 51, 'en', null),
-(11, null, null, null, null, null, 'New-York fr i18n', 10, 51, 'fr', null),
-(20, null, null, null, null, null, 'Paris en i18n', 20, 51, 'en', null),
-(21, null, null, null, null, null, 'Paris fr i18n', 20, 51, 'fr', null);
+(10, null, null, null, null, null, 'New-York en i18n', 10, 510, 'en', null),
+(11, null, null, null, null, null, 'New-York fr i18n', 10, 510, 'fr', null),
+(20, null, null, null, null, null, 'Paris en i18n', 20, 510, 'en', null),
+(21, null, null, null, null, null, 'Paris fr i18n', 20, 510, 'fr', null);
 
 -- PRODUCT
 
@@ -346,16 +351,16 @@ INSERT INTO teco_catalog_virtual_category
 INSERT INTO teco_catalog_virtual_category_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, virtual_category_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1,  null, null, null, null, null, 'Nouveautés Thé i18n',  101, 20, null, 1),
-(2,  null, null, null, null, null, 'Nouveautés Café i18n',  102, 20, null, 1),
-(3,  null, null, null, null, null, 'Fêtes des pères i18n',  201, 20, null, 1),
-(4,  null, null, null, null, null, 'Fêtes des mères i18n',  202, 20, null, 1),
-(5,  null, null, null, null, null, 'Brésil i18n',  301, 20, null, 1),
-(6,  null, null, null, null, null, 'Colombie i18n',  302, 20, null, 1),
-(7,  null, null, null, null, null, 'Inde i18n',  401, 20, null, 1),
-(8,  null, null, null, null, null, 'Anglais i18n',  402, 20, null, 1),
-(9,  null, null, null, null, null, 'Max Havelaar i18n',  501, 20, null, 1),
-(10, null, null, null, null, null, 'Artisans du Monde i18n', 502, 20, null, 1);
+(1,  null, null, null, null, null, 'Nouveautés Thé i18n',  101, 200, null, 1),
+(2,  null, null, null, null, null, 'Nouveautés Café i18n',  102, 200, null, 1),
+(3,  null, null, null, null, null, 'Fêtes des pères i18n',  201, 200, null, 1),
+(4,  null, null, null, null, null, 'Fêtes des mères i18n',  202, 200, null, 1),
+(5,  null, null, null, null, null, 'Brésil i18n',  301, 200, null, 1),
+(6,  null, null, null, null, null, 'Colombie i18n',  302, 200, null, 1),
+(7,  null, null, null, null, null, 'Inde i18n',  401, 200, null, 1),
+(8,  null, null, null, null, null, 'Anglais i18n',  402, 200, null, 1),
+(9,  null, null, null, null, null, 'Max Havelaar i18n',  501, 200, null, 1),
+(10, null, null, null, null, null, 'Artisans du Monde i18n', 502, 200, null, 1);
 
 INSERT INTO teco_catalog_master_category_child_category_rel  
 (parent_master_catalog_category_id, child_master_catalog_category_id)
@@ -399,10 +404,10 @@ set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1, null, null, null, null, null, 'PROD1 i18n', 1, 30, null, 1),
-(2, null, null, null, null, null, 'PROD2 i18n', 2, 30, null, 1),
-(3, null, null, null, null, null, 'PROD3 i18n', 3, 30, null, 1),
-(4, null, null, null, null, null, 'PROD4 i18n', 4, 30, null, 1);
+(1, null, null, null, null, null, 'PROD1 i18n', 1, 300, null, 1),
+(2, null, null, null, null, null, 'PROD2 i18n', 2, 300, null, 1),
+(3, null, null, null, null, null, 'PROD3 i18n', 3, 300, null, 1),
+(4, null, null, null, null, null, 'PROD4 i18n', 4, 300, null, 1);
 
 INSERT INTO teco_product_sku 
 (id, description, code, is_default, business_name, version, product_marketing_id)
@@ -435,7 +440,7 @@ INSERT INTO teco_catalog_virtual_category_product_marketing_rel
 
 INSERT INTO teco_product_marketing_attribute
 (BOOLEAN_VALUE,IS_GLOBAL,MARKET_AREA_ID,ORDERING,VERSION,ATTRIBUTE_DEFINITION_ID,PRODUCT_MARKETING_ID)
-VALUES (1,0,1,0,1,52,1), (1,0,1,0,1,52,2), (1,0,1,0,1,52,3), (1,0,1,0,1,52,4);
+VALUES (1,0,1,0,1,520,1), (1,0,1,0,1,520,2), (1,0,1,0,1,520,3), (1,0,1,0,1,520,4);
 
 -- PRICE
 

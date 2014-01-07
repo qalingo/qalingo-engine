@@ -61,12 +61,22 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 		return paymentGateways;
 	}
 
-	public void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
+	public AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
 		if(paymentGateway.getDateCreate() == null){
 			paymentGateway.setDateCreate(new Date());
 		}
 		paymentGateway.setDateUpdate(new Date());
-		em.merge(paymentGateway);
+        if (paymentGateway.getId() != null) {
+            if(em.contains(paymentGateway)){
+                em.refresh(paymentGateway);
+            }
+            AbstractPaymentGateway mergedPaymentGateway = em.merge(paymentGateway);
+            em.flush();
+            return mergedPaymentGateway;
+        } else {
+            em.persist(paymentGateway);
+            return paymentGateway;
+        }
 	}
 
 	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {

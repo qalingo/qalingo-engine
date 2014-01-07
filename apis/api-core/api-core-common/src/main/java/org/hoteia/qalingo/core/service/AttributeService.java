@@ -15,6 +15,8 @@ import org.hoteia.qalingo.core.domain.AttributeDefinition;
 
 public interface AttributeService {
 
+    AttributeDefinition getAttributeDefinitionById(Long attributeId);
+    
 	AttributeDefinition getAttributeDefinitionById(String attributeId);
 	
 	AttributeDefinition getAttributeDefinitionByCode(String code);

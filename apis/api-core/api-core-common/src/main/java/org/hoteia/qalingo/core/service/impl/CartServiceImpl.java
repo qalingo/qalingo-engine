@@ -24,15 +24,22 @@ public class CartServiceImpl implements CartService {
     private CartDao cartDao;
 
     public Cart addToCart(Cart cart) {
+        saveOrUpdateCart(cart);
         return cart;
     }
 
     public Cart updateToCart(Cart cart) {
+        saveOrUpdateCart(cart);
         return cart;
     }
 
     public Cart deleteToCart(Cart cart) {
+        saveOrUpdateCart(cart);
         return cart;
+    }
+
+    public Cart getCartById(Long cartId) {
+        return cartDao.getCartById(cartId);
     }
 
     public Cart getCartById(String rawCartId) {
@@ -42,7 +49,7 @@ public class CartServiceImpl implements CartService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return cartDao.getCartById(cartId);
+        return getCartById(cartId);
     }
 
     public void saveOrUpdateCart(Cart cart) {
