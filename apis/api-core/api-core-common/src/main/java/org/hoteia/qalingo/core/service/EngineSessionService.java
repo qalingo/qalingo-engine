@@ -16,6 +16,12 @@ public interface EngineSessionService {
 
     // ECO SESSION
 
+    EngineEcoSession updateAndSynchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues) throws Exception;
+    
+    void synchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues, String ecoEngineSessionGuid) throws Exception;
+
+        
+        
     EngineEcoSession getEngineEcoSessionById(Long engineEcoSessionId);
 
     EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId);

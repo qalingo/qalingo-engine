@@ -9,12 +9,14 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
+import org.dozer.Mapper;
 import org.hoteia.qalingo.core.dao.EngineSessionDao;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +30,42 @@ public class EngineSessionServiceImpl implements EngineSessionService {
     @Autowired
     private EngineSessionDao engineSessionDao;
 
-    // ECO SESSION
+    @Autowired 
+    private Mapper dozerBeanMapper;
 
+    // ECO SESSION
+    
+    /**
+     * 
+     */
+    public EngineEcoSession updateAndSynchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
+        saveOrUpdateEngineEcoSession(engineEcoSessionWithTransientValues);
+        // RELOAD ENGINE SESSION - NOT A GOOD WAY FOR PERF - BUT A GOOD WAY TO ALWAYS KEEP RIGHT ENGINE SESSION DATAS LIKE TRANSIENT
+        EngineEcoSession engineEcoSession = getEngineEcoSessionById(engineEcoSessionWithTransientValues.getId());
+        synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, engineEcoSession);
+        return engineEcoSessionWithTransientValues;
+    }
+    
+    /**
+     * 
+     */
+    private void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSessionWithTransientValues, final EngineEcoSession engineEcoSession) throws Exception {
+        try {
+            dozerBeanMapper.map(engineEcoSession, engineEcoSessionWithTransientValues);
+        } catch (BeansException e) {
+            logger.error("", e);
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSessionWithTransientValues, final String ecoEngineSessionGuid) throws Exception {
+        EngineEcoSession engineEcoSession =  getEngineEcoSessionByEngineSessionGuid(ecoEngineSessionGuid);
+        synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, engineEcoSession);
+    }
+    
+    
     public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
         return engineSessionDao.getEngineEcoSessionById(engineSessionId);
     }

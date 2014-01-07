@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.dozer.Mapper;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractEngineSession;
@@ -61,7 +60,6 @@ import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -120,9 +118,6 @@ public class RequestUtilImpl implements RequestUtil {
     
     @Autowired
     protected CartService cartService;
-    
-    @Autowired 
-    private Mapper dozerBeanMapper;
     
     /**
 	 *
@@ -525,16 +520,6 @@ public class RequestUtilImpl implements RequestUtil {
         request.getSession().setAttribute(Constants.ENGINE_ECO_SESSION_OBJECT, engineEcoSession);
     }
 
-    /**
-     * 
-     */
-    public void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSession, final EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
-        try {
-            dozerBeanMapper.map(engineEcoSession, engineEcoSessionWithTransientValues);
-        } catch (BeansException e) {
-            logger.error("", e);
-        }
-    }
     
     /**
      * 
@@ -571,33 +556,24 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
-        engineEcoSessionWithTransientValues.deleteCurrentCart();
-        updateAndSynchronizeEngineEcoSession(request, engineEcoSessionWithTransientValues);
-    }
-    
-    /**
-     * 
-     */
     public void updateCurrentCart(final HttpServletRequest request, final Cart cart) throws Exception {
         // SAVE AND UPDATE THE ENGINE SESSION AT THE END
         EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
         engineEcoSessionWithTransientValues.updateCart(cart);
-        updateAndSynchronizeEngineEcoSession(request, engineEcoSessionWithTransientValues);
+        engineEcoSessionWithTransientValues = engineSessionService.updateAndSynchronizeEngineEcoSession(engineEcoSessionWithTransientValues);
+        updateCurrentEcoSession(request, engineEcoSessionWithTransientValues); 
     }
     
     /**
      * 
      */
-    public void updateAndSynchronizeEngineEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
-        engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSessionWithTransientValues);
-        // RELOAD ENGINE SESSION - NOT A GOOD WAY FOR PERF - BUT A GOOD WAY TO ALWAYS KEEP RIGHT ENGINE SESSION DATAS LIKE TRANSIENT
-        EngineEcoSession engineEcoSession = engineSessionService.getEngineEcoSessionById(engineEcoSessionWithTransientValues.getId());
-        synchronizeEngineEcoSession(engineEcoSession, engineEcoSessionWithTransientValues);
+    public void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSessionWithTransientValues = getCurrentEcoSession(request);
+        engineEcoSessionWithTransientValues.deleteCurrentCart();
+        engineSessionService.updateAndSynchronizeEngineEcoSession(engineEcoSessionWithTransientValues);
         updateCurrentEcoSession(request, engineEcoSessionWithTransientValues); 
     }
-
+    
     /**
      * 
      */
@@ -1505,9 +1481,8 @@ public class RequestUtilImpl implements RequestUtil {
                     }
                 }
                 if(ecoEngineSessionGuid != null){
-                    engineEcoSession =  engineSessionService.getEngineEcoSessionByEngineSessionGuid(ecoEngineSessionGuid.getValue());
                     EngineEcoSession engineEcoSessionWithTransientValues = initEcoSession(request);
-                    synchronizeEngineEcoSession(engineEcoSession, engineEcoSessionWithTransientValues);
+                    engineSessionService.synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, ecoEngineSessionGuid.getValue());
                 }
             }
             if(engineEcoSession == null){

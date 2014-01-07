@@ -1466,7 +1466,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
         orderViewBean.setOrderNum(order.getOrderNum());

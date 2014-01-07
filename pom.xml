@@ -38,7 +38,7 @@
 		<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.1.RELEASE</spring.batch.admin.version>
 		<!-- Datas -->
-		<hibernate.version>4.2.6.Final</hibernate.version>
+		<hibernate.version>4.1.8.Final</hibernate.version>
 		<!-- CXF -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 		<!-- SOLR -->

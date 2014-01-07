@@ -71,8 +71,9 @@ public class SecurityUtilImpl implements SecurityUtil {
 			EngineEcoSession engineEcoSessionWithTransientValues = requestUtil.getCurrentEcoSession(request);
 			engineEcoSessionWithTransientValues.setCurrentCustomer(customer);
 			engineEcoSessionWithTransientValues.getCart().setCustomerId(customer.getId());
-			EngineEcoSession engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSessionWithTransientValues);
-			requestUtil.synchronizeEngineEcoSession(engineEcoSession, engineEcoSessionWithTransientValues);
+			engineEcoSessionWithTransientValues.getCart().setBillingAddressId(customer.getDefaultBillingAddressId());
+			engineEcoSessionWithTransientValues.getCart().setShippingAddressId(customer.getDefaultShippingAddressId());
+			engineSessionService.updateAndSynchronizeEngineEcoSession(engineEcoSessionWithTransientValues);
 		} catch (Exception e) {
 			logger.error("", e);
 		}

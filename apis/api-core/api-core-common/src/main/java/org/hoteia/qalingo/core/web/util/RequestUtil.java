@@ -155,11 +155,6 @@ public interface RequestUtil {
     /**
      * 
      */
-    void synchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues, EngineEcoSession engineEcoSession) throws Exception;
-    
-    /**
-     * 
-     */
     User getCurrentUser(HttpServletRequest request) throws Exception;
 
     /**
@@ -212,60 +207,10 @@ public interface RequestUtil {
      */
     void keepLastOrderInSession(RequestData requestData, OrderCustomer order) throws Exception;
 
-    // /**
-    // *
-    // */
-    // MarketPlace getCurrentMarketPlace(RequestData requestData) throws
-    // Exception;
-    //
-    // /**
-    // *
-    // */
-    // Market getCurrentMarket(RequestData requestData) throws Exception;
-    //
-    // /**
-    // *
-    // */
-    // MarketArea getCurrentMarketArea(RequestData requestData) throws
-    // Exception;
-    //
-    // /**
-    // *
-    // */
-    // Localization getCurrentMarketLocalization(RequestData requestData) throws
-    // Exception;
-    //
-    // /**
-    // *
-    // */
-    // Localization getCurrentMarketAreaLocalization(RequestData requestData)
-    // throws Exception;
-
-    // /**
-    // *
-    // */
-    // Locale getCurrentLocale(HttpServletRequest request) throws Exception;
-
     /**
      * 
      */
     void updateCurrentLocalization(RequestData requestData, Localization localization) throws Exception;
-
-    // /**
-    // *
-    // */
-    // Retailer getCurrentRetailer(RequestData requestData) throws Exception;
-
-    // /**
-    // *
-    // */
-    // CurrencyReferential getCurrentCurrency(HttpServletRequest request) throws
-    // Exception;
-    //
-    // /**
-    // *
-    // */
-    // Customer getCurrentCustomer(HttpServletRequest request) throws Exception;
 
     /**
      * 

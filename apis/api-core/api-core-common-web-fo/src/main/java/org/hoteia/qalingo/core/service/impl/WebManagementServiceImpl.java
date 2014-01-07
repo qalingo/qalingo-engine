@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.service.impl;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +50,7 @@ import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
+import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -57,6 +59,7 @@ import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EmailService;
+import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -104,6 +107,9 @@ public class WebManagementServiceImpl implements WebManagementService {
     
     @Autowired
     protected GroupRoleService customerGroupService;
+    
+    @Autowired
+    protected EngineSessionService engineSessionService;
     
     @Autowired
     protected UrlService urlService;
@@ -755,6 +761,8 @@ public class WebManagementServiceImpl implements WebManagementService {
         orderCustomer = orderCustomerService.getOrderByOrderNum(orderCustomer.getOrderNum());
         requestUtil.keepLastOrderInSession(requestData, orderCustomer);
         
+        buildAndSaveNewOrderConfirmationMail(requestData, customer, orderCustomer);
+        
         return orderCustomer;
     }
     
@@ -885,8 +893,40 @@ public class WebManagementServiceImpl implements WebManagementService {
         
         customerResetPasswordConfirmationEmailBean.setCustomerDetailsUrl(urlService.buildAbsoluteUrl(requestData, urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData)));
         
-        
         emailService.buildAndSaveCustomerResetPasswordConfirmationMail(requestData, customer, velocityPath, customerResetPasswordConfirmationEmailBean);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveNewOrderConfirmationMail(final RequestData requestData, final Customer customer, final OrderCustomer order) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final String contextNameValue = requestData.getContextNameValue();
+        final String velocityPath = requestData.getVelocityEmailPrefix();
+
+        final OrderConfirmationEmailBean orderConfirmationEmailBean = new OrderConfirmationEmailBean();
+        orderConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
+        orderConfirmationEmailBean.setToEmail(customer.getEmail());
+        
+        if (order != null) {
+            orderConfirmationEmailBean.setOrderNumber(order.getOrderNum());
+            
+            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            if (order.getExpectedDeliveryDate() != null) {
+                orderConfirmationEmailBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
+            } else {
+                orderConfirmationEmailBean.setExpectedDeliveryDate("NA");
+            }
+            
+            orderConfirmationEmailBean.setOrderItemsTotalWithCurrencySign(order.getOrderItemTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderShippingTotalWithCurrencySign(order.getShippingTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderTaxesTotalWithCurrencySign(order.getTaxTotalWithStandardCurrencySign());
+            orderConfirmationEmailBean.setOrderTotalWithCurrencySign(order.getOrderTotalWithStandardCurrencySign());
+        }
+        
+        emailService.buildAndSaveNewOrderConfirmationMail(requestData, customer, velocityPath, orderConfirmationEmailBean);
     }
     
     protected Customer checkCustomerMarketArea(final RequestData requestData, Customer customer) throws Exception{
