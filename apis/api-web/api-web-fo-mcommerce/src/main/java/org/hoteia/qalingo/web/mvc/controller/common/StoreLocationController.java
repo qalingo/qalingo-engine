@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -41,7 +42,10 @@ public class StoreLocationController extends AbstractMCommerceController {
 		
 		final List<Store> stores = storeService.findStores();
 		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildStoreLocatorViewBean(requestUtil.getRequestData(request), stores);
+		final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildStoreLocatorFilterBean(storeLocator);
 		modelAndView.addObject("storeLocator", storeLocator);
+		modelAndView.addObject("storeFilter", storeFilter);
+		
 		
         return modelAndView;
 	}

@@ -24,6 +24,8 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 
 public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 
@@ -46,4 +48,11 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 	List<RecentProductViewBean> buildRecentProductViewBean(RequestData requestData, List<String> listId) throws Exception;
 	
 	CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	
+	/**
+	 * Extract the information from the list stores of StoreLocatorViewBean to build the filters
+	 * @param storeLocatorViewBean
+	 * @return
+	 */
+	StoreLocatorFilterBean buildStoreLocatorFilterBean(StoreLocatorViewBean storeLocatorViewBean);
 }
