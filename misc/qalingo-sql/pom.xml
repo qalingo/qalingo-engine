@@ -97,6 +97,7 @@
 									<autocommit>true</autocommit>
 									<srcFiles>
 										<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
+										<srcFile>src/main/resources/sql/mysql/spring-batch-schema.sql</srcFile>
 										<srcFile>src/main/resources/sql/mysql/init-core-values.sql</srcFile>
 										<srcFile>src/main/resources/sql/mysql/init-demo-values.sql</srcFile>
 									</srcFiles>
