@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.search;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -25,6 +27,7 @@ import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
@@ -118,6 +121,28 @@ public class SearchController extends AbstractMCommerceController {
 		
         return modelAndView;
 	}
+	
+    @Autowired
+    public ProductService productService;
+
+    @RequestMapping(value = "/**/search-load-index.html", method = RequestMethod.GET)
+    public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+        List<ProductMarketing> products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate301");
+        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing);
+        }
+
+        products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate302");
+        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing);
+        }
+
+        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request))));
+    }
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductMarketingResponseBean productMarketingResponseBean,
 			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{

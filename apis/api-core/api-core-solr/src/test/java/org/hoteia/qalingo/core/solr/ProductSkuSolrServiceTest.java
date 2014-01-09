@@ -24,7 +24,7 @@ public class ProductSkuSolrServiceTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	@Autowired
-	protected ProductSkuSolrService productSolrService; 
+	protected ProductSkuSolrService productSkuSolrService; 
 
 	protected ProductSku productSku;
 
@@ -39,7 +39,7 @@ public class ProductSkuSolrServiceTest {
         productSku.setBusinessName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
-        productSolrService.addOrUpdateProductSku(productSku);
+        productSkuSolrService.addOrUpdateProductSku(productSku);
         logger.debug("--------------->testFirstIndexData()");
     }
     
@@ -54,7 +54,7 @@ public class ProductSkuSolrServiceTest {
         productSku.setBusinessName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
-        productSolrService.addOrUpdateProductSku(productSku);
+        productSkuSolrService.addOrUpdateProductSku(productSku);
     }
     
 	/**
@@ -63,7 +63,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchId() throws SolrServerException, IOException {
         logger.debug("--------------->Search: Id");
-        responseBean = productSolrService.searchProductSku("id", "", "");
+        responseBean = productSkuSolrService.searchProductSku("id", "", "");
         printData();
     }
     
@@ -73,7 +73,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchIdWithText() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with some text");
-        responseBean = productSolrService.searchProductSku("code", "N", "");
+        responseBean = productSkuSolrService.searchProductSku("code", "N", "");
         printData();
     }
     
@@ -83,7 +83,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testSearchIdWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: code with facet");
-        responseBean = productSolrService.searchProductSku("code", "", "code");
+        responseBean = productSkuSolrService.searchProductSku("code", "", "code");
         printData();
     }
     
@@ -93,7 +93,7 @@ public class ProductSkuSolrServiceTest {
     @Test(expected = org.apache.solr.common.SolrException.class)
     public void testSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Search unknown field");
-        responseBean = productSolrService.searchProductSku("abc", "91", "xyz");
+        responseBean = productSkuSolrService.searchProductSku("abc", "91", "xyz");
         printData();
     }
     
@@ -103,7 +103,7 @@ public class ProductSkuSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySearch() throws SolrServerException, IOException {
         logger.debug("--------------->Empty Search ");
-        responseBean = productSolrService.searchProductSku("", "", "");
+        responseBean = productSkuSolrService.searchProductSku("", "", "");
         printData();
     }
     
@@ -114,7 +114,7 @@ public class ProductSkuSolrServiceTest {
     @Test
     public void testDefaultSearch() throws SolrServerException, IOException {
         logger.debug("--------------->Default Search ");
-        responseBean = productSolrService.searchProductSku();
+        responseBean = productSkuSolrService.searchProductSku();
         printData();
     }
 
