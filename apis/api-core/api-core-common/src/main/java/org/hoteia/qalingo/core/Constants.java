@@ -115,6 +115,7 @@ public final class Constants {
 
 	// SEARCH PAGINATION
 	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
+	public static final String SEARCH_TEXT = "searchText";
 
 	// SPRING VIEW PAGINATION
 	public static final String PAGINATION_PAGE_PARAMETER = "page";

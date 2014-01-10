@@ -83,7 +83,13 @@ public class SearchController extends AbstractMCommerceController {
 		modelAndView.addObject("search", search);
 		
 		try {
-			ProductMarketingResponseBean productMarketingResponseBean = productMarketingSolrService.searchProductMarketing();
+			ProductMarketingResponseBean productMarketingResponseBean = null;
+			if(StringUtils.isEmpty(searchForm.getText())){
+				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing();
+			}else{
+				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing("description", searchForm.getText(), "");
+			}
+			
 			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
 			
 			String url = requestUtil.getCurrentRequestUrl(request);
@@ -114,6 +120,7 @@ public class SearchController extends AbstractMCommerceController {
 	        }
 			modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
 			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, accountsViewBeanPagedListHolder);
+			modelAndView.addObject(Constants.SEARCH_TEXT, searchForm.getText());
 			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
