@@ -1001,7 +1001,7 @@ public class RequestUtilImpl implements RequestUtil {
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
                         }
-                        setSessionMarketArea(engineEcoSession, marketArea);
+                        setSessionMarketArea(engineEcoSession, newMarketArea);
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE

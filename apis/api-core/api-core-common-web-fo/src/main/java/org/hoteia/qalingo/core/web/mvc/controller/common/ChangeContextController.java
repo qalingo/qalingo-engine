@@ -11,9 +11,11 @@ package org.hoteia.qalingo.core.web.mvc.controller.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
@@ -31,26 +33,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	@RequestMapping(FoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request) throws Exception {
 	    final RequestData requestData = requestUtil.getRequestData(request);
-	    
-        List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add(FoUrls.CHANGE_LANGUAGE_URL);
-        String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
-        
-        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
-        String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");
-        if (lastRequestUri.startsWith("/")) {
-            lastRequestUri = lastRequestUri.substring(1, lastRequestUri.length());
-        }
-        String[] uriSegments = lastRequestUri.toString().split("/");
-        String url = "";
-        if (uriSegments.length > 4) {
-            // SEO URL : Keep the last part
-            for (int i = 5; i < uriSegments.length; i++) {
-                url = url + "/" + uriSegments[i];
-            }
-        }
-        String redirectUrl = urlService.generateUrl(url, true, requestData);
-        
+        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, requestData);
         RedirectView redirectView = new RedirectView(redirectUrl);
         redirectView.setExposeModelAttributes(false);
         return new ModelAndView(redirectView);
@@ -59,11 +42,18 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	@RequestMapping(FoUrls.CHANGE_CONTEXT_URL)
 	public ModelAndView changeContext(final HttpServletRequest request) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        
+        String redirectUrl = urlService.generateUrl(getTargetUrl(requestData), true, requestData);
+        RedirectView redirectView = new RedirectView(redirectUrl);
+        redirectView.setExposeModelAttributes(false);
+        return new ModelAndView(redirectView);
+	}
+	
+	private String getTargetUrl(final RequestData requestData) throws Exception{
+	    final HttpServletRequest request = requestData.getRequest();
+	    final Locale locale = requestData.getLocale();
         List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add(FoUrls.CHANGE_LANGUAGE_URL);
         String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
-        
         final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
         String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");
         if (lastRequestUri.startsWith("/")) {
@@ -71,17 +61,19 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
         }
         String[] uriSegments = lastRequestUri.toString().split("/");
         String url = "";
-        if (uriSegments.length > 4) {
+        int uriSegmentCount = 4;
+        String seoSegmentMain = urlService.getSeoSegmentMain(locale);
+        if(StringUtils.isNotEmpty(seoSegmentMain)){
+            // ALSO REMOVE DEFAULT SEO SEGMENT
+            uriSegmentCount = 5;
+        }
+        if (uriSegments.length > uriSegmentCount) {
             // SEO URL : Keep the last part
-            for (int i = 5; i < uriSegments.length; i++) {
+            int uriSegmentIt = uriSegmentCount + 1;
+            for (int i = uriSegmentIt; i < uriSegments.length; i++) {
                 url = url + "/" + uriSegments[i];
             }
         }
-        String redirectUrl = urlService.generateUrl(url, true, requestData);
-        
-        RedirectView redirectView = new RedirectView(redirectUrl);
-        redirectView.setExposeModelAttributes(false);
-        return new ModelAndView(redirectView);
+        return url;
 	}
-	
 }
