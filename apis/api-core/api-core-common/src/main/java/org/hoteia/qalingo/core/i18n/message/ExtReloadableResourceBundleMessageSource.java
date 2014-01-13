@@ -51,7 +51,7 @@ public class ExtReloadableResourceBundleMessageSource extends ReloadableResource
 	}
 	
 	protected PropertiesHolder getSpecificProperties(String fileNamePattern, Locale locale) {
-		String fileName = "classpath:" + fileNamePattern + "_" + locale.getLanguage();
+		String fileName = "classpath:" + fileNamePattern + "_" + locale.toString();
 		PropertiesHolder propertiesHolder =  getProperties(fileName);
 		if(propertiesHolder == null){
 			fileName = "classpath:" + fileNamePattern;

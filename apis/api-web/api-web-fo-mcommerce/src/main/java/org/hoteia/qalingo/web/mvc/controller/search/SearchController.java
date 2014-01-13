@@ -9,8 +9,14 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.search;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +33,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -96,45 +103,48 @@ public class SearchController extends AbstractMCommerceController {
         String sortBy = request.getParameter(Constants.PAGINATION_SORT_BY);
         String order = request.getParameter(Constants.PAGINATION_ORDER);
 		
+        //TODO: Tri: how use session list
+        
 		try {
 			ProductMarketingResponseBean productMarketingResponseBean = null;
 			if(StringUtils.isEmpty(searchForm.getText())){
 				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing();
 			}else{
-				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing("description", searchForm.getText(), "");
+				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing("businessname", searchForm.getText(), "businessname");
 			}
 			
 			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
 	        
-			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder;
+			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder;
 
 	        if(StringUtils.isEmpty(page)){
-	        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, new PagedListHolder<SearchProductItemViewBean>());
+	        	productsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, new PagedListHolder<SearchProductItemViewBean>());
 	        } else {
-		        accountsViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey);
-		        if (accountsViewBeanPagedListHolder == null) { 
-		        	accountsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, accountsViewBeanPagedListHolder);
+		        productsViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey);
+		        if (productsViewBeanPagedListHolder == null) { 
+		        	productsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, productsViewBeanPagedListHolder);
 		        }
 	        }
 	        
 	        int pageTarget = NumberUtils.toInt(page, 1) - 1;
-	        int pageCurrent = accountsViewBeanPagedListHolder.getPage();
+	        int pageCurrent = productsViewBeanPagedListHolder.getPage();
 	        if (pageCurrent < pageTarget) { 
 	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		accountsViewBeanPagedListHolder.nextPage(); 
+	        		productsViewBeanPagedListHolder.nextPage(); 
 				}
 	        } else if (pageCurrent > pageTarget) { 
 	        	for (int i = pageTarget; i < pageCurrent; i++) {
-		        	accountsViewBeanPagedListHolder.previousPage(); 
+		        	productsViewBeanPagedListHolder.previousPage(); 
 				}
 	        }
 	        
 			modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
-			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, accountsViewBeanPagedListHolder);
+			modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, productsViewBeanPagedListHolder);
 			modelAndView.addObject(Constants.SEARCH_TEXT, searchForm.getText());
-			modelAndView.addObject(Constants.PAGINATION_PAGE_SIZE, accountsViewBeanPagedListHolder.getPageSize());
+			modelAndView.addObject(Constants.PAGINATION_PAGE_SIZE, productsViewBeanPagedListHolder.getPageSize());
 			modelAndView.addObject(Constants.PAGINATION_SORT_BY, sortBy);
 			modelAndView.addObject(Constants.PAGINATION_ORDER, order);
+			modelAndView.addObject("searchResultCatalogCategories", initCatalogCategoryList(productsViewBeanPagedListHolder));
 			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
@@ -165,19 +175,36 @@ public class SearchController extends AbstractMCommerceController {
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request))));
     }
+    
+    private List<CatalogCategoryViewBean> initCatalogCategoryList(PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder){
+    	List<SearchProductItemViewBean> searchProductItems = productsViewBeanPagedListHolder.getPageList();
+    	List<CatalogCategoryViewBean> catalogs = new ArrayList<CatalogCategoryViewBean>();
+    	Map<String, Object> catalogMap = new HashMap<String, Object>();
+    	for (SearchProductItemViewBean searchProductItemViewBean : searchProductItems) {
+			if(!catalogMap.containsKey(searchProductItemViewBean.getCategoryCode())){
+				CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
+				catalogCategoryViewBean.setCode(searchProductItemViewBean.getCategoryCode());
+				catalogCategoryViewBean.setName(searchProductItemViewBean.getCategoryName());
+				catalogs.add(catalogCategoryViewBean);
+				catalogMap.put(searchProductItemViewBean.getCategoryCode(), Boolean.TRUE);
+			}
+		}
+    	
+    	return catalogs;
+    }
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductMarketingResponseBean productMarketingResponseBean,
-			PagedListHolder<SearchProductItemViewBean> accountsViewBeanPagedListHolder) throws Exception{
+			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder) throws Exception{
 		String pageSize = request.getParameter(Constants.PAGINATION_PAGE_SIZE);
 		String sortBy = request.getParameter(Constants.PAGINATION_SORT_BY);
         String order = request.getParameter(Constants.PAGINATION_ORDER);
 		List<SearchProductItemViewBean> searchProductItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean);
-		accountsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
-		accountsViewBeanPagedListHolder.setPageSize(NumberUtils.toInt(pageSize, Constants.PAGINATION_DEFAULT_PAGE_SIZE));
-		accountsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
-		accountsViewBeanPagedListHolder.resort();
+		productsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
+		productsViewBeanPagedListHolder.setPageSize(NumberUtils.toInt(pageSize, Constants.PAGINATION_DEFAULT_PAGE_SIZE));
+		productsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
+		productsViewBeanPagedListHolder.resort();
         request.getSession().setAttribute(sessionKey, searchProductItems);
-        return accountsViewBeanPagedListHolder;
+        return productsViewBeanPagedListHolder;
 	}
 	
 }

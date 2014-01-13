@@ -708,6 +708,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             final MarketArea reloadedMarketArea = marketService.getMarketAreaByCode(marketArea.getCode());
             final Localization defaultLocalization = reloadedMarketArea.getDefaultLocalization();
             final Retailer defaultRetailer = reloadedMarketArea.getDefaultRetailer();
+            final CurrencyReferential defaultCurrency = reloadedMarketArea.getDefaultCurrency();
 
             RequestData requestDataForThisMarketArea = new RequestData();
             BeanUtils.copyProperties(requestData, requestDataForThisMarketArea);
@@ -716,6 +717,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             requestDataForThisMarketArea.setMarketArea(reloadedMarketArea);
             requestDataForThisMarketArea.setMarketAreaLocalization(defaultLocalization);
             requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
+            requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
             
             marketAreaViewBeans.add(buildMarketAreaViewBean(requestDataForThisMarketArea, marketArea));
         }

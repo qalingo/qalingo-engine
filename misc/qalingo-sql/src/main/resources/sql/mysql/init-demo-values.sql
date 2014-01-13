@@ -39,7 +39,8 @@ VALUES
 (1,9),
 (1,10),
 (1,11),
-(1,12);
+(1,12),
+(1,13);
 
 -- password equal "password"
 INSERT INTO tbo_user 
@@ -85,7 +86,8 @@ INSERT INTO teco_catalog_virtual
 (210, 'Virtual Catalog description', 'V_CAT_BRA', 0, 'Virtuel Catalog Brazil', 1, 1),
 (211, 'Virtual Catalog description', 'V_CAT_ARG', 0, 'Virtuel Catalog Argentina', 1, 1),
 (301, 'Virtual Catalog description', 'V_CAT_CHN', 0, 'Virtuel Catalog China', 1, 1),
-(302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1);
+(302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1),
+(303, 'Virtual Catalog description', 'V_CAT_VNM', 0, 'Virtuel Catalog Vietnam', 1, 1);
 
 update teco_catalog_virtual 
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
@@ -147,7 +149,8 @@ INSERT INTO teco_market_area
 (210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 21, 210, 8, 1, 21, '-22.570', '-43.120'),
 (211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 21, 211, 3, 1, 8, '-34.350', '-58.220'),
 (301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 30, 301, 9, 1, 31, '121.280', '31.100'),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450');
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450'),
+(303, 'Market VNM description', 'market area 7 : VNM', 'VNM', null, 0, 1, 30, 303, 13, 1, 154, '10.762622', '106.660172');
 
 /*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
@@ -192,10 +195,11 @@ INSERT INTO teco_market_area_localization_rel
 (201, 1),
 (202, 1),
 (202, 2),
-(210, 9),
+(210, 8),
 (211, 3),
-(301, 7),
-(302, 8);
+(301, 9),
+(302, 7),
+(303, 13);
 
 INSERT INTO teco_market_area_retailer_rel 
 (market_area_id, retailer_id)
@@ -208,7 +212,8 @@ INSERT INTO teco_market_area_retailer_rel
 (210, 1),
 (211, 1),
 (301, 1),
-(302, 1);
+(302, 1),
+(303, 1);
 
 INSERT INTO teco_market_area_currency_rel 
 (market_area_id, currency_id)
@@ -222,7 +227,8 @@ INSERT INTO teco_market_area_currency_rel
 (210, 21),
 (211, 8),
 (301, 31),
-(302, 72);
+(302, 72),
+(303, 154);
 
 -- STORE
 
@@ -328,7 +334,12 @@ INSERT INTO teco_catalog_virtual_category_virtual_rel
 (302, 20),
 (302, 30),
 (302, 40),
-(302, 50);
+(302, 50),
+(303, 10),
+(303, 20),
+(303, 30),
+(303, 40),
+(303, 50);
 
 INSERT INTO teco_catalog_master_category 
 (id, description, code, is_default, business_name, version, default_parent_category_id)

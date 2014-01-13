@@ -26,6 +26,8 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 	private String name;
 	private String code;
 	private String description;
+	private String categoryName;
+	private String categoryCode;
 
 	protected String backgroundImage;
 	protected String carouselImage;
@@ -155,6 +157,22 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 			}
 		}
 		return null;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
 }

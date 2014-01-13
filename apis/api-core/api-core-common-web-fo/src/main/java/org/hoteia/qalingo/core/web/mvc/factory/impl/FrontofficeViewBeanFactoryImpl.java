@@ -189,6 +189,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         searchProductItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
         searchProductItemViewBean.setDescription(productMarketing.getDescription());
         searchProductItemViewBean.setCode(productCode);
+        searchProductItemViewBean.setCategoryName(categoryName);
+        searchProductItemViewBean.setCategoryCode(catalogCategory.getCode());
 
         searchProductItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
