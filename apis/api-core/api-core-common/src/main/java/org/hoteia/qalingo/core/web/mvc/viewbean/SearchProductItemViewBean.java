@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 	protected String iconImage;
 
 	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
-	
+
 	private String addToCartUrl;
 	private String productDetailsUrl;
 
@@ -101,16 +102,16 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 	public void setIconImage(String iconImage) {
 		this.iconImage = iconImage;
 	}
-	
+
 	public void setProductSkus(List<ProductSkuViewBean> productSkus) {
 		this.productSkus = productSkus;
 	}
-	
+
 	public List<ProductSkuViewBean> getProductSkus() {
 		return productSkus;
 	}
-	
-	 public String getPriceWithCurrencySign(){
+
+	public String getPriceWithCurrencySign() {
 		if (productSkus != null) {
 			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
 					.hasNext();) {
@@ -127,6 +128,29 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 				if (productSkuViewBean != null
 						&& productSkuViewBean.getPriceWithCurrencySign() != null) {
 					return productSkuViewBean.getPriceWithCurrencySign();
+				}
+			}
+		}
+		return null;
+	}
+
+	public BigDecimal getPrice() {
+		if (productSkus != null) {
+			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
+					.hasNext();) {
+				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
+						.next();
+				if (productSkuViewBean.isDefault()) {
+					if (productSkuViewBean.getPriceWithCurrencySign() != null) {
+						return new BigDecimal(productSkuViewBean.getSalePrice());
+					}
+				}
+			}
+			if (!productSkus.isEmpty()) {
+				ProductSkuViewBean productSkuViewBean = productSkus.get(0);
+				if (productSkuViewBean != null
+						&& productSkuViewBean.getPriceWithCurrencySign() != null) {
+					return new BigDecimal(productSkuViewBean.getSalePrice());
 				}
 			}
 		}
