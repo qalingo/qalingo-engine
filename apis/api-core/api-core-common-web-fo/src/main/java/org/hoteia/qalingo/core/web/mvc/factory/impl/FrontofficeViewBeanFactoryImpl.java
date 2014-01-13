@@ -15,12 +15,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -29,6 +31,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -156,7 +159,10 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         List<ProductMarketingSolr> productMarketings = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
-            searchProductItems.add(buildSearchProductItemViewBean(requestData, productMarketingSolr));
+            SearchProductItemViewBean searchProductItemViewBean = buildSearchProductItemViewBean(requestData, productMarketingSolr);
+            if(searchProductItemViewBean != null){
+            	searchProductItems.add(searchProductItemViewBean);
+            }
         }
         return searchProductItems;
     }
@@ -169,19 +175,22 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
 
-        final String productSkuCode = productMarketingSolr.getCode();
-        final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
-        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
+        final String productCode = productMarketingSolr.getCode();
+        final ProductMarketing productMarketing = productService.getProductMarketingByCode(productCode);
+        final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
+        final String productSkuName = productSku.getI18nName(localeCode);
+        
         final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
 
         final String productName = productMarketing.getCode();
         final String categoryName = catalogCategory.getI18nName(localeCode);
-        final String productSkuName = productMarketing.getDefaultProductSku().getI18nName(localeCode);
 
         final SearchProductItemViewBean searchProductItemViewBean = new SearchProductItemViewBean();
         searchProductItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
         searchProductItemViewBean.setDescription(productMarketing.getDescription());
-        searchProductItemViewBean.setCode(productSkuCode);
+        searchProductItemViewBean.setCode(productCode);
+        searchProductItemViewBean.setCategoryName(categoryName);
+        searchProductItemViewBean.setCategoryCode(catalogCategory.getCode());
 
         searchProductItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
@@ -189,6 +198,39 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
 
         searchProductItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        
+        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+        if (defaultBackgroundImage != null) {
+            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultBackgroundImage);
+            searchProductItemViewBean.setBackgroundImage(backgroundImage);
+        } else {
+        	searchProductItemViewBean.setBackgroundImage("");
+        }
+        
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            final String carouselImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultPaskshotImage);
+            searchProductItemViewBean.setCarouselImage(carouselImage);
+        } else {
+        	searchProductItemViewBean.setCarouselImage("");
+        }
+        
+        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            final String iconImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultIconImage);
+            searchProductItemViewBean.setIconImage(iconImage);
+        } else {
+        	searchProductItemViewBean.setIconImage("");
+        }
+        
+        Set<ProductSku> skus = productMarketing.getProductSkus();
+        if (skus != null) {
+            for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
+                final ProductSku productSkuTmp = (ProductSku) iterator.next();
+                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuTmp.getCode());
+                searchProductItemViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+            }
+        }
 
         return searchProductItemViewBean;
     }
