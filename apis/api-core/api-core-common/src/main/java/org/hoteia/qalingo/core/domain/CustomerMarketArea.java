@@ -208,11 +208,8 @@ public class CustomerMarketArea extends AbstractEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((fax == null) ? 0 : fax.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-        result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
-        result = prime * result + ((phone == null) ? 0 : phone.hashCode());
         return result;
     }
 
@@ -230,11 +227,6 @@ public class CustomerMarketArea extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (fax == null) {
-            if (other.fax != null)
-                return false;
-        } else if (!fax.equals(other.fax))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -244,16 +236,6 @@ public class CustomerMarketArea extends AbstractEntity {
             if (other.marketAreaId != null)
                 return false;
         } else if (!marketAreaId.equals(other.marketAreaId))
-            return false;
-        if (mobile == null) {
-            if (other.mobile != null)
-                return false;
-        } else if (!mobile.equals(other.mobile))
-            return false;
-        if (phone == null) {
-            if (other.phone != null)
-                return false;
-        } else if (!phone.equals(other.phone))
             return false;
         return true;
     }

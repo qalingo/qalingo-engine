@@ -143,8 +143,6 @@ public class BatchProcessObject extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + processedCount;
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((typeObject == null) ? 0 : typeObject.hashCode());
         return result;
     }
@@ -167,13 +165,6 @@ public class BatchProcessObject extends AbstractEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (processedCount != other.processedCount)
-            return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
             return false;
         if (typeObject != other.typeObject)
             return false;

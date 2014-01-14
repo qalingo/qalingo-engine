@@ -196,7 +196,6 @@ public class Menu extends AbstractEntity {
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -223,11 +222,6 @@ public class Menu extends AbstractEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
             return false;
         return true;
     }

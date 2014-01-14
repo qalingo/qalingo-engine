@@ -150,15 +150,10 @@ public class CustomerPaymentInformation extends AbstractAddress {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((cardCVV == null) ? 0 : cardCVV.hashCode());
-        result = prime * result + ((cardExpMonth == null) ? 0 : cardExpMonth.hashCode());
-        result = prime * result + ((cardExpYear == null) ? 0 : cardExpYear.hashCode());
-        result = prime * result + ((cardHolderName == null) ? 0 : cardHolderName.hashCode());
         result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
         result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((paymentType == null) ? 0 : paymentType.hashCode());
         return result;
     }
 
@@ -210,11 +205,6 @@ public class CustomerPaymentInformation extends AbstractAddress {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (paymentType == null) {
-            if (other.paymentType != null)
-                return false;
-        } else if (!paymentType.equals(other.paymentType))
             return false;
         return true;
     }

@@ -227,19 +227,8 @@ public class MarketAttribute extends AbstractAttribute {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(blobValue);
-        result = prime * result + ((booleanValue == null) ? 0 : booleanValue.hashCode());
-        result = prime * result + ((context == null) ? 0 : context.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((doubleValue == null) ? 0 : doubleValue.hashCode());
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result + ((floatValue == null) ? 0 : floatValue.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((integerValue == null) ? 0 : integerValue.hashCode());
-        result = prime * result + ((marketId == null) ? 0 : marketId.hashCode());
-        result = prime * result + ((ordering == null) ? 0 : ordering.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result + ((stringValue == null) ? 0 : stringValue.hashCode());
         return result;
     }
 
@@ -252,67 +241,15 @@ public class MarketAttribute extends AbstractAttribute {
         if (getClass() != obj.getClass())
             return false;
         MarketAttribute other = (MarketAttribute) obj;
-        if (!Arrays.equals(blobValue, other.blobValue))
-            return false;
-        if (booleanValue == null) {
-            if (other.booleanValue != null)
-                return false;
-        } else if (!booleanValue.equals(other.booleanValue))
-            return false;
-        if (context == null) {
-            if (other.context != null)
-                return false;
-        } else if (!context.equals(other.context))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (doubleValue == null) {
-            if (other.doubleValue != null)
-                return false;
-        } else if (!doubleValue.equals(other.doubleValue))
-            return false;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        } else if (!endDate.equals(other.endDate))
-            return false;
-        if (floatValue == null) {
-            if (other.floatValue != null)
-                return false;
-        } else if (!floatValue.equals(other.floatValue))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (integerValue == null) {
-            if (other.integerValue != null)
-                return false;
-        } else if (!integerValue.equals(other.integerValue))
-            return false;
-        if (marketId == null) {
-            if (other.marketId != null)
-                return false;
-        } else if (!marketId.equals(other.marketId))
-            return false;
-        if (ordering == null) {
-            if (other.ordering != null)
-                return false;
-        } else if (!ordering.equals(other.ordering))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        } else if (!startDate.equals(other.startDate))
-            return false;
-        if (stringValue == null) {
-            if (other.stringValue != null)
-                return false;
-        } else if (!stringValue.equals(other.stringValue))
             return false;
         return true;
     }

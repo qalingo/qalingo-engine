@@ -234,9 +234,6 @@ public class Market extends AbstractEntity {
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isDefault ? 1231 : 1237);
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((theme == null) ? 0 : theme.hashCode());
         return result;
     }
 
@@ -264,18 +261,6 @@ public class Market extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (isDefault != other.isDefault)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (theme == null) {
-            if (other.theme != null)
-                return false;
-        } else if (!theme.equals(other.theme))
-            return false;
         return true;
     }
 
@@ -284,6 +269,5 @@ public class Market extends AbstractEntity {
         return "Market [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", theme=" + theme + ", dateCreate="
                 + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
-
 
 }

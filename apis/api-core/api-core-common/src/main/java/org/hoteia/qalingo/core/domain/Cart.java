@@ -306,7 +306,6 @@ public class Cart extends AbstractEntity {
         result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
         result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
         result = prime * result + ((shippingAddressId == null) ? 0 : shippingAddressId.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
         return result;
     }
 
@@ -353,11 +352,6 @@ public class Cart extends AbstractEntity {
             if (other.shippingAddressId != null)
                 return false;
         } else if (!shippingAddressId.equals(other.shippingAddressId))
-            return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
             return false;
         return true;
     }

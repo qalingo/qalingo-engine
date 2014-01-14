@@ -230,18 +230,7 @@ public class Asset extends AbstractEntity {
         int result = 1;
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((fileSize == null) ? 0 : fileSize.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isDefault ? 1231 : 1237);
-        result = prime * result + (isGlobal ? 1231 : 1237);
-        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ordering;
-        result = prime * result + ((path == null) ? 0 : path.hashCode());
-        result = prime * result + ((scope == null) ? 0 : scope.hashCode());
-        result = prime * result + ((size == null) ? 0 : size.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -264,47 +253,10 @@ public class Asset extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (fileSize == null) {
-            if (other.fileSize != null)
-                return false;
-        } else if (!fileSize.equals(other.fileSize))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (isDefault != other.isDefault)
-            return false;
-        if (isGlobal != other.isGlobal)
-            return false;
-        if (marketAreaId == null) {
-            if (other.marketAreaId != null)
-                return false;
-        } else if (!marketAreaId.equals(other.marketAreaId))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (ordering != other.ordering)
-            return false;
-        if (path == null) {
-            if (other.path != null)
-                return false;
-        } else if (!path.equals(other.path))
-            return false;
-        if (scope != other.scope)
-            return false;
-        if (size != other.size)
-            return false;
-        if (type != other.type)
             return false;
         return true;
     }

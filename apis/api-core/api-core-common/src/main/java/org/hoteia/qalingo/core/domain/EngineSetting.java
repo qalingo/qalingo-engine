@@ -165,9 +165,7 @@ public class EngineSetting extends AbstractEntity {
         int result = 1;
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -190,20 +188,10 @@ public class EngineSetting extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (defaultValue == null) {
-            if (other.defaultValue != null)
-                return false;
-        } else if (!defaultValue.equals(other.defaultValue))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
             return false;
         return true;
     }

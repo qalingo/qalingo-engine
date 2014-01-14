@@ -120,10 +120,6 @@ public class CustomerCredential extends AbstractAddress {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((resetProcessedDate == null) ? 0 : resetProcessedDate.hashCode());
-        result = prime * result + ((resetToken == null) ? 0 : resetToken.hashCode());
-        result = prime * result + ((tokenTimestamp == null) ? 0 : tokenTimestamp.hashCode());
         return result;
     }
 
@@ -145,26 +141,6 @@ public class CustomerCredential extends AbstractAddress {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (resetProcessedDate == null) {
-            if (other.resetProcessedDate != null)
-                return false;
-        } else if (!resetProcessedDate.equals(other.resetProcessedDate))
-            return false;
-        if (resetToken == null) {
-            if (other.resetToken != null)
-                return false;
-        } else if (!resetToken.equals(other.resetToken))
-            return false;
-        if (tokenTimestamp == null) {
-            if (other.tokenTimestamp != null)
-                return false;
-        } else if (!tokenTimestamp.equals(other.tokenTimestamp))
             return false;
         return true;
     }

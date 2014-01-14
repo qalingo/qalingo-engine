@@ -158,12 +158,9 @@ public class CatalogMaster extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isDefault ? 1231 : 1237);
         return result;
     }
 
@@ -176,11 +173,6 @@ public class CatalogMaster extends AbstractEntity {
         if (getClass() != obj.getClass())
             return false;
         CatalogMaster other = (CatalogMaster) obj;
-        if (businessName == null) {
-            if (other.businessName != null)
-                return false;
-        } else if (!businessName.equals(other.businessName))
-            return false;
         if (code == null) {
             if (other.code != null)
                 return false;
@@ -191,17 +183,10 @@ public class CatalogMaster extends AbstractEntity {
                 return false;
         } else if (!dateCreate.equals(other.dateCreate))
             return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (isDefault != other.isDefault)
             return false;
         return true;
     }

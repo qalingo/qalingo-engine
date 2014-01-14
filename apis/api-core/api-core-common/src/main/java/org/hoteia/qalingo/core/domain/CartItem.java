@@ -204,7 +204,6 @@ public class CartItem extends AbstractEntity {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((productMarketingCode == null) ? 0 : productMarketingCode.hashCode());
         result = prime * result + ((productSkuCode == null) ? 0 : productSkuCode.hashCode());
-        result = prime * result + quantity;
         return result;
     }
 
@@ -236,8 +235,6 @@ public class CartItem extends AbstractEntity {
             if (other.productSkuCode != null)
                 return false;
         } else if (!productSkuCode.equals(other.productSkuCode))
-            return false;
-        if (quantity != other.quantity)
             return false;
         return true;
     }

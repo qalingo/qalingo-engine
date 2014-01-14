@@ -459,11 +459,6 @@ public class MarketArea extends AbstractEntity {
         result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isDefault ? 1231 : 1237);
-        result = prime * result + (isEcommerce ? 1231 : 1237);
-        result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
-        result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -490,25 +485,6 @@ public class MarketArea extends AbstractEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (isDefault != other.isDefault)
-            return false;
-        if (isEcommerce != other.isEcommerce)
-            return false;
-        if (latitude == null) {
-            if (other.latitude != null)
-                return false;
-        } else if (!latitude.equals(other.latitude))
-            return false;
-        if (longitude == null) {
-            if (other.longitude != null)
-                return false;
-        } else if (!longitude.equals(other.longitude))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
             return false;
         return true;
     }

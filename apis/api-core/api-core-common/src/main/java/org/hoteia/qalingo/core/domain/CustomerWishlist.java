@@ -122,7 +122,6 @@ public class CustomerWishlist extends AbstractEntity {
         result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + position;
         result = prime * result + ((productSkuCode == null) ? 0 : productSkuCode.hashCode());
         return result;
     }
@@ -150,8 +149,6 @@ public class CustomerWishlist extends AbstractEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (position != other.position)
             return false;
         if (productSkuCode == null) {
             if (other.productSkuCode != null)

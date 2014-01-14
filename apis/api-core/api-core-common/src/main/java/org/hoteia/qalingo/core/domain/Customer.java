@@ -600,36 +600,9 @@ public class Customer extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (active ? 1231 : 1237);
-        result = prime * result + ((addresses == null) ? 0 : addresses.hashCode());
-        result = prime * result + (anonymous ? 1231 : 1237);
-        result = prime * result + ((avatarImg == null) ? 0 : avatarImg.hashCode());
         result = prime * result + ((code == null) ? 0 : code.hashCode());
-        result = prime * result + ((connectionLogs == null) ? 0 : connectionLogs.hashCode());
-        result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
-        result = prime * result + ((customerAttributes == null) ? 0 : customerAttributes.hashCode());
-        result = prime * result + ((customerGroups == null) ? 0 : customerGroups.hashCode());
-        result = prime * result + ((customerMarketAreas == null) ? 0 : customerMarketAreas.hashCode());
-        result = prime * result + ((customerOrderAudit == null) ? 0 : customerOrderAudit.hashCode());
-        result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
-        result = prime * result + ((defaultBillingAddressId == null) ? 0 : defaultBillingAddressId.hashCode());
-        result = prime * result + ((defaultLocale == null) ? 0 : defaultLocale.hashCode());
-        result = prime * result + ((defaultShippingAddressId == null) ? 0 : defaultShippingAddressId.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-        result = prime * result + ((gender == null) ? 0 : gender.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
-        result = prime * result + ((networkOrigin == null) ? 0 : networkOrigin.hashCode());
-        result = prime * result + ((oauthAccesses == null) ? 0 : oauthAccesses.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((paymentInformations == null) ? 0 : paymentInformations.hashCode());
-        result = prime * result + ((permalink == null) ? 0 : permalink.hashCode());
-        result = prime * result + ((platformOrigin == null) ? 0 : platformOrigin.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + (validated ? 1231 : 1237);
-        result = prime * result + ((validationToken == null) ? 0 : validationToken.hashCode());
         return result;
     }
 
@@ -642,140 +615,20 @@ public class Customer extends AbstractEntity {
         if (getClass() != obj.getClass())
             return false;
         Customer other = (Customer) obj;
-        if (active != other.active)
-            return false;
-        if (addresses == null) {
-            if (other.addresses != null)
-                return false;
-        } else if (!addresses.equals(other.addresses))
-            return false;
-        if (anonymous != other.anonymous)
-            return false;
-        if (avatarImg == null) {
-            if (other.avatarImg != null)
-                return false;
-        } else if (!avatarImg.equals(other.avatarImg))
-            return false;
         if (code == null) {
             if (other.code != null)
                 return false;
         } else if (!code.equals(other.code))
-            return false;
-        if (connectionLogs == null) {
-            if (other.connectionLogs != null)
-                return false;
-        } else if (!connectionLogs.equals(other.connectionLogs))
-            return false;
-        if (credentials == null) {
-            if (other.credentials != null)
-                return false;
-        } else if (!credentials.equals(other.credentials))
-            return false;
-        if (customerAttributes == null) {
-            if (other.customerAttributes != null)
-                return false;
-        } else if (!customerAttributes.equals(other.customerAttributes))
-            return false;
-        if (customerGroups == null) {
-            if (other.customerGroups != null)
-                return false;
-        } else if (!customerGroups.equals(other.customerGroups))
-            return false;
-        if (customerMarketAreas == null) {
-            if (other.customerMarketAreas != null)
-                return false;
-        } else if (!customerMarketAreas.equals(other.customerMarketAreas))
-            return false;
-        if (customerOrderAudit == null) {
-            if (other.customerOrderAudit != null)
-                return false;
-        } else if (!customerOrderAudit.equals(other.customerOrderAudit))
-            return false;
-        if (dateCreate == null) {
-            if (other.dateCreate != null)
-                return false;
-        } else if (!dateCreate.equals(other.dateCreate))
-            return false;
-        if (defaultBillingAddressId == null) {
-            if (other.defaultBillingAddressId != null)
-                return false;
-        } else if (!defaultBillingAddressId.equals(other.defaultBillingAddressId))
-            return false;
-        if (defaultLocale == null) {
-            if (other.defaultLocale != null)
-                return false;
-        } else if (!defaultLocale.equals(other.defaultLocale))
-            return false;
-        if (defaultShippingAddressId == null) {
-            if (other.defaultShippingAddressId != null)
-                return false;
-        } else if (!defaultShippingAddressId.equals(other.defaultShippingAddressId))
             return false;
         if (email == null) {
             if (other.email != null)
                 return false;
         } else if (!email.equals(other.email))
             return false;
-        if (firstname == null) {
-            if (other.firstname != null)
-                return false;
-        } else if (!firstname.equals(other.firstname))
-            return false;
-        if (gender == null) {
-            if (other.gender != null)
-                return false;
-        } else if (!gender.equals(other.gender))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (lastname == null) {
-            if (other.lastname != null)
-                return false;
-        } else if (!lastname.equals(other.lastname))
-            return false;
-        if (login == null) {
-            if (other.login != null)
-                return false;
-        } else if (!login.equals(other.login))
-            return false;
-        if (networkOrigin != other.networkOrigin)
-            return false;
-        if (oauthAccesses == null) {
-            if (other.oauthAccesses != null)
-                return false;
-        } else if (!oauthAccesses.equals(other.oauthAccesses))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (paymentInformations == null) {
-            if (other.paymentInformations != null)
-                return false;
-        } else if (!paymentInformations.equals(other.paymentInformations))
-            return false;
-        if (permalink == null) {
-            if (other.permalink != null)
-                return false;
-        } else if (!permalink.equals(other.permalink))
-            return false;
-        if (platformOrigin != other.platformOrigin)
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        if (validated != other.validated)
-            return false;
-        if (validationToken == null) {
-            if (other.validationToken != null)
-                return false;
-        } else if (!validationToken.equals(other.validationToken))
             return false;
         return true;
     }

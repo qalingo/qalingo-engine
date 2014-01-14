@@ -111,7 +111,6 @@ public class CustomerOptin extends AbstractEntity {
         result = prime * result + ((customerMarketAreaId == null) ? 0 : customerMarketAreaId.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((origin == null) ? 0 : origin.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
@@ -139,11 +138,6 @@ public class CustomerOptin extends AbstractEntity {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (origin == null) {
-            if (other.origin != null)
-                return false;
-        } else if (!origin.equals(other.origin))
             return false;
         if (type == null) {
             if (other.type != null)
