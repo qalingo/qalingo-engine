@@ -34,6 +34,7 @@ import javax.persistence.Version;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_STORE", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
@@ -233,7 +234,7 @@ public class Store extends AbstractEntity {
 
     public List<Asset> getAssetsIsGlobal() {
         List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        if (assets != null && assets.size() > 0) {
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && asset.isGlobal()) {
@@ -246,7 +247,7 @@ public class Store extends AbstractEntity {
 
     public List<Asset> getAssetsByMarketArea() {
         List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        if (assets != null && assets.size() > 0) {
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && !asset.isGlobal()) {
@@ -374,6 +375,70 @@ public class Store extends AbstractEntity {
     public String getI18nCity(Localization localization) {
         return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY, null, localization.getCode());
     }
+    
+ // ASSET
+ 	public Asset getDefaultPackshotImage(String size) {
+ 		Asset defaultStoreImage = null;
+ 		if(getAssetsIsGlobal() != null
+ 				&& size != null){
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeAsset = (Asset) iterator.next();
+ 				if(AssetType.PACKSHOT.equals(storeAsset.getType())
+ 						&& size.equals(storeAsset.getSize().name())
+ 						&& storeAsset.isDefault()){
+ 					defaultStoreImage = storeAsset;
+ 				}
+ 			}
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.PACKSHOT.equals(storeImage.getType())
+ 						&& size.equals(storeImage.getSize().name())){
+ 					defaultStoreImage = storeImage;
+ 				}
+ 			}
+ 		}
+ 		return defaultStoreImage;
+ 	}
+ 	
+ 	public Asset getDefaultBackgroundImage() {
+ 		Asset defaultStoreImage = null;
+ 		if(getAssetsIsGlobal() != null){
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.BACKGROUND.equals(storeImage.getType())
+ 						&& storeImage.isDefault()){
+ 					defaultStoreImage = storeImage;
+ 				}
+ 			}
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.BACKGROUND.equals(storeImage.getType())){
+ 					defaultStoreImage = storeImage;
+ 				}
+ 			}
+ 		}
+ 		return defaultStoreImage;
+ 	}
+ 	
+ 	public Asset getDefaultIconImage() {
+ 		Asset defaultStoreImage = null;
+ 		if(getAssetsIsGlobal() != null){
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.ICON.equals(storeImage.getType())
+ 						&& storeImage.isDefault()){
+ 					defaultStoreImage = storeImage;
+ 				}
+ 			}
+ 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.ICON.equals(storeImage.getType())){
+ 					defaultStoreImage = storeImage;
+ 				}
+ 			}
+ 		}
+ 		return defaultStoreImage;
+ 	}
 
     @Override
     public int hashCode() {
