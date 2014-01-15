@@ -20,17 +20,35 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 
 	private String code;
 	private String businessName;
-    private String address1;
-    private String address2;
-    private String addressAdditionalInformation;
-    private String postalCode;
-    private String city;
-    private String stateCode;
-    private String areaCode;
-    private String countryCode;
-    private String country;
+	private String address1;
+	private String address2;
+	private String addressAdditionalInformation;
+	private String postalCode;
+	private String city;
+	private String stateCode;
+	private String areaCode;
+	private String countryCode;
+	private String country;
 	private String longitude;
 	private String latitude;
+	private String defaultImage;
+	private String iconImage;
+
+	public String getDefaultImage() {
+		return defaultImage;
+	}
+
+	public void setDefaultImage(String defaultImage) {
+		this.defaultImage = defaultImage;
+	}
+
+	public String getIconImage() {
+		return iconImage;
+	}
+
+	public void setIconImage(String iconImage) {
+		this.iconImage = iconImage;
+	}
 
 	public String getCode() {
 		return code;
@@ -68,7 +86,8 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 		return addressAdditionalInformation;
 	}
 
-	public void setAddressAdditionalInformation(String addressAdditionalInformation) {
+	public void setAddressAdditionalInformation(
+			String addressAdditionalInformation) {
 		this.addressAdditionalInformation = addressAdditionalInformation;
 	}
 
@@ -89,21 +108,21 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 	}
 
 	public String getStateCode() {
-	    return stateCode;
-    }
-	
+		return stateCode;
+	}
+
 	public void setStateCode(String stateCode) {
-	    this.stateCode = stateCode;
-    }
+		this.stateCode = stateCode;
+	}
 
 	public String getAreaCode() {
-	    return areaCode;
-    }
-	
+		return areaCode;
+	}
+
 	public void setAreaCode(String areaCode) {
-	    this.areaCode = areaCode;
-    }
-	
+		this.areaCode = areaCode;
+	}
+
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -135,5 +154,5 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
-	
+
 }
