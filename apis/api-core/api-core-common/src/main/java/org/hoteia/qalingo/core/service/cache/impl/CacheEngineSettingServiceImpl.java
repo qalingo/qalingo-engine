@@ -19,79 +19,84 @@ import org.hoteia.qalingo.core.web.cache.util.WebElementType;
 
 public class CacheEngineSettingServiceImpl extends EngineSettingServiceImpl {
 
-	@Resource(name="engineSettingCacheHelper")
+    @Resource(name = "engineSettingCacheHelper")
     protected CommonCacheHelper engineSettingCacheHelper;
-	
-	@Override
-	public EngineSetting getEngineSettingByCode(final String code) {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = code;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getEngineSettingByCode(code);
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
-	@Override
-	public EngineSetting getAssetCatalogFilePath() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getAssetCatalogFilePath();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
-	@Override
-	public EngineSetting getAssetProductMarketingFilePath() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getAssetProductMarketingFilePath();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
-	@Override
-	public EngineSetting getAssetPoductSkuFilePath() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getAssetPoductSkuFilePath();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
-	@Override
-	public EngineSetting getThemeResourcePrefixPath() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.getThemeResourcePrefixPath();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
 
-	@Override
-	public EngineSetting withEscapeAccent() {
-		final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
-		final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL;
-		EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
-		if(engineSetting == null){
-			engineSetting = super.withEscapeAccent();
-			engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
-		}
-		return engineSetting;
-	}
-	
+    public EngineSetting getEngineSettingByCode(final String code) {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = code;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getEngineSettingByCode(code);
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting getAssetCatalogFilePath() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getAssetCatalogFilePath();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting getAssetProductMarketingFilePath() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getAssetProductMarketingFilePath();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting getAssetPoductSkuFilePath() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getAssetPoductSkuFilePath();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting getAssetRetailerAndStoreFilePath() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_ASSET_RETAILER_STORE_FILE_PATH;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getAssetRetailerAndStoreFilePath();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting getThemeResourcePrefixPath() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.getThemeResourcePrefixPath();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
+    public EngineSetting withEscapeAccent() {
+        final WebElementType engineSettingElementType = WebElementType.ENGINE_SETTING;
+        final String engineSettingCacheKey = EngineSettingService.ENGINE_SETTING_ESCAPE_ACCENT_FROM_URL;
+        EngineSetting engineSetting = (EngineSetting) engineSettingCacheHelper.getFromCache(engineSettingElementType, engineSettingCacheKey);
+        if (engineSetting == null) {
+            engineSetting = super.withEscapeAccent();
+            engineSettingCacheHelper.addToCache(engineSettingElementType, engineSettingCacheKey, engineSetting);
+        }
+        return engineSetting;
+    }
+
 }

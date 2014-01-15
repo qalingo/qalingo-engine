@@ -46,7 +46,6 @@ public class StoreLocationController extends AbstractMCommerceController {
 		modelAndView.addObject("storeLocator", storeLocator);
 		modelAndView.addObject("storeFilter", storeFilter);
 		
-		
         return modelAndView;
 	}
  

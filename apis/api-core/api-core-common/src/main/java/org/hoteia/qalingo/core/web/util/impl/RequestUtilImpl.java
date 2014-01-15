@@ -436,6 +436,22 @@ public class RequestUtilImpl implements RequestUtil {
         }
         return productSkuImageWebPath;
     }
+    
+    /**
+     * 
+     */
+    public String getRetailerOrStoreImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+        EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String storeImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getScope().name().toLowerCase() + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        if (storeImageWebPath.endsWith("/")) {
+            storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
+        }
+        return storeImageWebPath;
+    }
 
     /**
      * 

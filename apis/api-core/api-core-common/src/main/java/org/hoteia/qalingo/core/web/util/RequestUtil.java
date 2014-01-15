@@ -190,7 +190,7 @@ public interface RequestUtil {
     /**
      * 
      */
-    void deleteCurrentCartAndSaveEngineSession(final HttpServletRequest request) throws Exception;
+    void deleteCurrentCartAndSaveEngineSession(HttpServletRequest request) throws Exception;
     
     /**
      * 
@@ -287,6 +287,11 @@ public interface RequestUtil {
      */
     String getProductSkuImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
 
+    /**
+     * 
+     */
+    String getRetailerOrStoreImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+    
     /**
      * 
      */

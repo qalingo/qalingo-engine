@@ -246,6 +246,14 @@ VALUES
 (20, null, null, null, null, null, 'Paris en i18n', 20, 510, 'en', null),
 (21, null, null, null, null, null, 'Paris fr i18n', 20, 510, 'fr', null);
 
+INSERT INTO teco_asset  
+(id, description, code, path, is_default, name, version, type, size, is_global, store_id, scope)
+ VALUES 
+(1001, 'image ...', 'IMG_STORE10_', 'store-1-img.png', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
+(1002, 'image ...', 'ICON_STORE10', 'store-1-icon.png', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
+(1011, 'image ...', 'IMG_STORE20_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
+(1012, 'image ...', 'ICON_STORE20', 'store-1-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE');
+
 -- PRODUCT
 
 INSERT INTO teco_product_brand 

@@ -891,21 +891,20 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         storeLocator.setLongitude(store.getLongitude());
         storeLocator.setLatitude(store.getLatitude());
         
-//        TODO: Denis: please check the assets mapping
-//        final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
-//        if (defaultPackshotImage != null) {
-//            final String defaultImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultPackshotImage);
-//            storeLocator.setDefaultImage(defaultImage);
-//        } else {
-//        	storeLocator.setDefaultImage("");
-//        }
-//        final Asset defaultIconImage = store.getDefaultIconImage();
-//        if (defaultIconImage != null) {
-//            final String iconImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultIconImage);
-//            storeLocator.setIconImage(iconImage);
-//        } else {
-//        	storeLocator.setIconImage("");
-//        }
+        final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            final String defaultImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultPackshotImage);
+            storeLocator.setDefaultImage(defaultImage);
+        } else {
+            storeLocator.setDefaultImage("");
+        }
+        final Asset defaultIconImage = store.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultIconImage);
+            storeLocator.setIconImage(iconImage);
+        } else {
+            storeLocator.setIconImage("");
+        }
 
         return storeLocator;
     }

@@ -37,7 +37,12 @@ public enum AssetScope {
 	/**
 	 * 
 	 */
-	RETAILER("RETAILER");
+	RETAILER("RETAILER"),
+	
+    /**
+     * 
+     */
+    STORE("STORE");
 	
 	private String propertyKey = "";
 

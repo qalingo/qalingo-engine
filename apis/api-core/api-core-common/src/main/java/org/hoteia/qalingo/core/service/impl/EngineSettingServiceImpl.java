@@ -129,6 +129,10 @@ public class EngineSettingServiceImpl implements EngineSettingService {
     public EngineSetting getAssetPoductSkuFilePath() {
         return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH);
     }
+    
+    public EngineSetting getAssetRetailerAndStoreFilePath() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_ASSET_RETAILER_STORE_FILE_PATH);
+    }
 
     public EngineSetting getThemeResourcePrefixPath() {
         return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH);

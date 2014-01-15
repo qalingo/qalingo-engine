@@ -26,6 +26,7 @@ public interface EngineSettingService {
 	public final String ENGINE_SETTING_CODE_ASSET_CATALOG_FILE_PATH				= "ASSET_CATALOG_FILE_PATH";
 	public final String ENGINE_SETTING_CODE_ASSET_PRODUCT_MARKETING_FILE_PATH	= "ASSET_PRODUCT_MARKETING_FILE_PATH";
 	public final String ENGINE_SETTING_CODE_ASSET_PROPDUCT_SKU_FILE_PATH		= "ASSET_PROPDUCT_SKU_FILE_PATH";
+    public final String ENGINE_SETTING_CODE_ASSET_RETAILER_STORE_FILE_PATH      = "ASSET_RETAILER_STORE_FILE_PATH";
 
 	public final String ENGINE_SETTING_CODE_THEME_RESOURCE_PREFIX_PATH	= "THEME_RESOURCE_PREFIX_PATH";
 	public final String WEB_CACHE_ELEMENT_TIME_TO_LIVE					= "WEB_CACHE_ELEMENT_TIME_TO_LIVE";
@@ -125,6 +126,8 @@ public interface EngineSettingService {
     EngineSetting getAssetProductMarketingFilePath();
 
     EngineSetting getAssetPoductSkuFilePath();
+
+    EngineSetting getAssetRetailerAndStoreFilePath();
 
     EngineSetting getThemeResourcePrefixPath();
 

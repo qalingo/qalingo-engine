@@ -305,6 +305,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
     
     private void addDefaultStoreFetch(Criteria criteria) {
         criteria.setFetchMode("storeAttributes", FetchMode.JOIN); 
+        criteria.setFetchMode("assets", FetchMode.JOIN); 
     }
 
 }

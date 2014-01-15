@@ -333,47 +333,45 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	return catalogBreadCumViewBean;
     }
     
-    @Override
-    public StoreLocatorFilterBean buildStoreLocatorFilterBean(
-    		StoreLocatorViewBean storeLocatorViewBean) {
-    	
-    	List<StoreViewBean> stores = storeLocatorViewBean.getStores();
-    	
-    	StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
-    	
-    	Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();
-    	Map<String, StoreLocatorCityFilterBean> cityFilterMap = new HashMap<String, StoreLocatorCityFilterBean>();
-    	
-    	for (StoreViewBean store : stores) {
-			String country = store.getCountry();
-			String city = store.getCity();
-			StoreLocatorCountryFilterBean countryFilter = null;
-			StoreLocatorCityFilterBean cityFilter = null;
-			
-			if(countryFilterMap.containsKey(country)){
-				countryFilter = countryFilterMap.get(country);
-			}else{
-				countryFilter = new StoreLocatorCountryFilterBean();
-				countryFilter.setCode(country);
-				filter.addCountry(countryFilter);
-				//TODO: set i18nName
-				countryFilterMap.put(country, countryFilter);
-			}
-			
-			if(cityFilterMap.containsKey(city)){
-				cityFilter = cityFilterMap.get(city);
-			}else{
-				cityFilter = new StoreLocatorCityFilterBean();
-				cityFilter.setName(city);
-				countryFilter.addCity(cityFilter);
-				//TODO: set code?
-				cityFilterMap.put(city, cityFilter);
-			}
-			
-			cityFilter.addStore(store);
-		}
-    	
-    	return filter;
+    /**
+     * 
+     */
+    public StoreLocatorFilterBean buildStoreLocatorFilterBean(final StoreLocatorViewBean storeLocatorViewBean) {
+        final List<StoreViewBean> stores = storeLocatorViewBean.getStores();
+        final StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
+
+        Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();
+        Map<String, StoreLocatorCityFilterBean> cityFilterMap = new HashMap<String, StoreLocatorCityFilterBean>();
+
+        for (StoreViewBean store : stores) {
+            String country = store.getCountry();
+            String city = store.getCity();
+            StoreLocatorCountryFilterBean countryFilter = null;
+            StoreLocatorCityFilterBean cityFilter = null;
+
+            if (countryFilterMap.containsKey(country)) {
+                countryFilter = countryFilterMap.get(country);
+            } else {
+                countryFilter = new StoreLocatorCountryFilterBean();
+                countryFilter.setCode(country);
+                filter.addCountry(countryFilter);
+                // TODO: set i18nName
+                countryFilterMap.put(country, countryFilter);
+            }
+
+            if (cityFilterMap.containsKey(city)) {
+                cityFilter = cityFilterMap.get(city);
+            } else {
+                cityFilter = new StoreLocatorCityFilterBean();
+                cityFilter.setName(city);
+                countryFilter.addCity(cityFilter);
+                // TODO: set code?
+                cityFilterMap.put(city, cityFilter);
+            }
+
+            cityFilter.addStore(store);
+        }
+        return filter;
     }
 
 }
