@@ -12,7 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
-import org.hoteia.qalingo.core.jms.document.producer.DoucmentMessageJms;
+import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
+import org.hoteia.qalingo.core.jms.document.producer.GenerationDocumentMessageJms;
 import org.hoteia.qalingo.core.mapper.XmlMapper;
 import org.hoteia.qalingo.core.service.DocumentService;
 import org.hoteia.qalingo.core.service.OrderCustomerService;
@@ -43,10 +44,20 @@ public class DocumentQueueListener implements MessageListener, ExceptionListener
                 String valueJMSMessage = tm.getText();
                 
                 if(StringUtils.isNotEmpty(valueJMSMessage)){
-                    final DoucmentMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, DoucmentMessageJms.class);
+                    final GenerationDocumentMessageJms doucmentMessageJms = xmlMapper.getXmlMapper().readValue(valueJMSMessage, GenerationDocumentMessageJms.class);
                     
                     final OrderCustomer order = orderCustomerService.getOrderById(doucmentMessageJms.getOrderId());
-                    documentService.generateOrderConfirmation(order);
+                    
+                    if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey())){
+                        documentService.generateOrderConfirmation(order);
+                        
+                    } else if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey())){
+                        documentService.generateShippingConfirmation(order);
+                        
+                    } else if(doucmentMessageJms.getDocumentType().equals(OrderDocumentType.INVOICE.getPropertyKey())){
+                        documentService.generateInvoice(order);
+                        
+                    }
                     
                     if (logger.isDebugEnabled()) {
                         logger.debug("Processed message, value: " + valueJMSMessage);

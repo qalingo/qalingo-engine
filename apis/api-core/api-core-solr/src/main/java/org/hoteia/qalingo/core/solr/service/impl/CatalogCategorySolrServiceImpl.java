@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CatalogCategorySolr;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.hoteia.qalingo.core.solr.service.CatalogCategorySolrService;
@@ -43,7 +44,7 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.CategorySolrService#addOrUpdateCategory(fr.hoteia.qalingo.core.domain.CatalogCategoryMaster)
 	 */
-	public void addOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategoryMaster) throws SolrServerException, IOException {
+	public void addOrUpdateCatalogCategory(final CatalogCategoryMaster catalogCategoryMaster, final MarketArea marketArea) throws SolrServerException, IOException {
         if (catalogCategoryMaster.getId() == null) {
             throw new IllegalArgumentException("Id cannot be blank or null.");
         }

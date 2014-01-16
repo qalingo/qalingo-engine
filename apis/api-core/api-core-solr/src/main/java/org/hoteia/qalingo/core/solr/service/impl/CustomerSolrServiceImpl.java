@@ -15,13 +15,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrRequest;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.bean.CustomerSolr;
 import org.hoteia.qalingo.core.solr.response.CustomerResponseBean;
 import org.hoteia.qalingo.core.solr.service.CustomerSolrService;
@@ -43,7 +44,7 @@ public class CustomerSolrServiceImpl extends AbstractSolrService implements Cust
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.CustomerSolrService#addOrUpdateCustomer(fr.hoteia.qalingo.core.domain.Customer)
 	 */
-    public void addOrUpdateCustomer(Customer customer) throws SolrServerException, IOException, IllegalArgumentException {
+    public void addOrUpdateCustomer(final Customer customer, final MarketArea marketArea) throws SolrServerException, IOException, IllegalArgumentException {
         if (customer.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }

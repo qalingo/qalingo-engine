@@ -15,12 +15,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrRequest;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
@@ -43,7 +44,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#addOrUpdateStore(fr.hoteia.qalingo.core.domain.Store)
 	 */
-    public void addOrUpdateStore(Store store) throws SolrServerException, IOException {
+    public void addOrUpdateStore(final Store store, final MarketArea marketArea) throws SolrServerException, IOException {
         if (store.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }

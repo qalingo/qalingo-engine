@@ -25,6 +25,8 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -90,12 +92,13 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         }
         orderCustomer.setDateUpdate(new Date());
         if (orderCustomer.getId() == null) {
-            createNewOrderWithCorrectOrderNumber(orderCustomer);
+            orderCustomer = createNewOrderWithCorrectOrderNumber(orderCustomer);
         }
         return orderCustomer;
     }
 
-    private OrderCustomer createNewOrderWithCorrectOrderNumber(OrderCustomer orderCustomer) {
+    private OrderCustomer createNewOrderWithCorrectOrderNumber(final OrderCustomer orderCustomer) {
+        OrderCustomer mergedOrSavedOrderCustomer = null;
         try {
             Session session = (Session) em.getDelegate();
             String hql = "FROM OrderNumber";
@@ -107,7 +110,17 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
             orderCustomer.setPrefixHashFolder(UUID.randomUUID().toString());
             orderCustomer.setOrderNum("" + newLastOrderNumber);
 
-            orderCustomer = em.merge(orderCustomer);
+            if (orderCustomer.getId() != null) {
+                if (em.contains(orderCustomer)) {
+                    em.refresh(orderCustomer);
+                }
+                mergedOrSavedOrderCustomer = em.merge(orderCustomer);
+                em.flush();
+                return orderCustomer;
+            } else {
+                em.persist(orderCustomer);
+                mergedOrSavedOrderCustomer = orderCustomer;
+            }
 
             hql = "UPDATE OrderNumber SET lastOrderNumber = :newLastOrderNumber WHERE lastOrderNumber = :previousLastOrderNumber";
             query = session.createQuery(hql);
@@ -117,7 +130,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 
             if (rowCount == 0) {
                 em.getTransaction().rollback();
-                createNewOrderWithCorrectOrderNumber(orderCustomer);
+                mergedOrSavedOrderCustomer = createNewOrderWithCorrectOrderNumber(orderCustomer);
             }
 
         } catch (RollbackException e) {
@@ -125,7 +138,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         } catch (Exception e) {
             logger.error("Failed to create a new Order with a specific OrderNumber increment", e);
         }
-        return orderCustomer;
+        return mergedOrSavedOrderCustomer;
     }
 
     public OrderCustomer saveOrUpdateOrder(OrderCustomer orderCustomer) {

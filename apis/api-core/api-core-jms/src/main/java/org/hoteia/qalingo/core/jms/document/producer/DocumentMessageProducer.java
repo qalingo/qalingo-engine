@@ -33,7 +33,7 @@ public class DocumentMessageProducer {
      * Generates JMS messages
      * 
      */
-    public void generateAndSendMessages(final DoucmentMessageJms doucmentMessageJms) {
+    public void generateAndSendMessages(final GenerationDocumentMessageJms doucmentMessageJms) {
         try {
             final String valueJMSMessage = xmlMapper.getXmlMapper().writeValueAsString(doucmentMessageJms);
 

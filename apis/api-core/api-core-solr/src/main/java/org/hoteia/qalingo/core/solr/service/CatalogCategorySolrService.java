@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 
 public interface CatalogCategorySolrService {
@@ -24,7 +25,7 @@ public interface CatalogCategorySolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void addOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategoryMaster) throws SolrServerException, IOException;
+	void addOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategoryMaster, MarketArea marketArea) throws SolrServerException, IOException;
 	
 	/**
 	 * Search category.

@@ -35,6 +35,9 @@ public class ProductMarketingSolr {
     @Field
 	private String defaultProductSkuCode;
 
+    @Field
+    private String price;
+    
     @Field("datecreate")
 	private Date dateCreate;
 
@@ -96,6 +99,14 @@ public class ProductMarketingSolr {
 	public void setDefaultProductSkuCode(String defaultProductSkuCode) {
 		this.defaultProductSkuCode = defaultProductSkuCode;
 	}
+	
+	public String getPrice() {
+        return price;
+    }
+	
+	public void setPrice(String price) {
+        this.price = price;
+    }
 
 	public Date getDateCreate() {
 		return dateCreate;

@@ -3,9 +3,11 @@ package org.hoteia.qalingo.core.solr;
 import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,20 +32,30 @@ public class StoreSolrServiceTest {
     
     protected StoreResponseBean responseBean;
 
-	/**
-	 * Test Case to check: if required field is blank of null (i.e. id here)
-	 */
-    @Test(expected = IllegalArgumentException.class)
-    public void testIndexDataWithBlankID() throws SolrServerException, IOException {
+    private MarketArea marketArea;
+    
+    @Before
+    public void setUp() throws Exception {
+        marketArea = new MarketArea();
+        marketArea.setId(new Long("1"));
+        
         store = new Store();
-        // store.setId(Long.parseLong("31"));
+        store.setId(Long.parseLong("1"));
         store.setBusinessName("development");
         store.setAreaCode("Area-21");
         store.setCity("pune");
         store.setCountryCode("IND");
         store.setPostalCode("411014");
         store.setType("retailer");
-        storeSolrService.addOrUpdateStore(store);
+    }
+    
+	/**
+	 * Test Case to check: if required field is blank of null (i.e. id here)
+	 */
+    @Test(expected = IllegalArgumentException.class)
+    public void testIndexDataWithBlankID() throws SolrServerException, IOException {
+        store.setId(null);
+        storeSolrService.addOrUpdateStore(store, marketArea);
     }
 
 	/**
@@ -52,15 +64,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataSecond()");
-        store = new Store();
-        store.setId(Long.parseLong("31"));
-        store.setBusinessName("development");
-        store.setAreaCode("Area-21");
-        store.setCity("pune");
-        store.setCountryCode("IND");
-        store.setPostalCode("411014");
-        store.setType("retailer");
-        storeSolrService.addOrUpdateStore(store);
+        storeSolrService.addOrUpdateStore(store, marketArea);
 
     }
 

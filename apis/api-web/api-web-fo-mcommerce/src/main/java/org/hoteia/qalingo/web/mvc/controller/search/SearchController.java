@@ -10,24 +10,21 @@
 package org.hoteia.qalingo.web.mvc.controller.search;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -160,17 +157,19 @@ public class SearchController extends AbstractMCommerceController {
     @RequestMapping(value = "/**/search-load-index.html", method = RequestMethod.GET)
     public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
 
         List<ProductMarketing> products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate301");
         for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing);
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
         }
 
         products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate302");
         for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing);
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing,  marketArea, retailer);
         }
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request))));

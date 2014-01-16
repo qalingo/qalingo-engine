@@ -7,8 +7,10 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.enumtype.OrderDocumentType;
+import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.hoteia.qalingo.core.jms.document.producer.DocumentMessageProducer;
-import org.hoteia.qalingo.core.jms.document.producer.DoucmentMessageJms;
+import org.hoteia.qalingo.core.jms.document.producer.GenerationDocumentMessageJms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -43,19 +45,28 @@ public class DocumentGeneratorAspect {
         try {
             final OrderCustomer order = (OrderCustomer) result;
             
-            final DoucmentMessageJms doucmentMessageJms = new DoucmentMessageJms();
-            doucmentMessageJms.setEnvironmentName(environmentName);
-            doucmentMessageJms.setEnvironmentId(environmentId);
-            doucmentMessageJms.setApplicationName(applicationName);
-            doucmentMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
-            doucmentMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
+            final GenerationDocumentMessageJms generationDocumentMessageJms = new GenerationDocumentMessageJms();
+            generationDocumentMessageJms.setEnvironmentName(environmentName);
+            generationDocumentMessageJms.setEnvironmentId(environmentId);
+            generationDocumentMessageJms.setApplicationName(applicationName);
+            generationDocumentMessageJms.setServerName(InetAddress.getLocalHost().getHostName());
+            generationDocumentMessageJms.setServerIp(InetAddress.getLocalHost().getHostAddress());
             if(order != null){
-                doucmentMessageJms.setOrderId(order.getId());
-                doucmentMessageJms.setDocumentType("OrderConfirmation");
+                generationDocumentMessageJms.setOrderId(order.getId());
+                if(order.getStatus().equals(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey())){
+                    generationDocumentMessageJms.setDocumentType(OrderDocumentType.ORDER_CONFIRMATION.getPropertyKey());
+
+                } else if(order.getStatus().equals(OrderStatus.ORDER_STATUS_SENDED.getPropertyKey())){
+                    generationDocumentMessageJms.setDocumentType(OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey());
+                    
+                }  else if(order.getStatus().equals(OrderStatus.ORDER_STATUS_CHARGED.getPropertyKey())){
+                    generationDocumentMessageJms.setDocumentType(OrderDocumentType.SHIPPING_CONFIRMATION.getPropertyKey());
+                    
+                }
+                
+                // Generate and send the JMS message
+                documentMessageProducer.generateAndSendMessages(generationDocumentMessageJms);
             }
-            
-            // Generate and send the JMS message
-            documentMessageProducer.generateAndSendMessages(doucmentMessageJms);
             
         } catch (Exception e) {
             logger.error("DocumentGeneratorAspect Target Object error: " + e);

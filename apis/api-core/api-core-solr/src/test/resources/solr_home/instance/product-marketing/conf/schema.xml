@@ -25,7 +25,6 @@
 		<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
 		<fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
 		<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
-		
 		<fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
 			<analyzer type="index">
 				<tokenizer class="solr.StandardTokenizerFactory" />
@@ -39,6 +38,16 @@
 				<filter class="solr.LowerCaseFilterFactory" />
 			</analyzer>
 		</fieldType>
+		<fieldtype name="priceclass" class="solr.TextField">
+			<analyzer>
+				<tokenizer class="solr.KeywordTokenizerFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^([0-9]{0,2})([\.,][0-9]{1,2})?$" replacement="0 - 99" replace="all" />
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^(1[0-9][0-9]|2[0-4][0-9]|)([\.,][0-9]{1,2})?$" replacement="100 - 249" replace="all" />
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^(2[5-9][0-9]|[3-4][0-9][0-9])([\.,][0-9]{1,2})?$" replacement="250 - 499" replace="all" />
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^([5-9][0-9][0-9])([\.,][0-9]{1,2})?$" replacement="500 - 999" replace="all" />
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^([0-9]{4,5})([\.,][0-9]{1,2})?$" replacement="999 -" replace="all" />
+			</analyzer>
+		</fieldtype> 
 	</types>
 
 	<fields>   
@@ -51,6 +60,8 @@
 		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
 		<field name="datecreate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
 		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
+		<field name="price"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
+		<field name="price_s"		type="priceclass"	indexed="true"  stored="true"  multiValued="false" />
    </fields>
 
 	<!-- field to use to determine and enforce document uniqueness. -->
@@ -59,9 +70,10 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
-	<copyField source="businessname" dest="text" />
-	<copyField source="description" dest="text" />
-	<copyField source="code" dest="text" />
+	<copyField source="businessname"	dest="text" />
+	<copyField source="description"		dest="text" />
+	<copyField source="code"			dest="text" />
+	<copyField source="price"			dest="price_s" />
    
 	<!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
 	<solrQueryParser defaultOperator="OR" />

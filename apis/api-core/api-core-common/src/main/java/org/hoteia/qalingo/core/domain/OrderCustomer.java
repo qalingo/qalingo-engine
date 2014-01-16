@@ -40,11 +40,6 @@ public class OrderCustomer extends AbstractEntity {
 	 * Generated UID
 	 */
     private static final long serialVersionUID = -3979521859173438793L;
-
-    public static final String ORDER_STATUS_PENDING = "PENDING";
-    public static final String ORDER_STATUS_SENDED  = "SENDED";
-    public static final String ORDER_STATUS_ERROR   = "ERROR";
-    public static final String ORDER_STATUS_CANCEL  = "CANCEL";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

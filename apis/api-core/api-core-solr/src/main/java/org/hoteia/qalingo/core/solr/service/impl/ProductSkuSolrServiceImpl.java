@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.solr.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +22,10 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductSkuSolrService;
@@ -43,7 +47,7 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.ProductSkuSolrService#addOrUpdateProductSku(fr.hoteia.qalingo.core.domain.ProductSku)
 	 */
-    public void addOrUpdateProductSku(ProductSku productSku) throws SolrServerException, IOException {
+    public void addOrUpdateProductSku(final ProductSku productSku, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productSku.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
@@ -58,6 +62,11 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
         productSkuSolr.setBusinessname(productSku.getBusinessName());
         productSkuSolr.setDescription(productSku.getDescription());
         productSkuSolr.setCode(productSku.getCode());
+        ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+        if(productSkuPrice != null){
+            BigDecimal salePrice = productSkuPrice.getSalePrice();
+            productSkuSolr.setPrice(salePrice.toString());
+        }
         productSkuSolrServer.addBean(productSkuSolr);
         productSkuSolrServer.commit();
     }

@@ -29,19 +29,14 @@ public class ProductSkuSolr {
     @Field
     private String businessname;
 
+    @Field
+    private String price;
+    
     @Field("datecreate")
     private Date dateCreate;
 
     @Field("dateupdate")
     private Date dateUpdate;
-
-    public String getBusinessname() {
-        return businessname;
-    }
-
-    public void setBusinessname(String businessname) {
-        this.businessname = businessname;
-    }
 
     public Long getId() {
         return id;
@@ -75,6 +70,22 @@ public class ProductSkuSolr {
         this.code = code;
     }
 
+    public String getBusinessname() {
+        return businessname;
+    }
+
+    public void setBusinessname(String businessname) {
+        this.businessname = businessname;
+    }
+    
+    public String getPrice() {
+        return price;
+    }
+    
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }

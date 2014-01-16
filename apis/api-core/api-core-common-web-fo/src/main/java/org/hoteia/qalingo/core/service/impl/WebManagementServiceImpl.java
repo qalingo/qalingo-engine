@@ -45,6 +45,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerForgottenPasswordEmailBean;
 import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
@@ -694,7 +695,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         OrderCustomer orderCustomer = new OrderCustomer();
         // ORDER NUMBER IS CREATE BY DAO
         
-        orderCustomer.setStatus(OrderCustomer.ORDER_STATUS_PENDING);
+        orderCustomer.setStatus(OrderStatus.ORDER_STATUS_PENDING.getPropertyKey());
 
         orderCustomer.setCurrency(cart.getCurrency());
         orderCustomer.setMarketAreaId(cart.getMarketAreaId());

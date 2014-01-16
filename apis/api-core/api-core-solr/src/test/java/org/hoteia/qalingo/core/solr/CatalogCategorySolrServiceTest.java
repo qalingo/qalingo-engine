@@ -5,8 +5,10 @@ import java.util.Date;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.response.CatalogCategoryResponseBean;
 import org.hoteia.qalingo.core.solr.service.CatalogCategorySolrService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -31,19 +33,29 @@ public class CatalogCategorySolrServiceTest {
     
 	protected CatalogCategoryResponseBean responseBean;
 
+    private MarketArea marketArea;
+    
+    @Before
+    public void setUp() throws Exception {
+        marketArea = new MarketArea();
+        marketArea.setId(new Long("1"));
+        
+        catalogCategoryMaster = new CatalogCategoryMaster();
+        catalogCategoryMaster.setId(Long.parseLong("80"));
+        catalogCategoryMaster.setCode("xyz123");
+        catalogCategoryMaster.setBusinessName("Development");
+        catalogCategoryMaster.setDateCreate(new Date());
+        catalogCategoryMaster.setDateUpdate(new Date());
+    }
+    
 	/**
 	 * Test Case to check if required field is blank of null (i.e. id here)
 	 */ 
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankId() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataFirst()");
-        catalogCategoryMaster = new CatalogCategoryMaster();
-        catalogCategoryMaster.setBusinessName("Development");
-        catalogCategoryMaster.setCode("abc123");
-        // productCategory.setId(Long.parseLong("71"));
-        catalogCategoryMaster.setDateCreate(new Date());
-        catalogCategoryMaster.setDateUpdate(new Date());
-        catalogCategorySolrService.addOrUpdateCatalogCategory(catalogCategoryMaster);
+        catalogCategoryMaster.setId(null);
+        catalogCategorySolrService.addOrUpdateCatalogCategory(catalogCategoryMaster, marketArea);
     }
 	
 	/**
@@ -52,13 +64,7 @@ public class CatalogCategorySolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataFirst()");
-        catalogCategoryMaster = new CatalogCategoryMaster();
-        catalogCategoryMaster.setBusinessName("Development");
-        catalogCategoryMaster.setCode("xyz123");
-        catalogCategoryMaster.setId(Long.parseLong("80"));
-        catalogCategoryMaster.setDateCreate(new Date());
-        catalogCategoryMaster.setDateUpdate(new Date());
-        catalogCategorySolrService.addOrUpdateCatalogCategory(catalogCategoryMaster);
+        catalogCategorySolrService.addOrUpdateCatalogCategory(catalogCategoryMaster, marketArea);
     }
 
 	/**

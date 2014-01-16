@@ -4,7 +4,7 @@ import org.hoteia.qalingo.core.jms.cacheserveurmanagement.listener.AbstractMessa
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-public class DoucmentMessageJms extends AbstractMessageJms {
+public class GenerationDocumentMessageJms extends AbstractMessageJms {
 
     @JacksonXmlProperty(localName="orderId")
     private Long orderId;

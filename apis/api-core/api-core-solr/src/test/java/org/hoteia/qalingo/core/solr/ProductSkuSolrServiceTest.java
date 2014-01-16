@@ -1,11 +1,16 @@
 package org.hoteia.qalingo.core.solr;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductSkuSolrService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,16 +35,38 @@ public class ProductSkuSolrServiceTest {
 
 	protected ProductSkuResponseBean responseBean;
 
+    private MarketArea marketArea;
+    private Retailer retailer;
+    
+    @Before
+    public void setUp() throws Exception {
+        marketArea = new MarketArea();
+        marketArea.setId(new Long("1"));
+        
+        retailer = new Retailer();
+        retailer.setId(new Long("1"));
+        
+        productSku = new ProductSku();
+        productSku.setId(new Long("1"));
+        productSku.setDefault(true);
+        productSku.setBusinessName("Product Sku");
+        productSku.setDescription("Product Sku ...");
+        productSku.setCode("productSku");
+        ProductSkuPrice productSkuPrice = new ProductSkuPrice();
+        productSkuPrice.setId(new Long("1"));
+        productSkuPrice.setMarketAreaId(new Long("1"));
+        productSkuPrice.setRetailerId(new Long("1"));
+        productSkuPrice.setSalePrice(new BigDecimal("2"));
+        productSku.getPrices().add(productSkuPrice);
+    }
+    
     /**
      * Test Case to check: if required field is blank of null (i.e. id here)
      */
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
-        productSku = new ProductSku();
-        productSku.setBusinessName("Product Sku");
-        productSku.setDescription("Product Sku ...");
-        productSku.setCode("productSku");
-        productSkuSolrService.addOrUpdateProductSku(productSku);
+        productSku.setId(null);
+        productSkuSolrService.addOrUpdateProductSku(productSku, marketArea, retailer);
         logger.debug("--------------->testFirstIndexData()");
     }
     
@@ -54,7 +81,7 @@ public class ProductSkuSolrServiceTest {
         productSku.setBusinessName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
-        productSkuSolrService.addOrUpdateProductSku(productSku);
+        productSkuSolrService.addOrUpdateProductSku(productSku, marketArea, retailer);
     }
     
 	/**

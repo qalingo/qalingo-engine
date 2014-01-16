@@ -12,7 +12,9 @@ package org.hoteia.qalingo.core.solr.service;
 import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 
 public interface ProductMarketingSolrService {
@@ -24,7 +26,7 @@ public interface ProductMarketingSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void addOrUpdateProductMarketing(ProductMarketing productMarketing) throws SolrServerException, IOException;
+	void addOrUpdateProductMarketing(ProductMarketing productMarketing, MarketArea marketArea, Retailer retailer) throws SolrServerException, IOException;
 	
 	/**
 	 * Search product.

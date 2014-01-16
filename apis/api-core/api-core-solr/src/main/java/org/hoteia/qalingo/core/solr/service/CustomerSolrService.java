@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.response.CustomerResponseBean;
 
 public interface CustomerSolrService {
@@ -24,7 +25,7 @@ public interface CustomerSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void addOrUpdateCustomer(Customer customer) throws SolrServerException, IOException;
+	void addOrUpdateCustomer(Customer customer, MarketArea marketArea) throws SolrServerException, IOException;
 	
 	/**
 	 * Search customer.

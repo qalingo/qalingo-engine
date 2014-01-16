@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.solr.response.CustomerResponseBean;
 import org.hoteia.qalingo.core.solr.service.CustomerSolrService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,19 +32,29 @@ public class CustomerSolrServiceTest {
 
     protected CustomerResponseBean responseBean;
 
+    private MarketArea marketArea;
+    
+    @Before
+    public void setUp() throws Exception {
+        marketArea = new MarketArea();
+        marketArea.setId(new Long("1"));
+        
+        customer = new Customer();
+        customer.setId(Long.parseLong("21"));
+        customer.setFirstname("vivek");
+        customer.setEmail("vivek@gmail.com");
+        customer.setGender("mail");
+        customer.setTitle("customer details");
+    }
+    
     /**
      * Test Case to check: if required field is blank of null (i.e. id here)
      */
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataFirst()");
-        customer = new Customer();
-        // customer.setId(Long.parseLong("21"));
-        customer.setFirstname("vivek");
-        customer.setEmail("vivek@gmail.com");
-        customer.setGender("mail");
-        customer.setTitle("customer details");
-        customerSolrService.addOrUpdateCustomer(customer);
+        customer.setId(null);
+        customerSolrService.addOrUpdateCustomer(customer, marketArea);
     }
 
     /**
@@ -51,13 +63,7 @@ public class CustomerSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexDataSecond()");
-        customer = new Customer();
-        customer.setId(Long.parseLong("21"));
-        customer.setFirstname("vivek");
-        customer.setEmail("vivek@gmail.com");
-        customer.setGender("mail");
-        customer.setTitle("customer details");
-        customerSolrService.addOrUpdateCustomer(customer);
+        customerSolrService.addOrUpdateCustomer(customer, marketArea);
     }
 
     /**
