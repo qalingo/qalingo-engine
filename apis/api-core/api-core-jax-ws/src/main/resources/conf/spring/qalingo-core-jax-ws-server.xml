@@ -26,7 +26,6 @@
 	<context:component-scan base-package="org.hoteia.qalingo.core.ws.service" />
 	
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<jaxws:endpoint id="customerWebServiceEndpoint"
