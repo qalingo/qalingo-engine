@@ -7,28 +7,33 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.domain.enumtype;
+package org.hoteia.qalingo.core.i18n.enumtype;
 
 /**
  * 
  */
-public enum OrderDocumentType {
+public enum ScopeDocumentMessage {
 
 	/**
 	 * 
 	 */
-    ORDER_CONFIRMATION("order-confirmation"),
-	
-	/**
-	 * 
-	 */
-    SHIPPING_CONFIRMATION("shipping-confirmation"),
+	COMMON("common"),
 	
     /**
      * 
      */
+    ORDER_CONFIRMATION("order_confirmation"),
+    
+    /**
+     * 
+     */
+    SHIPPING_CONFIRMATION("shipping_confirmation"),
+    
+    /**
+     * 
+     */
     INVOICE("invoice");
-    	
+	
 	private String propertyKey = "";
 
 	/**
@@ -36,7 +41,7 @@ public enum OrderDocumentType {
 	 * 
 	 * @param propertyKey the property key.
 	 */
-	OrderDocumentType(final String propertyKey) {
+	ScopeDocumentMessage(final String propertyKey) {
 		this.propertyKey = propertyKey;
 	}
 
@@ -48,4 +53,5 @@ public enum OrderDocumentType {
 	public String getPropertyKey() {
 		return this.propertyKey;
 	}
+	
 }

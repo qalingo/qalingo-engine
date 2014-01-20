@@ -14,43 +14,49 @@ package org.hoteia.qalingo.core.i18n.enumtype;
  */
 public enum I18nKeyValueUniverse {
 
-	/**
+    /**
 	 * 
 	 */
-	COMMON("common"),
-	
-	/**
-	 * 
-	 */
-	EMAIL("email"),
-	
-	/**
-	 * 
-	 */
-	BO("bo"),
-	
-	/**
-	 * 
-	 */
-	FO("fo");
-	
-	private String propertyKey = "";
+    COMMON("common"),
 
-	/**
-	 * Constructor.
+    /**
 	 * 
-	 * @param propertyKey the property key.
 	 */
-	I18nKeyValueUniverse(final String propertyKey) {
-		this.propertyKey = propertyKey;
-	}
+    EMAIL("email"),
 
-	/**
-	 * Get the localization property key.
+    /**
+     * 
+     */
+    DOCUMENT("document"),
+
+    /**
 	 * 
-	 * @return the localized property key
 	 */
-	public String getPropertyKey() {
-		return this.propertyKey;
-	}
+    BO("bo"),
+
+    /**
+	 * 
+	 */
+    FO("fo");
+
+    private String propertyKey = "";
+
+    /**
+     * Constructor.
+     * 
+     * @param propertyKey
+     *            the property key.
+     */
+    I18nKeyValueUniverse(final String propertyKey) {
+        this.propertyKey = propertyKey;
+    }
+
+    /**
+     * Get the localization property key.
+     * 
+     * @return the localized property key
+     */
+    public String getPropertyKey() {
+        return this.propertyKey;
+    }
 }

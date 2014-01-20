@@ -700,6 +700,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         orderCustomer.setCurrency(cart.getCurrency());
         orderCustomer.setMarketAreaId(cart.getMarketAreaId());
         orderCustomer.setRetailerId(cart.getRetailerId());
+        orderCustomer.setLocalizationId(cart.getLocalizationId());
         orderCustomer.setCustomerId(customer.getId());
         
         OrderAddress billingAddress = new OrderAddress();

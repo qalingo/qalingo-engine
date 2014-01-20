@@ -284,19 +284,19 @@ VALUES
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(401, 'Default Order Confirmation template setting', 'Default Order Confirmation template setting', 'DEFAULT_ORDER_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/order-confirmation.jrxml', 1);
+(401, 'Default Order Confirmation template setting', 'Default Order Confirmation template setting', 'DEFAULT_ORDER_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/order-confirmation/order-confirmation.jrxml', 1);
 
 -- Default shipping Confirmation template setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(402, 'Default shipping Confirmation template setting', 'Default shipping Confirmation template setting', 'DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/shipping-confirmation.jrxml', 1);
+(402, 'Default shipping Confirmation template setting', 'Default shipping Confirmation template setting', 'DEFAULT_SHIPPING_CONFIRMATION_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/shipping-confirmation/shipping-confirmation.jrxml', 1);
 
 -- Default Invoice template setting
 INSERT INTO teco_engine_setting 
 (id, name, description, code, default_value, version)
 VALUES 
-(403, 'Default Invoice template setting', 'Default Invoice template setting', 'DEFAULT_INVOICE_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/invoice.jrxml', 1);
+(403, 'Default Invoice template setting', 'Default Invoice template setting', 'DEFAULT_INVOICE_TEMPLATE', '/home/tomcat/qalingo/datas/template/default/invoice/invoice.jrxml', 1);
 
 -- Save Email file mirroring setting
 INSERT INTO teco_engine_setting 

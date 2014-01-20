@@ -25,8 +25,6 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductSku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -92,12 +90,12 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         }
         orderCustomer.setDateUpdate(new Date());
         if (orderCustomer.getId() == null) {
-            orderCustomer = createNewOrderWithCorrectOrderNumber(orderCustomer);
+            orderCustomer = createNewOrderWithRightOrderNumber(orderCustomer);
         }
         return orderCustomer;
     }
 
-    private OrderCustomer createNewOrderWithCorrectOrderNumber(final OrderCustomer orderCustomer) {
+    private OrderCustomer createNewOrderWithRightOrderNumber(final OrderCustomer orderCustomer) {
         OrderCustomer mergedOrSavedOrderCustomer = null;
         try {
             Session session = (Session) em.getDelegate();
@@ -110,17 +108,18 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
             orderCustomer.setPrefixHashFolder(UUID.randomUUID().toString());
             orderCustomer.setOrderNum("" + newLastOrderNumber);
 
-            if (orderCustomer.getId() != null) {
-                if (em.contains(orderCustomer)) {
-                    em.refresh(orderCustomer);
-                }
-                mergedOrSavedOrderCustomer = em.merge(orderCustomer);
-                em.flush();
-                return orderCustomer;
-            } else {
-                em.persist(orderCustomer);
-                mergedOrSavedOrderCustomer = orderCustomer;
-            }
+//            if (orderCustomer.getId() != null) {
+//                if (em.contains(orderCustomer)) {
+//                    em.refresh(orderCustomer);
+//                }
+//                mergedOrSavedOrderCustomer = em.merge(orderCustomer);
+//                em.flush();
+//                return orderCustomer;
+//            } else {
+//                em.persist(orderCustomer);
+//                mergedOrSavedOrderCustomer = orderCustomer;
+//            }
+            mergedOrSavedOrderCustomer = em.merge(orderCustomer);
 
             hql = "UPDATE OrderNumber SET lastOrderNumber = :newLastOrderNumber WHERE lastOrderNumber = :previousLastOrderNumber";
             query = session.createQuery(hql);
@@ -130,7 +129,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 
             if (rowCount == 0) {
                 em.getTransaction().rollback();
-                mergedOrSavedOrderCustomer = createNewOrderWithCorrectOrderNumber(orderCustomer);
+                mergedOrSavedOrderCustomer = createNewOrderWithRightOrderNumber(orderCustomer);
             }
 
         } catch (RollbackException e) {
@@ -146,17 +145,24 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
             orderCustomer.setDateCreate(new Date());
         }
         orderCustomer.setDateUpdate(new Date());
-        if (orderCustomer.getId() != null) {
-            if(em.contains(orderCustomer)){
-                em.refresh(orderCustomer);
-            }
-            OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
-            em.flush();
-            return mergedOrderCustomer;
-        } else {
-            em.persist(orderCustomer);
-            return orderCustomer;
+//        if (orderCustomer.getId() != null) {
+//            if(em.contains(orderCustomer)){
+//                em.refresh(orderCustomer);
+//            }
+//            OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
+//            em.flush();
+//            return mergedOrderCustomer;
+//        } else {
+//            em.persist(orderCustomer);
+//            return orderCustomer;
+//        }
+        
+        if (em.contains(orderCustomer)) {
+            em.refresh(orderCustomer);
         }
+        OrderCustomer mergedOrderCustomer = em.merge(orderCustomer);
+        em.flush();
+        return mergedOrderCustomer;
     }
 
     public void deleteOrder(OrderCustomer orderCustomer) {
@@ -164,11 +170,23 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     }
 
     private void addDefaultFetch(Criteria criteria) {
+        criteria.setFetchMode("billingAddress", FetchMode.JOIN);
+        criteria.setFetchMode("shippingAddress", FetchMode.JOIN);
+
         criteria.setFetchMode("orderPayments", FetchMode.JOIN);
         criteria.setFetchMode("orderShipments", FetchMode.JOIN);
 
         criteria.createAlias("orderShipments.orderItems", "orderItems", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("orderItems", FetchMode.JOIN);
+
+        criteria.createAlias("orderShipments.orderItems.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSku", FetchMode.JOIN);
+        
+        criteria.createAlias("orderShipments.orderItems.productSku.productSkuAttributes", "productSkuAttributes", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN);
+
+        criteria.createAlias("orderShipments.orderItems.productSku.assets", "assets", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("assets", FetchMode.JOIN);
 
         criteria.createAlias("orderShipments.orderItems.orderTaxes", "orderTaxes", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("orderTaxes", FetchMode.JOIN);

@@ -16,8 +16,12 @@ public interface DocumentService {
 
     // ORDER CONFIRMATION CONFIRMATION
 
-    String getOrderConfirmationWebPath(OrderCustomer order);
+    String getOrderConfirmationFilePath(OrderCustomer order);
     
+    String getOrderConfirmationWebPath(OrderCustomer order);
+
+    String buildOrderConfirmationFileName(OrderCustomer order);
+
     void generateOrderConfirmation(OrderCustomer order);
 
     String getOrderConfirmationTemplateByMarketArea(MarketArea marketArea);
@@ -25,8 +29,12 @@ public interface DocumentService {
     String getDefaultOrderConfirmationTemplate();
     
     // SHIPPING CONFIRMATION
-    
+
+    String getShippingConfirmationFilePath(OrderCustomer order);
+
     String getShippingConfirmationWebPath(OrderCustomer order);
+
+    String buildShippingConfirmationFileName(OrderCustomer order);
 
     void generateShippingConfirmation(OrderCustomer order);
     
@@ -36,7 +44,11 @@ public interface DocumentService {
     
     // INVOICE
     
+    String getInvoiceFilePath(OrderCustomer order);
+    
     String getInvoiceWebPath(OrderCustomer order);
+
+    String buildInvoiceFileName(OrderCustomer order);
 
     void generateInvoice(OrderCustomer order);
     

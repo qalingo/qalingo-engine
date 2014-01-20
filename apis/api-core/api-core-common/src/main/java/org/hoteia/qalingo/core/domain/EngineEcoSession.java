@@ -164,6 +164,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         Cart cart = new Cart();
         cart.setVersion(1);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
+        cart.setLocalizationId(getCurrentMarketAreaLocalization().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
         Date date = new Date();
@@ -187,6 +188,7 @@ public class EngineEcoSession extends AbstractEngineSession {
         cart.setDeliveryMethods(null);
         cart.setTaxes(null);
         cart.setMarketAreaId(getCurrentMarketArea().getId());
+        cart.setLocalizationId(getCurrentMarketAreaLocalization().getId());
         cart.setRetailerId(getCurrentMarketAreaRetailer().getId());
         cart.setCurrency(getCurrentMarketAreaCurrency());
         return cart;
@@ -321,11 +323,10 @@ public class EngineEcoSession extends AbstractEngineSession {
                     if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
                             && orderCustomer.getMarketAreaId().equals(getCurrentMarketArea().getId())
                             && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
-                        orderCustomer = lastOrder;
+                        lastOrders.remove(orderCustomer);
                 }
-            } else {
-                lastOrders.add(lastOrder);
             }
+            lastOrders.add(lastOrder);
         }
     }
 

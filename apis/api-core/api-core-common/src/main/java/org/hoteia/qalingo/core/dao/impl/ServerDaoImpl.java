@@ -131,7 +131,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 	
     public int deleteSendedServerStatus(final Timestamp before) {
         Session session = (Session) em.getDelegate();
-        String sql = "FROM Email WHERE lastCheckReceived <= :before";
+        String sql = "FROM ServerStatus WHERE lastCheckReceived <= :before";
         Query query = session.createQuery(sql);
         query.setTimestamp("before", before);
         List<ServerStatus> serverStatusList = (List<ServerStatus>) query.list();

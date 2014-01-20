@@ -24,9 +24,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.hoteia.qalingo.core.dao.EmailDao;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
@@ -56,7 +55,6 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
         @SuppressWarnings("unchecked")
         List<Email> emails = criteria.list();
-        
         return emails;
     }
 
@@ -65,11 +63,15 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));
         
-        criteria.setProjection(Property.forName("id"));
-        criteria.setResultTransformer(Transformers.aliasToBean(Long.class));
-        
+        criteria.setProjection(Projections.property("id"));//Property.forName()
+
         @SuppressWarnings("unchecked")
         List<Long> emailIds = criteria.list();
+//        List<Long> emailIds = new ArrayList<Long>(emails.size());
+//        for (Iterator<Email> iterator = emails.iterator(); iterator.hasNext();) {
+//            Email email = (Email) iterator.next();
+//            emailIds.add(email.getId());
+//        }
         return emailIds;
     }
 
@@ -79,12 +81,15 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));
         
-        criteria.setProjection(Property.forName("id"));
-        criteria.setResultTransformer(Transformers.aliasToBean(Long.class));
+        criteria.setProjection(Projections.property("id"));//Property.forName()
         
         @SuppressWarnings("unchecked")
         List<Long> emailIds = criteria.list();
-        
+//        List<Long> emailIds = new ArrayList<Long>(emails.size());
+//        for (Iterator<Email> iterator = emails.iterator(); iterator.hasNext();) {
+//            Email email = (Email) iterator.next();
+//            emailIds.add(email.getId());
+//        }
         return emailIds;
     }
 

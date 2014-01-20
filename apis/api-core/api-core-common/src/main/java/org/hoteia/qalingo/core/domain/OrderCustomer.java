@@ -40,7 +40,7 @@ public class OrderCustomer extends AbstractEntity {
 	 * Generated UID
 	 */
     private static final long serialVersionUID = -3979521859173438793L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)
@@ -64,6 +64,9 @@ public class OrderCustomer extends AbstractEntity {
 
     @Column(name = "RETAILER_ID")
     private Long retailerId;
+    
+    @Column(name = "LOCALIZATION_ID")
+    private Long localizationId;
     
 	@Column(name="CUSTOMER_ID")
 	private Long customerId;
@@ -146,7 +149,15 @@ public class OrderCustomer extends AbstractEntity {
     public void setMarketAreaId(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
     }
-
+    
+    public Long getLocalizationId() {
+        return localizationId;
+    }
+    
+    public void setLocalizationId(Long localizationId) {
+        this.localizationId = localizationId;
+    }
+    
     public Long getRetailerId() {
         return retailerId;
     }

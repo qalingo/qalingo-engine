@@ -55,9 +55,12 @@ public class Cart extends AbstractEntity {
     @Column(name = "MARKET_AREA_ID")
     private Long marketAreaId;
 
+    @Column(name = "LOCALIZATION_ID")
+    private Long localizationId;
+
     @Column(name = "RETAILER_ID")
     private Long retailerId;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CURRENCY_ID", insertable = true, updatable = true)
     private CurrencyReferential currency;
@@ -123,7 +126,15 @@ public class Cart extends AbstractEntity {
     public void setMarketAreaId(Long marketAreaId) {
         this.marketAreaId = marketAreaId;
     }
-
+    
+    public Long getLocalizationId() {
+        return localizationId;
+    }
+    
+    public void setLocalizationId(Long localizationId) {
+        this.localizationId = localizationId;
+    }
+    
     public Long getRetailerId() {
         return retailerId;
     }
