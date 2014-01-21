@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
@@ -62,10 +63,11 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         productSolr.setBusinessname(productMarketing.getBusinessName());
         productSolr.setDescription(productMarketing.getDescription());
         productSolr.setCode(productMarketing.getCode());
+        productSolr.setDefaultCategoryCode(productMarketing.getDefaultCatalogCategory().getCode());
         ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
             BigDecimal salePrice = productSkuPrice.getSalePrice();
-            productSolr.setPrice(salePrice.toString());
+            productSolr.setPrice(salePrice.floatValue());
         }
         productMarketingSolrServer.addBean(productSolr);
         productMarketingSolrServer.commit();
@@ -75,7 +77,17 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
 	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#searchProductMarketing(java.lang.String, java.lang.String, java.lang.String)
 	 */
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
-        SolrQuery solrQuery = new SolrQuery();
+        return searchProductMarketing(searchBy, searchText, facetField, null, null);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ProductMarketingResponseBean searchProductMarketing(String searchBy,
+    		String searchText, String facetField, BigDecimal priceStart,
+    		BigDecimal priceEnd) throws SolrServerException, IOException {
+    	SolrQuery solrQuery = new SolrQuery();
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
@@ -90,7 +102,12 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
             solrQuery.setFacetLimit(8);
-            solrQuery.addFacetField(facetField);            
+            solrQuery.addFacetField(facetField);
+        }
+        
+        if(priceStart != null && priceEnd != null){
+        	String fq = String.format("price:[%1$,.2f TO %2$,.2f]", priceStart.doubleValue(), priceEnd.doubleValue());
+        	solrQuery.addFilterQuery(fq);
         }
 
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
@@ -128,8 +145,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
-        solrQuery.addFacetField("businessname");
-        solrQuery.addFacetField("code");
+        solrQuery.addFacetField(Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         
         QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);

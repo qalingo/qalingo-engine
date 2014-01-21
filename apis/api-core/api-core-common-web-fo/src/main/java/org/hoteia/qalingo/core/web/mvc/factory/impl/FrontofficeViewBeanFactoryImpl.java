@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -253,13 +255,22 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      */
     public SearchFacetViewBean buildSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
-        searchFacetViewBean.setName(facetField.getName());
-        List<String> values = new ArrayList<String>();
-        for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
-            Count count = (Count) iterator.next();
-            values.add(count.getName() + "(" + count.getCount() + ")");
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localeCode = localization.getCode();
+        
+        if(Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        	searchFacetViewBean.setName(facetField.getName());
+            List<String> values = new ArrayList<String>();
+            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
+                Count count = (Count) iterator.next();
+                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(marketArea.getId(), count.getName());
+                values.add(catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");
+            }
+            searchFacetViewBean.setValues(values);
         }
-        searchFacetViewBean.setValues(values);
+        
+        
         return searchFacetViewBean;
     }
     
