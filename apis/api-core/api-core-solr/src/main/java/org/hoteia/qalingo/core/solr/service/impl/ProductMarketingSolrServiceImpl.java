@@ -63,7 +63,9 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         productSolr.setBusinessname(productMarketing.getBusinessName());
         productSolr.setDescription(productMarketing.getDescription());
         productSolr.setCode(productMarketing.getCode());
-        productSolr.setDefaultCategoryCode(productMarketing.getDefaultCatalogCategory().getCode());
+        if(productMarketing.getDefaultCatalogCategory() != null){
+            productSolr.setDefaultCategoryCode(productMarketing.getDefaultCatalogCategory().getCode());
+        }
         ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
             BigDecimal salePrice = productSkuPrice.getSalePrice();
@@ -79,15 +81,14 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
     public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         return searchProductMarketing(searchBy, searchText, facetField, null, null);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public ProductMarketingResponseBean searchProductMarketing(String searchBy,
-    		String searchText, String facetField, BigDecimal priceStart,
-    		BigDecimal priceEnd) throws SolrServerException, IOException {
-    	SolrQuery solrQuery = new SolrQuery();
+    public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField, 
+                                                               BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException {
+        SolrQuery solrQuery = new SolrQuery();
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
@@ -104,33 +105,33 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
             solrQuery.setFacetLimit(8);
             solrQuery.addFacetField(facetField);
         }
-        
-        if(priceStart != null && priceEnd != null){
-        	String fq = String.format("price:[%1$,.2f TO %2$,.2f]", priceStart.doubleValue(), priceEnd.doubleValue());
-        	solrQuery.addFilterQuery(fq);
+
+        if (priceStart != null && priceEnd != null) {
+            String fq = String.format("price:[%1$,.2f TO %2$,.2f]", priceStart.doubleValue(), priceEnd.doubleValue());
+            solrQuery.addFilterQuery(fq);
         }
 
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);
-        
+
         logger.debug("QueryResponse Obj: " + response);
-        
+
         List<ProductMarketingSolr> ProductMarketingSolrList = response.getBeans(ProductMarketingSolr.class);
-        
+
         logger.debug(" ProductMarketingSolrList: " + ProductMarketingSolrList);
-        
+
         ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
         productMarketingResponseBean.setProductMarketingSolrList(ProductMarketingSolrList);
-        
+
         logger.debug("ProductMarketingSolrList add sucessflly in productResponseBeen ");
-        
+
         if (StringUtils.isNotEmpty(facetField)) {
             List<FacetField> productSolrFacetFieldList = response.getFacetFields();
-            
+
             logger.debug("ProductFacetFileList: " + productSolrFacetFieldList);
-            
+
             productMarketingResponseBean.setProductMarketingSolrFacetFieldList(productSolrFacetFieldList);
-            
+
             logger.debug(" ProductFacetFileList Add sucessflly in productResponseBeen  ");
         }
         return productMarketingResponseBean;

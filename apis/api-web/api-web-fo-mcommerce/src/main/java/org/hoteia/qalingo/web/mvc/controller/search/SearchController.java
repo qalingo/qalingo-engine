@@ -9,19 +9,13 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -31,7 +25,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
