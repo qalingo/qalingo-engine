@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.solr.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -38,7 +39,21 @@ public interface ProductMarketingSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	ProductMarketingResponseBean searchProductMarketing(String searchBy,String searchText, String facetField) throws SolrServerException, IOException;
+	ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField) throws SolrServerException, IOException;
+	
+	/**
+	 * Search product.
+	 *
+	 * @param searchBy the search by
+	 * @param searchText the search text
+	 * @param facetField the facet field
+	 * @param priceStart priceRange: start filter
+	 * @param priceEnd priceEnd: end filter
+	 * @return the product response bean
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField, BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException;
 	
 	/**
 	 * Search product.

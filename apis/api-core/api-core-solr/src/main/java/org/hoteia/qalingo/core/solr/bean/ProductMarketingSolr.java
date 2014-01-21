@@ -36,7 +36,7 @@ public class ProductMarketingSolr {
 	private String defaultProductSkuCode;
 
     @Field
-    private String price;
+    private Float price;
     
     @Field("datecreate")
 	private Date dateCreate;
@@ -100,11 +100,11 @@ public class ProductMarketingSolr {
 		this.defaultProductSkuCode = defaultProductSkuCode;
 	}
 	
-	public String getPrice() {
+	public Float getPrice() {
         return price;
     }
 	
-	public void setPrice(String price) {
+	public void setPrice(Float price) {
         this.price = price;
     }
 
