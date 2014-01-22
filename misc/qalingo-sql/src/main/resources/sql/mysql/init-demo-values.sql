@@ -425,7 +425,18 @@ INSERT INTO teco_product_marketing
 (1, 'product marketing 1', 'PROD1', 1, 'Produit l', 1, 10, 302), 
 (2, 'product marketing 2', 'PROD2', 0, 'Produit 2', 1, 10, 302), 
 (3, 'product marketing 3', 'PROD3', 0, 'Produit 3', 1, 10, 302), 
-(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20, 401);
+(4, 'product marketing 4', 'PROD4', 0, 'Produit 4', 1, 20, 401),
+--add
+(5, 'product marketing 5', 'PROD5', 0, 'Produit 5', 1, 20, 401),
+(6, 'product marketing 6', 'PROD6', 0, 'Produit 6', 1, 20, 401),
+(7, 'product marketing 7', 'PROD7', 0, 'Produit 7', 1, 20, 401),
+(8, 'product marketing 8', 'PROD8', 0, 'Produit 8', 1, 20, 401),
+(9, 'product marketing 9', 'PROD9', 0, 'Produit 9', 1, 20, 401),
+(10, 'product marketing 10', 'PROD10', 0, 'Produit 10', 1, 20, 401),
+(11, 'product marketing 11', 'PROD11', 0, 'Produit 11', 1, 20, 401),
+(12, 'product marketing 12', 'PROD12', 0, 'Produit 12', 1, 20, 401),
+(13, 'product marketing 13', 'PROD13', 0, 'Produit 13', 1, 20, 401),
+(14, 'product marketing 14', 'PROD14', 0, 'Produit 14', 1, 20, 401);
 
 update teco_product_marketing 
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
@@ -436,7 +447,18 @@ VALUES
 (1, null, null, null, null, null, 'PROD1 i18n', 1, 300, null, 1),
 (2, null, null, null, null, null, 'PROD2 i18n', 2, 300, null, 1),
 (3, null, null, null, null, null, 'PROD3 i18n', 3, 300, null, 1),
-(4, null, null, null, null, null, 'PROD4 i18n', 4, 300, null, 1);
+(4, null, null, null, null, null, 'PROD4 i18n', 4, 300, null, 1),
+----add
+(5, null, null, null, null, null, 'PROD5 i18n', 5, 300, null, 1),
+(6, null, null, null, null, null, 'PROD6 i18n', 6, 300, null, 1),
+(7, null, null, null, null, null, 'PROD7 i18n', 7, 300, null, 1),
+(8, null, null, null, null, null, 'PROD8 i18n', 8, 300, null, 1),
+(9, null, null, null, null, null, 'PROD9 i18n', 9, 300, null, 1),
+(10, null, null, null, null, null, 'PROD10 i18n', 10, 300, null, 1),
+(11, null, null, null, null, null, 'PROD11 i18n', 11, 300, null, 1),
+(12, null, null, null, null, null, 'PROD12 i18n', 12, 300, null, 1),
+(13, null, null, null, null, null, 'PROD13 i18n', 13, 300, null, 1),
+(14, null, null, null, null, null, 'PROD14 i18n', 14, 300, null, 1);
 
 INSERT INTO teco_product_sku 
 (id, description, code, is_default, business_name, version, product_marketing_id)
@@ -446,7 +468,18 @@ INSERT INTO teco_product_sku
 (3, 'prod 1 product sku 3', 'SKU13', 0, 'Sku 13', 1, 1),
 (4, 'prod 2 product sku 1', 'SKU21', 0, 'Sku 21', 1, 2),
 (5, 'prod 3 product sku 1', 'SKU31', 0, 'Sku 31', 1, 3),
-(6, 'prod 4 product sku 1', 'SKU41', 0, 'Sku 41', 1, 4);
+(6, 'prod 4 product sku 1', 'SKU41', 0, 'Sku 41', 1, 4),
+--add
+(7, 'prod 5 product sku 1', 'SKU51', 0, 'Sku 51', 1, 5),
+(8, 'prod 6 product sku 1', 'SKU61', 0, 'Sku 61', 1, 6),
+(9, 'prod 7 product sku 1', 'SKU71', 0, 'Sku 71', 1, 7),
+(10, 'prod 8 product sku 1', 'SKU81', 0, 'Sku 81', 1, 8),
+(11, 'prod 9 product sku 1', 'SKU91', 0, 'Sku 91', 1, 9),
+(12, 'prod 10 product sku 1', 'SKU101', 0, 'Sku 101', 1, 10),
+(13, 'prod 11 product sku 1', 'SKU111', 0, 'Sku 111', 1, 11),
+(14, 'prod 12 product sku 1', 'SKU121', 0, 'Sku 121', 1, 12),
+(15, 'prod 13 product sku 1', 'SKU131', 0, 'Sku 131', 1, 13),
+(16, 'prod 14 product sku 1', 'SKU141', 0, 'Sku 141', 1, 14);
 
 update teco_product_sku 
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
@@ -457,7 +490,25 @@ INSERT INTO teco_catalog_master_category_product_marketing_rel
 (302, 1), 
 (302, 2), 
 (302, 3),
-(401, 4);
+(401, 4),
+--add
+(401, 5),
+(401, 6),
+(401, 7),
+(401, 8),
+(301, 9),
+(301, 10),
+(301, 11),
+(501, 12),
+(501, 13),
+(402, 14),
+--product in multi cate
+(301, 1),
+(401, 1),
+(402, 2),
+(402, 5),
+(402, 6),
+(501, 3);
 
 INSERT INTO teco_catalog_virtual_category_product_marketing_rel  
 (virtual_category_id, product_marketing_id)
@@ -465,7 +516,25 @@ INSERT INTO teco_catalog_virtual_category_product_marketing_rel
 (302, 1), 
 (302, 2), 
 (302, 3),
-(401, 4);
+(401, 4),
+--add
+(401, 5),
+(401, 6),
+(401, 7),
+(401, 8),
+(301, 9),
+(301, 10),
+(301, 11),
+(501, 12),
+(501, 13),
+(402, 14),
+--product in multi cate
+(301, 1),
+(401, 1),
+(402, 2),
+(402, 5),
+(402, 6),
+(501, 3);
 
 INSERT INTO teco_product_marketing_attribute
 (BOOLEAN_VALUE,IS_GLOBAL,MARKET_AREA_ID,ORDERING,VERSION,ATTRIBUTE_DEFINITION_ID,PRODUCT_MARKETING_ID)
@@ -482,7 +551,19 @@ VALUES
 (50, 1, 16.35, 1, 150, 3),
 (60, 1, 15.35, 1, 150, 4),
 (70, 1, 16.35, 1, 150, 5),
-(80, 1, 17.35, 1, 150, 6);
+(80, 1, 17.35, 1, 150, 6),
+--add
+(90, 1, 13.35, 1, 150, 7),
+(100, 1, 19.35, 1, 150, 8),
+(110, 1, 12.35, 1, 150, 9),
+(120, 1, 14.35, 1, 150, 10),
+(1301, 1, 16.35, 1, 150, 11),
+(1401, 1, 18.35, 1, 150, 12),
+(1501, 1, 15.35, 1, 150, 13),
+(1601, 1, 10.35, 1, 150, 14),
+(1701, 1, 15.35, 1, 150, 15),
+(1801, 1, 10.35, 1, 150, 16);
+
 
 -- MARKET PLACE EUR
 INSERT INTO teco_product_sku_price  
