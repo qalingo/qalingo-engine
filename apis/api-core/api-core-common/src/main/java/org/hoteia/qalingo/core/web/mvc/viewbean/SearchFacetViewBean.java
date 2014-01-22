@@ -21,7 +21,7 @@ public class SearchFacetViewBean extends AbstractViewBean implements Serializabl
 	private static final long serialVersionUID = 8803558268157558979L;
 	
 	private String name;
-	private List<String> values = new ArrayList<String>();
+	private List<ValueBean> values = new ArrayList<ValueBean>();
 	
 	public SearchFacetViewBean() {
 	}
@@ -34,11 +34,11 @@ public class SearchFacetViewBean extends AbstractViewBean implements Serializabl
 		this.name = name;
 	}
 
-	public List<String> getValues() {
+	public List<ValueBean> getValues() {
 		return values;
 	}
 	
-	public void setValues(List<String> values) {
+	public void setValues(List<ValueBean> values) {
 		this.values = values;
 	}
 }

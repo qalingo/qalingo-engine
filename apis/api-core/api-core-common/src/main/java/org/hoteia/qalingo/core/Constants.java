@@ -129,6 +129,7 @@ public final class Constants {
 	public static final String PAGE_ORDER_DESC = "desc";
 	public static final String PAGE_VIEW_MODE = "mode";
 	public static final String PRICE_RANGE_PARAMETER = "price";
+	public static final String CATALOG_CATEGORIES_PARAMETER = "categoriesFilter";
 
 	// SECURITY
 	public static final String SECRET_VALUE = "5U%oP9$";
@@ -196,6 +197,6 @@ public final class Constants {
 	
 	//Solr
 	public static final String PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD = "businessname";
-	public static final String PRODUCT_MARKETING_DEFAULT_FACET_FIELD = "defaultCategoryCode";
+	public static final String PRODUCT_MARKETING_DEFAULT_FACET_FIELD = "catalogCategories";
 	
 }
