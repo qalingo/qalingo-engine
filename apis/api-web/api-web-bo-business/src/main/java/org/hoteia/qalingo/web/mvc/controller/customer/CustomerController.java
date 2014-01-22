@@ -84,7 +84,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	        	for (int i = pageTarget; i < pageCurrent; i++) {
 	        		customerViewBeanPagedListHolder.previousPage(); 
 				}
-	        } 
+	        }
         }
 		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
 		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, customerViewBeanPagedListHolder);

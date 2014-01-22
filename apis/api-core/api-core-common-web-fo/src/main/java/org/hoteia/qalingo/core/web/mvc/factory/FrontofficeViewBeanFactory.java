@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.factory;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
@@ -29,30 +30,34 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 
 public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 
-	// SEARCH
-	
-	SearchViewBean buildSearchViewBean(RequestData requestData) throws Exception;
+    // SEARCH
 
-	List<SearchProductItemViewBean> buildSearchProductItemViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
-	
-	SearchProductItemViewBean buildSearchProductItemViewBean(RequestData requestData, ProductMarketingSolr productMarketingSolr) throws Exception;
-	
-	List<SearchFacetViewBean> buildSearchFacetViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
-	
-	SearchFacetViewBean buildSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
-	
-	List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception;
-	
-	List<ProductBrandViewBean> buildListProductBrands(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
+    SearchViewBean buildSearchViewBean(RequestData requestData) throws Exception;
 
-	List<RecentProductViewBean> buildRecentProductViewBean(RequestData requestData, List<String> listId) throws Exception;
-	
-	CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
-	
-	/**
-	 * Extract the information from the list stores of StoreLocatorViewBean to build the filters
-	 * @param storeLocatorViewBean
-	 * @return
-	 */
-	StoreLocatorFilterBean buildStoreLocatorFilterBean(StoreLocatorViewBean storeLocatorViewBean);
+    List<SearchProductItemViewBean> buildSearchProductItemViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
+
+    SearchProductItemViewBean buildSearchProductItemViewBean(RequestData requestData, ProductMarketingSolr productMarketingSolr) throws Exception;
+
+    List<SearchFacetViewBean> buildSearchFacetViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
+
+    SearchFacetViewBean buildSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
+
+    List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception;
+
+    List<ProductBrandViewBean> buildListProductBrands(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
+
+    List<RecentProductViewBean> buildRecentProductViewBean(RequestData requestData, List<String> listId) throws Exception;
+
+    CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+
+    /**
+     * Extract the information from the list stores of StoreLocatorViewBean to
+     * build the filters
+     * 
+     * @param StoreLocatorViewBean storeLocatorViewBean
+     * @param Locale locale
+     * @return StoreLocatorFilterBean
+     * @throws Exception
+     */
+    StoreLocatorFilterBean buildStoreLocatorFilterBean(StoreLocatorViewBean storeLocatorViewBean, Locale locale) throws Exception;
 }

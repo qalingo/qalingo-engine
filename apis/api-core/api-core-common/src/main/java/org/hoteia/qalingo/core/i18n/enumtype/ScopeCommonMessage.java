@@ -14,49 +14,55 @@ package org.hoteia.qalingo.core.i18n.enumtype;
  */
 public enum ScopeCommonMessage {
 
-	/**
+    /**
 	 * 
 	 */
-	COMMON("common"),
-	
-	/**
-	 * 
-	 */
-	APP("app"),
-	
-	/**
-	 * 
-	 */
-	LEGAL_TERMS("legal_terms"),
-	
-	/**
-	 * 
-	 */
-	FOOTER("footer"),
-	
-	/**
-	 * 
-	 */
-	SEO("seo");
-	
-	private String propertyKey = "";
+    COMMON("common"),
 
-	/**
-	 * Constructor.
+    /**
 	 * 
-	 * @param propertyKey the property key.
 	 */
-	ScopeCommonMessage(final String propertyKey) {
-		this.propertyKey = propertyKey;
-	}
+    APP("app"),
 
-	/**
-	 * Get the localization property key.
+    /**
 	 * 
-	 * @return the localized property key
 	 */
-	public String getPropertyKey() {
-		return this.propertyKey;
-	}
-	
+    LEGAL_TERMS("legal_terms"),
+
+    /**
+	 * 
+	 */
+    FOOTER("footer"),
+
+    /**
+     * 
+     */
+    AUTH("auth"),
+
+    /**
+	 * 
+	 */
+    SEO("seo");
+
+    private String propertyKey = "";
+
+    /**
+     * Constructor.
+     * 
+     * @param propertyKey
+     *            the property key.
+     */
+    ScopeCommonMessage(final String propertyKey) {
+        this.propertyKey = propertyKey;
+    }
+
+    /**
+     * Get the localization property key.
+     * 
+     * @return the localized property key
+     */
+    public String getPropertyKey() {
+        return this.propertyKey;
+    }
+
 }

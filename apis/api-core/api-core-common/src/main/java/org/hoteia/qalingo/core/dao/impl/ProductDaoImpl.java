@@ -274,7 +274,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         criteria.createAlias("productSkus.prices", "prices", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("prices", FetchMode.JOIN); 
         
-        criteria.createAlias(".productSkus.prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("productSkus.prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("currency", FetchMode.JOIN);
 
         criteria.setFetchMode("productAssociationLinks", FetchMode.JOIN); 

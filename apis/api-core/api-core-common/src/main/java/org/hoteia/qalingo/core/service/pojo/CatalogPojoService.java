@@ -10,10 +10,12 @@ public interface CatalogPojoService {
 
     List<CatalogPojo> getAllCatalogMasters();
 
-    CatalogPojo getCatalogById(String catalogId);
+    CatalogPojo getMasterCatalogById(String catalogId);
 
-    CatalogPojo getCatalog(CatalogMaster catalogMaster);
+    CatalogPojo getVirtualCatalogById(String catalogId);
 
-    CatalogPojo getCatalog(CatalogVirtual catalogVirtual);
+    CatalogPojo getMasterCatalog(CatalogMaster catalogMaster);
+
+    CatalogPojo getVirtualCatalog(CatalogVirtual catalogVirtual);
 
 }

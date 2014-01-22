@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
@@ -53,7 +54,7 @@ public class LoginController extends AbstractMCommerceController {
         String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
         if (BooleanUtils.toBoolean(error)) {
             model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
-            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
+            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
         
         return modelAndView;
@@ -76,7 +77,7 @@ public class LoginController extends AbstractMCommerceController {
         String error = request.getParameter(RequestConstants.REQUEST_PARAMETER_AUTH_ERROR);
         if (BooleanUtils.toBoolean(error)) {
             model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
-            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getSpecificMessage(ScopeWebMessage.AUTH, "login_or_password_are_wrong", locale));
+            model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
         
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);

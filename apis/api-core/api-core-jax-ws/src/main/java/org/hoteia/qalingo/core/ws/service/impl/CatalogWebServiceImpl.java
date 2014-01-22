@@ -23,7 +23,7 @@ public class CatalogWebServiceImpl implements CatalogWebService {
 
     @Override
     public CatalogPojo getProductCatalogById(String productCatalogId) {
-        return catalogService.getCatalogById(productCatalogId);
+        return catalogService.getMasterCatalogById(productCatalogId);
     }
 
 }

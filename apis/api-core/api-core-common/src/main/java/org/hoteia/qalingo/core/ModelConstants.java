@@ -111,15 +111,17 @@ public final class ModelConstants {
     public static final String USER_VIEW_BEAN                   = "user";
 
     // SPRING FORM
-    public static final String ASSET_FORM           = "assetForm";
-    public static final String RULE_FORM            = "ruleForm";
-    public static final String ORDER_FORM           = "orderForm";
-    public static final String DELIVERY_METHOD_FORM = "shippingForm";
-    public static final String CUSTOMER_FORM        = "customerForm";
-    public static final String USER_FORM            = "userForm";
-    public static final String CART_FORM            = "cartForm";
-    public static final String PAYMENT_FORM         = "paymentForm";
-    public static final String CREATE_ACCOUNT_FORM  = "createAccountForm";
+    public static final String ASSET_FORM               = "assetForm";
+    public static final String RULE_FORM                = "ruleForm";
+    public static final String ORDER_FORM               = "orderForm";
+    public static final String DELIVERY_METHOD_FORM     = "deliveryMethodForm";
+    public static final String CUSTOMER_FORM            = "customerForm";
+    public static final String USER_FORM                = "userForm";
+    public static final String CART_FORM                = "cartForm";
+    public static final String PAYMENT_FORM             = "paymentForm";
+    public static final String CREATE_ACCOUNT_FORM      = "createAccountForm";
+    public static final String PRODUCT_SKU_FORM         = "productSkuForm";
+    public static final String PRODUCT_MARKETING_FORM   = "productMarketingForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

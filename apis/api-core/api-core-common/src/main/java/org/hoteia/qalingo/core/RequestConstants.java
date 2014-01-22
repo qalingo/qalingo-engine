@@ -39,7 +39,7 @@ public final class RequestConstants {
 	public static final String REQUEST_PARAMETER_LOCALE_CODE               = "locale-code";
 	public static final String REQUEST_PARAMETER_CUSTOMER_CODE             = "customer-code";
 	public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK        = "customer-permalink";
-	public static final String REQUEST_PARAMETER_ORDER_CODE                = "order-code";
+	public static final String REQUEST_PARAMETER_ORDER_NUM                = "order-num";
 	public static final String REQUEST_PARAMETER_RULE_CODE                 = "rule-code";
 	public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE      = "delivery-method-code";
 	public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE       = "engine-setting-code";

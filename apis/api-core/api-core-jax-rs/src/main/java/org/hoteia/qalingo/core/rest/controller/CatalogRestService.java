@@ -30,7 +30,7 @@ public class CatalogRestService {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public CatalogPojo getCustomerById(@PathParam("id") final String id) {
-        return catalogService.getCatalogById(id);
+        return catalogService.getMasterCatalogById(id);
     }
 
 }

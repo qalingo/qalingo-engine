@@ -12,8 +12,6 @@ package org.hoteia.qalingo.core.web.mvc.factory.impl;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +29,7 @@ import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -1152,9 +1151,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final String localizationCode = localization.getCode();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
         
-        final String sortBy =  request.getParameter("sortBy");
-        final String orderBy =  request.getParameter("orderBy");
-        
         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());
@@ -1220,47 +1216,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 }
             }
         }
-        
-        Collections.sort(productMarketingViewBeans, new Comparator<ProductMarketingViewBean>() {
-        	@Override
-        	public int compare(ProductMarketingViewBean o1,
-        			ProductMarketingViewBean o2) {
-        		// TODO Auto-generated method stub
-        		if("price".equals(sortBy)){
-						if("desc".equals(orderBy)){
-							if(o2.getPriceWithCurrencySign()!=null && o1.getPriceWithCurrencySign()!=null){
-								return o2.getPriceWithCurrencySign().compareTo(o1.getPriceWithCurrencySign());
-							}else{
-								if(o1.getPriceWithCurrencySign()==null){
-									return 1 ;
-								}else{
-									return -1;
-								}
-							}
-						}else{
-							if(o1.getPriceWithCurrencySign()!= null && o2.getPriceWithCurrencySign()!=null){
-								return o1.getPriceWithCurrencySign().compareTo(o2.getPriceWithCurrencySign());
-							}else{
-								if(o1.getPriceWithCurrencySign()==null){
-									return -1 ;
-								}else{
-									return 1;
-								}
-							}
-						}
-				}else{
-					/**
-					 * default sort by name and oderby asc
-					 */
-					if("desc".equals(orderBy)){
-						return o2.getI18nName().compareTo(o1.getI18nName());
-					}else{
-						return o1.getI18nName().compareTo(o2.getI18nName());
-					}
-				}
-			}
-		});
-               
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
         for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
@@ -1272,42 +1227,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return catalogCategoryViewBean;
     }
     
-    
-    
     /**
      * 
      */
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
-            throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
-        final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
-
-        productMarketingViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
-        productMarketingViewBean.setDescription(productMarketing.getDescription());
-
-        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
-            productMarketingViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productMarketingViewBean.setBackgroundImage("");
-        }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            final String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
-            productMarketingViewBean.setCarouselImage(carouselImage);
-        } else {
-            productMarketingViewBean.setCarouselImage("");
-        }
-        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
-        if (defaultIconImage != null) {
-            final String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
-            productMarketingViewBean.setIconImage(iconImage);
-        } else {
-            productMarketingViewBean.setIconImage("");
-        }
+    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
@@ -1342,6 +1266,83 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return productMarketingViewBean;
     }
 
+    /**
+     * 
+     */
+    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
+            throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productMarketing);
+
+        productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
+
+        final ProductBrand productBrand = productMarketing.getProductBrand();
+        if (productBrand != null) {
+            productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
+            productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
+        }
+
+        Set<ProductSku> skus = productMarketing.getProductSkus();
+        if (skus != null) {
+            for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
+                final ProductSku productSku = (ProductSku) iterator.next();
+                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
+                productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+            }
+        }
+
+        Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
+        if (productAssociationLinks != null) {
+            for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
+                final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
+                if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
+                    final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductMarketing().getCode());
+                    productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, catalogCategory, reloadedAssociatedProductMarketing));
+                }
+            }
+        }
+
+        productMarketingViewBean.setFeatured(productMarketing.isFeatured());
+
+        return productMarketingViewBean;
+    }
+    
+    /**
+     * 
+     */
+    private ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
+
+        productMarketingViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
+        productMarketingViewBean.setDescription(productMarketing.getDescription());
+
+        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+        if (defaultBackgroundImage != null) {
+            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
+            productMarketingViewBean.setBackgroundImage(backgroundImage);
+        } else {
+            productMarketingViewBean.setBackgroundImage("");
+        }
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            final String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
+            productMarketingViewBean.setCarouselImage(carouselImage);
+        } else {
+            productMarketingViewBean.setCarouselImage("");
+        }
+        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            final String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
+            productMarketingViewBean.setIconImage(iconImage);
+        } else {
+            productMarketingViewBean.setIconImage("");
+        }
+
+        return productMarketingViewBean;
+    }
+    
     /**
      * @throws Exception
      * 
@@ -1495,6 +1496,20 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 orderViewBean.setExpectedDeliveryDate("NA");
             }
             
+            Date dateCreate = order.getDateCreate();
+            if (dateCreate != null) {
+                orderViewBean.setCreatedDate(dateFormat.format(dateCreate));
+            } else {
+                orderViewBean.setCreatedDate("NA");
+            }
+
+            Date dateUpdate = order.getDateUpdate();
+            if (dateUpdate != null) {
+                orderViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+            } else {
+                orderViewBean.setUpdatedDate("NA");
+            }
+            
             // ITEMS PART
             final List<OrderItemViewBean> orderItemViewBeans = new ArrayList<OrderItemViewBean>();
             final Set<OrderItem> orderItems = order.getOrderItems();
@@ -1580,7 +1595,31 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
+    public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing)
+            throws Exception {
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildProductAssociationLinkViewBean(requestData, productMarketing);
+
+        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
+
+        return productAssociationLinkViewBean;
+    }
+    
+    /**
+     * 
+     */
     public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
+            throws Exception {
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildProductAssociationLinkViewBean(requestData, productMarketing);
+
+        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
+
+        return productAssociationLinkViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final ProductMarketing productMarketing)
             throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1614,15 +1653,57 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             productAssociationLinkViewBean.setIconImage("");
         }
 
-        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
-
         return productAssociationLinkViewBean;
     }
 
     /**
      * 
      */
+    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
+            throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildProductSkuViewBean(requestData, productMarketing, productSku);
+
+        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
+
+        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
+
+        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
+        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
+
+        return productSkuViewBean;
+    }
+    
+    /**
+     * 
+     */
     public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
+            throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildProductSkuViewBean(requestData, productMarketing, productSku);
+
+        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
+
+        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
+
+        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
+        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
+
+        return productSkuViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku)
             throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1639,8 +1720,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
-        	productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-    		productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
+            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
+            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
             productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
         } else {
             productSkuViewBean.setPriceWithCurrencySign("NA");
@@ -1667,18 +1748,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             productSkuViewBean.setIconImage("");
         }
-
-        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
-
-        Map<String, String> getParams = new HashMap<String, String>();
-        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
-        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
-
-        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
-        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
-
-        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
-        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
 
         return productSkuViewBean;
     }

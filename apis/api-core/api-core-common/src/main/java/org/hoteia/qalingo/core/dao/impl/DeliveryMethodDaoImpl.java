@@ -16,6 +16,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.slf4j.Logger;
@@ -85,6 +86,11 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 
     private void addDefaultFetch(Criteria criteria) {
         criteria.setFetchMode("deliveryMethodCountries", FetchMode.JOIN); 
+        criteria.setFetchMode("prices", FetchMode.JOIN); 
+        
+        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("currency", FetchMode.JOIN);
+
     }
 	
 }

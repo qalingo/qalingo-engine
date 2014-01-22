@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
@@ -46,9 +47,7 @@ import org.hoteia.qalingo.core.domain.PaymentGatewayAttribute;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.User;
@@ -139,7 +138,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
         menu = new MenuViewBean();
         menu.setCssIcon("icon-user");
-        menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_link_my_account", locale));
+        menu.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header_link_my_account", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
         menuViewBeans.add(menu);
         
@@ -312,13 +311,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (createdDate != null) {
             retailerViewBean.setCreatedDate(dateFormat.format(createdDate));
         } else {
-            retailerViewBean.setCreatedDate("NA");
+            retailerViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
         }
         Date updatedDate = retailer.getDateUpdate();
         if (updatedDate != null) {
             retailerViewBean.setUpdatedDate(dateFormat.format(updatedDate));
         } else {
-            retailerViewBean.setUpdatedDate("NA");
+            retailerViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
         }
 
         Map<String, String> urlParams = new HashMap<String, String>();
@@ -375,8 +374,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     public List<CatalogCategoryViewBean> buildMasterCatalogCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryMaster> catalogCategories, boolean fullPopulate) throws Exception {
         List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
-            final CatalogCategoryMaster category = (CatalogCategoryMaster) iterator.next();
-            categoryViewBeans.add(buildMasterCatalogCategoryViewBean(requestData, category, fullPopulate));
+            final CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
+            
+         // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
+            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId());
+
+            categoryViewBeans.add(buildMasterCatalogCategoryViewBean(requestData, reloadedCategory, fullPopulate));
         }
         return categoryViewBeans;
     }
@@ -389,8 +392,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             throws Exception {
         List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
-            final CatalogCategoryVirtual category = (CatalogCategoryVirtual) iterator.next();
-            categoryViewBeans.add(buildVirtualCatalogCategoryViewBean(requestData, category, fullPopulate));
+            final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iterator.next();
+            
+         // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId());
+
+            categoryViewBeans.add(buildVirtualCatalogCategoryViewBean(requestData, reloadedCategory, fullPopulate));
         }
         return categoryViewBeans;
     }
@@ -399,71 +406,73 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogCategoryViewBean buildMasterCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryMaster category, boolean fullPopulate) throws Exception {
+    public CatalogCategoryViewBean buildMasterCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, boolean fullPopulate) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 
-        if (category != null) {
-            final String categoryCode = category.getCode();
+        if (catalogCategory != null) {
+            final String categoryCode = catalogCategory.getCode();
 
-            catalogCategoryViewBean.setName(category.getBusinessName());
+            catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
-            catalogCategoryViewBean.setDescription(category.getDescription());
+            catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
 
-            if (category.getDefaultParentCatalogCategory() != null) {
-                catalogCategoryViewBean.setDefaultParentCategory(buildMasterCatalogCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
+            if (catalogCategory.getDefaultParentCatalogCategory() != null) {
+             // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
+                CatalogCategoryMaster defaultParentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getDefaultParentCatalogCategory().getId());
+                catalogCategoryViewBean.setDefaultParentCategory(buildMasterCatalogCategoryViewBean(requestData, defaultParentCatalogCategory, false));
             }
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-            Date createdDate = category.getDateCreate();
+            Date createdDate = catalogCategory.getDateCreate();
             if (createdDate != null) {
                 catalogCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
             } else {
-                catalogCategoryViewBean.setCreatedDate("NA");
+                catalogCategoryViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
             }
-            Date updatedDate = category.getDateUpdate();
+            Date updatedDate = catalogCategory.getDateUpdate();
             if (updatedDate != null) {
                 catalogCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
             } else {
-                catalogCategoryViewBean.setUpdatedDate("NA");
+                catalogCategoryViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
             }
 
             if (fullPopulate) {
-                if (category.getCatalogCategories() != null) {
-                    catalogCategoryViewBean.setSubCategories(buildMasterCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryMaster>(category.getCatalogCategories()), fullPopulate));
+                if (catalogCategory.getCatalogCategories() != null) {
+                    catalogCategoryViewBean.setSubCategories(buildMasterCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryMaster>(catalogCategory.getCatalogCategories()), fullPopulate));
                 }
 
-                List<CatalogCategoryMasterAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
+                List<CatalogCategoryMasterAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
                 for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                     CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
                     catalogCategoryViewBean.getGlobalAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
                 }
 
-                List<CatalogCategoryMasterAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId());
+                List<CatalogCategoryMasterAttribute> marketAreaAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId());
                 for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                     CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
                     catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
                 }
 
-                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
+                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
                 catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
-                int countProduct = category.getProductMarketings().size();
+                int countProduct = catalogCategory.getProductMarketings().size();
                 for (Iterator<CatalogCategoryViewBean> iterator = catalogCategoryViewBean.getSubCategories().iterator(); iterator.hasNext();) {
                     CatalogCategoryViewBean subCategoryViewBean = (CatalogCategoryViewBean) iterator.next();
                     countProduct = countProduct + subCategoryViewBean.getCountProduct();
                 }
                 catalogCategoryViewBean.setCountProduct(countProduct);
 
-                List<Asset> assets = category.getAssetsIsGlobal();
+                List<Asset> assets = catalogCategory.getAssetsIsGlobal();
                 for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                     Asset asset = (Asset) iterator.next();
                     catalogCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
                 }
             }
 
-            catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, category));
-            catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, category));
+            catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory));
+            catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, catalogCategory));
         }
 
         return catalogCategoryViewBean;
@@ -473,71 +482,73 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogCategoryViewBean buildVirtualCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual category, boolean fullPopulate) throws Exception {
+    public CatalogCategoryViewBean buildVirtualCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, boolean fullPopulate) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 
-        if (category != null) {
-            final String categoryCode = category.getCode();
+        if (catalogCategory != null) {
+            final String categoryCode = catalogCategory.getCode();
 
-            catalogCategoryViewBean.setName(category.getBusinessName());
+            catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
             catalogCategoryViewBean.setCode(categoryCode);
-            catalogCategoryViewBean.setDescription(category.getDescription());
+            catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
 
-            if (category.getDefaultParentCatalogCategory() != null) {
-                catalogCategoryViewBean.setDefaultParentCategory(buildVirtualCatalogCategoryViewBean(requestData, category.getDefaultParentCatalogCategory(), false));
+            if (catalogCategory.getDefaultParentCatalogCategory() != null) {
+                // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
+                CatalogCategoryVirtual defaultParentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getDefaultParentCatalogCategory().getId());
+                catalogCategoryViewBean.setDefaultParentCategory(buildVirtualCatalogCategoryViewBean(requestData, defaultParentCatalogCategory, false));
             }
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-            Date createdDate = category.getDateCreate();
+            Date createdDate = catalogCategory.getDateCreate();
             if (createdDate != null) {
                 catalogCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
             } else {
-                catalogCategoryViewBean.setCreatedDate("NA");
+                catalogCategoryViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
             }
-            Date updatedDate = category.getDateUpdate();
+            Date updatedDate = catalogCategory.getDateUpdate();
             if (updatedDate != null) {
                 catalogCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
             } else {
-                catalogCategoryViewBean.setUpdatedDate("NA");
+                catalogCategoryViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
             }
 
             if (fullPopulate) {
-                if (category.getCatalogCategories() != null) {
-                    catalogCategoryViewBean.setSubCategories(buildVirtualCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(category.getCatalogCategories()), fullPopulate));
+                if (catalogCategory.getCatalogCategories() != null) {
+                    catalogCategoryViewBean.setSubCategories(buildVirtualCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(catalogCategory.getCatalogCategories()), fullPopulate));
                 }
 
-                List<CatalogCategoryVirtualAttribute> globalAttributes = category.getCatalogCategoryGlobalAttributes();
+                List<CatalogCategoryVirtualAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
                 for (Iterator<CatalogCategoryVirtualAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                     CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
                     catalogCategoryViewBean.getGlobalAttributes().put(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode(), catalogCategoryVirtualAttribute.getValueAsString());
                 }
 
-                List<CatalogCategoryVirtualAttribute> marketAreaAttributes = category.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId());
+                List<CatalogCategoryVirtualAttribute> marketAreaAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId());
                 for (Iterator<CatalogCategoryVirtualAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                     CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iterator.next();
                     catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode(), catalogCategoryVirtualAttribute.getValueAsString());
                 }
 
-                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, new ArrayList<ProductMarketing>(category.getProductMarketings()), true);
+                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
                 catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
-                int countProduct = category.getProductMarketings().size();
+                int countProduct = catalogCategory.getProductMarketings().size();
                 for (Iterator<CatalogCategoryViewBean> iterator = catalogCategoryViewBean.getSubCategories().iterator(); iterator.hasNext();) {
                     CatalogCategoryViewBean subCategoryViewBean = (CatalogCategoryViewBean) iterator.next();
                     countProduct = countProduct + subCategoryViewBean.getCountProduct();
                 }
                 catalogCategoryViewBean.setCountProduct(countProduct);
 
-                List<Asset> assets = category.getAssetsIsGlobal();
+                List<Asset> assets = catalogCategory.getAssetsIsGlobal();
                 for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                     Asset asset = (Asset) iterator.next();
                     catalogCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
                 }
             }
 
-            catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, category));
-            catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, category));
+            catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategory));
+            catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, catalogCategory));
         }
 
         return catalogCategoryViewBean;
@@ -547,11 +558,16 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final RequestData requestData, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
+    public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
         List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            products.add(buildProductMarketingViewBean(requestData, productMarketing, withDependency));
+            
+            // TODO : Denis : fetch optim - cache
+            ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
+            
+            products.add(buildProductMarketingViewBean(requestData, catalogCategory, reloadedProductMarketing));
+//            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
         return products;
     }
@@ -560,67 +576,47 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final ProductMarketing productMarketing, boolean withDependency) throws Exception {
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-
-        final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
-
-        Integer position = productMarketing.getOrder(currentMarketArea.getId());
-        if (position != null) {
-            productMarketingViewBean.setPositionItem(position);
+    public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
+        List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
+        for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            
+            // TODO : Denis : fetch optim - cache
+            ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
+            
+            products.add(buildProductMarketingViewBean(requestData, catalogCategory, reloadedProductMarketing));
+//            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
-        productMarketingViewBean.setBusinessName(productMarketing.getBusinessName());
-        productMarketingViewBean.setCode(productMarketing.getCode());
-        productMarketingViewBean.setDescription(productMarketing.getDescription());
-        productMarketingViewBean.setDefault(productMarketing.isDefault());
-        productMarketingViewBean.setBrand(buildBrandViewBean(requestData, productMarketing.getProductBrand()));
+        return products;
+    }
+    
+    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+        final CatalogCategoryMaster catalogCategory = productMarketing.getDefaultCatalogCategory().getCategoryMaster();
+        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
+        return productMarketingViewBean;
+    }
 
-        List<ProductMarketingAttribute> globalAttributes = productMarketing.getProductMarketingGlobalAttributes();
-        for (Iterator<ProductMarketingAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-            ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-            productMarketingViewBean.getGlobalAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
-        }
+    /**
+     * @throws Exception
+     * 
+     */
+    @Override
+    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
 
-        List<ProductMarketingAttribute> marketAreaAttributes = productMarketing.getProductMarketingMarketAreaAttributes(currentMarketArea.getId());
-        for (Iterator<ProductMarketingAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-            ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-            productMarketingViewBean.getMarketAreaAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
-        }
+        productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
+        productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
 
-        if (withDependency) {
-            Set<ProductSku> productSkus = productMarketing.getProductSkus();
-            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
-                ProductSku productSku = (ProductSku) iterator.next();
-                productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, productSku));
-            }
-
-            Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
-            for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
-                ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
-                productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, productAssociationLink));
-            }
-
-            List<Asset> assets = productMarketing.getAssetsIsGlobal();
-            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                Asset asset = (Asset) iterator.next();
-                productMarketingViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
-            }
-
-        }
-
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date createdDate = productMarketing.getDateCreate();
-        if (createdDate != null) {
-            productMarketingViewBean.setCreatedDate(dateFormat.format(createdDate));
-        } else {
-            productMarketingViewBean.setCreatedDate("NA");
-        }
-        Date updatedDate = productMarketing.getDateUpdate();
-        if (updatedDate != null) {
-            productMarketingViewBean.setUpdatedDate(dateFormat.format(updatedDate));
-        } else {
-            productMarketingViewBean.setUpdatedDate("NA");
-        }
+        return productMarketingViewBean;
+    }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    @Override
+    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
         productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
@@ -644,68 +640,22 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         return productAssociationLinkViewBean;
     }
 
+    @Override
+    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final ProductSku productSku) throws Exception {
+        final ProductMarketing productMarketing = productSku.getProductMarketing();
+        final CatalogCategoryMaster catalogCategory = productMarketing.getDefaultCatalogCategory().getCategoryMaster();
+        final ProductSkuViewBean productSkuViewBean = super.buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku);
+        return productSkuViewBean;
+    }
+
     /**
      * @throws Exception
      * 
      */
-    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final ProductSku productSku) throws Exception {
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
-
-        Integer position = productSku.getOrder(currentMarketArea.getId());
-        if (position != null) {
-            productSkuViewBean.setPositionItem(position);
-        }
-        productSkuViewBean.setBusinessName(productSku.getBusinessName());
-        productSkuViewBean.setCode(productSku.getCode());
-        productSkuViewBean.setDescription(productSku.getDescription());
-        productSkuViewBean.setDefault(productSku.isDefault());
-
-        List<ProductSkuAttribute> skuGlobalAttributes = productSku.getProductSkuGlobalAttributes();
-        for (Iterator<ProductSkuAttribute> iterator = skuGlobalAttributes.iterator(); iterator.hasNext();) {
-            ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-            productSkuViewBean.getGlobalAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());
-        }
-
-        List<ProductSkuAttribute> skuMarketAreaAttributes = productSku.getProductSkuMarketAreaAttributes(currentMarketArea.getId());
-        for (Iterator<ProductSkuAttribute> iterator = skuMarketAreaAttributes.iterator(); iterator.hasNext();) {
-            ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
-            productSkuViewBean.getMarketAreaAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());
-        }
-
-        productSkuViewBean.setProductMarketing(buildProductMarketingViewBean(requestData, productSku.getProductMarketing(), false));
-
-        List<ProductMarketingAttribute> productMarketingGlobalAttributes = productSku.getProductMarketing().getProductMarketingGlobalAttributes();
-        for (Iterator<ProductMarketingAttribute> iterator = productMarketingGlobalAttributes.iterator(); iterator.hasNext();) {
-            ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-            productSkuViewBean.getGlobalAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
-        }
-
-        List<ProductMarketingAttribute> productMarketingMarketAreaAttributes = productSku.getProductMarketing().getProductMarketingMarketAreaAttributes(currentMarketArea.getId());
-        for (Iterator<ProductMarketingAttribute> iterator = productMarketingMarketAreaAttributes.iterator(); iterator.hasNext();) {
-            ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
-            productSkuViewBean.getMarketAreaAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
-        }
-
-        List<Asset> assets = productSku.getAssetsIsGlobal();
-        for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-            Asset asset = (Asset) iterator.next();
-            productSkuViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
-        }
-
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date createdDate = productSku.getDateCreate();
-        if (createdDate != null) {
-            productSkuViewBean.setCreatedDate(dateFormat.format(createdDate));
-        } else {
-            productSkuViewBean.setCreatedDate("NA");
-        }
-        Date updatedDate = productSku.getDateUpdate();
-        if (updatedDate != null) {
-            productSkuViewBean.setUpdatedDate(dateFormat.format(updatedDate));
-        } else {
-            productSkuViewBean.setUpdatedDate("NA");
-        }
+     @Override
+     public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, 
+                                                      final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = super.buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku);
 
         productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
         productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
@@ -760,13 +710,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (createdDate != null) {
             assetViewBean.setCreatedDate(dateFormat.format(createdDate));
         } else {
-            assetViewBean.setCreatedDate("NA");
+            assetViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
         }
         Date updatedDate = asset.getDateUpdate();
         if (updatedDate != null) {
             assetViewBean.setUpdatedDate(dateFormat.format(updatedDate));
         } else {
-            assetViewBean.setUpdatedDate("NA");
+            assetViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
         }
 
         assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));
@@ -822,12 +772,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (user.getDateCreate() != null) {
             userViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
         } else {
-            userViewBean.setDateCreate("NA");
+            userViewBean.setDateCreate(Constants.NOT_AVAILABLE);
         }
         if (user.getDateUpdate() != null) {
             userViewBean.setDateUpdate(dateFormat.format(user.getDateUpdate()));
         } else {
-            userViewBean.setDateUpdate("NA");
+            userViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
         final Set<UserGroup> userGroups = user.getUserGroups();
@@ -862,12 +812,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             if (StringUtils.isNotEmpty(userConnectionLog.getHost())) {
                 userConnectionLogValueBean.setHost(userConnectionLog.getHost());
             } else {
-                userConnectionLogValueBean.setHost("NA");
+                userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
             }
             if (StringUtils.isNotEmpty(userConnectionLog.getAddress())) {
                 userConnectionLogValueBean.setAddress(userConnectionLog.getAddress());
             } else {
-                userConnectionLogValueBean.setAddress("NA");
+                userConnectionLogValueBean.setAddress(Constants.NOT_AVAILABLE);
             }
             userViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
         }
@@ -901,6 +851,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
+    @Override
     public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
         final DeliveryMethodViewBean deliveryMethodViewBean = super.buildDeliveryMethodViewBean(requestData, deliveryMethod);
 
@@ -914,29 +865,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
+    @Override
     public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
-        OrderViewBean orderViewBean = new OrderViewBean();
-        orderViewBean.setId(order.getId());
+        OrderViewBean orderViewBean = super.buildOrderViewBean(requestData, order);
 
-        orderViewBean.setVersion(order.getVersion());
-        orderViewBean.setStatus(order.getStatus());
-        orderViewBean.setOrderNum(order.getOrderNum());
-        orderViewBean.setCustomerId(order.getCustomerId());
-        orderViewBean.setBillingAddressId(order.getBillingAddress().getId());
-        orderViewBean.setShippingAddressId(order.getShippingAddress().getId());
-
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (order.getDateCreate() != null) {
-            orderViewBean.setDateCreate(dateFormat.format(order.getDateCreate()));
-        } else {
-            orderViewBean.setDateCreate("NA");
-        }
-        if (order.getDateUpdate() != null) {
-            orderViewBean.setDateUpdate(dateFormat.format(order.getDateUpdate()));
-        } else {
-            orderViewBean.setDateUpdate("NA");
-        }
-
+        orderViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_DETAILS, requestData, order));
         orderViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_DETAILS, requestData, order));
 
         return orderViewBean;
@@ -959,12 +892,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (rule.getDateCreate() != null) {
             ruleViewBean.setDateCreate(dateFormat.format(rule.getDateCreate()));
         } else {
-            ruleViewBean.setDateCreate("NA");
+            ruleViewBean.setDateCreate(Constants.NOT_AVAILABLE);
         }
         if (rule.getDateUpdate() != null) {
             ruleViewBean.setDateUpdate(dateFormat.format(rule.getDateUpdate()));
         } else {
-            ruleViewBean.setDateUpdate("NA");
+            ruleViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
         ruleViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.RULE_DETAILS, requestData, rule));
@@ -977,31 +910,9 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
+    @Override
     public CustomerViewBean buildCustomerViewBean(final RequestData requestData, final Customer customer) throws Exception {
-        CustomerViewBean customerViewBean = new CustomerViewBean();
-        customerViewBean.setId(customer.getId());
-
-        customerViewBean.setVersion(customer.getVersion());
-        customerViewBean.setLogin(customer.getLogin());
-        customerViewBean.setTitle(customer.getTitle());
-        customerViewBean.setFirstname(customer.getFirstname());
-        customerViewBean.setLastname(customer.getLastname());
-        customerViewBean.setEmail(customer.getEmail());
-        customerViewBean.setPassword(customer.getPassword());
-        customerViewBean.setDefaultLocale(customer.getDefaultLocale());
-        customerViewBean.setActive(customer.isActive());
-
-        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        if (customer.getDateCreate() != null) {
-            customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
-        } else {
-            customerViewBean.setDateCreate("NA");
-        }
-        if (customer.getDateUpdate() != null) {
-            customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
-        } else {
-            customerViewBean.setDateUpdate("NA");
-        }
+        CustomerViewBean customerViewBean = super.buildCustomerViewBean(requestData, customer);
 
         customerViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestData, customer));
         customerViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_EDIT, requestData, customer));
@@ -1015,7 +926,6 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      */
     public List<GlobalSearchViewBean> buildGlobalSearchViewBean(final RequestData requestData, final String searchText) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
 
         final List<GlobalSearchViewBean> globalSearchViewBeans = new ArrayList<GlobalSearchViewBean>();
 
@@ -1069,7 +979,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if(StringUtils.isNotEmpty(engineSetting.getDefaultValue())){
             engineSettingViewBean.setDefaultValue(engineSetting.getDefaultValue());
         } else {
-            engineSettingViewBean.setDefaultValue("NA");
+            engineSettingViewBean.setDefaultValue(Constants.NOT_AVAILABLE);
         }
         
         engineSettingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
@@ -1154,14 +1064,14 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             if (dateCreate != null) {
                 paymentGatewayViewBean.setDateCreate(dateFormat.format(dateCreate));
             } else {
-                paymentGatewayViewBean.setDateCreate("NA");
+                paymentGatewayViewBean.setDateCreate(Constants.NOT_AVAILABLE);
             }
 
             Date dateUpdate = paymentGateway.getDateUpdate();
             if (dateUpdate != null) {
                 paymentGatewayViewBean.setDateUpdate(dateFormat.format(dateUpdate));
             } else {
-                paymentGatewayViewBean.setDateUpdate("NA");
+                paymentGatewayViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
             paymentGatewayViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_DETAILS, requestData, paymentGateway));

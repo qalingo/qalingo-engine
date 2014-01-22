@@ -7,11 +7,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
@@ -23,6 +19,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractUrlServiceImpl {
 
@@ -112,7 +109,7 @@ public abstract class AbstractUrlServiceImpl {
     }
 
     public String getSeoSegmentMain(Locale locale) throws Exception {
-        return handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
+        return handleSeoSpecificEscape(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, "seo.url.main", locale));
     }
 
     protected String getFullPrefixUrl(final RequestData requestData) throws Exception {
@@ -185,23 +182,67 @@ public abstract class AbstractUrlServiceImpl {
         return string;
     }
 
-    protected String handleString(String string) throws Exception {
-        if (StringUtils.isNotEmpty(string)) {
-            string = string.replaceAll(" ", "-");
-            string = string.replaceAll("_", "-");
-            String escapeAccent = engineSettingService.withEscapeAccent().getDefaultValue();
-            if (BooleanUtils.toBoolean(escapeAccent)) {
-                string = string.replaceAll("[àáâãäå]", "a");
-                string = string.replaceAll("[ç]", "c");
-                string = string.replaceAll("[èéêë]", "e");
-                string = string.replaceAll("[ìíîï]", "i");
-                string = string.replaceAll("[ðòóôõö]", "o");
-                string = string.replaceAll("[ùúûü]", "u");
-                string = string.replaceAll("[ýÿ]", "y");
-            }
-            string = encodeString(string).toLowerCase().trim();
+
+    protected String handleSeoSpecificEscape(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = replaceSpaceAndUnderscore(stringToReturn);
+            stringToReturn = stringToReturn.replaceAll("[àáâãäå]", "a");
+            stringToReturn = stringToReturn.replaceAll("[ç]", "c");
+            stringToReturn = stringToReturn.replaceAll("[èéêë]", "e");
+            stringToReturn = stringToReturn.replaceAll("[ìíîï]", "i");
+            stringToReturn = stringToReturn.replaceAll("[ðòóôõö]", "o");
+            stringToReturn = stringToReturn.replaceAll("[ùúûü]", "u");
+            stringToReturn = stringToReturn.replaceAll("[ýÿ]", "y");
+
+            // REPLACE WITH NOTHING
+            stringToReturn = stringToReturn.replaceAll("[°'\"?]", "");
+
+            // REPLACE WITH DASH
+            stringToReturn = stringToReturn.replaceAll("[(){}<>'\";,/#]", "-");
+
+            stringToReturn = cleanDash(stringToReturn);
+
+            return lowerCase(stringToReturn);
         }
-        return string;
+        return stringToReturn;
+    }
+
+    protected String replaceSpaceAndUnderscore(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            stringToReturn = stringToReturn.replaceAll(" ", "-");
+            stringToReturn = stringToReturn.replaceAll("_", "-");
+
+            stringToReturn = cleanDash(stringToReturn);
+
+            return lowerCase(stringToReturn);
+        }
+        return stringToReturn;
+    }
+
+    protected String cleanDash(String stringToReturn) {
+        // SPECIFIC DASH
+        stringToReturn = stringToReturn.replaceAll("–", "-");
+
+        while (stringToReturn.contains("--")) {
+            stringToReturn = stringToReturn.replaceAll("--", "-");
+        }
+        if (stringToReturn.startsWith("-")) {
+            stringToReturn = stringToReturn.substring(1, stringToReturn.length());
+        }
+        if (stringToReturn.endsWith("-")) {
+            stringToReturn = stringToReturn.substring(0, stringToReturn.length() - 1);
+        }
+        return stringToReturn;
+    }
+
+    protected String lowerCase(String string) {
+        String stringToReturn = string;
+        if (StringUtils.isNotEmpty(stringToReturn)) {
+            return stringToReturn.toLowerCase().trim();
+        }
+        return stringToReturn;
     }
 
     protected String buildDefaultPrefix(final RequestData requestData) {
@@ -210,15 +251,6 @@ public abstract class AbstractUrlServiceImpl {
 
     protected String buildContextPath(final RequestData requestData) {
         return requestData.getContextPath();
-    }
-
-    protected String getMessage(final Localization localization, final String key) throws Exception {
-        final Locale locale = localization.getLocale();
-        return handleString(coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.FO, ScopeWebMessage.SEO, key, locale));
-    }
-
-    protected MessageSource getMessageSource() throws Exception {
-        return coreMessageSource;
     }
 
 }

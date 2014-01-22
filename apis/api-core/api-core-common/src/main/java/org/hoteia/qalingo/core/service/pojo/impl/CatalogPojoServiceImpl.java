@@ -35,29 +35,31 @@ public class CatalogPojoServiceImpl implements CatalogPojoService {
     @Autowired
     protected CatalogService catalogService;
 
-    @Override
     public List<CatalogPojo> getAllCatalogMasters() {
         final List<CatalogMaster> allCatalogMasters = catalogService.findAllCatalogMasters();
         logger.debug("Found {} catalogs", allCatalogMasters.size());
         return PojoUtil.mapAll(dozerBeanMapper, allCatalogMasters, CatalogPojo.class);
     }
 
-    @Override
-    public CatalogPojo getCatalogById(String catalogId) {
+    public CatalogPojo getMasterCatalogById(final String catalogId) {
         final CatalogMaster catalog = catalogService.getMasterCatalogById(catalogId);
         logger.debug("Found catalog {} for id {}", catalog, catalogId);
         return dozerBeanMapper.map(catalog, CatalogPojo.class);
     }
     
-    @Override
-    public CatalogPojo getCatalog(CatalogMaster catalogMaster) {
+    public CatalogPojo getVirtualCatalogById(final String catalogId) {
+        final CatalogVirtual catalog = catalogService.getVirtualCatalogById(catalogId);
+        logger.debug("Found catalog {} for id {}", catalog, catalogId);
+        return dozerBeanMapper.map(catalog, CatalogPojo.class);
+    }
+    
+    public CatalogPojo getMasterCatalog(final CatalogMaster catalogMaster) {
         final CatalogPojo catalogPojo = dozerBeanMapper.map(catalogMaster, CatalogPojo.class);
         logger.debug("Load {} catalog", catalogMaster.getCode());
         return catalogPojo;
     }
 
-    @Override
-    public CatalogPojo getCatalog(CatalogVirtual catalogVirtual) {
+    public CatalogPojo getVirtualCatalog(final CatalogVirtual catalogVirtual) {
         final CatalogPojo catalogPojo = dozerBeanMapper.map(catalogVirtual, CatalogPojo.class);
         logger.debug("Load {} catalog", catalogVirtual.getCode());
         return catalogPojo;

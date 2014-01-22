@@ -227,9 +227,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 //      ProjectionList projections = Projections.projectionList();
 //      criteria.setProjection(projections);
 
-      criteria.setFetchMode("masterCatalog", FetchMode.JOIN);
-      criteria.setFetchMode("markets", FetchMode.JOIN);
-      criteria.setFetchMode("marketPlaceAttributes", FetchMode.JOIN);
+        criteria.setFetchMode("masterCatalog", FetchMode.JOIN);
+        criteria.setFetchMode("markets", FetchMode.JOIN);
+        criteria.setFetchMode("marketPlaceAttributes", FetchMode.JOIN);
       
 //      criteria.createAlias("markets.marketAreas", "marketAreas", JoinType.LEFT_OUTER_JOIN);
 //      criteria.setFetchMode("markets.marketAreas", FetchMode.JOIN);
@@ -253,8 +253,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 //      criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
 //      
 //      projections.add(Projections.property("markets.marketAreas.marketAreaAttributes"));
-      
-      
   }
     
     private void addDefaultMarketFetch(Criteria criteria) {
@@ -273,12 +271,15 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         
         criteria.createAlias("marketAreas.marketAreaAttributes", "marketAreaAttributes", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("marketAreaAttributes", FetchMode.JOIN);
-        
     }
     
     private void addDefaultMarketAreaFetch(Criteria criteria) {
         
-        criteria.setFetchMode("virtualCatalog", FetchMode.JOIN);
+        criteria.setFetchMode("catalog", FetchMode.JOIN);
+        
+        criteria.createAlias("catalog.catalogMaster", "catalogMaster", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
+
         criteria.setFetchMode("market", FetchMode.JOIN);
         
         criteria.setFetchMode("defaultCurrency", FetchMode.JOIN);
@@ -301,7 +302,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         criteria.setFetchMode("deliveryMethodPrices", FetchMode.JOIN);
 
         criteria.setFetchMode("paymentGateways", FetchMode.JOIN);
-        
     }
 	
 }

@@ -10,6 +10,8 @@
 package org.hoteia.qalingo.core.web.mvc.factory.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.hoteia.qalingo.core.Constants;
@@ -43,6 +47,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -139,6 +144,57 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     }
     
     // SEARCH
+    
+    @Override
+    public CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual catalogCategory) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildCatalogCategoryViewBean(requestData, catalogCategory);
+        
+        final String sortBy =  request.getParameter("sortBy");
+        final String orderBy =  request.getParameter("orderBy");
+        
+        final List<ProductMarketingViewBean> productMarketingViewBeans = catalogCategoryViewBean.getProductMarketings();
+        
+        Collections.sort(productMarketingViewBeans, new Comparator<ProductMarketingViewBean>() {
+            @Override
+            public int compare(ProductMarketingViewBean o1, ProductMarketingViewBean o2) {
+                if ("price".equals(sortBy)) {
+                    if ("desc".equals(orderBy)) {
+                        if (o2.getPriceWithCurrencySign() != null && o1.getPriceWithCurrencySign() != null) {
+                            return o2.getPriceWithCurrencySign().compareTo(o1.getPriceWithCurrencySign());
+                        } else {
+                            if (o1.getPriceWithCurrencySign() == null) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        }
+                    } else {
+                        if (o1.getPriceWithCurrencySign() != null && o2.getPriceWithCurrencySign() != null) {
+                            return o1.getPriceWithCurrencySign().compareTo(o2.getPriceWithCurrencySign());
+                        } else {
+                            if (o1.getPriceWithCurrencySign() == null) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    }
+                } else {
+                    /**
+                     * default sort by name and oderby asc
+                     */
+                    if ("desc".equals(orderBy)) {
+                        return o2.getI18nName().compareTo(o1.getI18nName());
+                    } else {
+                        return o1.getI18nName().compareTo(o2.getI18nName());
+                    }
+                }
+            }
+        });
+        catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
+        return super.buildCatalogCategoryViewBean(requestData, catalogCategory);
+    }
 
     /**
      * 
@@ -299,9 +355,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     }
     
     @Override
-    public List<RecentProductViewBean> buildRecentProductViewBean(
-    		final RequestData requestData,
-    		final List<String> listCode) throws Exception {
+    public List<RecentProductViewBean> buildRecentProductViewBean(final RequestData requestData, final List<String> listCode) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
@@ -344,29 +398,27 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	return catalogBreadCumViewBean;
     }
     
-    /**
-     * 
-     */
-    public StoreLocatorFilterBean buildStoreLocatorFilterBean(final StoreLocatorViewBean storeLocatorViewBean) {
+    public StoreLocatorFilterBean buildStoreLocatorFilterBean(final StoreLocatorViewBean storeLocatorViewBean, final Locale locale) throws Exception {
         final List<StoreViewBean> stores = storeLocatorViewBean.getStores();
         final StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
 
-        Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();
-        Map<String, StoreLocatorCityFilterBean> cityFilterMap = new HashMap<String, StoreLocatorCityFilterBean>();
+        final Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();
+        final Map<String, StoreLocatorCityFilterBean> cityFilterMap = new HashMap<String, StoreLocatorCityFilterBean>();
 
         for (StoreViewBean store : stores) {
             String country = store.getCountry();
             String city = store.getCity();
-            StoreLocatorCountryFilterBean countryFilter = null;
-            StoreLocatorCityFilterBean cityFilter = null;
+            StoreLocatorCountryFilterBean countryFilter;
+            StoreLocatorCityFilterBean cityFilter;
 
             if (countryFilterMap.containsKey(country)) {
                 countryFilter = countryFilterMap.get(country);
             } else {
                 countryFilter = new StoreLocatorCountryFilterBean();
                 countryFilter.setCode(country);
+                String countryLabel = referentialDataService.getCountryByLocale(country, locale);
+                countryFilter.setName(countryLabel);
                 filter.addCountry(countryFilter);
-                // TODO: set i18nName
                 countryFilterMap.put(country, countryFilter);
             }
 
@@ -374,15 +426,31 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
                 cityFilter = cityFilterMap.get(city);
             } else {
                 cityFilter = new StoreLocatorCityFilterBean();
+                cityFilter.setCode(handleCityCode(country));
                 cityFilter.setName(city);
                 countryFilter.addCity(cityFilter);
-                // TODO: set code?
                 cityFilterMap.put(city, cityFilter);
             }
 
             cityFilter.addStore(store);
         }
         return filter;
+    }
+    
+    protected String handleCityCode(String cityName) throws Exception {
+        if (StringUtils.isNotEmpty(cityName)) {
+            cityName = cityName.replaceAll(" ", "-");
+            cityName = cityName.replaceAll("_", "-");
+            cityName = cityName.replaceAll("[àáâãäå]", "a");
+            cityName = cityName.replaceAll("[ç]", "c");
+            cityName = cityName.replaceAll("[èéêë]", "e");
+            cityName = cityName.replaceAll("[ìíîï]", "i");
+            cityName = cityName.replaceAll("[ðòóôõö]", "o");
+            cityName = cityName.replaceAll("[ùúûü]", "u");
+            cityName = cityName.replaceAll("[ýÿ]", "y");
+            cityName = cityName.toLowerCase().trim();
+        }
+        return cityName;
     }
 
 }

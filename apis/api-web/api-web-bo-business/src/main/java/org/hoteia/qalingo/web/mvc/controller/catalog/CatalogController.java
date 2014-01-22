@@ -86,8 +86,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
 
-		CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(currentMarketArea.getId());
-		final CatalogMaster catalogMaster = catalogVirtual.getCatalogMaster();
+        final CatalogMaster catalogMaster = catalogService.getMasterCatalogById(currentMarketArea.getCatalog().getCatalogMaster().getId());
 
 		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
@@ -97,9 +96,12 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
 		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 
+		// TODO : Denis : FIND A BETTER WAY - CLEAN ENTITY GRAPH FOR DOZER - EVICT LAZY EXCEPTION
+		catalogMaster.setCatalogCategories(null);
+		
         ObjectMapper mapper = new ObjectMapper();
         try {
-            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getCatalog(catalogMaster);
+            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalogMaster);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
         } catch (JsonGenerationException e) {
@@ -132,7 +134,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		
         ObjectMapper mapper = new ObjectMapper();
         try {
-            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getCatalog(catalogVirtual);
+            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
         } catch (JsonGenerationException e) {

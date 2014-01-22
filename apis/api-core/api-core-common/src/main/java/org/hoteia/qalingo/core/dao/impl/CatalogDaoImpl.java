@@ -20,7 +20,6 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
-import org.hoteia.qalingo.core.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
