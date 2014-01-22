@@ -9,19 +9,13 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -31,7 +25,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -95,7 +88,7 @@ public class SearchController extends AbstractMCommerceController {
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_ProductMarketing_" + request.getSession().getId();
-        int page = searchForm.getPage();
+        int page = searchForm.getPage() - 1;
         String mode = request.getParameter(Constants.PAGE_VIEW_MODE);
         String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
@@ -104,13 +97,16 @@ public class SearchController extends AbstractMCommerceController {
 			ProductMarketingResponseBean productMarketingResponseBean = null;
 			if(searchForm.getPrice() != null){
 				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+						searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
+						searchForm.getCatalogCategoryList());
+				ProductMarketingResponseBean nonCategoriesFilter = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 						searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, nonCategoriesFilter));
 			}else{
 				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 														searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
+				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
 			}
-			
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
 	        
 			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder;
 
@@ -144,6 +140,7 @@ public class SearchController extends AbstractMCommerceController {
 			modelAndView.addObject(Constants.PAGINATION_SORT_BY, sortBy);
 			modelAndView.addObject(Constants.PAGINATION_ORDER, order);
 			modelAndView.addObject(Constants.PRICE_RANGE_PARAMETER, searchForm.getPrice());
+			modelAndView.addObject(Constants.CATALOG_CATEGORIES_PARAMETER, searchForm.getCategoriesFilter());
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
 			return displaySearch(request, response, modelMap);
@@ -161,17 +158,17 @@ public class SearchController extends AbstractMCommerceController {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        List<ProductMarketing> products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate301");
-        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
-            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
-        }
-
-        products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), "cate302");
-        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
-            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing,  marketArea, retailer);
-        }
+        String[] categories = new String[]{"cate301","cate302","cate401","cate402","cate501"};
+        
+        List<ProductMarketing> products;
+        
+        for (String category : categories) {
+        	products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), category);
+            for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
+                ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
+            }
+		}
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request))));
     }

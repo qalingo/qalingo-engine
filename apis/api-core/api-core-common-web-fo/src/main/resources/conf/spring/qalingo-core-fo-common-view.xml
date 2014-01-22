@@ -48,6 +48,9 @@
 		<property name="suffix" value=".vm" />
 		<property name="exposeSpringMacroHelpers" value="true" />
 		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="toolboxConfigLocation">
+            <value>/WEB-INF/velocity-toolbox.xml</value>
+        </property>
 	</bean>
 	
 </beans>

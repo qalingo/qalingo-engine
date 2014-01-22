@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.solr.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -29,20 +31,23 @@ public class ProductMarketingSolr {
 	@Field
 	private String businessname;
 
-    @Field
+	@Field
 	private String defaultCategoryCode;
 
-    @Field
+	@Field
 	private String defaultProductSkuCode;
 
-    @Field
-    private Float price;
-    
-    @Field("datecreate")
+	@Field
+	private Float price;
+
+	@Field("datecreate")
 	private Date dateCreate;
 
-    @Field("dateupdate")
+	@Field("dateupdate")
 	private Date dateUpdate;
+
+	@Field
+	private List<String> catalogCategories;
 
 	public String getBusinessname() {
 		return businessname;
@@ -99,14 +104,14 @@ public class ProductMarketingSolr {
 	public void setDefaultProductSkuCode(String defaultProductSkuCode) {
 		this.defaultProductSkuCode = defaultProductSkuCode;
 	}
-	
+
 	public Float getPrice() {
-        return price;
-    }
-	
+		return price;
+	}
+
 	public void setPrice(Float price) {
-        this.price = price;
-    }
+		this.price = price;
+	}
 
 	public Date getDateCreate() {
 		return dateCreate;
@@ -124,4 +129,21 @@ public class ProductMarketingSolr {
 		this.dateUpdate = dateUpdate;
 	}
 
+	public List<String> getCatalogCategories() {
+		return catalogCategories;
+	}
+
+	public void setCatalogCategories(List<String> catalogCategories) {
+		this.catalogCategories = catalogCategories;
+	}
+	
+	public void addCatalogCategories(String catalogCategoryCode){
+		if(this.catalogCategories == null){
+			this.catalogCategories = new ArrayList<String>();
+		}
+		
+		if(!this.catalogCategories.contains(catalogCategoryCode)){
+			this.catalogCategories.add(catalogCategoryCode);
+		}
+	}
 }

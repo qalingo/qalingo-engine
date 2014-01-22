@@ -52,6 +52,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -261,11 +262,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         if(Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(facetField.getName());
-            List<String> values = new ArrayList<String>();
+            List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
                 final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(marketArea.getId(), count.getName());
-                values.add(catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");
+                ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");                
+                values.add(valueBean);
             }
             searchFacetViewBean.setValues(values);
         }
