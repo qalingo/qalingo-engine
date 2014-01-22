@@ -64,6 +64,7 @@
 		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
 		<field name="price"			type="float"   		indexed="true"  stored="true"  multiValued="false" />
 		<field name="defaultCategoryCode"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
+		<field name="catalogCategories"	type="string"   indexed="true"  stored="true"  multiValued="true" />
 		<!-- 
 		<field name="price"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="price_s"		type="priceclass"	indexed="true"  stored="true"  multiValued="false" />
@@ -76,11 +77,12 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
-	<copyField source="businessname"	dest="text" />
-	<copyField source="description"		dest="text" />
-	<copyField source="code"			dest="text" />
-	<copyField source="price"			dest="text" />
-	<copyField source="defaultCategoryCode"			dest="text" />
+	<copyField source="businessname"		dest="text" />
+	<copyField source="description"			dest="text" />
+	<copyField source="code"				dest="text" />
+	<copyField source="price"				dest="text" />
+	<copyField source="defaultCategoryCode"	dest="text" />
+	<copyField source="catalogCategories"	dest="text" />
    
 	<!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
 	<solrQueryParser defaultOperator="OR" />

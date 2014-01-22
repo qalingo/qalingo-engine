@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
@@ -152,6 +154,9 @@ public class SearchController extends AbstractMCommerceController {
     @Autowired
     public ProductService productService;
 
+    @Autowired
+    private CatalogCategoryService catalogCategoryService;
+    
     @RequestMapping(value = "/**/search-load-index.html", method = RequestMethod.GET)
     public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -166,7 +171,10 @@ public class SearchController extends AbstractMCommerceController {
         	products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), category);
             for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
                 ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
+                
+                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
+                
+                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
             }
 		}
 

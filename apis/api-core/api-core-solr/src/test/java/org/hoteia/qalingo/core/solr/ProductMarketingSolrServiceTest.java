@@ -2,8 +2,11 @@ package org.hoteia.qalingo.core.solr;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -72,7 +75,8 @@ public class ProductMarketingSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         productMarketing.setId(null);
-        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
+        List<CatalogCategoryVirtual> catalogCategories = new ArrayList<CatalogCategoryVirtual>();
+        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
         logger.debug("--------------->testFirstIndexData()");
     }
     
@@ -82,7 +86,8 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexData");
-        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, marketArea, retailer);
+        List<CatalogCategoryVirtual> catalogCategories = new ArrayList<CatalogCategoryVirtual>();
+        productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
     }
     
 	/**

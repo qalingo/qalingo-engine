@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -28,7 +29,7 @@ public interface ProductMarketingSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void addOrUpdateProductMarketing(ProductMarketing productMarketing, MarketArea marketArea, Retailer retailer) throws SolrServerException, IOException;
+	void addOrUpdateProductMarketing(ProductMarketing productMarketing, List<CatalogCategoryVirtual> catalogCategories, MarketArea marketArea, Retailer retailer) throws SolrServerException, IOException;
 	
 	/**
 	 * Search product.

@@ -28,7 +28,6 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
@@ -47,13 +46,10 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
     @Autowired
     public SolrServer productMarketingSolrServer;
     
-    @Autowired
-    private CatalogCategoryService catalogCategoryService;
-    
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#addOrUpdateProductMarketing(fr.hoteia.qalingo.core.domain.ProductMarketing)
 	 */
-    public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
+    public void addOrUpdateProductMarketing(final ProductMarketing productMarketing, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productMarketing.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
@@ -78,10 +74,11 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
             productSolr.setPrice(salePrice.floatValue());
         }
         
-        List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
-        for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
-			productSolr.addCatalogCategories(catalogCategoryVirtual.getCode());
-		}
+        if(catalogCategories != null){
+            for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
+                productSolr.addCatalogCategories(catalogCategoryVirtual.getCode());
+            }
+        }
         
         productMarketingSolrServer.addBean(productSolr);
         productMarketingSolrServer.commit();
@@ -108,10 +105,8 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
      * {@inheritDoc}
      */
     @Override
-    public ProductMarketingResponseBean searchProductMarketing(final String searchBy,
-    		final String searchText, final String facetField, final BigDecimal priceStart,
-    		final BigDecimal priceEnd, final List<String> catalogCategories)
-    		throws SolrServerException, IOException {
+    public ProductMarketingResponseBean searchProductMarketing(final String searchBy, final String searchText, final String facetField, 
+                                                               final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> catalogCategories) throws SolrServerException, IOException {
     	SolrQuery solrQuery = new SolrQuery();
 
     	if (StringUtils.isEmpty(searchBy)) {
