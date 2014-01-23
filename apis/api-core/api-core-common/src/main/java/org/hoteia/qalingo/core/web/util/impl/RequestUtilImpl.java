@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -1709,4 +1710,84 @@ public class RequestUtilImpl implements RequestUtil {
         return session;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getRecentProductIdsFromCookie(final HttpServletRequest request){
+		Cookie info=null;
+        Cookie[] cookies = request.getCookies();
+        Boolean found = false;
+        if(cookies !=  null){
+	        for(int i=0;i<cookies.length;i++)
+	        {
+	            info=cookies[i];
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            {
+	                found = true;
+	                break;
+	            }
+	        }
+        }   
+        List<String> listId = new ArrayList<String>();
+        if(found){
+        	if(!info.getValue().isEmpty()){
+	        	String[] splits = info.getValue().split(" ");
+	        	if(splits.length >= 3){
+		        	for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
+		        		listId.add(splits[i]);
+		        	}
+	        	} else {
+	        		for (int i = splits.length - 1; i >= 0 ; i--) {
+	        			listId.add(splits[i]);
+					}
+	        	}
+        	}
+        } 
+        
+        return listId;
+    }
+    
+    @Override
+    public void addOrUpdateRecentProductToCookie(final Long productId, final HttpServletRequest request, final HttpServletResponse response)
+    		throws Exception {
+        Cookie info=null;
+        Cookie[] cookies = request.getCookies();
+        Boolean found = false;
+        if(cookies !=  null){
+	        for(int i=0;i<cookies.length;i++)
+	        {
+	            info=cookies[i];
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
+	            {
+	                found = true;
+	                break;
+	            }
+	        }
+        }   
+        if(found){
+        	Boolean flag = false;
+        	String[] splits = info.getValue().split(" ");
+        	for(String value:splits){
+        		if(value.equals(Long.toString(productId))){
+        			flag = true;
+        		} 
+        	}
+        	if(!flag){
+        		String values = info.getValue();
+        		values += " "+ Long.toString(productId);
+        		info.setValue(values);
+        		info.setPath("/");
+        		info.setMaxAge(Constants.COOKIES_LENGTH);
+        		info.setDomain(request.getServerName());
+    			response.addCookie(info);    			
+        	} 
+        } else {
+			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, Long.toString(productId));
+			info.setMaxAge(Constants.COOKIES_LENGTH);
+			info.setPath("/");
+			info.setDomain(request.getServerName());
+			response.addCookie(info);
+        }
+    }
 }

@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
@@ -317,4 +318,20 @@ public interface RequestUtil {
      */
     RequestData getRequestData(HttpServletRequest request) throws Exception;
 
+    /**
+     * Find the recent viewed products from cookie 
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    List<String> getRecentProductIdsFromCookie(HttpServletRequest request) throws Exception;
+    
+    /**
+     * Add/update recent viewed product to cookie
+     * @param productId id want to store
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    void addOrUpdateRecentProductToCookie(Long productId, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

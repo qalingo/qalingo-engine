@@ -86,43 +86,8 @@ public class ProductDetailsController extends AbstractMCommerceController {
         List<ProductMarketingViewBean> relatedProducts = catalogCategoryViewBean.getFeaturedProductMarketings();
         model.addAttribute(ModelConstants.RELATED_PPRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
 
-        // TODO : Denis : move this part, Cookie, in RequestUtilImpl.java
-        Cookie info=null;
-        Cookie[] cookies = request.getCookies();
-        Boolean found = false;
-        if(cookies !=  null){
-	        for(int i=0;i<cookies.length;i++)
-	        {
-	            info=cookies[i];
-	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
-	            {
-	                found = true;
-	                break;
-	            }
-	        }
-        }   
-        if(found){
-        	Boolean flag = false;
-        	String[] splits = info.getValue().split(" ");
-        	for(String value:splits){
-        		if(value.equals(Long.toString(productMarketing.getId()))){
-        			flag = true;
-        		} 
-        	}
-        	if(!flag){
-        		String values = info.getValue();
-        		values += " "+ Long.toString(productMarketing.getId());
-        		info.setValue(values);
-        		info.setPath("/");
-    			response.addCookie(info);
-        	} 
-        } else {
-			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, Long.toString(productMarketing.getId()));
-			info.setMaxAge(Constants.COOKIES_LENGTH);
-			info.setPath("/");
-			info.setDomain("fo-mcommerce.dev.qalingo.com");
-			response.addCookie(info);
-        }
+        requestUtil.addOrUpdateRecentProductToCookie(productMarketing.getId(), request, response);
+        
         return modelAndView;
 	}
 
