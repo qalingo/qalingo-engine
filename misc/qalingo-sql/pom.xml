@@ -61,7 +61,7 @@
 				<executions>
 					<execution>
 						<id>drop-db</id>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
@@ -80,7 +80,7 @@
 					</execution>
 					<execution>
 						<id>create-db</id>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
@@ -99,7 +99,7 @@
 					</execution>
 					<execution>
 						<id>init-db</id>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
@@ -117,7 +117,7 @@
 					</execution>
 					<execution>
 						<id>init-demo-db</id>
-						<phase>package</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
