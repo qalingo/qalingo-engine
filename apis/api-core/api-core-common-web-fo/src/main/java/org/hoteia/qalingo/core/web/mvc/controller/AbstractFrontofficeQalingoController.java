@@ -68,13 +68,13 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
         model.addAttribute(ModelConstants.SEO_PAGE_META_TITLE, seoPageTitle);
         
-        String metaOgShareTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
+        String metaOgShareTitle = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, metaOgShareTitle);
         
-        String metaOgShareDescription = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_DESCRIPTION, locale);
+        String metaOgShareDescription = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_DESCRIPTION, locale);
         model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, metaOgShareDescription);
         
-        String metaOgShareImage = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.PAGE_META_OG_IMAGE, locale);
+        String metaOgShareImage = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_IMAGE, locale);
         model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, metaOgShareImage);
 	}
 	
