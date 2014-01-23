@@ -17,6 +17,7 @@ import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -31,6 +32,8 @@ import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
+import org.hoteia.qalingo.web.mvc.form.RetailerCommentForm;
+import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -194,6 +197,36 @@ public class FormFactoryImpl implements FormFactory {
         final ProductCommentForm productCommentForm = new ProductCommentForm();
         productCommentForm.setProductCode(productMarketing.getCode());
         return productCommentForm;
+    }
+    
+    public RetailerContactForm buildRetailerContactForm(final RequestData requestData, final Retailer retailer) throws Exception {
+        final RetailerContactForm retailerContactForm = new RetailerContactForm();
+        retailerContactForm.setRetailerCode(retailer.getCode());
+        
+        String languageCode = requestData.getMarketAreaLocalization().getCode();
+        if(languageCode.equals("en")) {
+            retailerContactForm.setCountry("US");
+        } else if(languageCode.equals("fr")) {
+            retailerContactForm.setCountry("FR");
+        }  else if(languageCode.equals("de")) {
+            retailerContactForm.setCountry("DE");
+        }  else if(languageCode.equals("es")) {
+            retailerContactForm.setCountry("ES");
+        }  else if(languageCode.equals("it")) {
+            retailerContactForm.setCountry("IT");
+        }  else if(languageCode.equals("nl")) {
+            retailerContactForm.setCountry("NL");
+        }  else if(languageCode.equals("pt")) {
+            retailerContactForm.setCountry("PT");
+        } 
+        
+        return retailerContactForm;
+    }
+    
+    public RetailerCommentForm buildRetailerCommentForm(final RequestData requestData, final Retailer retailer) throws Exception {
+        RetailerCommentForm retailerCommentForm = new RetailerCommentForm();
+        retailerCommentForm.setRetailerCode(retailer.getCode());
+        return retailerCommentForm;
     }
 
 }

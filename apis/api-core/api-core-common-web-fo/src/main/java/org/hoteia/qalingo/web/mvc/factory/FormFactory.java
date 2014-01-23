@@ -12,6 +12,7 @@ package org.hoteia.qalingo.web.mvc.factory;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.web.mvc.form.CartForm;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
@@ -22,6 +23,8 @@ import org.hoteia.qalingo.web.mvc.form.FollowUsForm;
 import org.hoteia.qalingo.web.mvc.form.PaymentForm;
 import org.hoteia.qalingo.web.mvc.form.ProductCommentForm;
 import org.hoteia.qalingo.web.mvc.form.QuickSearchForm;
+import org.hoteia.qalingo.web.mvc.form.RetailerCommentForm;
+import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 
 public interface FormFactory {
@@ -46,4 +49,7 @@ public interface FormFactory {
 	 
 	ProductCommentForm buildProductCommentForm(RequestData requestData, ProductMarketing productMarketing) throws Exception;
 
+    RetailerContactForm buildRetailerContactForm(RequestData requestData, Retailer retailer) throws Exception;
+    
+    RetailerCommentForm buildRetailerCommentForm(RequestData requestData, Retailer retailer) throws Exception;
 }
