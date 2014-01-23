@@ -28,6 +28,10 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<configuration>                  
 					<propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>${jdbc.url}</url>
+					<username>${jdbc.username}</username>
+					<password>${jdbc.password}</password>
 				</configuration>                
 				<executions>
 					<execution>
