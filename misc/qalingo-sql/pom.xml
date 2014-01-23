@@ -32,7 +32,6 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>sql-maven-plugin</artifactId>
-
 						<dependencies>
 							<dependency>
 								<groupId>mysql</groupId>
@@ -40,14 +39,12 @@
 								<version>5.1.9</version>
 							</dependency>
 						</dependencies>
-
 						<configuration>
 							<driver>com.mysql.jdbc.Driver</driver>
 							<url>jdbc:mysql://localhost:3306/qalingo?AutoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</url>
 							<username>qalingo</username>
 							<password>password</password>
 						</configuration>
-						
 						<executions>
 							<execution>
 								<id>drop-db</id>
@@ -87,6 +84,49 @@
 									<onError>continue</onError>
 								</configuration>
 							</execution>
+							<execution>
+								<id>init-db</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
+										<srcFile>src/main/resources/sql/mysql/spring-batch-schema.sql</srcFile>
+										<srcFile>src/main/resources/sql/mysql/init-core-values.sql</srcFile>
+									</srcFiles>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>setup-demo-mysql</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.9</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<driver>com.mysql.jdbc.Driver</driver>
+							<url>jdbc:mysql://localhost:3306/qalingo?AutoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</url>
+							<username>qalingo</username>
+							<password>password</password>
+						</configuration>
+						<executions>
 							<execution>
 								<id>init-db</id>
 								<phase>install</phase>

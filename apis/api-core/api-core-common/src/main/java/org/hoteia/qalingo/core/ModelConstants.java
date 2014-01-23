@@ -35,6 +35,11 @@ public final class ModelConstants {
     public static final String SEO_PAGE_META_KEYWORDS       = "seoPageMetaKeywords";
     public static final String SEO_PAGE_META_DESCIPRTION    = "seoPageMetaDescription";
     public static final String SEO_PAGE_META_TITLE          = "seoPageTitle";
+
+    public static final String PAGE_META_OG_TITLE       = "metaOgTitle";
+    public static final String PAGE_META_OG_DESCRIPTION = "metaOgDescription";
+    public static final String PAGE_META_OG_IMAGE       = "metaOgImage";
+
     public static final String MAIN_CONTENT_TITLE           = "mainContentTitle";
 
     // CHECKOUT PROCESS
