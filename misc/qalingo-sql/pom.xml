@@ -23,6 +23,7 @@
 	<build>
 		<finalName>sql</finalName>
 		<plugins>
+			<!--
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
@@ -42,6 +43,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sql-maven-plugin</artifactId>
@@ -106,7 +108,6 @@
 						<configuration>
 							<autocommit>true</autocommit>
 							<srcFiles>
-								<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
 								<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
 								<srcFile>src/main/resources/sql/mysql/spring-batch-schema.sql</srcFile>
 								<srcFile>src/main/resources/sql/mysql/init-core-values.sql</srcFile>
