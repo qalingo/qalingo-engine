@@ -100,6 +100,28 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>grant-privileges</id>
+						<phase>package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to create the targeted one -->
+							<url>${jdbc.url.root}</url>
+							<username>${jdbc.username.root}</username>
+							<password>${jdbc.password.root}</password>
+							<autocommit>true</autocommit>
+							<sqlCommand>
+							GRANT ALL PRIVILEGES ON opentailor.* TO '${jdbc.username}'@'localhost' IDENTIFIED BY '${jdbc.password}' WITH GRANT OPTION;
+							GRANT ALL PRIVILEGES ON opentailor.* TO '${jdbc.username}'@'%' IDENTIFIED BY '${jdbc.password}' WITH GRANT OPTION;
+							FLUSH PRIVILEGES;
+							</sqlCommand>
+							<!-- ignore error when database is not avaiable -->
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+
+					<execution>
 						<id>init-db</id>
 						<phase>package</phase>
 						<goals>
