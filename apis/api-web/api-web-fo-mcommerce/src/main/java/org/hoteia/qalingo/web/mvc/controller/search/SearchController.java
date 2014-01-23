@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -27,6 +29,8 @@ import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -69,6 +73,14 @@ public class SearchController extends AbstractMCommerceController {
 		modelAndView.addObject("search", search);
 		
 		modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
+		
+		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+        
+        final Cart currentCart = requestData.getCart();
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
         return modelAndView;
 	}
@@ -147,6 +159,14 @@ public class SearchController extends AbstractMCommerceController {
 			logger.error("SOLR Error", e);
 			return displaySearch(request, response, modelMap);
 		}
+		
+		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+        
+        final Cart currentCart = requestData.getCart();
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
         return modelAndView;
 	}
