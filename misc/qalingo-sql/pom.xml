@@ -69,6 +69,7 @@
 						</goals>
 						<configuration>
 							<!-- need another database to drop the targeted one -->
+							<skip>${skip-setup-mysql}</skip>
 							<url>${jdbc.url.root}</url>
 							<username>${jdbc.username.root}</username>
 							<password>${jdbc.password.root}</password>
@@ -88,6 +89,7 @@
 						</goals>
 						<configuration>
 							<!-- need another database to create the targeted one -->
+							<skip>${skip-setup-mysql}</skip>
 							<url>${jdbc.url.root}</url>
 							<username>${jdbc.username.root}</username>
 							<password>${jdbc.password.root}</password>
@@ -107,6 +109,7 @@
 						</goals>
 						<configuration>
 							<!-- need another database to create the targeted one -->
+							<skip>${skip-setup-mysql}</skip>
 							<url>${jdbc.url.root}</url>
 							<username>${jdbc.username.root}</username>
 							<password>${jdbc.password.root}</password>
@@ -128,6 +131,7 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
+							<skip>${skip-setup-mysql}</skip>
 							<autocommit>true</autocommit>
 							<srcFiles>
 								<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
@@ -145,6 +149,7 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
+							<skip>${skip-setup-mysql}</skip>
 							<autocommit>true</autocommit>
 							<srcFiles>
 								<srcFile>src/main/resources/sql/mysql/init-demo-values.sql</srcFile>
@@ -171,8 +176,8 @@
 					</dependencies>
 				</plugin>
 				<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>sql-maven-plugin</artifactId>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
 					<version>1.5</version>
 					<dependencies>
 						<dependency>

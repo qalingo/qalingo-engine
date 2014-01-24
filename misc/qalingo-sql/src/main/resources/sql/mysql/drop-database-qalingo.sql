@@ -9,5 +9,3 @@
 --
 
 DROP DATABASE qalingo;
-
-DROP USER qalingo;

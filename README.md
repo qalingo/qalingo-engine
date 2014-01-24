@@ -29,9 +29,9 @@ Maven profile "dev-qalingo" is in here, with all the specific configuration like
 4) build a "qalingo" database from files or use Maven goal : 
 qalingo-b2c-engine\qalingo-misc\qalingo-sql\src\main\resources\sql\mysql
 Basic SQL
-mvn clean package -P dev-qalingo
+mvn clean package -P dev-qalingo -Dskip-setup-mysql=false
 Demo SQL
-mvn clean install -P dev-qalingo
+mvn clean install -P dev-qalingo -Dskip-setup-mysql=false
 
 5) configure your Apache/Tomcat servers, with configuration from step 0
 
