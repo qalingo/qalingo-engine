@@ -75,6 +75,9 @@ public class MarketArea extends AbstractEntity {
     @Column(name = "THEME")
     private String theme;
 
+    @Column(name = "GEOLOC_COUNTRY_CODE")
+    private String geolocCountryCode;
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "VIRTUAL_CATALOG_ID")
     private CatalogVirtual catalog;
@@ -200,6 +203,14 @@ public class MarketArea extends AbstractEntity {
         this.theme = theme;
     }
 
+    public String getGeolocCountryCode() {
+        return geolocCountryCode;
+    }
+    
+    public void setGeolocCountryCode(String geolocCountryCode) {
+        this.geolocCountryCode = geolocCountryCode;
+    }
+    
     public CatalogVirtual getCatalog() {
         return catalog;
     }

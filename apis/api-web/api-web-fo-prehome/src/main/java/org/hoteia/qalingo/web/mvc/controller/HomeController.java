@@ -18,13 +18,18 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Country;
 
 /**
  * 
@@ -32,13 +37,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("homeController")
 public class HomeController extends AbstractPrehomeController {
 
+    @Autowired
+    protected GeolocService geolocService;
+    
 	@RequestMapping(FoUrls.PREHOME_URL)
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PREHOME.getVelocityPage());
 
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final Locale locale = requestData.getLocale();
-		
 		final String pageKey = FoUrls.PREHOME.getKey();
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
@@ -46,6 +53,13 @@ public class HomeController extends AbstractPrehomeController {
 		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, FoMessageKey.MAIN_CONTENT_TEXT, locale);
 		model.addAttribute(ModelConstants.CONTENT_TEXT, contentText);
 		
+		final String remoteAddress = geolocService.getRemoteAddr(request);
+		final Country country = geolocService.geolocAndGetCountry(remoteAddress);
+        model.addAttribute(ModelConstants.GEOLOC_COUNTRY, country);
+
+        final City city = geolocService.geolocAndGetCity(remoteAddress);
+        model.addAttribute(ModelConstants.GEOLOC_CITY, city);
+
         return modelAndView;
 	}
 	

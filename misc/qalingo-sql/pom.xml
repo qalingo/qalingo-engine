@@ -134,9 +134,9 @@
 							<skip>${skip-setup-mysql}</skip>
 							<autocommit>true</autocommit>
 							<srcFiles>
-								<srcFile>src/main/resources/sql/mysql/qalingo-schema.sql</srcFile>
-								<srcFile>src/main/resources/sql/mysql/spring-batch-schema.sql</srcFile>
-								<srcFile>src/main/resources/sql/mysql/init-core-values.sql</srcFile>
+								<srcFile>src/main/resources/sql/${database.type}/qalingo-schema.sql</srcFile>
+								<srcFile>src/main/resources/sql/${database.type}/spring-batch-schema.sql</srcFile>
+								<srcFile>src/main/resources/sql/${database.type}/init-core-values.sql</srcFile>
 							</srcFiles>
 							<!-- ignore error when database is not avaiable -->
 							<onError>continue</onError>
@@ -152,7 +152,7 @@
 							<skip>${skip-setup-mysql}</skip>
 							<autocommit>true</autocommit>
 							<srcFiles>
-								<srcFile>src/main/resources/sql/mysql/init-demo-values.sql</srcFile>
+								<srcFile>src/main/resources/sql/${database.type}/init-demo-values.sql</srcFile>
 							</srcFiles>
 							<!-- ignore error when database is not avaiable -->
 							<onError>continue</onError>

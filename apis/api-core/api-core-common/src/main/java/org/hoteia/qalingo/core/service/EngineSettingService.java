@@ -85,6 +85,10 @@ public interface EngineSettingService {
     public final String ENGINE_SETTING_CONTEXT_PRODUCT_SCORE_MAX    = "PRODUCT_QUALITY_OF_SERVICE";
 	public final String ENGINE_SETTING_CONTEXT_RETAILER_SCORE_MAX	= "RETAILER_QUALITY_OF_SERVICE";
 
+	// GEOLOC
+    public final String ENGINE_SETTING_GEOLOC_CITY_DATABASE_PATH         = "CITY_DATABASE_PATH";
+    public final String ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH      = "COUNTRY_DATABASE_PATH";
+
     // Engine Setting
 
     EngineSetting getEngineSettingById(Long engineSettingId);
@@ -151,6 +155,12 @@ public interface EngineSettingService {
 
     EngineSetting getWebMonitoringName();
 
+    // GEOLOC SETTINGS
+
+    EngineSetting getGeolocCityFilePath();
+
+    EngineSetting getGeolocCountryFilePath();
+    
     // DOCUMENT SETTINGS
 
     EngineSetting getDocumentFileRootPath();

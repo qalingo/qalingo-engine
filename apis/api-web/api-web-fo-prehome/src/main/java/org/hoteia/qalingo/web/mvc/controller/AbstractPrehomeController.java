@@ -10,8 +10,6 @@
 package org.hoteia.qalingo.web.mvc.controller;
 
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -24,6 +22,5 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractPrehomeController extends AbstractFrontofficeQalingoController {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 }
