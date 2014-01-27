@@ -178,6 +178,16 @@ public class EngineSettingServiceImpl implements EngineSettingService {
         return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_WEB_MONITORING_NAME);
     }
 
+    // GEOLOC SETTINGS
+
+    public EngineSetting getGeolocCityFilePath() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_GEOLOC_CITY_DATABASE_PATH);
+    }
+
+    public EngineSetting getGeolocCountryFilePath() {
+        return getEngineSettingByCode(EngineSettingService.ENGINE_SETTING_GEOLOC_COUNTRY_DATABASE_PATH);
+    }
+
     // DOCUMENT SETTINGS
 
     public EngineSetting getDocumentFileRootPath() {

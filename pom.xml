@@ -26,6 +26,7 @@
 		<root.basedir>${project.basedir}</root.basedir>
 		<packaging.excludes>WEB-INF/classes/*.properties</packaging.excludes>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<database.type>mysql</database.type>
 		<env.name>developpement</env.name>
 		<qalingo.webservice.url>http://localhost:21080/remote-ws</qalingo.webservice.url>
 
@@ -50,7 +51,7 @@
 		<!-- LOGS -->
 		<logback.version>1.0.13</logback.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<jackson.version>2.1.0</jackson.version>
+		<jackson.version>2.3.1</jackson.version>
 	</properties>
 
 	<modules>
@@ -585,6 +586,12 @@
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
 				<version>5.5.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-annotations</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
             
 			<!-- JACKSON Libs -->
@@ -616,6 +623,18 @@
 				<groupId>org.codehaus.woodstox</groupId>
 				<artifactId>woodstox-core-asl</artifactId>
 				<version>4.1.4</version>
+			</dependency>
+
+			<!-- GeoLoc -->
+			<dependency>
+				<groupId>com.maxmind.db</groupId>
+				<artifactId>maxmind-db</artifactId>
+				<version>0.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.maxmind.geoip2</groupId>
+				<artifactId>geoip2</artifactId>
+				<version>0.7.0</version>
 			</dependency>
 
 			<!-- Logs dependencies -->

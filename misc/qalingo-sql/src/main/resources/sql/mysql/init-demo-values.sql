@@ -139,18 +139,18 @@ INSERT INTO teco_market
 (30, 'Market 5 = example Asia', 'ASIA', null, 1, 'Asia', 1, 30);
 
 INSERT INTO teco_market_area 
-(id, description, name, code, theme, is_default, version, market_id, virtual_catalog_id, default_localization_id, default_retailer_id, default_currency_id, latitude, longitude)
+(id, description, name, code, theme, geoloc_country_code, is_default, version, market_id, virtual_catalog_id, default_localization_id, default_retailer_id, default_currency_id, latitude, longitude)
  VALUES 
-(  1, 'Market INT description', 'market area 1 : INT', 'INT', null, 1, 1,  1, 100, 1, 1, 150, '-30.000', '45.000'),
-(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 1, 1, 10, 101, 2, 1, 45, '48.480', '2.200'),	
-(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 1, 1, 10, 102, 3, 1, 45, '40.260', '3.420'),	
-(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 1, 1, 20, 201, 1, 1, 150, '40.000', '-90.000'),
-(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 0, 1, 20, 202, 1, 1, 27, '55.000', '-90.000'),
-(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 1, 1, 21, 210, 8, 1, 21, '-22.570', '-43.120'),
-(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 1, 1, 21, 211, 3, 1, 8, '-34.350', '-58.220'),
-(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 0, 1, 30, 301, 9, 1, 31, '121.280', '31.100'),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450'),
-(303, 'Market VNM description', 'market area 7 : VNM', 'VNM', null, 0, 1, 30, 303, 13, 1, 154, '10.762622', '106.660172');
+(  1, 'Market INT description', 'market area 1 : INT', 'INT', null, null, 1, 1,  1, 100, 1, 1, 150, '-30.000', '45.000'),
+(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 'FR', 1, 1, 10, 101, 2, 1, 45, '48.480', '2.200'),	
+(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 'ES', 1, 1, 10, 102, 3, 1, 45, '40.260', '3.420'),	
+(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 'US', 1, 1, 20, 201, 1, 1, 150, '40.000', '-90.000'),
+(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 'CA', 0, 1, 20, 202, 1, 1, 27, '55.000', '-90.000'),
+(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 'BR', 1, 1, 21, 210, 8, 1, 21, '-22.570', '-43.120'),
+(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 'AR', 1, 1, 21, 211, 3, 1, 8, '-34.350', '-58.220'),
+(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 'CN', 0, 1, 30, 301, 9, 1, 31, '121.280', '31.100'),
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 'JP', 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450'),
+(303, 'Market VNM description', 'market area 7 : VNM', 'VNM', null, 'VN', 0, 1, 30, 303, 13, 1, 154, '10.762622', '106.660172');
 
 /*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
@@ -537,7 +537,7 @@ INSERT INTO teco_catalog_virtual_category_product_marketing_rel
 (501, 3);
 
 INSERT INTO teco_product_marketing_attribute
-(BOOLEAN_VALUE,IS_GLOBAL,MARKET_AREA_ID,ORDERING,VERSION,ATTRIBUTE_DEFINITION_ID,PRODUCT_MARKETING_ID)
+(boolean_value,is_global,market_area_id,ordering,version,attribute_definition_id,product_marketing_id)
 VALUES (1,0,1,0,1,520,1), (1,0,1,0,1,520,2), (1,0,1,0,1,520,3), (1,0,1,0,1,520,4);
 
 -- PRICE

@@ -9,8 +9,3 @@
 --
 
 CREATE DATABASE qalingo CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-CREATE USER 'qalingo' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON qalingo.* TO 'qalingo'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION; 
-GRANT ALL PRIVILEGES ON qalingo.* TO 'qalingo'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION; 
-FLUSH PRIVILEGES;

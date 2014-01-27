@@ -189,6 +189,16 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 		
+		<!-- GeoLoc -->
+		<dependency>
+			<groupId>com.maxmind.db</groupId>
+			<artifactId>maxmind-db</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.maxmind.geoip2</groupId>
+			<artifactId>geoip2</artifactId>
+		</dependency>
+		
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

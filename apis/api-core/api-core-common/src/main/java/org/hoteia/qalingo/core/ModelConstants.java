@@ -146,6 +146,10 @@ public final class ModelConstants {
     public static final String RETAILERS_BY_RATIO_QUALITY_PRICE = "retailersByRatioQualityPrice";
     public static final String LAST_RETAILERS                   = "lastRetailers";
 
+    // GEOLOC
+    public static final String GEOLOC_COUNTRY   = "geolocCountry";
+    public static final String GEOLOC_CITY      = "geolocCity";
+    
     // OTHERS
     public static final String HEADER_CART      = "headerCart";
     public static final String HEADER_TITLE     = "headerTitle";

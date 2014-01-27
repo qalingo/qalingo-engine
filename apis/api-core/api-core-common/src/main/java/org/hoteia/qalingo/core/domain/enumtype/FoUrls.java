@@ -96,7 +96,7 @@ public enum FoUrls {
     VELOCITY_CACHE(FoUrls.VELOCITY_CACHE_URL, FoUrls.VELOCITY_CACHE_KEY, FoUrls.VELOCITY_CACHE_VELOCITY_PAGE, true);
 
     public static final String PREHOME_KEY             = "prehome";
-    public static final String PREHOME_URL             = "/prehome.html";
+    public static final String PREHOME_URL             = "/**/prehome.html";
     public static final String PREHOME_VELOCITY_PAGE   = "prehome";
 
     public static final String HOME_KEY				= "home";
