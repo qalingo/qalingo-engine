@@ -198,5 +198,9 @@ public final class Constants {
 	//Solr
 	public static final String PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD = "businessname";
 	public static final String PRODUCT_MARKETING_DEFAULT_FACET_FIELD = "catalogCategories";
-	
+
+	// PRODUCT RATING
+	public static final String PRODUCT_QUALITY_RATING_TYPE = "1";
+	public static final String PRODUCT_PRICE_RATING_TYPE = "2";
+	public static final String PRODUCT_VALUE_RATING_TYPE = "3";
 }

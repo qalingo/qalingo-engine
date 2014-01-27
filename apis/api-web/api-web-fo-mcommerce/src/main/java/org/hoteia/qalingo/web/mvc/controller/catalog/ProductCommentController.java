@@ -59,13 +59,13 @@ public class ProductCommentController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.PRODUCT_VOTE_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												final Model model, @ModelAttribute("productCommentForm") ProductCommentForm productCommentForm) throws Exception {
+												final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm) throws Exception {
         return displayProductCommentForm(request, productCode, model, productCommentForm);
 	}
 	
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												   final Model model, @ModelAttribute("productCommentForm") ProductCommentForm productCommentForm) throws Exception {
+												   final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 		
 		model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
@@ -120,12 +120,15 @@ public class ProductCommentController extends AbstractMCommerceController {
 
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitProductComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-											  @Valid @ModelAttribute("productCommentForm") ProductCommentForm productCommentForm,
+											 @Valid @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final Retailer currentRetailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
+        
+        //binding form
+      	bindProductCommentForm(request, productCommentForm);
 		
 		if (result.hasErrors()) {
 			return displayProductCommentForm(request, productCode, model, productCommentForm);
@@ -202,8 +205,28 @@ public class ProductCommentController extends AbstractMCommerceController {
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "comment_form_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestUtil.getRequestData(request), product);
+		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestUtil.getRequestData(request), 
+														product.getDefaultCatalogCategory(), product, product.getDefaultProductSku());
         return new ModelAndView(new RedirectView(urlRedirect));
+	}
+	
+	//TODO: refactor it and find why the bean form cannot be binded?
+	private void bindProductCommentForm(final HttpServletRequest request, final ProductCommentForm productCommentForm){
+		if(request == null || productCommentForm == null){
+			return;
+		}
+		
+		String productCode = request.getParameter("productCommentForm.productCode");
+		String qualityOfService = request.getParameter("productCommentForm.qualityOfService");
+		String ratioQualityPrice = request.getParameter("productCommentForm.ratioQualityPrice");
+		String priceScore = request.getParameter("productCommentForm.priceScore");
+		String comment = request.getParameter("productCommentForm.comment");
+		
+		productCommentForm.setComment(comment);
+		productCommentForm.setPriceScore(priceScore);
+		productCommentForm.setQualityOfService(qualityOfService);
+		productCommentForm.setRatioQualityPrice(ratioQualityPrice);
+		productCommentForm.setProductCode(productCode);
 	}
 	
 }
