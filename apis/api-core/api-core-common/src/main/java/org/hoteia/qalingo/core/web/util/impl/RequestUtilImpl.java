@@ -138,6 +138,23 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     /**
+     * 
+     */
+    public String getRemoteAddr(final HttpServletRequest request){
+        String customerRemoteAddr = request.getRemoteAddr();
+        String xForwardedFor = request.getHeader(Constants.X_FORWARDED_FOR);        
+        if(StringUtils.isNotEmpty(xForwardedFor)){
+            customerRemoteAddr = xForwardedFor;
+            if(xForwardedFor.contains(",")){
+                // THERE IS MANY IP ADDRESS WHICH MEAN MANY PROXY
+                String[] xForwardedForList = xForwardedFor.split(",");
+                customerRemoteAddr = xForwardedForList[0];
+            }
+        }
+        return customerRemoteAddr;
+    }
+    
+    /**
 	 *
 	 */
     public String getEnvironmentName() throws Exception {

@@ -14,6 +14,8 @@ import java.net.InetAddress;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.service.EmailService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -115,15 +117,6 @@ public class GeolocServiceImpl implements GeolocService {
             logger.error("Geoloc can't find this address:" + customerRemoteAddr);
         }
         return null;
-    }
-    
-    /**
-     * 
-     */
-    public String getRemoteAddr(final HttpServletRequest request){
-        String customerRemoteAddr = request.getRemoteAddr();
-        //request.getHeader("x-forwarded-for")
-        return customerRemoteAddr;
     }
     
     protected File getCityDataBase(){

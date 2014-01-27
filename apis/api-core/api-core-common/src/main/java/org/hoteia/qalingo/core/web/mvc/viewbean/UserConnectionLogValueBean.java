@@ -20,7 +20,9 @@ public class UserConnectionLogValueBean extends AbstractViewBean implements Seri
 	
 	String date;
 	String host;
-	String address;
+	String publicAddress;
+    String privateAddress;
+    String app;
 	
 	public UserConnectionLogValueBean(){
 	}
@@ -41,12 +43,28 @@ public class UserConnectionLogValueBean extends AbstractViewBean implements Seri
 		this.host = host;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
+	public String getPublicAddress() {
+        return publicAddress;
+    }
 	
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	public void setPublicAddress(String publicAddress) {
+        this.publicAddress = publicAddress;
+    }
+	
+	public String getPrivateAddress() {
+        return privateAddress;
+    }
+	
+	public void setPrivateAddress(String privateAddress) {
+        this.privateAddress = privateAddress;
+    }
+	
+	public String getApp() {
+        return app;
+    }
+	
+	public void setApp(String app) {
+        this.app = app;
+    }
 	
 }
