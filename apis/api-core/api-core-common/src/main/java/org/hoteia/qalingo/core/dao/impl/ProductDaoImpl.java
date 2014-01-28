@@ -255,7 +255,13 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     	String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
     	Query query = getSession().createQuery(sql);
     	query.setLong("productMarketingId", productMarketingId);
-    	return (Float) query.uniqueResult();
+    	Double value = (Double) query.uniqueResult();
+    	
+    	if(value != null){
+    		return value.floatValue();
+    	}
+    	
+    	return 0F;
     }
 
 	// PRODUCT MARKETING ASSET

@@ -57,8 +57,6 @@ public interface ProductService {
     
     CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(Long productMarketingId);
     
-    CustomerProductRatesViewBean getAVGProductMarketingCustomerRate(Long productMarketingId);
-    
     CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
     
 	// PRODUCT MARKETING ASSET

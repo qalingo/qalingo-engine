@@ -1302,6 +1302,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         productMarketingViewBean.setFeatured(productMarketing.isFeatured());
+        
+        productMarketingViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductCode(productMarketing.getId()));
 
         return productMarketingViewBean;
     }

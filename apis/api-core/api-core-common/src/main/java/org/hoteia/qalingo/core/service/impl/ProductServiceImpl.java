@@ -151,9 +151,17 @@ public class ProductServiceImpl implements ProductService {
 			avgValueRates += productMarketingCustomerRate.getRate();
 		}
     	
-    	avgQualityRates = avgQualityRates/qualityRates.size();
-    	avgPriceRates = avgPriceRates/priceRates.size();
-    	avgValueRates = avgValueRates/valueRates.size();
+    	if(qualityRates.size() > 0){
+    		avgQualityRates = avgQualityRates/qualityRates.size();
+    	}
+    	
+    	if(priceRates.size() > 0){
+    		avgPriceRates = avgPriceRates/priceRates.size();
+    	}
+    	
+    	if(valueRates.size() > 0){
+    		avgValueRates = avgValueRates/valueRates.size();
+    	}
     	
     	avgRate = (avgQualityRates + avgPriceRates + avgValueRates) / 3;
     	
@@ -170,19 +178,13 @@ public class ProductServiceImpl implements ProductService {
     	return customerProductRatesViewBean;
     }
     
+    //TODO: Denis: should cache?
     @Override
     public CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(final Long productMarketingId) {
     	Float avgRate = productDao.calculateProductMarketingCustomerRatesByProductCode(productMarketingId);
     	CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
     	customerProductRatesViewBean.setAvgRate(avgRate);
     	return customerProductRatesViewBean;
-    }
-    
-    @Override
-    public CustomerProductRatesViewBean getAVGProductMarketingCustomerRate(
-    		Long productMarketingId) {
-    	// TODO Auto-generated method stub
-    	return null;
     }
 
     // PRODUCT MARKETING ASSET
