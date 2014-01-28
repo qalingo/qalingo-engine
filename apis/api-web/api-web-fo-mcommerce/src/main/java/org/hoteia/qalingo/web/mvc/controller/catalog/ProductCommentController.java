@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -173,7 +174,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 			productCustomerRate.setRate(qualityOfService);
 			productCustomerRate.setProductMarketingId(product.getId());
 			productCustomerRate.setCustomerId(customer.getId());
-			productCustomerRate.setType("QUALITY_OF_SERVICE");
+			productCustomerRate.setType(Constants.PRODUCT_QUALITY_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
 		}
 		
@@ -182,7 +183,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 			productCustomerRate.setRate(ratioQualityPrice);
 			productCustomerRate.setProductMarketingId(product.getId());
 			productCustomerRate.setCustomerId(customer.getId());
-			productCustomerRate.setType("RATIO_QUALITY_PRICE");
+			productCustomerRate.setType(Constants.PRODUCT_PRICE_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
 		}
 		
@@ -191,7 +192,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 			productCustomerRate.setRate(priceScore);
 			productCustomerRate.setProductMarketingId(product.getId());
 			productCustomerRate.setCustomerId(customer.getId());
-			productCustomerRate.setType("PRICE_SCORE");
+			productCustomerRate.setType(Constants.PRODUCT_VALUE_RATING_TYPE);
 			productService.saveOrUpdateProductMarketingCustomerRate(productCustomerRate);
 		}
 		

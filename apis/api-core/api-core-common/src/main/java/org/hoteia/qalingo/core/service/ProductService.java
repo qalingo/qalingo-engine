@@ -17,6 +17,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 
 public interface ProductService {
 
@@ -53,6 +54,12 @@ public interface ProductService {
     void saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
+    
+    CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(Long productMarketingId);
+    
+    CustomerProductRatesViewBean getAVGProductMarketingCustomerRate(Long productMarketingId);
+    
+    CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
     
 	// PRODUCT MARKETING ASSET
 	

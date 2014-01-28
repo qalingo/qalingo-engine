@@ -26,6 +26,7 @@ import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -89,10 +90,15 @@ public class ProductDetailsController extends AbstractMCommerceController {
         final List<ProductMarketingViewBean> relatedProducts = catalogCategoryViewBean.getFeaturedProductMarketings();
         model.addAttribute(ModelConstants.RELATED_PPRODUCT_MARKETING_VIEW_BEAN, relatedProducts);
         
+        final CustomerProductRatesViewBean customerProductRatesViewBean = productService.getProductMarketingCustomerRateDetails(productMarketing.getId());
+        model.addAttribute(ModelConstants.CUSTOMER_PRODUCT_RATES_VIEW_BEAN, customerProductRatesViewBean);
+        
         //Check if has authorized user
-        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN, productCommentForm);
-        model.addAttribute("productCommentUrl", urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
+        if(requestData.getCustomer() != null){
+	        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
+	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN, productCommentForm);
+	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
+        }
         
         requestUtil.addOrUpdateRecentProductToCookie(productMarketing.getId(), request, response);
         
