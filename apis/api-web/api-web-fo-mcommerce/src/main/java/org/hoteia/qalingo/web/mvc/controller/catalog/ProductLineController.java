@@ -78,13 +78,25 @@ public class ProductLineController extends AbstractMCommerceController {
         String pageParameter = request.getParameter("page");
         String mode = request.getParameter("mode");
         
-		int page = NumberUtils.toInt(pageParameter, 1);
+		int page = NumberUtils.toInt(pageParameter, 1) - 1;
 	    int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
 		
 		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
 		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
 		productList.setPageSize(pageSize);
-		productList.setPage(page-1);		
+		productList.setPage(page);
+		
+		int pageCurrent = productList.getPage();
+        if (pageCurrent < page) { 
+        	for (int i = pageCurrent; i < page; i++) {
+        		productList.nextPage(); 
+			}
+        } else if (pageCurrent > page) { 
+        	for (int i = page; i < pageCurrent; i++) {
+        		productList.previousPage(); 
+			}
+        }
+		
 		catalogCategoryViewBean.setProductMarketings(productList.getPageList());
 
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);

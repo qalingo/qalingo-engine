@@ -50,6 +50,12 @@ public interface ProductDao {
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
+    List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(Long productMarketingId, String type);
+    
+    Float calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
+    
+    List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(Long productMarketingId);
+    
 	// PRODUCT MARKETING ASSET
 	
 	Asset getProductMarketingAssetById(Long productMarketingId);

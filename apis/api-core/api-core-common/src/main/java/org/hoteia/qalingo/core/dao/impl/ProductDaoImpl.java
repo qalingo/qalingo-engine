@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -225,6 +226,42 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerComment) {
         em.remove(productMarketingCustomerComment);
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(
+    		final Long productMarketingId) {
+    	Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+    	criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+    	
+    	return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(
+    		final Long productMarketingId, final String type) {
+    	Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
+    	criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+    	criteria.add(Restrictions.eq("type", type));
+    	
+    	return criteria.list();
+    }
+    
+    @Override
+    public Float calculateProductMarketingCustomerRatesByProductCode(
+    		final Long productMarketingId) {
+    	String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
+    	Query query = getSession().createQuery(sql);
+    	query.setLong("productMarketingId", productMarketingId);
+    	Double value = (Double) query.uniqueResult();
+    	
+    	if(value != null){
+    		return value.floatValue();
+    	}
+    	
+    	return 0F;
     }
 
 	// PRODUCT MARKETING ASSET
