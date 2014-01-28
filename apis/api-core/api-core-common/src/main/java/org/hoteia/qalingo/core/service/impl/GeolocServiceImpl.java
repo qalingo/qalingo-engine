@@ -12,10 +12,6 @@ package org.hoteia.qalingo.core.service.impl;
 import java.io.File;
 import java.net.InetAddress;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.service.EmailService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -26,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.maxmind.db.Reader;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
@@ -60,18 +54,14 @@ public class GeolocServiceImpl implements GeolocService {
      */
     public Country geolocAndGetCountry(final String customerRemoteAddr) throws Exception {
         try {
-            final Reader reader = new Reader(getCountryDataBase());
+//            final Reader reader = new Reader(getCountryDataBase());
+//            final JsonNode jsonNode = reader.get(address);
+//            reader.close();
             final InetAddress address = InetAddress.getByName(customerRemoteAddr);
-            final JsonNode jsonNode = reader.get(address);
-            if(jsonNode != null){
-                System.out.println("jsonNode!!!!!!!!!!: " + jsonNode.toString());
-            }
-            reader.close();
             
             final DatabaseReader databaseReader = new DatabaseReader.Builder(getCountryDataBase()).build();
             final CountryResponse countryResponse = databaseReader.country(address);
             if(countryResponse != null){
-                System.out.println("Country !!!! " + countryResponse.getCountry().getIsoCode());
                 return countryResponse.getCountry();
             }
         } catch (AddressNotFoundException e) {
@@ -95,19 +85,15 @@ public class GeolocServiceImpl implements GeolocService {
      */
     public City geolocAndGetCity(final String customerRemoteAddr) throws Exception {
         try {
-            final Reader reader = new Reader(getCityDataBase());
+//            final Reader reader = new Reader(getCityDataBase());
+//            final JsonNode jsonNode = reader.get(address);
+//            reader.close();
             final InetAddress address = InetAddress.getByName(customerRemoteAddr);
-            final JsonNode jsonNode = reader.get(address);
-            if(jsonNode != null){
-                System.out.println("jsonNode!!!!!!!!!!: " + jsonNode.toString());
-            }
-            reader.close();
             
             final DatabaseReader databaseReader = new DatabaseReader.Builder(getCityDataBase()).build();
 
             final CityResponse cityResponse = databaseReader.city(address);
             if(cityResponse != null){
-                System.out.println("Country !!!! " + cityResponse.getCountry().getIsoCode());
                 return cityResponse.getCity();
                 
             }
@@ -130,6 +116,5 @@ public class GeolocServiceImpl implements GeolocService {
         final File database = new File(engineSetting.getDefaultValue());
         return database;
     }
-    
     
 }
