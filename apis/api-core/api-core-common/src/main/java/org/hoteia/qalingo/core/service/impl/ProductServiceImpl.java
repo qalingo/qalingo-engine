@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -22,6 +23,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +126,65 @@ public class ProductServiceImpl implements ProductService {
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
         productDao.deleteProductMarketingCustomerComment(productMarketingCustomerRate);
+    }
+    
+    //TODO: Denis: should cache?
+    public CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(final Long productMarketingId){
+    	List<ProductMarketingCustomerRate> qualityRates = productDao.findProductMarketingCustomerRatesByProductCode(productMarketingId, Constants.PRODUCT_QUALITY_RATING_TYPE);
+    	List<ProductMarketingCustomerRate> priceRates = productDao.findProductMarketingCustomerRatesByProductCode(productMarketingId, Constants.PRODUCT_PRICE_RATING_TYPE);
+    	List<ProductMarketingCustomerRate> valueRates = productDao.findProductMarketingCustomerRatesByProductCode(productMarketingId, Constants.PRODUCT_VALUE_RATING_TYPE);
+    	
+    	Float avgQualityRates = 0F;
+    	Float avgPriceRates = 0F;
+    	Float avgValueRates = 0F;
+    	Float avgRate = 0F;
+    	
+    	for (ProductMarketingCustomerRate productMarketingCustomerRate : qualityRates) {
+    		avgQualityRates += productMarketingCustomerRate.getRate();    		
+		}
+    	
+    	for (ProductMarketingCustomerRate productMarketingCustomerRate : priceRates) {
+			avgPriceRates += productMarketingCustomerRate.getRate();
+		}
+    	
+    	for (ProductMarketingCustomerRate productMarketingCustomerRate : valueRates) {
+			avgValueRates += productMarketingCustomerRate.getRate();
+		}
+    	
+    	if(qualityRates.size() > 0){
+    		avgQualityRates = avgQualityRates/qualityRates.size();
+    	}
+    	
+    	if(priceRates.size() > 0){
+    		avgPriceRates = avgPriceRates/priceRates.size();
+    	}
+    	
+    	if(valueRates.size() > 0){
+    		avgValueRates = avgValueRates/valueRates.size();
+    	}
+    	
+    	avgRate = (avgQualityRates + avgPriceRates + avgValueRates) / 3;
+    	
+    	CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
+    	customerProductRatesViewBean.setAvgPriceRates(avgPriceRates);
+    	customerProductRatesViewBean.setAvgQualityRates(avgQualityRates);
+    	customerProductRatesViewBean.setAvgValueRates(avgValueRates);
+    	
+    	customerProductRatesViewBean.setPriceRateCount(priceRates.size());
+    	customerProductRatesViewBean.setQualityRateCount(qualityRates.size());
+    	customerProductRatesViewBean.setValueRateCount(valueRates.size());
+    	customerProductRatesViewBean.setAvgRate(avgRate);
+    	
+    	return customerProductRatesViewBean;
+    }
+    
+    //TODO: Denis: should cache?
+    @Override
+    public CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(final Long productMarketingId) {
+    	Float avgRate = productDao.calculateProductMarketingCustomerRatesByProductCode(productMarketingId);
+    	CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
+    	customerProductRatesViewBean.setAvgRate(avgRate);
+    	return customerProductRatesViewBean;
     }
 
     // PRODUCT MARKETING ASSET

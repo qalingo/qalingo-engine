@@ -48,7 +48,7 @@ public interface FormFactory {
 	CartForm buildCartForm(RequestData requestData) throws Exception;
 	 
 	ProductCommentForm buildProductCommentForm(RequestData requestData, ProductMarketing productMarketing) throws Exception;
-
+	
     RetailerContactForm buildRetailerContactForm(RequestData requestData, Retailer retailer) throws Exception;
     
     RetailerCommentForm buildRetailerCommentForm(RequestData requestData, Retailer retailer) throws Exception;

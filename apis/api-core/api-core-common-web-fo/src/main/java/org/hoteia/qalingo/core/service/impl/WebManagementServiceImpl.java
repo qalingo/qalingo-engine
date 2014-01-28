@@ -545,6 +545,8 @@ public class WebManagementServiceImpl implements WebManagementService {
         customer.setDateCreate(new Date());
         customer.setDateUpdate(new Date());
 
+        customerService.saveOrUpdateCustomer(customer);
+        
         CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         customer.getCustomerGroups().add(customerGroup);
         
