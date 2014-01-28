@@ -149,8 +149,9 @@ public final class ModelConstants {
     public static final String LAST_RETAILERS                   = "lastRetailers";
 
     // GEOLOC
-    public static final String GEOLOC_COUNTRY   = "geolocCountry";
-    public static final String GEOLOC_CITY      = "geolocCity";
+    public static final String GEOLOC_REMOTE_ADDRESS    = "geolocRemoteAddress";
+    public static final String GEOLOC_COUNTRY           = "geolocCountry";
+    public static final String GEOLOC_CITY              = "geolocCity";
     
     // OTHERS
     public static final String HEADER_CART      = "headerCart";

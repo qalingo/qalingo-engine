@@ -44,8 +44,11 @@ public class UserConnectionLog extends AbstractEntity {
 	@Column(name="HOST")
 	private String host;
 	
-	@Column(name="ADDRESS")
-	private String address;
+	@Column(name="PUBLIC_ADDRESS")
+	private String publicAddress;
+	
+    @Column(name="PRIVATE_ADDRESS")
+    private String privateAddress;
 	
 	@Column(name="USER_ID")
 	private Long userId;
@@ -85,13 +88,21 @@ public class UserConnectionLog extends AbstractEntity {
 		this.host = host;
 	}
 	
-	public String getAddress() {
-		return address;
-	}
+	public String getPublicAddress() {
+        return publicAddress;
+    }
 	
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	public void setPublicAddress(String publicAddress) {
+        this.publicAddress = publicAddress;
+    }
+	
+	public String getPrivateAddress() {
+        return privateAddress;
+    }
+	
+	public void setPrivateAddress(String privateAddress) {
+        this.privateAddress = privateAddress;
+    }
 
 	public Long getUserId() {
 		return userId;
@@ -134,7 +145,8 @@ public class UserConnectionLog extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "UserConnectionLog [id=" + id + ", loginDate=" + loginDate + ", app=" + app + ", host=" + host + ", address=" + address + ", userId=" + userId + "]";
+        return "UserConnectionLog [id=" + id + ", loginDate=" + loginDate + ", app=" + app + ", host=" + host + ", publicAddress=" + publicAddress + ", privateAddress=" + privateAddress + ", userId="
+                + userId + "]";
     }
-	
+
 }

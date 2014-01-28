@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 
@@ -24,6 +22,4 @@ public interface GeolocService {
     
     City geolocAndGetCity(String customerRemoteAddr) throws Exception;
     
-    String getRemoteAddr(HttpServletRequest request);
-
 }

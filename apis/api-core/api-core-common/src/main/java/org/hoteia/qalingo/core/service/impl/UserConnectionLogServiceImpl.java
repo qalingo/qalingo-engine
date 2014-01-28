@@ -51,9 +51,11 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 		List<UserConnectionLog> userConnectionLogs  = userConnectionLogDao.findUserConnectionLogsByUserIdAndAppCode(userId, appCode);
 		if(userConnectionLogs.size() >= new Integer(maxConnectionToLog)){
 			UserConnectionLog userConnectionLogToUpdate = userConnectionLogs.get(0);
-			userConnectionLogToUpdate.setAddress(userConnectionLog.getAddress());
+			userConnectionLogToUpdate.setPrivateAddress(userConnectionLog.getPrivateAddress());
+            userConnectionLogToUpdate.setPublicAddress(userConnectionLog.getPublicAddress());
 			userConnectionLogToUpdate.setHost(userConnectionLog.getHost());
 			userConnectionLogToUpdate.setLoginDate(userConnectionLog.getLoginDate());
+            userConnectionLogToUpdate.setApp(userConnectionLog.getApp());
 			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLogToUpdate);
 		} else {
 			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLog);

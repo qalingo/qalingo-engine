@@ -809,15 +809,17 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             UserConnectionLog userConnectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
             UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
             userConnectionLogValueBean.setDate(dateFormat.format(userConnectionLog.getLoginDate()));
+            userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
             if (StringUtils.isNotEmpty(userConnectionLog.getHost())) {
                 userConnectionLogValueBean.setHost(userConnectionLog.getHost());
-            } else {
-                userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
             }
-            if (StringUtils.isNotEmpty(userConnectionLog.getAddress())) {
-                userConnectionLogValueBean.setAddress(userConnectionLog.getAddress());
-            } else {
-                userConnectionLogValueBean.setAddress(Constants.NOT_AVAILABLE);
+            userConnectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
+            if (StringUtils.isNotEmpty(userConnectionLog.getPublicAddress())) {
+                userConnectionLogValueBean.setPublicAddress(userConnectionLog.getPublicAddress());
+            }
+            userConnectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
+            if (StringUtils.isNotEmpty(userConnectionLog.getPrivateAddress())) {
+                userConnectionLogValueBean.setPublicAddress(userConnectionLog.getPrivateAddress());
             }
             userViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
         }

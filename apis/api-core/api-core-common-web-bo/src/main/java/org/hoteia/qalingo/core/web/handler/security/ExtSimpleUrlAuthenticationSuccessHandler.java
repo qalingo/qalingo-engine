@@ -66,7 +66,10 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
     	userConnectionLog.setLoginDate(new Date());
     	userConnectionLog.setApp(Constants.APP_NAME_BO_BUSINESS_CODE);
     	userConnectionLog.setHost(request.getRemoteHost());
-    	userConnectionLog.setAddress(request.getRemoteAddr());
+    	
+    	userConnectionLog.setPublicAddress(request.getRemoteAddr());
+        userConnectionLog.setPrivateAddress(request.getHeader(Constants.X_FORWARDED_FOR));
+    	
     	userConnectionLogService.saveOrUpdateUserConnectionLog(userConnectionLog);
 
 		try {

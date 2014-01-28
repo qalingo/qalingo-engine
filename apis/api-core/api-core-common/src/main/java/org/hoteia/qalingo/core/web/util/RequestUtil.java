@@ -44,6 +44,11 @@ public interface RequestUtil {
     String getHost(HttpServletRequest request) throws Exception;
 
     /**
+    *
+    */
+    String getRemoteAddr(HttpServletRequest request);
+    
+    /**
 	 *
 	 */
     String getEnvironmentName() throws Exception;

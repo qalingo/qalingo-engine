@@ -69,7 +69,9 @@ public final class Constants {
 	public static final String COMMA_SPACE = ", ";
 	public static final String SPACE_STAR_SPACE = " * ";
 
-	public static final String REFERER = "Referer";
+    public static final String REFERER          = "Referer";
+    public static final String X_FORWARDED_FOR  = "X-Forwarded-For";
+
 	public static final String HOST = "Host";
 	public static final String HTTP = "Http";
 	public static final String HTTP_COLON_SLASH_SLASH = "http://";

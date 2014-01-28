@@ -53,7 +53,9 @@ public class HomeController extends AbstractPrehomeController {
 		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, FoMessageKey.MAIN_CONTENT_TEXT, locale);
 		model.addAttribute(ModelConstants.CONTENT_TEXT, contentText);
 		
-		final String remoteAddress = geolocService.getRemoteAddr(request);
+		final String remoteAddress = requestUtil.getRemoteAddr(request);
+        model.addAttribute(ModelConstants.GEOLOC_REMOTE_ADDRESS, remoteAddress);
+        
 		final Country country = geolocService.geolocAndGetCountry(remoteAddress);
         model.addAttribute(ModelConstants.GEOLOC_COUNTRY, country);
 
