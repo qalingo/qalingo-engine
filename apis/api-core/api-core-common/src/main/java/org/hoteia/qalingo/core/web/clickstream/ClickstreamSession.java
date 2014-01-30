@@ -18,7 +18,7 @@ public class ClickstreamSession implements Serializable {
     private String initialReferrer;
     private boolean isBot;
     
-    private List<ClickstreamRequest> requests = Collections.synchronizedList(new ArrayList());
+    private List<ClickstreamRequest> requests = Collections.synchronizedList(new ArrayList<ClickstreamRequest>());
 
     public ClickstreamSession() {
     }

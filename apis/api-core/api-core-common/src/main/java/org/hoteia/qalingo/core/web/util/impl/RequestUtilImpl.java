@@ -51,6 +51,7 @@ import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -66,6 +67,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.maxmind.geoip2.record.Country;
 
 /**
  * <p>
@@ -119,6 +122,9 @@ public class RequestUtilImpl implements RequestUtil {
     
     @Autowired
     protected CartService cartService;
+    
+    @Autowired
+    protected GeolocService geolocService;
     
     /**
 	 *
@@ -1656,17 +1662,45 @@ public class RequestUtilImpl implements RequestUtil {
      */
     protected EngineEcoSession initDefaultEcoMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        MarketPlace marketPlace = marketService.getDefaultMarketPlace();
+        
+        // TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
+        final String remoteAddress = getRemoteAddr(request);
+        final Country country = geolocService.geolocAndGetCountry(remoteAddress);
+        MarketArea marketAreaGeoloc = null;
+        if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
+            List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(country.getIsoCode());
+            if(marketAreas != null && marketAreas.size() == 1){
+                marketAreaGeoloc = marketAreas.get(0);
+            } else {
+                // WE HAVE MANY MARKET AREA FOR THE CURRENT COUNTRY CODE - WE SELECT THE DEFAULT MARKET PLACE ASSOCIATE
+                for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                    MarketArea marketAreaIt = (MarketArea) iterator.next();
+                    if(marketAreaIt.getMarket().getMarketPlace().isDefault()){
+                        marketAreaGeoloc = marketAreaIt;
+                    }
+                }
+            }
+        }
+        
+        MarketPlace marketPlace = null;
+        Market market = null;
+        MarketArea marketArea = null;
+        if(marketAreaGeoloc != null){
+            marketPlace = marketService.getMarketPlaceByCode(marketAreaGeoloc.getMarket().getMarketPlace().getCode());
+            market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode());
+            marketArea = marketAreaGeoloc;
+            
+        } else {
+            marketPlace = marketService.getDefaultMarketPlace();
+            market = marketPlace.getDefaultMarket();
+            marketArea = market.getDefaultMarketArea();
+        }
         engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, marketPlace);
-
-        Market market = marketPlace.getDefaultMarket();
         engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
-
-        MarketArea marketArea = market.getDefaultMarketArea();
         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
 
         // DEFAULT LOCALE IS FROM THE REQUEST OR FROM THE MARKET AREA
-        String requestLocale = request.getLocale().toString();
+        final String requestLocale = request.getLocale().toString();
         Localization localization = marketArea.getDefaultLocalization();
         if (marketArea.getLocalization(requestLocale) != null) {
             localization = marketArea.getLocalization(requestLocale);
@@ -1680,10 +1714,10 @@ public class RequestUtilImpl implements RequestUtil {
         }
         engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
 
-        Retailer retailer = marketArea.getDefaultRetailer();
+        final Retailer retailer = marketArea.getDefaultRetailer();
         engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
 
-        CurrencyReferential currency = marketArea.getDefaultCurrency();
+        final CurrencyReferential currency = marketArea.getDefaultCurrency();
         engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
 
         setCurrentEcoSession(request, engineEcoSession);

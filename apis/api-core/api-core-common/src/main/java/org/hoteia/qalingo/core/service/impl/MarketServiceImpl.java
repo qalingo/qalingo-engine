@@ -123,4 +123,9 @@ public class MarketServiceImpl implements MarketService {
     public MarketArea getMarketAreaByCode(final String marketAreaCode) {
         return marketDao.getMarketAreaByCode(marketAreaCode);
     }
+    
+    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode) {
+        return marketDao.getMarketAreaByGeolocCountryCode(countryCode);
+    }
+    
 }

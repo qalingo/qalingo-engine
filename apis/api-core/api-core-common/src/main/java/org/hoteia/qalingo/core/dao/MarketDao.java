@@ -18,42 +18,44 @@ import org.hoteia.qalingo.core.domain.MarketPlace;
 public interface MarketDao {
 
     // MARKET PLACE
-    
+
     MarketPlace getDefaultMarketPlace();
-    
+
     MarketPlace getMarketPlaceById(Long marketPlaceId);
 
     MarketPlace getMarketPlaceByCode(String code);
-    
+
     List<MarketPlace> findMarketPlaces();
-    
+
     MarketPlace saveOrUpdateMarketPlace(MarketPlace marketPlace);
 
     void deleteMarketPlace(MarketPlace marketPlace);
-    
-	// MARKET
-	
-	Market getDefaultMarket();
-	
-	Market getMarketById(Long marketId);
 
-	Market getMarketByCode(String code);
-	
-	List<Market> findMarkets();
-	
+    // MARKET
+
+    Market getDefaultMarket();
+
+    Market getMarketById(Long marketId);
+
+    Market getMarketByCode(String code);
+
+    List<Market> findMarkets();
+
     List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
 
     Market saveOrUpdateMarket(Market market);
 
-	void deleteMarket(Market market);
+    void deleteMarket(Market market);
 
-	// MARKET AREA
-	
-	MarketArea getMarketAreaById(Long marketAreaId);
-	
-	MarketArea getMarketAreaByCode(String code);
-	
-	MarketArea saveOrUpdateMarketArea(MarketArea marketArea);
+    // MARKET AREA
+
+    MarketArea getMarketAreaById(Long marketAreaId);
+
+    MarketArea getMarketAreaByCode(String code);
+
+    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode);
+
+    MarketArea saveOrUpdateMarketArea(MarketArea marketArea);
 
     void deleteMarketArea(MarketArea marketArea);
 }

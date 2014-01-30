@@ -200,7 +200,19 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 		return marketArea;
 	}
-	
+
+    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+
+        addDefaultMarketAreaFetch(criteria);
+
+        criteria.add(Restrictions.eq("geolocCountryCode", countryCode));
+        
+        @SuppressWarnings("unchecked")
+        List<MarketArea> marketAreas = criteria.list();
+        return marketAreas;
+    }
+
     public MarketArea saveOrUpdateMarketArea(final MarketArea marketArea) {
         if(marketArea.getDateCreate() == null){
             marketArea.setDateCreate(new Date());
