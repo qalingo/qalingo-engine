@@ -32,6 +32,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 
 @Entity
 @Table(name = "TECO_ENGINE_SESSION", uniqueConstraints = { @UniqueConstraint(columnNames = { "JSESSION_ID", "ENGINE_SESSION_GUID" }) })
@@ -95,6 +96,9 @@ public class EngineEcoSession extends AbstractEngineSession {
     @Transient
     private Set<OrderCustomer> lastOrders = new HashSet<OrderCustomer>();
 
+    @Transient
+    private GeolocData geolocData;
+    
     @Transient
     private String theme;
 
@@ -332,6 +336,14 @@ public class EngineEcoSession extends AbstractEngineSession {
 
     public void setLastOrders(Set<OrderCustomer> lastOrders) {
         this.lastOrders = lastOrders;
+    }
+    
+    public GeolocData getGeolocData() {
+        return geolocData;
+    }
+    
+    public void setGeolocData(GeolocData geolocData) {
+        this.geolocData = geolocData;
     }
 
     public String getTheme() {

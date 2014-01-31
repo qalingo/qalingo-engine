@@ -26,7 +26,7 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
+import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
 
 /**
  * 

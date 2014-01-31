@@ -57,8 +57,9 @@ import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UserService;
-import org.hoteia.qalingo.core.web.clickstream.ClickstreamRequest;
-import org.hoteia.qalingo.core.web.clickstream.ClickstreamSession;
+import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamRequest;
+import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
+import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 
 /**
@@ -1668,6 +1670,15 @@ public class RequestUtilImpl implements RequestUtil {
         final Country country = geolocService.geolocAndGetCountry(remoteAddress);
         MarketArea marketAreaGeoloc = null;
         if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
+            GeolocData geolocData = new GeolocData();
+            geolocData.setRemoteAddress(remoteAddress);
+            geolocData.setCountry(country);
+            
+            final City city = geolocService.geolocAndGetCity(remoteAddress);
+            geolocData.setCity(city);
+            
+            engineEcoSession.setGeolocData(geolocData);
+
             List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(country.getIsoCode());
             if(marketAreas != null && marketAreas.size() == 1){
                 marketAreaGeoloc = marketAreas.get(0);

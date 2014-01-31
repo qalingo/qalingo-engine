@@ -1,4 +1,4 @@
-package org.hoteia.qalingo.core.web.clickstream;
+package org.hoteia.qalingo.core.web.bean.clickstream;
 
 import java.io.Serializable;
 import java.util.Date;

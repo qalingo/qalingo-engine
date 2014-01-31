@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 
 public class RequestData implements Serializable {
 
@@ -43,6 +44,8 @@ public class RequestData implements Serializable {
 	private Customer customer;
     private User user;
     private Company company;
+    
+    private GeolocData geolocData;
 	
 	public RequestData() {
     }
@@ -201,6 +204,14 @@ public class RequestData implements Serializable {
     
     public void setCompany(Company company) {
         this.company = company;
+    }
+    
+    public GeolocData getGeolocData() {
+        return geolocData;
+    }
+    
+    public void setGeolocData(GeolocData geolocData) {
+        this.geolocData = geolocData;
     }
     
     public boolean isBackoffice() throws Exception {
