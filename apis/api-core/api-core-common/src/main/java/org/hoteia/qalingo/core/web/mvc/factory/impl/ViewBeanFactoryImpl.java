@@ -1255,7 +1255,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
-                    final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductMarketing().getCode());
+                    final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
                     productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, catalogCategory, reloadedAssociatedProductMarketing));
                 }
             }
@@ -1295,7 +1295,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
-                    final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductMarketing().getCode());
+                    final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
                     productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, catalogCategory, reloadedAssociatedProductMarketing));
                 }
             }

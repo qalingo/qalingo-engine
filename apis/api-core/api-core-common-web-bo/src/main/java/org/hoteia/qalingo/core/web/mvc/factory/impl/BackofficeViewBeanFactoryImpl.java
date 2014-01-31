@@ -632,10 +632,10 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
 
         productAssociationLinkViewBean.setOrderItem(productAssociationLink.getRankPosition());
-        productAssociationLinkViewBean.setName(productAssociationLink.getProductMarketing().getBusinessName());
+        productAssociationLinkViewBean.setName(productAssociationLink.getProductSku().getProductMarketing().getBusinessName());
         productAssociationLinkViewBean.setType(productAssociationLink.getType().name());
         productAssociationLinkViewBean.setDescription(productAssociationLink.getType().name());
-        productAssociationLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductMarketing()));
+        productAssociationLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductSku().getProductMarketing()));
 
         return productAssociationLinkViewBean;
     }

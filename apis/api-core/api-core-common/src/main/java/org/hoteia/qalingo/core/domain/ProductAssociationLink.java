@@ -54,8 +54,8 @@ public class ProductAssociationLink extends AbstractEntity {
 	private ProductAssociationLinkType type;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_MARKETING_ID", insertable = true, updatable = true)
-	private ProductMarketing productMarketing;
+    @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
+	private ProductSku productSku;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_START")
@@ -108,13 +108,13 @@ public class ProductAssociationLink extends AbstractEntity {
 		this.type = type;
 	}
 
-	public ProductMarketing getProductMarketing() {
-		return productMarketing;
-	}
+	public ProductSku getProductSku() {
+        return productSku;
+    }
 	
-	public void setProductMarketing(ProductMarketing productMarketing) {
-		this.productMarketing = productMarketing;
-	}
+	public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
+    }
 
 	public Date getDateStart() {
 		return dateStart;
