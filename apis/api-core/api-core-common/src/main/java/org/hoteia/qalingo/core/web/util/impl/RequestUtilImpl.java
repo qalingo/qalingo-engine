@@ -509,6 +509,14 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
+    public GeolocData getCurrentGeolocData(final HttpServletRequest request) throws Exception {
+        final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        return engineEcoSession.getGeolocData();
+    }
+
+    /**
+     * 
+     */
     public String getCurrentContextNameValue(final HttpServletRequest request) throws Exception {
         return EngineSettingWebAppContext.valueOf(getContextName()).getPropertyKey();
     }
@@ -1437,6 +1445,8 @@ public class RequestUtilImpl implements RequestUtil {
         requestData.setContextNameValue(getCurrentContextNameValue(request));
 
         requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
+
+        requestData.setGeolocData(getCurrentGeolocData(request));
 
         Customer customer = getCurrentCustomer(request);
         if (customer != null) {
