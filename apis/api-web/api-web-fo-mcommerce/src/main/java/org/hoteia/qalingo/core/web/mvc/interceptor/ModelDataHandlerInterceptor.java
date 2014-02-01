@@ -28,9 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
-
 public class ModelDataHandlerInterceptor implements HandlerInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -143,7 +140,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             }
             
         } catch (Exception e) {
-            logger.error("inject common datas failed", e);
+            logger.error("Inject common datas failed", e);
         }
         
     }
