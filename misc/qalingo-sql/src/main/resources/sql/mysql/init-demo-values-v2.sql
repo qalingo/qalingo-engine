@@ -273,21 +273,27 @@ INSERT INTO teco_catalog_master_category
  VALUES 
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 1),
-(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 1);
+(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 1),
+(40, 'Category 4 description', 'CATE40', 0, 'New Products', 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Gift Ideas', 1);
 
 INSERT INTO teco_catalog_virtual_category 
 (id, description, code, is_default, business_name, master_category_id, version)
  VALUES 
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 10, 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 20, 1),
-(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 30, 1);
+(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 30, 1),
+(40, 'Category 4 description', 'CATE40', 0, 'New Products', 20, 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Gift Ideas', 30, 1);
 
 INSERT INTO teco_catalog_master_category_master_rel 
 (master_catalog_id, master_category_id)
  VALUES 
 (1, 10),
 (1, 20),
-(1, 30);
+(1, 30),
+(1, 40),
+(1, 50);
 
 INSERT INTO teco_catalog_virtual_category_virtual_rel 
 (virtual_catalog_id, virtual_category_id)
@@ -295,33 +301,53 @@ INSERT INTO teco_catalog_virtual_category_virtual_rel
 (100, 10),
 (100, 20),
 (100, 30),
+(100, 40),
+(100, 50),
 (101, 10),
 (101, 20),
 (101, 30),
+(101, 40),
+(101, 50),
 (102, 10),
 (102, 20),
 (102, 30),
+(102, 40),
+(102, 50),
 (201, 10),
 (201, 20),
 (201, 30),
+(201, 40),
+(201, 50),
 (202, 10),
 (202, 20),
 (202, 30),
+(202, 40),
+(202, 50),
 (210, 10),
 (210, 20),
 (210, 30),
+(210, 40),
+(210, 50),
 (211, 10),
 (211, 20),
 (211, 30),
+(211, 40),
+(211, 50),
 (301, 10),
 (301, 20),
 (301, 30),
+(301, 40),
+(301, 50),
 (302, 10),
 (302, 20),
 (302, 30),
+(302, 40),
+(302, 50),
 (303, 10),
 (303, 20),
-(303, 30);
+(303, 30),
+(303, 40),
+(303, 50);
 
 INSERT INTO teco_catalog_master_category 
 (id, description, code, is_default, business_name, version, default_parent_category_id)
@@ -335,7 +361,11 @@ INSERT INTO teco_catalog_master_category
 (202, 'Category 2 sub category description', 'CATE202', 0, 'Green', 1, 20), 
 (203, 'Category 2 sub category description', 'CATE203', 0, 'Herbal Infusion', 1, 20),
 (301, 'Category 3 sub category description', 'CATE301', 0, 'Powders', 1, 30), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 30);
+(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 30),
+(401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 40), 
+(402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 40),
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Feasts Fathers', 1, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, "Mother's Day", 1, 50);
 
 INSERT INTO teco_catalog_virtual_category 
 (id, description, code, is_default, business_name, version, master_category_id, default_parent_category_id)
@@ -349,21 +379,29 @@ INSERT INTO teco_catalog_virtual_category
 (202, 'Category 2 sub category description', 'CATE202', 0, 'Green', 1, 202, 20), 
 (203, 'Category 2 sub category description', 'CATE203', 0, 'Herbal Infusion', 1, 203, 20),
 (301, 'Category 3 sub category description', 'CATE301', 0, 'Powders', 1, 301, 30), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 302, 30);
-
+(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 302, 30),
+(401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 401, 40), 
+(402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 402, 40),
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Feasts Fathers', 1, 501, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, "Mother's Day", 1, 502, 50);
 INSERT INTO teco_catalog_virtual_category_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, virtual_category_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1,  null, null, null, null, null, 'Just Brewed i18n',  101, 200, null, 1),
-(2,  null, null, null, null, null, 'Light & Subtle i18n',  102, 200, null, 1),
-(3,  null, null, null, null, null, 'Light & Distinctive i18n',  103, 200, null, 1),
-(4,  null, null, null, null, null, 'Medium & Smooth i18n',  104, 200, null, 1),
-(5,  null, null, null, null, null, 'Dark & Distincetive i18n',  105, 200, null, 1),
-(6,  null, null, null, null, null, 'Just Steeped i18n',  201, 200, null, 1),
-(7,  null, null, null, null, null, 'Green i18n',  202, 200, null, 1),
-(8,  null, null, null, null, null, 'Herbal Infusion i18n',  203, 200, null, 1),
-(9,  null, null, null, null, null, 'Powders i18n',  301, 200, null, 1),
-(10, null, null, null, null, null, 'Drinkware i18n', 302, 200, null, 1);
+(1,  null, null, null, null, null, 'Just Brewed',  101, 200, null, 1),
+(2,  null, null, null, null, null, 'Light & Subtle',  102, 200, null, 1),
+(3,  null, null, null, null, null, 'Light & Distinctive',  103, 200, null, 1),
+(4,  null, null, null, null, null, 'Medium & Smooth',  104, 200, null, 1),
+(5,  null, null, null, null, null, 'Dark & Distincetive',  105, 200, null, 1),
+(6,  null, null, null, null, null, 'Just Steeped',  201, 200, null, 1),
+(7,  null, null, null, null, null, 'Green',  202, 200, null, 1),
+(8,  null, null, null, null, null, 'Herbal Infusion',  203, 200, null, 1),
+(9,  null, null, null, null, null, 'Powders',  301, 200, null, 1),
+(10, null, null, null, null, null, 'Drinkware', 302, 200, null, 1),
+(11,  null, null, null, null, null, 'Tea',  401, 200, null, 1),
+(12,  null, null, null, null, null, 'Coffee',  402, 200, null, 1),
+(13,  null, null, null, null, null, 'Feasts Fathers',  501, 200, null, 1),
+(14, null, null, null, null, null, "Mother's Day", 502, 200, null, 1);
+
 
 INSERT INTO teco_catalog_master_category_child_category_rel  
 (parent_master_catalog_category_id, child_master_catalog_category_id)
@@ -377,7 +415,12 @@ INSERT INTO teco_catalog_master_category_child_category_rel
 (20, 202),
 (20, 203),
 (30, 301),
-(30, 302);
+(30, 302),
+(40, 401),
+(40, 402),
+(50, 501),
+(50, 502);
+
 
 INSERT INTO teco_catalog_virtual_category_child_category_rel  
 (parent_virtual_catalog_category_id, child_virtual_catalog_category_id)
@@ -391,121 +434,131 @@ INSERT INTO teco_catalog_virtual_category_child_category_rel
 (20, 202),
 (20, 203),
 (30, 301),
-(30, 302);
+(30, 302),
+(40, 401),
+(40, 402),
+(50, 501),
+(50, 502);
 
 INSERT INTO teco_product_marketing 
 (id, description, code, is_default, business_name, version, brand_id, default_catalog_category_id)
  VALUES 
-(1, 'product marketing 1', 'PROD1', 1, 'Blueberry Struesel Coffee', 1, 10, 101), 
-(2, 'product marketing 2', 'PROD2', 0, 'Bali Blue Moon Coffee', 1, 10, 101), 
-(3, 'product marketing 3', 'PROD3', 0, 'World Art Tumbler', 1, 10, 101), 
-(4, 'product marketing 4', 'PROD4', 0, 'Brazil Cerrado Coffee', 1, 20, 102),
-(5, 'product marketing 5', 'PROD5', 0, 'House Blend Coffee', 1, 20, 102),
-(6, 'product marketing 6', 'PROD6', 0, 'Decaf House Blend Coffee', 1, 20, 102),
-(7, 'product marketing 7', 'PROD7', 0, 'House Blend Coffee 24 2oz Portion Packs', 1, 20, 102),
-(8, 'product marketing 8', 'PROD8', 0, 'Ethiopia Yirgacheffe Coffee', 1, 20, 103),
-(9, 'product marketing 9', 'PROD9', 0, 'Kenya AA Coffee', 1, 20, 104),
-(10, 'product marketing 10', 'PROD10', 0, 'Colombia Narino Coffee', 1, 20, 104),
-(11, 'product marketing 11', 'PROD11', 0, 'Costa Rica Cascada Tarrazu Coffee', 1, 20, 104),
-(12, 'product marketing 12', 'PROD12', 0, 'Costa Rica La Minita Tarrazu Coffee', 1, 20, 104),
-(13, 'product marketing 13', 'PROD13', 0, 'Decaf Colombia Narino Coffee', 1, 20, 104),
-(14, 'product marketing 14', 'PROD14', 0, 'Guatemala Antigua Coffee', 1, 20, 104),
-(15, 'product marketing 15', 'PROD15', 0, 'Mocha Java Coffee', 1, 20, 104),
-(16, 'product marketing 16', 'PROD16', 0, 'Papua New Guinea Sigri Coffee', 1, 20, 104),
-(17, 'product marketing 17', 'PROD17', 0, 'Sumatra Mandheling Coffee', 1, 20, 104),
-(18, 'product marketing 18', 'PROD18', 0, 'Breakfast Blend Coffee', 1, 20, 104),
-(19, 'product marketing 19', 'PROD19', 0, 'Colombia Narino Coffee, 24 2oz Portion Packs', 1, 20, 104),
-(20, 'product marketing 20', 'PROD20', 0, 'Costa Rica Coffee, 24 2oz Portion Packs', 1, 20, 104),
-(21, 'product marketing 21', 'PROD21', 0, 'Holiday Blend Coffee', 1, 20, 105),
-(22, 'product marketing 22', 'PROD22', 0, 'Bali Blue Moon Coffee', 1, 20, 105),
-(23, 'product marketing 23', 'PROD23', 0, 'University Blend Coffee', 1, 20, 105),
-(24, 'product marketing 24', 'PROD24', 0, 'Harvest Blend Coffee', 1, 20, 105),
-(25, 'product marketing 25', 'PROD25', 0, 'Decaf Espesso Roast Coffee', 1, 20, 105),
-(26, 'product marketing 26', 'PROD26', 0, 'Decaf French Roast Coffee', 1, 20, 105),
-(27, 'product marketing 27', 'PROD27', 0, 'Decaf Viennese Coffee', 1, 20, 105),
-(28, 'product marketing 28', 'PROD28', 0, 'French Roast Coffee', 1, 20, 105),
-(29, 'product marketing 29', 'PROD29', 0, 'Italian Roast Coffee', 1, 20, 105),
-(30, 'product marketing 30', 'PROD30', 0, 'Tanzania Peaberry Coffee', 1, 20, 105),
-(31, 'product marketing 31', 'PROD31', 0, 'Colombia Narino Dark Coffee', 1, 20, 105),
-(32, 'product marketing 32', 'PROD32', 0, 'Espresso Roast Coffee', 1, 20, 105),
-(33, 'product marketing 33', 'PROD33', 0, 'Master Davey Set: Blue Tiger Tea & Book', 1, 20, 201),
-(34, 'product marketing 34', 'PROD34', 0, 'Winter Dream Tea', 1, 20, 201),
-(35, 'product marketing 35', 'PROD35', 0, 'Peppermint Stick Tea', 1, 20, 201),
-(36, 'product marketing 36', 'PROD36', 0, 'Los Angeles Sunshine Blend Tea', 1, 20, 201),
-(37, 'product marketing 37', 'PROD37', 0, 'Georgia Peach Ginger White Tea', 1, 20, 201),
-(38, 'product marketing 38', 'PROD38', 0, 'Jasmine Dragon Phoenix Pearl Tea', 1, 20, 202),
-(39, 'product marketing 39', 'PROD39', 0, 'Genmaicha Green Tea', 1, 20, 202),
-(40, 'product marketing 40', 'PROD40', 0, 'Lung Ching Dragonwell Tea', 1, 20, 202),
-(41, 'product marketing 42', 'PROD41', 0, 'Decaf Green Tea', 1, 20, 202),
-(42, 'product marketing 42', 'PROD42', 0, 'Swedish Berries Tea', 1, 20, 203),
-(43, 'product marketing 43', 'PROD43', 0, 'Chai Rooibos Tea', 1, 20, 203),
-(44, 'product marketing 44', 'PROD44', 0, 'African Sunrise Tea', 1, 20, 203),
-(45, 'product marketing 45', 'PROD45', 0, 'French Deluxe Vanilla Powder', 1, 20, 301),
-(46, 'product marketing 46', 'PROD46', 0, 'Special Dutch Chocolate Powder, no Sugar', 1, 20, 301),
-(47, 'product marketing 47', 'PROD47', 0, 'Americana Tumbler', 1, 20, 302),
-(48, 'product marketing 48', 'PROD48', 0, 'Bergamo Bottle', 1, 20, 302),
-(49, 'product marketing 49', 'PROD49', 0, 'The Jaidun Tumbler', 1, 20, 302),
-(50, 'product marketing 50', 'PROD50', 0, 'Bamboo Ceramic Tea Set', 1, 20, 302);
+(1, 'The flavor of resh ripe blueberries complemented by traditional brown sugar and pastry notes for a tasty flavored coffee treat.', 'PROD1', 1, 'Blueberry Streusel Coffee', 1, 10, 101), 
+(2, 'A fragrant toffee aroma with flavors of walnuts and semi-sweet chocolate, with a crisp black cherry finish; this coffee comes from the Kintamani Highlands in North Bali, Indonesia. ', 'PROD2', 0, 'Bali Blue Moon Coffee', 1, 10, 101), 
+(3, "Take this tumbler on your trips near and far. As you travel you'll be reminded of many of the cities and countries that The Coffee Bean touches in all parts of the world. Capacity: 14oz  Double wall insulated. Clear Acrylic. Hand Wash recommended. Made with BPA free materials. ", 'PROD3', 0, 'World Art Tumbler', 1, 10, 101), 
+(4, 'A giant of worldwide coffee production, and the country that brought you the thong, Brazil produces not only the most coffee, it also grows some of the best. Our Brazil Cerrado is grown in the hot, flat savannahs of Minas Gerais. Labeled “Specialty Grade,” Brazil Cerrado is dry processed for a cup of coffee that displays terrific body, and a nutty, sweet taste that can only be found in the best Brazilian coffees. ', 'PROD4', 0, 'Brazil Cerrado Coffee', 1, 20, 102),
+(5, 'To create our House Blend we combine natural and washed Central and South American coffees. We choose our blends for brightness, flavor, and aromas that make for a smooth, satisfying cup of coffee that can be enjoyed all day long.', 'PROD5', 0, 'House Blend Coffee', 1, 20, 102),
+(6, 'To create our House Blend we combine natural and washed Central and South American coffees. We choose our blends for brightness, flavor, and aromas that make for a smooth, satisfying cup of coffee that can be enjoyed all day long.', 'PROD6', 0, 'Decaf House Blend Coffee', 1, 20, 102),
+(7, 'To create our House Blend, we combine natural and washed Central and South American coffees. We choose our blends for brightness, flavor, and aromas that make for a smooth, satisfying cup of coffee that can be enjoyed all day long.', 'PROD7', 0, 'House Blend Coffee 24 2oz Portion Packs', 1, 20, 102),
+(8, 'We offer Ethiopian Yirgacheffe, picked by hand on a farm in the mountains high above the town of Sidamo. There, the coffee beans are washed, and then soaked up to 72 hours in fermentation tanks. This wet process method produces intensely flavorful beans, with an intensely floral aroma, and mellow, smooth taste. ', 'PROD8', 0, 'Ethiopia Yirgacheffe Coffee', 1, 20, 103),
+(9, 'Kenya has become the giant of African coffee production, ever since coffee made its way over the mountains from Ethiopia. Kenya AA is the largest bean grown in Kenya, and brews up a complex, fruity, light, and very bright cup. This is an exquisite coffee with an assertive, lively personality. Trust us, in coffee that’s a good thing. ', 'PROD9', 0, 'Kenya AA Coffee', 1, 20, 104),
+(10, 'From tree to bag. This premier coffee is hand picked by workers on small family owned farms in the state of Nariño, on the Pacific Coast in Colombia. The farmers take great pride in growing, picking, and preparing their products by hand. We take great pride in offering you the results of their hard work. Their dedication pays off in a balanced, bright cup of coffee, richly aromatic with a creamy body. ', 'PROD10', 0, 'Colombia Narino Coffee', 1, 20, 104),
+(11, 'Offered exclusively at The Coffee Bean & Tea Leaf Costa Rica La Cascada Tarrazu is balanced, clean, and mild. Prized for bright, crisp taste, Costa Rica La Cascada comes from the high altitude farms in the Tarrazu region where rich soils produce some of the best coffees in the land. ', 'PROD11', 0, 'Costa Rica Cascada Tarrazu Coffee', 1, 20, 104),
+(12, 'Costa Rica strikes gold with La Minita Tarrazu. Black gold. Not oil, but coffee grown at La Minita, the legendary “little gold mine” of the Indians who sought gold in the plantation’s soil. Today, the gold mine plantation produces wealth in the form of an elegantly balanced coffee grown between 4,000 and 6,000 feet above sea level. The unique micro climates in the mountains of Costa Rica creates a coffee that exhibits a sweet aroma, full body, delicate acidity, and a clean after taste. ', 'PROD12', 0, 'Costa Rica La Minita Tarrazu Coffee', 1, 20, 104),
+(13, 'Enjoy the flavor, and skip the caffeine. This premier coffee is hand picked by workers on small family-owned farms in the state of Nariño, on the Pacific Coast. The farmers take great pride in growing, picking, and preparing their products by hand. We take great pride in offering you the results of their hard work. Their dedication pays off in a balanced, bright cup of coffee, richly aromatic with a creamy body. ', 'PROD13', 0, 'Decaf Colombia Narino Coffee', 1, 20, 104),
+(14, 'From the shady central highlands of Antigua, Guatemala, comes a full-bodied coffee classic noted for its balance, nuance, and aroma. We purchase the beans in small lots from established farms in Antigua to guarantee the high quality of our beans.', 'PROD14', 0, 'Guatemala Antigua Coffee', 1, 20, 104),
+(15, 'Mocha Java is the world’s original coffee blend. Our interpretation combines sweet, fruity Ethiopian Yirgacheffe with the deep body and rich flavor of Java Estate coffees. The result has long been praised by coffee aficionados around the world.', 'PROD15', 0, 'Mocha Java Coffee', 1, 20, 104),
+(16, 'The finest coffee in New Guinea comes from the Sigri estate, in the Waghi Valley of Papua New Guinea, where climate, soil and elevation combine to create ideal growing conditions. A coffee prized by connoisseurs, our Papua New Guinea Sigri A is naturally sweet, with a fruity aroma, a spicy body, and clean flavor.1 lb.', 'PROD16', 0, 'Papua New Guinea Sigri Coffee', 1, 20, 104),
+(17, 'Discriminating coffee drinkers have long placed Sumatra Mandheling at the top of the list of the best coffees from Sumatra and perhaps the world. The syrupy, full body of Sumatra Mandheling, combined with its muted-acidity, makes an elegant, exotic cup of coffee. The taste of roasted caramel, and hints of chocolate make it truly exotic.', 'PROD17', 0, 'Sumatra Mandheling Coffee', 1, 20, 104),
+(18, 'Brisk and invigorating, our English Breakfast Tea is a blend of black teas from Sri Lankan Ceylon, Taiwanese Black Tea, and Chinese Keemun Black Tea. Our crisp, smooth, and medium-bodied blend is our take on a beloved classic and a tribute to England’s tradition of tea drinking. ', 'PROD18', 0, 'Breakfast Blend Coffee', 1, 20, 104),
+(19, 'From tree to bag. This premier coffee is hand picked by workers on small family owned farms in the state of Nariño, on the Pacific Coast in Colombia. The farmers take great pride in growing, picking, and preparing their products by hand. We take great pride in offering you the results of their hard work. Their dedication pays off in a balanced, bright cup of coffee, richly aromatic with a creamy body.', 'PROD19', 0, 'Colombia Narino Coffee, 24 2oz Portion Packs', 1, 20, 104),
+(20, 'Offered exclusively at The Coffee Bean & Tea Leaf®, Costa Rica La Cascada Tarrazu is balanced, clean, and mild. Prized for bright, crisp taste, Costa Rica La Cascada comes from the high altitude farms in the Tarrazu region where rich soils produce some of the best coffees in the land.', 'PROD20', 0, 'Costa Rica Coffee, 24 2oz Portion Packs', 1, 20, 104),
+(21, "Our Master Roaster created this seasonal treat for the holiday season in 1996. We've proudly featured it in our stores every year since!", 'PROD21', 0, 'Holiday Blend Coffee', 1, 20, 105),
+(22, 'A fragrant toffee aroma with flavors of walnuts and semi-sweet chocolate, with a crisp black cherry finish; this coffee comes from the Kintamani Highlands in North Bali, Indonesia. ', 'PROD22', 0, 'Bali Blue Moon Coffee', 1, 20, 105),
+(23, 'Fair Trade & Organic. Plum aroma with a smooth chocolatey body and spicy finish.', 'PROD23', 0, 'University Blend Coffee', 1, 20, 105),
+(24, 'Full bodied with semi-sweet cocoa aroma, soft fruity flavor and a smooth finish.', 'PROD24', 0, 'Harvest Blend Coffee', 1, 20, 105),
+(25, 'For coffee aficionados who love an espresso but can live without the caffeine, we offer our Decaffeinated Espresso Roast Blend. This strong and subtle Espresso combines the best of four select origin coffees, each individually roasted to perfection and combined after roasting. This coffee is subtle enough to be enjoyed as a straight shot, yet assertive enough for a latte. This signature blend is a delicious cornerstone of our business.', 'PROD25', 0, 'Decaf Espesso Roast Coffee', 1, 20, 105),
+(26, 'Intensely French. Without the caffeine. We start with a delicious, delightful Costa Rican coffee, then dark roast it in the tradition of the famous French style. You’ll taste Caramelized sugars, a hint of chocolate and a deeply smoky flavor that attests to the heat of the roast characterize this intensely flavorful coffee.', 'PROD26', 0, 'Decaf French Roast Coffee', 1, 20, 105),
+(27, 'We blend for flavor, Viennese style to achieve a deep brown, medium dark roast that toasts the beans to perfection. Our Viennese Blend brings select coffees together at the medium-dark roast level for a surprising balance and depth.', 'PROD27', 0, 'Decaf Viennese Coffee', 1, 20, 105),
+(28, 'The darkest roast on the planet. We begin with a quintessential Costa Rican coffee that can stand up to the heat and intensity of a French Roast. Caramelized sugars, a hint of chocolate and a deeply smoky flavor that attests to the heat of the roast characterize this intensely flavorful coffee.', 'PROD28', 0, 'French Roast Coffee', 1, 20, 105),
+(29, 'Deep roasted flavor with a smoky aroma and a chocolaty finish', 'PROD29', 0, 'Italian Roast Coffee', 1, 20, 105),
+(30, 'Coming from Northern Tanzania, Africa, this coffee offers floral jasmine aroma, bright medium bodied flavor with hints of black currant and a chocolaty finish', 'PROD30', 0, 'Tanzania Peaberry Coffee', 1, 20, 105),
+(31, 'People love our Colombia Nariño Dark for its full, rich, creamy body and rich aroma. We roast it a bit darker to mellow the brightness and add a touch of sweet, smoky caramel to the aroma and flavor.', 'PROD31', 0, 'Colombia Narino Dark Coffee', 1, 20, 105),
+(32, 'We built our business on this signature blend. To create our Espresso Roast Blend, we roast four select origin coffees to perfection,then combine them to create the perfect base for our espresso drinks.', 'PROD32', 0, 'Espresso Roast Coffee', 1, 20, 105),
+(33, 'Our Director of Tea, David DeCandia invites readers to explore the culture of tea and the adventures to save ancient Blue Tiger tea inside Master Davey and the Magic Tea House. The enchanting book is paired with a limited edition Blue Tiger Tea blend which consists of lemon myrtle, malva flower & tea blossoms with raspberry flavoring.', 'PROD33', 0, 'Master Davey Set: Blue Tiger Tea & Book', 1, 20, 201),
+(34, 'Characteristically sweet rooibos and delicate black tea are highlighted by the festive flavor of mulling spices!.20 Whole Leaf Tea Bags', 'PROD34', 0, 'Winter Dream Tea', 1, 20, 201),
+(35, 'Ceylon black tea blended with peppermint leaf, strawberries and all natural flavors.', 'PROD35', 0, 'Peppermint Stick Tea', 1, 20, 201),
+(36, 'Sweetly scented orange blossoms, a tart hint of orange zest and our exclusive oolong tea capture the spirit of Los Angeles.  This item is also available at our retail locations at Los Angeles International Airport.', 'PROD36', 0, 'Los Angeles Sunshine Blend Tea', 1, 20, 201),
+(37, 'Experience the divine essence of this delicate white tea, expertly flavored with an enticing peach and ginger blend. This item is also available at our retail locations at Hartfield-Jackson Atlanta International Airport.', 'PROD37', 0, 'Georgia Peach Ginger White Tea', 1, 20, 201),
+(38, 'Can making tea be a labor of love? Consider our Jasmine Dragon Phoenix Pearl. To create this tea we take two beautiful young Chinese green tea leaves and one plump bud, then roll them together into a large tight pearl packed with flavor. As night falls we scent the pearls with the fragrance of Jasmine flowers seven times during a single evening.', 'PROD38', 0, 'Jasmine Dragon Phoenix Pearl Tea', 1, 20, 202),
+(39, 'There’s nothing quite like the distinctive taste of Genmaicha Green tea, with its blend of Japanese Sencha tea and partially toasted rice. Refreshing and light, the toasted rice adds body and sweetness to the finish.', 'PROD39', 0, 'Genmaicha Green Tea', 1, 20, 202),
+(40, 'Savor the tea of emperors. This delicate green tea is revered by the Chinese for its jade green color and unique shape. The only place in the world where Lung Ching Dragonwell tea is grown is in the West Lake district in Hangzhou, China. We make the tea the same way the Chinese have made it for centuries. The tea is meticulously prepared from tender leaves using a traditional handmade technique.', 'PROD40', 0, 'Lung Ching Dragonwell Tea', 1, 20, 202),
+(41, 'This wonderful green tea is grown in China, the birthplace of tea, where the field workers take enormous pride in delivering only the highest quality green tea, legendary for its overall health benefits and antioxidant content. And our special CO2 decaffeination process lets you enjoy all the benefits of this fine, Chinese green tea with optimal taste and quality, without the caffeine.', 'PROD41', 0, 'Decaf Green Tea', 1, 20, 202),
+(42, 'In the high country of Sweden the wildberry pickers look forward to summer and ripening berries. This drink blends hibiscus, raisins and an assortment of berries to create a warm, soul-soothing infusion full of natural fruit flavors and sweet, fragrant aromas.', 'PROD42', 0, 'Swedish Berries Tea', 1, 20, 203),
+(43, 'Crossing continents and traditions, we took this caffeine-free South African (No Suggestions) and infused it with the exotic flavors of chai to create this sweet, creamy, delicately spiced infusion. ', 'PROD43', 0, 'Chai Rooibos Tea', 1, 20, 203),
+(44, 'Our hand-harvested honeybush has a mild, sweet taste and aroma, somewhat like honey, and is infused with aromatic vanilla flavoring to create a unique infusion. This herbal infusion yields a vibrant reddish orange liquor not unlike the famous red glowing sunrise known throughout Africa.', 'PROD44', 0, 'African Sunrise Tea', 1, 20, 203),
+(45, "We searched the world over trying to create the most delicious, richest vanilla beverage ever. If you've tasted our French Deluxe™ vanilla powder, you'll agree that we've succeeded. Bring home our classic French Deluxe™ Vanilla and have fun making your favorite beverages in your own kitchen.", 'PROD45', 0, 'French Deluxe Vanilla Powder', 1, 20, 301),
+(46, "Our Special Dutch™ chocolate powder is now available with No Sugar Added! We added the ultra-premium ingredients to make the finest grade of cocoa. Try it alone, hot or cold, you'll love it any way! Drop a bit in your coffee or tea for an added bit of pleasure. We liked it so much, we made it our SECRET ingredient in our renowned Mocha Ice Blended® drinks, Cafe Mocha and Mocha Latte.", 'PROD46', 0, 'Special Dutch Chocolate Powder, no Sugar', 1, 20, 301),
+(47, 'A blend of versatility and style with an über-sleek stainless steel purple finish. This tumbler is double wall insulated and made with BPA Free materials.', 'PROD47', 0, 'Americana Tumbler', 1, 20, 302),
+(48, 'A blend of versatility and durability with an über-sleek chrome finish.
+Double-wall insulated 
+For hot or cold beverages
+Capacity: 17 oz.
+Hand-wash suggested ', 'PROD48', 0, 'Bergamo Bottle', 1, 20, 302),
+(49, 'This sleek marvel is double-wall insulated with premium stainless steel, so it works with hot and cold beverages. 
+BPA-free 
+Capacity: 16 oz', 'PROD49', 0, 'The Jaidun Tumbler', 1, 20, 302),
+(50, 'It bends but never breaks, and is henceforth a Japanese symbol of strength and prosperity. May every sip of our fine teas - and every step of your unique journey - be bamboo.', 'PROD50', 0, 'Bamboo Ceramic Tea Set', 1, 20, 302);
 
 
 
 
-update teco_product_marketing 
-set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+--update teco_product_marketing 
+--set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1, null, null, null, null, null, 'Blueberry Struesel Coffee i18n', 1, 300, null, 1),
-(2, null, null, null, null, null, 'Bali Blue Moon Coffee i18n', 2, 300, null, 1),
-(3, null, null, null, null, null, 'World Art Tumbler i18n', 3, 300, null, 1),
-(4, null, null, null, null, null, 'Brazil Cerrado Coffee i18n', 4, 300, null, 1),
-(5, null, null, null, null, null, 'House Blend Coffee i18n', 5, 300, null, 1),
-(6, null, null, null, null, null, 'Decaf House Blend Coffee i18n', 6, 300, null, 1),
-(7, null, null, null, null, null, 'House Blend Coffee 24 2oz Portion Packs i18n', 7, 300, null, 1),
-(8, null, null, null, null, null, 'Ethiopia Yirgacheffe Coffee i18n', 8, 300, null, 1),
-(9, null, null, null, null, null, 'Kenya AA Coffee i18n', 9, 300, null, 1),
-(10, null, null, null, null, null, 'Colombia Narino Coffee i18n', 10, 300, null, 1),
-(11, null, null, null, null, null, 'Costa Rica Cascada Tarrazu Coffee i18n', 11, 300, null, 1),
-(12, null, null, null, null, null, 'Costa Rica La Minita Tarrazu Coffee i18n', 12, 300, null, 1),
-(13, null, null, null, null, null, 'Decaf Colombia Narino Coffee i18n', 13, 300, null, 1),
-(14, null, null, null, null, null, 'Guatemala Antigua Coffee i18n', 14, 300, null, 1),
-(15, null, null, null, null, null, 'Mocha Java Coffee i18n', 15, 300, null, 1),
-(16, null, null, null, null, null, 'Papua New Guinea Sigri Coffee i18n', 16, 300, null, 1),
-(17, null, null, null, null, null, 'Sumatra Mandheling Coffee i18n', 17, 300, null, 1),
-(18, null, null, null, null, null, 'Breakfast Blend Coffee i18n', 18, 300, null, 1),
-(19, null, null, null, null, null, 'Colombia Narino Coffee, 24 2oz Portion Packs i18n', 19, 300, null, 1),
-(20, null, null, null, null, null, 'Costa Rica Coffee, 24 2oz Portion Packs i18n', 20, 300, null, 1),
-(21, null, null, null, null, null, 'Holiday Blend Coffee i18n', 21, 300, null, 1),
-(22, null, null, null, null, null, 'Bali Blue Moon Coffee i18n', 22, 300, null, 1),
-(23, null, null, null, null, null, 'University Blend Coffee i18n', 23, 300, null, 1),
-(24, null, null, null, null, null, 'Harvest Blend Coffee i18n', 24, 300, null, 1),
-(25, null, null, null, null, null, 'Decaf Espesso Roast Coffee i18n', 25, 300, null, 1),
-(26, null, null, null, null, null, 'Decaf French Roast Coffee i18n', 26, 300, null, 1),
-(27, null, null, null, null, null, 'Decaf Viennese Coffee i18n', 27, 300, null, 1),
-(28, null, null, null, null, null, 'French Roast Coffee i18n', 28, 300, null, 1),
-(29, null, null, null, null, null, 'Italian Roast Coffee i18n', 29, 300, null, 1),
-(30, null, null, null, null, null, 'Tanzania Peaberry Coffee i18n', 30, 300, null, 1),
-(31, null, null, null, null, null, 'Colombia Narino Dark Coffee i18n', 31, 300, null, 1),
-(32, null, null, null, null, null, 'Espresso Roast Coffee i18n', 32, 300, null, 1),
-(33, null, null, null, null, null, 'Master Davey Set: Blue Tiger Tea & Book i18n', 33, 300, null, 1),
-(34, null, null, null, null, null, 'Winter Dream Tea i18n', 34, 300, null, 1),
-(35, null, null, null, null, null, 'Peppermint Stick Tea i18n', 35, 300, null, 1),
-(36, null, null, null, null, null, 'Los Angeles Sunshine Blend Tea i18n', 36, 300, null, 1),
-(37, null, null, null, null, null, 'Georgia Peach Ginger White Tea i18n', 37, 300, null, 1),
-(38, null, null, null, null, null, 'Jasmine Dragon Phoenix Pearl Tea i18n', 38, 300, null, 1),
-(39, null, null, null, null, null, 'Genmaicha Green Tea i18n', 39, 300, null, 1),
-(40, null, null, null, null, null, 'Lung Ching Dragonwell Tea i18n', 40, 300, null, 1),
-(41, null, null, null, null, null, 'Decaf Green Tea i18n', 41, 300, null, 1),
-(42, null, null, null, null, null, 'Swedish Berries Tea i18n', 42, 300, null, 1),
-(43, null, null, null, null, null, 'Chai Rooibos Tea i18n', 43, 300, null, 1),
-(44, null, null, null, null, null, 'African Sunrise Tea i18n', 44, 300, null, 1),
-(45, null, null, null, null, null, 'French Deluxe Vanilla Powder i18n', 45, 300, null, 1),
-(46, null, null, null, null, null, 'Special Dutch Chocolate Powder, no Sugar i18n', 46, 300, null, 1),
-(47, null, null, null, null, null, 'Americana Tumbler i18n', 47, 300, null, 1),
-(48, null, null, null, null, null, 'Bergamo Bottle i18n', 48, 300, null, 1),
-(49, null, null, null, null, null, 'The Jaidun Tumbler i18n', 49, 300, null, 1),
-(50, null, null, null, null, null, 'Bamboo Ceramic Tea Set i18n', 50, 300, null, 1);
+(1, null, null, null, null, null, 'Blueberry Streusel Coffee', 1, 300, null, 1),
+(2, null, null, null, null, null, 'Bali Blue Moon Coffee', 2, 300, null, 1),
+(3, null, null, null, null, null, 'World Art Tumbler', 3, 300, null, 1),
+(4, null, null, null, null, null, 'Brazil Cerrado Coffee', 4, 300, null, 1),
+(5, null, null, null, null, null, 'House Blend Coffee', 5, 300, null, 1),
+(6, null, null, null, null, null, 'Decaf House Blend Coffee', 6, 300, null, 1),
+(7, null, null, null, null, null, 'House Blend Coffee 24 2oz Portion Packs', 7, 300, null, 1),
+(8, null, null, null, null, null, 'Ethiopia Yirgacheffe Coffee', 8, 300, null, 1),
+(9, null, null, null, null, null, 'Kenya AA Coffee', 9, 300, null, 1),
+(10, null, null, null, null, null, 'Colombia Narino Coffee', 10, 300, null, 1),
+(11, null, null, null, null, null, 'Costa Rica Cascada Tarrazu Coffee', 11, 300, null, 1),
+(12, null, null, null, null, null, 'Costa Rica La Minita Tarrazu Coffee', 12, 300, null, 1),
+(13, null, null, null, null, null, 'Decaf Colombia Narino Coffee', 13, 300, null, 1),
+(14, null, null, null, null, null, 'Guatemala Antigua Coffee', 14, 300, null, 1),
+(15, null, null, null, null, null, 'Mocha Java Coffee', 15, 300, null, 1),
+(16, null, null, null, null, null, 'Papua New Guinea Sigri Coffee', 16, 300, null, 1),
+(17, null, null, null, null, null, 'Sumatra Mandheling Coffee', 17, 300, null, 1),
+(18, null, null, null, null, null, 'Breakfast Blend Coffee', 18, 300, null, 1),
+(19, null, null, null, null, null, 'Colombia Narino Coffee, 24 2oz Portion Packs', 19, 300, null, 1),
+(20, null, null, null, null, null, 'Costa Rica Coffee, 24 2oz Portion Packs', 20, 300, null, 1),
+(21, null, null, null, null, null, 'Holiday Blend Coffee', 21, 300, null, 1),
+(22, null, null, null, null, null, 'Bali Blue Moon Coffee', 22, 300, null, 1),
+(23, null, null, null, null, null, 'University Blend Coffee', 23, 300, null, 1),
+(24, null, null, null, null, null, 'Harvest Blend Coffee', 24, 300, null, 1),
+(25, null, null, null, null, null, 'Decaf Espesso Roast Coffee', 25, 300, null, 1),
+(26, null, null, null, null, null, 'Decaf French Roast Coffee', 26, 300, null, 1),
+(27, null, null, null, null, null, 'Decaf Viennese Coffee', 27, 300, null, 1),
+(28, null, null, null, null, null, 'French Roast Coffee', 28, 300, null, 1),
+(29, null, null, null, null, null, 'Italian Roast Coffee', 29, 300, null, 1),
+(30, null, null, null, null, null, 'Tanzania Peaberry Coffee', 30, 300, null, 1),
+(31, null, null, null, null, null, 'Colombia Narino Dark Coffee', 31, 300, null, 1),
+(32, null, null, null, null, null, 'Espresso Roast Coffee', 32, 300, null, 1),
+(33, null, null, null, null, null, 'Master Davey Set: Blue Tiger Tea & Book', 33, 300, null, 1),
+(34, null, null, null, null, null, 'Winter Dream Tea', 34, 300, null, 1),
+(35, null, null, null, null, null, 'Peppermint Stick Tea', 35, 300, null, 1),
+(36, null, null, null, null, null, 'Los Angeles Sunshine Blend Tea', 36, 300, null, 1),
+(37, null, null, null, null, null, 'Georgia Peach Ginger White Tea', 37, 300, null, 1),
+(38, null, null, null, null, null, 'Jasmine Dragon Phoenix Pearl Tea', 38, 300, null, 1),
+(39, null, null, null, null, null, 'Genmaicha Green Tea', 39, 300, null, 1),
+(40, null, null, null, null, null, 'Lung Ching Dragonwell Tea', 40, 300, null, 1),
+(41, null, null, null, null, null, 'Decaf Green Tea', 41, 300, null, 1),
+(42, null, null, null, null, null, 'Swedish Berries Tea', 42, 300, null, 1),
+(43, null, null, null, null, null, 'Chai Rooibos Tea', 43, 300, null, 1),
+(44, null, null, null, null, null, 'African Sunrise Tea', 44, 300, null, 1),
+(45, null, null, null, null, null, 'French Deluxe Vanilla Powder', 45, 300, null, 1),
+(46, null, null, null, null, null, 'Special Dutch Chocolate Powder, no Sugar', 46, 300, null, 1),
+(47, null, null, null, null, null, 'Americana Tumbler', 47, 300, null, 1),
+(48, null, null, null, null, null, 'Bergamo Bottle', 48, 300, null, 1),
+(49, null, null, null, null, null, 'The Jaidun Tumbler', 49, 300, null, 1),
+(50, null, null, null, null, null, 'Bamboo Ceramic Tea Set', 50, 300, null, 1);
 
 
 INSERT INTO teco_product_sku 
@@ -893,8 +946,18 @@ INSERT INTO teco_asset
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, virtual_category_id, scope)
  VALUES 
-(301, 'image ...', 'VCAT_SLIDESHOW_301', 'cat-1-img-1.jpg', 0, 'image 5', 1, 'SLIDESHOW', null, 1, 301, 'VIRTUAL_CATEGORY'), 
-(302, 'image ...', 'VCAT_SLIDESHOW_302', 'cat-1-img-1.jpg', 0, 'image 6', 1, 'SLIDESHOW', null, 1, 302, 'VIRTUAL_CATEGORY');
+(11101, 'image ...', 'VCAT_SLIDESHOW_101', 'cat-1-img-1.jpg', 0, 'image 101', 1, 'SLIDESHOW', null, 1, 101, 'VIRTUAL_CATEGORY'), 
+(11102, 'image ...', 'VCAT_SLIDESHOW_102', 'cat-1-img-1.jpg', 0, 'image 102', 1, 'SLIDESHOW', null, 1, 102, 'VIRTUAL_CATEGORY'),
+(11103, 'image ...', 'VCAT_SLIDESHOW_103', 'cat-1-img-1.jpg', 0, 'image 103', 1, 'SLIDESHOW', null, 1, 103, 'VIRTUAL_CATEGORY'), 
+(11104, 'image ...', 'VCAT_SLIDESHOW_104', 'cat-1-img-1.jpg', 0, 'image 104', 1, 'SLIDESHOW', null, 1, 104, 'VIRTUAL_CATEGORY'),
+(11105, 'image ...', 'VCAT_SLIDESHOW_105', 'cat-1-img-1.jpg', 0, 'image 105', 1, 'SLIDESHOW', null, 1, 105, 'VIRTUAL_CATEGORY'), 
+(11201, 'image ...', 'VCAT_SLIDESHOW_201', 'cat-2-img-1.jpg', 0, 'image 201', 1, 'SLIDESHOW', null, 1, 201, 'VIRTUAL_CATEGORY'),
+(11202, 'image ...', 'VCAT_SLIDESHOW_202', 'cat-2-img-1.jpg', 0, 'image 202', 1, 'SLIDESHOW', null, 1, 202, 'VIRTUAL_CATEGORY'), 
+(11203, 'image ...', 'VCAT_SLIDESHOW_203', 'cat-2-img-1.jpg', 0, 'image 203', 1, 'SLIDESHOW', null, 1, 203, 'VIRTUAL_CATEGORY'),
+(11301, 'image ...', 'VCAT_SLIDESHOW_301', 'cat-3-img-1.jpg', 0, 'image 301', 1, 'SLIDESHOW', null, 1, 301, 'VIRTUAL_CATEGORY'), 
+(11302, 'image ...', 'VCAT_SLIDESHOW_302', 'cat-3-img-1.jpg', 0, 'image 302', 1, 'SLIDESHOW', null, 1, 302, 'VIRTUAL_CATEGORY'),
+(11501, 'image ...', 'VCAT_SLIDESHOW_501', 'cat-5-img-1.jpg', 0, 'image 501', 1, 'SLIDESHOW', null, 1, 501, 'VIRTUAL_CATEGORY'), 
+(11502, 'image ...', 'VCAT_SLIDESHOW_502', 'cat-5-img-1.jpg', 0, 'image 502', 1, 'SLIDESHOW', null, 1, 502, 'VIRTUAL_CATEGORY');
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, product_marketing_id, scope)
