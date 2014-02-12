@@ -274,8 +274,8 @@ INSERT INTO teco_catalog_master_category
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 1),
 (30, 'Category 3 description', 'CATE30', 0, 'Essentials', 1),
-(40, 'Category 4 description', 'CATE40', 0, 'New Products', 1),
-(50, 'Category 5 description', 'CATE50', 0, 'Gift Ideas', 1);
+(40, 'Category 4 description', 'CATE40', 0, 'Nouveautés', 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 1);
 
 INSERT INTO teco_catalog_virtual_category 
 (id, description, code, is_default, business_name, master_category_id, version)
@@ -283,8 +283,8 @@ INSERT INTO teco_catalog_virtual_category
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 10, 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 20, 1),
 (30, 'Category 3 description', 'CATE30', 0, 'Essentials', 30, 1),
-(40, 'Category 4 description', 'CATE40', 0, 'New Products', 20, 1),
-(50, 'Category 5 description', 'CATE50', 0, 'Gift Ideas', 30, 1);
+(40, 'Category 4 description', 'CATE40', 0, 'Nouveautés', 20, 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 30, 1);
 
 INSERT INTO teco_catalog_master_category_master_rel 
 (master_catalog_id, master_category_id)
@@ -364,8 +364,8 @@ INSERT INTO teco_catalog_master_category
 (302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 30),
 (401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 40), 
 (402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 40),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Feasts Fathers', 1, 50), 
-(502, 'Category 5 sub category description', 'CATE502', 0, "Mother's Day", 1, 50);
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Fêtes des pères', 1, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères", 1, 50);
 
 INSERT INTO teco_catalog_virtual_category 
 (id, description, code, is_default, business_name, version, master_category_id, default_parent_category_id)
@@ -382,8 +382,8 @@ INSERT INTO teco_catalog_virtual_category
 (302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 302, 30),
 (401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 401, 40), 
 (402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 402, 40),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Feasts Fathers', 1, 501, 50), 
-(502, 'Category 5 sub category description', 'CATE502', 0, "Mother's Day", 1, 502, 50);
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Fêtes des pères', 1, 501, 50), 
+(502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères", 1, 502, 50);
 INSERT INTO teco_catalog_virtual_category_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, virtual_category_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 

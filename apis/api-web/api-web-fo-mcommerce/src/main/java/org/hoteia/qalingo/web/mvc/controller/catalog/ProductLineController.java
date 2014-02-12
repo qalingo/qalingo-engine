@@ -79,7 +79,7 @@ public class ProductLineController extends AbstractMCommerceController {
         String mode = request.getParameter("mode");
         
 		int page = NumberUtils.toInt(pageParameter, 1) - 1;
-	    int pageSize = NumberUtils.toInt(pageSizeParameter, 1);
+	    int pageSize = NumberUtils.toInt(pageSizeParameter, 9);
 		
 		List<ProductMarketingViewBean> productMarketings = catalogCategoryViewBean.getProductMarketings();
 		PagedListHolder<ProductMarketingViewBean> productList = new PagedListHolder<ProductMarketingViewBean>(productMarketings);
