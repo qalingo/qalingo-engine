@@ -235,24 +235,107 @@ INSERT INTO teco_market_area_currency_rel
 INSERT INTO teco_store 
 (id, business_name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, latitude, longitude, type, version)
  VALUES 
-(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
-(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1);
+--(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
+--(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1),
+--add
+(10, 'The Coffee Bean & Tea Leaf', 'STRTO1', '1772 A East Avenida De Los Arboles, Thousand Oaks, CA 91362 (805) 241-2499', '', '','', 'Thousand Oaks', '', 'US', '34.224294', '-118.844712', 'SHOP', 1),
+(20, 'The Coffee Bean & Tea Leaf', 'STRTO2', '"487 North Moorpark Road #3,Thousand Oaks, CA 91360 (805) 497-7467"', '', '','', 'Thousand Oaks', '', 'US', '34.185997', '-118.875596', 'SHOP,CORNER', 1),
+(30, 'The Coffee Bean & Tea Leaf', 'STRTO3', '"278 West Hillcrest Drive Thousand Oaks, CA 91360 (805) 497-1211"', '', '','', 'Thousand Oaks', '', 'US', '34.185926', '-118.888599', 'SHOP,CORNER', 1),
+
+(40, 'The Coffee Bean & Tea Leaf', 'STRTO4', '"968 S Westlake Blvd #6 Westlake Village, CA 91361 (805) 497-1256"', '', '','', 'Thousand Oaks', '', 'US', '34.154077', '-118.826673', 'SHOP,CORNER', 1),
+
+(50, 'The Coffee Bean & Tea Leaf', 'STRLA1', '209 South Mednik Avenue Los Angeles, CA 90022 (323) 263-931,', '', '','', 'Los Angeles', '', 'US', '34.049815', '-118.162873', 'SHOP,CORNER', 1),
+
+(60, 'The Coffee Bean & Tea Leaf', 'STRLA2', '"2081 Hillhurst Avenue Los Angeles, CA 90027 (323) 913-3457"', '', '','', 'Los Angeles', '', 'US', '34.126016', '-118.286469', 'SHOP,CORNER', 1),
+
+(70, 'The Coffee Bean & Tea Leaf', 'STRLA3', '"11698 San Vicente Boulevard Los Angeles, CA 90049 (310) 442-1019"', '', '','', 'Los Angeles', '', 'US', '34.069725', '-118.46225', 'SHOP,CORNER', 1),
+
+(80, 'The Coffee Bean & Tea Leaf', 'STRLA4', '6333 West 3rd Street, E-11, Farmers Market Los Angeles, CA 90036 (323) 857-0461', '', '','', 'Los Angeles', '', 'US', '34.088493', '-118.362687', 'SHOP,CORNER', 1),
+
+(90, 'The Coffee Bean & Tea Leaf', 'STRLA5', '"Exposition Blvd Los Angeles, CA 90007 (213) 745-4963"', '', '','', 'Los Angeles', '', 'US', '34.034453', '-118.284409', 'SHOP,CORNER', 1),
+
+(100, 'Le Tropic Café', 'STRPARIS1', '"66 Rue des Lombards 75001 Paris, France +33 1 40 13 92 62"', '', '','', 'Paris', '', 'FR', '48.863924', '2.347271', 'SHOP,CORNER', 1),
+(110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées 75008 Paris, France +33 1 40 69 60 50', '', '','', 'Paris', '', 'FR', '48.874313', '2.301609', 'SHOP,CORNER', 1),
+(120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
 
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)
 VALUES 
-(10, null, null, null, null, null, 'New-York en i18n', 10, 510, 'en', null),
-(11, null, null, null, null, null, 'New-York fr i18n', 10, 510, 'fr', null),
-(20, null, null, null, null, null, 'Paris en i18n', 20, 510, 'en', null),
-(21, null, null, null, null, null, 'Paris fr i18n', 20, 510, 'fr', null);
+(10, null, null, null, null, null, 'Thousand Oaks', 10, 510, 'en', null),
+(11, null, null, null, null, null, 'Thousand Oaks', 10, 510, 'fr', null),
+
+(20, null, null, null, null, null, 'Thousand Oaks', 20, 510, 'en', null),
+(21, null, null, null, null, null, 'Thousand Oaks', 20, 510, 'fr', null),
+
+(30, null, null, null, null, null, 'Thousand Oaks', 30, 510, 'en', null),
+(31, null, null, null, null, null, 'Thousand Oaks', 30, 510, 'fr', null),
+
+(40, null, null, null, null, null, 'Thousand Oaks', 40, 510, 'en', null),
+(41, null, null, null, null, null, 'Thousand Oaks', 40, 510, 'fr', null),
+
+(50, null, null, null, null, null, 'Los Angeles', 50, 510, 'en', null),
+(51, null, null, null, null, null, 'Los Angeles', 50, 510, 'fr', null),
+
+(60, null, null, null, null, null, 'Los Angeles', 60, 510, 'en', null),
+(61, null, null, null, null, null, 'Los Angeles', 60, 510, 'fr', null),
+
+(70, null, null, null, null, null, 'Los Angeles', 70, 510, 'en', null),
+(71, null, null, null, null, null, 'Los Angeles', 70, 510, 'fr', null),
+
+(80, null, null, null, null, null, 'Los Angeles', 80, 510, 'en', null),
+(81, null, null, null, null, null, 'Los Angeles', 80, 510, 'fr', null),
+
+(90, null, null, null, null, null, 'Los Angeles', 90, 510, 'en', null),
+(91, null, null, null, null, null, 'Los Angeles', 90, 510, 'fr', null),
+
+(100, null, null, null, null, null, 'Paris', 100, 510, 'en', null),
+(101, null, null, null, null, null, 'Paris', 100, 510, 'fr', null),
+
+(110, null, null, null, null, null, 'Paris', 110, 510, 'en', null),
+(111, null, null, null, null, null, 'Paris', 110, 510, 'fr', null),
+
+(120, null, null, null, null, null, 'Paris', 120, 510, 'en', null),
+(121, null, null, null, null, null, 'Paris', 120, 510, 'fr', null);
+
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, store_id, scope)
  VALUES 
-(1001, 'image ...', 'IMG_STORE10_', 'store-1-img.png', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
-(1002, 'image ...', 'ICON_STORE10', 'store-1-icon.png', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
-(1011, 'image ...', 'IMG_STORE20_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
-(1012, 'image ...', 'ICON_STORE20', 'store-1-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE');
+(1011, 'image ...', 'IMG_STORE10_', 'store-2-img.jpg', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
+(1012, 'image ...', 'ICON_STORE10', 'store-2-img-icon.jpg', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
+
+(1021, 'image ...', 'IMG_STORE20_', 'store-3-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
+(1022, 'image ...', 'ICON_STORE20', 'store-3-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE'),
+
+(1031, 'image ...', 'IMG_STORE30_', '278-west-hillcrest.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 30, 'STORE'), 
+(1032, 'image ...', 'ICON_STORE30', '278-west-hillcrest-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 30, 'STORE'),
+
+(1041, 'image ...', 'IMG_STORE40_', 'westlake-blvd.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 40, 'STORE'), 
+(1042, 'image ...', 'ICON_STORE40', 'westlake-blvd-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 40, 'STORE'),
+
+(1051, 'image ...', 'IMG_STORE50_', 'store-2-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 50, 'STORE'), 
+(1052, 'image ...', 'ICON_STORE50', 'store-2-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 50, 'STORE'),
+
+(1061, 'image ...', 'IMG_STORE60_', 'store-3-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 60, 'STORE'), 
+(1062, 'image ...', 'ICON_STORE60', 'store-3-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 60, 'STORE'),
+
+(1071, 'image ...', 'IMG_STORE70_', 'san-vicente-boulevard.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 70, 'STORE'), 
+(1072, 'image ...', 'ICON_STORE70', 'san-vicente-boulevard-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 70, 'STORE'),
+
+(1081, 'image ...', 'IMG_STORE80_', 'store-2-img.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 80, 'STORE'), 
+(1082, 'image ...', 'ICON_STORE80', 'store-2-img-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 80, 'STORE'),
+
+(1091, 'image ...', 'IMG_STORE90_', 'exposition-blvd.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 90, 'STORE'), 
+(1092, 'image ...', 'ICON_STORE90', 'exposition-blvd-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 90, 'STORE'),
+
+(10101, 'image ...', 'IMG_STORE100_', 'le-tropic-cafe.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 100, 'STORE'), 
+(10102, 'image ...', 'ICON_STORE100', 'le-tropic-cafe-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 100, 'STORE'),
+
+(10111, 'image ...', 'IMG_STORE110_', 'le-fouquets.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 110, 'STORE'), 
+(10112, 'image ...', 'ICON_STORE110', 'le-fouquets-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 110, 'STORE'),
+
+(10121, 'image ...', 'IMG_STORE120_', 'espressamente-france.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 120, 'STORE'), 
+(10122, 'image ...', 'ICON_STORE120', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 120, 'STORE');
 
 -- PRODUCT
 
