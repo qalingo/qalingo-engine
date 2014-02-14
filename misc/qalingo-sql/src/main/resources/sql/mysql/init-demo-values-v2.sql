@@ -304,8 +304,8 @@ INSERT INTO teco_asset
 (1011, 'image ...', 'IMG_STORE10_', 'store-2-img.jpg', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
 (1012, 'image ...', 'ICON_STORE10', 'store-2-img-icon.jpg', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
 
-(1021, 'image ...', 'IMG_STORE20_', 'store-3-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
-(1022, 'image ...', 'ICON_STORE20', 'store-3-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE'),
+(1021, 'image ...', 'IMG_STORE20_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
+(1022, 'image ...', 'ICON_STORE20', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE'),
 
 (1031, 'image ...', 'IMG_STORE30_', '278-west-hillcrest.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 30, 'STORE'), 
 (1032, 'image ...', 'ICON_STORE30', '278-west-hillcrest-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 30, 'STORE'),
@@ -316,8 +316,8 @@ INSERT INTO teco_asset
 (1051, 'image ...', 'IMG_STORE50_', 'store-2-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 50, 'STORE'), 
 (1052, 'image ...', 'ICON_STORE50', 'store-2-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 50, 'STORE'),
 
-(1061, 'image ...', 'IMG_STORE60_', 'store-3-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 60, 'STORE'), 
-(1062, 'image ...', 'ICON_STORE60', 'store-3-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 60, 'STORE'),
+(1061, 'image ...', 'IMG_STORE60_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 60, 'STORE'), 
+(1062, 'image ...', 'ICON_STORE60', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 60, 'STORE'),
 
 (1071, 'image ...', 'IMG_STORE70_', 'san-vicente-boulevard.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 70, 'STORE'), 
 (1072, 'image ...', 'ICON_STORE70', 'san-vicente-boulevard-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 70, 'STORE'),
