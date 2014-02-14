@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.web.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
 
@@ -138,6 +140,11 @@ public interface RequestUtil {
      */
     String getRequestUrl(HttpServletRequest request, List<String> excludedPatterns, int position) throws Exception;
 
+    /**
+     * 
+     */
+    List<String> getCommonExcludedPatterns() throws Exception;
+    
     /**
      * 
      */

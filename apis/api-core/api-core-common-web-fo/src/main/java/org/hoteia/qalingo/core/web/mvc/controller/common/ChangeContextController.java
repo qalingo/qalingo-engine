@@ -51,8 +51,8 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	private String getTargetUrl(final RequestData requestData) throws Exception{
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
-        List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add(FoUrls.CHANGE_LANGUAGE_URL);
+        List<String> excludedPatterns = requestUtil.getCommonExcludedPatterns();
+        excludedPatterns.add(FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard());
         String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
         final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
         String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");

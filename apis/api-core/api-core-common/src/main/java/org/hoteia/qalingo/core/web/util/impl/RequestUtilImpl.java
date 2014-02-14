@@ -45,6 +45,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -217,8 +218,8 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public ClickstreamSession getClickstreamSession(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = (ClickstreamSession) request.getSession().getAttribute(Constants.ENGINE_CLICKSTREAM);
         if(clickstream == null){
@@ -229,8 +230,8 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     /**
-    * 
-    */
+     * 
+     */
     public void addClickstream(final HttpServletRequest request) throws Exception {
         ClickstreamSession clickstream = getClickstreamSession(request);
         Date lastRequest = new Date();
@@ -243,8 +244,8 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     /**
-    * 
-    */
+     * 
+     */
     public String getLastRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add("login");
@@ -256,22 +257,22 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getCurrentRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getCurrentRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 0);
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getCurrentRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add("login");
@@ -283,8 +284,8 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getLastRequestForEmptyCartUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add("login");
@@ -298,8 +299,8 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     /**
-    * 
-    */
+     * 
+     */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, String fallbackUrl) throws Exception {
         String url = getRequestUrl(request, excludedPatterns, 1);
         if (StringUtils.isEmpty(url)) {
@@ -309,22 +310,22 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns) throws Exception {
         return getRequestUrl(request, excludedPatterns, 1);
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getLastRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 1);
     }
 
     /**
-    * 
-    */
+     * 
+     */
     public String getRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, int position) throws Exception {
         String url = Constants.EMPTY;
         ClickstreamSession clickstreamSession = getClickstreamSession(request);
@@ -385,6 +386,18 @@ public class RequestUtilImpl implements RequestUtil {
         return handleUrl(url);
     }
 
+    /**
+     * 
+     */
+    public List<String> getCommonExcludedPatterns() throws Exception {
+        final List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(FoUrls.ERROR_400.getUrlWithoutWildcard());
+        excludedPatterns.add(FoUrls.ERROR_403.getUrlWithoutWildcard());
+        excludedPatterns.add(FoUrls.ERROR_404.getUrlWithoutWildcard());
+        excludedPatterns.add(FoUrls.ERROR_500.getUrlWithoutWildcard());
+        return excludedPatterns;
+    }
+    
     /**
      * 
      */
