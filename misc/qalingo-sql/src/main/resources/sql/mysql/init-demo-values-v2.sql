@@ -262,11 +262,11 @@ INSERT INTO teco_store
 (140, 'The Coffee Bean & Tea Leaf', 'STRNV1', '4321 West Flamingo Road Las Vegas, NV 89103 (702) 944-5018', '', '','', 'Las Vegas', '', 'US', '36.113471', '-115.194826', 'SHOP,CORNER', 1),
 (150, 'The Coffee Bean & Tea Leaf', 'STRAZ1', '4032 North Miller Road #102 Scottsdale, AZ 85251 (480) 941-7059', '', '','', 'Scottsdale', '', 'US', '33.494435', '-111.917612', 'SHOP,CORNER', 1),
 (160, 'The Coffee Bean & Tea Leaf', 'STRAZ2', '2000 East Rio Salado Parkway Tempe, AZ 85281 (480) 966-0252', '', '','', 'Tempe', '', 'US', '33.432981', '-111.904298', 'SHOP,CORNER', 1),
-(170, 'The Coffee Bean & Tea Leaf', 'STRNY1', '1412 Broadway New York, NY 10018 (212) 575-3854', '', '','', 'New York', '', 'US', '40.753629', '-73.986939', 'SHOP,CORNER', 1);
---(140, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(150, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(160, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
---(170, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+(170, 'The Coffee Bean & Tea Leaf', 'STRNY1', '1412 Broadway New York, NY 10018 (212) 575-3854', '', '','', 'New York', '', 'US', '40.753629', '-73.986939', 'SHOP,CORNER', 1),
+(180, 'The Coffee Bean & Tea Leaf', 'STRVN1', '235 Đồng Khởi, Bến Nghé, 1 Hồ Chí Minh, Việt Nam +84 8 3508 7285', '', '','', 'Ho Chi Minh', '', 'VN', '10.778864', '106.699859', 'SHOP,CORNER', 1),
+(190, 'The Coffee Bean & Tea Leaf', 'STRVN2', '12-14, Phường Bến Nghé, District 1 (Quan 1), Thành phố Hồ Chí Minh Hồ Chí Minh, Vietnam', '', '','', 'Ho Chi Minh', '', 'VN', '10.779886', '106.70397', 'SHOP,CORNER', 1),
+(200, 'The Coffee Bean & Tea Leaf', 'STRSG1', '51 Bras Basah Rd Singapore 189554 +65 6238 0267', '', '','', 'Singapore', '', 'SG', '1.297665', '103.850053', 'SHOP,CORNER', 1),
+(210, 'The Coffee Bean & Tea Leaf', 'STRSG2', 'Food Opera ION Orchard Singapore 238801 +65 6509 9742', '', '','', 'Singapore', '', 'SG', '1.303994', '103.832033', 'SHOP,CORNER', 1);
 --(180, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
@@ -324,7 +324,19 @@ VALUES
 (161, null, null, null, null, null, 'Arizona', 160, 510, 'fr', null),
 
 (170, null, null, null, null, null, 'New York', 170, 510, 'en', null),
-(171, null, null, null, null, null, 'New York', 170, 510, 'fr', null);
+(171, null, null, null, null, null, 'New York', 170, 510, 'fr', null),
+
+(180, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'en', null),
+(181, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'fr', null),
+
+(190, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'en', null),
+(191, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'fr', null),
+
+(200, null, null, null, null, null, 'Singapore', 200, 510, 'en', null),
+(201, null, null, null, null, null, 'Singapore', 200, 510, 'fr', null),
+
+(210, null, null, null, null, null, 'Singapore', 210, 510, 'en', null),
+(211, null, null, null, null, null, 'Singapore', 210, 510, 'fr', null);
 
 
 INSERT INTO teco_asset  
@@ -369,17 +381,29 @@ INSERT INTO teco_asset
 (10131, 'image ...', 'IMG_STORE130_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 130, 'STORE'), 
 (10132, 'image ...', 'ICON_STORE130', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 130, 'STORE'),
 
-(10141, 'image ...', 'IMG_STORE140_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 140, 'STORE'), 
-(10142, 'image ...', 'ICON_STORE140', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 140, 'STORE'),
+(10141, 'image ...', 'IMG_STORE140_', 'store-2-img.jpg', 0, 'image 1 store 140', 1, 'PACKSHOT', 'SMALL', 1, 140, 'STORE'), 
+(10142, 'image ...', 'ICON_STORE140', 'store-2-img-icon.jpg', 0, 'icon 1 store 140', 1, 'ICON', null, 1, 140, 'STORE'),
 
-(10151, 'image ...', 'IMG_STORE150_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 150, 'STORE'), 
-(10152, 'image ...', 'ICON_STORE150', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 150, 'STORE'),
+(10151, 'image ...', 'IMG_STORE150_', 'store-2-img.jpg', 0, 'image 1 store 150', 1, 'PACKSHOT', 'SMALL', 1, 150, 'STORE'), 
+(10152, 'image ...', 'ICON_STORE150', 'store-2-img-icon.jpg', 0, 'icon 1 store 150', 1, 'ICON', null, 1, 150, 'STORE'),
 
-(10161, 'image ...', 'IMG_STORE160_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 160, 'STORE'), 
-(10162, 'image ...', 'ICON_STORE160', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 160, 'STORE'),
+(10161, 'image ...', 'IMG_STORE160_', 'store-2-img.jpg', 0, 'image 1 store 160', 1, 'PACKSHOT', 'SMALL', 1, 160, 'STORE'), 
+(10162, 'image ...', 'ICON_STORE160', 'store-2-img-icon.jpg', 0, 'icon 1 store 160', 1, 'ICON', null, 1, 160, 'STORE'),
 
-(10171, 'image ...', 'IMG_STORE170_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 170, 'STORE'), 
-(10172, 'image ...', 'ICON_STORE170', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 170, 'STORE');
+(10171, 'image ...', 'IMG_STORE170_', 'store-2-img.jpg', 0, 'image 1 store 170', 1, 'PACKSHOT', 'SMALL', 1, 170, 'STORE'), 
+(10172, 'image ...', 'ICON_STORE170', 'store-2-img-icon.jpg', 0, 'icon 1 store 170', 1, 'ICON', null, 1, 170, 'STORE'),
+
+(10181, 'image ...', 'IMG_STORE180_', 'store-2-img.jpg', 0, 'image 1 store 180', 1, 'PACKSHOT', 'SMALL', 1, 180, 'STORE'), 
+(10182, 'image ...', 'ICON_STORE180', 'store-2-img-icon.jpg', 0, 'icon 1 store 180', 1, 'ICON', null, 1, 180, 'STORE'),
+
+(10191, 'image ...', 'IMG_STORE190_', 'store-2-img.jpg', 0, 'image 1 store 190', 1, 'PACKSHOT', 'SMALL', 1, 190, 'STORE'), 
+(10192, 'image ...', 'ICON_STORE190', 'store-2-img-icon.jpg', 0, 'icon 1 store 190', 1, 'ICON', null, 1, 190, 'STORE'),
+
+(10201, 'image ...', 'IMG_STORE200_', 'store-2-img.jpg', 0, 'image 1 store 200', 1, 'PACKSHOT', 'SMALL', 1, 200, 'STORE'), 
+(10202, 'image ...', 'ICON_STORE200', 'store-2-img-icon.jpg', 0, 'icon 1 store 200', 1, 'ICON', null, 1, 200, 'STORE'),
+
+(10211, 'image ...', 'IMG_STORE210_', 'store-2-img.jpg', 0, 'image 1 store 210', 1, 'PACKSHOT', 'SMALL', 1, 210, 'STORE'), 
+(10212, 'image ...', 'ICON_STORE210', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'ICON', null, 1, 210, 'STORE');
 
 -- PRODUCT
 
