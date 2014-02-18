@@ -38,6 +38,8 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 	private String addToCartUrl;
 	private String productDetailsUrl;
 
+	protected CustomerProductRatesViewBean customerProductRates;
+
 	public SearchProductItemViewBean() {
 	}
 
@@ -173,6 +175,15 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 
 	public void setCategoryCode(String categoryCode) {
 		this.categoryCode = categoryCode;
+	}
+
+	public CustomerProductRatesViewBean getCustomerProductRates() {
+		return customerProductRates;
+	}
+
+	public void setCustomerProductRates(
+			CustomerProductRatesViewBean customerProductRates) {
+		this.customerProductRates = customerProductRates;
 	}
 
 }

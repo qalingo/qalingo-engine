@@ -290,6 +290,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
                 searchProductItemViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
         }
+        
+        searchProductItemViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductCode(productMarketing.getId()));
 
         return searchProductItemViewBean;
     }
