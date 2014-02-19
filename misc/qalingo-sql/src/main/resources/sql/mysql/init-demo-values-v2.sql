@@ -246,7 +246,7 @@ INSERT INTO teco_store
 
 (50, 'The Coffee Bean & Tea Leaf', 'STRLA1', '209 South Mednik Avenue Los Angeles, CA 90022 (323) 263-931,', '', '','', 'Los Angeles', '', 'US', '34.049815', '-118.162873', 'SHOP,CORNER', 1),
 
-(60, 'The Coffee Bean & Tea Leaf', 'STRLA2', '"2081 Hillhurst Avenue Los Angeles, CA 90027 (323) 913-3457"', '', '','', 'Los Angeles', '', 'US', '34.126016', '-118.286469', 'SHOP,CORNER', 1),
+(60, 'The Coffee Bean & Tea Leaf', 'STRLA2', '2081 Hillhurst Avenue Los Angeles, CA 90027 (323) 913-3457', '', '','', 'Los Angeles', '', 'US', '34.126016', '-118.286469', 'SHOP,CORNER', 1),
 
 (70, 'The Coffee Bean & Tea Leaf', 'STRLA3', '"11698 San Vicente Boulevard Los Angeles, CA 90049 (310) 442-1019"', '', '','', 'Los Angeles', '', 'US', '34.069725', '-118.46225', 'SHOP,CORNER', 1),
 
@@ -256,7 +256,21 @@ INSERT INTO teco_store
 
 (100, 'Le Tropic Café', 'STRPARIS1', '"66 Rue des Lombards 75001 Paris, France +33 1 40 13 92 62"', '', '','', 'Paris', '', 'FR', '48.863924', '2.347271', 'SHOP,CORNER', 1),
 (110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées 75008 Paris, France +33 1 40 69 60 50', '', '','', 'Paris', '', 'FR', '48.874313', '2.301609', 'SHOP,CORNER', 1),
-(120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
+(120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+
+(130, 'The Coffee Bean & Tea Leaf', 'STRTX1', '1000 E. 41st Street, Suite G-100 Austin, TX 78751 (512) 351-8676', '', '','', 'Texas', '', 'US', '30.299852', '-97.721888', 'SHOP,CORNER', 1),
+(140, 'The Coffee Bean & Tea Leaf', 'STRNV1', '4321 West Flamingo Road Las Vegas, NV 89103 (702) 944-5018', '', '','', 'Las Vegas', '', 'US', '36.113471', '-115.194826', 'SHOP,CORNER', 1),
+(150, 'The Coffee Bean & Tea Leaf', 'STRAZ1', '4032 North Miller Road #102 Scottsdale, AZ 85251 (480) 941-7059', '', '','', 'Scottsdale', '', 'US', '33.494435', '-111.917612', 'SHOP,CORNER', 1),
+(160, 'The Coffee Bean & Tea Leaf', 'STRAZ2', '2000 East Rio Salado Parkway Tempe, AZ 85281 (480) 966-0252', '', '','', 'Tempe', '', 'US', '33.432981', '-111.904298', 'SHOP,CORNER', 1),
+(170, 'The Coffee Bean & Tea Leaf', 'STRNY1', '1412 Broadway New York, NY 10018 (212) 575-3854', '', '','', 'New York', '', 'US', '40.753629', '-73.986939', 'SHOP,CORNER', 1),
+(180, 'The Coffee Bean & Tea Leaf', 'STRVN1', '235 Đồng Khởi, Bến Nghé, 1 Hồ Chí Minh, Việt Nam +84 8 3508 7285', '', '','', 'Ho Chi Minh', '', 'VN', '10.778864', '106.699859', 'SHOP,CORNER', 1),
+(190, 'The Coffee Bean & Tea Leaf', 'STRVN2', '12-14, Phường Bến Nghé, District 1 (Quan 1), Thành phố Hồ Chí Minh Hồ Chí Minh, Vietnam', '', '','', 'Ho Chi Minh', '', 'VN', '10.779886', '106.70397', 'SHOP,CORNER', 1),
+(200, 'The Coffee Bean & Tea Leaf', 'STRSG1', '51 Bras Basah Rd Singapore 189554 +65 6238 0267', '', '','', 'Singapore', '', 'SG', '1.297665', '103.850053', 'SHOP,CORNER', 1),
+(210, 'The Coffee Bean & Tea Leaf', 'STRSG2', 'Food Opera ION Orchard Singapore 238801 +65 6509 9742', '', '','', 'Singapore', '', 'SG', '1.303994', '103.832033', 'SHOP,CORNER', 1);
+--(180, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+--(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+--(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
+--(210, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
 
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)
@@ -295,7 +309,34 @@ VALUES
 (111, null, null, null, null, null, 'Paris', 110, 510, 'fr', null),
 
 (120, null, null, null, null, null, 'Paris', 120, 510, 'en', null),
-(121, null, null, null, null, null, 'Paris', 120, 510, 'fr', null);
+(121, null, null, null, null, null, 'Paris', 120, 510, 'fr', null),
+
+(130, null, null, null, null, null, 'Texas', 130, 510, 'en', null),
+(131, null, null, null, null, null, 'Texas', 130, 510, 'fr', null),
+
+(140, null, null, null, null, null, 'Nevada', 140, 510, 'en', null),
+(141, null, null, null, null, null, 'Nevada', 140, 510, 'fr', null),
+
+(150, null, null, null, null, null, 'Arizona', 150, 510, 'en', null),
+(151, null, null, null, null, null, 'Arizona', 150, 510, 'fr', null),
+
+(160, null, null, null, null, null, 'Arizona', 160, 510, 'en', null),
+(161, null, null, null, null, null, 'Arizona', 160, 510, 'fr', null),
+
+(170, null, null, null, null, null, 'New York', 170, 510, 'en', null),
+(171, null, null, null, null, null, 'New York', 170, 510, 'fr', null),
+
+(180, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'en', null),
+(181, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'fr', null),
+
+(190, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'en', null),
+(191, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'fr', null),
+
+(200, null, null, null, null, null, 'Singapore', 200, 510, 'en', null),
+(201, null, null, null, null, null, 'Singapore', 200, 510, 'fr', null),
+
+(210, null, null, null, null, null, 'Singapore', 210, 510, 'en', null),
+(211, null, null, null, null, null, 'Singapore', 210, 510, 'fr', null);
 
 
 INSERT INTO teco_asset  
@@ -335,7 +376,34 @@ INSERT INTO teco_asset
 (10112, 'image ...', 'ICON_STORE110', 'le-fouquets-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 110, 'STORE'),
 
 (10121, 'image ...', 'IMG_STORE120_', 'espressamente-france.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 120, 'STORE'), 
-(10122, 'image ...', 'ICON_STORE120', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 120, 'STORE');
+(10122, 'image ...', 'ICON_STORE120', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 120, 'STORE'),
+
+(10131, 'image ...', 'IMG_STORE130_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 130, 'STORE'), 
+(10132, 'image ...', 'ICON_STORE130', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 130, 'STORE'),
+
+(10141, 'image ...', 'IMG_STORE140_', 'store-2-img.jpg', 0, 'image 1 store 140', 1, 'PACKSHOT', 'SMALL', 1, 140, 'STORE'), 
+(10142, 'image ...', 'ICON_STORE140', 'store-2-img-icon.jpg', 0, 'icon 1 store 140', 1, 'ICON', null, 1, 140, 'STORE'),
+
+(10151, 'image ...', 'IMG_STORE150_', 'store-2-img.jpg', 0, 'image 1 store 150', 1, 'PACKSHOT', 'SMALL', 1, 150, 'STORE'), 
+(10152, 'image ...', 'ICON_STORE150', 'store-2-img-icon.jpg', 0, 'icon 1 store 150', 1, 'ICON', null, 1, 150, 'STORE'),
+
+(10161, 'image ...', 'IMG_STORE160_', 'store-2-img.jpg', 0, 'image 1 store 160', 1, 'PACKSHOT', 'SMALL', 1, 160, 'STORE'), 
+(10162, 'image ...', 'ICON_STORE160', 'store-2-img-icon.jpg', 0, 'icon 1 store 160', 1, 'ICON', null, 1, 160, 'STORE'),
+
+(10171, 'image ...', 'IMG_STORE170_', 'store-2-img.jpg', 0, 'image 1 store 170', 1, 'PACKSHOT', 'SMALL', 1, 170, 'STORE'), 
+(10172, 'image ...', 'ICON_STORE170', 'store-2-img-icon.jpg', 0, 'icon 1 store 170', 1, 'ICON', null, 1, 170, 'STORE'),
+
+(10181, 'image ...', 'IMG_STORE180_', 'store-2-img.jpg', 0, 'image 1 store 180', 1, 'PACKSHOT', 'SMALL', 1, 180, 'STORE'), 
+(10182, 'image ...', 'ICON_STORE180', 'store-2-img-icon.jpg', 0, 'icon 1 store 180', 1, 'ICON', null, 1, 180, 'STORE'),
+
+(10191, 'image ...', 'IMG_STORE190_', 'store-2-img.jpg', 0, 'image 1 store 190', 1, 'PACKSHOT', 'SMALL', 1, 190, 'STORE'), 
+(10192, 'image ...', 'ICON_STORE190', 'store-2-img-icon.jpg', 0, 'icon 1 store 190', 1, 'ICON', null, 1, 190, 'STORE'),
+
+(10201, 'image ...', 'IMG_STORE200_', 'store-2-img.jpg', 0, 'image 1 store 200', 1, 'PACKSHOT', 'SMALL', 1, 200, 'STORE'), 
+(10202, 'image ...', 'ICON_STORE200', 'store-2-img-icon.jpg', 0, 'icon 1 store 200', 1, 'ICON', null, 1, 200, 'STORE'),
+
+(10211, 'image ...', 'IMG_STORE210_', 'store-2-img.jpg', 0, 'image 1 store 210', 1, 'PACKSHOT', 'SMALL', 1, 210, 'STORE'), 
+(10212, 'image ...', 'ICON_STORE210', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'ICON', null, 1, 210, 'STORE');
 
 -- PRODUCT
 
@@ -1045,7 +1113,7 @@ INSERT INTO teco_asset
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, product_marketing_id, scope)
  VALUES 
-(1, 'image ...', 'PM_IMG1', 'blueberry-struesel-coffee-icon.jpg', 1, 'image l', 1, 'PACKSHOT', 'SMALL', 1, 1, 'PRODUCT_MARKETING'), 
+(1, 'image ...', 'PM_IMG1', 'blueberry-streusel-coffee-icon.jpg', 1, 'image l', 1, 'PACKSHOT', 'SMALL', 1, 1, 'PRODUCT_MARKETING'), 
 (2, 'image ...', 'PM_IMG2', 'bali-blue-moon-coffee-icon.jpg', 0, 'image 2', 1, 'PACKSHOT', 'SMALL', 1, 2, 'PRODUCT_MARKETING'), 
 (3, 'image ...', 'PM_IMG3', 'world-art-tumbler-icon.jpg', 0, 'image 3', 1, 'PACKSHOT', 'SMALL', 1, 3, 'PRODUCT_MARKETING'), 
 (4, 'image ...', 'PM_IMG4', 'brazil-cerrado-coffee-icon.jpg', 0, 'image 4', 1, 'PACKSHOT', 'SMALL', 1, 4, 'PRODUCT_MARKETING'), 
@@ -1096,7 +1164,7 @@ INSERT INTO teco_asset
 (49, 'image ...', 'PM_IMG49', 'the-jaidun-tumbler-icon.jpg', 0, 'image 49', 1, 'PACKSHOT', 'SMALL', 1, 49, 'PRODUCT_MARKETING'),
 (50, 'image ...', 'PM_IMG50', 'bamboo-ceramic-tea-set-icon.jpg', 0, 'image 50', 1, 'PACKSHOT', 'SMALL', 1, 50, 'PRODUCT_MARKETING'),
 
-(51, 'image ...', 'PM_IMG51', 'blueberry-struesel-coffee.jpg', 1, 'image 5l', 1, 'BACKGROUND', null, 1, 1, 'PRODUCT_MARKETING'), 
+(51, 'image ...', 'PM_IMG51', 'blueberry-streusel-coffee.jpg', 1, 'image 5l', 1, 'BACKGROUND', null, 1, 1, 'PRODUCT_MARKETING'), 
 (52, 'image ...', 'PM_IMG52', 'bali-blue-moon-coffee.jpg', 0, 'image 52', 1, 'BACKGROUND', null, 1, 2, 'PRODUCT_MARKETING'), 
 (53, 'image ...', 'PM_IMG53', 'world-art-tumbler.jpg', 0, 'image 53', 1, 'BACKGROUND', null, 1, 3, 'PRODUCT_MARKETING'), 
 (54, 'image ...', 'PM_IMG54', 'brazil-cerrado-coffee.jpg', 0, 'image 54', 1, 'BACKGROUND', null, 1, 4, 'PRODUCT_MARKETING'), 

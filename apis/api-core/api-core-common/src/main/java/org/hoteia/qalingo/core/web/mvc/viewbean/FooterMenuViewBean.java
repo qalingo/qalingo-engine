@@ -12,47 +12,59 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.io.Serializable;
 
 public class FooterMenuViewBean extends AbstractViewBean implements Serializable {
-	
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = -1579441776291839252L;
-	
-	protected String name;
-	protected String img;
-	protected String url;
-	protected boolean isExternal = false;
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -1579441776291839252L;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public static final String MENU_TYPE_CUSTOMER_CARE = "MENU_TYPE_CUSTOMER_CARE";
+    public static final String MENU_TYPE_OUR_COMPANY = "MENU_TYPE_OUR_COMPANY";
 
-	public String getImg() {
-		return img;
-	}
+    protected String name;
+    protected String img;
+    protected String url;
+    protected String type;
+    protected boolean isExternal = false;
 
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public boolean isExternal() {
-    	return isExternal;
+    public String getName() {
+        return name;
     }
 
-	public void setExternal(boolean isExternal) {
-    	this.isExternal = isExternal;
+    public void setName(String name) {
+        this.name = name;
     }
-	
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isExternal() {
+        return isExternal;
+    }
+
+    public void setExternal(boolean isExternal) {
+        this.isExternal = isExternal;
+    }
+
 }
