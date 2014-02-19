@@ -15,11 +15,14 @@ public enum FoUrls {
     LEGAL_TERMS(FoUrls.LEGAL_TERMS_URL, FoUrls.LEGAL_TERMS_KEY, FoUrls.LEGAL_TERMS_VELOCITY_PAGE, true),
     FOLLOW_US(FoUrls.FOLLOW_US_URL, FoUrls.FOLLOW_US_KEY, FoUrls.FOLLOW_US_VELOCITY_PAGE, true),
     CONTACT(FoUrls.CONTACT_URL, FoUrls.CONTACT_KEY, FoUrls.CONTACT_VELOCITY_PAGE, true),
-    STORE_LOCATION(FoUrls.STORE_LOCATION_URL, FoUrls.STORE_LOCATION_KEY, FoUrls.STORE_LOCATION_VELOCITY_PAGE, true),
     NEWSLETTER_REGISTER(FoUrls.NEWSLETTER_REGISTER_URL, FoUrls.NEWSLETTER_REGISTER_KEY, FoUrls.NEWSLETTER_REGISTER_VELOCITY_PAGE, true),
     NEWSLETTER_UNREGISTER(FoUrls.NEWSLETTER_UNREGISTER_URL, FoUrls.NEWSLETTER_UNREGISTER_KEY, FoUrls.NEWSLETTER_UNREGISTER_VELOCITY_PAGE, true),
 
-    SEARCH(FoUrls.SEARCH_URL, FoUrls.SEARCH_KEY, FoUrls.SEARCH_VELOCITY_PAGE, true),
+    STORE_LOCATION(FoUrls.STORE_LOCATION_URL, FoUrls.STORE_LOCATION_KEY, FoUrls.STORE_LOCATION_VELOCITY_PAGE, true),
+    STORE_DETAILS(FoUrls.STORE_DETAILS_URL, FoUrls.STORE_DETAILS_KEY, FoUrls.STORE_DETAILS_VELOCITY_PAGE, true),
+
+    CATALOG_SEARCH(FoUrls.CATALOG_SEARCH_URL, FoUrls.CATALOG_SEARCH_KEY, FoUrls.CATALOG_SEARCH_VELOCITY_PAGE, true),
+    STORE_SEARCH(FoUrls.STORE_SEARCH_URL, FoUrls.STORE_SEARCH_KEY, FoUrls.STORE_SEARCH_VELOCITY_PAGE, true),
     
     CHANGE_LANGUAGE(FoUrls.CHANGE_LANGUAGE_URL, null, null, true),
     CHANGE_CONTEXT(FoUrls.CHANGE_CONTEXT_URL, null, null, true),
@@ -136,7 +139,11 @@ public enum FoUrls {
 	public static final String STORE_LOCATION_KEY				= "store-location";
 	public static final String STORE_LOCATION_URL				= "/**/store-location.html";
 	public static final String STORE_LOCATION_VELOCITY_PAGE		= "store-location/store-location";
-	
+
+    public static final String STORE_DETAILS_KEY               = "store-details";
+    public static final String STORE_DETAILS_URL               = "/**/store-details-{" + RequestConstants.URL_PATTERN_STORE_CODE + ":[a-zA-Z0-9]+}.html";
+    public static final String STORE_DETAILS_VELOCITY_PAGE     = "retailer/store-details";
+
 	public static final String NEWSLETTER_REGISTER_KEY				= "newsletter-register";
 	public static final String NEWSLETTER_REGISTER_URL				= "/**/newsletter-register.html";
 	public static final String NEWSLETTER_REGISTER_VELOCITY_PAGE	= "newsletter/register-newsletter-success";
@@ -145,9 +152,13 @@ public enum FoUrls {
 	public static final String NEWSLETTER_UNREGISTER_URL				= "/**/newsletter-unregister.html";
 	public static final String NEWSLETTER_UNREGISTER_VELOCITY_PAGE		= "follow-us/unregister-newsletter-success";
 
-	public static final String SEARCH_KEY				= "search";
-	public static final String SEARCH_URL				= "/**/search.html";
-	public static final String SEARCH_VELOCITY_PAGE		= "search/search-result";
+    public static final String CATALOG_SEARCH_KEY = "catalog-search";
+    public static final String CATALOG_SEARCH_URL = "/**/catalog-search.html";
+    public static final String CATALOG_SEARCH_VELOCITY_PAGE = "search/catalog-search-result";
+
+    public static final String STORE_SEARCH_KEY = "store-search";
+    public static final String STORE_SEARCH_URL = "/**/store-search.html";
+    public static final String STORE_SEARCH_VELOCITY_PAGE = "search/store-search-result";
 
 	public static final String LOGIN_KEY				= "login";
 	public static final String LOGIN_URL				= "/**/login.html";

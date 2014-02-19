@@ -44,6 +44,7 @@
 	<fields>
 		<!-- general -->
 		<field name="id"			type="long"	        indexed="true"  stored="true"  multiValued="false" required="true" />
+		<field name="code"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="businessname"	type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="city"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="countrycode"	type="string"       indexed="true"  stored="true"  multiValued="false" />
@@ -61,6 +62,7 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
+	<copyField source="code" dest="text" />
 	<copyField source="businessname" dest="text" />
 	<copyField source="city" dest="text" />
 	<copyField source="countrycode" dest="text" />

@@ -87,6 +87,9 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name="RETAILER_ID")
+    private Long retailerId;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreAttribute> storeAttributes = new HashSet<StoreAttribute>();
@@ -216,6 +219,14 @@ public class Store extends AbstractEntity {
         this.countryCode = countryCode;
     }
 
+    public Long getRetailerId() {
+        return retailerId;
+    }
+    
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
+    }
+    
     public Set<StoreAttribute> getStoreAttributes() {
         return storeAttributes;
     }

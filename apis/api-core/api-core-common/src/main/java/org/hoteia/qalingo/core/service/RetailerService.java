@@ -70,6 +70,8 @@ public interface RetailerService {
 
 	List<Store> findStores();
 	
+	List<Store> findStoresByRetailerId(Long retailerId);
+	
 	void saveOrUpdateStore(Store store);
 	
 	void deleteStore(Store store);

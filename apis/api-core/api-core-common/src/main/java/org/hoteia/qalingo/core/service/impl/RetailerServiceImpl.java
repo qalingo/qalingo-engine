@@ -140,6 +140,10 @@ public class RetailerServiceImpl implements RetailerService {
     public List<Store> findStores() {
         return retailerDao.findStores();
     }
+    
+    public List<Store> findStoresByRetailerId(final Long retailerId) {
+        return retailerDao.findStoresByRetailerId(retailerId);
+    }
 
     public void saveOrUpdateStore(final Store store) {
         retailerDao.saveOrUpdateStore(store);

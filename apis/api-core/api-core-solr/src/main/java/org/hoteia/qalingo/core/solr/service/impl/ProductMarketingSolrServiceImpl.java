@@ -179,7 +179,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
-        solrQuery.addFacetField(Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
+        solrQuery.addFacetField(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         
         QueryResponse response = new QueryResponse(productMarketingSolrServer.request(request), productMarketingSolrServer);

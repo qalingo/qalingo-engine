@@ -21,11 +21,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
@@ -36,12 +34,15 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
+import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
+import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
@@ -51,6 +52,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
@@ -218,9 +220,9 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         List<ProductMarketingSolr> productMarketings = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
-            SearchProductItemViewBean searchProductItemViewBean = buildSearchProductItemViewBean(requestData, productMarketingSolr);
-            if(searchProductItemViewBean != null){
-            	searchProductItems.add(searchProductItemViewBean);
+            SearchProductItemViewBean searchItemViewBean = buildSearchProductItemViewBean(requestData, productMarketingSolr);
+            if(searchItemViewBean != null){
+            	searchProductItems.add(searchItemViewBean);
             }
         }
         return searchProductItems;
@@ -244,42 +246,42 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final String productName = productMarketing.getCode();
         final String categoryName = catalogCategory.getI18nName(localeCode);
 
-        final SearchProductItemViewBean searchProductItemViewBean = new SearchProductItemViewBean();
-        searchProductItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
-        searchProductItemViewBean.setDescription(productMarketing.getDescription());
-        searchProductItemViewBean.setCode(productCode);
-        searchProductItemViewBean.setCategoryName(categoryName);
-        searchProductItemViewBean.setCategoryCode(catalogCategory.getCode());
+        final SearchProductItemViewBean searchItemViewBean = new SearchProductItemViewBean();
+        searchItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
+        searchItemViewBean.setDescription(productMarketing.getDescription());
+        searchItemViewBean.setCode(productCode);
+        searchItemViewBean.setCategoryName(categoryName);
+        searchItemViewBean.setCategoryCode(catalogCategory.getCode());
 
-        searchProductItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+        searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
 
-        searchProductItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        searchItemViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
         
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
             final String backgroundImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultBackgroundImage);
-            searchProductItemViewBean.setBackgroundImage(backgroundImage);
+            searchItemViewBean.setBackgroundImage(backgroundImage);
         } else {
-        	searchProductItemViewBean.setBackgroundImage("");
+        	searchItemViewBean.setBackgroundImage("");
         }
         
         final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
             final String carouselImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultPaskshotImage);
-            searchProductItemViewBean.setCarouselImage(carouselImage);
+            searchItemViewBean.setCarouselImage(carouselImage);
         } else {
-        	searchProductItemViewBean.setCarouselImage("");
+        	searchItemViewBean.setCarouselImage("");
         }
         
         final Asset defaultIconImage = productMarketing.getDefaultIconImage();
         if (defaultIconImage != null) {
             final String iconImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultIconImage);
-            searchProductItemViewBean.setIconImage(iconImage);
+            searchItemViewBean.setIconImage(iconImage);
         } else {
-        	searchProductItemViewBean.setIconImage("");
+        	searchItemViewBean.setIconImage("");
         }
         
         Set<ProductSku> skus = productMarketing.getProductSkus();
@@ -287,24 +289,24 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSkuTmp = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuTmp.getCode());
-                searchProductItemViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+                searchItemViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
         }
         
-        searchProductItemViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductCode(productMarketing.getId()));
+        searchItemViewBean.setCustomerProductRates(productService.calculateProductMarketingCustomerRatesByProductCode(productMarketing.getId()));
 
-        return searchProductItemViewBean;
+        return searchItemViewBean;
     }
 
     /**
      * 
      */
-    public List<SearchFacetViewBean> buildSearchFacetViewBeans(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
+    public List<SearchFacetViewBean> buildCatalogSearchFacetViewBeans(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
-        List<FacetField> productFacetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
-        for (Iterator<FacetField> iterator = productFacetFields.iterator(); iterator.hasNext();) {
+        List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
+        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            searchFacetViewBeans.add(buildSearchFacetViewBean(requestData, facetField));
+            searchFacetViewBeans.add(buildCatalogSearchFacetViewBean(requestData, facetField));
         }
         return searchFacetViewBeans;
     }
@@ -312,13 +314,13 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public SearchFacetViewBean buildSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
+    public SearchFacetViewBean buildCatalogSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
         
-        if(Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        if(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
         	searchFacetViewBean.setName(facetField.getName());
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
@@ -330,6 +332,82 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             searchFacetViewBean.setValues(values);
         }
         
+        return searchFacetViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public List<SearchStoreItemViewBean> buildSearchStoreItemViewBeans(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
+        final List<SearchStoreItemViewBean> searchStoreItems = new ArrayList<SearchStoreItemViewBean>();
+        List<StoreSolr> stores = storeResponseBean.getStoreSolrList();
+        for (Iterator<StoreSolr> iterator = stores.iterator(); iterator.hasNext();) {
+            StoreSolr storeSolr = (StoreSolr) iterator.next();
+            SearchStoreItemViewBean searchItemViewBean = buildSearchStoreItemViewBean(requestData, storeSolr);
+            if(searchItemViewBean != null){
+                searchStoreItems.add(searchItemViewBean);
+            }
+        }
+        return searchStoreItems;
+    }
+
+    /**
+     * 
+     */
+    public SearchStoreItemViewBean buildSearchStoreItemViewBean(final RequestData requestData, final StoreSolr storeSolr) throws Exception {
+
+        final String storeCode = storeSolr.getCode();
+        final Store store = retailerService.getStoreByCode(storeCode);
+        
+        final SearchStoreItemViewBean searchItemViewBean = new SearchStoreItemViewBean();
+        searchItemViewBean.setName(storeSolr.getBusinessname());
+        searchItemViewBean.setCode(storeCode);
+
+        searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
+
+        final Asset defaultBackgroundImage = store.getDefaultBackgroundImage();
+        if (defaultBackgroundImage != null) {
+            final String backgroundImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultBackgroundImage);
+            searchItemViewBean.setBackgroundImage(backgroundImage);
+        } else {
+            searchItemViewBean.setBackgroundImage("");
+        }
+        
+        final Asset defaultIconImage = store.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultIconImage);
+            searchItemViewBean.setIconImage(iconImage);
+        } else {
+            searchItemViewBean.setIconImage("");
+        }
+
+        return searchItemViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public List<SearchFacetViewBean> buildStoreSearchFacetViewBeans(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
+        final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
+        List<FacetField> facetFields = storeResponseBean.getStoreSolrFacetFieldList();
+        for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
+            FacetField facetField = (FacetField) iterator.next();
+            searchFacetViewBeans.add(buildStoreSearchFacetViewBean(requestData, facetField));
+        }
+        return searchFacetViewBeans;
+    }
+
+    /**
+     * 
+     */
+    public SearchFacetViewBean buildStoreSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
+        final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localeCode = localization.getCode();
+        
+
+        // TODO : Denis : facet like country ? city ? online/corner etc
         
         return searchFacetViewBean;
     }

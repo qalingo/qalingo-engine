@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -155,6 +156,9 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                     } else if (param instanceof CartItem) {
                         CartItem cartItem = (CartItem) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CART_ITEM_CODE, handleParamValue(cartItem.getId().toString()));
+                    }  else if (param instanceof Store) {
+                        Store store = (Store) param;
+                        urlParams.put(RequestConstants.URL_PATTERN_STORE_CODE, handleParamValue(store.getCode().toString()));
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
                     } else {

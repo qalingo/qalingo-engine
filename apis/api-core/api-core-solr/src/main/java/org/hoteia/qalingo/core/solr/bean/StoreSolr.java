@@ -19,6 +19,9 @@ public class StoreSolr {
 	private Long id;
 	
     @Field
+    private String code;
+    
+    @Field
 	private String businessname;
 
     @Field
@@ -79,6 +82,14 @@ public class StoreSolr {
 		this.id = id;
 	}
 
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
+	
 	public String getBusinessname() {
 		return businessname;
 	}

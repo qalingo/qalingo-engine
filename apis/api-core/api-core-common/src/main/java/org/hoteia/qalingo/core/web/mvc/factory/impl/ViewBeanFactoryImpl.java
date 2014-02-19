@@ -879,39 +879,41 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public StoreViewBean buildStoreViewBean(final RequestData requestData, final Store store) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
 
-        final StoreViewBean storeLocator = new StoreViewBean();
-        storeLocator.setCode(store.getCode());
-        storeLocator.setBusinessName(store.getBusinessName());
-        storeLocator.setAddress1(store.getAddress1());
-        storeLocator.setAddress2(store.getAddress2());
-        storeLocator.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
-        storeLocator.setPostalCode(store.getPostalCode());
+        final StoreViewBean storeViewBean = new StoreViewBean();
+        storeViewBean.setCode(store.getCode());
+        storeViewBean.setBusinessName(store.getBusinessName());
+        storeViewBean.setAddress1(store.getAddress1());
+        storeViewBean.setAddress2(store.getAddress2());
+        storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
+        storeViewBean.setPostalCode(store.getPostalCode());
 
         // I18n values
-        storeLocator.setCity(store.getI18nCity(localization));
+        storeViewBean.setCity(store.getI18nCity(localization));
 
-        storeLocator.setStateCode(store.getStateCode());
-        storeLocator.setCountry(store.getCountryCode());
-        storeLocator.setCountryCode(store.getCountryCode());
-        storeLocator.setLongitude(store.getLongitude());
-        storeLocator.setLatitude(store.getLatitude());
+        storeViewBean.setStateCode(store.getStateCode());
+        storeViewBean.setCountry(store.getCountryCode());
+        storeViewBean.setCountryCode(store.getCountryCode());
+        storeViewBean.setLongitude(store.getLongitude());
+        storeViewBean.setLatitude(store.getLatitude());
         
         final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (defaultPackshotImage != null) {
             final String defaultImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultPackshotImage);
-            storeLocator.setDefaultImage(defaultImage);
+            storeViewBean.setDefaultImage(defaultImage);
         } else {
-            storeLocator.setDefaultImage("");
+            storeViewBean.setDefaultImage("");
         }
         final Asset defaultIconImage = store.getDefaultIconImage();
         if (defaultIconImage != null) {
             final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultIconImage);
-            storeLocator.setIconImage(iconImage);
+            storeViewBean.setIconImage(iconImage);
         } else {
-            storeLocator.setIconImage("");
+            storeViewBean.setIconImage("");
         }
 
-        return storeLocator;
+        storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
+
+        return storeViewBean;
     }
 
     /**

@@ -64,6 +64,8 @@ public interface RetailerDao {
 	 
 	List<Store> findStores();
 	
+	List<Store> findStoresByRetailerId(Long retailerId);
+	
 	Store saveOrUpdateStore(Store store);
 
 	void deleteStore(Store store);

@@ -17,6 +17,9 @@ import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 
 public class ProductMarketingResponseBean {
 
+    public static final String PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD = "text";
+    public static final String PRODUCT_MARKETING_DEFAULT_FACET_FIELD = "catalogCategories";
+
     private List<ProductMarketingSolr> productMarketingSolrList = new ArrayList<ProductMarketingSolr>();
 
     private List<FacetField> productMarketingSolrFacetFieldList = new ArrayList<FacetField>();

@@ -241,6 +241,8 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	public Store getStoreById(final Long storeId) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
+        addDefaultStoreFetch(criteria);
+        
         criteria.addOrder(Order.asc("code"));
         
         criteria.add(Restrictions.eq("id", storeId));
@@ -250,6 +252,8 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
 	public Store getStoreByCode(final String storeCode) {
         Criteria criteria = createDefaultCriteria(Store.class);
+        
+        addDefaultStoreFetch(criteria);
         
         criteria.addOrder(Order.asc("code"));
         
@@ -269,6 +273,20 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         List<Store> stores = criteria.list();
 		return stores;
 	}
+	
+    public List<Store> findStoresByRetailerId(final Long retailerId) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        addDefaultStoreFetch(criteria);
+
+        criteria.add(Restrictions.eq("retailerId", retailerId));
+        
+        criteria.addOrder(Order.asc("businessName"));
+
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
 
 	public Store saveOrUpdateStore(final Store store) {
 		if(store.getDateCreate() == null){

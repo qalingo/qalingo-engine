@@ -321,7 +321,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         }
 
         Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_DETAILS_CODE, retailer.getCode());
+        urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE, retailer.getCode());
         String detailsUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, urlParams);
         String editUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_EDIT, requestData, urlParams);
 
