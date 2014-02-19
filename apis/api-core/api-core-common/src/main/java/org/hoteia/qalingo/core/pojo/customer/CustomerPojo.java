@@ -182,7 +182,7 @@ public class CustomerPojo {
     }
 
     public void setAddresses(final List<CustomerAddressPojo> addresses) {
-        this.addresses = new ArrayList<CustomerAddressPojo>(addresses);
+        this.addresses = addresses;
     }
 
     public List<CustomerConnectionLogPojo> getConnectionLogs() {
@@ -190,7 +190,7 @@ public class CustomerPojo {
     }
 
     public void setConnectionLogs(final List<CustomerConnectionLogPojo> connectionLogs) {
-        this.connectionLogs = new ArrayList<CustomerConnectionLogPojo>(connectionLogs);
+        this.connectionLogs = connectionLogs;
     }
 
     public List<CustomerMarketAreaPojo> getCustomerMarketAreas() {
@@ -198,7 +198,7 @@ public class CustomerPojo {
     }
 
     public void setCustomerMarketAreas(final List<CustomerMarketAreaPojo> customerMarketAreas) {
-        this.customerMarketAreas = new ArrayList<CustomerMarketAreaPojo>(customerMarketAreas);
+        this.customerMarketAreas = customerMarketAreas;
     }
 
     public List<CustomerAttributePojo> getCustomerAttributes() {
@@ -206,7 +206,7 @@ public class CustomerPojo {
     }
 
     public void setCustomerAttributes(final List<CustomerAttributePojo> customerAttributes) {
-        this.customerAttributes = new ArrayList<CustomerAttributePojo>(customerAttributes);
+        this.customerAttributes = customerAttributes;
     }
 
     public List<CustomerGroupPojo> getCustomerGroups() {
@@ -214,7 +214,7 @@ public class CustomerPojo {
     }
 
     public void setCustomerGroups(final List<CustomerGroupPojo> customerGroups) {
-        this.customerGroups = new ArrayList<CustomerGroupPojo>(customerGroups);
+        this.customerGroups = customerGroups;
     }
 
     public List<CustomerOAuthPojo> getOauthAccesses() {
@@ -224,4 +224,5 @@ public class CustomerPojo {
     public void setOauthAccesses(final List<CustomerOAuthPojo> oauthAccesses) {
         this.oauthAccesses = oauthAccesses;
     }
+    
 }

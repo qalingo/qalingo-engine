@@ -12,6 +12,7 @@ package org.hoteia.qalingo.web.mvc.controller.catalog;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -55,10 +56,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * 
  */
@@ -96,11 +93,9 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
 		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 
-		// TODO : Denis : FIND A BETTER WAY - CLEAN ENTITY GRAPH FOR DOZER - EVICT LAZY EXCEPTION
-		catalogMaster.setCatalogCategories(null);
-		
         ObjectMapper mapper = new ObjectMapper();
         try {
+            catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(catalogCategories));
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalogMaster);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);

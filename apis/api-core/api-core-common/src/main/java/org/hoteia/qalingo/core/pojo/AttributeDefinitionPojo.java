@@ -3,6 +3,7 @@ package org.hoteia.qalingo.core.pojo;
 import java.util.Date;
 
 public class AttributeDefinitionPojo {
+    
     private Long id;
     private int version;
     private String name;

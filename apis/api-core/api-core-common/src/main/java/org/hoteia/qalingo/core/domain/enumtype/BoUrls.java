@@ -329,7 +329,7 @@ public enum BoUrls {
 	// CATALOG
 	public static final String MASTER_CATALOG_KEY				= "master-catalog";
 	public static final String MASTER_CATALOG_URL				= "/**/master-catalog.html";
-	public static final String MASTER_CATALOG_VELOCITY_PAGE		= "catalog/catalog";
+	public static final String MASTER_CATALOG_VELOCITY_PAGE		= "catalog/catalog-manage";
 
     public static final String MASTER_CATEGORY_DETAILS_KEY              = "master-category-details";
     public static final String MASTER_CATEGORY_DETAILS_URL              = "/**/catalog-master-category-details.html";
@@ -340,7 +340,7 @@ public enum BoUrls {
     public static final String MASTER_CATEGORY_EDIT_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
     public static final String MASTER_CATEGORY_ADD_KEY              = "master-category-add";
-    public static final String MASTER_CATEGORY_ADD_URL              = "/**/add-master-catalog-category.html*";
+    public static final String MASTER_CATEGORY_ADD_URL              = "/**/add-master-catalog-category.html";
     public static final String MASTER_CATEGORY_ADD_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
 	public static final String VIRTUAL_CATALOG_KEY				= "virtual-catalog";
@@ -356,7 +356,7 @@ public enum BoUrls {
     public static final String VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String VIRTUAL_CATEGORY_ADD_KEY            = "virtual-category-add";
-    public static final String VIRTUAL_CATEGORY_ADD_URL            = "/**/add-virtual-catalog-category.html*";
+    public static final String VIRTUAL_CATEGORY_ADD_URL            = "/**/add-virtual-catalog-category.html";
     public static final String VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String PRODUCT_MARKETING_DETAILS_KEY            = "product-marketing-details";

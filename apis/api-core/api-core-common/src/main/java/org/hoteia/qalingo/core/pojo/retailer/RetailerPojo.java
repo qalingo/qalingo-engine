@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class RetailerPojo {
 
@@ -171,7 +170,7 @@ public class RetailerPojo {
     }
 
     public void setLinks(List<RetailerLinkPojo> links) {
-        this.links = PojoUtil.asList(links);
+        this.links = links;
     }
 
     public List<RetailerAddressPojo> getAddresses() {
@@ -179,7 +178,7 @@ public class RetailerPojo {
     }
 
     public void setAddresses(List<RetailerAddressPojo> addresses) {
-        this.addresses = PojoUtil.asList(addresses);
+        this.addresses = addresses;
     }
 
     public List<StorePojo> getStores() {
@@ -187,7 +186,7 @@ public class RetailerPojo {
     }
 
     public void setStores(List<StorePojo> stores) {
-        this.stores = PojoUtil.asList(stores);
+        this.stores = stores;
     }
 
     public List<AssetPojo> getAssetsIsGlobal() {
@@ -195,7 +194,7 @@ public class RetailerPojo {
     }
 
     public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
-        this.assetsIsGlobal = PojoUtil.asList(assetsIsGlobal);
+        this.assetsIsGlobal = assetsIsGlobal;
     }
 
     public List<AssetPojo> getAssetsByMarketArea() {
@@ -203,7 +202,7 @@ public class RetailerPojo {
     }
 
     public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
-        this.assetsByMarketArea = PojoUtil.asList(assetsByMarketArea);
+        this.assetsByMarketArea = assetsByMarketArea;
     }
 
     public List<RetailerAttributePojo> getRetailerGlobalAttributes() {
@@ -211,7 +210,7 @@ public class RetailerPojo {
     }
 
     public void setRetailerGlobalAttributes(List<RetailerAttributePojo> retailerGlobalAttributes) {
-        this.retailerGlobalAttributes = PojoUtil.asList(retailerGlobalAttributes);
+        this.retailerGlobalAttributes = retailerGlobalAttributes;
     }
 
     public List<RetailerAttributePojo> getRetailerMarketAreaAttributes() {
@@ -219,7 +218,7 @@ public class RetailerPojo {
     }
 
     public void setRetailerMarketAreaAttributes(List<RetailerAttributePojo> retailerMarketAreaAttributes) {
-        this.retailerMarketAreaAttributes = PojoUtil.asList(retailerMarketAreaAttributes);
+        this.retailerMarketAreaAttributes = retailerMarketAreaAttributes;
     }
 
     public List<RetailerCustomerRatePojo> getCustomerRates() {
@@ -227,7 +226,7 @@ public class RetailerPojo {
     }
 
     public void setCustomerRates(List<RetailerCustomerRatePojo> customerRates) {
-        this.customerRates = PojoUtil.asList(customerRates);
+        this.customerRates = customerRates;
     }
 
     public List<RetailerCustomerCommentPojo> getCustomerComments() {
@@ -235,7 +234,7 @@ public class RetailerPojo {
     }
 
     public void setCustomerComments(List<RetailerCustomerCommentPojo> customerComments) {
-        this.customerComments = PojoUtil.asList(customerComments);
+        this.customerComments = customerComments;
     }
 
     public List<RetailerTagPojo> getRetailerTags() {
@@ -243,6 +242,7 @@ public class RetailerPojo {
     }
 
     public void setRetailerTags(List<RetailerTagPojo> retailerTags) {
-        this.retailerTags = PojoUtil.asList(retailerTags);
+        this.retailerTags = retailerTags;
     }
+    
 }

@@ -51,6 +51,5 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
 		
 		return modelAndView;
 	}
-	
 
 }

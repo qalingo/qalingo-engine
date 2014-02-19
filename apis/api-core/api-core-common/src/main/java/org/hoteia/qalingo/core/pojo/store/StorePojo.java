@@ -1,10 +1,8 @@
 package org.hoteia.qalingo.core.pojo.store;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
-
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
+import java.util.List;
 
 public class StorePojo {
 
@@ -169,6 +167,7 @@ public class StorePojo {
     }
 
     public void setStoreAttributes(List<StoreAttributePojo> storeAttributes) {
-        this.storeAttributes = PojoUtil.asList(storeAttributes);
+        this.storeAttributes = storeAttributes;
     }
+    
 }

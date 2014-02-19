@@ -95,7 +95,7 @@ public class CatalogPojo {
     }
 
     public void setCatalogCategories(List<CatalogCategoryPojo> catalogCategories) {
-        this.catalogCategories = new ArrayList<CatalogCategoryPojo>(catalogCategories);
+        this.catalogCategories = catalogCategories;
     }
     
 }

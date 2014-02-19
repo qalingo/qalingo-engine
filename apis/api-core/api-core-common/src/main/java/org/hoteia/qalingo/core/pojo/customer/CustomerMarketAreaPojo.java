@@ -71,7 +71,7 @@ public class CustomerMarketAreaPojo {
     }
 
     public void setOptins(final List<CustomerOptinPojo> optins) {
-        this.optins = new ArrayList<CustomerOptinPojo>(optins);
+        this.optins = optins;
     }
 
     public List<CustomerWishlistPojo> getWishlistProducts() {
@@ -79,7 +79,7 @@ public class CustomerMarketAreaPojo {
     }
 
     public void setWishlistProducts(final List<CustomerWishlistPojo> wishlistProducts) {
-        this.wishlistProducts = new ArrayList<CustomerWishlistPojo>(wishlistProducts);
+        this.wishlistProducts = wishlistProducts;
     }
 
     public List<CustomerProductCommentPojo> getProductComments() {
@@ -87,7 +87,7 @@ public class CustomerMarketAreaPojo {
     }
 
     public void setProductComments(final List<CustomerProductCommentPojo> productComments) {
-        this.productComments = new ArrayList<CustomerProductCommentPojo>(productComments);
+        this.productComments = productComments;
     }
 
     public Date getDateCreate() {

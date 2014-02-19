@@ -80,6 +80,7 @@ public class RetailerCustomerCommentPojo {
     }
 
     public void setCustomerComments(List<RetailerCustomerCommentPojo> customerComments) {
-        this.customerComments = PojoUtil.asList(customerComments);
+        this.customerComments = customerComments;
     }
+    
 }

@@ -76,6 +76,7 @@ public class CustomerRolePojo {
     }
 
     public void setRolePermissions(List<CustomerPermissionPojo> rolePermissions) {
-        this.rolePermissions = new ArrayList<CustomerPermissionPojo>(rolePermissions);
+        this.rolePermissions = rolePermissions;
     }
+    
 }
