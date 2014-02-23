@@ -19,13 +19,13 @@ public interface MarketDao {
 
     // MARKET PLACE
 
-    MarketPlace getDefaultMarketPlace();
+    MarketPlace getDefaultMarketPlace(Object... params);
 
-    MarketPlace getMarketPlaceById(Long marketPlaceId);
+    MarketPlace getMarketPlaceById(Long marketPlaceId, Object... params);
 
-    MarketPlace getMarketPlaceByCode(String code);
+    MarketPlace getMarketPlaceByCode(String code, Object... params);
 
-    List<MarketPlace> findMarketPlaces();
+    List<MarketPlace> findMarketPlaces(Object... params);
 
     MarketPlace saveOrUpdateMarketPlace(MarketPlace marketPlace);
 
@@ -33,15 +33,15 @@ public interface MarketDao {
 
     // MARKET
 
-    Market getDefaultMarket();
+    Market getDefaultMarket(Object... params);
 
-    Market getMarketById(Long marketId);
+    Market getMarketById(Long marketId, Object... params);
 
-    Market getMarketByCode(String code);
+    Market getMarketByCode(String code, Object... params);
 
-    List<Market> findMarkets();
+    List<Market> findMarkets(Object... params);
 
-    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
+    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode, Object... params);
 
     Market saveOrUpdateMarket(Market market);
 
@@ -49,13 +49,14 @@ public interface MarketDao {
 
     // MARKET AREA
 
-    MarketArea getMarketAreaById(Long marketAreaId);
+    MarketArea getMarketAreaById(Long marketAreaId, Object... params);
 
-    MarketArea getMarketAreaByCode(String code);
+    MarketArea getMarketAreaByCode(String code, Object... params);
 
-    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode);
+    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode, Object... params);
 
     MarketArea saveOrUpdateMarketArea(MarketArea marketArea);
 
     void deleteMarketArea(MarketArea marketArea);
+    
 }

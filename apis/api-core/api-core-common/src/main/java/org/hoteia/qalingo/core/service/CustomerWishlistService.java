@@ -13,9 +13,9 @@ import org.hoteia.qalingo.core.domain.CustomerWishlist;
 
 public interface CustomerWishlistService {
 
-    CustomerWishlist getCustomerWishlistById(Long customerWishlistId);
+    CustomerWishlist getCustomerWishlistById(Long customerWishlistId, Object... params);
 
-	CustomerWishlist getCustomerWishlistById(String customerWishlistId);
+	CustomerWishlist getCustomerWishlistById(String customerWishlistId, Object... params);
 	
 	void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
 	

@@ -18,13 +18,13 @@ public interface UserService {
 
     // USER
     
-    User getUserById(Long userId);
+    User getUserById(Long userId, Object... params);
 
-    User getUserById(String userId);
+    User getUserById(String userId, Object... params);
 
-	User getUserByLoginOrEmail(String loginOrEmail);
+	User getUserByLoginOrEmail(String loginOrEmail, Object... params);
 
-	List<User> findUsers();
+	List<User> findUsers(Object... params);
 	
 	void saveOrUpdateUser(User user);
 	
@@ -32,11 +32,11 @@ public interface UserService {
 	
     // COMPANY
 
-    Company getCompanyById(Long companyId);
+    Company getCompanyById(Long companyId, Object... params);
 
-    Company getCompanyById(String companyId);
+    Company getCompanyById(String companyId, Object... params);
 
-    List<Company> findCompanies();
+    List<Company> findCompanies(Object... params);
 
     void saveOrUpdateCompany(Company company);
 

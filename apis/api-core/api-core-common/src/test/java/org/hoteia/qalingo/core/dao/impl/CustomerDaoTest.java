@@ -9,38 +9,22 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CustomerDaoTest extends AbstractDaoTestBase {
 
-//	@Autowired
-//	private CustomerDao customerDao;
+	@Autowired
+	private CustomerDao customerDao;
 
 	@Test
 	public void testEmpty() {
 	}
 	
-//	@Test
-//	public void testFindByExample() {
-//		Customer criteria = new Customer();
-//
-//		List<Customer> currentResults = customerDao.findByExample(criteria);
-//
-//		Assert.assertEquals(1, currentResults.size());
-//	}
-//
-//	@Test
-//	public void testFindByExampleMultipleCriteria() {
-//		Customer criteria = new Customer();
-//
-//		List<Customer> currentResult = customerDao.findByExample(criteria);
-//
-//		Assert.assertEquals(3, currentResult.size());
-//	}
-//
 //	@Test
 //	public void testFindByExampleWithDefaultValue() {
 //		Customer criteria = new Customer();

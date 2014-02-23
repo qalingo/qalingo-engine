@@ -26,26 +26,26 @@ public class CustomerProductCommentServiceImpl implements CustomerProductComment
     @Autowired
     private CustomerProductCommentDao customerProductCommentDao;
 
-    public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId) {
-        return customerProductCommentDao.getCustomerProductCommentById(customerProductCommentId);
+    public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId, Object... params) {
+        return customerProductCommentDao.getCustomerProductCommentById(customerProductCommentId, params);
     }
 
-    public CustomerProductComment getCustomerProductCommentById(final String rawCustomerProductCommentId) {
+    public CustomerProductComment getCustomerProductCommentById(final String rawCustomerProductCommentId, Object... params) {
         long customerProductCommentId = -1;
         try {
             customerProductCommentId = Long.parseLong(rawCustomerProductCommentId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCustomerProductCommentById(customerProductCommentId);
+        return getCustomerProductCommentById(customerProductCommentId, params);
     }
 
-    public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId) {
-        return customerProductCommentDao.findCustomerProductCommentByCustomerId(customerId);
+    public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId, Object... params) {
+        return customerProductCommentDao.findCustomerProductCommentByCustomerId(customerId, params);
     }
 
-    public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId) {
-        return customerProductCommentDao.findCustomerProductCommentByProductSkuId(productSkuId);
+    public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId, Object... params) {
+        return customerProductCommentDao.findCustomerProductCommentByProductSkuId(productSkuId, params);
     }
 
     public void saveOrUpdateCustomerProductComment(final CustomerProductComment customerProductComment) {

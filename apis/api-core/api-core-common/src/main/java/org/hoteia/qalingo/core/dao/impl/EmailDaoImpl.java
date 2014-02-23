@@ -32,22 +32,20 @@ import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("emailDao")
 public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Email getEmailById(final Long emailId) {
+    public Email getEmailById(final Long emailId, Object... params) {
         Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("id", emailId));
         Email email = (Email) criteria.uniqueResult();
         return email;
     }
 
-    public List<Email> findEmailByStatus(final String status) {
+    public List<Email> findEmailByStatus(final String status, Object... params) {
         Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("status", status));
         
@@ -58,7 +56,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         return emails;
     }
 
-    public List<Long> findIdsForEmailSync() {
+    public List<Long> findIdsForEmailSync(Object... params) {
         Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));
         criteria.add(Restrictions.le("processedCount", 5));
@@ -75,7 +73,7 @@ public class EmailDaoImpl extends AbstractGenericDaoImpl implements EmailDao {
         return emailIds;
     }
 
-    public List<Long> findIdsForEmailSync(final String type) {
+    public List<Long> findIdsForEmailSync(final String type, Object... params) {
         Criteria criteria = createDefaultCriteria(Email.class);
         criteria.add(Restrictions.eq("type", type));
         criteria.add(Restrictions.or(Restrictions.eq("status", Email.EMAIl_STATUS_PENDING), Restrictions.eq("status", Email.EMAIl_STATUS_ERROR)));

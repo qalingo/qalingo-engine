@@ -15,17 +15,17 @@ import org.hoteia.qalingo.core.domain.Notification;
 
 public interface NotificationDao {
 
-	Notification getNotificationById(Long id);
+	Notification getNotificationById(Long id, Object... params);
 
-	List<Notification> findNotifications();
+	List<Notification> findNotifications(Object... params);
 	
-	List<Notification> findNotificationByCustomerId(Long customerId);
+	List<Notification> findNotificationByCustomerId(Long customerId, Object... params);
 	
-	List<Notification> findNewNotificationByCustomerId(Long customerId);
+	List<Notification> findNewNotificationByCustomerId(Long customerId, Object... params);
 	
 //	List<Notification> findNotificationsByMetas(List<String> metas);
 	
-	List<Notification> findIdsForSync();
+	List<Notification> findIdsForSync(Object... params);
 	 
 	void flagAsReadAllNewNotification(Long customerId);
 	 

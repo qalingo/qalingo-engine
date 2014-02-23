@@ -24,18 +24,18 @@ public class StockServiceImpl implements StockService {
 	@Autowired
 	private StockDao stockDao;
 
-    public ProductSkuStock getStockById(Long stockId) {
-        return stockDao.getStockById(stockId);
+    public ProductSkuStock getStockById(final Long stockId, Object... params) {
+        return stockDao.getStockById(stockId, params);
     }
     
-	public ProductSkuStock getStockById(String rawStockId) {
+	public ProductSkuStock getStockById(final String rawStockId, Object... params) {
 		long stockId = -1;
 		try {
 			stockId = Long.parseLong(rawStockId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return getStockById(stockId);
+		return getStockById(stockId, params);
 	}
 
 	public void saveOrUpdateStock(ProductSkuStock stock) {

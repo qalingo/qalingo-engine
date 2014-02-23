@@ -31,6 +31,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TECO_CART")
 public class Cart extends AbstractEntity {
@@ -184,25 +186,27 @@ public class Cart extends AbstractEntity {
     }
 
     public void deleteAllCartItem() {
-        if (this.cartItems != null) {
+        if (cartItems != null) {
             cartItems.clear();
         }
     }
 
     public void deleteCartItem(CartItem cartItemToDelete) {
-        if (this.cartItems != null) {
-            Set<CartItem> checkedCartItems = new HashSet<CartItem>(this.cartItems);
+        if (cartItems != null
+                && Hibernate.isInitialized(cartItems)) {
+            Set<CartItem> checkedCartItems = new HashSet<CartItem>(cartItems);
             for (Iterator<CartItem> iterator = checkedCartItems.iterator(); iterator.hasNext();) {
                 CartItem cartItem = (CartItem) iterator.next();
                 if (cartItem != null && cartItem.getProductSkuCode().equals(cartItemToDelete.getProductSkuCode())) {
-                    this.cartItems.remove(cartItem);
+                    cartItems.remove(cartItem);
                 }
             }
         }
     }
 
     public int getTotalCartItems() {
-        if (cartItems != null) {
+        if (cartItems != null
+                && Hibernate.isInitialized(cartItems)) {
             return cartItems.size();
         }
         return 0;
@@ -243,7 +247,8 @@ public class Cart extends AbstractEntity {
     public BigDecimal getDeliveryMethodTotal() {
         final Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
         BigDecimal cartDeliveryMethodTotal = new BigDecimal("0");
-        if (deliveryMethods != null) {
+        if (deliveryMethods != null
+                && Hibernate.isInitialized(deliveryMethods)) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
                 BigDecimal price = deliveryMethod.getPrice(getMarketAreaId(), getRetailerId());
@@ -261,9 +266,12 @@ public class Cart extends AbstractEntity {
 
     public BigDecimal getCartItemTotal() {
         BigDecimal cartItemsTotal = new BigDecimal("0");
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            final CartItem cartItem = (CartItem) iterator.next();
-            cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId(), getRetailerId()));
+        if (cartItems != null
+                && Hibernate.isInitialized(cartItems)) {
+            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+                final CartItem cartItem = (CartItem) iterator.next();
+                cartItemsTotal = cartItemsTotal.add(cartItem.getTotalAmountCartItem(getMarketAreaId(), getRetailerId()));
+            }
         }
         return cartItemsTotal;
     }
@@ -275,7 +283,8 @@ public class Cart extends AbstractEntity {
     public BigDecimal getTaxTotal() {
         BigDecimal cartFeesTotal = new BigDecimal("0");
         final Set<Tax> taxes = getTaxes();
-        if (taxes != null) {
+        if (taxes != null
+                && Hibernate.isInitialized(taxes)) {
             for (Iterator<Tax> iterator = taxes.iterator(); iterator.hasNext();) {
                 final Tax tax = (Tax) iterator.next();
 

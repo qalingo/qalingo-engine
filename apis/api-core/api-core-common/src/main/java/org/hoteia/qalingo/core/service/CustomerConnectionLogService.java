@@ -13,9 +13,9 @@ import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 
 public interface CustomerConnectionLogService {
 
-    CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId);
+    CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId, Object... params);
     
-	CustomerConnectionLog getCustomerConnectionLogById(String customerConnectionLogId);
+	CustomerConnectionLog getCustomerConnectionLogById(String customerConnectionLogId, Object... params);
 	
 	void saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 	

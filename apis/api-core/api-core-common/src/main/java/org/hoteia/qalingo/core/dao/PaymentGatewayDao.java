@@ -15,11 +15,11 @@ import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 
 public interface PaymentGatewayDao {
 
-	AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId);
+	AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId, Object... params);
 
-	AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String usernameOrEmail);
+	AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(String usernameOrEmail, Object... params);
 	 
-	List<AbstractPaymentGateway> findPaymentGateways();
+	List<AbstractPaymentGateway> findPaymentGateways(Object... params);
 
 	AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
 

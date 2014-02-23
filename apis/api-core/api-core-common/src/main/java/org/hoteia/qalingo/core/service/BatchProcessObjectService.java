@@ -16,13 +16,13 @@ import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 public interface BatchProcessObjectService {
 
-    BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId);
+    BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId, Object... params);
     
-	BatchProcessObject getBatchProcessObjectById(String batchProcessObjectId);
+	BatchProcessObject getBatchProcessObjectById(String batchProcessObjectId, Object... params);
 	
-	List<BatchProcessObject> findBatchProcessObjects();
+	List<BatchProcessObject> findBatchProcessObjects(Object... params);
 
-	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject);
+	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject, Object... params);
 	
 	void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
 	

@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -163,7 +164,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	// TODO : Temporary
 	
     @Autowired
-    public ProductService productService;
+    public ProductDao productDao;
 
     @Autowired
     private CatalogCategoryService catalogCategoryService;
@@ -174,20 +175,16 @@ public class CatalogSearchController extends AbstractMCommerceController {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        String[] categories = new String[]{"cate301","cate302","cate401","cate402","cate501"};
-        
         List<ProductMarketing> products;
         
-        for (String category : categories) {
-        	products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), category);
-            for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
-                ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-                
-                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
-                
-                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
-            }
-		}
+    	products = productDao.findProductMarketings();
+        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            
+            List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
+            
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
+        }
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request))));
     }

@@ -26,30 +26,30 @@ public class OrderCustomerServiceImpl implements OrderCustomerService {
     @Autowired
     private OrderCustomerDao orderDao;
 
-    public OrderCustomer getOrderById(final Long orderCustomerId) {
-        return orderDao.getOrderById(orderCustomerId);
+    public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
+        return orderDao.getOrderById(orderCustomerId, params);
     }
     
-    public OrderCustomer getOrderById(final String rawOrderCustomerId) {
+    public OrderCustomer getOrderById(final String rawOrderCustomerId, Object... params) {
         long orderId = -1;
         try {
             orderId = Long.parseLong(rawOrderCustomerId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getOrderById(orderId);
+        return getOrderById(orderId, params);
     }
 
-    public OrderCustomer getOrderByOrderNum(final String orderNum) {
-        return orderDao.getOrderByOrderNum(orderNum);
+    public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
+        return orderDao.getOrderByOrderNum(orderNum, params);
     }
 
-    public List<OrderCustomer> findOrdersByCustomerId(final String customerId) {
-        return orderDao.findOrdersByCustomerId(Long.parseLong(customerId));
+    public List<OrderCustomer> findOrdersByCustomerId(final String customerId, Object... params) {
+        return orderDao.findOrdersByCustomerId(Long.parseLong(customerId), params);
     }
 
-    public List<OrderCustomer> findOrders() {
-        return orderDao.findOrders();
+    public List<OrderCustomer> findOrders(Object... params) {
+        return orderDao.findOrders(params);
     }
 
     public OrderCustomer createNewOrder(final OrderCustomer orderCustomer) {

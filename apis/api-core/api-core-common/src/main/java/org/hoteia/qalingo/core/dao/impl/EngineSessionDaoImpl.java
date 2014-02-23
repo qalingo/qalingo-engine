@@ -14,8 +14,6 @@ import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SetAttribute;
 
@@ -30,9 +28,7 @@ import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("engineSessionDao")
 public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements EngineSessionDao {
 
@@ -43,25 +39,10 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
     public static volatile SetAttribute<Cart, CartItem> cartItems;
     public static volatile SetAttribute<Cart, CurrencyReferential> cartCurrency;
 
-    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
+    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId, Object... params) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<EngineEcoSession> criteriaQuery = builder.createQuery(EngineEcoSession.class);
         Root<EngineEcoSession> root = criteriaQuery.from( EngineEcoSession.class );
-        
-//        Join<EngineEcoSession, Cart> cartFetch = root.join(carts);
-//
-//        Join<Cart, CartItem> cartItemFetch = cartFetch.join(cartItems);
-//        Join<Cart, CurrencyReferential> cartCurrencyFetch = cartFetch.join(cartCurrency);
-
-//        cartFetch.fetch(cartItems);
-//        cartFetch.fetch(cartCurrency);
-
-//      criteria.join("carts.cartItems", JoinType.LEFT_OUTER_JOIN);
-//      criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
-//      criteria.setFetchMode("cartItems", FetchMode.JOIN);
-//      
-//      criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-//      criteria.setFetchMode("currency", FetchMode.JOIN);
         
         criteriaQuery.where(builder.equal(root.get("id"), engineSessionId));
 
@@ -70,15 +51,11 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
         return engineSession;
     }
 
-    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid) {
+    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
       CriteriaBuilder builder = em.getCriteriaBuilder();
       CriteriaQuery<EngineEcoSession> criteriaQuery = builder.createQuery(EngineEcoSession.class);
       Root<EngineEcoSession> root = criteriaQuery.from( EngineEcoSession.class );
       
-//      Fetch<EngineEcoSession, Cart> cartFetch = root.fetch(carts);
-//      cartFetch.fetch(cartItems);
-//      cartFetch.fetch(cartCurrency);
-
       criteriaQuery.where(builder.equal(root.get("engineSessionGuid"), engineSessionGuid));
 
       EngineEcoSession engineSession = (EngineEcoSession) em.createQuery(criteriaQuery).getSingleResult();
@@ -113,20 +90,16 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
 
     // BO SESSION
 
-    public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
+    public EngineBoSession getEngineBoSessionById(final Long engineSessionId, Object... params) {
         Criteria criteria = createDefaultCriteria(EngineBoSession.class);
-
-        addDefaultEngineBoSessionFetch(criteria);
 
         criteria.add(Restrictions.eq("id", engineSessionId));
         EngineBoSession engineSession = (EngineBoSession) criteria.uniqueResult();
         return engineSession;
     }
     
-    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid) {
+    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
         Criteria criteria = createDefaultCriteria(EngineBoSession.class);
-
-        addDefaultEngineBoSessionFetch(criteria);
 
         criteria.add(Restrictions.eq("engineSessionGuid", engineSessionGuid));
         EngineBoSession engineSession = (EngineBoSession) criteria.uniqueResult();
@@ -147,20 +120,5 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
     public void deleteEngineBoSession(EngineBoSession engineSession) {
         em.remove(engineSession);
     }
-
-    private void addDefaultEngineBoSessionFetch(Criteria criteria) {
-    }
-
-//    private void addDefaultEngineEcoSessionFetch(CriteriaQuery criteria) {
-//        
-//        criteria.setFetchMode("carts", FetchMode.JOIN);
-//        
-//        criteria.join("carts.cartItems", JoinType.LEFT_OUTER_JOIN);
-//        criteria.createAlias("carts.cartItems", "cartItems", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("cartItems", FetchMode.JOIN);
-//        
-//        criteria.createAlias("carts.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-//        criteria.setFetchMode("currency", FetchMode.JOIN);
-//    }
 
 }

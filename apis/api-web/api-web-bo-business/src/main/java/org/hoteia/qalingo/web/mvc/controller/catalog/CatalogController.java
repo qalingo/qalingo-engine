@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
@@ -93,13 +95,25 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		List<CatalogCategoryMaster> catalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId());
-		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, catalogCategories);
+		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+		
+		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildMasterCatalogViewBean(requestUtil.getRequestData(request), catalogMaster, rootCatalogCategories);
 		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(catalogCategories));
+            // TODO : Denis : temporary hack - need a good recursive fetch with criteria
+            for (Iterator<CatalogCategoryMaster> iterator = rootCatalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
+                Set<CatalogCategoryMaster> catalogCategoriesReload = new HashSet<CatalogCategoryMaster>();
+                for (Iterator<CatalogCategoryMaster> iteratorSubCategories = catalogCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+                    CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
+                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+                    catalogCategoriesReload.add(reloadedCategory);
+                }
+                catalogCategoryMaster.setCatalogCategories(catalogCategoriesReload);
+            }
+            catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(rootCatalogCategories));
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalogMaster);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
@@ -127,13 +141,24 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		
-		List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId());
-		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, catalogCategories);
+		List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildVirtualCatalogViewBean(requestUtil.getRequestData(request), catalogVirtual, rootCatalogCategories);
 		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
         ObjectMapper mapper = new ObjectMapper();
         try {
-            catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(catalogCategories));
+            // TODO : Denis : temporary hack - need a good recursive fetch with criteria
+            for (Iterator<CatalogCategoryVirtual> iterator = rootCatalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
+                Set<CatalogCategoryVirtual> catalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
+                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = catalogCategoryVirtual.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+                    CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
+                    CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+                    catalogCategoriesReload.add(reloadedCategory);
+                }
+                catalogCategoryVirtual.setCatalogCategories(catalogCategoriesReload);
+            }
+            catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategories));
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);

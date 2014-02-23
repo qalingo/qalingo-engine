@@ -26,11 +26,11 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 
 public interface EmailService {
 
-	Email getEmailById(Long id);
+	Email getEmailById(Long id, Object... params);
 
-	List<Long> findIdsForEmailSync(String type);
+	List<Long> findIdsForEmailSync(String type, Object... params);
 
-	List<Email> findEmailByStatus(String status);
+	List<Email> findEmailByStatus(String status, Object... params);
 	
 	void saveOrUpdateEmail(Email email);
 

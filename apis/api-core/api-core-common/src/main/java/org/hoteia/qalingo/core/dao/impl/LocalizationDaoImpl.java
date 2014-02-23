@@ -21,29 +21,27 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("localizationDao")
 public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements LocalizationDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Localization getLocalizationById(final Long localizationId) {
+	public Localization getLocalizationById(final Long localizationId, Object... params) {
         Criteria criteria = createDefaultCriteria(Localization.class);
         criteria.add(Restrictions.eq("id", localizationId));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
 
-	public Localization getLocalizationByCode(final String code) {
+	public Localization getLocalizationByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(Localization.class);
         criteria.add(Restrictions.eq("code", code));
         Localization localization = (Localization) criteria.uniqueResult();
         return localization;
 	}
 	
-	public List<Localization> findLocalizations() {
+	public List<Localization> findLocalizations(Object... params) {
         Criteria criteria = createDefaultCriteria(Localization.class);
         
         criteria.addOrder(Order.asc("language"));
@@ -54,7 +52,7 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 		return localizations;
 	}
 	
-    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
         criteria.add(Restrictions.eq("code", marketAreaCode));

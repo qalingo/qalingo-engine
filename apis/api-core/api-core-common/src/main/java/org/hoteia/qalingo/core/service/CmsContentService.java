@@ -13,9 +13,9 @@ import org.hoteia.qalingo.core.domain.CmsContent;
 
 public interface CmsContentService {
 
-    CmsContent getCmsContentById(Long cmsContentId);
+    CmsContent getCmsContentById(Long cmsContentId, Object... params);
     
-	CmsContent getCmsContentById(String cmsContentId);
+	CmsContent getCmsContentById(String cmsContentId, Object... params);
 	
 	void saveOrUpdateCmsContent(CmsContent cmsContent);
 	

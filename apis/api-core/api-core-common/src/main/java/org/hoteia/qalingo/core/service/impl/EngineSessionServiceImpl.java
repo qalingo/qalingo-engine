@@ -66,22 +66,22 @@ public class EngineSessionServiceImpl implements EngineSessionService {
     }
     
     
-    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId) {
-        return engineSessionDao.getEngineEcoSessionById(engineSessionId);
+    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId, Object... params) {
+        return engineSessionDao.getEngineEcoSessionById(engineSessionId, params);
     }
 
-    public EngineEcoSession getEngineEcoSessionById(final String rawEngineSessionId) {
+    public EngineEcoSession getEngineEcoSessionById(final String rawEngineSessionId, Object... params) {
         long engineSessionId = -1;
         try {
             engineSessionId = Long.parseLong(rawEngineSessionId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getEngineEcoSessionById(engineSessionId);
+        return getEngineEcoSessionById(engineSessionId, params);
     }
     
-    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid) {
-        return engineSessionDao.getEngineEcoSessionByEngineSessionGuid(engineSessionGuid);
+    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
+        return engineSessionDao.getEngineEcoSessionByEngineSessionGuid(engineSessionGuid, params);
     }
 
     public EngineEcoSession saveOrUpdateEngineEcoSession(final EngineEcoSession engineEcoSession) {
@@ -94,22 +94,22 @@ public class EngineSessionServiceImpl implements EngineSessionService {
 
     // BO SESSION
 
-    public EngineBoSession getEngineBoSessionById(final Long engineSessionId) {
-        return engineSessionDao.getEngineBoSessionById(engineSessionId);
+    public EngineBoSession getEngineBoSessionById(final Long engineSessionId, Object... params) {
+        return engineSessionDao.getEngineBoSessionById(engineSessionId, params);
     }
 
-    public EngineBoSession getEngineBoSessionById(final String rawEngineSessionId) {
+    public EngineBoSession getEngineBoSessionById(final String rawEngineSessionId, Object... params) {
         long engineSessionId = -1;
         try {
             engineSessionId = Long.parseLong(rawEngineSessionId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getEngineBoSessionById(engineSessionId);
+        return getEngineBoSessionById(engineSessionId, params);
     }
     
-    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid) {
-        return engineSessionDao.getEngineBoSessionByEngineSessionGuid(engineSessionGuid);
+    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
+        return engineSessionDao.getEngineBoSessionByEngineSessionGuid(engineSessionGuid, params);
     }
 
     public EngineBoSession saveOrUpdateEngineBoSession(final EngineBoSession engineBoSession) {

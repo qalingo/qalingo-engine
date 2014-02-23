@@ -29,6 +29,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_CUSTOMER_MARKET_AREA")
@@ -138,6 +139,7 @@ public class CustomerMarketArea extends AbstractEntity {
 	public CustomerOptin getOptins(String type) {
 		CustomerOptin customerOptin = null;
 		if(optins != null
+		        && Hibernate.isInitialized(optins)
 				&& StringUtils.isNotEmpty(type)){
 			for (Iterator<CustomerOptin> iterator = optins.iterator(); iterator.hasNext();) {
 				CustomerOptin customerOptinIt = (CustomerOptin) iterator.next();
@@ -166,11 +168,14 @@ public class CustomerMarketArea extends AbstractEntity {
 	
 	public CustomerWishlist getCustomerWishlistByProductSkuCode(final String productSkuCode) {
 		CustomerWishlist customerWishlistToReturn = null;
-		for (Iterator<CustomerWishlist> iterator = wishlistProducts.iterator(); iterator.hasNext();) {
-			CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
-			if(customerWishlist.getProductSkuCode().equalsIgnoreCase(productSkuCode)){
-				customerWishlistToReturn = customerWishlist;
-			}
+		if(wishlistProducts != null
+                && Hibernate.isInitialized(wishlistProducts)){
+	        for (Iterator<CustomerWishlist> iterator = wishlistProducts.iterator(); iterator.hasNext();) {
+	            CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
+	            if(customerWishlist.getProductSkuCode().equalsIgnoreCase(productSkuCode)){
+	                customerWishlistToReturn = customerWishlist;
+	            }
+	        }
 		}
 		return customerWishlistToReturn;
 	}

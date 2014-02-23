@@ -17,13 +17,13 @@ import org.hoteia.qalingo.core.domain.ServerStatus;
 
 public interface ServerDao {
 
-    ServerStatus getServerStatusById(Long serverStatusId);
+    ServerStatus getServerStatusById(Long serverStatusId, Object... params);
 
-    List<ServerStatus> findServerStatus(String serverName);
+    List<ServerStatus> findServerStatus(String serverName, Object... params);
     
-    List<ServerStatus> findServerStatus();
+    List<ServerStatus> findServerStatus(Object... params);
     
-    List<ServerStatus> getServerList();
+    List<ServerStatus> findServerList(Object... params);
     
     ServerStatus saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
     

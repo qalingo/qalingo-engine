@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
+import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
+import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 
 public interface CatalogPojoService {
 
@@ -18,4 +22,8 @@ public interface CatalogPojoService {
 
     CatalogPojo getVirtualCatalog(CatalogVirtual catalogVirtual);
 
+    ProductMarketingPojo buildProductMarketing(ProductMarketing productMarketing);
+    
+    ProductSkuPojo buildProductSku(ProductSku productSku);
+    
 }

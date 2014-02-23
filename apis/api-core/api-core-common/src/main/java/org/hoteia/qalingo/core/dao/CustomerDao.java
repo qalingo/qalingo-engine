@@ -16,15 +16,15 @@ import org.hoteia.qalingo.core.domain.CustomerCredential;
 
 public interface CustomerDao {
 
-	Customer getCustomerById(Long customerId);
+	Customer getCustomerById(Long customerId, Object... params);
 
-	Customer getCustomerByCode(String code);
+	Customer getCustomerByCode(String code, Object... params);
 	
-	Customer getCustomerByPermalink(String permalink);
+	Customer getCustomerByPermalink(String permalink, Object... params);
 
-	Customer getCustomerByLoginOrEmail(String usernameOrEmail);
+	Customer getCustomerByLoginOrEmail(String usernameOrEmail, Object... params);
 	 
-	List<Customer> findCustomers();
+	List<Customer> findCustomers(Object... params);
 	
 	Customer saveOrUpdateCustomer(Customer customer) throws Exception;
 

@@ -24,18 +24,18 @@ public class CustomerWishlistServiceImpl implements CustomerWishlistService {
     @Autowired
     private CustomerWishlistDao customerWishlistDao;
 
-    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
-        return customerWishlistDao.getCustomerWishlistById(customerWishlistId);
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId, Object... params) {
+        return customerWishlistDao.getCustomerWishlistById(customerWishlistId, params);
     }
 
-    public CustomerWishlist getCustomerWishlistById(final String rawCustomerWishlistId) {
+    public CustomerWishlist getCustomerWishlistById(final String rawCustomerWishlistId, Object... params) {
         long customerWishlistId = -1;
         try {
             customerWishlistId = Long.parseLong(rawCustomerWishlistId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCustomerWishlistById(customerWishlistId);
+        return getCustomerWishlistById(customerWishlistId, params);
     }
 
     public void saveOrUpdateCustomerWishlist(final CustomerWishlist customerWishlist) {

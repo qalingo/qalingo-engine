@@ -25,12 +25,11 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("productDao")
 public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao {
 
@@ -38,31 +37,25 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 
     // PRODUCT MARKETING
 	
-	public ProductMarketing getProductMarketingById(final Long productMarketingId) {
+	public ProductMarketing getProductMarketingById(final Long productMarketingId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
-        
+        handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productMarketingId));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
         return productMarketing;
 	}
 
-	public ProductMarketing getProductMarketingByCode(final String productMarketingCode) {
+	public ProductMarketing getProductMarketingByCode(final String productMarketingCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
-
+        handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productMarketingCode));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
 		return productMarketing;
 	}
 	
-	public List<ProductMarketing> findProductMarketings() {
+	public List<ProductMarketing> findProductMarketings(Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
-
+        handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -70,10 +63,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 		return productMarketings;
 	}
 	
-	public List<ProductMarketing> findProductMarketings(final String text) {
+	public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
+        handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
@@ -86,16 +78,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 		return productMarketings;
 	}
 
-    public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId) {
+    public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
+        handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
         criteria.createAlias("productBrand", "pb", JoinType.LEFT_OUTER_JOIN);
         
         criteria.add(Restrictions.eq("pb.id", brandId));
-        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -103,16 +93,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketings;
     }
 
-	public List<ProductMarketing> findProductMarketingsByBrandCode(final String brandCode) {
+	public List<ProductMarketing> findProductMarketingsByBrandCode(final String brandCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
+        handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
         criteria.createAlias("productBrand", "pb", JoinType.LEFT_OUTER_JOIN);
         
         criteria.add(Restrictions.eq("pb.code", brandCode));
-        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -120,16 +108,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketings;
 	}
 	
-	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode) {
+	public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final String categoryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        
-        addDefaultProductMarketingFetch(criteria);
+        handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
         criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
         
         criteria.add(Restrictions.eq("dc.code", categoryCode));
-        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -137,10 +123,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketings;
 	}
 	
-    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(final String categoryCode, int pageNumber, int pageSize, String sortBy, String orderBy) {
+    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCodeAndSortAndPagintion(final String categoryCode, int pageNumber, int pageSize, String sortBy, String orderBy, Object... params) {
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
-
-        addDefaultProductMarketingFetch(criteria);
+        handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
         criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
@@ -184,6 +169,36 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	
     // PRODUCT MARKETING COMMENT/RATE
 	
+    @SuppressWarnings("unchecked")
+    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(final Long productMarketingId, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
+        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        
+        return criteria.list();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(final Long productMarketingId, final String type, Object... params) {
+        Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
+        criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
+        criteria.add(Restrictions.eq("type", type));
+        
+        return criteria.list();
+    }
+    
+    public Float calculateProductMarketingCustomerRatesByProductCode(final Long productMarketingId) {
+        String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
+        Query query = getSession().createQuery(sql);
+        query.setLong("productMarketingId", productMarketingId);
+        Double value = (Double) query.uniqueResult();
+        
+        if(value != null){
+            return value.floatValue();
+        }
+        
+        return 0F;
+    }
+    
     public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
         if(productMarketingCustomerRate.getDateCreate() == null){
             productMarketingCustomerRate.setDateCreate(new Date());
@@ -228,52 +243,16 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productMarketingCustomerComment);
     }
     
-    @SuppressWarnings("unchecked")
-	@Override
-    public List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(
-    		final Long productMarketingId) {
-    	Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerComment.class);
-    	criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
-    	
-    	return criteria.list();
-    }
-    
-    @SuppressWarnings("unchecked")
-	@Override
-    public List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(
-    		final Long productMarketingId, final String type) {
-    	Criteria  criteria = createDefaultCriteria(ProductMarketingCustomerRate.class);
-    	criteria.add(Restrictions.eq("productMarketingId", productMarketingId));
-    	criteria.add(Restrictions.eq("type", type));
-    	
-    	return criteria.list();
-    }
-    
-    @Override
-    public Float calculateProductMarketingCustomerRatesByProductCode(
-    		final Long productMarketingId) {
-    	String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
-    	Query query = getSession().createQuery(sql);
-    	query.setLong("productMarketingId", productMarketingId);
-    	Double value = (Double) query.uniqueResult();
-    	
-    	if(value != null){
-    		return value.floatValue();
-    	}
-    	
-    	return 0F;
-    }
-
 	// PRODUCT MARKETING ASSET
 	
-	public Asset getProductMarketingAssetById(final Long productMarketingAssetId) {
+	public Asset getProductMarketingAssetById(final Long productMarketingAssetId, Object... params) {
         Criteria criteria = createDefaultCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productMarketingAssetId));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();
         return productMarketingAsset;
 	}
 
-	public Asset getProductMarketingAssetByCode(final String assetCode) {
+	public Asset getProductMarketingAssetByCode(final String assetCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         criteria.add(Restrictions.eq("code", assetCode));
         Asset productMarketingAsset = (Asset) criteria.uniqueResult();
@@ -302,49 +281,35 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 		em.remove(productMarketingAsset);
 	}
 	
-    private void addDefaultProductMarketingFetch(Criteria criteria) {
-        criteria.setFetchMode("productBrand", FetchMode.JOIN);
-        criteria.setFetchMode("productMarketingType", FetchMode.JOIN); 
-        criteria.setFetchMode("productMarketingAttributes", FetchMode.JOIN); 
-        
-        criteria.setFetchMode("productSkus", FetchMode.JOIN); 
-        criteria.createAlias("productSkus.prices", "prices", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("prices", FetchMode.JOIN); 
-        
-        criteria.createAlias("productSkus.prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-
-        criteria.setFetchMode("productAssociationLinks", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN); 
-        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
+    protected void handleSpecificProductMarketingFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductMarketingFetchPlan());
+        }
     }
     
     // PRODUCT SKU
 	
-    public ProductSku getProductSkuById(final Long productSkuId) {
+    public ProductSku getProductSkuById(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        
-        addDefaultProductSkuFetch(criteria);
-
+        handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productSkuId));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
         return productSku;
     }
     
-    public ProductSku getProductSkuByCode(final String productSkuCode) {
+    public ProductSku getProductSkuByCode(final String productSkuCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        
-        addDefaultProductSkuFetch(criteria);
-
+        handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productSkuCode));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
         return productSku;
     }
         
-    public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing) {
+    public List<ProductSku> findProductSkusByproductMarketingId(final Long productMarketing, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        
-        addDefaultProductSkuFetch(criteria);
+        handleSpecificProductSkuFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("productMarketing", productMarketing));
         criteria.addOrder(Order.asc("id"));
@@ -354,10 +319,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productSkus;
     }
     
-    public List<ProductSku> findProductSkus(final String text) {
+    public List<ProductSku> findProductSkus(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        
-        addDefaultProductSkuFetch(criteria);
+        handleSpecificProductSkuFetchMode(criteria, params);
         
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
@@ -392,31 +356,24 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productSku);
     }
     
-    private void addDefaultProductSkuFetch(Criteria criteria) {
-        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN);
-    	
-        criteria.setFetchMode("productMarketing", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN);
-        
-        criteria.setFetchMode("prices", FetchMode.JOIN); 
-        
-        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-
-        criteria.setFetchMode("stocks", FetchMode.JOIN); 
-        criteria.setFetchMode("retailers", FetchMode.JOIN); 
+    protected void handleSpecificProductSkuFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductSkuFetchPlan());
+        }
     }
     
     // ASSET
     
-    public Asset getProductSkuAssetById(final Long productSkuAssetId) {
+    public Asset getProductSkuAssetById(final Long productSkuAssetId, Object... params) {
         Criteria criteria = createDefaultCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productSkuAssetId));
         Asset productSkuAsset = (Asset) criteria.uniqueResult();
         return productSkuAsset;
     }
 
-    public Asset getProductSkuAssetByCode(final String assetCode) {
+    public Asset getProductSkuAssetByCode(final String assetCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         criteria.add(Restrictions.eq("code", assetCode));
         Asset productSkuAsset = (Asset) criteria.uniqueResult();
@@ -447,29 +404,27 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     
     // PRODUCT BRAND
     
-    public ProductBrand getProductBrandById(final Long productBrandId) {
+    public ProductBrand getProductBrandById(final Long productBrandId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
-        addDefaultProductBrandFetch(criteria);
+        handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
         return productBrand;
     }
 
-    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode) {
+    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
-        addDefaultProductBrandFetch(criteria);
+        handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
         return productBrand;
     }
     
-    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode) {
+    public List<ProductBrand> findProductBrandsByCatalogCategoryCode(final String categoryCode, Object... params) {
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
-
-        addDefaultProductBrandFetch(criteria);
-
+        handleSpecificProductBrandFetchMode(criteria, params);
+        
         criteria.setFetchMode("productMarketings", FetchMode.JOIN);
-
         criteria.createAlias("productMarketings.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
         criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
 
@@ -502,7 +457,12 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productBrand);
     }
     
-    private void addDefaultProductBrandFetch(Criteria criteria) {
+    protected void handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductBrandFetchPlan());
+        }
     }
     
 }

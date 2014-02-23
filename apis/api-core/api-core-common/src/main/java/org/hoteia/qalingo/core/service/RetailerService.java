@@ -20,31 +20,31 @@ public interface RetailerService {
 
 	// RETAILER
 	
-    Retailer getRetailerById(Long retailerId);
+    Retailer getRetailerById(Long retailerId, Object... params);
     
-	Retailer getRetailerById(String retailerId);
+	Retailer getRetailerById(String retailerId, Object... params);
 
-    Retailer getRetailerByCode(String retailerCode);
+    Retailer getRetailerByCode(String retailerCode, Object... params);
 
-    Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode);
+    Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode, Object... params);
 
-    List<Retailer> findAllRetailers();
+    List<Retailer> findAllRetailers(Object... params);
 
-	List<Retailer> findRetailers(Long marketAreaId, Long retailerId);
+	List<Retailer> findRetailers(Long marketAreaId, Long retailerId, Object... params);
 
-    List<Retailer> findRetailersByMarketAreaCode(String marketAreaCode);
+    List<Retailer> findRetailersByMarketAreaCode(String marketAreaCode, Object... params);
 
-	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag);
+	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag, Object... params);
 
-	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags);
+	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags, Object... params);
 
-	List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults);
+	List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults, Object... params);
 	
-	List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults);
+	List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults, Object... params);
 	
-	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults);
+	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults, Object... params);
 
-	List<Retailer> findRetailersByText(Long marketAreaId, Long retailerId, String searchTxt);
+	List<Retailer> findRetailersByText(Long marketAreaId, Long retailerId, String searchTxt, Object... params);
 
 	void saveOrUpdateRetailer(Retailer retailer);
 	
@@ -62,15 +62,15 @@ public interface RetailerService {
 	
 	// STORE
 	
-    Store getStoreById(Long storeId);
+    Store getStoreById(Long storeId, Object... params);
     
-	Store getStoreById(String storeId);
+	Store getStoreById(String storeId, Object... params);
 
-	Store getStoreByCode(String storeCode);
+	Store getStoreByCode(String storeCode, Object... params);
 
-	List<Store> findStores();
+	List<Store> findStores(Object... params);
 	
-	List<Store> findStoresByRetailerId(Long retailerId);
+	List<Store> findStoresByRetailerId(Long retailerId, Object... params);
 	
 	void saveOrUpdateStore(Store store);
 	

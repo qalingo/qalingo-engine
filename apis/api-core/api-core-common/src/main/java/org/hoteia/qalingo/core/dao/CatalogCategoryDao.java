@@ -17,34 +17,37 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 public interface CatalogCategoryDao {
 
 	// MASTER
-	CatalogCategoryMaster getMasterCatalogCategoryById(Long catalogCategoryId);
+    
+	CatalogCategoryMaster getMasterCatalogCategoryById(Long catalogCategoryId, Object... params);
 	
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode);
+	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
+	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
 
-	List<CatalogCategoryMaster> findRootCatalogCategories();
+	List<CatalogCategoryMaster> findRootCatalogCategories(Object... params);
 	
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId);
+	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId, Object... params);
 	
 	CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
 	void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
 
 	// VIRTUAL
-	CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId);
+	
+	CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId, Object... params);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode);
+	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode);
+	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
 
-	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId);
+	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId, Object... params);
 
-	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId);
+	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId, Object... params);
 
-	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(Long marketAreaId, String productMarketingCode);
+	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(Long marketAreaId, String productMarketingCode, Object... params);
 	
 	CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 
 	void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory);
+	
 }

@@ -13,7 +13,7 @@ import org.hoteia.qalingo.core.domain.Cart;
 
 public interface CartDao {
 
-	Cart getCartById(Long cartId);
+	Cart getCartById(Long cartId, Object... params);
 
 	Cart saveOrUpdateCart(Cart cart);
 

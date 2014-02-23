@@ -20,29 +20,27 @@ import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("attributeDao")
 public class AttributeDaoImpl extends AbstractGenericDaoImpl implements AttributeDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId, Object... params) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("id", attributeDefinitionId));
         AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinitions;
     }
 
-    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
+    public AttributeDefinition getAttributeDefinitionByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("code", code));
         AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinition;
     }
 
-    public List<AttributeDefinition> findAttributeDefinitions() {
+    public List<AttributeDefinition> findAttributeDefinitions(Object... params) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
 
         criteria.addOrder(Order.asc("attributeType"));
@@ -53,7 +51,7 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
         return attributeDefinitions;
     }
 
-    public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
+    public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType, Object... params) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("objectType", objectType));
 

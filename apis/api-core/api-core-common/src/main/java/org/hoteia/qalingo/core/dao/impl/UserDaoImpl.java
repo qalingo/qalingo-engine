@@ -13,19 +13,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.UserDao;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("userDao")
 public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
@@ -33,37 +30,34 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
     // USER
     
-    public User getUserById(final Long userId) {
+    public User getUserById(final Long userId, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        addDefaultUserFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", userId));
-        
         User user = (User) criteria.uniqueResult();
         return user;
     }
 
-    public User getUserByLoginOrEmail(final String usernameOrEmail) {
+    public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        addDefaultUserFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
-
         User user = (User) criteria.uniqueResult();
         return user;
     }
 
-    public List<User> findUsers() {
+    public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        addDefaultUserFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
-
         @SuppressWarnings("unchecked")
         List<User> users = criteria.list();
         return users;
     }
 
-    public User saveOrUpdateUser(User user) {
+    public User saveOrUpdateUser(final User user) {
         if (user.getDateCreate() == null) {
             user.setDateCreate(new Date());
         }
@@ -81,37 +75,32 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(final User user) {
         em.remove(user);
     }
     
-    private void addDefaultUserFetch(Criteria criteria) {
-        criteria.setFetchMode("defaultLocalization", FetchMode.JOIN); 
-        criteria.setFetchMode("company", FetchMode.JOIN); 
-        criteria.setFetchMode("userGroups", FetchMode.JOIN); 
-        
-        criteria.createAlias("userGroups.groupRoles", "roles", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("roles", FetchMode.JOIN);
-        
-        criteria.createAlias("userGroups.groupRoles.rolePermissions", "rolePermissions", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("rolePermissions", FetchMode.JOIN);
-
-        criteria.setFetchMode("connectionLogs", FetchMode.JOIN); 
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultUserFetchPlan());
+        }
     }
     
     // COMPANY
     
-    public Company getCompanyById(final Long companyId) {
+    public Company getCompanyById(final Long companyId, Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
-        addDefaultCompanyFetch(criteria);
+        handleCompanySpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", companyId));
         Company company = (Company) criteria.uniqueResult();
         return company;
     }
     
-    public List<Company> findCompanies() {
+    public List<Company> findCompanies(Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
-        addDefaultCompanyFetch(criteria);
+        handleCompanySpecificFetchMode(criteria, params);
         criteria.addOrder(Order.asc("name"));
 
         @SuppressWarnings("unchecked")
@@ -119,8 +108,12 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         return companies;
     }
 
-    private void addDefaultCompanyFetch(Criteria criteria) {
-        criteria.setFetchMode("localizations", FetchMode.JOIN); 
+    protected void handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCompanyFetchPlan());
+        }
     }
     
     public Company saveOrUpdateCompany(Company company) {

@@ -36,6 +36,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
@@ -163,8 +164,10 @@ public class ProductSku extends AbstractEntity {
     }
 	
 	public List<ProductSkuAttribute> getProductSkuGlobalAttributes() {
-        List<ProductSkuAttribute> productSkuGlobalAttributes = new ArrayList<ProductSkuAttribute>();
-        if (productSkuAttributes != null) {
+        List<ProductSkuAttribute> productSkuGlobalAttributes = null;
+        if (productSkuAttributes != null
+                && Hibernate.isInitialized(productSkuAttributes)) {
+            productSkuGlobalAttributes = new ArrayList<ProductSkuAttribute>();
             for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -178,8 +181,10 @@ public class ProductSku extends AbstractEntity {
 	}
 
 	public List<ProductSkuAttribute> getProductSkuMarketAreaAttributes(Long marketAreaId) {
-        List<ProductSkuAttribute> productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttribute>();
-        if (productSkuAttributes != null) {
+        List<ProductSkuAttribute> productSkuMarketAreaAttributes = null;
+        if (productSkuAttributes != null
+                && Hibernate.isInitialized(productSkuAttributes)) {
+            productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttribute>();
             for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -209,8 +214,10 @@ public class ProductSku extends AbstractEntity {
     }
 	
 	public List<Asset> getAssetsIsGlobal() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsIsGlobal = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsIsGlobal = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
@@ -223,17 +230,19 @@ public class ProductSku extends AbstractEntity {
 	}
 	
 	public List<Asset> getAssetsByMarketArea() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsByMarketArea = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
                         && !asset.isGlobal()) {
-                    assetsIsGlobal.add(asset);
+                    assetsByMarketArea.add(asset);
                 }
             }
         }        
-        return assetsIsGlobal;
+        return assetsByMarketArea;
 	}
 	
 	public Set<ProductSkuPrice> getPrices() {
@@ -241,7 +250,8 @@ public class ProductSku extends AbstractEntity {
 	}
 	
 	public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId){
-	    if(prices != null){
+	    if(prices != null
+	            && Hibernate.isInitialized(prices)){
 	        for (ProductSkuPrice productSkuPrice : prices) {
 	            if(productSkuPrice.getMarketAreaId().equals(marketAreaId) 
 	                    && productSkuPrice.getRetailerId().equals(retailerId)) {
@@ -419,11 +429,13 @@ public class ProductSku extends AbstractEntity {
     }
 
 	// ASSET
+    
 	public Asset getDefaultPaskshotImage(String size) {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null
+		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+		if(assetsIsGlobal != null
 				&& StringUtils.isNotEmpty(size)){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productAsset = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productAsset.getType())
 						&& size.equals(productAsset.getSize().name())
@@ -431,7 +443,7 @@ public class ProductSku extends AbstractEntity {
 					defaultProductImage = productAsset;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productImage.getType())
 						&& size.equals(productImage.getSize())){
@@ -444,15 +456,16 @@ public class ProductSku extends AbstractEntity {
 	
 	public Asset getDefaultBackgroundImage() {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+		if(assetsIsGlobal != null){
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.BACKGROUND.equals(productImage.getType())
 						&& productImage.isDefault()){
 					defaultProductImage = productImage;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.BACKGROUND.equals(productImage.getType())){
 					defaultProductImage = productImage;
@@ -464,15 +477,16 @@ public class ProductSku extends AbstractEntity {
 	
 	public Asset getDefaultIconImage() {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+		if(assetsIsGlobal != null){
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.ICON.equals(productImage.getType())
 						&& productImage.isDefault()){
 					defaultProductImage = productImage;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.ICON.equals(productImage.getType())){
 					defaultProductImage = productImage;

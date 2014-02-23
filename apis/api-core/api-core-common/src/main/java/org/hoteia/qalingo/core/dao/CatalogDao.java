@@ -18,9 +18,9 @@ public interface CatalogDao {
 
     // MASTER CATALOG
 
-    CatalogMaster getMasterCatalogById(Long masterCatalogId);
+    CatalogMaster getMasterCatalogById(Long masterCatalogId, Object... params);
 
-    List<CatalogMaster> findAllCatalogMasters();
+    List<CatalogMaster> findAllCatalogMasters(Object... params);
 
     CatalogMaster saveOrUpdateCatalogMaster(CatalogMaster productCatalog);
 
@@ -28,8 +28,8 @@ public interface CatalogDao {
 
     // VIRTUAL CATALOG
     
-    CatalogVirtual getVirtualCatalogById(Long virtualCatalogId);
+    CatalogVirtual getVirtualCatalogById(Long virtualCatalogId, Object... params);
 
-    CatalogVirtual getVirtualCatalogByMarketAreaId(Long marketAreaId);
+    CatalogVirtual getVirtualCatalogByMarketAreaId(Long marketAreaId, Object... params);
 
 }

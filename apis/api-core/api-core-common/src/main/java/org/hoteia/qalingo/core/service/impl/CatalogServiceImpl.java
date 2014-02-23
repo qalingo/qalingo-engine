@@ -28,22 +28,22 @@ public class CatalogServiceImpl implements CatalogService {
 
     // MASTER CATALOG
     
-    public CatalogMaster getMasterCatalogById(final Long masterCatalogId) {
-        return catalogDao.getMasterCatalogById(masterCatalogId);
+    public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
+        return catalogDao.getMasterCatalogById(masterCatalogId, params);
     }
 
-    public CatalogMaster getMasterCatalogById(final String rawMasterCatalogId) {
+    public CatalogMaster getMasterCatalogById(final String rawMasterCatalogId, Object... params) {
         long masterCatalogId = -1;
         try {
             masterCatalogId = Long.parseLong(rawMasterCatalogId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getMasterCatalogById(masterCatalogId);
+        return getMasterCatalogById(masterCatalogId, params);
     }
     
-    public List<CatalogMaster> findAllCatalogMasters() {
-        return catalogDao.findAllCatalogMasters();
+    public List<CatalogMaster> findAllCatalogMasters(Object... params) {
+        return catalogDao.findAllCatalogMasters(params);
     }
 
     public void saveOrUpdateCatalogMaster(final CatalogMaster catalogMaster) {
@@ -56,22 +56,22 @@ public class CatalogServiceImpl implements CatalogService {
     
     // VIRTUAL CATALOG
     
-    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId) {
-        return catalogDao.getVirtualCatalogById(virtualCatalogId);
+    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
+        return catalogDao.getVirtualCatalogById(virtualCatalogId, params);
     }
 
-    public CatalogVirtual getVirtualCatalogById(final String rawVirtualCatalogId) {
+    public CatalogVirtual getVirtualCatalogById(final String rawVirtualCatalogId, Object... params) {
         long virtualCatalogId = -1;
         try {
             virtualCatalogId = Long.parseLong(rawVirtualCatalogId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getVirtualCatalogById(virtualCatalogId);
+        return getVirtualCatalogById(virtualCatalogId, params);
     }
 
-    public CatalogVirtual getVirtualCatalogbyMarketAreaId(final Long marketAreaId) {
-        return catalogDao.getVirtualCatalogByMarketAreaId(marketAreaId);
+    public CatalogVirtual getVirtualCatalogbyMarketAreaId(final Long marketAreaId, Object... params) {
+        return catalogDao.getVirtualCatalogByMarketAreaId(marketAreaId, params);
     }
 
 }

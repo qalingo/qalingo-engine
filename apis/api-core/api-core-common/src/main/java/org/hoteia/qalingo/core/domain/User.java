@@ -35,6 +35,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "LOGIN", "EMAIL" }) })
 public class User extends AbstractEntity {
@@ -188,27 +190,35 @@ public class User extends AbstractEntity {
     }
 
     public List<UserRole> getRoles() {
-        List<UserRole> roles = new ArrayList<UserRole>();
+        List<UserRole> roles = null;
         Set<UserGroup> userGroups = getUserGroups();
-        Iterator<UserGroup> it = userGroups.iterator();
-        while (it.hasNext()) {
-            UserGroup userGroup = (UserGroup) it.next();
-            roles.addAll(userGroup.getGroupRoles());
+        if(userGroups != null 
+                && Hibernate.isInitialized(userGroups)){
+            roles = new ArrayList<UserRole>();
+            Iterator<UserGroup> it = userGroups.iterator();
+            while (it.hasNext()) {
+                UserGroup userGroup = (UserGroup) it.next();
+                roles.addAll(userGroup.getGroupRoles());
+            }
         }
         return roles;
     }
 
     public List<UserPermission> getPermissions() {
-        List<UserPermission> permission = new ArrayList<UserPermission>();
+        List<UserPermission> permission = null;
         Set<UserGroup> userGroups = getUserGroups();
-        Iterator<UserGroup> itUserGroup = userGroups.iterator();
-        while (itUserGroup.hasNext()) {
-            UserGroup userGroup = (UserGroup) itUserGroup.next();
+        if(userGroups != null 
+                && Hibernate.isInitialized(userGroups)){
+            permission = new ArrayList<UserPermission>();
+            Iterator<UserGroup> itUserGroup = userGroups.iterator();
+            while (itUserGroup.hasNext()) {
+                UserGroup userGroup = (UserGroup) itUserGroup.next();
 
-            Iterator<UserRole> itUserRole = userGroup.getGroupRoles().iterator();
-            while (itUserRole.hasNext()) {
-                UserRole userRole = (UserRole) itUserRole.next();
-                permission.addAll(userRole.getRolePermissions());
+                Iterator<UserRole> itUserRole = userGroup.getGroupRoles().iterator();
+                while (itUserRole.hasNext()) {
+                    UserRole userRole = (UserRole) itUserRole.next();
+                    permission.addAll(userRole.getRolePermissions());
+                }
             }
         }
         return permission;

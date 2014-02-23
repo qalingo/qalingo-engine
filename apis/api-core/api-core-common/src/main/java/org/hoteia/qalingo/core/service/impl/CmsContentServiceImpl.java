@@ -24,18 +24,18 @@ public class CmsContentServiceImpl implements CmsContentService {
     @Autowired
     private CmsContentDao cmsContentDao;
 
-    public CmsContent getCmsContentById(Long cmsContentId) {
-        return cmsContentDao.getCmsContentById(cmsContentId);
+    public CmsContent getCmsContentById(final Long cmsContentId, Object... params) {
+        return cmsContentDao.getCmsContentById(cmsContentId, params);
     }
 
-    public CmsContent getCmsContentById(String rawCmsContentId) {
+    public CmsContent getCmsContentById(final String rawCmsContentId, Object... params) {
         long cmsContentId = -1;
         try {
             cmsContentId = Long.parseLong(rawCmsContentId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCmsContentById(cmsContentId);
+        return getCmsContentById(cmsContentId, params);
     }
 
     public void saveOrUpdateCmsContent(CmsContent cmsContent) {

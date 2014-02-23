@@ -41,10 +41,57 @@
 				<property name="databasePlatform" value="${hibernate.dialect}" />
 			</bean>
 		</property>
+        <!--   
+		<property name="jpaProperties">
+			<props>  
+                <prop key="hibernate.connection.driver_class">${hibernate.connection.driver_class}</prop>
+                <prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop> 
+                <prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+                <prop key="hibernate.connection.provider_class">${hibernate.connection.provider_class}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> 
+                <prop key="hibernate.generateddl">${hibernate.generateddl}</prop> 
+            </props>  
+		</property>
+<property name="jpaProperties">
+            <props>
+                <prop key="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">verify</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.min_size">5</prop>
+                <prop key="hibernate.c3p0.max_size">20</prop>
+                <prop key="hibernate.c3p0.timeout">5000</prop>
+                <prop key="hibernate.c3p0.max_statements">100</prop>
+                <prop key="hibernate.c3p0.idle_test_period">3000</prop>
+                <prop key="hibernate.c3p0.testConnectionOnCheckout">true</prop>
+                <prop key="hibernate.c3p0.acquireRetryAttempts">1</prop>
+            </props>
+        </property>
+        
+        <property name="jpaProperties">
+	        <props>
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+				<prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+				<prop key="hibernate.connection.provider_class">${hibernate.connection.provider_class}</prop>
+
+				<prop key="bonecp.idleMaxAge">${bonecp.idleMaxAge}</prop>
+				<prop key="bonecp.idleConnectionTestPeriod">${bonecp.idleConnectionTestPeriod}</prop>
+				<prop key="bonecp.partitionCount">${bonecp.partitionCount}</prop>
+				<prop key="bonecp.acquireIncrement">${bonecp.acquireIncrement}</prop>
+				<prop key="bonecp.maxConnectionsPerPartition">${bonecp.maxConnectionsPerPartition}</prop>
+				<prop key="bonecp.minConnectionsPerPartition">${bonecp.minConnectionsPerPartition}</prop>
+				<prop key="bonecp.statementsCacheSize">${bonecp.statementsCacheSize}</prop>
+				<prop key="bonecp.releaseHelperThreads">${bonecp.releaseHelperThreads}</prop>
+	        </props>
+        </property>
+        -->
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
 	<!-- 

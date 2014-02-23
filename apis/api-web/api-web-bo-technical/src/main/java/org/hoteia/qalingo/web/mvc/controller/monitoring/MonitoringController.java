@@ -44,7 +44,7 @@ public class MonitoringController extends AbstractTechnicalBackofficeController 
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-		List<ServerStatus> severList = serverService.getServerList();
+		List<ServerStatus> severList = serverService.findServerList();
 		modelAndView.addObject("severList", severList);
 		
 		List<ServerStatus> severStatusList = serverService.findServerStatus();

@@ -16,11 +16,11 @@ import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
 
 public interface BatchProcessObjectDao {
 
-	BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId);
+	BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId, Object... params);
 
-	List<BatchProcessObject> findBatchProcessObjects();
+	List<BatchProcessObject> findBatchProcessObjects(Object... params);
 	
-	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject);
+	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject, Object... params);
 
 	BatchProcessObject saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
 

@@ -29,6 +29,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TECO_DELIVERY_METHOD", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class DeliveryMethod extends AbstractEntity {
@@ -139,7 +141,8 @@ public class DeliveryMethod extends AbstractEntity {
     }
 
     public DeliveryMethodPrice getDeliveryMethodPrice(final Long marketAreaId, final Long retailerId){
-        if(prices != null){
+        if(prices != null
+                && Hibernate.isInitialized(prices)){
             for (DeliveryMethodPrice deliveryMethodPrice : prices) {
                 if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
                         && deliveryMethodPrice.getRetailerId().equals(retailerId)) {

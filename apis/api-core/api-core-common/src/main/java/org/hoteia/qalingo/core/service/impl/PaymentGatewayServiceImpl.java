@@ -26,22 +26,22 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
     @Autowired
     private PaymentGatewayDao paymentGatewayDao;
 
-    public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
-        return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId);
+    public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
+        return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId, params);
     }
 
-    public AbstractPaymentGateway getPaymentGatewayById(final String rawPaymentGatewayId) {
+    public AbstractPaymentGateway getPaymentGatewayById(final String rawPaymentGatewayId, Object... params) {
         long paymentGatewayId = -1;
         try {
             paymentGatewayId = Long.parseLong(rawPaymentGatewayId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getPaymentGatewayById(paymentGatewayId);
+        return getPaymentGatewayById(paymentGatewayId, params);
     }
 
-    public List<AbstractPaymentGateway> findPaymentGateways() {
-        return paymentGatewayDao.findPaymentGateways();
+    public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
+        return paymentGatewayDao.findPaymentGateways(params);
     }
 
     public void saveOrUpdatePaymentGateway(final AbstractPaymentGateway paymentGateway) {

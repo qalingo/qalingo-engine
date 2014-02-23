@@ -41,6 +41,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
@@ -318,7 +319,7 @@ public class Customer extends AbstractEntity {
 	
 	public CustomerCredential getCurrentCredential() {
 		if(credentials != null
-				&& credentials.size() > 0){
+		        && Hibernate.isInitialized(credentials)){
 			List<CustomerCredential> sortedObjects = new LinkedList<CustomerCredential>(credentials);
 			Collections.sort(sortedObjects, new Comparator<CustomerCredential>() {
 				@Override
@@ -352,11 +353,14 @@ public class Customer extends AbstractEntity {
 	
 	public CustomerAddress getAddress(final Long customerAddressId) {
 		CustomerAddress customerAddressToReturn = null;
-		for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-			CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-			if(customerAddress.getId().equals(customerAddressId)) {
-				customerAddressToReturn = customerAddress;
-			}
+		if(addresses != null
+                && Hibernate.isInitialized(addresses)){
+	        for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+	            CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+	            if(customerAddress.getId().equals(customerAddressId)) {
+	                customerAddressToReturn = customerAddress;
+	            }
+	        }
 		}
 		return customerAddressToReturn;
 	}
@@ -369,7 +373,8 @@ public class Customer extends AbstractEntity {
         if(defaultShippingAddressId != null){
             return defaultShippingAddressId;
         } else {
-            if(getAddresses() != null){
+            if(addresses != null
+                    && Hibernate.isInitialized(addresses)){
                 return getAddresses().iterator().next().getId();
             }
         }
@@ -384,7 +389,8 @@ public class Customer extends AbstractEntity {
 	    if(defaultBillingAddressId != null){
 	        return defaultBillingAddressId;
 	    } else {
-	        if(getAddresses() != null){
+            if(addresses != null
+                    && Hibernate.isInitialized(addresses)){
 	            return getAddresses().iterator().next().getId();
 	        }
 	    }
@@ -409,7 +415,8 @@ public class Customer extends AbstractEntity {
 	
 	public CustomerMarketArea getCurrentCustomerMarketArea(Long marketAreaId) {
 		CustomerMarketArea currentCustomerMarketArea = null;
-		if(customerMarketAreas != null) {
+		if(customerMarketAreas != null
+		        && Hibernate.isInitialized(customerMarketAreas)) {
 			for (Iterator<CustomerMarketArea> iterator = customerMarketAreas.iterator(); iterator.hasNext();) {
 				CustomerMarketArea customerMarketArea = (CustomerMarketArea) iterator.next();
 				if(customerMarketArea.getMarketAreaId().equals(marketAreaId)) {
@@ -497,12 +504,16 @@ public class Customer extends AbstractEntity {
 	}
 	
 	public List<CustomerRole> getRoles() {
-		List<CustomerRole> roles = new ArrayList<CustomerRole>();
+		List<CustomerRole> roles = null;
 		Set<CustomerGroup> customerGroups = getCustomerGroups();
-		Iterator<CustomerGroup> it = customerGroups.iterator();
-		while (it.hasNext()) {
-			CustomerGroup customerGroup = (CustomerGroup) it.next();
-			roles.addAll(customerGroup.getCustomerRoles());
+		if(customerGroups != null
+		        && Hibernate.isInitialized(customerGroups)){
+	        roles = new ArrayList<CustomerRole>();
+	        Iterator<CustomerGroup> it = customerGroups.iterator();
+	        while (it.hasNext()) {
+	            CustomerGroup customerGroup = (CustomerGroup) it.next();
+	            roles.addAll(customerGroup.getCustomerRoles());
+	        }
 		}
 		return roles;
 	}
@@ -523,7 +534,8 @@ public class Customer extends AbstractEntity {
 	
 	public CustomerAttribute getCustomerAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		CustomerAttribute customerAttributeToReturn = null;
-		if(customerAttributes != null) {
+		if(customerAttributes != null
+		        && Hibernate.isInitialized(customerAttributes)) {
 			List<CustomerAttribute> customerAttributesFilter = new ArrayList<CustomerAttribute>();
 			for (Iterator<CustomerAttribute> iterator = customerAttributes.iterator(); iterator.hasNext();) {
 				CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();

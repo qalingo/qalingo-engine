@@ -31,6 +31,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_MARKETPLACE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -161,7 +162,8 @@ public class MarketPlace extends AbstractEntity {
     public Market getDefaultMarket() {
         Market defaultMarket = null;
         Set<Market> markets = getMarkets();
-        if (markets != null && markets.size() > 0) {
+        if (markets != null 
+                && Hibernate.isInitialized(markets)) {
             for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
                 Market market = (Market) iterator.next();
                 if (market.isDefault()) {
@@ -179,7 +181,8 @@ public class MarketPlace extends AbstractEntity {
     public Market getMarket(String marketCode) {
         Market marketToReturn = null;
         Set<Market> markets = getMarkets();
-        if (markets != null && markets.size() > 0) {
+        if (markets != null 
+                && Hibernate.isInitialized(markets)) {
             for (Iterator<Market> iterator = markets.iterator(); iterator.hasNext();) {
                 Market market = (Market) iterator.next();
                 if (market.getCode().equalsIgnoreCase(marketCode)) {
@@ -223,7 +226,8 @@ public class MarketPlace extends AbstractEntity {
     }
 
     private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
-        if (marketPlaceAttributes != null && !marketPlaceAttributes.isEmpty()) {
+        if (marketPlaceAttributes != null 
+                && Hibernate.isInitialized(marketPlaceAttributes)) {
             for (Iterator<MarketPlaceAttribute> iterator = marketPlaceAttributes.iterator(); iterator.hasNext();) {
                 MarketPlaceAttribute marketPlaceAttribute = (MarketPlaceAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketPlaceAttribute.getAttributeDefinition();

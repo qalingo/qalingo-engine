@@ -23,29 +23,33 @@ public interface ProductService {
 
     // PRODUCT MARKETING
     
-    ProductMarketing getProductMarketingById(Long productMarketingId);
+    ProductMarketing getProductMarketingById(Long productMarketingId, Object... params);
 
-    ProductMarketing getProductMarketingById(String productMarketingId);
+    ProductMarketing getProductMarketingById(String productMarketingId, Object... params);
 
-	ProductMarketing getProductMarketingByCode(String productMarketingCode);
+	ProductMarketing getProductMarketingByCode(String productMarketingCode, Object... params);
 	
-	List<ProductMarketing> findProductMarketings(Long marketAreaId);
+	List<ProductMarketing> findProductMarketings(Long marketAreaId, Object... params);
 	
-	List<ProductMarketing> findProductMarketings(Long marketAreaId, String text);
+	List<ProductMarketing> findProductMarketings(Long marketAreaId, String text, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandId(Long marketAreaId, Long brandId);
+    List<ProductMarketing> findProductMarketingsByBrandId(Long marketAreaId, Long brandId, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandCode(Long marketAreaId, String brandCode);
+    List<ProductMarketing> findProductMarketingsByBrandCode(Long marketAreaId, String brandCode, Object... params);
     
-    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(Long marketAreaId,String categoryCode);
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(Long marketAreaId,String categoryCode, Object... params);
     
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
+    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode, Object... params);
     
 	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 	
 	void deleteProductMarketing(ProductMarketing productMarketing);
 
     // PRODUCT MARKETING COMMENT/RATE
+    
+    CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(Long productMarketingId, Object... params);
+    
+    CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
     
     void saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
@@ -55,17 +59,13 @@ public interface ProductService {
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
-    CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(Long productMarketingId);
-    
-    CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
-    
 	// PRODUCT MARKETING ASSET
 	
-    Asset getProductMarketingAssetById(Long assetId);
+    Asset getProductMarketingAssetById(Long assetId, Object... params);
     
-	Asset getProductMarketingAssetById(String assetId);
+	Asset getProductMarketingAssetById(String assetId, Object... params);
 
-	Asset getProductMarketingAssetByCode(String assetCode);
+	Asset getProductMarketingAssetByCode(String assetCode, Object... params);
 
 	void saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
@@ -73,15 +73,15 @@ public interface ProductService {
 
     // PRODUCT SKU
     
-    ProductSku getProductSkuById(Long productSkuId);
+    ProductSku getProductSkuById(Long productSkuId, Object... params);
     
-    ProductSku getProductSkuById(String productSkuId);
+    ProductSku getProductSkuById(String productSkuId, Object... params);
     
-    ProductSku getProductSkuByCode(String productSkuCode);
+    ProductSku getProductSkuByCode(String productSkuCode, Object... params);
     
-    List<ProductSku> findProductSkusByproductMarketingId(Long marketAreaId, Long productMarketingId);
+    List<ProductSku> findProductSkusByproductMarketingId(Long marketAreaId, Long productMarketingId, Object... params);
     
-    List<ProductSku> findProductSkus(Long marketAreaId, String text);
+    List<ProductSku> findProductSkus(Long marketAreaId, String text, Object... params);
 
     void saveOrUpdateProductSku(ProductSku productSku);
     
@@ -89,11 +89,11 @@ public interface ProductService {
     
     // PRODUCT SKU ASSET
     
-    Asset getProductSkuAssetById(Long assetId);
+    Asset getProductSkuAssetById(Long assetId, Object... params);
     
-    Asset getProductSkuAssetById(String assetId);
+    Asset getProductSkuAssetById(String assetId, Object... params);
 
-    Asset getProductSkuAssetByCode(String assetCode);
+    Asset getProductSkuAssetByCode(String assetCode, Object... params);
 
     void saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     
@@ -101,11 +101,11 @@ public interface ProductService {
     
     // PRODUCT BRAND
     
-    ProductBrand getProductBrandById(Long productBrandId);
+    ProductBrand getProductBrandById(Long productBrandId, Object... params);
 
-    ProductBrand getProductBrandById(String productBrandId);
+    ProductBrand getProductBrandById(String productBrandId, Object... params);
 
-    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
+    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode, Object... params);
 
     void saveOrUpdateProductBrand(ProductBrand productBrand);
 

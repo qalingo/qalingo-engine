@@ -31,6 +31,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TBO_COMPANY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class Company extends AbstractEntity {
@@ -154,9 +156,10 @@ public class Company extends AbstractEntity {
 
     public Localization getLocalization(String code) {
         Localization localeToReturn = null;
-        Set<Localization> locales = getLocalizations();
-        if (locales != null && locales.size() > 0) {
-            for (Iterator<Localization> iterator = locales.iterator(); iterator.hasNext();) {
+        Set<Localization> localizations = getLocalizations();
+        if (localizations != null 
+                && Hibernate.isInitialized(localizations)) {
+            for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
                 if (localization.getCode().equalsIgnoreCase(code)) {
                     localeToReturn = localization;

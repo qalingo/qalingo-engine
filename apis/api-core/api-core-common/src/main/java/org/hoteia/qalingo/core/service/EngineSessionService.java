@@ -20,13 +20,11 @@ public interface EngineSessionService {
     
     void synchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues, String ecoEngineSessionGuid) throws Exception;
 
-        
-        
-    EngineEcoSession getEngineEcoSessionById(Long engineEcoSessionId);
+    EngineEcoSession getEngineEcoSessionById(Long engineEcoSessionId, Object... params);
 
-    EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId);
+    EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId, Object... params);
 
-    EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String jSessionId);
+    EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String jSessionId, Object... params);
 
     EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineEcoSession);
 
@@ -34,11 +32,11 @@ public interface EngineSessionService {
 
     // BO SESSION
 
-    EngineBoSession getEngineBoSessionById(Long engineBoSessionId);
+    EngineBoSession getEngineBoSessionById(Long engineBoSessionId, Object... params);
 
-    EngineBoSession getEngineBoSessionById(String engineBoSessionId);
+    EngineBoSession getEngineBoSessionById(String engineBoSessionId, Object... params);
 
-    EngineBoSession getEngineBoSessionByEngineSessionGuid(String jSessionId);
+    EngineBoSession getEngineBoSessionByEngineSessionGuid(String jSessionId, Object... params);
 
     EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
 

@@ -24,18 +24,18 @@ public class TaxServiceImpl implements TaxService {
     @Autowired
     private TaxDao taxDao;
 
-    public Tax getTaxById(Long taxId) {
-        return taxDao.getTaxById(taxId);
+    public Tax getTaxById(Long taxId, Object... params) {
+        return taxDao.getTaxById(taxId, params);
     }
 
-    public Tax getTaxById(String rawTaxId) {
+    public Tax getTaxById(String rawTaxId, Object... params) {
         long taxId = -1;
         try {
             taxId = Long.parseLong(rawTaxId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getTaxById(taxId);
+        return getTaxById(taxId, params);
     }
 
     public void saveOrUpdateTax(Tax tax) {

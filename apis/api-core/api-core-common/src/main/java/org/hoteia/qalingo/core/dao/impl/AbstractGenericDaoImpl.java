@@ -9,11 +9,15 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public abstract class AbstractGenericDaoImpl {  
 
@@ -28,6 +32,24 @@ public abstract class AbstractGenericDaoImpl {
         Criteria criteria = getSession().createCriteria(entityClass);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params){
+        if (params != null) {
+            for (Object param : params) {
+                if (param instanceof List) {
+                    List<SpecificFetchMode> specificFetchModes = (List<SpecificFetchMode>) param;
+                    for (Iterator<SpecificFetchMode> iterator = specificFetchModes.iterator(); iterator.hasNext();) {
+                        SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                        if(specificFetchMode.getRequiredAlias() != null){
+                            criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
+                        }
+                        criteria.setFetchMode(specificFetchMode.getAssocationPath(), specificFetchMode.getFetchMode());
+                    }
+                }
+            }
+        }
     }
 	
 }

@@ -26,32 +26,32 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationDao notificationDao;
 
-    public Notification getNotificationById(final Long notificationId) {
-        return notificationDao.getNotificationById(notificationId);
+    public Notification getNotificationById(final Long notificationId, Object... params) {
+        return notificationDao.getNotificationById(notificationId, params);
     }
 
-    public Notification getNotificationById(final String rawNotificationId) {
+    public Notification getNotificationById(final String rawNotificationId, Object... params) {
         long notificationId = -1;
         try {
             notificationId = Long.parseLong(rawNotificationId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getNotificationById(notificationId);
+        return getNotificationById(notificationId, params);
     }
 
-    public List<Notification> findNotifications() {
-        return notificationDao.findNotifications();
+    public List<Notification> findNotifications(Object... params) {
+        return notificationDao.findNotifications(params);
     }
 
-    public List<Notification> findNotificationByCustomerId(final String customerId) {
+    public List<Notification> findNotificationByCustomerId(final String customerId, Object... params) {
         Long id = new Long(customerId);
-        return notificationDao.findNotificationByCustomerId(id);
+        return notificationDao.findNotificationByCustomerId(id, params);
     }
 
-    public List<Notification> findNewNotificationByCustomerId(final String customerId) {
+    public List<Notification> findNewNotificationByCustomerId(final String customerId, Object... params) {
         Long id = new Long(customerId);
-        return notificationDao.findNewNotificationByCustomerId(id);
+        return notificationDao.findNewNotificationByCustomerId(id, params);
     }
 
     public void flagAsReadAllNewNotification(final String customerId) {

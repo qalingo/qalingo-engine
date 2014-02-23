@@ -36,6 +36,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 
@@ -264,7 +265,8 @@ public class Retailer extends AbstractEntity {
 
     public RetailerAddress getDefaultAddress() {
         RetailerAddress defaultAddress = null;
-        if (addresses != null && !addresses.isEmpty()) {
+        if (addresses != null 
+                && Hibernate.isInitialized(addresses)) {
             for (Iterator<RetailerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
                 RetailerAddress retailerAddress = (RetailerAddress) iterator.next();
                 if (retailerAddress.isDefault()) {
@@ -296,8 +298,10 @@ public class Retailer extends AbstractEntity {
     }
     
     public List<Asset> getAssetsIsGlobal() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsIsGlobal = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsIsGlobal = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
@@ -310,17 +314,19 @@ public class Retailer extends AbstractEntity {
     }
 
     public List<Asset> getAssetsByMarketArea() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsByMarketArea = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
                         && !asset.isGlobal()) {
-                    assetsIsGlobal.add(asset);
+                    assetsByMarketArea.add(asset);
                 }
             }
         }        
-        return assetsIsGlobal;
+        return assetsByMarketArea;
     }
     
     public Set<RetailerAttribute> getRetailerAttributes() {
@@ -332,8 +338,10 @@ public class Retailer extends AbstractEntity {
     }
 
     public List<RetailerAttribute> getRetailerGlobalAttributes() {
-        List<RetailerAttribute> retailerGlobalAttributes = new ArrayList<RetailerAttribute>();
-        if (retailerAttributes != null) {
+        List<RetailerAttribute> retailerGlobalAttributes = null;
+        if (retailerAttributes != null
+                && Hibernate.isInitialized(retailerAttributes)) {
+            retailerGlobalAttributes = new ArrayList<RetailerAttribute>();
             for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
                 RetailerAttribute attribute = (RetailerAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -347,8 +355,10 @@ public class Retailer extends AbstractEntity {
     }
 
     public List<RetailerAttribute> getRetailerMarketAreaAttributes(Long marketAreaId) {
-        List<RetailerAttribute> retailerMarketAreaAttributes = new ArrayList<RetailerAttribute>();
-        if (retailerAttributes != null) {
+        List<RetailerAttribute> retailerMarketAreaAttributes = null;
+        if (retailerAttributes != null
+                && Hibernate.isInitialized(retailerAttributes)) {
+            retailerMarketAreaAttributes = new ArrayList<RetailerAttribute>();
             for (Iterator<RetailerAttribute> iterator = retailerAttributes.iterator(); iterator.hasNext();) {
                 RetailerAttribute attribute = (RetailerAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();

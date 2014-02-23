@@ -31,64 +31,64 @@ public class RetailerServiceImpl implements RetailerService {
 
     // RETAILER
 
-    public Retailer getRetailerById(final Long retailerId) {
-        return retailerDao.getRetailerById(retailerId);
+    public Retailer getRetailerById(final Long retailerId, Object... params) {
+        return retailerDao.getRetailerById(retailerId, params);
     }
 
-    public Retailer getRetailerById(final String rawRetailerId) {
+    public Retailer getRetailerById(final String rawRetailerId, Object... params) {
         long retailerId = -1;
         try {
             retailerId = Long.parseLong(rawRetailerId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return retailerDao.getRetailerById(retailerId);
+        return retailerDao.getRetailerById(retailerId, params);
     }
 
-    public Retailer getRetailerByCode(final String retailerCode) {
-        return retailerDao.getRetailerByCode(retailerCode);
+    public Retailer getRetailerByCode(final String retailerCode, Object... params) {
+        return retailerDao.getRetailerByCode(retailerCode, params);
     }
 
-    public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
-        return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode);
+    public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode, Object... params) {
+        return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode, params);
     }
 
-    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
-        return retailerDao.findRetailers(marketAreaId, retailerId);
+    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
+        return retailerDao.findRetailers(marketAreaId, retailerId, params);
     }
 
-    public List<Retailer> findAllRetailers() {
-        return retailerDao.findAllRetailers();
+    public List<Retailer> findAllRetailers(Object... params) {
+        return retailerDao.findAllRetailers(params);
     }
 
-    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
-        return retailerDao.findRetailersByMarketAreaCode(marketAreaCode);
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
+        return retailerDao.findRetailersByMarketAreaCode(marketAreaCode, params);
     }
 
-    public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag) {
+    public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag, Object... params) {
         List<String> tags = new ArrayList<String>();
         tags.add(tag);
-        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
     }
 
-    public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
-        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags);
+    public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags, Object... params) {
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
     }
 
-    public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults) {
-        return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults);
+    public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults, params);
     }
 
-    public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults) {
-        return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults);
+    public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults, params);
     }
 
-    public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults) {
-        return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults);
+    public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults, params);
     }
 
-    public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
-        return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt);
+    public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt, Object... params) {
+        return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt, params);
     }
 
     public void saveOrUpdateRetailer(final Retailer retailer) {
@@ -119,30 +119,30 @@ public class RetailerServiceImpl implements RetailerService {
 
     // STORE
 
-    public Store getStoreById(final Long storeId) {
-        return retailerDao.getStoreById(storeId);
+    public Store getStoreById(final Long storeId, Object... params) {
+        return retailerDao.getStoreById(storeId, params);
     }
     
-    public Store getStoreById(final String rawStoreId) {
+    public Store getStoreById(final String rawStoreId, Object... params) {
         long storeId = -1;
         try {
             storeId = Long.parseLong(rawStoreId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getStoreById(storeId);
+        return getStoreById(storeId, params);
     }
 
-    public Store getStoreByCode(final String storeCode) {
-        return retailerDao.getStoreByCode(storeCode);
+    public Store getStoreByCode(final String storeCode, Object... params) {
+        return retailerDao.getStoreByCode(storeCode, params);
     }
 
-    public List<Store> findStores() {
-        return retailerDao.findStores();
+    public List<Store> findStores(Object... params) {
+        return retailerDao.findStores(params);
     }
     
-    public List<Store> findStoresByRetailerId(final Long retailerId) {
-        return retailerDao.findStoresByRetailerId(retailerId);
+    public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
+        return retailerDao.findStoresByRetailerId(retailerId, params);
     }
 
     public void saveOrUpdateStore(final Store store) {

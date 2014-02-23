@@ -19,9 +19,9 @@ public interface CartService {
 
     Cart deleteToCart(Cart cart);
     
-    Cart getCartById(Long cartId);
+    Cart getCartById(Long cartId, Object... params);
 
-	Cart getCartById(String cartId);
+	Cart getCartById(String cartId, Object... params);
 	
 	void saveOrUpdateCart(Cart cart);
 	

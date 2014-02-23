@@ -46,6 +46,7 @@ import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
@@ -70,6 +71,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implements FrontofficeViewBeanFactory {
 
+    /**
+     * 
+     */
+    @Override
+    public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
+        final CommonViewBean commonViewBean = new CommonViewBean();
+
+        // NO CACHE FOR THIS PART
+
+        final String currentThemeResourcePrefixPath = requestUtil.getCurrentThemeResourcePrefixPath(requestData);
+        commonViewBean.setThemeResourcePrefixPath(currentThemeResourcePrefixPath);
+
+        commonViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
+        commonViewBean.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
+        commonViewBean.setForgottenPasswordUrl(urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestData));
+        commonViewBean.setLogoutUrl(urlService.generateUrl(FoUrls.LOGOUT, requestData));
+        commonViewBean.setCreateAccountUrl(urlService.generateUrl(FoUrls.CUSTOMER_CREATE_ACCOUNT, requestData));
+        commonViewBean.setCheckoutCreateAccountUrl(urlService.generateUrl(FoUrls.CART_CREATE_ACCOUNT, requestData));
+        commonViewBean.setCustomerDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+        commonViewBean.setPersonalDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+        commonViewBean.setContactUrl(urlService.generateUrl(FoUrls.CONTACT, requestData));
+
+        commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
+
+        return commonViewBean;
+    }
+    
     /**
      * 
      */
@@ -402,10 +430,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      */
     public SearchFacetViewBean buildStoreSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localeCode = localization.getCode();
-        
 
         // TODO : Denis : facet like country ? city ? online/corner etc
         

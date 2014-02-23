@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -24,12 +23,11 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("retailerDao")
 public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerDao {
 
@@ -37,40 +35,40 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
 	// RETAILER
 
-	public Retailer getRetailerById(final Long retailerId) {
+	public Retailer getRetailerById(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", retailerId));
         Retailer retailer = (Retailer) criteria.uniqueResult();
         return retailer;
 	}
 
-    public Retailer getRetailerByCode(final String retailerCode) {
+    public Retailer getRetailerByCode(final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
         return retailer;
     }
 
-	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode) {
+	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
 		return retailer;
 	}
 	
-    public List<Retailer> findAllRetailers() {
+    public List<Retailer> findAllRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -79,9 +77,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         return retailers;
     }
     
-    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode) {
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
-
+        
         criteria.add(Restrictions.eq("code", marketAreaCode));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
 
@@ -89,10 +87,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         return retailers;
   }
 
-    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId) {
+    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -101,10 +99,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags) {
+	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.createAlias("retailerTags", "tag", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.in("tag.code", tags));
@@ -116,10 +114,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 
-	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults) {
+	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("dateCreate"));
 
@@ -128,10 +126,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults) {
+	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("qualityOfService"));
 
@@ -140,10 +138,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults) {
+	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.addOrder(Order.desc("ratioQualityPrice"));
 
@@ -152,10 +150,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return retailers;
 	}
 	
-	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt) {
+	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        addDefaultRetailerFetch(criteria);
+        handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + searchTxt + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + searchTxt + "%")));
@@ -238,10 +236,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	
 	// STORE
 	
-	public Store getStoreById(final Long storeId) {
+	public Store getStoreById(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
-        addDefaultStoreFetch(criteria);
+        handleSpecificStoreFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
         
@@ -250,10 +248,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         return store;
 	}
 
-	public Store getStoreByCode(final String storeCode) {
+	public Store getStoreByCode(final String storeCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
-        addDefaultStoreFetch(criteria);
+        handleSpecificStoreFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
         
@@ -262,10 +260,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return store;
 	}
 	
-	public List<Store> findStores() {
+	public List<Store> findStores(Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
-        addDefaultStoreFetch(criteria);
+        handleSpecificStoreFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
 
@@ -274,10 +272,10 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		return stores;
 	}
 	
-    public List<Store> findStoresByRetailerId(final Long retailerId) {
+    public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
 
-        addDefaultStoreFetch(criteria);
+        handleSpecificStoreFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("retailerId", retailerId));
         
@@ -310,20 +308,20 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		em.remove(store);
 	}
 	
-    private void addDefaultRetailerFetch(Criteria criteria) {
-        criteria.setFetchMode("links", FetchMode.JOIN); 
-        criteria.setFetchMode("addresses", FetchMode.JOIN); 
-        criteria.setFetchMode("stores", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN); 
-        criteria.setFetchMode("retailerAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("customerRates", FetchMode.JOIN); 
-        criteria.setFetchMode("customerComments", FetchMode.JOIN); 
-        criteria.setFetchMode("retailerTags", FetchMode.JOIN); 
+    protected void handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultRetailerFetchPlan());
+        }
     }
     
-    private void addDefaultStoreFetch(Criteria criteria) {
-        criteria.setFetchMode("storeAttributes", FetchMode.JOIN); 
-        criteria.setFetchMode("assets", FetchMode.JOIN); 
+    protected void handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultStoreFetchPlan());
+        }
     }
 
 }

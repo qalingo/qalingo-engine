@@ -18,15 +18,13 @@ import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("customerWishlistDao")
 public class CustomerWishlistDaoImpl extends AbstractGenericDaoImpl implements CustomerWishlistDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId) {
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerWishlist.class);
         criteria.add(Restrictions.eq("id", customerWishlistId));
         CustomerWishlist customerWishlist = (CustomerWishlist) criteria.uniqueResult();

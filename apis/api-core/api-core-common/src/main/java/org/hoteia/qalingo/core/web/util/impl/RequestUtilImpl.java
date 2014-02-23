@@ -974,7 +974,7 @@ public class RequestUtilImpl implements RequestUtil {
                     }
                     setSessionMarket(engineEcoSession, market);
 
-                    // MARKET MODE
+                    // MARKET AREA
                     MarketArea marketArea = market.getMarketArea(marketAreaCode);
                     if (marketArea == null) {
                         marketArea = market.getDefaultMarketArea();
@@ -1021,7 +1021,7 @@ public class RequestUtilImpl implements RequestUtil {
                     setSessionMarket(engineEcoSession, market);
                     updateCurrentTheme(request, newMarket.getTheme());
 
-                    // MARKET MODE
+                    // MARKET AREA
                     MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
                     if (marketArea == null) {
                         marketArea = market.getDefaultMarketArea();
@@ -1059,7 +1059,7 @@ public class RequestUtilImpl implements RequestUtil {
                     MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
                     if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
 
-                        // CHANGE THE MARKET MODE
+                        // CHANGE THE MARKET AREA
                         MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
@@ -1227,7 +1227,7 @@ public class RequestUtilImpl implements RequestUtil {
                     }
                     setSessionMarket(engineBoSession, market);
 
-                    // MARKET MODE
+                    // MARKET AREA
                     MarketArea marketArea = market.getMarketArea(marketAreaCode);
                     if (marketArea == null) {
                         marketArea = market.getDefaultMarketArea();
@@ -1265,7 +1265,7 @@ public class RequestUtilImpl implements RequestUtil {
                     setSessionMarket(engineBoSession, market);
                     updateCurrentTheme(request, newMarket.getTheme());
 
-                    // MARKET MODE
+                    // MARKET AREA
                     MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
                     if (marketArea == null) {
                         marketArea = market.getDefaultMarketArea();
@@ -1294,7 +1294,7 @@ public class RequestUtilImpl implements RequestUtil {
                     MarketArea marketArea = engineBoSession.getCurrentMarketArea();
                     if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
 
-                        // CHANGE THE MARKET MODE
+                        // CHANGE THE MARKET AREA
                         MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
                         if (newMarketArea == null) {
                             newMarketArea = market.getDefaultMarketArea();
@@ -1721,7 +1721,7 @@ public class RequestUtilImpl implements RequestUtil {
         MarketArea marketArea = null;
         if(marketAreaGeoloc != null){
             marketPlace = marketService.getMarketPlaceByCode(marketAreaGeoloc.getMarket().getMarketPlace().getCode());
-            market = marketService.getMarketByCode(marketAreaGeoloc.getMarket().getCode());
+            market = marketAreaGeoloc.getMarket();
             marketArea = marketAreaGeoloc;
             
         } else {
@@ -1765,17 +1765,11 @@ public class RequestUtilImpl implements RequestUtil {
     }
 
     protected AbstractEngineSession setSessionMarket(final AbstractEngineSession session, final Market market){
-        // TODO : why : SET A RELOAD OBJECT MARKET -> event
-        // LazyInitializationException: could not initialize proxy -
-        // no Session
         session.setCurrentMarket(marketService.getMarketById(market.getId().toString()));
         return session;
     }
 
     protected AbstractEngineSession setSessionMarketArea(final AbstractEngineSession session, final MarketArea marketArea){
-        // TODO : why : SET A RELOAD OBJECT MARKET AREA -> event
-        // LazyInitializationException: could not initialize proxy -
-        // no Session
         session.setCurrentMarketArea(marketService.getMarketAreaById(marketArea.getId().toString()));
         return session;
     }

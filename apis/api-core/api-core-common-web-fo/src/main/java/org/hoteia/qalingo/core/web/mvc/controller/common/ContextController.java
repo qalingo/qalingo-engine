@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ContextController extends AbstractFrontofficeQalingoController {
 
 	@RequestMapping(FoUrls.CONTEXT_URL)
-	public ModelAndView error500(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView context(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTEXT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);

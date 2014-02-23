@@ -80,16 +80,16 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 	
-	public Email getEmailById(final Long id) {
-		return emailDao.getEmailById(id);
+	public Email getEmailById(final Long id, Object... params) {
+		return emailDao.getEmailById(id, params);
 	}
 
-	public List<Email> findEmailByStatus(final String status) {
-		return emailDao.findEmailByStatus(status);
+	public List<Email> findEmailByStatus(final String status, Object... params) {
+		return emailDao.findEmailByStatus(status, params);
 	}
 	
-	public List<Long> findIdsForEmailSync(final String type) {
-		return emailDao.findIdsForEmailSync(type);
+	public List<Long> findIdsForEmailSync(final String type, Object... params) {
+		return emailDao.findIdsForEmailSync(type, params);
 	}
 	
 	public void saveOrUpdateEmail(final Email email) {

@@ -22,25 +22,31 @@ public interface ProductDao {
 
     // PRODUCT MARKETING
     
-	ProductMarketing getProductMarketingById(Long productMarketingId);
+	ProductMarketing getProductMarketingById(Long productMarketingId, Object... params);
 	
-	ProductMarketing getProductMarketingByCode(String productMarketingCode);
+	ProductMarketing getProductMarketingByCode(String productMarketingCode, Object... params);
 
-	List<ProductMarketing> findProductMarketings();
+	List<ProductMarketing> findProductMarketings(Object... params);
 
-	List<ProductMarketing> findProductMarketings(String text);
+	List<ProductMarketing> findProductMarketings(String text, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandId(Long brandId);
+    List<ProductMarketing> findProductMarketingsByBrandId(Long brandId, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandCode(String brandCode);
+    List<ProductMarketing> findProductMarketingsByBrandCode(String brandCode, Object... params);
     
-    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode);
+    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode, Object... params);
     
     ProductMarketing saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 
 	void deleteProductMarketing(ProductMarketing productMarketing);
 
     // PRODUCT MARKETING COMMENT/RATE
+
+    List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(Long productMarketingId, String type, Object... params);
+    
+    Float calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
+    
+    List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(Long productMarketingId, Object... params);
     
 	ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
@@ -50,17 +56,11 @@ public interface ProductDao {
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
-    List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(Long productMarketingId, String type);
-    
-    Float calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
-    
-    List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(Long productMarketingId);
-    
 	// PRODUCT MARKETING ASSET
 	
-	Asset getProductMarketingAssetById(Long productMarketingId);
+	Asset getProductMarketingAssetById(Long productMarketingId, Object... params);
 
-	Asset getProductMarketingAssetByCode(String assetCode);
+	Asset getProductMarketingAssetByCode(String assetCode, Object... params);
 
 	Asset saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
@@ -68,13 +68,13 @@ public interface ProductDao {
 
     // PRODUCT SKU
 	   
-    ProductSku getProductSkuById(Long productSkuId);
+    ProductSku getProductSkuById(Long productSkuId, Object... params);
 
-    ProductSku getProductSkuByCode(String productSkuCode);
+    ProductSku getProductSkuByCode(String productSkuCode, Object... params);
     
-    List<ProductSku> findProductSkusByproductMarketingId(Long productMarkettingId);
+    List<ProductSku> findProductSkusByproductMarketingId(Long productMarkettingId, Object... params);
     
-    List<ProductSku> findProductSkus(String text);
+    List<ProductSku> findProductSkus(String text, Object... params);
     
     ProductSku saveOrUpdateProductSku(ProductSku productSku);
 
@@ -82,9 +82,9 @@ public interface ProductDao {
 
    // PRODUCT SKU ASSET
     
-    Asset getProductSkuAssetById(Long productSkuId);
+    Asset getProductSkuAssetById(Long productSkuId, Object... params);
 
-    Asset getProductSkuAssetByCode(String assetCode);
+    Asset getProductSkuAssetByCode(String assetCode, Object... params);
 
     Asset saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     
@@ -92,11 +92,11 @@ public interface ProductDao {
     
     // PRODUCT BRAND
     
-    ProductBrand getProductBrandById(Long productBrandId);
+    ProductBrand getProductBrandById(Long productBrandId, Object... params);
 
-    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode);
+    ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode, Object... params);
 
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode);
+    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode, Object... params);
 
     ProductBrand saveOrUpdateProductBrand(ProductBrand productBrand);
 

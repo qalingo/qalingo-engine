@@ -42,7 +42,7 @@ public class CacheController extends AbstractTechnicalBackofficeController {
 	@RequestMapping(value = BoUrls.CACHE_URL, method = RequestMethod.GET)
 	public ModelAndView cache(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CACHE.getVelocityPage());
-		List<ServerStatus> severList = serverService.getServerList();
+		List<ServerStatus> severList = serverService.findServerList();
 		modelAndView.addObject("severList", severList);
 		
         return modelAndView;

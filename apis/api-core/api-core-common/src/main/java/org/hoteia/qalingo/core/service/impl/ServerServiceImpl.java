@@ -27,30 +27,30 @@ public class ServerServiceImpl implements ServerService {
     @Autowired
     private ServerDao serverStatusDao;
 
-    public ServerStatus getServerStatusById(Long serverStatusId) {
-        return serverStatusDao.getServerStatusById(serverStatusId);
+    public ServerStatus getServerStatusById(Long serverStatusId, Object... params) {
+        return serverStatusDao.getServerStatusById(serverStatusId, params);
     }
 
-    public ServerStatus getServerStatusById(String rawServerStatusId) {
+    public ServerStatus getServerStatusById(String rawServerStatusId, Object... params) {
         long serverStatusId = -1;
         try {
             serverStatusId = Long.parseLong(rawServerStatusId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getServerStatusById(serverStatusId);
+        return getServerStatusById(serverStatusId, params);
     }
 
-    public List<ServerStatus> findServerStatus(String serverName) {
-        return serverStatusDao.findServerStatus(serverName);
+    public List<ServerStatus> findServerStatus(String serverName, Object... params) {
+        return serverStatusDao.findServerStatus(serverName, params);
     }
     
-    public List<ServerStatus> findServerStatus() {
-        return serverStatusDao.findServerStatus();
+    public List<ServerStatus> findServerStatus(Object... params) {
+        return serverStatusDao.findServerStatus(params);
     }
     
-    public List<ServerStatus> getServerList() {
-        return serverStatusDao.getServerList();
+    public List<ServerStatus> findServerList(Object... params) {
+        return serverStatusDao.findServerList(params);
     }
     
     public void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException {

@@ -16,15 +16,15 @@ import org.hoteia.qalingo.core.domain.ServerStatus;
 
 public interface ServerService {
 
-    ServerStatus getServerStatusById(Long serverStatusId);
+    ServerStatus getServerStatusById(Long serverStatusId, Object... params);
     
-    ServerStatus getServerStatusById(String rawServerStatusId);
+    ServerStatus getServerStatusById(String rawServerStatusId, Object... params);
 	
-    List<ServerStatus> findServerStatus(String serverName);
+    List<ServerStatus> findServerStatus(String serverName, Object... params);
     
-    List<ServerStatus> findServerStatus();
+    List<ServerStatus> findServerStatus(Object... params);
     
-    List<ServerStatus> getServerList();
+    List<ServerStatus> findServerList(Object... params);
     
     void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
 

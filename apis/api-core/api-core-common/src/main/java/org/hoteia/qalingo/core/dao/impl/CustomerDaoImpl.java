@@ -16,66 +16,63 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("customerDao")
 public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerDao {
 
-	public Customer getCustomerById(final Long customerId) {
+	public Customer getCustomerById(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", customerId));
         Customer customer = (Customer) criteria.uniqueResult();
         return customer;
 	}
 	
-	public Customer getCustomerByCode(final String code) {
+	public Customer getCustomerByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         Customer customer = (Customer) criteria.uniqueResult();
         return customer;
 	}
 	
-	public Customer getCustomerByPermalink(final String permalink) {
+	public Customer getCustomerByPermalink(final String permalink, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("permalink", permalink));
         Customer customer = (Customer) criteria.uniqueResult();
         return customer;
 	}
 
-	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
+	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         Customer customer = (Customer) criteria.uniqueResult();
         return customer;
 	}
 	
-	public List<Customer> findCustomers() {
+	public List<Customer> findCustomers(Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
@@ -153,26 +150,13 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
         }
 	}
 	
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("credentials", FetchMode.JOIN);
-        criteria.setFetchMode("addresses", FetchMode.JOIN);
-        criteria.setFetchMode("connectionLogs", FetchMode.JOIN);
-        
-        criteria.setFetchMode("customerMarketAreas", FetchMode.JOIN);
-
-        criteria.createAlias("customerMarketAreas.optins", "optins", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("optins", FetchMode.JOIN);
-        
-        criteria.createAlias("customerMarketAreas.wishlistProducts", "wishlistProducts", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("wishlistProducts", FetchMode.JOIN);
-
-        criteria.createAlias("customerMarketAreas.productComments", "productComments", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("productComments", FetchMode.JOIN);
-        
-        criteria.setFetchMode("customerAttributes", FetchMode.JOIN);
-        criteria.setFetchMode("customerGroups", FetchMode.JOIN);
-        criteria.setFetchMode("oauthAccesses", FetchMode.JOIN);
-        criteria.setFetchMode("customerOrderAudit", FetchMode.JOIN);
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerFetchPlan());
+        }
     }
 
 }
