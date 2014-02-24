@@ -133,7 +133,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         // TODO : denis : move this part in the global list menu java/vm
 
         MenuViewBean menu = new MenuViewBean();
-        menu.setCssIcon("fa fa-paper-clip");
+        menu.setCssIcon("fa fa-question");
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
         menuViewBeans.add(menu);
