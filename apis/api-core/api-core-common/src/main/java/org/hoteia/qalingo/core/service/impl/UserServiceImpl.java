@@ -28,26 +28,26 @@ public class UserServiceImpl implements UserService {
 
 	// USER
 	
-    public User getUserById(Long userId) {
-        return userDao.getUserById(userId);
+    public User getUserById(Long userId, Object... params) {
+        return userDao.getUserById(userId, params);
     }
     
-	public User getUserById(String rawUserId) {
+	public User getUserById(String rawUserId, Object... params) {
 		long userId = -1;
 		try {
 			userId = Long.parseLong(rawUserId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return getUserById(userId);
+		return getUserById(userId, params);
 	}
 	
-	public User getUserByLoginOrEmail(String usernameOrEmail) {
-		return userDao.getUserByLoginOrEmail(usernameOrEmail);
+	public User getUserByLoginOrEmail(String usernameOrEmail, Object... params) {
+		return userDao.getUserByLoginOrEmail(usernameOrEmail, params);
 	}
 
-	public List<User> findUsers() {
-		return userDao.findUsers();
+	public List<User> findUsers(Object... params) {
+		return userDao.findUsers(params);
 	}
 
 	public void saveOrUpdateUser(User user) {
@@ -60,11 +60,11 @@ public class UserServiceImpl implements UserService {
 	
 	// COMPANY
 	
-	public Company getCompanyById(Long companyId) {
-	    return userDao.getCompanyById(companyId);
+	public Company getCompanyById(Long companyId, Object... params) {
+	    return userDao.getCompanyById(companyId, params);
 	}
 	
-    public Company getCompanyById(String rawCompanyId) {
+    public Company getCompanyById(String rawCompanyId, Object... params) {
         long companyId = -1;
         try {
             companyId = Long.parseLong(rawCompanyId);
@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
         return getCompanyById(companyId);
     }
     
-    public List<Company> findCompanies() {
-        return userDao.findCompanies();
+    public List<Company> findCompanies(Object... params) {
+        return userDao.findCompanies(params);
     }
 
     public void saveOrUpdateCompany(Company company) {

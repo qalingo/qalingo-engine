@@ -26,34 +26,34 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired private CustomerDao customerDao;
 
-    public Customer getCustomerById(final Long customerId) {
-        return customerDao.getCustomerById(customerId);
+    public Customer getCustomerById(final Long customerId, Object... params) {
+        return customerDao.getCustomerById(customerId, params);
     }
 
-    public Customer getCustomerById(final String rawCustomerId) {
+    public Customer getCustomerById(final String rawCustomerId, Object... params) {
         long customerId = -1;
         try {
             customerId = Long.parseLong(rawCustomerId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCustomerById(customerId);
+        return getCustomerById(customerId, params);
     }
 
-    public Customer getCustomerByCode(final String code) {
-        return customerDao.getCustomerByCode(code);
+    public Customer getCustomerByCode(final String code, Object... params) {
+        return customerDao.getCustomerByCode(code, params);
     }
 
-    public Customer getCustomerByPermalink(final String permalink) {
-        return customerDao.getCustomerByPermalink(permalink);
+    public Customer getCustomerByPermalink(final String permalink, Object... params) {
+        return customerDao.getCustomerByPermalink(permalink, params);
     }
 
-    public Customer getCustomerByLoginOrEmail(final String usernameOrEmail) {
-        return customerDao.getCustomerByLoginOrEmail(usernameOrEmail);
+    public Customer getCustomerByLoginOrEmail(final String usernameOrEmail, Object... params) {
+        return customerDao.getCustomerByLoginOrEmail(usernameOrEmail, params);
     }
 
-    public List<Customer> findCustomers() {
-        return customerDao.findCustomers();
+    public List<Customer> findCustomers(Object... params) {
+        return customerDao.findCustomers(params);
     }
 
     public void saveOrUpdateCustomer(final Customer customer) throws Exception {

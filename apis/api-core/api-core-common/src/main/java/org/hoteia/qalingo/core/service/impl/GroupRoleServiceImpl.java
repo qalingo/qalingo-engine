@@ -24,22 +24,22 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Autowired
     private GroupRoleDao groupRoleDao;
 
-    public CustomerGroup getCustomerGroupById(final Long customerGroupId) {
-        return groupRoleDao.getCustomerGroupById(customerGroupId);
+    public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
+        return groupRoleDao.getCustomerGroupById(customerGroupId, params);
     }
 
-    public CustomerGroup getCustomerGroupById(final String rawCustomerGroupId) {
+    public CustomerGroup getCustomerGroupById(final String rawCustomerGroupId, Object... params) {
         long customerGroupId = -1;
         try {
             customerGroupId = Long.parseLong(rawCustomerGroupId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCustomerGroupById(customerGroupId);
+        return getCustomerGroupById(customerGroupId, params);
     }
 
-    public CustomerGroup getCustomerGroupByCode(final String code) {
-        return groupRoleDao.getCustomerGroupByCode(code);
+    public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
+        return groupRoleDao.getCustomerGroupByCode(code, params);
     }
 
     public void saveOrUpdateCustomerGroup(final CustomerGroup customerGroup) {

@@ -27,26 +27,26 @@ public class BatchProcessObjectServiceImpl implements BatchProcessObjectService 
     @Autowired
     private BatchProcessObjectDao batchProcessObjectDao;
 
-    public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId) {
-        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId);
+    public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId, Object... params) {
+        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId, params);
     }
 
-    public BatchProcessObject getBatchProcessObjectById(final String rawBatchProcessObjectId) {
+    public BatchProcessObject getBatchProcessObjectById(final String rawBatchProcessObjectId, Object... params) {
         long batchProcessObjectId = -1;
         try {
             batchProcessObjectId = Long.parseLong(rawBatchProcessObjectId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId);
+        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId, params);
     }
 
-    public List<BatchProcessObject> findBatchProcessObjects() {
-        return batchProcessObjectDao.findBatchProcessObjects();
+    public List<BatchProcessObject> findBatchProcessObjects(Object... params) {
+        return batchProcessObjectDao.findBatchProcessObjects(params);
     }
 
-    public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(final BatchProcessObjectType typeObject) {
-        return batchProcessObjectDao.findBatchProcessObjectsByTypeObject(typeObject);
+    public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(final BatchProcessObjectType typeObject, Object... params) {
+        return batchProcessObjectDao.findBatchProcessObjectsByTypeObject(typeObject, params);
     }
 
     public void saveOrUpdateBatchProcessObject(final BatchProcessObject batchProcessObject) {

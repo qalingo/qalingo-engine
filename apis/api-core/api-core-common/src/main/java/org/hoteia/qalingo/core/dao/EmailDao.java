@@ -18,13 +18,13 @@ import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
 
 public interface EmailDao {
 
-	Email getEmailById(Long id);
+	Email getEmailById(Long id, Object... params);
 
-	List<Email> findEmailByStatus(String status);
+	List<Email> findEmailByStatus(String status, Object... params);
 	
-    List<Long> findIdsForEmailSync();
+    List<Long> findIdsForEmailSync(Object... params);
 
-    List<Long> findIdsForEmailSync(String type);
+    List<Long> findIdsForEmailSync(String type, Object... params);
 	
     Email saveOrUpdateEmail(Email email);
 

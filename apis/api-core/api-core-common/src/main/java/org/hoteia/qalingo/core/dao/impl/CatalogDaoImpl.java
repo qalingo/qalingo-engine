@@ -20,12 +20,11 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("catalogDao")
 public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao {
 
@@ -33,18 +32,18 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
     // MASTER CATALOG
 
-    public CatalogMaster getMasterCatalogById(final Long masterCatalogId) {
+    public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
-        addDefaultCatalogFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
         CatalogMaster catalogMaster = (CatalogMaster) criteria.uniqueResult();
         return catalogMaster;
 	}
     
-    public List<CatalogMaster> findAllCatalogMasters() {
+    public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
-        addDefaultCatalogFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -76,18 +75,18 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     
     // VIRTUAL CATALOG
 
-    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId) {
+    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
-        addDefaultCatalogFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
         return catalogVirtual;
     }
     
-	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId) {
+	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
-        addDefaultCatalogFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
         criteria.createAlias("marketArea", "ma", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("ma.id", marketAreaId));
@@ -96,13 +95,12 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 		return catalogVirtual;
 	}
 	
-    private void addDefaultCatalogFetch(Criteria criteria) {
-      
-        criteria.setFetchMode("catalogCategories", FetchMode.JOIN);
-
-        criteria.createAlias("catalogCategories.catalogCategoryAttributes", "catalogCategoryAttributes", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("catalogCategoryAttributes", FetchMode.JOIN);
-
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCatalogFetchPlan());
+        }
     }
-
 }

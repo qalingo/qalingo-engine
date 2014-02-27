@@ -37,49 +37,49 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		
 		MenuViewBean menu = new MenuViewBean();
 		menu.setCssClass("active");
-		menu.setCssIcon("icon-home");
+		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-cogs");
+		menu.setCssIcon("fa fa-cogs");
 		menu.setName("Engine Setting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-reorder");
+		menu.setCssIcon("fa fa-bars");
 		menu.setName("Cache");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CACHE, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-random");
+		menu.setCssIcon("fa fa-random");
 		menu.setName("Batch");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-group");
+		menu.setCssIcon("fa fa-group");
 		menu.setName("Users");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.USER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-book");
+		menu.setCssIcon("fa fa-book");
 		menu.setName("References Datas");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REFERENCE_DATAS, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-bar-chart");
+		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Monitoring");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.MONITORING, requestData));
 		menuViewBeans.add(menu);
 		
 //		menu = new MenuViewBean();
-//		menu.setCssIcon("icon-paper-clip");
+//		menu.setCssIcon("fa fa-paper-clip");
 //		menu.setName("FAQ");
 //		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
 //		menuViewBeans.add(menu);

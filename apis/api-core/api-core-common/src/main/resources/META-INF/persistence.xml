@@ -10,13 +10,28 @@
 
 -->
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-        version="2.0">
-	<persistence-unit name="bq-persistence" >
-		<!--
-		<class>org.hoteia.qalingo.core.domain.User</class>
-		<class>org.hoteia.qalingo.core.domain.Customer</class>
-		-->
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+         version="2.0">
+
+	<persistence-unit name="bq-persistence">
+	   <!-- 
+	    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+	            <properties>
+	                <property key="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
+	                <property key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	                <property key="hibernate.show_sql">true</property>
+	                <property key="hibernate.hbm2ddl.auto">verify</property>
+	                <property key="hibernate.current_session_context_class">thread</property>
+	                <property key="hibernate.c3p0.acquire_increment">1</property>
+	                <property key="hibernate.c3p0.min_size">5</property>
+	                <property key="hibernate.c3p0.max_size">20</property>
+	                <property key="hibernate.c3p0.timeout">5000</property>
+	                <property key="hibernate.c3p0.max_statements">100</property>
+	                <property key="hibernate.c3p0.idle_test_period">3000</property>
+	                <property key="hibernate.c3p0.testConnectionOnCheckout">true</property>
+	                <property key="hibernate.c3p0.acquireRetryAttempts">1</property>
+	        </properties>
+	         -->
 	</persistence-unit>
 </persistence>

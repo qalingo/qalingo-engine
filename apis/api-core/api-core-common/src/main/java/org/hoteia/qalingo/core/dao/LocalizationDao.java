@@ -15,13 +15,13 @@ import org.hoteia.qalingo.core.domain.Localization;
 
 public interface LocalizationDao {
 
-	Localization getLocalizationById(Long localizationId);
+	Localization getLocalizationById(Long localizationId, Object... params);
 
-	Localization getLocalizationByCode(String code);
+	Localization getLocalizationByCode(String code, Object... params);
 
-	List<Localization> findLocalizations();
+	List<Localization> findLocalizations(Object... params);
 	
-	List<Localization> findLocalizationsByMarketAreaCode(String marketAreaCode);
+	List<Localization> findLocalizationsByMarketAreaCode(String marketAreaCode, Object... params);
 	
 	Localization saveOrUpdateLocalization(Localization localization);
 

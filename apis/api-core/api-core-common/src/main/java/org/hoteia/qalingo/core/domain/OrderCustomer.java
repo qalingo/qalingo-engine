@@ -32,6 +32,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name="TECO_ORDER_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"ORDER_NUM", "PREFIX_HASH_FOLDER"})})
 public class OrderCustomer extends AbstractEntity {
@@ -224,7 +226,8 @@ public class OrderCustomer extends AbstractEntity {
 	
     public Date getExpectedDeliveryDate() {
         Date expectedDeliveryDate = null;
-        if(orderShipments != null){
+        if(orderShipments != null
+                && Hibernate.isInitialized(orderShipments)){
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 if(expectedDeliveryDate == null){
@@ -240,8 +243,10 @@ public class OrderCustomer extends AbstractEntity {
     }
     
     public Set<OrderTax> getOrderTaxes() {
-        Set<OrderTax> orderTaxes = new HashSet<OrderTax>();
-        if(orderShipments != null){
+        Set<OrderTax> orderTaxes = null;
+        if(orderShipments != null
+                && Hibernate.isInitialized(orderShipments)){
+            orderTaxes = new HashSet<OrderTax>();
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
@@ -257,8 +262,10 @@ public class OrderCustomer extends AbstractEntity {
     }
     
     public Set<OrderItem> getOrderItems() {
-        Set<OrderItem> orderItems = new HashSet<OrderItem>();
-        if (orderShipments != null) {
+        Set<OrderItem> orderItems = null;
+        if (orderShipments != null
+                && Hibernate.isInitialized(orderShipments)) {
+            orderItems = new HashSet<OrderItem>();
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
@@ -280,7 +287,8 @@ public class OrderCustomer extends AbstractEntity {
 	
     public BigDecimal getShippingMethodTotal() {
         BigDecimal shippingTotal = new BigDecimal("0");
-        if (orderShipments != null) {
+        if (orderShipments != null
+                && Hibernate.isInitialized(orderShipments)) {
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 BigDecimal price = orderShipment.getPrice();
@@ -298,7 +306,8 @@ public class OrderCustomer extends AbstractEntity {
 
     public BigDecimal getOrderItemTotal() {
         BigDecimal orderItemsTotal = new BigDecimal("0");
-        if (orderShipments != null) {
+        if (orderShipments != null
+                && Hibernate.isInitialized(orderShipments)) {
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {
@@ -316,7 +325,8 @@ public class OrderCustomer extends AbstractEntity {
 
     public BigDecimal getTaxTotal() {
         BigDecimal orderTaxesTotal = new BigDecimal("0");
-        if (orderShipments != null) {
+        if (orderShipments != null
+                && Hibernate.isInitialized(orderShipments)) {
             for (Iterator<OrderShipment> iteratorOrderShipment = orderShipments.iterator(); iteratorOrderShipment.hasNext();) {
                 final OrderShipment orderShipment = (OrderShipment) iteratorOrderShipment.next();
                 for (Iterator<OrderItem> iteratorOrderItem = orderShipment.getOrderItems().iterator(); iteratorOrderItem.hasNext();) {

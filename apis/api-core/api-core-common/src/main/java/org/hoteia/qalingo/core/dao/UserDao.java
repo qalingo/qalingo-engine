@@ -18,11 +18,11 @@ public interface UserDao extends GenericDao<User, Long> {
 
     // USER
     
-	User getUserById(Long userId);
+	User getUserById(Long userId, Object... params);
 
-	User getUserByLoginOrEmail(String usernameOrEmail);
+	User getUserByLoginOrEmail(String usernameOrEmail, Object... params);
 	 
-	List<User> findUsers();
+	List<User> findUsers(Object... params);
 	
 	User saveOrUpdateUser(User user);
 
@@ -30,9 +30,9 @@ public interface UserDao extends GenericDao<User, Long> {
 	
 	// COMPANY
 
-    Company getCompanyById(Long companyId);
+    Company getCompanyById(Long companyId, Object... params);
 
-    List<Company> findCompanies();
+    List<Company> findCompanies(Object... params);
 
     Company saveOrUpdateCompany(Company company);
 

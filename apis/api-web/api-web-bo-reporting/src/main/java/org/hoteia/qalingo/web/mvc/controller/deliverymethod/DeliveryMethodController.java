@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.controller.shipping;
+package org.hoteia.qalingo.web.mvc.controller.deliverymethod;
 
 import java.util.Locale;
 
@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("shippingController")
+@Controller("deliveryMethodController")
 public class DeliveryMethodController extends AbstractReportingBackofficeController {
 
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_LIST_URL, method = RequestMethod.GET)

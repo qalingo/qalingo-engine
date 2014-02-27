@@ -10,25 +10,23 @@
 package org.hoteia.qalingo.core.dao.impl;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.TaxDao;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("taxDao")
 public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Tax getTaxById(final Long taxId) {
+	public Tax getTaxById(final Long taxId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", taxId));
         Tax tax = (Tax) criteria.uniqueResult();
@@ -53,8 +51,13 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 		em.remove(tax);
 	}
 
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("taxCountries", FetchMode.JOIN); 
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultTaxFetchPlan());
+        }
     }
     
 }

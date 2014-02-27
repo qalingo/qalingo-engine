@@ -12,35 +12,33 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.Date;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.GroupRoleDao;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("groupRoleDao")
 public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRoleDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerGroup getCustomerGroupById(final Long customerGroupId) {
+	public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", customerGroupId));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
         return customerGroup;
 	}
 	
-	public CustomerGroup getCustomerGroupByCode(final String code) {
+	public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
@@ -69,8 +67,13 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 		em.remove(customerGroup);
 	}
 	
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("customerRoles", FetchMode.JOIN); 
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerGroupFetchPlan());
+        }
     }
 
 }

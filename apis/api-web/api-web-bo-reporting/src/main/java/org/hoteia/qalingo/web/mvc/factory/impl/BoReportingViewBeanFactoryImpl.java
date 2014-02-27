@@ -37,49 +37,49 @@ public class BoReportingViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		
 		MenuViewBean menu = new MenuViewBean();
 		menu.setCssClass("active");
-		menu.setCssIcon("icon-home");
+		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-sitemap");
+		menu.setCssIcon("fa fa-sitemap");
 		menu.setName("Catalog stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CATALOG, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-money");
+		menu.setCssIcon("fa fa-money");
 		menu.setName("Promotion stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-truck");
+		menu.setCssIcon("fa fa-truck");
 		menu.setName("Shipping stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-shopping-cart");
+		menu.setCssIcon("fa fa-shopping-cart");
 		menu.setName("Orders stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-group");
+		menu.setCssIcon("fa fa-group");
 		menu.setName("Customers stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-bar-chart");
+		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Reporting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REPORTING, requestData));
 		menuViewBeans.add(menu);
 		
 //		menu = new MenuViewBean();
-//		menu.setCssIcon("icon-paper-clip");
+//		menu.setCssIcon("fa fa-paper-clip");
 //		menu.setName("FAQ");
 //		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
 //		menuViewBeans.add(menu);

@@ -36,7 +36,7 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
 
 	private String addToCartUrl;
-	private String productDetailsUrl;
+	private String detailsUrl;
 
 	protected CustomerProductRatesViewBean customerProductRates;
 
@@ -75,12 +75,12 @@ public class SearchProductItemViewBean extends AbstractViewBean implements
 		this.addToCartUrl = addToCartUrl;
 	}
 
-	public String getProductDetailsUrl() {
-		return productDetailsUrl;
+	public String getDetailsUrl() {
+		return detailsUrl;
 	}
 
-	public void setProductDetailsUrl(String productDetailsUrl) {
-		this.productDetailsUrl = productDetailsUrl;
+	public void setDetailsUrl(String detailsUrl) {
+		this.detailsUrl = detailsUrl;
 	}
 
 	public String getBackgroundImage() {

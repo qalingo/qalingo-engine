@@ -15,11 +15,11 @@ import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 
 public interface CustomerConnectionLogDao {
 
-	CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId);
+	CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId, Object... params);
 
-	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId);
+	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId, Object... params);
 
-	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(Long customerId, String appCode);
+	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(Long customerId, String appCode, Object... params);
 	
 	CustomerConnectionLog saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
 

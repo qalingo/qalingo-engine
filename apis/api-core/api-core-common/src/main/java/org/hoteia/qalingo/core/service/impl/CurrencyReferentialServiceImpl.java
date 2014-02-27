@@ -26,26 +26,26 @@ public class CurrencyReferentialServiceImpl implements CurrencyReferentialServic
     @Autowired
     private CurrencyReferentialDao currencyReferentialDao;
 
-    public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
-        return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId);
+    public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId, Object... params) {
+        return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId, params);
     }
 
-    public CurrencyReferential getCurrencyReferentialById(final String rawCurrencyReferentialId) {
+    public CurrencyReferential getCurrencyReferentialById(final String rawCurrencyReferentialId, Object... params) {
         long currencyReferentialId = -1;
         try {
             currencyReferentialId = Long.parseLong(rawCurrencyReferentialId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCurrencyReferentialById(currencyReferentialId);
+        return getCurrencyReferentialById(currencyReferentialId, params);
     }
 
-    public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
-        return currencyReferentialDao.getCurrencyReferentialByCode(currencyReferentialCode);
+    public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode, Object... params) {
+        return currencyReferentialDao.getCurrencyReferentialByCode(currencyReferentialCode, params);
     }
 
-    public List<CurrencyReferential> findCurrencyReferentials() {
-        return currencyReferentialDao.findCurrencyReferentials();
+    public List<CurrencyReferential> findCurrencyReferentials(Object... params) {
+        return currencyReferentialDao.findCurrencyReferentials(params);
     }
 
     public void saveOrUpdateCurrencyReferential(final CurrencyReferential currencyReferential) {

@@ -58,6 +58,8 @@ public enum BoUrls {
 
     CATALOG(BoUrls.CATALOG_URL, BoUrls.CATALOG_KEY, BoUrls.CATALOG_VELOCITY_PAGE, true),
 
+    GET_PRODUCT_LIST_AJAX(BoUrls.GET_PRODUCT_LIST_AJAX_URL, BoUrls.GET_PRODUCT_LIST_AJAX_KEY, null, false),
+
     RETAILER_LIST(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE, true),
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE, true),
     RETAILER_EDIT(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_EDIT_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE, true),
@@ -100,6 +102,8 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     
+    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, false),
+
     ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, false),
     ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, false),
     ERROR_403(BoUrls.ERROR_403_URL, BoUrls.ERROR_403_KEY, BoUrls.ERROR_403_VELOCITY_PAGE, false),
@@ -286,11 +290,15 @@ public enum BoUrls {
     public static final String ENGINE_SETTING_VALUE_ADD_KEY = "engine-setting-value-add";
     public static final String ENGINE_SETTING_VALUE_ADD_URL = "/**/engine-setting-value-add.html";
     public static final String ENGINE_SETTING_VALUE_ADD_VELOCITY_PAGE = "engine-setting/engine-setting-value-add";	  
+    
 	// CATALOG
 	public static final String CATALOG_KEY				= "catalog";
 	public static final String CATALOG_URL				= "/**/catalog.html";
 	public static final String CATALOG_VELOCITY_PAGE	= "catalog/catalog";
 	
+    public static final String GET_PRODUCT_LIST_AJAX_KEY        = "get-product-list-ajax";
+    public static final String GET_PRODUCT_LIST_AJAX_URL        = "/**/get-product-list.ajax";
+    
 	// CUSTOMER
 	public static final String CUSTOMER_LIST_KEY           = "customer-list";
 	public static final String CUSTOMER_LIST_URL           = "/**/customer-list.html";
@@ -329,7 +337,7 @@ public enum BoUrls {
 	// CATALOG
 	public static final String MASTER_CATALOG_KEY				= "master-catalog";
 	public static final String MASTER_CATALOG_URL				= "/**/master-catalog.html";
-	public static final String MASTER_CATALOG_VELOCITY_PAGE		= "catalog/catalog";
+	public static final String MASTER_CATALOG_VELOCITY_PAGE		= "catalog/catalog-manage";
 
     public static final String MASTER_CATEGORY_DETAILS_KEY              = "master-category-details";
     public static final String MASTER_CATEGORY_DETAILS_URL              = "/**/catalog-master-category-details.html";
@@ -340,7 +348,7 @@ public enum BoUrls {
     public static final String MASTER_CATEGORY_EDIT_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
     public static final String MASTER_CATEGORY_ADD_KEY              = "master-category-add";
-    public static final String MASTER_CATEGORY_ADD_URL              = "/**/add-master-catalog-category.html*";
+    public static final String MASTER_CATEGORY_ADD_URL              = "/**/add-master-catalog-category.html";
     public static final String MASTER_CATEGORY_ADD_VELOCITY_PAGE    = "catalog/catalog-category-edit";
 
 	public static final String VIRTUAL_CATALOG_KEY				= "virtual-catalog";
@@ -356,7 +364,7 @@ public enum BoUrls {
     public static final String VIRTUAL_CATEGORY_EDIT_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String VIRTUAL_CATEGORY_ADD_KEY            = "virtual-category-add";
-    public static final String VIRTUAL_CATEGORY_ADD_URL            = "/**/add-virtual-catalog-category.html*";
+    public static final String VIRTUAL_CATEGORY_ADD_URL            = "/**/add-virtual-catalog-category.html";
     public static final String VIRTUAL_CATEGORY_ADD_VELOCITY_PAGE  = "catalog/catalog-category-edit";
 
     public static final String PRODUCT_MARKETING_DETAILS_KEY            = "product-marketing-details";
@@ -400,6 +408,10 @@ public enum BoUrls {
     public static final String USER_EDIT_URL                = "/**/user-edit.html";
     public static final String USER_EDIT_VELOCITY_PAGE      = "user/user-edit";
     
+    public static final String CONTEXT_KEY            = "context";
+    public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache
+    public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
+
     public static final String ERROR_500_KEY            = "error-500";
     public static final String ERROR_500_URL            = "/500.html";
     public static final String ERROR_500_VELOCITY_PAGE  = "error/error-500";

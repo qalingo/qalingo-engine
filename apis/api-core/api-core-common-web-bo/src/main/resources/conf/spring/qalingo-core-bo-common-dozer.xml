@@ -23,6 +23,13 @@
     <context:component-scan base-package="org.hoteia.qalingo.core.dozer" />
     <bean id="org.dozer.Mapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
         <property name="mappingFiles" value="classpath:conf/dozer/dozer-mapping-*.xml" />
+        <property name="customFieldMapper" ref="hibernateInitializedFieldMapper" />
+        <!--         
+        <property name="customConverters">
+            <list>
+            </list>
+        </property>
+        -->
         <property name="factories">
             <map>
                 <entry key="org.hoteia.qalingo.core.dozer.CatalogCategoryCustomBeanFactory">

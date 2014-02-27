@@ -91,13 +91,13 @@ public interface EngineSettingService {
 
     // Engine Setting
 
-    EngineSetting getEngineSettingById(Long engineSettingId);
+    EngineSetting getEngineSettingById(Long engineSettingId, Object... params);
 
-    EngineSetting getEngineSettingById(String engineSettingId);
+    EngineSetting getEngineSettingById(String engineSettingId, Object... params);
 
-    EngineSetting getEngineSettingByCode(String code);
+    EngineSetting getEngineSettingByCode(String code, Object... params);
 
-    List<EngineSetting> findEngineSettings();
+    List<EngineSetting> findEngineSettings(Object... params);
 
     void saveOrUpdateEngineSetting(EngineSetting engineSetting);
 
@@ -105,9 +105,9 @@ public interface EngineSettingService {
 
     // Engine Setting Value
 
-    EngineSettingValue getEngineSettingValueById(Long engineSettingValueId);
+    EngineSettingValue getEngineSettingValueById(Long engineSettingValueId, Object... params);
 
-    EngineSettingValue getEngineSettingValueById(String engineSettingValueId);
+    EngineSettingValue getEngineSettingValueById(String engineSettingValueId, Object... params);
 
     void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
 

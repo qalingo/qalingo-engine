@@ -13,11 +13,11 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 
 public interface GroupRoleService {
 
-    CustomerGroup getCustomerGroupById(Long customerGroupId);
+    CustomerGroup getCustomerGroupById(Long customerGroupId, Object... params);
 
-	CustomerGroup getCustomerGroupById(String customerGroupId);
+	CustomerGroup getCustomerGroupById(String customerGroupId, Object... params);
 	
-	CustomerGroup getCustomerGroupByCode(String code);
+	CustomerGroup getCustomerGroupByCode(String code, Object... params);
 	
 	void saveOrUpdateCustomerGroup(CustomerGroup customerGroup);
 	

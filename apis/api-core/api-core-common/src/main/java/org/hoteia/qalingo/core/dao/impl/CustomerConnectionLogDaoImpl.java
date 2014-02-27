@@ -19,22 +19,20 @@ import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("customerConnectionLogDao")
 public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl implements CustomerConnectionLogDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId) {
+	public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("id", customerConnectionLogId));
         CustomerConnectionLog customerConnectionLog = (CustomerConnectionLog) criteria.uniqueResult();
         return customerConnectionLog;
 	}
 
-	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId){
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId, Object... params){
         Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         
@@ -45,7 +43,7 @@ public class CustomerConnectionLogDaoImpl extends AbstractGenericDaoImpl impleme
         return customerConnectionLogs;
 	}
 	
-	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode) {
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         criteria.add(Restrictions.eq("appCode", appCode));

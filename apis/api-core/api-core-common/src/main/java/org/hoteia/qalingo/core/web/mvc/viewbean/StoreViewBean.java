@@ -13,146 +13,155 @@ import java.io.Serializable;
 
 public class StoreViewBean extends AbstractViewBean implements Serializable {
 
-	/**
-	 * Generated UID
-	 */
-	private static final long serialVersionUID = 2538607600492625532L;
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 2538607600492625532L;
 
-	private String code;
-	private String businessName;
-	private String address1;
-	private String address2;
-	private String addressAdditionalInformation;
-	private String postalCode;
-	private String city;
-	private String stateCode;
-	private String areaCode;
-	private String countryCode;
-	private String country;
-	private String longitude;
-	private String latitude;
-	private String defaultImage;
-	private String iconImage;
+    private String code;
+    private String businessName;
+    private String address1;
+    private String address2;
+    private String addressAdditionalInformation;
+    private String postalCode;
+    private String city;
+    private String stateCode;
+    private String areaCode;
+    private String countryCode;
+    private String country;
+    private String longitude;
+    private String latitude;
+    private String defaultImage;
+    private String iconImage;
 
-	public String getDefaultImage() {
-		return defaultImage;
-	}
+    private String detailsUrl;
 
-	public void setDefaultImage(String defaultImage) {
-		this.defaultImage = defaultImage;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getIconImage() {
-		return iconImage;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setIconImage(String iconImage) {
-		this.iconImage = iconImage;
-	}
+    public String getBusinessName() {
+        return businessName;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getAddress1() {
+        return address1;
+    }
 
-	public String getBusinessName() {
-		return businessName;
-	}
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
 
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
+    public String getAddress2() {
+        return address2;
+    }
 
-	public String getAddress1() {
-		return address1;
-	}
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
 
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
+    public String getAddressAdditionalInformation() {
+        return addressAdditionalInformation;
+    }
 
-	public String getAddress2() {
-		return address2;
-	}
+    public void setAddressAdditionalInformation(String addressAdditionalInformation) {
+        this.addressAdditionalInformation = addressAdditionalInformation;
+    }
 
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public String getAddressAdditionalInformation() {
-		return addressAdditionalInformation;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setAddressAdditionalInformation(
-			String addressAdditionalInformation) {
-		this.addressAdditionalInformation = addressAdditionalInformation;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public String getStateCode() {
+        return stateCode;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getAreaCode() {
+        return areaCode;
+    }
 
-	public String getStateCode() {
-		return stateCode;
-	}
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
 
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
-	}
+    public String getCountryCode() {
+        return countryCode;
+    }
 
-	public String getAreaCode() {
-		return areaCode;
-	}
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
-	public void setAreaCode(String areaCode) {
-		this.areaCode = areaCode;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public String getCountryCode() {
-		return countryCode;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+    public String getLongitude() {
+        return longitude;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getLatitude() {
+        return latitude;
+    }
 
-	public String getLongitude() {
-		return longitude;
-	}
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
 
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
+    public String getDefaultImage() {
+        return defaultImage;
+    }
 
-	public String getLatitude() {
-		return latitude;
-	}
+    public void setDefaultImage(String defaultImage) {
+        this.defaultImage = defaultImage;
+    }
 
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
+    public String getIconImage() {
+        return iconImage;
+    }
 
+    public void setIconImage(String iconImage) {
+        this.iconImage = iconImage;
+    }
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+    
 }

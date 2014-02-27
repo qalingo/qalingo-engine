@@ -26,37 +26,37 @@ public class AttributeServiceImpl implements AttributeService {
     @Autowired
     private AttributeDao attributeDao;
 
-    public AttributeDefinition getAttributeDefinitionById(final Long attributeId) {
-        return attributeDao.getAttributeDefinitionById(attributeId);
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeId, Object... params) {
+        return attributeDao.getAttributeDefinitionById(attributeId, params);
     }
 
-    public AttributeDefinition getAttributeDefinitionById(final String rawAttributeId) {
+    public AttributeDefinition getAttributeDefinitionById(final String rawAttributeId, Object... params) {
         long attributeId = -1;
         try {
             attributeId = Long.parseLong(rawAttributeId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getAttributeDefinitionById(attributeId);
+        return getAttributeDefinitionById(attributeId, params);
     }
 
-    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
-        return attributeDao.getAttributeDefinitionByCode(code);
+    public AttributeDefinition getAttributeDefinitionByCode(final String code, Object... params) {
+        return attributeDao.getAttributeDefinitionByCode(code, params);
     }
 
-    public List<AttributeDefinition> findAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitions();
+    public List<AttributeDefinition> findAttributeDefinitions(Object... params) {
+        return attributeDao.findAttributeDefinitions(params);
     }
 
-    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions() {
+    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions(Object... params) {
         return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_CATEGORY);
     }
 
-    public List<AttributeDefinition> findProductMarketingAttributeDefinitions() {
+    public List<AttributeDefinition> findProductMarketingAttributeDefinitions(Object... params) {
         return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
     }
 
-    public List<AttributeDefinition> findProductSkuAttributeDefinitions() {
+    public List<AttributeDefinition> findProductSkuAttributeDefinitions(Object... params) {
         return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
     }
 

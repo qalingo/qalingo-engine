@@ -29,26 +29,26 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 
     // Engine Setting
 
-    public EngineSetting getEngineSettingById(final Long engineSettingId) {
-        return engineSettingDao.getEngineSettingById(engineSettingId);
+    public EngineSetting getEngineSettingById(final Long engineSettingId, Object... params) {
+        return engineSettingDao.getEngineSettingById(engineSettingId, params);
     }
 
-    public EngineSetting getEngineSettingById(final String rawEngineSettingId) {
+    public EngineSetting getEngineSettingById(final String rawEngineSettingId, Object... params) {
         long engineSettingId = -1;
         try {
             engineSettingId = Long.parseLong(rawEngineSettingId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getEngineSettingById(engineSettingId);
+        return getEngineSettingById(engineSettingId, params);
     }
 
-    public EngineSetting getEngineSettingByCode(final String code) {
-        return engineSettingDao.getEngineSettingByCode(code);
+    public EngineSetting getEngineSettingByCode(final String code, Object... params) {
+        return engineSettingDao.getEngineSettingByCode(code, params);
     }
 
-    public List<EngineSetting> findEngineSettings() {
-        return engineSettingDao.findEngineSettings();
+    public List<EngineSetting> findEngineSettings(Object... params) {
+        return engineSettingDao.findEngineSettings(params);
     }
 
     public void saveOrUpdateEngineSetting(final EngineSetting engineSetting) {
@@ -61,18 +61,18 @@ public class EngineSettingServiceImpl implements EngineSettingService {
 
     // Engine Setting Value
 
-    public EngineSettingValue getEngineSettingValueById(final Long engineSettingValueId) {
-        return engineSettingDao.getEngineSettingValueById(engineSettingValueId);
+    public EngineSettingValue getEngineSettingValueById(final Long engineSettingValueId, Object... params) {
+        return engineSettingDao.getEngineSettingValueById(engineSettingValueId, params);
     }
 
-    public EngineSettingValue getEngineSettingValueById(final String rawEngineSettingValueId) {
+    public EngineSettingValue getEngineSettingValueById(final String rawEngineSettingValueId, Object... params) {
         long engineSettingValueId = -1;
         try {
             engineSettingValueId = Long.parseLong(rawEngineSettingValueId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getEngineSettingValueById(engineSettingValueId);
+        return getEngineSettingValueById(engineSettingValueId, params);
     }
 
     public void saveOrUpdateEngineSettingValue(final EngineSettingValue engineSettingValue) {

@@ -25,26 +25,26 @@ public class DeliveryMethodServiceImpl implements DeliveryMethodService {
     @Autowired
     private DeliveryMethodDao deliveryMethodDao;
 
-    public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId) {
-        return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId);
+    public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
+        return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId, params);
     }
 
-    public DeliveryMethod getDeliveryMethodById(final String rawDeliveryMethodId) {
+    public DeliveryMethod getDeliveryMethodById(final String rawDeliveryMethodId, Object... params) {
         long deliveryMethodId = -1;
         try {
             deliveryMethodId = Long.parseLong(rawDeliveryMethodId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getDeliveryMethodById(deliveryMethodId);
+        return getDeliveryMethodById(deliveryMethodId, params);
     }
 
-    public DeliveryMethod getDeliveryMethodByCode(String code) {
-        return deliveryMethodDao.getDeliveryMethodByCode(code);
+    public DeliveryMethod getDeliveryMethodByCode(final String code, Object... params) {
+        return deliveryMethodDao.getDeliveryMethodByCode(code, params);
     }
 
-    public List<DeliveryMethod> findDeliveryMethods() {
-        return deliveryMethodDao.findDeliveryMethods();
+    public List<DeliveryMethod> findDeliveryMethods(Object... params) {
+        return deliveryMethodDao.findDeliveryMethods(params);
     }
 
     public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {

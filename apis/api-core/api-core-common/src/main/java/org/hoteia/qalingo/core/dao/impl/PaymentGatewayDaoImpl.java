@@ -13,46 +13,44 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("paymentGatewayDao")
 public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements PaymentGatewayDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId) {
+	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", paymentGatewayId));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
         return paymentGateway;
 	}
 
-	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode) {
+	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", paymentGatewayCode));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
 		return paymentGateway;
 	}
 	
-	public List<AbstractPaymentGateway> findPaymentGateways() {
+	public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("name"));
 
@@ -83,8 +81,13 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 		em.remove(paymentGateway);
 	}
 	
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("paymentGatewayAttributes", FetchMode.JOIN); 
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultPaymentGatewayFetchPlan());
+        }
     }
 
 }

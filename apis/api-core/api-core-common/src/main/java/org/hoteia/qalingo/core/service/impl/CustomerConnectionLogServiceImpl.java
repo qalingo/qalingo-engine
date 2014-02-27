@@ -30,18 +30,18 @@ public class CustomerConnectionLogServiceImpl implements CustomerConnectionLogSe
 	@Autowired
 	protected EngineSettingService engineSettingService;
 
-	   public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId) {
-	        return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId);
+	   public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId, Object... params) {
+	        return customerConnectionLogDao.getCustomerConnectionLogById(customerConnectionLogId, params);
 	   }
 
-	public CustomerConnectionLog getCustomerConnectionLogById(final String rawCustomerConnectionLogId) {
+	public CustomerConnectionLog getCustomerConnectionLogById(final String rawCustomerConnectionLogId, Object... params) {
 		long customerConnectionLogId = -1;
 		try {
 			customerConnectionLogId = Long.parseLong(rawCustomerConnectionLogId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return getCustomerConnectionLogById(customerConnectionLogId);
+		return getCustomerConnectionLogById(customerConnectionLogId, params);
 	}
 
 	public void saveOrUpdateCustomerConnectionLog(final CustomerConnectionLog customerConnectionLog) {

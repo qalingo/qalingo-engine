@@ -15,11 +15,11 @@ import org.hoteia.qalingo.core.domain.CurrencyReferential;
 
 public interface CurrencyReferentialDao {
 
-	CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId);
+	CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId, Object... params);
 
-	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode);
+	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode, Object... params);
 	 
-	List<CurrencyReferential> findCurrencyReferentials();
+	List<CurrencyReferential> findCurrencyReferentials(Object... params);
 	
 	CurrencyReferential saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential);
 

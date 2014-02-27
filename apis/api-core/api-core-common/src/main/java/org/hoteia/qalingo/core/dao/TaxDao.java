@@ -13,7 +13,7 @@ import org.hoteia.qalingo.core.domain.Tax;
 
 public interface TaxDao {
 
-	Tax getTaxById(Long taxId);
+	Tax getTaxById(Long taxId, Object... params);
 
 	Tax saveOrUpdateTax(Tax tax);
 

@@ -13,9 +13,9 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 
 public interface GroupRoleDao {
 
-	CustomerGroup getCustomerGroupById(Long customerGroupId);
+	CustomerGroup getCustomerGroupById(Long customerGroupId, Object... params);
 
-	CustomerGroup getCustomerGroupByCode(String code);
+	CustomerGroup getCustomerGroupByCode(String code, Object... params);
 	
 	CustomerGroup saveOrUpdateCustomerGroup(CustomerGroup customerGroup);
 

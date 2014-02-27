@@ -31,6 +31,8 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name="TECO_RULE_REPOSITORY", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
 public class RuleRepository extends AbstractEntity {
@@ -164,8 +166,7 @@ public class RuleRepository extends AbstractEntity {
 		return ruleRepositoryAttributes;
 	}
 	
-	public void setRuleRepositoryAttributes(
-			Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
+	public void setRuleRepositoryAttributes(Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
 		this.ruleRepositoryAttributes = ruleRepositoryAttributes;
 	}
 	
@@ -173,17 +174,20 @@ public class RuleRepository extends AbstractEntity {
 	public String getRuleString() {
 		StringBuffer rule = new StringBuffer();
 		Set<AbstractRuleReferential> rules = getRules();
-		for (Iterator<AbstractRuleReferential> iteratorRule = rules.iterator(); iteratorRule.hasNext();) {
-			AbstractRuleReferential ruleReferential = (AbstractRuleReferential) iteratorRule.next();
-			String name = ruleReferential.getName();
-    		rule.append("rule \"" + name + "\"").append("\n");
-    		rule.append("salience " + ruleReferential.getSalience()).append("\n");
-    		rule.append("when").append("\n");
-    		rule.append(ruleReferential.getCondition()).append("\n");
-    		rule.append("then").append("\n");
-    		rule.append(ruleReferential.getConsequence()).append("\n");
-    		rule.append("end").append("\n");
-    		rule.append("\n");
+		if(rules != null
+		        && Hibernate.isInitialized(rules)){
+		      for (Iterator<AbstractRuleReferential> iteratorRule = rules.iterator(); iteratorRule.hasNext();) {
+		            AbstractRuleReferential ruleReferential = (AbstractRuleReferential) iteratorRule.next();
+		            String name = ruleReferential.getName();
+		            rule.append("rule \"" + name + "\"").append("\n");
+		            rule.append("salience " + ruleReferential.getSalience()).append("\n");
+		            rule.append("when").append("\n");
+		            rule.append(ruleReferential.getCondition()).append("\n");
+		            rule.append("then").append("\n");
+		            rule.append(ruleReferential.getConsequence()).append("\n");
+		            rule.append("end").append("\n");
+		            rule.append("\n");
+		        }
 		}
 		return rule.toString();
 	}

@@ -16,17 +16,17 @@ import org.hoteia.qalingo.core.domain.CatalogVirtual;
 
 public interface CatalogService {
 
-    CatalogMaster getMasterCatalogById(Long masterCatalogId);
+    CatalogMaster getMasterCatalogById(Long masterCatalogId, Object... params);
     
-	CatalogMaster getMasterCatalogById(String masterCatalogId);
+	CatalogMaster getMasterCatalogById(String masterCatalogId, Object... params);
 
-	CatalogVirtual getVirtualCatalogById(Long virtualCatalogId);
+	CatalogVirtual getVirtualCatalogById(Long virtualCatalogId, Object... params);
     
-	CatalogVirtual getVirtualCatalogById(String virtualCatalogId);
+	CatalogVirtual getVirtualCatalogById(String virtualCatalogId, Object... params);
 
-	CatalogVirtual getVirtualCatalogbyMarketAreaId(Long marketAreaId);
+	CatalogVirtual getVirtualCatalogbyMarketAreaId(Long marketAreaId, Object... params);
 
-    List<CatalogMaster> findAllCatalogMasters();
+    List<CatalogMaster> findAllCatalogMasters(Object... params);
 
 	void saveOrUpdateCatalogMaster(CatalogMaster masterCatalog);
 	

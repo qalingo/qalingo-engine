@@ -15,13 +15,13 @@ import org.hoteia.qalingo.core.domain.CustomerProductComment;
 
 public interface CustomerProductCommentService {
 
-    CustomerProductComment getCustomerProductCommentById(Long customerId);
+    CustomerProductComment getCustomerProductCommentById(Long customerId, Object... params);
 
-    CustomerProductComment getCustomerProductCommentById(String customerId);
+    CustomerProductComment getCustomerProductCommentById(String customerId, Object... params);
 
-	List<CustomerProductComment> findCustomerProductCommentByCustomerId(Long customerId);
+	List<CustomerProductComment> findCustomerProductCommentByCustomerId(Long customerId, Object... params);
 	
-	List<CustomerProductComment> findCustomerProductCommentByProductSkuId(Long productSkuId);
+	List<CustomerProductComment> findCustomerProductCommentByProductSkuId(Long productSkuId, Object... params);
 	
 	void saveOrUpdateCustomerProductComment(CustomerProductComment customer);
 	

@@ -29,6 +29,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name="TECO_ENGINE_SETTING")
 public class EngineSetting extends AbstractEntity {
@@ -132,7 +134,8 @@ public class EngineSetting extends AbstractEntity {
 	}
 	
 	public EngineSettingValue getEngineSettingValue(String context) {
-		if(engineSettingValues != null){
+		if(engineSettingValues != null
+		        && Hibernate.isInitialized(engineSettingValues)){
 			for (Iterator<EngineSettingValue> iterator = engineSettingValues.iterator(); iterator.hasNext();) {
 				EngineSettingValue engineSettingValue = (EngineSettingValue) iterator.next();
 				if(engineSettingValue.getContext().equalsIgnoreCase(context)){

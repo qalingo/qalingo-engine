@@ -30,22 +30,20 @@ import org.hoteia.qalingo.core.domain.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("serverDao")
 public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ServerStatus getServerStatusById(final Long serverStatusId) {
+	public ServerStatus getServerStatusById(final Long serverStatusId, Object... params) {
         Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("id", serverStatusId));
         ServerStatus serverStatus = (ServerStatus) criteria.uniqueResult();
         return serverStatus;
 	}
 	
-    public List<ServerStatus> findServerStatus(final String serverName) {
+    public List<ServerStatus> findServerStatus(final String serverName, Object... params) {
         Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.add(Restrictions.eq("serverName", serverName));
         
@@ -56,7 +54,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
         return serverStatus;
     }
     
-    public List<ServerStatus> findServerStatus() {
+    public List<ServerStatus> findServerStatus(Object... params) {
         Criteria criteria = createDefaultCriteria(ServerStatus.class);
         
         criteria.addOrder(Order.asc("serverName"));
@@ -67,7 +65,7 @@ public class ServerDaoImpl extends AbstractGenericDaoImpl implements ServerDao {
         return serverStatus;
     }
 
-    public List<ServerStatus> getServerList(){
+    public List<ServerStatus> findServerList(Object... params){
         Criteria criteria = createDefaultCriteria(ServerStatus.class);
         criteria.setProjection(Projections.groupProperty("serverName").as("serverName"));
 

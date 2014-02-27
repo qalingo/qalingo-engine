@@ -15,13 +15,13 @@ import org.hoteia.qalingo.core.domain.CurrencyReferential;
 
 public interface CurrencyReferentialService {
 
-    CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId);
+    CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId, Object... params);
     
-	CurrencyReferential getCurrencyReferentialById(String currencyReferentialId);
+	CurrencyReferential getCurrencyReferentialById(String currencyReferentialId, Object... params);
 
-	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode);
+	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode, Object... params);
 
-	List<CurrencyReferential> findCurrencyReferentials();
+	List<CurrencyReferential> findCurrencyReferentials(Object... params);
 	
 	void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential);
 	

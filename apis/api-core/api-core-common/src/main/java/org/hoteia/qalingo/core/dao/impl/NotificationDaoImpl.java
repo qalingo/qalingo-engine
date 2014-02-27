@@ -21,22 +21,20 @@ import org.hoteia.qalingo.core.domain.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("notificationDao")
 public class NotificationDaoImpl extends AbstractGenericDaoImpl implements NotificationDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Notification getNotificationById(final Long notificationId) {
+	public Notification getNotificationById(final Long notificationId, Object... params) {
         Criteria criteria = createDefaultCriteria(Notification.class);
         criteria.add(Restrictions.eq("id", notificationId));
         Notification notification = (Notification) criteria.uniqueResult();
         return notification;
 	}
 	
-	public List<Notification> findNotifications() {
+	public List<Notification> findNotifications(Object... params) {
         Criteria criteria = createDefaultCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("id"));
@@ -47,7 +45,7 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 		return notifications;
 	}
 	
-	public List<Notification> findNotificationByCustomerId(final Long customerId) {
+	public List<Notification> findNotificationByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Notification.class);
         criteria.add(Restrictions.eq("customerId", customerId));
         
@@ -60,7 +58,7 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 		return notifications;
 	}
 	
-	public List<Notification> findNewNotificationByCustomerId(final Long customerId) {
+	public List<Notification> findNewNotificationByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("createdDate"));
@@ -71,7 +69,7 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 		return notifications;
 	}
 	
-	public List<Notification> findIdsForSync() {
+	public List<Notification> findIdsForSync(Object... params) {
         Criteria criteria = createDefaultCriteria(Notification.class);
         
         criteria.addOrder(Order.asc("id"));

@@ -13,47 +13,44 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("deliveryMethodDao")
 public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements DeliveryMethodDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId) {
+	public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", deliveryMethodId));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
         return deliveryMethod;
 	}
 
-	public DeliveryMethod getDeliveryMethodByCode(final String code) {
+	public DeliveryMethod getDeliveryMethodByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
         return deliveryMethod;
 	}
 	
-	public List<DeliveryMethod> findDeliveryMethods() {
+	public List<DeliveryMethod> findDeliveryMethods(Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -84,13 +81,13 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 		em.remove(deliveryMethod);
 	}
 
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("deliveryMethodCountries", FetchMode.JOIN); 
-        criteria.setFetchMode("prices", FetchMode.JOIN); 
-        
-        criteria.createAlias("prices.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultDeliveryMethodFetchPlan());
+        }
     }
 	
 }

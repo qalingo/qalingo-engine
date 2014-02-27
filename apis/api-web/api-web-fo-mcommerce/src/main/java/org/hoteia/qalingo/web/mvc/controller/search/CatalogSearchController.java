@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -52,8 +53,8 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  */
-@Controller("searchController")
-public class SearchController extends AbstractMCommerceController {
+@Controller("catalogSearchController")
+public class CatalogSearchController extends AbstractMCommerceController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -63,33 +64,11 @@ public class SearchController extends AbstractMCommerceController {
 	@Autowired
 	public ProductMarketingSolrService productMarketingSolrService;
 
-//	Commented by Tri.Nguyen: mapping the search method instead. Not using POST method for the searching.
-//	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.GET)
-	public ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        
-		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
-		modelAndView.addObject("search", search);
-		
-		modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
-		
-		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
-        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
-        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
-        
-        final Cart currentCart = requestData.getCart();
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
-        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
-
-        return modelAndView;
-	}
-
-	@RequestMapping(value = FoUrls.SEARCH_URL, method = RequestMethod.GET)
+	@RequestMapping(value = FoUrls.CATALOG_SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, @Valid SearchForm searchForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
 		
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.SEARCH.getVelocityPage());
+		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
 		if (result.hasErrors()) {
@@ -110,32 +89,22 @@ public class SearchController extends AbstractMCommerceController {
 		try {
 			ProductMarketingResponseBean productMarketingResponseBean = null;
 			if(searchForm.getPrice() != null){
-				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-						searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
+				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+						searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue(), 
 						searchForm.getCatalogCategoryList());
-				ProductMarketingResponseBean nonCategoriesFilter = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-						searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, nonCategoriesFilter));
-			}else{
-				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(Constants.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
-														searchForm.getText(), Constants.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildSearchFacetViewBeans(requestData, productMarketingResponseBean));
+				ProductMarketingResponseBean nonCategoriesFilter = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+						searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
+				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildCatalogSearchFacetViewBeans(requestData, nonCategoriesFilter));
+			} else {
+				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
+														searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
+				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildCatalogSearchFacetViewBeans(requestData, productMarketingResponseBean));
 			}
 	        
 			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder;
 
 			productsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, new PagedListHolder<SearchProductItemViewBean>(), searchForm);
 			
-//			TODO: Tri: how use session list
-//	        if(page >= 0){
-//	        	productsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, new PagedListHolder<SearchProductItemViewBean>(), searchForm);
-//	        } else {
-//		        productsViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey);
-//		        if (productsViewBeanPagedListHolder == null) { 
-//		        	productsViewBeanPagedListHolder = initList(request, sessionKey, productMarketingResponseBean, productsViewBeanPagedListHolder, searchForm);
-//		        }
-//	        }
-	        
 	        int pageCurrent = productsViewBeanPagedListHolder.getPage();
 	        if (pageCurrent < page) { 
 	        	for (int i = pageCurrent; i < page; i++) {
@@ -155,6 +124,7 @@ public class SearchController extends AbstractMCommerceController {
 			modelAndView.addObject(Constants.PAGINATION_ORDER, order);
 			modelAndView.addObject(Constants.PRICE_RANGE_PARAMETER, searchForm.getPrice());
 			modelAndView.addObject(Constants.CATALOG_CATEGORIES_PARAMETER, searchForm.getCategoriesFilter());
+			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
 			return displaySearch(request, response, modelMap);
@@ -171,67 +141,65 @@ public class SearchController extends AbstractMCommerceController {
         return modelAndView;
 	}
 	
+    protected ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+        final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
+        modelAndView.addObject("search", search);
+
+        modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
+
+        final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+
+        final Cart currentCart = requestData.getCart();
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
+
+        return modelAndView;
+    }
+	   
+	// TODO : Temporary
+	
     @Autowired
-    public ProductService productService;
+    public ProductDao productDao;
 
     @Autowired
     private CatalogCategoryService catalogCategoryService;
     
-    @RequestMapping(value = "/**/search-load-index.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/**/search-load-catalog-index.html", method = RequestMethod.GET)
     public ModelAndView loadIndex(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        String[] categories = new String[]{"cate301","cate302","cate401","cate402","cate501"};
-        
         List<ProductMarketing> products;
         
-        for (String category : categories) {
-        	products = productService.findProductMarketingsByCatalogCategoryCode(requestData.getMarketArea().getId(), category);
-            for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
-                ProductMarketing productMarketing = (ProductMarketing) iterator.next();
-                
-                List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
-                
-                productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
-            }
-		}
+    	products = productDao.findProductMarketings();
+        for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
+            ProductMarketing productMarketing = (ProductMarketing) iterator.next();
+            
+            List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductMarketingId(marketArea.getId(), productMarketing.getCode()); 
+            
+            productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
+        }
 
-        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request))));
+        return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request))));
     }
-    
-//    private List<CatalogCategoryViewBean> initCatalogCategoryList(List<FacetField> facetFields){
-//    	for (FacetField facetField : facetFields) {
-//			
-//		}
-//    	List<SearchProductItemViewBean> searchProductItems = productsViewBeanPagedListHolder.getPageList();
-//    	List<CatalogCategoryViewBean> catalogs = new ArrayList<CatalogCategoryViewBean>();
-//    	Map<String, Object> catalogMap = new HashMap<String, Object>();
-//    	for (SearchProductItemViewBean searchProductItemViewBean : searchProductItems) {
-//			if(!catalogMap.containsKey(searchProductItemViewBean.getCategoryCode())){
-//				CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
-//				catalogCategoryViewBean.setCode(searchProductItemViewBean.getCategoryCode());
-//				catalogCategoryViewBean.setName(searchProductItemViewBean.getCategoryName());
-//				catalogs.add(catalogCategoryViewBean);
-//				catalogMap.put(searchProductItemViewBean.getCategoryCode(), Boolean.TRUE);
-//			}
-//		}
-//    	
-//    	return catalogs;
-//    }
 	
 	private PagedListHolder<SearchProductItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final ProductMarketingResponseBean productMarketingResponseBean,
 			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder, final SearchForm searchForm) throws Exception{
 		int pageSize = searchForm.getPageSize();
 		String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
-		List<SearchProductItemViewBean> searchProductItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean);
-		productsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchProductItems);
+		List<SearchProductItemViewBean> searchtItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean);
+		productsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchtItems);
 		productsViewBeanPagedListHolder.setPageSize(pageSize);
 		productsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
 		productsViewBeanPagedListHolder.resort();
-        request.getSession().setAttribute(sessionKey, searchProductItems);
+        request.getSession().setAttribute(sessionKey, searchtItems);
         return productsViewBeanPagedListHolder;
 	}
 	

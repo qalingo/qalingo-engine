@@ -77,6 +77,7 @@ public class CatalogCategoryTypePojo {
     }
 
     public void setCatalogCategoryTypeAttributes(List<CatalogCategoryTypeAttributePojo> catalogCategoryTypeAttributes) {
-        this.catalogCategoryTypeAttributes = new ArrayList<CatalogCategoryTypeAttributePojo>(catalogCategoryTypeAttributes);
+        this.catalogCategoryTypeAttributes = catalogCategoryTypeAttributes;
     }
+    
 }

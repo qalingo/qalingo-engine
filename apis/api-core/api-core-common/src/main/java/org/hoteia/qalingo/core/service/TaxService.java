@@ -13,9 +13,9 @@ import org.hoteia.qalingo.core.domain.Tax;
 
 public interface TaxService {
 
-    Tax getTaxById(Long taxId);
+    Tax getTaxById(Long taxId, Object... params);
     
-	Tax getTaxById(String taxId);
+	Tax getTaxById(String taxId, Object... params);
 	
 	void saveOrUpdateTax(Tax tax);
 	

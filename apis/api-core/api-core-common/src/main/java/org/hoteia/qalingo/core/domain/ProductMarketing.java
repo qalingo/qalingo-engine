@@ -34,6 +34,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
@@ -179,8 +180,10 @@ public class ProductMarketing extends AbstractEntity {
     }
 	
 	public List<ProductMarketingAttribute> getProductMarketingGlobalAttributes() {
-        List<ProductMarketingAttribute> productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttribute>();
-        if (productMarketingAttributes != null) {
+        List<ProductMarketingAttribute> productMarketingGlobalAttributes = null;
+        if (productMarketingAttributes != null
+                && Hibernate.isInitialized(productMarketingAttributes)) {
+            productMarketingGlobalAttributes = new ArrayList<ProductMarketingAttribute>();
             for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
                 ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -194,8 +197,10 @@ public class ProductMarketing extends AbstractEntity {
 	}
 
 	public List<ProductMarketingAttribute> getProductMarketingMarketAreaAttributes(Long marketAreaId) {
-        List<ProductMarketingAttribute> productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttribute>();
-        if (productMarketingAttributes != null) {
+        List<ProductMarketingAttribute> productMarketingMarketAreaAttributes = null;
+        if (productMarketingAttributes != null
+                && Hibernate.isInitialized(productMarketingAttributes)) {
+            productMarketingMarketAreaAttributes = new ArrayList<ProductMarketingAttribute>();
             for (Iterator<ProductMarketingAttribute> iterator = productMarketingAttributes.iterator(); iterator.hasNext();) {
                 ProductMarketingAttribute attribute = (ProductMarketingAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -216,7 +221,7 @@ public class ProductMarketing extends AbstractEntity {
 		ProductSku defaultProductSku = null;
 		Set<ProductSku> productSkus = getProductSkus();
 		if(productSkus != null
-				&& productSkus.size() > 0){
+		        && Hibernate.isInitialized(productSkus)){
 			for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
 				ProductSku productSku = (ProductSku) iterator.next();
 				if(productSku.isDefault()){
@@ -253,8 +258,10 @@ public class ProductMarketing extends AbstractEntity {
     }
 	
 	public List<Asset> getAssetsIsGlobal() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsIsGlobal = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsIsGlobal = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
@@ -267,17 +274,19 @@ public class ProductMarketing extends AbstractEntity {
 	}
 	
 	public List<Asset> getAssetsByMarketArea() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsByMarketArea = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null 
                         && !asset.isGlobal()) {
-                    assetsIsGlobal.add(asset);
+                    assetsByMarketArea.add(asset);
                 }
             }
         }        
-        return assetsIsGlobal;
+        return assetsByMarketArea;
 	}
 	
 	public CatalogCategoryVirtual getDefaultCatalogCategory() {
@@ -428,11 +437,14 @@ public class ProductMarketing extends AbstractEntity {
     }
 
 	// ASSET
+   
 	public Asset getDefaultPaskshotImage(String size) {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null
+		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+		if(assetsIsGlobal != null
+		        && Hibernate.isInitialized(assetsIsGlobal)
 				&& size != null){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productAsset = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productAsset.getType())
 						&& size.equals(productAsset.getSize().name())
@@ -440,7 +452,7 @@ public class ProductMarketing extends AbstractEntity {
 					defaultProductImage = productAsset;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productImage.getType())
 						&& size.equals(productImage.getSize().name())){
@@ -453,15 +465,17 @@ public class ProductMarketing extends AbstractEntity {
 	
 	public Asset getDefaultBackgroundImage() {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if(assetsIsGlobal != null
+                && Hibernate.isInitialized(assetsIsGlobal)){
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.BACKGROUND.equals(productImage.getType())
 						&& productImage.isDefault()){
 					defaultProductImage = productImage;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.BACKGROUND.equals(productImage.getType())){
 					defaultProductImage = productImage;
@@ -473,15 +487,17 @@ public class ProductMarketing extends AbstractEntity {
 	
 	public Asset getDefaultIconImage() {
 		Asset defaultProductImage = null;
-		if(getAssetsIsGlobal() != null){
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if(assetsIsGlobal != null
+                && Hibernate.isInitialized(assetsIsGlobal)){
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.ICON.equals(productImage.getType())
 						&& productImage.isDefault()){
 					defaultProductImage = productImage;
 				}
 			}
-			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.ICON.equals(productImage.getType())){
 					defaultProductImage = productImage;

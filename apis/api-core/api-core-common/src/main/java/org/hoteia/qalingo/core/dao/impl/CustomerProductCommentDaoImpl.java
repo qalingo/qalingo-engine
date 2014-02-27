@@ -20,22 +20,20 @@ import org.hoteia.qalingo.core.domain.CustomerProductComment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("customerProductCommentDao")
 public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implements CustomerProductCommentDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId) {
+	public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("id", customerProductCommentId));
         CustomerProductComment customerProductComments = (CustomerProductComment) criteria.uniqueResult();
         return customerProductComments;
 	}
 	
-	public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId) {
+	public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -47,7 +45,7 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 		return customerProductComments;
 	}
 	
-	public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId) {
+	public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
         criteria.add(Restrictions.eq("productSkuId", productSkuId));
 

@@ -37,7 +37,7 @@
 					address="/store" />
 
     <jaxws:endpoint id="catalogWebServiceEndpoint"
-                    implementor="#customerWebService"
+                    implementor="#catalogWebService"
                     address="/catalog" />
 
     <jaxws:endpoint id="retailerWebServiceEndpoint"

@@ -31,6 +31,7 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 
@@ -153,8 +154,9 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public Cart getCart() {
-        if (this.carts != null) {
-            for (Iterator<Cart> iterator = this.carts.iterator(); iterator.hasNext();) {
+        if (carts != null
+                && Hibernate.isInitialized(carts)) {
+            for (Iterator<Cart> iterator = carts.iterator(); iterator.hasNext();) {
                 Cart cart = (Cart) iterator.next();
                 if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
                         && cart.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
@@ -199,8 +201,8 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public void deleteCurrentCart() {
-        if (this.carts != null) {
-            Set<Cart> checkedCarts = new HashSet<Cart>(this.carts);
+        if (carts != null) {
+            Set<Cart> checkedCarts = new HashSet<Cart>(carts);
             for (Iterator<Cart> iterator = checkedCarts.iterator(); iterator.hasNext();) {
                 Cart cart = (Cart) iterator.next();
                 if (cart != null && cart.getMarketAreaId().equals(getCurrentMarketArea().getId()) 
@@ -307,7 +309,8 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public OrderCustomer getLastOrder() {
-        if (lastOrders != null) {
+        if (lastOrders != null
+                && Hibernate.isInitialized(lastOrders)) {
             for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                 OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
                 if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
@@ -320,8 +323,10 @@ public class EngineEcoSession extends AbstractEngineSession {
     }
 
     public void setLastOrder(OrderCustomer lastOrder) {
-        if (lastOrders != null && lastOrder != null) {
-            if (getLastOrder() != null) {
+        if (lastOrders != null 
+                && Hibernate.isInitialized(lastOrders)
+                && lastOrder != null) {
+//            if (getLastOrder() != null) {
                 for (Iterator<OrderCustomer> iterator = lastOrders.iterator(); iterator.hasNext();) {
                     OrderCustomer orderCustomer = (OrderCustomer) iterator.next();
                     if (orderCustomer != null && getCurrentMarketArea() != null && getCurrentMarketAreaRetailer() != null 
@@ -329,7 +334,7 @@ public class EngineEcoSession extends AbstractEngineSession {
                             && orderCustomer.getRetailerId().equals(getCurrentMarketAreaRetailer().getId()))
                         lastOrders.remove(orderCustomer);
                 }
-            }
+//            }
             lastOrders.add(lastOrder);
         }
     }

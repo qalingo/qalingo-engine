@@ -84,7 +84,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.URL_SUBMIT_QUICK_SEARCH)
 	protected String initQuickSearch(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		return urlService.generateUrl(FoUrls.SEARCH, requestUtil.getRequestData(request));
+		return urlService.generateUrl(FoUrls.CATALOG_SEARCH, requestUtil.getRequestData(request));
 	}
 	
 	/**

@@ -17,6 +17,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsding-context.xsd">
 
+    <!--
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
@@ -25,5 +26,48 @@
 		<property name="password" value="${jdbc.password}" />
 		<property name="defaultAutoCommit" value="false" />
 	</bean>
+	-->
+    
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <!-- 
+        <property name="properties">
+            <props>
+                <prop key="user">${jdbc.username}</prop>
+                <prop key="password">${jdbc.password}</prop>
+
+                <prop key="c3p0.max_size">${c3p0.max_size}</prop>
+                <prop key="c3p0.min_size">${c3p0.min_size}</prop>
+                <prop key="c3p0.maxStatements">${c3p0.maxStatements}</prop>
+                <prop key="c3p0.acquireIncrement">${c3p0.acquireIncrement}</prop>
+                <prop key="c3p0.idleConnectionTestPeriod">${c3p0.idleConnectionTestPeriod}</prop>
+                <prop key="c3p0.timeout">${c3p0.timeout}</prop>
+                <prop key="c3p0.maxPoolSize">${c3p0.maxPoolSize}</prop>
+                <prop key="c3p0.minPoolSize">${c3p0.minPoolSize}</prop>
+            </props>
+        </property>
+            -->
+    </bean>
+	
+    <!--                   
+	<bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+	    <property name="driverClass" value="${jdbc.driverClassName}" />
+	    <property name="jdbcUrl" value="${jdbc.url}" />
+	    <property name="username" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+	    
+	    <property name="idleMaxAge" value="${bonecp.idleMaxAge}"/>
+        <property name="idleConnectionTestPeriod" value="${bonecp.idleConnectionTestPeriod}"/>
+        <property name="partitionCount" value="${bonecp.partitionCount}"/>
+        <property name="acquireIncrement" value="${bonecp.acquireIncrement}"/>
+	    <property name="maxConnectionsPerPartition" value="${bonecp.maxConnectionsPerPartition}"/>
+	    <property name="minConnectionsPerPartition" value="${bonecp.minConnectionsPerPartition}"/>
+	    <property name="statementsCacheSize" value="${bonecp.statementsCacheSize}"/>
+	    <property name="releaseHelperThreads" value="${bonecp.releaseHelperThreads}"/>
+	</bean>
+	-->
 
 </beans>

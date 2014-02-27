@@ -16,50 +16,47 @@ import java.util.UUID;
 import javax.persistence.RollbackException;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("orderCustomerDao")
 public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements OrderCustomerDao {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public OrderCustomer getOrderById(final Long orderCustomerId) {
+    public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
         return orderCustomer;
     }
 
-    public OrderCustomer getOrderByOrderNum(final String orderNum) {
+    public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
         return orderCustomer;
     }
 
-    public List<OrderCustomer> findOrders() {
+    public List<OrderCustomer> findOrders(Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("dateCreate"));
 
@@ -69,10 +66,10 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         return orderCustomers;
     }
 
-    public List<OrderCustomer> findOrdersByCustomerId(final Long customerId) {
+    public List<OrderCustomer> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        addDefaultFetch(criteria);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -169,30 +166,13 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         em.remove(orderCustomer);
     }
 
-    private void addDefaultFetch(Criteria criteria) {
-        criteria.setFetchMode("billingAddress", FetchMode.JOIN);
-        criteria.setFetchMode("shippingAddress", FetchMode.JOIN);
-
-        criteria.setFetchMode("orderPayments", FetchMode.JOIN);
-        criteria.setFetchMode("orderShipments", FetchMode.JOIN);
-
-        criteria.createAlias("orderShipments.orderItems", "orderItems", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("orderItems", FetchMode.JOIN);
-
-        criteria.createAlias("orderShipments.orderItems.productSku", "productSku", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("productSku", FetchMode.JOIN);
-        
-        criteria.createAlias("orderShipments.orderItems.productSku.productSkuAttributes", "productSkuAttributes", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("productSkuAttributes", FetchMode.JOIN);
-
-        criteria.createAlias("orderShipments.orderItems.productSku.assets", "assets", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("assets", FetchMode.JOIN);
-
-        criteria.createAlias("orderShipments.orderItems.orderTaxes", "orderTaxes", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("orderTaxes", FetchMode.JOIN);
-
-        criteria.createAlias("orderShipments.orderItems.currency", "currency", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("currency", FetchMode.JOIN);
-
+    @Override
+    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            super.handleSpecificFetchMode(criteria, params);
+        } else {
+            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultOrderCustomerFetchPlan());
+        }
     }
+    
 }

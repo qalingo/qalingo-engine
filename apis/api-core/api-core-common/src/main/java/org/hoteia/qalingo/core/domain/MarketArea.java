@@ -36,6 +36,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_MARKET_AREA", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -241,7 +242,8 @@ public class MarketArea extends AbstractEntity {
     
     public CurrencyReferential getCurrency(String currencyCode) {
         CurrencyReferential currencyToReturn = null;
-        if (currencies != null && !currencies.isEmpty()) {
+        if (currencies != null 
+                && Hibernate.isInitialized(currencies)) {
             for (Iterator<CurrencyReferential> iterator = currencies.iterator(); iterator.hasNext();) {
                 CurrencyReferential currency = (CurrencyReferential) iterator.next();
                 if (currency.getCode().equalsIgnoreCase(currencyCode)) {
@@ -278,7 +280,8 @@ public class MarketArea extends AbstractEntity {
 
     public Localization getLocalization(String localeCode) {
         Localization localeToReturn = null;
-        if (localizations != null && !localizations.isEmpty()) {
+        if (localizations != null 
+                && Hibernate.isInitialized(localizations)) {
             for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
                 if (localization.getCode().equalsIgnoreCase(localeCode)) {
@@ -307,7 +310,8 @@ public class MarketArea extends AbstractEntity {
 
     public Retailer getRetailer(String retailerCode) {
         Retailer retailerToReturn = null;
-        if (retailers != null && !retailers.isEmpty()) {
+        if (retailers != null 
+                && Hibernate.isInitialized(retailers)) {
             for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
                 Retailer retailer = (Retailer) iterator.next();
                 if (retailer.getCode().equalsIgnoreCase(retailerCode)) {
@@ -328,7 +332,8 @@ public class MarketArea extends AbstractEntity {
 
     public DeliveryMethod getDeliveryMethod(String deliveryMethodCode) {
         DeliveryMethod deliveryMethodToReturn = null;
-        if (deliveryMethods != null && !deliveryMethods.isEmpty()) {
+        if (deliveryMethods != null 
+                && Hibernate.isInitialized(deliveryMethods)) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
                 if (deliveryMethod.getCode().equalsIgnoreCase(deliveryMethodCode)) {
@@ -349,7 +354,8 @@ public class MarketArea extends AbstractEntity {
     
     public AbstractPaymentGateway getPaymentGateway(String paymentGatewayCode) {
         AbstractPaymentGateway paymentGatewayToReturn = null;
-        if (paymentGateways != null && !paymentGateways.isEmpty()) {
+        if (paymentGateways != null 
+                && Hibernate.isInitialized(paymentGateways)) {
             for (Iterator<AbstractPaymentGateway> iterator = paymentGateways.iterator(); iterator.hasNext();) {
                 AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) iterator.next();
                 if (paymentGateway.getCode().equalsIgnoreCase(paymentGatewayCode)) {
@@ -450,7 +456,8 @@ public class MarketArea extends AbstractEntity {
     }
     
     protected Object getAttributeValue(String attributeDefinitionCode, String contextNameValue) {
-        if (marketAreaAttributes != null && !marketAreaAttributes.isEmpty()) {
+        if (marketAreaAttributes != null 
+                && Hibernate.isInitialized(marketAreaAttributes)) {
             for (Iterator<MarketAreaAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                 MarketAreaAttribute marketAreaAttribute = (MarketAreaAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketAreaAttribute.getAttributeDefinition();

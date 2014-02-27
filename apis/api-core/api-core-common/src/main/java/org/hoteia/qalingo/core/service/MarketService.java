@@ -19,15 +19,15 @@ public interface MarketService {
 
     // MARKET PLACE
 
-    MarketPlace getDefaultMarketPlace();
+    MarketPlace getDefaultMarketPlace(Object... params);
 
-    MarketPlace getMarketPlaceById(Long marketPlaceId);
+    MarketPlace getMarketPlaceById(Long marketPlaceId, Object... params);
 
-    MarketPlace getMarketPlaceById(String marketPlaceId);
+    MarketPlace getMarketPlaceById(String marketPlaceId, Object... params);
 
-    MarketPlace getMarketPlaceByCode(String marketPlaceCode);
+    MarketPlace getMarketPlaceByCode(String marketPlaceCode, Object... params);
 
-    List<MarketPlace> findMarketPlaces();
+    List<MarketPlace> findMarketPlaces(Object... params);
 
     void saveOrUpdateMarketPlace(MarketPlace marketPlace);
 
@@ -35,17 +35,17 @@ public interface MarketService {
 
     // MARKET
 
-    Market getDefaultMarket();
+    Market getDefaultMarket(Object... params);
 
-    Market getMarketById(Long marketId);
+    Market getMarketById(Long marketId, Object... params);
 
-    Market getMarketById(String marketId);
+    Market getMarketById(String marketId, Object... params);
 
-    Market getMarketByCode(String marketCode);
+    Market getMarketByCode(String marketCode, Object... params);
 
-    List<Market> findMarkets();
+    List<Market> findMarkets(Object... params);
 
-    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode);
+    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode, Object... params);
 
     void saveOrUpdateMarket(Market market);
 
@@ -53,12 +53,12 @@ public interface MarketService {
 
     // MARKET AREA
 
-    MarketArea getMarketAreaById(Long marketAreaId);
+    MarketArea getMarketAreaById(Long marketAreaId, Object... params);
 
-    MarketArea getMarketAreaById(String marketAreaId);
+    MarketArea getMarketAreaById(String marketAreaId, Object... params);
 
-    MarketArea getMarketAreaByCode(String marketAreaCode);
+    MarketArea getMarketAreaByCode(String marketAreaCode, Object... params);
 
-    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode);
+    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode, Object... params);
 
 }

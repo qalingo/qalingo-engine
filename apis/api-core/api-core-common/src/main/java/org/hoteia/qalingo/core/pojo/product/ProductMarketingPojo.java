@@ -7,7 +7,6 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hoteia.qalingo.core.pojo.AssetPojo;
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class ProductMarketingPojo {
 
@@ -115,7 +114,7 @@ public class ProductMarketingPojo {
     }
 
     public void setProductMarketingGlobalAttributes(List<ProductMarketingAttributePojo> productMarketingGlobalAttributes) {
-        this.productMarketingGlobalAttributes = PojoUtil.asList(productMarketingGlobalAttributes);
+        this.productMarketingGlobalAttributes = productMarketingGlobalAttributes;
     }
 
     public List<ProductMarketingAttributePojo> getProductMarketingMarketAreaAttributes() {
@@ -123,7 +122,7 @@ public class ProductMarketingPojo {
     }
 
     public void setProductMarketingMarketAreaAttributes(List<ProductMarketingAttributePojo> productMarketingMarketAreaAttributes) {
-        this.productMarketingMarketAreaAttributes = PojoUtil.asList(productMarketingMarketAreaAttributes);
+        this.productMarketingMarketAreaAttributes = productMarketingMarketAreaAttributes;
     }
 
     @JsonManagedReference
@@ -132,7 +131,7 @@ public class ProductMarketingPojo {
     }
 
     public void setProductSkus(List<ProductSkuPojo> productSkus) {
-        this.productSkus = PojoUtil.asList(productSkus);
+        this.productSkus = productSkus;
     }
 
     @JsonManagedReference
@@ -141,7 +140,7 @@ public class ProductMarketingPojo {
     }
 
     public void setProductAssociationLinks(List<ProductAssociationLinkPojo> productAssociationLinks) {
-        this.productAssociationLinks = PojoUtil.asList(productAssociationLinks);
+        this.productAssociationLinks = productAssociationLinks;
     }
 
     public List<AssetPojo> getAssetsIsGlobal() {
@@ -149,7 +148,7 @@ public class ProductMarketingPojo {
     }
 
     public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
-        this.assetsIsGlobal = PojoUtil.asList(assetsIsGlobal);
+        this.assetsIsGlobal = assetsIsGlobal;
     }
 
     public List<AssetPojo> getAssetsByMarketArea() {
@@ -157,7 +156,7 @@ public class ProductMarketingPojo {
     }
 
     public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
-        this.assetsByMarketArea = PojoUtil.asList(assetsByMarketArea);
+        this.assetsByMarketArea = assetsByMarketArea;
     }
     
 }

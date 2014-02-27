@@ -25,30 +25,30 @@ public class LocalizationServiceImpl implements LocalizationService {
     @Autowired
     private LocalizationDao localizationDao;
 
-    public Localization getLocalizationById(final Long localizationId) {
+    public Localization getLocalizationById(final Long localizationId, Object... params) {
         return localizationDao.getLocalizationById(localizationId);
     }
 
-    public Localization getLocalizationById(final String rawLocalizationId) {
+    public Localization getLocalizationById(final String rawLocalizationId, Object... params) {
         long localizationId = -1;
         try {
             localizationId = Long.parseLong(rawLocalizationId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getLocalizationById(localizationId);
+        return getLocalizationById(localizationId, params);
     }
 
-    public Localization getLocalizationByCode(final String code) {
-        return localizationDao.getLocalizationByCode(code);
+    public Localization getLocalizationByCode(final String code, Object... params) {
+        return localizationDao.getLocalizationByCode(code, params);
     }
 
-    public List<Localization> findLocalizations() {
-        return localizationDao.findLocalizations();
+    public List<Localization> findLocalizations(Object... params) {
+        return localizationDao.findLocalizations(params);
     }
 
-    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode) {
-        return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode);
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
+        return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode, params);
     }
 
     public void saveOrUpdateLocalization(final Localization localization) {

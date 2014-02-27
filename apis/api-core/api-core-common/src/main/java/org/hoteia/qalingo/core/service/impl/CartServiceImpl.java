@@ -23,33 +23,33 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartDao cartDao;
 
-    public Cart addToCart(Cart cart) {
+    public Cart addToCart(final Cart cart) {
         saveOrUpdateCart(cart);
         return cart;
     }
 
-    public Cart updateToCart(Cart cart) {
+    public Cart updateToCart(final Cart cart) {
         saveOrUpdateCart(cart);
         return cart;
     }
 
-    public Cart deleteToCart(Cart cart) {
+    public Cart deleteToCart(final Cart cart) {
         saveOrUpdateCart(cart);
         return cart;
     }
 
-    public Cart getCartById(Long cartId) {
-        return cartDao.getCartById(cartId);
+    public Cart getCartById(final Long cartId, Object... params) {
+        return cartDao.getCartById(cartId, params);
     }
 
-    public Cart getCartById(String rawCartId) {
+    public Cart getCartById(final String rawCartId, Object... params) {
         long cartId = -1;
         try {
             cartId = Long.parseLong(rawCartId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getCartById(cartId);
+        return getCartById(cartId, params);
     }
 
     public void saveOrUpdateCart(Cart cart) {

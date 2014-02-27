@@ -76,6 +76,7 @@ public class CustomerGroupPojo {
     }
 
     public void setCustomerRoles(List<CustomerRolePojo> customerRoles) {
-        this.customerRoles = new ArrayList<CustomerRolePojo>(customerRoles);
+        this.customerRoles = customerRoles;
     }
+
 }

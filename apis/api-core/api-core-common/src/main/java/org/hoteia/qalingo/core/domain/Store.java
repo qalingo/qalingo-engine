@@ -33,6 +33,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
@@ -87,6 +88,9 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
+    @Column(name="RETAILER_ID")
+    private Long retailerId;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreAttribute> storeAttributes = new HashSet<StoreAttribute>();
@@ -216,6 +220,14 @@ public class Store extends AbstractEntity {
         this.countryCode = countryCode;
     }
 
+    public Long getRetailerId() {
+        return retailerId;
+    }
+    
+    public void setRetailerId(Long retailerId) {
+        this.retailerId = retailerId;
+    }
+    
     public Set<StoreAttribute> getStoreAttributes() {
         return storeAttributes;
     }
@@ -233,8 +245,10 @@ public class Store extends AbstractEntity {
     }
 
     public List<Asset> getAssetsIsGlobal() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null && assets.size() > 0) {
+        List<Asset> assetsIsGlobal = null;
+        if (assets != null 
+                && Hibernate.isInitialized(assets)) {
+            assetsIsGlobal = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && asset.isGlobal()) {
@@ -246,16 +260,18 @@ public class Store extends AbstractEntity {
     }
 
     public List<Asset> getAssetsByMarketArea() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null && assets.size() > 0) {
+        List<Asset> assetsByMarketArea = null;
+        if (assets != null 
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && !asset.isGlobal()) {
-                    assetsIsGlobal.add(asset);
+                    assetsByMarketArea.add(asset);
                 }
             }
         }
-        return assetsIsGlobal;
+        return assetsByMarketArea;
     }
 
     public String getLongitude() {
@@ -306,7 +322,8 @@ public class Store extends AbstractEntity {
 
     public StoreAttribute getStoreAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
         StoreAttribute storeAttributeToReturn = null;
-        if (storeAttributes != null) {
+        if (storeAttributes != null
+                && Hibernate.isInitialized(storeAttributes)) {
             List<StoreAttribute> storeAttributesFilter = new ArrayList<StoreAttribute>();
             for (Iterator<StoreAttribute> iterator = storeAttributes.iterator(); iterator.hasNext();) {
                 StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
@@ -376,12 +393,14 @@ public class Store extends AbstractEntity {
         return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY, null, localization.getCode());
     }
     
- // ASSET
+    // ASSET
+    
  	public Asset getDefaultPackshotImage(String size) {
  		Asset defaultStoreImage = null;
- 		if(getAssetsIsGlobal() != null
- 				&& size != null){
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+ 		if(assetsIsGlobal != null
+ 		       && StringUtils.isNotEmpty(size)){
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeAsset = (Asset) iterator.next();
  				if(AssetType.PACKSHOT.equals(storeAsset.getType())
  						&& size.equals(storeAsset.getSize().name())
@@ -389,7 +408,7 @@ public class Store extends AbstractEntity {
  					defaultStoreImage = storeAsset;
  				}
  			}
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
  				if(AssetType.PACKSHOT.equals(storeImage.getType())
  						&& size.equals(storeImage.getSize().name())){
@@ -402,15 +421,16 @@ public class Store extends AbstractEntity {
  	
  	public Asset getDefaultBackgroundImage() {
  		Asset defaultStoreImage = null;
- 		if(getAssetsIsGlobal() != null){
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+ 		if(assetsIsGlobal != null){
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
  				if(AssetType.BACKGROUND.equals(storeImage.getType())
  						&& storeImage.isDefault()){
  					defaultStoreImage = storeImage;
  				}
  			}
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
  				if(AssetType.BACKGROUND.equals(storeImage.getType())){
  					defaultStoreImage = storeImage;
@@ -422,15 +442,16 @@ public class Store extends AbstractEntity {
  	
  	public Asset getDefaultIconImage() {
  		Asset defaultStoreImage = null;
- 		if(getAssetsIsGlobal() != null){
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if(assetsIsGlobal != null){
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
  				if(AssetType.ICON.equals(storeImage.getType())
  						&& storeImage.isDefault()){
  					defaultStoreImage = storeImage;
  				}
  			}
- 			for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
  				if(AssetType.ICON.equals(storeImage.getType())){
  					defaultStoreImage = storeImage;

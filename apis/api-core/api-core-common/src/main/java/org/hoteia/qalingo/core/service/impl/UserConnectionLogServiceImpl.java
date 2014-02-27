@@ -30,21 +30,21 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 	@Autowired
 	protected EngineSettingService engineSettingService;
 
-    public UserConnectionLog getUserConnectionLogById(Long userConnectionLogId) {
-        return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId);
+    public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId, Object... params) {
+        return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId, params);
     }
     
-	public UserConnectionLog getUserConnectionLogById(String rawUserConnectionLogId) {
+	public UserConnectionLog getUserConnectionLogById(final String rawUserConnectionLogId, Object... params) {
 		long userConnectionLogId = -1;
 		try {
 			userConnectionLogId = Long.parseLong(rawUserConnectionLogId);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(e);
 		}
-		return getUserConnectionLogById(userConnectionLogId);
+		return getUserConnectionLogById(userConnectionLogId, params);
 	}
 
-	public void saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog) {
+	public void saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
 		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_USER_CONNECTION_LOG);
 		final Long userId = userConnectionLog.getUserId();
 		final String appCode = userConnectionLog.getApp();
@@ -62,7 +62,7 @@ public class UserConnectionLogServiceImpl implements UserConnectionLogService {
 		}
 	}
 
-	public void deleteUserConnectionLog(UserConnectionLog userConnectionLog) {
+	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {
 		userConnectionLogDao.deleteUserConnectionLog(userConnectionLog);
 	}
 

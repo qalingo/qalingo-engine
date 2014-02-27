@@ -38,6 +38,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
@@ -196,8 +197,10 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     public List<CatalogCategoryVirtualAttribute> getCatalogCategoryGlobalAttributes() {
-        List<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-        if (catalogCategoryAttributes != null) {
+        List<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = null;
+        if (catalogCategoryAttributes != null
+                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+            catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
             for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -210,8 +213,10 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     public List<CatalogCategoryVirtualAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
-        List<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-        if (catalogCategoryAttributes != null) {
+        List<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = null;
+        if (catalogCategoryAttributes != null
+                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+            catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
             for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
@@ -228,22 +233,26 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
-        List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-        Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
-            @Override
-            public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-                if (o1 != null && o2 != null) {
-                    Integer order1 = o1.getOrder(marketAreaId);
-                    Integer order2 = o2.getOrder(marketAreaId);
-                    if (order1 != null && order2 != null) {
-                        return order1.compareTo(order2);
-                    } else {
-                        return o1.getId().compareTo(o2.getId());
+        List<CatalogCategoryVirtual> sortedObjects = null;
+        if (catalogCategories != null
+                && Hibernate.isInitialized(catalogCategories)) {
+            sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+            Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
+                @Override
+                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+                    if (o1 != null && o2 != null) {
+                        Integer order1 = o1.getOrder(marketAreaId);
+                        Integer order2 = o2.getOrder(marketAreaId);
+                        if (order1 != null && order2 != null) {
+                            return order1.compareTo(order2);
+                        } else {
+                            return o1.getId().compareTo(o2.getId());
+                        }
                     }
+                    return 0;
                 }
-                return 0;
-            }
-        });
+            });
+        }
         return sortedObjects;
     }
 
@@ -268,8 +277,10 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     public List<Asset> getAssetsIsGlobal() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsIsGlobal = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsIsGlobal = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && asset.isGlobal()) {
@@ -281,16 +292,18 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     public List<Asset> getAssetsByMarketArea() {
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assets != null) {
+        List<Asset> assetsByMarketArea = null;
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
             for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                 Asset asset = (Asset) iterator.next();
                 if (asset != null && !asset.isGlobal()) {
-                    assetsIsGlobal.add(asset);
+                    assetsByMarketArea.add(asset);
                 }
             }
         }
-        return assetsIsGlobal;
+        return assetsByMarketArea;
     }
 
     public Date getDateCreate() {
@@ -429,17 +442,19 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     }
 
     // ASSET
+    
     public Asset getDefaultBackgroundImage() {
         Asset defaultProductImage = null;
-        if (getAssetsIsGlobal() != null) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.BACKGROUND.equals(productImage.getType()) 
                         && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.BACKGROUND.equals(productImage.getType())) {
                     defaultProductImage = productImage;
@@ -451,15 +466,16 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 
     public Asset getDefaultSlideshowImage() {
         Asset defaultProductImage = null;
-        if (getAssetsIsGlobal() != null) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.SLIDESHOW.equals(productImage.getType()) 
                         && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.SLIDESHOW.equals(productImage.getType())) {
                     defaultProductImage = productImage;
@@ -471,8 +487,9 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 
     public Asset getDefaultPaskshotImage(String size) {
         Asset defaultProductImage = null;
-        if (getAssetsIsGlobal() != null && StringUtils.isNotEmpty(size)) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productAsset = (Asset) iterator.next();
                 if (AssetType.PACKSHOT.equals(productAsset.getType()) 
                         && size.equals(productAsset.getSize().name()) 
@@ -480,7 +497,7 @@ public class CatalogCategoryVirtual extends AbstractEntity {
                     defaultProductImage = productAsset;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.PACKSHOT.equals(productImage.getType()) 
                         && size.equals(productImage.getSize().name())) {
@@ -493,15 +510,16 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 
     public Asset getDefaultIconImage() {
         Asset defaultProductImage = null;
-        if (getAssetsIsGlobal() != null) {
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.ICON.equals(productImage.getType()) 
                         && productImage.isDefault()) {
                     defaultProductImage = productImage;
                 }
             }
-            for (Iterator<Asset> iterator = getAssetsIsGlobal().iterator(); iterator.hasNext();) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.ICON.equals(productImage.getType())) {
                     defaultProductImage = productImage;

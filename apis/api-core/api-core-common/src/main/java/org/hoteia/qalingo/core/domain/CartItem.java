@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TECO_CART_ITEM")
 public class CartItem extends AbstractEntity {
@@ -156,7 +158,10 @@ public class CartItem extends AbstractEntity {
     }
 
     public ProductSkuPrice getPrice(final Long marketAreaId, final Long retailerId) {
-        if (productSku != null && productSku.getPrices() != null && productSku.getPrices().size() > 0) {
+        if (productSku != null 
+                && Hibernate.isInitialized(productSku)
+                && productSku.getPrices() != null 
+                && Hibernate.isInitialized(productSku.getPrices())) {
             for (Iterator<ProductSkuPrice> iterator = productSku.getPrices().iterator(); iterator.hasNext();) {
                 final ProductSkuPrice productSkuPrice = (ProductSkuPrice) iterator.next();
                 if (productSkuPrice.getMarketAreaId() != null && productSkuPrice.getMarketAreaId().equals(marketAreaId) && productSkuPrice.getRetailerId() != null

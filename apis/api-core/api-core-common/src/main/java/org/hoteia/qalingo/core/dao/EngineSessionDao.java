@@ -16,9 +16,9 @@ public interface EngineSessionDao {
 
 	// ECO SESSION
     
-	EngineEcoSession getEngineEcoSessionById(Long engineSessionId);
+	EngineEcoSession getEngineEcoSessionById(Long engineSessionId, Object... params);
 
-	EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String engineSessionGuid);
+	EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String engineSessionGuid, Object... params);
 	
 	EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineSession);
 
@@ -26,9 +26,9 @@ public interface EngineSessionDao {
 	
 	// BO SESSION
 	
-	EngineBoSession getEngineBoSessionById(Long engineBoSessionId);
+	EngineBoSession getEngineBoSessionById(Long engineBoSessionId, Object... params);
 	
-    EngineBoSession getEngineBoSessionByEngineSessionGuid(String engineSessionGuid);
+    EngineBoSession getEngineBoSessionByEngineSessionGuid(String engineSessionGuid, Object... params);
 	
     EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
 	

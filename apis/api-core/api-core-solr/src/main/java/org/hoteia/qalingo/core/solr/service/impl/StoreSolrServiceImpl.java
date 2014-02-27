@@ -58,6 +58,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         }
         StoreSolr storeSolr = new StoreSolr();
         storeSolr.setId(store.getId());
+        storeSolr.setCode(store.getCode());
         storeSolr.setBusinessname(store.getBusinessName());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hoteia.qalingo.core.pojo.AssetPojo;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 
 public class ProductSkuPojo {
 
@@ -109,7 +108,7 @@ public class ProductSkuPojo {
     }
 
     public void setProductSkuGlobalAttributes(List<ProductSkuAttributePojo> productSkuGlobalAttributes) {
-        this.productSkuGlobalAttributes = PojoUtil.asList(productSkuGlobalAttributes);
+        this.productSkuGlobalAttributes = productSkuGlobalAttributes;
     }
 
     public List<ProductSkuAttributePojo> getProductSkuMarketAreaAttributes() {
@@ -117,7 +116,7 @@ public class ProductSkuPojo {
     }
 
     public void setProductSkuMarketAreaAttributes(List<ProductSkuAttributePojo> productSkuMarketAreaAttributes) {
-        this.productSkuMarketAreaAttributes = PojoUtil.asList(productSkuMarketAreaAttributes);
+        this.productSkuMarketAreaAttributes = productSkuMarketAreaAttributes;
     }
 
     public List<AssetPojo> getAssetsIsGlobal() {
@@ -125,7 +124,7 @@ public class ProductSkuPojo {
     }
 
     public void setAssetsIsGlobal(List<AssetPojo> assetsIsGlobal) {
-        this.assetsIsGlobal = PojoUtil.asList(assetsIsGlobal);
+        this.assetsIsGlobal = assetsIsGlobal;
     }
 
     public List<AssetPojo> getAssetsByMarketArea() {
@@ -133,7 +132,7 @@ public class ProductSkuPojo {
     }
 
     public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
-        this.assetsByMarketArea = PojoUtil.asList(assetsByMarketArea);
+        this.assetsByMarketArea = assetsByMarketArea;
     }
 
     public List<ProductSkuPricePojo> getPrices() {
@@ -141,7 +140,7 @@ public class ProductSkuPojo {
     }
 
     public void setPrices(List<ProductSkuPricePojo> prices) {
-        this.prices = PojoUtil.asList(prices);
+        this.prices = prices;
     }
 
     public List<ProductSkuStockPojo> getStocks() {
@@ -149,7 +148,7 @@ public class ProductSkuPojo {
     }
 
     public void setStocks(List<ProductSkuStockPojo> stocks) {
-        this.stocks = PojoUtil.asList(stocks);
+        this.stocks = stocks;
     }
 
     public List<RetailerPojo> getRetailers() {
@@ -157,7 +156,7 @@ public class ProductSkuPojo {
     }
 
     public void setRetailers(List<RetailerPojo> retailers) {
-        this.retailers = PojoUtil.asList(retailers);
+        this.retailers = retailers;
     }
     
 }

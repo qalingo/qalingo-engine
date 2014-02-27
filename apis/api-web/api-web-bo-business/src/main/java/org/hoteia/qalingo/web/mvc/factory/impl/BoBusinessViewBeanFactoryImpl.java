@@ -44,7 +44,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		if(currentUrl.contains("home")){
 			menu.setCssClass("active");
 		}
-		menu.setCssIcon("icon-home");
+		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
@@ -55,7 +55,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		} else {
 			menu.setCssClass("dropdown");
 		}
-		menu.setCssIcon("icon-sitemap");
+		menu.setCssIcon("fa fa-sitemap");
 		menu.setName("Catalog");
 		menuViewBeans.add(menu);
 		
@@ -70,43 +70,43 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menu.getSubMenus().add(subMenu);
 		
         menu = new MenuViewBean();
-        menu.setCssIcon("icon-building");
+        menu.setCssIcon("fa fa-building-o");
         menu.setName("Warehouse");
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setCssIcon("icon-usd");
+        menu.setCssIcon("fa fa-usd");
         menu.setName("Price");
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PRICE_LIST, requestData));
         menuViewBeans.add(menu);
         
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-money");
+		menu.setCssIcon("fa fa-money");
 		menu.setName("Promotion");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-truck");
+		menu.setCssIcon("fa fa-truck");
 		menu.setName("Delivery Option");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-shopping-cart");
+		menu.setCssIcon("fa fa-shopping-cart");
 		menu.setName("Orders");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-		menu.setCssIcon("icon-group");
+		menu.setCssIcon("fa fa-group");
 		menu.setName("Customers");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
-        menu.setCssIcon(" icon-map-marker");
+        menu.setCssIcon(" fa fa-map-marker");
 		menu.setName("Retailers");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
         menuViewBeans.add(menu);

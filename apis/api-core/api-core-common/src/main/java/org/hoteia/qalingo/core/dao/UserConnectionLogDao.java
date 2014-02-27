@@ -15,11 +15,11 @@ import org.hoteia.qalingo.core.domain.UserConnectionLog;
 
 public interface UserConnectionLogDao {
 
-	UserConnectionLog getUserConnectionLogById(Long userConnectionLogId);
+	UserConnectionLog getUserConnectionLogById(Long userConnectionLogId, Object... params);
 
-	List<UserConnectionLog> findUserConnectionLogsByUserId(Long userId);
+	List<UserConnectionLog> findUserConnectionLogsByUserId(Long userId, Object... params);
 
-	List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(Long userId, String appCode);
+	List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(Long userId, String appCode, Object... params);
 
 	UserConnectionLog saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog);
 

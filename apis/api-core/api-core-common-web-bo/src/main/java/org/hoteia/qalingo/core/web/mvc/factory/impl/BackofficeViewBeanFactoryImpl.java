@@ -115,6 +115,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         commonViewBean.setLogoutUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
         commonViewBean.setPersonalDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData));
 
+        commonViewBean.setContextJsonUrl(backofficeUrlService.generateUrl(BoUrls.CONTEXT, requestData));
+
         return commonViewBean;
     }
     
@@ -131,19 +133,19 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         // TODO : denis : move this part in the global list menu java/vm
 
         MenuViewBean menu = new MenuViewBean();
-        menu.setCssIcon("icon-paper-clip");
+        menu.setCssIcon("fa fa-question");
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "faq", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.FAQ, requestData));
         menuViewBeans.add(menu);
 
         menu = new MenuViewBean();
-        menu.setCssIcon("icon-user");
+        menu.setCssIcon("fa fa-user");
         menu.setName(getSpecificMessage(ScopeWebMessage.COMMON, "header_link_my_account", locale));
         menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
         menuViewBeans.add(menu);
         
         menu = new MenuViewBean();
-        menu.setCssIcon("icon-lock");
+        menu.setCssIcon("fa fa-lock");
         if(currentUser != null){
             menu.setName(getSpecificMessage(ScopeWebMessage.AUTH, "header_title_logout", locale));
             menu.setUrl(backofficeUrlService.generateUrl(BoUrls.LOGOUT, requestData));
@@ -321,7 +323,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         }
 
         Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_DETAILS_CODE, retailer.getCode());
+        urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE, retailer.getCode());
         String detailsUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, urlParams);
         String editUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_EDIT, requestData, urlParams);
 
@@ -375,8 +377,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
             final CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
-            
-         // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
+
+            // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
             CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId());
 
             categoryViewBeans.add(buildMasterCatalogCategoryViewBean(requestData, reloadedCategory, fullPopulate));

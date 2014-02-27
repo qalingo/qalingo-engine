@@ -31,6 +31,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_MARKET", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -160,8 +161,8 @@ public class Market extends AbstractEntity {
 
     public MarketArea getMarketArea(String marketAreaCode) {
         MarketArea marketAreaToReturn = null;
-        Set<MarketArea> marketAreas = getMarketAreas();
-        if (marketAreas != null && marketAreas.size() > 0) {
+        if (marketAreas != null 
+                && Hibernate.isInitialized(marketAreas)) {
             for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
                 MarketArea marketArea = (MarketArea) iterator.next();
                 if (marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
@@ -178,8 +179,8 @@ public class Market extends AbstractEntity {
 
     public MarketArea getDefaultMarketArea() {
         MarketArea defaultMarketArea = null;
-        Set<MarketArea> marketAreas = getMarketAreas();
-        if (marketAreas != null && marketAreas.size() > 0) {
+        if (marketAreas != null
+                && Hibernate.isInitialized(marketAreas)) {
             for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
                 MarketArea marketArea = (MarketArea) iterator.next();
                 if (marketArea.isDefault()) {
@@ -215,7 +216,8 @@ public class Market extends AbstractEntity {
     }
 
     private String getAttributeValueString(String attributeDefinitionCode, String contextNameValue) {
-        if (marketAttributes != null && !marketAttributes.isEmpty()) {
+        if (marketAttributes != null 
+                && Hibernate.isInitialized(marketAttributes)) {
             for (Iterator<MarketAttribute> iterator = marketAttributes.iterator(); iterator.hasNext();) {
                 MarketAttribute marketAttribute = (MarketAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = marketAttribute.getAttributeDefinition();

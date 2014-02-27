@@ -34,6 +34,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
 public class CatalogVirtual extends AbstractEntity {
@@ -155,22 +157,26 @@ public class CatalogVirtual extends AbstractEntity {
     }
 
     public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
-        List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-        Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
-            @Override
-            public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-                if (o1 != null && o2 != null) {
-                    Integer order1 = o1.getOrder(marketAreaId);
-                    Integer order2 = o2.getOrder(marketAreaId);
-                    if (order1 != null && order2 != null) {
-                        return order1.compareTo(order2);
-                    } else {
-                        return o1.getId().compareTo(o2.getId());
+        List<CatalogCategoryVirtual> sortedObjects = null;
+        if(catalogCategories != null
+                && Hibernate.isInitialized(catalogCategories)){
+            sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+            Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
+                @Override
+                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+                    if (o1 != null && o2 != null) {
+                        Integer order1 = o1.getOrder(marketAreaId);
+                        Integer order2 = o2.getOrder(marketAreaId);
+                        if (order1 != null && order2 != null) {
+                            return order1.compareTo(order2);
+                        } else {
+                            return o1.getId().compareTo(o2.getId());
+                        }
                     }
+                    return 0;
                 }
-                return 0;
-            }
-        });
+            });
+        }
         return sortedObjects;
     }
 

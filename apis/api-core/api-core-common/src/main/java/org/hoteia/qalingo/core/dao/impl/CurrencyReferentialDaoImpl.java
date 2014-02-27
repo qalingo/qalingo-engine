@@ -20,29 +20,27 @@ import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository("currencyReferentialDao")
 public class CurrencyReferentialDaoImpl extends AbstractGenericDaoImpl implements CurrencyReferentialDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId) {
+	public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId, Object... params) {
         Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("id", currencyReferentialId));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
         return currencyReferential;
 	}
 
-	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode) {
+	public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         criteria.add(Restrictions.eq("code", currencyReferentialCode));
         CurrencyReferential currencyReferential = (CurrencyReferential) criteria.uniqueResult();
         return currencyReferential;
 	}
 	
-	public List<CurrencyReferential> findCurrencyReferentials() {
+	public List<CurrencyReferential> findCurrencyReferentials(Object... params) {
         Criteria criteria = createDefaultCriteria(CurrencyReferential.class);
         
         criteria.addOrder(Order.asc("code"));
