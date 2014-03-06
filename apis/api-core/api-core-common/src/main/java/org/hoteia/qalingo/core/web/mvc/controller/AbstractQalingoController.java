@@ -139,20 +139,20 @@ public abstract class AbstractQalingoController {
 	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
 		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
     	final String contextValue = requestUtil.getCurrentContextNameValue(request);
-
 	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getWebMonitoringNumber();
-	    EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
-	    if(webMonitoringNumberEngineSettingValue != null
-	    		&& StringUtils.isNotEmpty(webMonitoringNumberEngineSettingValue.getValue())){
-	    	monitoringViewBean = new MonitoringViewBean();
-	    	monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
-	    	
-		    EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
-		    EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
-		    if(webMonitoringNameEngineSettingValue != null){
-		    	monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());
-		    }
-
+	    if(webMonitoringNumberEngineSetting != null){
+	        EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
+	        if(webMonitoringNumberEngineSettingValue != null
+	                && StringUtils.isNotEmpty(webMonitoringNumberEngineSettingValue.getValue())){
+	            monitoringViewBean = new MonitoringViewBean();
+	            monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
+	            
+	            EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
+	            EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
+	            if(webMonitoringNameEngineSettingValue != null){
+	                monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());
+	            }
+	        }
 	    }
 		return monitoringViewBean;
 	}
