@@ -10,11 +10,13 @@
 package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.CartDao;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +66,11 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	}
 	
     @Override
-    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCartFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCartFetchPlan());
         }
     }
 	   

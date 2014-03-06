@@ -47,6 +47,8 @@ public class MarketArea extends AbstractEntity {
      */
     private static final long serialVersionUID = -6237479836764154416L;
 
+    public static final String CACHE_NAME = "web_cache_market";
+
     public final static String MARKET_AREA_ATTRIBUTE_DEFAULT_CONTEXT = "DEFAULT_CONTEXT";
     
     @Id

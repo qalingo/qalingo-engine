@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.springframework.stereotype.Repository;
 
@@ -151,11 +152,11 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	}
 	
     @Override
-    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerFetchPlan());
         }
     }
 

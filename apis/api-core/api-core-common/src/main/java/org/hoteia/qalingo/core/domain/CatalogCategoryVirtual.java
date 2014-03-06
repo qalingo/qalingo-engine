@@ -52,6 +52,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
      */
     private static final long serialVersionUID = 4953461049508842305L;
 
+    public static final String CACHE_NAME = "web_cache_category";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)

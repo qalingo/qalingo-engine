@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"	
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"	   
+	   xmlns:cache="http://www.springframework.org/schema/cache" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						   http://www.springframework.org/schema/beans/spring-beans.xsd
+						   http://www.springframework.org/schema/tx 
+						   http://www.springframework.org/schema/tx/spring-tx.xsd
+					   	   http://www.springframework.org/schema/context 
+						   http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+						   http://www.springframework.org/schema/cache
+						   http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<context:component-scan base-package="org.hoteia.qalingo.core.web.cache" />
+
+	<cache:annotation-driven cache-manager="ehCacheCacheManager" />
+
+	<bean id="ehCacheCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cacheManager-ref="ehcache" />
+
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
+		  p:shared="true" 
+		  p:config-location="${cache.configuration.location}" />
+
+    <context:component-scan base-package="org.hoteia.qalingo.core.aop.cache" />
+    
+    <aop:config>
+        <aop:aspect id="triggerCacheAttributeService" ref="cacheManagementAspect">
+            <aop:pointcut id="attributeServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.AttributeService.get*(..))" />
+            <aop:around method="around" pointcut-ref="attributeServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCartService" ref="cacheManagementAspect">
+            <aop:pointcut id="cartServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CartService.get*(..))" />
+            <aop:around method="around" pointcut-ref="cartServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCatalogCategoryService" ref="cacheManagementAspect">
+            <aop:pointcut id="catalogCategoryServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CatalogCategoryService.get*(..))" />
+            <aop:around method="around" pointcut-ref="catalogCategoryServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCatalogService" ref="cacheManagementAspect">
+            <aop:pointcut id="catalogServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CatalogService.get*(..))" />
+            <aop:around method="around" pointcut-ref="catalogServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCmsContentService" ref="cacheManagementAspect">
+            <aop:pointcut id="cmsContentServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CmsContentService.get*(..))" />
+            <aop:around method="around" pointcut-ref="cmsContentServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCurrencyReferentialService" ref="cacheManagementAspect">
+            <aop:pointcut id="currencyReferentialServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CurrencyReferentialService.get*(..))" />
+            <aop:around method="around" pointcut-ref="currencyReferentialServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCustomerConnectionLogService" ref="cacheManagementAspect">
+            <aop:pointcut id="customerConnectionLogServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerConnectionLogService.get*(..))" />
+            <aop:around method="around" pointcut-ref="customerConnectionLogServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCustomerProductCommentService" ref="cacheManagementAspect">
+            <aop:pointcut id="customerProductCommentServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerProductCommentService.get*(..))" />
+            <aop:around method="around" pointcut-ref="customerProductCommentServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCustomerService" ref="cacheManagementAspect">
+            <aop:pointcut id="customerServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerService.get*(..))" />
+            <aop:around method="around" pointcut-ref="customerServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheCustomerWishlistService" ref="cacheManagementAspect">
+            <aop:pointcut id="customerWishlistServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.CustomerWishlistService.get*(..))" />
+            <aop:around method="around" pointcut-ref="customerWishlistServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheDeliveryMethodService" ref="cacheManagementAspect">
+            <aop:pointcut id="deliveryMethodServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.DeliveryMethodService.get*(..))" />
+            <aop:around method="around" pointcut-ref="deliveryMethodServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheEngineSessionService" ref="cacheManagementAspect">
+            <aop:pointcut id="engineSessionServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.EngineSessionService.get*(..))" />
+            <aop:around method="around" pointcut-ref="engineSessionServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheEngineSettingService" ref="cacheManagementAspect">
+            <aop:pointcut id="engineSettingServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.EngineSettingService.get*(..))" />
+            <aop:around method="around" pointcut-ref="engineSettingServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheGeolocService" ref="cacheManagementAspect">
+            <aop:pointcut id="geolocServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.GeolocService.get*(..))" />
+            <aop:around method="around" pointcut-ref="geolocServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheGroupRoleService" ref="cacheManagementAspect">
+            <aop:pointcut id="groupRoleServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.GroupRoleService.get*(..))" />
+            <aop:around method="around" pointcut-ref="groupRoleServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheLocalizationService" ref="cacheManagementAspect">
+            <aop:pointcut id="localizationServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.LocalizationService.get*(..))" />
+            <aop:around method="around" pointcut-ref="localizationServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheMarketService" ref="cacheManagementAspect">
+            <aop:pointcut id="marketServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.MarketService.get*(..))" />
+            <aop:around method="around" pointcut-ref="marketServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheNotificationService" ref="cacheManagementAspect">
+            <aop:pointcut id="notificationServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.NotificationService.get*(..))" />
+            <aop:around method="around" pointcut-ref="notificationServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheOrderCustomerService" ref="cacheManagementAspect">
+            <aop:pointcut id="orderCustomerServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.OrderCustomerService.get*(..))" />
+            <aop:around method="around" pointcut-ref="orderCustomerServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCachePaymentGatewayService" ref="cacheManagementAspect">
+            <aop:pointcut id="paymentGatewayServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.PaymentGatewayService.get*(..))" />
+            <aop:around method="around" pointcut-ref="paymentGatewayServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerProductService" ref="cacheManagementAspect">
+            <aop:pointcut id="productServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.ProductService.get*(..))" />
+            <aop:around method="around" pointcut-ref="productServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheReferentialDataService" ref="cacheManagementAspect">
+            <aop:pointcut id="referentialDataServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.ReferentialDataService.get*(..))" />
+            <aop:around method="around" pointcut-ref="referentialDataServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheRetailerService" ref="cacheManagementAspect">
+            <aop:pointcut id="retailerServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.RetailerService.get*(..))" />
+            <aop:around method="around" pointcut-ref="retailerServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheServerService" ref="cacheManagementAspect">
+            <aop:pointcut id="serverServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.ServerService.get*(..))" />
+            <aop:around method="around" pointcut-ref="serverServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheStockService" ref="cacheManagementAspect">
+            <aop:pointcut id="stockServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.StockService.get*(..))" />
+            <aop:around method="around" pointcut-ref="stockServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheTaxService" ref="cacheManagementAspect">
+            <aop:pointcut id="taxServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.TaxService.get*(..))" />
+            <aop:around method="around" pointcut-ref="taxServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerUrlService" ref="cacheManagementAspect">
+            <aop:pointcut id="urlServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.UrlService.get*(..))" />
+            <aop:around method="around" pointcut-ref="urlServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheUserConnectionLogService" ref="cacheManagementAspect">
+            <aop:pointcut id="userConnectionLogServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.UserConnectionLogService.get*(..))" />
+            <aop:around method="around" pointcut-ref="userConnectionLogServicePointcut" />
+        </aop:aspect>
+        <aop:aspect id="triggerCacheUserService" ref="cacheManagementAspect">
+            <aop:pointcut id="userServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.UserService.get*(..))" />
+            <aop:around method="around" pointcut-ref="userServicePointcut" />
+        </aop:aspect>
+    </aop:config>
+    
+</beans>

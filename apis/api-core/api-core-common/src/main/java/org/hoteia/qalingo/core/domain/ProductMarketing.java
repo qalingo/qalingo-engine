@@ -45,7 +45,9 @@ public class ProductMarketing extends AbstractEntity {
 	/**
 	 * Generated UID
 	 */
-	private static final long serialVersionUID = 5408836788685407465L;
+    private static final long serialVersionUID = 5408836788685407465L;
+
+    public static final String CACHE_NAME = "web_cache_product_marketing";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

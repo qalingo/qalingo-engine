@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -156,7 +157,15 @@ public abstract class AbstractQalingoController {
 		return monitoringViewBean;
 	}
 	
-
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return requestUtil.getCurrentVelocityWebPrefix(requestData);
+    }
+    
 	protected void initMessageError(BindingResult result, Exception e, Map<String, String> wording, String formKey, String fieldKey, String errorKey){
         String errorMessage = wording.get(errorKey);
         if(StringUtils.isEmpty(errorMessage)){

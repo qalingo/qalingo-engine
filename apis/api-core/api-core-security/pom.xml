@@ -107,7 +107,7 @@
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 		
-		<!-- Cache -->
+		<!-- Cache 
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-web</artifactId>
@@ -116,6 +116,7 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
+		-->
 		
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>

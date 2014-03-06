@@ -49,6 +49,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.CurrencyReferentialService;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
@@ -116,6 +117,9 @@ public class RequestUtilImpl implements RequestUtil {
     
     @Autowired
     protected RetailerService retailerService;
+    
+    @Autowired
+    protected CurrencyReferentialService currencyReferentialService;
     
     @Autowired
     protected UserService userService;
@@ -783,7 +787,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected Retailer getCurrentRetailer(final RequestData requestData) throws Exception {
+    protected Retailer getCurrentMarketAreaRetailer(final RequestData requestData) throws Exception {
         Retailer retailer = null;
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
@@ -805,7 +809,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected CurrencyReferential getCurrentCurrency(final HttpServletRequest request) throws Exception {
+    protected CurrencyReferential getCurrentMarketAreaCurrency(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         return engineEcoSession.getCurrentMarketAreaCurrency();
     }
@@ -1480,8 +1484,8 @@ public class RequestUtilImpl implements RequestUtil {
         requestData.setMarket(getCurrentMarket(requestData));
         requestData.setMarketArea(getCurrentMarketArea(requestData));
         requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(requestData));
-        requestData.setMarketAreaRetailer(getCurrentRetailer(requestData));
-        requestData.setMarketAreaCurrency(getCurrentCurrency(request));
+        requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(requestData));
+        requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(request));
 
         requestData.setCart(getCurrentCart(request));
 
@@ -1756,7 +1760,7 @@ public class RequestUtilImpl implements RequestUtil {
 
         setCurrentEcoSession(request, engineEcoSession);
         
-        return  engineEcoSession; 
+        return engineEcoSession; 
     }
     
     protected AbstractEngineSession setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
@@ -1785,7 +1789,7 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     protected AbstractEngineSession setSessionMarketAreaCurrency(final AbstractEngineSession session, final CurrencyReferential currency){
-        session.setCurrentMarketAreaCurrency(currency);
+        session.setCurrentMarketAreaCurrency(currencyReferentialService.getCurrencyReferentialById(currency.getId().toString()));
         return session;
     }
 

@@ -48,11 +48,11 @@
 		<property name="suffix" value=".vm" />
 		<property name="exposeSpringMacroHelpers" value="true" />
 		<property name="contentType" value="text/html; charset=UTF-8" />
-		<!-- 
-		<property name="toolboxConfigLocation">
+        <property name="dateToolAttribute" value="dateTool" />
+        <property name="numberToolAttribute" value="numberTool" />
+        <property name="toolboxConfigLocation">
             <value>/WEB-INF/classes/velocity/velocity-toolbox.xml</value>
         </property>
-         -->
 	</bean>
 	
 </beans>

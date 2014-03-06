@@ -46,6 +46,8 @@ public class Store extends AbstractEntity {
      */
     private static final long serialVersionUID = 9020657992879779713L;
 
+    public static final String CACHE_NAME = "web_cache_retailer";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)

@@ -13,24 +13,27 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:tx="http://www.springframework.org/schema/tx"	
+	   xmlns:p="http://www.springframework.org/schema/p"
 	   xmlns:context="http://www.springframework.org/schema/context" 
+	   xmlns:cache="http://www.springframework.org/schema/cache" 
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
 						   http://www.springframework.org/schema/beans/spring-beans.xsd
 						   http://www.springframework.org/schema/tx 
 						   http://www.springframework.org/schema/tx/spring-tx.xsd
 					   	   http://www.springframework.org/schema/context 
-						   http://www.springframework.org/schema/context/spring-context.xsd">
-						   	
-	<import resource="classpath:conf/spring/qalingo-core-cache.xml" />
+						   http://www.springframework.org/schema/context/spring-context.xsd
+						   http://www.springframework.org/schema/cache
+						   http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-	<bean id="menuMarketNavigationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-		<property name="overflowToDisk" value="false" />
-		<property name="maxElementsInMemory" value="500" />
-	</bean>
-
-	<bean id="menuMarketNavigationCacheHelper" class="org.hoteia.qalingo.core.web.cache.util.impl.WebCacheHelperImpl">
-		<property name="cache" ref="menuMarketNavigationCache" />
-		<property name="engineSettingService" ref="engineSettingService" />
-	</bean>
+    <!-- EhCache management and statistics -->
+	<bean class="net.sf.ehcache.management.ManagementService" init-method="init">
+        <constructor-arg ref="ehcache"/>
+        <constructor-arg ref="mbeanServer"/>
+        <constructor-arg value="true"/>
+        <constructor-arg value="true"/>
+        <constructor-arg value="true"/>
+        <constructor-arg value="true"/>
+        <constructor-arg value="false"/>
+    </bean>
 	
 </beans>

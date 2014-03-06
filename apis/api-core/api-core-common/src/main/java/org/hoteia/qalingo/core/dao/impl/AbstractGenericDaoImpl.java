@@ -35,21 +35,27 @@ public abstract class AbstractGenericDaoImpl {
     }
     
     @SuppressWarnings("unchecked")
-    protected void handleSpecificFetchMode(Criteria criteria, Object... params){
+    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params){
         if (params != null) {
             for (Object param : params) {
                 if (param instanceof List) {
-                    List<SpecificFetchMode> specificFetchModes = (List<SpecificFetchMode>) param;
-                    for (Iterator<SpecificFetchMode> iterator = specificFetchModes.iterator(); iterator.hasNext();) {
-                        SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                        if(specificFetchMode.getRequiredAlias() != null){
-                            criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
+                    List argList = (List) param;
+                    if(argList != null && !argList.isEmpty() && argList.iterator().next() instanceof SpecificFetchMode){
+                        List<SpecificFetchMode> specificFetchModes = (List<SpecificFetchMode>) param;
+                        for (Iterator<SpecificFetchMode> iterator = specificFetchModes.iterator(); iterator.hasNext();) {
+                            SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                            if(specificFetchMode.getRequiredAlias() != null){
+                                // TODO : Denis : check duplicate entry are manage or not
+                                criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
+                            }
+                            criteria.setFetchMode(specificFetchMode.getAssocationPath(), specificFetchMode.getFetchMode());
                         }
-                        criteria.setFetchMode(specificFetchMode.getAssocationPath(), specificFetchMode.getFetchMode());
+                        return specificFetchModes;
                     }
                 }
             }
         }
+        return null;
     }
 	
 }

@@ -50,6 +50,8 @@ public class ProductSku extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -2239109542749803870L;
 
+    public static final String CACHE_NAME = "web_cache_product_sku";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ID", nullable=false)

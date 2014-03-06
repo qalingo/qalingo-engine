@@ -31,15 +31,15 @@ public class EmailNotificationAspect {
     @Value("${app.name}")  
     protected String applicationName;
     
-    public void beforeRuning(final JoinPoint joinPoint) {
+    public void before(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
-            logger.debug("EmailNotificationAspect, beforeRuning");
+            logger.debug("EmailNotificationAspect, before");
         }
     }
 
-    public void afterRuning(final StaticPart staticPart, final Object result) {
+    public void afterReturning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
-            logger.debug("EmailNotificationAspect, afterRuning");
+            logger.debug("EmailNotificationAspect, afterReturning");
         }
         try {
             final Email email = (Email) result;

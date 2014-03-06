@@ -24,15 +24,15 @@ public class RuleOrientedCartAspect {
     @Autowired
     protected RuleUtil ruleUtil;
 
-    public void beforeRuning(final JoinPoint joinPoint) {
+    public void before(final JoinPoint joinPoint) {
         if (logger.isDebugEnabled()) {
-            logger.debug("RuleEcoAspect, beforeRuning");
+            logger.debug("RuleEcoAspect, before");
         }
     }
 
-    public void afterRuning(final StaticPart staticPart, final Object result) {
+    public void afterReturning(final StaticPart staticPart, final Object result) {
         if (logger.isDebugEnabled()) {
-            logger.debug("RuleEcoAspect, afterRuning");
+            logger.debug("RuleEcoAspect, afterReturning");
         }
         try {
             List<Object> objects = new ArrayList<Object>();

@@ -28,5 +28,7 @@
     <import resource="classpath:conf/spring/qalingo-core-web.xml" />
 
 	<import resource="classpath:conf/spring/qalingo-core-service.xml" />
+
+    <import resource="classpath:conf/spring/qalingo-core-jmx.xml" />
 	
 </beans>

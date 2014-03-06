@@ -23,6 +23,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -167,11 +168,11 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     }
 
     @Override
-    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultOrderCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultOrderCustomerFetchPlan());
         }
     }
     

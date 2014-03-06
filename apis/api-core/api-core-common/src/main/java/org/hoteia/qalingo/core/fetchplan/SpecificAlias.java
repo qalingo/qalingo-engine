@@ -1,9 +1,16 @@
 package org.hoteia.qalingo.core.fetchplan;
 
+import java.io.Serializable;
+
 import org.hibernate.sql.JoinType;
 
-public class SpecificAlias {
+public class SpecificAlias implements Serializable {
 
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -4790589302644546692L;
+    
     private String assocationPath;
     private String alias;
     private JoinType joinType;
