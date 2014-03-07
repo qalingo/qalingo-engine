@@ -31,8 +31,8 @@ import org.springframework.beans.BeanUtils;
 public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
 
     @Override
-    public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
-        RetailerViewBean retailerViewBean = super.buildRetailerViewBean(requestData, retailer);
+    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
+        RetailerViewBean retailerViewBean = super.buildViewBeanRetailer(requestData, retailer);
         
         // CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
         RequestData requestDataChangecontext = new RequestData();
@@ -45,8 +45,8 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
     }
     
     @Override
-    public MarketPlaceViewBean buildMarketPlaceViewBean(final RequestData requestData, final MarketPlace marketPlace) throws Exception {
-        MarketPlaceViewBean marketPlaceViewBean = super.buildMarketPlaceViewBean(requestData, marketPlace);
+    public MarketPlaceViewBean buildViewBeanMarketPlace(final RequestData requestData, final MarketPlace marketPlace) throws Exception {
+        MarketPlaceViewBean marketPlaceViewBean = super.buildViewBeanMarketPlace(requestData, marketPlace);
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
@@ -58,8 +58,8 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
     }
     
     @Override
-    public MarketViewBean buildMarketViewBean(final RequestData requestData, final Market market) throws Exception {
-        MarketViewBean marketViewBean = super.buildMarketViewBean(requestData, market);
+    public MarketViewBean buildViewBeanMarket(final RequestData requestData, final Market market) throws Exception {
+        MarketViewBean marketViewBean = super.buildViewBeanMarket(requestData, market);
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
@@ -71,8 +71,8 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
     }
     
     @Override
-    public MarketAreaViewBean buildMarketAreaViewBean(final RequestData requestData, final MarketArea marketArea) throws Exception {
-        MarketAreaViewBean marketAreaViewBean = super.buildMarketAreaViewBean(requestData, marketArea);
+    public MarketAreaViewBean buildViewBeanMarketArea(final RequestData requestData, final MarketArea marketArea) throws Exception {
+        MarketAreaViewBean marketAreaViewBean = super.buildViewBeanMarketArea(requestData, marketArea);
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
@@ -84,8 +84,8 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
     }
     
     @Override
-    public LocalizationViewBean buildLocalizationViewBean(final RequestData requestData, final Localization localization) throws Exception {
-        LocalizationViewBean localizationViewBean = super.buildLocalizationViewBean(requestData, localization);
+    public LocalizationViewBean buildViewBeanLocalization(final RequestData requestData, final Localization localization) throws Exception {
+        LocalizationViewBean localizationViewBean = super.buildViewBeanLocalization(requestData, localization);
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);

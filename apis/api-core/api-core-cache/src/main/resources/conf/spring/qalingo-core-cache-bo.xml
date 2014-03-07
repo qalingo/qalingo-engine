@@ -53,7 +53,7 @@
     
     <aop:config>
         <aop:aspect id="triggerBackofficeViewBeanFactory" ref="cacheManagementAspect">
-            <aop:pointcut id="backofficeViewBeanFactoryPointcut" expression="execution(* org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory.build*(..))" />
+            <aop:pointcut id="backofficeViewBeanFactoryPointcut" expression="execution(* org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory.buildViewBean*(..))" />
             <aop:around method="around" pointcut-ref="backofficeViewBeanFactoryPointcut" />
         </aop:aspect>
     </aop:config>

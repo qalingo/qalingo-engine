@@ -237,7 +237,7 @@ public class BatchController extends AbstractTechnicalBackofficeController {
 	
 	protected PagedListHolder<BatchViewBean> initList(final HttpServletRequest request, final String sessionKey, 
 			final List<BatchProcessObject> batchProcessObjects, PagedListHolder<BatchViewBean> batchViewBeanPagedListHolder) throws Exception{
-		List<BatchViewBean> batchViewBeans = backofficeViewBeanFactory.buildBatchViewBeans(requestUtil.getRequestData(request), batchProcessObjects);
+		List<BatchViewBean> batchViewBeans = backofficeViewBeanFactory.buildListViewBeanBatch(requestUtil.getRequestData(request), batchProcessObjects);
 		batchViewBeanPagedListHolder = new PagedListHolder<BatchViewBean>(batchViewBeans);
 
 		batchViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 

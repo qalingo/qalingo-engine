@@ -89,7 +89,7 @@ public class HomeController extends AbstractPrehomeController {
 	protected void initMarketPlaces(final HttpServletRequest request, final Model model) throws Exception {
 		// Markets
         RequestData requestData = requestUtil.getRequestData(request);
-		model.addAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
+		model.addAttribute(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMarketPlace(requestData));
 	}
     
 }

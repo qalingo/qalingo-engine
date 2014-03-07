@@ -74,7 +74,7 @@ public class RetailerContactController extends AbstractMCommerceController {
 	        return new ModelAndView(new RedirectView(url));
 		}
 
-		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildRetailerViewBean(requestUtil.getRequestData(request), retailer);
+		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
 		model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
 		if(retailerContactForm == null 

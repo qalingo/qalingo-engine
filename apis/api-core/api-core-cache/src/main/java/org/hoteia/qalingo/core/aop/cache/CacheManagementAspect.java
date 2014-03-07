@@ -41,6 +41,8 @@ public class CacheManagementAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object returnObject = null;
         try {
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            Class classTarget = signature.getReturnType();
             Object[] args = joinPoint.getArgs();
             String suffix = "";
             List<SpecificFetchMode> askedFetchModes = null;
@@ -77,6 +79,20 @@ public class CacheManagementAspect {
                                     + "_" + requestData.getMarketAreaRetailer().getCode()
                                     + "_" + requestData.getMarketAreaCurrency().getCode();
 
+                } else if(arg instanceof AbstractEntity){
+                    AbstractEntity argEntity = (AbstractEntity) arg;
+                    if(!suffix.endsWith("_")){
+                        suffix = suffix + "_";
+                    }
+                    Method[] methods = argEntity.getClass().getMethods();
+                    for (int j = 0; j < methods.length; j++) {
+                        Method methodIt = methods[j];
+                        if(methodIt.getName().equals("getId")){
+                            Long id = (Long) methodIt.invoke(argEntity);
+                            suffix = suffix + id;
+                        }
+                    }
+
                 } else {
                     if(!(arg instanceof java.lang.Object[])
                             && !(arg instanceof AbstractEntity)) {
@@ -87,8 +103,6 @@ public class CacheManagementAspect {
                     }
                 }
             }
-            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            Class classTarget = signature.getReturnType();
             String key = null;
             String cacheName = DEFAULT_CACHE_NAME;
             if(classTarget != null){

@@ -116,7 +116,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RULE_CODE);
 		final AbstractRuleReferential rule = ruleReferentialService.getRuleReferentialByCode(currentRuleCode);
 
-		modelAndView.addObject(ModelConstants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildRuleViewBean(requestData, rule));
+		modelAndView.addObject(ModelConstants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRule(requestData, rule));
 		modelAndView.addObject(ModelConstants.RULE_FORM, backofficeFormFactory.buildRuleForm(requestData, rule));
 		return modelAndView;
 	}
@@ -147,7 +147,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
 		final List<AbstractRuleReferential> rules = ruleReferentialService.findRuleReferentials();
 		for (Iterator<AbstractRuleReferential> iterator = rules.iterator(); iterator.hasNext();) {
 			AbstractRuleReferential rule = (AbstractRuleReferential) iterator.next();
-			ruleViewBeans.add(backofficeViewBeanFactory.buildRuleViewBean(requestUtil.getRequestData(request), rule));
+			ruleViewBeans.add(backofficeViewBeanFactory.buildViewBeanRule(requestUtil.getRequestData(request), rule));
 		}
 		ruleViewBeanPagedListHolder = new PagedListHolder<RuleViewBean>(ruleViewBeans);
 		ruleViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -158,7 +158,7 @@ public class RuleController extends AbstractBusinessBackofficeController {
     
 	protected void initRuleDetailsPage(final RequestData requestData, final Model model, 
 											final ModelAndViewThemeDevice modelAndView, final AbstractRuleReferential rule) throws Exception {
-		modelAndView.addObject(ModelConstants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildRuleViewBean(requestData, rule));
+		modelAndView.addObject(ModelConstants.RULE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRule(requestData, rule));
 	}
 
 }

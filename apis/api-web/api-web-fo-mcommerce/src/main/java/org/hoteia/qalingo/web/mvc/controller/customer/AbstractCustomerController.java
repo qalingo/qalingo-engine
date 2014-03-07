@@ -94,7 +94,7 @@ public abstract class AbstractCustomerController extends AbstractMCommerceContro
     
     @ModelAttribute(ModelConstants.CUSTOMER_DETAILS_LINKS_VIEW_BEAN)
     public List<CutomerMenuViewBean> getCutomerMenus(HttpServletRequest request) throws Exception {
-    	return frontofficeViewBeanFactory.buildCutomerMenuViewBeans(requestUtil.getRequestData(request));
+    	return frontofficeViewBeanFactory.buildListViewBeanCutomerMenu(requestUtil.getRequestData(request));
     }
 
 }

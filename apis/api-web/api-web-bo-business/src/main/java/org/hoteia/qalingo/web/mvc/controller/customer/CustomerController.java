@@ -115,7 +115,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String currentCustomerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CUSTOMER_CODE);
 		final Customer customer = customerService.getCustomerById(currentCustomerCode);
-		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
+		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanCustomer(requestData, customer));
 		modelAndView.addObject(ModelConstants.CUSTOMER_FORM, backofficeFormFactory.buildCustomerForm(requestData, customer));
 		return modelAndView;
 	}
@@ -145,7 +145,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		final List<Customer> customers = customerService.findCustomers();
 		for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
 			Customer customer = (Customer) iterator.next();
-			customerViewBeans.add(backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), customer));
+			customerViewBeans.add(backofficeViewBeanFactory.buildViewBeanCustomer(requestUtil.getRequestData(request), customer));
 		}
 		customerViewBeanPagedListHolder = new PagedListHolder<CustomerViewBean>(customerViewBeans);
 		customerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -155,7 +155,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 	}
     
 	protected void initCustomerDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final Customer user) throws Exception{
-		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), user));
+		modelAndView.addObject(ModelConstants.CUSTOMER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanCustomer(requestUtil.getRequestData(request), user));
 	}
 	
 }

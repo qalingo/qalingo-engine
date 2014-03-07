@@ -83,7 +83,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
             
-            modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildCommonViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCommon(requestData));
             
             final MarketPlace currentMarketPlace = requestData.getMarketPlace();
             final Market currentMarket = requestData.getMarket();
@@ -91,45 +91,45 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             final Localization currentLocalization = requestData.getMarketAreaLocalization();
             final Customer customer = requestData.getCustomer();
             if(customer != null){
-                modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildCustomerViewBean(requestData, customer));
+                modelAndView.getModelMap().put(ModelConstants.CUSTOMER_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanCustomer(requestData, customer));
             }
             
-            modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, frontofficeViewBeanFactory.buildLegalTermsViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));
             
-            modelAndView.getModelMap().put(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN, frontofficeViewBeanFactory.buildConditionsViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanConditions(requestData));
             
-            modelAndView.getModelMap().put(ModelConstants.HEADER_CART, frontofficeViewBeanFactory.buildHeaderCartViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.HEADER_CART, frontofficeViewBeanFactory.buildViewBeanHeaderCart(requestData));
             
             // ALL MARKETPLACES
-            modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMarketPlace(requestData));
             
             // MARKETS FOR THE CURRENT MARKETPLACE
             Set<Market> marketList = currentMarketPlace.getMarkets();
-            modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketViewBeans(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
+            modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMarket(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
 
             // MARKET AREAS FOR THE CURRENT MARKET
             Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMarketArea(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
 
             // CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, frontofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanMarketArea(requestData, currentMarketArea));
 
             // LOCALIZATIONS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, frontofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanLocalizationByMarketArea(requestData, currentLocalization));
 
             // RETAILERS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, frontofficeViewBeanFactory.buildRetailerViewBeansByMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanRetailerByMarketArea(requestData));
 
             // CURRENCIES FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, frontofficeViewBeanFactory.buildCurrenciesViewBeansByMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCurrenciesByMarketArea(requestData));
 
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildMenuViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMenu(requestData));
             
             // FOOTER
-            modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildFooterMenuViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
 
-            final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListRootCatalogCategories(requestUtil.getRequestData(request), currentMarketArea);
+            final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanCatalogCategoryWhichIsRoot(requestUtil.getRequestData(request), currentMarketArea);
             modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, catalogCategoryViewBeans);
 
             // GEOLOC

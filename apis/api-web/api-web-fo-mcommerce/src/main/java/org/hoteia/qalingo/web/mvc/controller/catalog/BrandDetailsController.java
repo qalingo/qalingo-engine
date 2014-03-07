@@ -44,7 +44,7 @@ public class BrandDetailsController extends AbstractMCommerceController {
         
 		final ProductBrand productBrand = productService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
 		
-		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildProductBrandViewBean(requestUtil.getRequestData(request), productBrand);
+		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
         return modelAndView;

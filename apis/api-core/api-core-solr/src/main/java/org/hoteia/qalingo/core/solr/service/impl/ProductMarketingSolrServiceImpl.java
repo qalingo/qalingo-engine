@@ -95,9 +95,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
      * {@inheritDoc}
      */
     @Override
-    public ProductMarketingResponseBean searchProductMarketing(String searchBy,
-    		String searchText, String facetField, BigDecimal priceStart,
-    		BigDecimal priceEnd) throws SolrServerException, IOException {
+    public ProductMarketingResponseBean searchProductMarketing(String searchBy, String searchText, String facetField, BigDecimal priceStart, BigDecimal priceEnd) throws SolrServerException, IOException {
     	return searchProductMarketing(searchBy, searchText, facetField, priceStart, priceEnd, null);
     }
     

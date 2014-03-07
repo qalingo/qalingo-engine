@@ -61,7 +61,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DETAILS, requestUtil.getRequestData(request))));
         }
 
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 3);
@@ -106,7 +106,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             Set<CustomerAddress> addresses = customer.getAddresses();
             for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
                 final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-                addressesValues.add(frontofficeViewBeanFactory.buildCustomeAddressViewBean(requestData, customerAddress));
+                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
             }
 
             Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {
@@ -130,7 +130,7 @@ public class CartDeliveryOrderInformationController extends AbstractMCommerceCon
             Set<CustomerAddress> addresses = customer.getAddresses();
             for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
                 final CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-                addressesValues.add(frontofficeViewBeanFactory.buildCustomeAddressViewBean(requestData, customerAddress));
+                addressesValues.add(frontofficeViewBeanFactory.buildViewBeanCustomeAddress(requestData, customerAddress));
             }
 
             Collections.sort(addressesValues, new Comparator<CustomerAddressViewBean>() {

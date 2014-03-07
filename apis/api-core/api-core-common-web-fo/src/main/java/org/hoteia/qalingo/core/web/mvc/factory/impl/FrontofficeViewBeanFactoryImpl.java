@@ -75,8 +75,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      * 
      */
     @Override
-    public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
-        final CommonViewBean commonViewBean = super.buildCommonViewBean(requestData);
+    public CommonViewBean buildViewBeanCommon(final RequestData requestData) throws Exception {
+        final CommonViewBean commonViewBean = super.buildViewBeanCommon(requestData);
 
         // NO CACHE FOR THIS PART
 
@@ -102,7 +102,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      * 
      */
     @Override
-    public List<MenuViewBean> buildMenuViewBeans(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -177,9 +177,9 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     // SEARCH
     
     @Override
-    public CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogCategoryViewBean buildViewBeanCatalogCategory(RequestData requestData, CatalogCategoryVirtual catalogCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildCatalogCategoryViewBean(requestData, catalogCategory);
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanCatalogCategory(requestData, catalogCategory);
         
         final String sortBy =  request.getParameter("sortBy");
         final String orderBy =  request.getParameter("orderBy");
@@ -224,13 +224,13 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             }
         });
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
-        return super.buildCatalogCategoryViewBean(requestData, catalogCategory);
+        return super.buildViewBeanCatalogCategory(requestData, catalogCategory);
     }
 
     /**
      * 
      */
-    public SearchViewBean buildSearchViewBean(final RequestData requestData) throws Exception {
+    public SearchViewBean buildViewBeanSearch(final RequestData requestData) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = localization.getLocale();
 
@@ -243,12 +243,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public List<SearchProductItemViewBean> buildSearchProductItemViewBeans(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
+    public List<SearchProductItemViewBean> buildListViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
         final List<SearchProductItemViewBean> searchProductItems = new ArrayList<SearchProductItemViewBean>();
         List<ProductMarketingSolr> productMarketings = productMarketingResponseBean.getProductMarketingSolrList();
         for (Iterator<ProductMarketingSolr> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketingSolr productMarketingSolr = (ProductMarketingSolr) iterator.next();
-            SearchProductItemViewBean searchItemViewBean = buildSearchProductItemViewBean(requestData, productMarketingSolr);
+            SearchProductItemViewBean searchItemViewBean = buildViewBeanSearchProductItem(requestData, productMarketingSolr);
             if(searchItemViewBean != null){
             	searchProductItems.add(searchItemViewBean);
             }
@@ -259,7 +259,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public SearchProductItemViewBean buildSearchProductItemViewBean(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
+    public SearchProductItemViewBean buildViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
@@ -317,7 +317,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSkuTmp = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuTmp.getCode());
-                searchItemViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+                searchItemViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
         }
         
@@ -329,12 +329,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public List<SearchFacetViewBean> buildCatalogSearchFacetViewBeans(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
+    public List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(final RequestData requestData, final ProductMarketingResponseBean productMarketingResponseBean) throws Exception {
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         List<FacetField> facetFields = productMarketingResponseBean.getProductMarketingSolrFacetFieldList();
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            searchFacetViewBeans.add(buildCatalogSearchFacetViewBean(requestData, facetField));
+            searchFacetViewBeans.add(buildViewBeanCatalogSearchFacet(requestData, facetField));
         }
         return searchFacetViewBeans;
     }
@@ -342,7 +342,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public SearchFacetViewBean buildCatalogSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
+    public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -366,12 +366,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public List<SearchStoreItemViewBean> buildSearchStoreItemViewBeans(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
+    public List<SearchStoreItemViewBean> buildListViewBeanSearchStoreItem(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
         final List<SearchStoreItemViewBean> searchStoreItems = new ArrayList<SearchStoreItemViewBean>();
         List<StoreSolr> stores = storeResponseBean.getStoreSolrList();
         for (Iterator<StoreSolr> iterator = stores.iterator(); iterator.hasNext();) {
             StoreSolr storeSolr = (StoreSolr) iterator.next();
-            SearchStoreItemViewBean searchItemViewBean = buildSearchStoreItemViewBean(requestData, storeSolr);
+            SearchStoreItemViewBean searchItemViewBean = buildViewBeanSearchStoreItem(requestData, storeSolr);
             if(searchItemViewBean != null){
                 searchStoreItems.add(searchItemViewBean);
             }
@@ -382,7 +382,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public SearchStoreItemViewBean buildSearchStoreItemViewBean(final RequestData requestData, final StoreSolr storeSolr) throws Exception {
+    public SearchStoreItemViewBean buildViewBeanSearchStoreItem(final RequestData requestData, final StoreSolr storeSolr) throws Exception {
 
         final String storeCode = storeSolr.getCode();
         final Store store = retailerService.getStoreByCode(storeCode);
@@ -415,12 +415,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public List<SearchFacetViewBean> buildStoreSearchFacetViewBeans(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
+    public List<SearchFacetViewBean> buildListViewBeanStoreSearchFacet(final RequestData requestData, final StoreResponseBean storeResponseBean) throws Exception {
         final List<SearchFacetViewBean> searchFacetViewBeans = new ArrayList<SearchFacetViewBean>();
         List<FacetField> facetFields = storeResponseBean.getStoreSolrFacetFieldList();
         for (Iterator<FacetField> iterator = facetFields.iterator(); iterator.hasNext();) {
             FacetField facetField = (FacetField) iterator.next();
-            searchFacetViewBeans.add(buildStoreSearchFacetViewBean(requestData, facetField));
+            searchFacetViewBeans.add(buildViewBeanStoreSearchFacet(requestData, facetField));
         }
         return searchFacetViewBeans;
     }
@@ -428,7 +428,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public SearchFacetViewBean buildStoreSearchFacetViewBean(final RequestData requestData, final FacetField facetField) throws Exception {
+    public SearchFacetViewBean buildViewBeanStoreSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 
         // TODO : Denis : facet like country ? city ? online/corner etc
@@ -436,32 +436,32 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         return searchFacetViewBean;
     }
     
-    public List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception {
+    public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {
     	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
     	
     	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
     	
     	for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
-    		CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategoryVirtual);
+    		CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual);
     		catalogCategoryViewBeans.add(catalogCategoryViewBean);
 		}
     	
     	return catalogCategoryViewBeans;
     }
     
-    public List<ProductBrandViewBean> buildListProductBrands(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
+    public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
     	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
     	
     	List<ProductBrand> productBrands = productService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
     	for (ProductBrand productBrand : productBrands) {
-    		ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
+    		ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
     		productBrandViewBeans.add(productBrandViewBean);
 		}
     	return productBrandViewBeans;
     }
     
     @Override
-    public List<RecentProductViewBean> buildRecentProductViewBean(final RequestData requestData, final List<String> listCode) throws Exception {
+    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listCode) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
@@ -482,7 +482,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     /**
      * 
      */
-    public CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogBreadcrumbViewBean buildViewBeanCatalogBreadcrumb(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
     	 final Localization localization =  requestData.getMarketAreaLocalization();
     	 final String localizationCode = localization.getCode();
     	 final MarketArea currentMarketArea = requestData.getMarketArea();
@@ -498,13 +498,13 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
 		 if(!catalogCategory.isRoot() && parentCatalogCategoryVirtual != null){
 			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), parentCatalogCategoryVirtual.getCode());
-			catalogBreadCumViewBean.setDefaultParentCategory(buildCatalogBreadcrumbViewBean(requestData,pareCatalogCategoryVirtualReload));
+			catalogBreadCumViewBean.setDefaultParentCategory(buildViewBeanCatalogBreadcrumb(requestData,pareCatalogCategoryVirtualReload));
 		 }
 
     	return catalogBreadCumViewBean;
     }
     
-    public StoreLocatorFilterBean buildStoreLocatorFilterBean(final StoreLocatorViewBean storeLocatorViewBean, final Locale locale) throws Exception {
+    public StoreLocatorFilterBean buildFilterBeanStoreLocator(final StoreLocatorViewBean storeLocatorViewBean, final Locale locale) throws Exception {
         final List<StoreViewBean> stores = storeLocatorViewBean.getStores();
         final StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
 

@@ -93,7 +93,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	@ModelAttribute(ModelConstants.FOLLOW_US_VIEW_BEAN)
 	protected FollowUsViewBean initFollowUs(final HttpServletRequest request, final Model model) throws Exception {
 		// QUICK SEARCH
-		final FollowUsViewBean followUs = frontofficeViewBeanFactory.buildFollowUsViewBean(requestUtil.getRequestData(request));
+		final FollowUsViewBean followUs = frontofficeViewBeanFactory.buildViewBeanFollowUs(requestUtil.getRequestData(request));
 		return followUs;
 	}
 	

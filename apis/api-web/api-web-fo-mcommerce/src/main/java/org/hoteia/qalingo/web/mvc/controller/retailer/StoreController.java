@@ -43,7 +43,7 @@ public class StoreController extends AbstractMCommerceController {
 
 		Store store = retailerService.getStoreByCode(storeCode);
 		
-		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildStoreViewBean(requestUtil.getRequestData(request), store);
+		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
 		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
 		
 		model.addAttribute("withMap", true);

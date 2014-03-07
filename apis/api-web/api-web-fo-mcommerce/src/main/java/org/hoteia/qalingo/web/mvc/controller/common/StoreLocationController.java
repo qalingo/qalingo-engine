@@ -45,8 +45,8 @@ public class StoreLocationController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         
 		final List<Store> stores = storeService.findStores();
-		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildStoreLocatorViewBean(requestUtil.getRequestData(request), stores);
-		final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildStoreLocatorFilterBean(storeLocator, locale);
+		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestUtil.getRequestData(request), stores);
+		final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeLocator, locale);
 		modelAndView.addObject("storeLocator", storeLocator);
 		modelAndView.addObject("storeFilter", storeFilter);
 		
