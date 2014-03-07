@@ -1,9 +1,16 @@
 package org.hoteia.qalingo.core.fetchplan;
 
+import java.io.Serializable;
+
 import org.hibernate.FetchMode;
 
-public class SpecificFetchMode {
+public class SpecificFetchMode implements Serializable {
 
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = -3845114496201750495L;
+    
     private String assocationPath;
     private FetchMode fetchMode;
     private SpecificAlias requiredAlias;

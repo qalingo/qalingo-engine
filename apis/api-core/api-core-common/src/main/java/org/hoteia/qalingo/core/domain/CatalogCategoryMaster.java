@@ -53,6 +53,8 @@ public class CatalogCategoryMaster extends AbstractEntity {
      */
     private static final long serialVersionUID = -9123721692905623486L;
 
+    public static final String CACHE_NAME = "web_cache_category";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)

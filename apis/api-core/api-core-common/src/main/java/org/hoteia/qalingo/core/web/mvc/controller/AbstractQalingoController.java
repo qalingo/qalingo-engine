@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.UrlService;
@@ -138,25 +139,33 @@ public abstract class AbstractQalingoController {
 	protected MonitoringViewBean initMonitoring(final HttpServletRequest request, final Model model) throws Exception {
 		MonitoringViewBean monitoringViewBean = new MonitoringViewBean();
     	final String contextValue = requestUtil.getCurrentContextNameValue(request);
-
 	    EngineSetting webMonitoringNumberEngineSetting = engineSettingService.getWebMonitoringNumber();
-	    EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
-	    if(webMonitoringNumberEngineSettingValue != null
-	    		&& StringUtils.isNotEmpty(webMonitoringNumberEngineSettingValue.getValue())){
-	    	monitoringViewBean = new MonitoringViewBean();
-	    	monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
-	    	
-		    EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
-		    EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
-		    if(webMonitoringNameEngineSettingValue != null){
-		    	monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());
-		    }
-
+	    if(webMonitoringNumberEngineSetting != null){
+	        EngineSettingValue webMonitoringNumberEngineSettingValue = webMonitoringNumberEngineSetting.getEngineSettingValue(contextValue);
+	        if(webMonitoringNumberEngineSettingValue != null
+	                && StringUtils.isNotEmpty(webMonitoringNumberEngineSettingValue.getValue())){
+	            monitoringViewBean = new MonitoringViewBean();
+	            monitoringViewBean.setMonitoringNumber(webMonitoringNumberEngineSettingValue.getValue());
+	            
+	            EngineSetting webMonitoringNameEngineSetting = engineSettingService.getWebMonitoringName();
+	            EngineSettingValue webMonitoringNameEngineSettingValue = webMonitoringNameEngineSetting.getEngineSettingValue(contextValue);
+	            if(webMonitoringNameEngineSettingValue != null){
+	                monitoringViewBean.setMonitoringName(webMonitoringNameEngineSettingValue.getValue());
+	            }
+	        }
 	    }
 		return monitoringViewBean;
 	}
 	
-
+    /**
+     * @throws Exception 
+     * 
+     */
+    protected String getCurrentVelocityPath(HttpServletRequest request) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return requestUtil.getCurrentVelocityWebPrefix(requestData);
+    }
+    
 	protected void initMessageError(BindingResult result, Exception e, Map<String, String> wording, String formKey, String fieldKey, String errorKey){
         String errorMessage = wording.get(errorKey);
         if(StringUtils.isEmpty(errorMessage)){

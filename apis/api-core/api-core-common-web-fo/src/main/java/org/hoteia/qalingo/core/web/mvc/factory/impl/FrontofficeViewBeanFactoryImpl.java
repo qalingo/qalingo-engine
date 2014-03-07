@@ -76,7 +76,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      */
     @Override
     public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
-        final CommonViewBean commonViewBean = new CommonViewBean();
+        final CommonViewBean commonViewBean = super.buildCommonViewBean(requestData);
 
         // NO CACHE FOR THIS PART
 

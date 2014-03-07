@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,11 +98,11 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         em.remove(marketPlace);
     }
 
-    protected void handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketPlaceFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketPlaceFetchPlan());
         }
     }
     
@@ -186,11 +187,11 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 		em.remove(market);
 	}
 	
-    protected void handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketFetchPlan());
         }
     }
 	
@@ -199,20 +200,22 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	public MarketArea getMarketAreaById(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        handleSpecificFetchModeMarketArea(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificFetchModeMarketArea(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketAreaId));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+        marketArea.setFetchModes(fetchModes);
         return marketArea;
 	}
 	
 	public MarketArea getMarketAreaByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        handleSpecificFetchModeMarketArea(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificFetchModeMarketArea(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+        marketArea.setFetchModes(fetchModes);
 		return marketArea;
 	}
 
@@ -250,11 +253,11 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         em.remove(marketArea);
     }
     
-    protected void handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketAreaFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketAreaFetchPlan());
         }
     }
 	

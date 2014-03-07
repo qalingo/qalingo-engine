@@ -17,6 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,11 +83,11 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 	
     @Override
-    protected void handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultPaymentGatewayFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultPaymentGatewayFetchPlan());
         }
     }
 

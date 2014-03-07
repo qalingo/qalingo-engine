@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+    under the Apache License Version 2.0 (release version 0.7.0)
+            http://www.apache.org/licenses/LICENSE-2.0
+
+                      Copyright (c) Hoteia, 2012-2013
+    http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+
+
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true" />
+    </bean>
+    
+    <bean id="jmxAdapter" class="org.springframework.jmx.export.annotation.AnnotationMBeanExporter">
+        <property name="server" ref="mbeanServer" />
+        <property name="ensureUniqueRuntimeObjectNames" value="true" />
+        <property name="assembler" ref="mbeanInfoAssembler" />
+        <property name="registrationBehaviorName" value="REGISTRATION_REPLACE_EXISTING" />
+        <!-- 
+        <property name="beans">
+            <map>
+                <entry key="qalingo:section=Hibernate,name=HibernateStatistics" value-ref="hibernateStatisticsMBean"/>
+            </map>
+        </property>
+         -->
+    </bean>
+    
+    <bean id="mbeanInfoAssembler" class="org.springframework.jmx.export.assembler.MethodExclusionMBeanInfoAssembler">
+        <property name="ignoredMethodMappings">
+            <props>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Hibernate persistence statistics 
+    <bean id="hibernateStatisticsMBean" class="org.hibernate.jmx.StatisticsService">
+        <property name="statisticsEnabled" value="true"/>
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>-->
+
+</beans>

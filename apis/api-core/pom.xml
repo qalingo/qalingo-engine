@@ -27,6 +27,7 @@
 		<module>api-core-batch</module>
 		<module>api-core-solr</module>
 		<module>api-core-jms</module>
+		<module>api-core-cache</module>
 	</modules>
 	
 	<properties>

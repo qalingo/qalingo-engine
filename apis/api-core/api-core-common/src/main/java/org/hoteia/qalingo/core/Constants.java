@@ -20,6 +20,7 @@ public final class Constants {
 
 	// GLOBAL
 	
+    public static final String QALINGO = "Qalingo";
 	public static final String APP_NAME = "appName";
 	public static final String APP_NAME_HTML = "appNameHtml";
 	public static final String APP_NAME_BO_BUSINESS_CODE = "BO_BUSINESS";

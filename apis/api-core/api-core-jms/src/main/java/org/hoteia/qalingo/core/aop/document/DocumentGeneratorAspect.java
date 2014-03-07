@@ -32,15 +32,15 @@ public class DocumentGeneratorAspect {
     @Value("${app.name}")  
     protected String applicationName;
     
-    public void beforeRuning(final JoinPoint joinPoint) {
+    public void before(final JoinPoint joinPoint) {
         if(logger.isDebugEnabled()){
-            logger.debug("DocumentGeneratorAspect, beforeRuning");
+            logger.debug("DocumentGeneratorAspect, before");
         }
     }
 
-    public void afterRuning(final StaticPart staticPart, final Object result) {
+    public void afterReturning(final StaticPart staticPart, final Object result) {
         if(logger.isDebugEnabled()){
-            logger.debug("DocumentGeneratorAspect, afterRuning");
+            logger.debug("DocumentGeneratorAspect, afterReturning");
         }
         try {
             final OrderCustomer order = (OrderCustomer) result;

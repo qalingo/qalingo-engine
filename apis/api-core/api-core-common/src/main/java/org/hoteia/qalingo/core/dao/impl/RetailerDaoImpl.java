@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,30 +39,33 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	public Retailer getRetailerById(final Long retailerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
-        handleSpecificRetailerFetchMode(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificRetailerFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", retailerId));
         Retailer retailer = (Retailer) criteria.uniqueResult();
+        retailer.setFetchModes(fetchModes);
         return retailer;
 	}
 
     public Retailer getRetailerByCode(final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
-        handleSpecificRetailerFetchMode(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
+        retailer.setFetchModes(fetchModes);
         return retailer;
     }
 
 	public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
-        handleSpecificRetailerFetchMode(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
+        retailer.setFetchModes(fetchModes);
 		return retailer;
 	}
 	
@@ -239,24 +243,26 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	public Store getStoreById(final Long storeId, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
-        handleSpecificStoreFetchMode(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificStoreFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
         
         criteria.add(Restrictions.eq("id", storeId));
         Store store = (Store) criteria.uniqueResult();
+        store.setFetchModes(fetchModes);
         return store;
 	}
 
 	public Store getStoreByCode(final String storeCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Store.class);
         
-        handleSpecificStoreFetchMode(criteria, params);
+        List<SpecificFetchMode> fetchModes = handleSpecificStoreFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
         
         criteria.add(Restrictions.eq("code", storeCode));
         Store store = (Store) criteria.uniqueResult();
+        store.setFetchModes(fetchModes);
 		return store;
 	}
 	
@@ -308,19 +314,19 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		em.remove(store);
 	}
 	
-    protected void handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultRetailerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultRetailerFetchPlan());
         }
     }
     
-    protected void handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
+    protected List<SpecificFetchMode> handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultStoreFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultStoreFetchPlan());
         }
     }
 

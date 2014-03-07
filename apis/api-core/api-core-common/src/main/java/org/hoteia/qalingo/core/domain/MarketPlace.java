@@ -42,6 +42,8 @@ public class MarketPlace extends AbstractEntity {
      */
     private static final long serialVersionUID = -8834213059142444939L;
 
+    public static final String CACHE_NAME = "web_cache_market";
+
     public final static String MARKET_PLACE_ATTRIBUTE_DOMAIN_NAME = "MARKET_PLACE_DOMAIN_NAME";
 
     @Id
