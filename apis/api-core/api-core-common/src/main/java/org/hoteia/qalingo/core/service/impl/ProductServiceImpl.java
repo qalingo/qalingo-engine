@@ -90,21 +90,23 @@ public class ProductServiceImpl implements ProductService {
     protected List<ProductMarketing> orderProductMarketingList(final Long marketAreaId, final List<ProductMarketing> productMarketings) {
         if (productMarketings != null) {
             List<ProductMarketing> sortedObjects = new LinkedList<ProductMarketing>(productMarketings);
-            Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
-                @Override
-                public int compare(ProductMarketing o1, ProductMarketing o2) {
-                    if (o1 != null && o2 != null) {
-                        Integer order1 = o1.getOrder(marketAreaId);
-                        Integer order2 = o2.getOrder(marketAreaId);
-                        if (order1 != null && order2 != null) {
-                            return order1.compareTo(order2);
-                        } else {
-                            return o1.getId().compareTo(o2.getId());
+            if (marketAreaId != null) {
+                Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
+                    @Override
+                    public int compare(ProductMarketing o1, ProductMarketing o2) {
+                        if (o1 != null && o2 != null) {
+                            Integer order1 = o1.getOrder(marketAreaId);
+                            Integer order2 = o2.getOrder(marketAreaId);
+                            if (order1 != null && order2 != null) {
+                                return order1.compareTo(order2);
+                            } else {
+                                return o1.getId().compareTo(o2.getId());
+                            }
                         }
+                        return 0;
                     }
-                    return 0;
-                }
-            });
+                });
+            }
             return sortedObjects;
         }
         return null;
@@ -253,23 +255,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     protected List<ProductSku> orderProductSkuList(final Long marketAreaId, final List<ProductSku> skus) {
-        List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
-        Collections.sort(sortedObjects, new Comparator<ProductSku>() {
-            @Override
-            public int compare(ProductSku o1, ProductSku o2) {
-                if (o1 != null && o2 != null) {
-                    Integer order1 = o1.getOrder(marketAreaId);
-                    Integer order2 = o2.getOrder(marketAreaId);
-                    if (order1 != null && order2 != null) {
-                        return order1.compareTo(order2);
-                    } else {
-                        return o1.getId().compareTo(o2.getId());
+        if (skus != null) {
+            List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
+            if (marketAreaId != null) {
+                Collections.sort(sortedObjects, new Comparator<ProductSku>() {
+                    @Override
+                    public int compare(ProductSku o1, ProductSku o2) {
+                        if (o1 != null && o2 != null) {
+                            Integer order1 = o1.getOrder(marketAreaId);
+                            Integer order2 = o2.getOrder(marketAreaId);
+                            if (order1 != null && order2 != null) {
+                                return order1.compareTo(order2);
+                            } else {
+                                return o1.getId().compareTo(o2.getId());
+                            }
+                        }
+                        return 0;
                     }
-                }
-                return 0;
+                });
             }
-        });
-        return sortedObjects;
+            return sortedObjects;
+        }
+        return null;
     }
 
     // PRODUCT SKU ASSET

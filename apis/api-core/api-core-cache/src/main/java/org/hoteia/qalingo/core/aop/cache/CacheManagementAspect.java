@@ -78,7 +78,8 @@ public class CacheManagementAspect {
                                     + "_" + requestData.getMarketAreaCurrency().getCode();
 
                 } else {
-                    if(!(arg instanceof java.lang.Object[])) {
+                    if(!(arg instanceof java.lang.Object[])
+                            && !(arg instanceof AbstractEntity)) {
                         if(!suffix.endsWith("_")){
                             suffix = suffix + "_";
                         }
@@ -109,20 +110,21 @@ public class CacheManagementAspect {
                     }
                 }
             }
+            
+            // CACHE TYPE
             if(cacheType.equals(CACHE_TYPE_MISC)){
-                key = joinPoint.getSignature().toShortString();
+                key = joinPoint.getSignature().toShortString() + suffix;
                 if(!cacheName.contains("_misc")){
                     cacheName = cacheName + "_misc";
                 }
             } else if(cacheType.equals(CACHE_BY_CODE)){
                 // TODO : Denis : utiliser un cache de type cacheName_link_code_id pour avoir l'id en fonction du code
                 key = classTarget.getName() + suffix;
-                if(cacheName.contains("web_cache_market")){
-                    cacheName = cacheName + "_link_code_id";
-                }
+                cacheName = cacheName + "_link_code_id";
             } else {
                 key = classTarget.getName() + suffix;
             }
+            
             Cache cache = getCacheManager() != null && StringUtils.isNotEmpty(cacheName) ? getCacheManager().getCache(cacheName) : null;
             if (cache != null) {
                 if (cache.isKeyInCache(key)) {

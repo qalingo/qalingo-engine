@@ -18,7 +18,6 @@ import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -164,7 +163,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	// TODO : Temporary
 	
     @Autowired
-    public ProductDao productDao;
+    public ProductService productService;
 
     @Autowired
     private CatalogCategoryService catalogCategoryService;
@@ -175,9 +174,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        List<ProductMarketing> products;
-        
-    	products = productDao.findProductMarketings();
+        List<ProductMarketing> products = productService.findProductMarketings(null);
         for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
             
