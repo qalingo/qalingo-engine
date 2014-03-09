@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
+import org.hoteia.qalingo.core.solr.service.impl.AbstractSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
@@ -87,7 +88,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 		try {
 			StoreResponseBean storeResponseBean = null;
 			storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), StoreResponseBean.STORE_DEFAULT_FACET_FIELD);
-			modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean));
+			modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean));
 	        
 			PagedListHolder<SearchStoreItemViewBean> productsViewBeanPagedListHolder;
 

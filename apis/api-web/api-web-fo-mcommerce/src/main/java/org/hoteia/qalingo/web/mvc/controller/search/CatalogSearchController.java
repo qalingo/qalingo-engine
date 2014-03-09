@@ -29,6 +29,7 @@ import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.solr.service.impl.AbstractSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -93,11 +94,11 @@ public class CatalogSearchController extends AbstractMCommerceController {
 						searchForm.getCatalogCategoryList());
 				ProductMarketingResponseBean nonCategoriesFilter = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 						searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, nonCategoriesFilter));
+				modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, nonCategoriesFilter));
 			} else {
 				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 														searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean));
+				modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean));
 			}
 	        
 			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder;

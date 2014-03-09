@@ -106,7 +106,8 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
     public ProductMarketingResponseBean searchProductMarketing(final String searchBy, final String searchText, final String facetField, 
                                                                final BigDecimal priceStart, final BigDecimal priceEnd, final List<String> catalogCategories) throws SolrServerException, IOException {
     	SolrQuery solrQuery = new SolrQuery();
-
+    	solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+    	
     	if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
@@ -173,6 +174,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
 	 */
     public ProductMarketingResponseBean searchProductMarketing() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
