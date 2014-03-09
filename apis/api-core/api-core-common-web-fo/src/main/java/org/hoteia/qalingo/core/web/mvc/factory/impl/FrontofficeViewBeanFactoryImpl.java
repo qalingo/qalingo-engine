@@ -47,6 +47,7 @@ import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
@@ -152,6 +153,11 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         menu = new MenuViewBean();
         menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "our_company", locale));
         menu.setUrl(urlService.generateUrl(FoUrls.OUR_COMPANY, requestData));
+        menuViewBeans.add(menu);
+        
+        menu = new MenuViewBean();
+        menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "store_location", locale));
+        menu.setUrl(urlService.generateUrl(FoUrls.STORE_LOCATION, requestData));
         menuViewBeans.add(menu);
 
         // Set active menu
