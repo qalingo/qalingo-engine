@@ -254,8 +254,8 @@ INSERT INTO teco_store
 
 (90, 'The Coffee Bean & Tea Leaf', 'STRLA5', 'Exposition Blvd', '', '','90007', 'Los Angeles', 'CA', 'US', '34.034453', '-118.284409', 'SHOP,CORNER', 1, 1),
 
-(100, 'Le Tropic Café', 'STRPARIS1', '66 Rue des Lombards', '', '','75001', 'Paris', '75', 'FR', '48.863924', '2.347271', 'SHOP,CORNER', 1, 1),
-(110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées', '', '','75008', 'Paris', '75', 'FR', '48.874313', '2.301609', 'SHOP,CORNER', 1, 1),
+(100, 'Le Tropic Café', 'STRPARIS1', '66 Rue des Lombards', '', '','75001', 'Paris', '75', 'FR', '48.8599562', '2.3473762', 'SHOP,CORNER', 1, 1),
+(110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées', '', '','75008', 'Paris', '75', 'FR', '48.8719523', '2.3008841', 'SHOP,CORNER', 1, 1),
 (120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber', '', '','75009', 'Paris', '75', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1, 1),
 
 (130, 'The Coffee Bean & Tea Leaf', 'STRTX1', '1000 E. 41st Street, Suite G-100', '', '','', 'Austin', ' TX', 'US', '30.299852', '-97.721888', 'SHOP,CORNER', 1, 1),
