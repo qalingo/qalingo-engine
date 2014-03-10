@@ -65,7 +65,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 
 	@RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.GET)
 	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, @Valid SearchForm searchForm,
-								BindingResult result, ModelMap modelMap) throws Exception {
+	                           BindingResult result, ModelMap modelMap) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
