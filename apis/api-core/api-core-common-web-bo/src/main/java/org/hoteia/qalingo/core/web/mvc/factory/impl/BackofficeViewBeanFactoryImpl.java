@@ -106,8 +106,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
-        final CommonViewBean commonViewBean = super.buildCommonViewBean(requestData);
+    public CommonViewBean buildViewBeanCommon(final RequestData requestData) throws Exception {
+        final CommonViewBean commonViewBean = super.buildViewBeanCommon(requestData);
 
         commonViewBean.setHomeUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
         commonViewBean.setLoginUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
@@ -124,7 +124,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<MenuViewBean> buildMorePageMenuViewBeans(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanMorePageMenu(final RequestData requestData) throws Exception {
         final User currentUser = requestData.getUser();
         final Locale locale = requestData.getLocale();
         
@@ -162,11 +162,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<MarketViewBean> buildMarketViewBeansByMarketPlace(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
+    public List<MarketViewBean> buildListViewBeanMarketByMarketPlace(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
         List<MarketViewBean> marketViewBeans = new ArrayList<MarketViewBean>();
         for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
             final Market marketNavigation = (Market) iteratorMarket.next();
-            marketViewBeans.add(buildMarketViewBean(requestData, marketNavigation));
+            marketViewBeans.add(buildViewBeanMarket(requestData, marketNavigation));
         }
         return marketViewBeans;
     }
@@ -175,11 +175,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<MarketAreaViewBean> buildMarketAreaViewBeansByMarket(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
+    public List<MarketAreaViewBean> buildListViewBeanMarketAreaByMarket(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
         for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
             final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-            marketAreaViewBeans.add(buildMarketAreaViewBean(requestData, marketArea));
+            marketAreaViewBeans.add(buildViewBeanMarketArea(requestData, marketArea));
         }
         return marketAreaViewBeans;
     }
@@ -188,7 +188,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public LocalizationViewBean buildLocalizationViewBeanByMarketArea(final RequestData requestData, final Localization localization) throws Exception {
+    public LocalizationViewBean buildViewBeanLocalizationByMarketArea(final RequestData requestData, final Localization localization) throws Exception {
         final Locale locale = localization.getLocale();
         final String localeCodeNavigation = localization.getCode();
 
@@ -213,12 +213,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(final RequestData requestData, final List<Localization> localizations) throws Exception {
+    public List<LocalizationViewBean> buildListViewBeanLocalizationByMarketArea(final RequestData requestData, final List<Localization> localizations) throws Exception {
         final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
         if (localizations != null) {
             for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
-                localizationViewBeans.add(buildLocalizationViewBeanByMarketArea(requestData, localization));
+                localizationViewBeans.add(buildViewBeanLocalizationByMarketArea(requestData, localization));
             }
         }
         return localizationViewBeans;
@@ -228,12 +228,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<LocalizationViewBean> buildLocalizationViewBeans(final RequestData requestData, final List<Localization> localizations) throws Exception {
+    public List<LocalizationViewBean> buildListViewBeanLocalization(final RequestData requestData, final List<Localization> localizations) throws Exception {
         final List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
         if (localizations != null) {
             for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
-                localizationViewBeans.add(buildLocalizationViewBean(requestData, localization));
+                localizationViewBeans.add(buildViewBeanLocalization(requestData, localization));
             }
         }
         return localizationViewBeans;
@@ -243,13 +243,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<RetailerViewBean> buildRetailerViewBeans(final RequestData requestData) throws Exception {
+    public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final List<Retailer> retailers = new ArrayList<Retailer>(currentMarketArea.getRetailers());
         List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
         for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
             final Retailer retailerIt = (Retailer) iterator.next();
-            retailerViewBeans.add(buildRetailerViewBean(requestData, retailerIt));
+            retailerViewBeans.add(buildViewBeanRetailer(requestData, retailerIt));
         }
         return retailerViewBeans;
     }
@@ -258,7 +258,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
+    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = localization.getLocale();
 
@@ -337,13 +337,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogViewBean buildMasterCatalogViewBean(final RequestData requestData, final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
+    public CatalogViewBean buildViewBeanMasterCatalog(final RequestData requestData, final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
         final CatalogViewBean catalogViewBean = new CatalogViewBean();
         catalogViewBean.setBusinessName(catalogMaster.getBusinessName());
         catalogViewBean.setCode(catalogMaster.getCode());
 
         if (catalogCategories != null) {
-            catalogViewBean.setCategories(buildMasterCatalogCategoryViewBeans(requestData, catalogCategories, true));
+            catalogViewBean.setCategories(buildListViewBeanMasterCatalogCategory(requestData, catalogCategories, true));
         }
 
         catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData));
@@ -355,13 +355,13 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogViewBean buildVirtualCatalogViewBean(final RequestData requestData, final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
+    public CatalogViewBean buildViewBeanVirtualCatalog(final RequestData requestData, final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
         final CatalogViewBean catalogViewBean = new CatalogViewBean();
         catalogViewBean.setBusinessName(catalogVirtual.getBusinessName());
         catalogViewBean.setCode(catalogVirtual.getCode());
 
         if (catalogCategories != null) {
-            catalogViewBean.setCategories(buildVirtualCatalogCategoryViewBeans(requestData, catalogCategories, true));
+            catalogViewBean.setCategories(buildListViewBeanVirtualCatalogCategory(requestData, catalogCategories, true));
         }
 
         catalogViewBean.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_ADD, requestData));
@@ -373,7 +373,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<CatalogCategoryViewBean> buildMasterCatalogCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryMaster> catalogCategories, boolean fullPopulate) throws Exception {
+    public List<CatalogCategoryViewBean> buildListViewBeanMasterCatalogCategory(final RequestData requestData, final List<CatalogCategoryMaster> catalogCategories, boolean fullPopulate) throws Exception {
         List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
             final CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iterator.next();
@@ -381,7 +381,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
             CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId());
 
-            categoryViewBeans.add(buildMasterCatalogCategoryViewBean(requestData, reloadedCategory, fullPopulate));
+            categoryViewBeans.add(buildViewBeanMasterCatalogCategory(requestData, reloadedCategory, fullPopulate));
         }
         return categoryViewBeans;
     }
@@ -390,7 +390,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<CatalogCategoryViewBean> buildVirtualCatalogCategoryViewBeans(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, boolean fullPopulate)
+    public List<CatalogCategoryViewBean> buildListViewBeanVirtualCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, boolean fullPopulate)
             throws Exception {
         List<CatalogCategoryViewBean> categoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
@@ -399,7 +399,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
          // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
             CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId());
 
-            categoryViewBeans.add(buildVirtualCatalogCategoryViewBean(requestData, reloadedCategory, fullPopulate));
+            categoryViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, reloadedCategory, fullPopulate));
         }
         return categoryViewBeans;
     }
@@ -408,7 +408,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogCategoryViewBean buildMasterCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, boolean fullPopulate) throws Exception {
+    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory, boolean fullPopulate) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 
@@ -422,7 +422,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             if (catalogCategory.getDefaultParentCatalogCategory() != null) {
              // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
                 CatalogCategoryMaster defaultParentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getDefaultParentCatalogCategory().getId());
-                catalogCategoryViewBean.setDefaultParentCategory(buildMasterCatalogCategoryViewBean(requestData, defaultParentCatalogCategory, false));
+                catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanMasterCatalogCategory(requestData, defaultParentCatalogCategory, false));
             }
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -441,7 +441,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
             if (fullPopulate) {
                 if (catalogCategory.getCatalogCategories() != null) {
-                    catalogCategoryViewBean.setSubCategories(buildMasterCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryMaster>(catalogCategory.getCatalogCategories()), fullPopulate));
+                    catalogCategoryViewBean.setSubCategories(buildListViewBeanMasterCatalogCategory(requestData, new ArrayList<CatalogCategoryMaster>(catalogCategory.getCatalogCategories()), fullPopulate));
                 }
 
                 List<CatalogCategoryMasterAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
@@ -456,7 +456,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                     catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
                 }
 
-                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
+                List<ProductMarketingViewBean> productMarketingViewBeans = buildListViewBeanProductMarketing(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
                 catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
                 int countProduct = catalogCategory.getProductMarketings().size();
@@ -469,7 +469,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                 List<Asset> assets = catalogCategory.getAssetsIsGlobal();
                 for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                     Asset asset = (Asset) iterator.next();
-                    catalogCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
+                    catalogCategoryViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
                 }
             }
 
@@ -484,7 +484,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public CatalogCategoryViewBean buildVirtualCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, boolean fullPopulate) throws Exception {
+    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, boolean fullPopulate) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
 
@@ -498,7 +498,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             if (catalogCategory.getDefaultParentCatalogCategory() != null) {
                 // TODO : Denis : fetch optim - cache : we reload entity to fetch the defaultParentCatalogCategory
                 CatalogCategoryVirtual defaultParentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getDefaultParentCatalogCategory().getId());
-                catalogCategoryViewBean.setDefaultParentCategory(buildVirtualCatalogCategoryViewBean(requestData, defaultParentCatalogCategory, false));
+                catalogCategoryViewBean.setDefaultParentCategory(buildViewBeanVirtualCatalogCategory(requestData, defaultParentCatalogCategory, false));
             }
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -517,7 +517,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
             if (fullPopulate) {
                 if (catalogCategory.getCatalogCategories() != null) {
-                    catalogCategoryViewBean.setSubCategories(buildVirtualCatalogCategoryViewBeans(requestData, new ArrayList<CatalogCategoryVirtual>(catalogCategory.getCatalogCategories()), fullPopulate));
+                    catalogCategoryViewBean.setSubCategories(buildListViewBeanVirtualCatalogCategory(requestData, new ArrayList<CatalogCategoryVirtual>(catalogCategory.getCatalogCategories()), fullPopulate));
                 }
 
                 List<CatalogCategoryVirtualAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
@@ -532,7 +532,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                     catalogCategoryViewBean.getMarketAreaAttributes().put(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode(), catalogCategoryVirtualAttribute.getValueAsString());
                 }
 
-                List<ProductMarketingViewBean> productMarketingViewBeans = buildProductMarketingViewBeans(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
+                List<ProductMarketingViewBean> productMarketingViewBeans = buildListViewBeanProductMarketing(requestData, catalogCategory, new ArrayList<ProductMarketing>(catalogCategory.getProductMarketings()), true);
                 catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
                 int countProduct = catalogCategory.getProductMarketings().size();
@@ -545,7 +545,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                 List<Asset> assets = catalogCategory.getAssetsIsGlobal();
                 for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
                     Asset asset = (Asset) iterator.next();
-                    catalogCategoryViewBean.getAssets().add(buildAssetViewBean(requestData, asset));
+                    catalogCategoryViewBean.getAssets().add(buildViewBeanAsset(requestData, asset));
                 }
             }
 
@@ -560,7 +560,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
+    public List<ProductMarketingViewBean> buildListViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
         List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
@@ -568,7 +568,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             // TODO : Denis : fetch optim - cache
             ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
             
-            products.add(buildProductMarketingViewBean(requestData, catalogCategory, reloadedProductMarketing));
+            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing));
 //            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
         return products;
@@ -578,7 +578,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<ProductMarketingViewBean> buildProductMarketingViewBeans(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
+    public List<ProductMarketingViewBean> buildListViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
         List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
@@ -586,15 +586,15 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             // TODO : Denis : fetch optim - cache
             ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
             
-            products.add(buildProductMarketingViewBean(requestData, catalogCategory, reloadedProductMarketing));
+            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing));
 //            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
         return products;
     }
     
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
         final CatalogCategoryMaster catalogCategory = productMarketing.getDefaultCatalogCategory().getCategoryMaster();
-        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
+        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
         return productMarketingViewBean;
     }
 
@@ -603,8 +603,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
         productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
@@ -617,8 +617,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing) throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = super.buildProductMarketingViewBean(requestData, catalogCategory, productMarketing);
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
         productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
@@ -643,10 +643,10 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     }
 
     @Override
-    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final ProductSku productSku) throws Exception {
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductSku productSku) throws Exception {
         final ProductMarketing productMarketing = productSku.getProductMarketing();
         final CatalogCategoryMaster catalogCategory = productMarketing.getDefaultCatalogCategory().getCategoryMaster();
-        final ProductSkuViewBean productSkuViewBean = super.buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku);
+        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
         return productSkuViewBean;
     }
 
@@ -655,9 +655,9 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
      @Override
-     public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, 
+     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, 
                                                       final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
-        final ProductSkuViewBean productSkuViewBean = super.buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku);
+        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
 
         productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
         productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
@@ -683,7 +683,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public AssetViewBean buildAssetViewBean(final RequestData requestData, final Asset asset) throws Exception {
+    public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final String assetCode = asset.getCode();
 
@@ -731,7 +731,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public LegalTermsViewBean buildLegalTermsViewBean(final RequestData requestData) throws Exception {
+    public LegalTermsViewBean buildViewBeanLegalTerms(final RequestData requestData) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = localization.getLocale();
 
@@ -747,7 +747,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public SecurityViewBean buildSecurityViewBean(final RequestData requestData) throws Exception {
+    public SecurityViewBean buildViewBeanSecurity(final RequestData requestData) throws Exception {
         final SecurityViewBean security = new SecurityViewBean();
         security.setLoginUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
         security.setSubmitLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(requestData));
@@ -759,7 +759,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public UserViewBean buildUserViewBean(final RequestData requestData, final User user) throws Exception {
+    public UserViewBean buildViewBeanUser(final RequestData requestData, final User user) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final UserViewBean userViewBean = new UserViewBean();
         userViewBean.setId(user.getId());
@@ -842,11 +842,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public List<UserViewBean> buildUserViewBeans(final RequestData requestData, final List<User> users) throws Exception {
+    public List<UserViewBean> buildListViewBeanUser(final RequestData requestData, final List<User> users) throws Exception {
         final List<UserViewBean> userViewBeans = new ArrayList<UserViewBean>();
         for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
             User user = (User) iterator.next();
-            userViewBeans.add(buildUserViewBean(requestData, user));
+            userViewBeans.add(buildViewBeanUser(requestData, user));
         }
         return userViewBeans;
     }
@@ -856,8 +856,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
-        final DeliveryMethodViewBean deliveryMethodViewBean = super.buildDeliveryMethodViewBean(requestData, deliveryMethod);
+    public DeliveryMethodViewBean buildViewBeanDeliveryMethod(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+        final DeliveryMethodViewBean deliveryMethodViewBean = super.buildViewBeanDeliveryMethod(requestData, deliveryMethod);
 
         deliveryMethodViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
         deliveryMethodViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_EDIT, requestData, deliveryMethod));
@@ -870,8 +870,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
-        OrderViewBean orderViewBean = super.buildOrderViewBean(requestData, order);
+    public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderCustomer order) throws Exception {
+        OrderViewBean orderViewBean = super.buildViewBeanOrder(requestData, order);
 
         orderViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_DETAILS, requestData, order));
         orderViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_DETAILS, requestData, order));
@@ -883,7 +883,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public RuleViewBean buildRuleViewBean(final RequestData requestData, final AbstractRuleReferential rule) throws Exception {
+    public RuleViewBean buildViewBeanRule(final RequestData requestData, final AbstractRuleReferential rule) throws Exception {
         RuleViewBean ruleViewBean = new RuleViewBean();
         ruleViewBean.setId(rule.getId());
 
@@ -915,8 +915,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     @Override
-    public CustomerViewBean buildCustomerViewBean(final RequestData requestData, final Customer customer) throws Exception {
-        CustomerViewBean customerViewBean = super.buildCustomerViewBean(requestData, customer);
+    public CustomerViewBean buildViewBeanCustomer(final RequestData requestData, final Customer customer) throws Exception {
+        CustomerViewBean customerViewBean = super.buildViewBeanCustomer(requestData, customer);
 
         customerViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestData, customer));
         customerViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_EDIT, requestData, customer));
@@ -928,7 +928,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * @throws Exception
      * 
      */
-    public List<GlobalSearchViewBean> buildGlobalSearchViewBean(final RequestData requestData, final String searchText) throws Exception {
+    public List<GlobalSearchViewBean> buildListViewBeanGlobalSearch(final RequestData requestData, final String searchText) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
 
         final List<GlobalSearchViewBean> globalSearchViewBeans = new ArrayList<GlobalSearchViewBean>();
@@ -963,11 +963,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public List<EngineSettingViewBean> buildEngineSettingViewBeans(final RequestData requestData, final List<EngineSetting> engineSettings) throws Exception {
+    public List<EngineSettingViewBean> buildListViewBeanEngineSetting(final RequestData requestData, final List<EngineSetting> engineSettings) throws Exception {
         final List<EngineSettingViewBean> engineSettingViewBeans = new ArrayList<EngineSettingViewBean>();
         for (Iterator<EngineSetting> iterator = engineSettings.iterator(); iterator.hasNext();) {
             EngineSetting engineSetting = (EngineSetting) iterator.next();
-            engineSettingViewBeans.add(buildEngineSettingViewBean(requestData, engineSetting));
+            engineSettingViewBeans.add(buildViewBeanEngineSetting(requestData, engineSetting));
         }
         return engineSettingViewBeans;
     }
@@ -975,7 +975,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public EngineSettingViewBean buildEngineSettingViewBean(final RequestData requestData, final EngineSetting engineSetting) throws Exception {
+    public EngineSettingViewBean buildViewBeanEngineSetting(final RequestData requestData, final EngineSetting engineSetting) throws Exception {
         final EngineSettingViewBean engineSettingViewBean = new EngineSettingViewBean();
         engineSettingViewBean.setName(engineSetting.getName());
         engineSettingViewBean.setCode(engineSetting.getCode());
@@ -1012,11 +1012,11 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public List<BatchViewBean> buildBatchViewBeans(final RequestData requestData, final List<BatchProcessObject> batchProcessObjects) throws Exception {
+    public List<BatchViewBean> buildListViewBeanBatch(final RequestData requestData, final List<BatchProcessObject> batchProcessObjects) throws Exception {
         final List<BatchViewBean> batchViewBeans = new ArrayList<BatchViewBean>();
         for (Iterator<BatchProcessObject> iterator = batchProcessObjects.iterator(); iterator.hasNext();) {
             BatchProcessObject batchProcessObject = (BatchProcessObject) iterator.next();
-            batchViewBeans.add(buildBatchViewBean(requestData, batchProcessObject));
+            batchViewBeans.add(buildViewBeanBatch(requestData, batchProcessObject));
         }
         return batchViewBeans;
     }
@@ -1024,7 +1024,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public BatchViewBean buildBatchViewBean(final RequestData requestData, final BatchProcessObject batchProcessObject) throws Exception {
+    public BatchViewBean buildViewBeanBatch(final RequestData requestData, final BatchProcessObject batchProcessObject) throws Exception {
         final BatchViewBean batchViewBean = new BatchViewBean();
         batchViewBean.setId(batchProcessObject.getId());
         batchViewBean.setStatus(batchProcessObject.getStatus());
@@ -1036,12 +1036,12 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public List<PaymentGatewayViewBean> buildPaymentGatewayViewBeans(final RequestData requestData, final List<AbstractPaymentGateway> paymentGateways) throws Exception {
+    public List<PaymentGatewayViewBean> buildListViewBeanPaymentGateway(final RequestData requestData, final List<AbstractPaymentGateway> paymentGateways) throws Exception {
         final List<PaymentGatewayViewBean> paymentGatewayViewBeans = new ArrayList<PaymentGatewayViewBean>();
         if (paymentGateways != null) {
             for (Iterator<AbstractPaymentGateway> iterator = paymentGateways.iterator(); iterator.hasNext();) {
                 AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) iterator.next();
-                paymentGatewayViewBeans.add(buildPaymentGatewayViewBean(requestData, paymentGateway));
+                paymentGatewayViewBeans.add(buildViewBeanPaymentGateway(requestData, paymentGateway));
             }
         }
         return paymentGatewayViewBeans;
@@ -1050,7 +1050,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
     /**
      * 
      */
-    public PaymentGatewayViewBean buildPaymentGatewayViewBean(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
+    public PaymentGatewayViewBean buildViewBeanPaymentGateway(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
         final PaymentGatewayViewBean paymentGatewayViewBean = new PaymentGatewayViewBean();
         if (paymentGateway != null) {
             paymentGatewayViewBean.setName(paymentGateway.getName());

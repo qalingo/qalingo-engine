@@ -53,7 +53,7 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
 		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
 		
-		final CustomerViewBean customerView = frontofficeViewBeanFactory.buildCustomerViewBean(requestUtil.getRequestData(request), reloadedCustomer);
+		final CustomerViewBean customerView = frontofficeViewBeanFactory.buildViewBeanCustomer(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
         return modelAndView;

@@ -115,7 +115,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		final String currentDeliveryMethodId = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
 		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodId);
 		
-		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildDeliveryMethodViewBean(requestData, deliveryMethod));
+		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, deliveryMethod));
 		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_FORM, backofficeFormFactory.buildDeliveryMethodForm(requestData, deliveryMethod));
 		return modelAndView;
 	}
@@ -146,7 +146,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethods();
 		for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
 			DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-			deliveryMethodViewBeans.add(backofficeViewBeanFactory.buildDeliveryMethodViewBean(requestUtil.getRequestData(request), deliveryMethod));
+			deliveryMethodViewBeans.add(backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestUtil.getRequestData(request), deliveryMethod));
 		}
 		deliveryMethodViewBeanPagedListHolder = new PagedListHolder<DeliveryMethodViewBean>(deliveryMethodViewBeans);
 		deliveryMethodViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -156,7 +156,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 	}
     
 	protected void initDeliveryMethodDetailsPage(final RequestData requestData, final Model model, final ModelAndViewThemeDevice modelAndView, final DeliveryMethod user) throws Exception{
-		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildDeliveryMethodViewBean(requestData, user));
+		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, user));
 	}
 
 }

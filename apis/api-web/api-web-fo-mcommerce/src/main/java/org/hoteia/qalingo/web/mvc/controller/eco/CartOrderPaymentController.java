@@ -68,7 +68,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request))));
         }
 
-		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
 		// HIDE PROMO CODE PART
 		cartViewBean.setWithPromoCode(false);
         cartViewBean.setWithItemQuantityActions(false);
@@ -121,7 +121,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
             final Set<AbstractPaymentGateway> paymentGateways = marketArea.getPaymentGateways();
             for (Iterator<AbstractPaymentGateway> iterator = paymentGateways.iterator(); iterator.hasNext();) {
                 final AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) iterator.next();
-                paymentMethodViewBeans.add(frontofficeViewBeanFactory.buildPaymentMethodViewBean(requestData, paymentGateway));
+                paymentMethodViewBeans.add(frontofficeViewBeanFactory.buildViewBeanPaymentMethod(requestData, paymentGateway));
             }
 
             Collections.sort(paymentMethodViewBeans, new Comparator<PaymentMethodViewBean>() {

@@ -11,5 +11,9 @@ package org.hoteia.qalingo.core.solr.service.impl;
 
 public abstract class AbstractSolrService {
 
+    // SEARCH PAGINATION
+    public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
+    public static final String SEARCH_TEXT = "searchText";
+    public static final String ROWS_DEFAULT_VALUE = "10000000";
 
 }

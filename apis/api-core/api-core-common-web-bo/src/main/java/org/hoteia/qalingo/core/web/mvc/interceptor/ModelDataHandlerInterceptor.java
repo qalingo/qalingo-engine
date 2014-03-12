@@ -58,7 +58,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
         
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
-            modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, backofficeViewBeanFactory.buildCommonViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.COMMON_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanCommon(requestData));
             
             final MarketPlace currentMarketPlace = requestData.getMarketPlace();
             final Market currentMarket = requestData.getMarket();
@@ -68,37 +68,37 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             final Company company = requestData.getCompany();
             
             if(user != null){
-                modelAndView.getModelMap().put(ModelConstants.USER_VIEW_BEAN, backofficeViewBeanFactory.buildUserViewBean(requestData, user));
+                modelAndView.getModelMap().put(ModelConstants.USER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanUser(requestData, user));
             }
             
-            modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, backofficeViewBeanFactory.buildLegalTermsViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));
             
-            modelAndView.getModelMap().put(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN, backofficeViewBeanFactory.buildConditionsViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanConditions(requestData));
             
-            modelAndView.getModelMap().put(ModelConstants.HEADER_CART, backofficeViewBeanFactory.buildHeaderCartViewBean(requestData));
+            modelAndView.getModelMap().put(ModelConstants.HEADER_CART, backofficeViewBeanFactory.buildViewBeanHeaderCart(requestData));
             
             // ALL MARKETPLACES
-            modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, backofficeViewBeanFactory.buildMarketPlaceViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_PLACES_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMarketPlace(requestData));
 
             // MARKETS FOR THE CURRENT MARKETPLACE
             Set<Market> marketList = currentMarketPlace.getMarkets();
-            modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, backofficeViewBeanFactory.buildMarketViewBeans(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
+            modelAndView.getModelMap().put(ModelConstants.MARKETS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMarket(requestData, currentMarketPlace, new ArrayList<Market>(marketList)));
 
             // MARKET AREAS FOR THE CURRENT MARKET
             Set<MarketArea> marketAreaList = currentMarket.getMarketAreas();
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBeans(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREAS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMarketArea(requestData, currentMarket, new ArrayList<MarketArea>(marketAreaList)));
 
             // LOCALIZATIONS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeansByMarketArea(requestData, currentLocalization));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_LANGUAGES_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanLocalizationByMarketArea(requestData, currentLocalization));
 
             // RETAILERS FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildRetailerViewBeansByMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_RETAILERS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanRetailerByMarketArea(requestData));
 
             // CURRENCIES FOR THE CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, backofficeViewBeanFactory.buildCurrenciesViewBeansByMarketArea(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanCurrenciesByMarketArea(requestData));
 
             // CURRENT MARKET AREA
-            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, backofficeViewBeanFactory.buildMarketAreaViewBean(requestData, currentMarketArea));
+            modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanMarketArea(requestData, currentMarketArea));
 
             // BACKOFFICE LOCALIZATIONS
             List<Localization> backofficeLocalizations = new ArrayList<Localization>();
@@ -108,14 +108,14 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
                 backofficeLocalizations.add(localizationService.getLocalizationByCode("en"));
                 backofficeLocalizations.add(localizationService.getLocalizationByCode("fr"));
             }
-            modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildLocalizationViewBeans(requestData, backofficeLocalizations));
+            modelAndView.getModelMap().put(ModelConstants.BACKOFFICE_LOCALIZATION_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanLocalization(requestData, backofficeLocalizations));
             
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildMenuViewBeans(requestData));
-            modelAndView.getModelMap().put(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildMorePageMenuViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMenu(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MORE_PAGE_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildListViewBeanMorePageMenu(requestData));
             
             // FOOTER
-            modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildFooterMenuViewBeans(requestData));
+            modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
             
         } catch (Exception e) {
             logger.error("inject common datas failed", e);

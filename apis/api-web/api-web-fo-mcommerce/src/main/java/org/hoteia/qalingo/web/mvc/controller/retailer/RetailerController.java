@@ -54,7 +54,7 @@ public class RetailerController extends AbstractMCommerceController {
 
 		Retailer retailer = retailerService.getRetailerByCode(currentMarketArea.getId(), currentRetailer.getId(), retailerCode);
 		
-		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildRetailerViewBean(requestUtil.getRequestData(request), retailer);
+		RetailerViewBean retailerViewBean = frontofficeViewBeanFactory.buildViewBeanRetailer(requestUtil.getRequestData(request), retailer);
 		model.addAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
 		// STAR

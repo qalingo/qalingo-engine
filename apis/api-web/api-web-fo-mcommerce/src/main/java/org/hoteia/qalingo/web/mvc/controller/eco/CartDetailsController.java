@@ -46,7 +46,7 @@ public class CartDetailsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
         
-		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
 	    modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 1);

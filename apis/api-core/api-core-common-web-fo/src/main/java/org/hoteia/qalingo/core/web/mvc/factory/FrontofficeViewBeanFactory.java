@@ -35,32 +35,32 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 
     // SEARCH
 
-    SearchViewBean buildSearchViewBean(RequestData requestData) throws Exception;
+    SearchViewBean buildViewBeanSearch(RequestData requestData) throws Exception;
 
-    List<SearchProductItemViewBean> buildSearchProductItemViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
+    List<SearchProductItemViewBean> buildListViewBeanSearchProductItem(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 
-    SearchProductItemViewBean buildSearchProductItemViewBean(RequestData requestData, ProductMarketingSolr productMarketingSolr) throws Exception;
+    SearchProductItemViewBean buildViewBeanSearchProductItem(RequestData requestData, ProductMarketingSolr productMarketingSolr) throws Exception;
 
-    List<SearchFacetViewBean> buildCatalogSearchFacetViewBeans(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
+    List<SearchFacetViewBean> buildListViewBeanCatalogSearchFacet(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 
-    SearchFacetViewBean buildCatalogSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
+    SearchFacetViewBean buildViewBeanCatalogSearchFacet(RequestData requestData, FacetField facetField) throws Exception;
 
-    List<SearchStoreItemViewBean> buildSearchStoreItemViewBeans(RequestData requestData, StoreResponseBean storeResponseBean) throws Exception;
+    List<SearchStoreItemViewBean> buildListViewBeanSearchStoreItem(RequestData requestData, StoreResponseBean storeResponseBean) throws Exception;
 
-    SearchStoreItemViewBean buildSearchStoreItemViewBean(RequestData requestData, StoreSolr storeSolr) throws Exception;
+    SearchStoreItemViewBean buildViewBeanSearchStoreItem(RequestData requestData, StoreSolr storeSolr) throws Exception;
 
-    List<SearchFacetViewBean> buildStoreSearchFacetViewBeans(RequestData requestData, StoreResponseBean storeResponseBean) throws Exception;
+    List<SearchFacetViewBean> buildListViewBeanStoreSearchFacet(RequestData requestData, StoreResponseBean storeResponseBean) throws Exception;
 
-    SearchFacetViewBean buildStoreSearchFacetViewBean(RequestData requestData, FacetField facetField) throws Exception;
+    SearchFacetViewBean buildViewBeanStoreSearchFacet(RequestData requestData, FacetField facetField) throws Exception;
 
-    List<CatalogCategoryViewBean> buildListRootCatalogCategories(RequestData requestData, MarketArea marketArea) throws Exception;
+    List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception;
 
-    List<ProductBrandViewBean> buildListProductBrands(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
+    List<ProductBrandViewBean> buildListViewBeanProductBrand(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
 
-    List<RecentProductViewBean> buildRecentProductViewBean(RequestData requestData, List<String> listId) throws Exception;
+    List<RecentProductViewBean> buildListViewBeanRecentProduct(RequestData requestData, List<String> listId) throws Exception;
 
-    CatalogBreadcrumbViewBean buildCatalogBreadcrumbViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+    CatalogBreadcrumbViewBean buildViewBeanCatalogBreadcrumb(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 
-    StoreLocatorFilterBean buildStoreLocatorFilterBean(StoreLocatorViewBean storeLocatorViewBean, Locale locale) throws Exception;
+    StoreLocatorFilterBean buildFilterBeanStoreLocator(StoreLocatorViewBean storeLocatorViewBean, Locale locale) throws Exception;
     
 }

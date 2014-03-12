@@ -18,7 +18,6 @@ import javax.validation.Valid;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -30,6 +29,7 @@ import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
+import org.hoteia.qalingo.core.solr.service.impl.AbstractSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -75,7 +75,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 			return displaySearch(request, response, modelMap);
 		}
 
-		final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
+		final SearchViewBean search = frontofficeViewBeanFactory.buildViewBeanSearch(requestData);
 		modelAndView.addObject("search", search);
 		
 		String url = requestUtil.getCurrentRequestUrl(request);
@@ -94,11 +94,11 @@ public class CatalogSearchController extends AbstractMCommerceController {
 						searchForm.getCatalogCategoryList());
 				ProductMarketingResponseBean nonCategoriesFilter = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 						searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD, searchForm.getPrice().getStartValue(), searchForm.getPrice().getEndValue());
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildCatalogSearchFacetViewBeans(requestData, nonCategoriesFilter));
+				modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, nonCategoriesFilter));
 			} else {
 				productMarketingResponseBean = productMarketingSolrService.searchProductMarketing(ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_SEARCH_FIELD, 
 														searchForm.getText(), ProductMarketingResponseBean.PRODUCT_MARKETING_DEFAULT_FACET_FIELD);
-				modelAndView.addObject(Constants.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildCatalogSearchFacetViewBeans(requestData, productMarketingResponseBean));
+				modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanCatalogSearchFacet(requestData, productMarketingResponseBean));
 			}
 	        
 			PagedListHolder<SearchProductItemViewBean> productsViewBeanPagedListHolder;
@@ -131,11 +131,11 @@ public class CatalogSearchController extends AbstractMCommerceController {
 		}
 		
 		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
-        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId);
         modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
         
         final Cart currentCart = requestData.getCart();
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 		
         return modelAndView;
@@ -145,17 +145,17 @@ public class CatalogSearchController extends AbstractMCommerceController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-        final SearchViewBean search = frontofficeViewBeanFactory.buildSearchViewBean(requestData);
+        final SearchViewBean search = frontofficeViewBeanFactory.buildViewBeanSearch(requestData);
         modelAndView.addObject("search", search);
 
         modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
 
         final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
-        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildRecentProductViewBean(requestData, listId);
+        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId);
         modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
 
         final Cart currentCart = requestData.getCart();
-        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildCartViewBean(requestUtil.getRequestData(request), currentCart);
+        final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
         modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 
         return modelAndView;
@@ -164,7 +164,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 	// TODO : Temporary
 	
     @Autowired
-    public ProductDao productDao;
+    public ProductService productService;
 
     @Autowired
     private CatalogCategoryService catalogCategoryService;
@@ -175,9 +175,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
-        List<ProductMarketing> products;
-        
-    	products = productDao.findProductMarketings();
+        List<ProductMarketing> products = productService.findProductMarketings(null);
         for (Iterator<ProductMarketing> iterator = products.iterator(); iterator.hasNext();) {
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
             
@@ -194,7 +192,7 @@ public class CatalogSearchController extends AbstractMCommerceController {
 		int pageSize = searchForm.getPageSize();
 		String sortBy = searchForm.getSortBy();
         String order = searchForm.getOrder();
-		List<SearchProductItemViewBean> searchtItems = frontofficeViewBeanFactory.buildSearchProductItemViewBeans(requestUtil.getRequestData(request), productMarketingResponseBean);
+		List<SearchProductItemViewBean> searchtItems = frontofficeViewBeanFactory.buildListViewBeanSearchProductItem(requestUtil.getRequestData(request), productMarketingResponseBean);
 		productsViewBeanPagedListHolder = new PagedListHolder<SearchProductItemViewBean>(searchtItems);
 		productsViewBeanPagedListHolder.setPageSize(pageSize);
 		productsViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));

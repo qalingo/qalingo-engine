@@ -238,35 +238,35 @@ INSERT INTO teco_store
 --(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
 --(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1),
 --add
-(10, 'The Coffee Bean & Tea Leaf', 'STRTO1', '1772 A East Avenida De Los Arboles, Thousand Oaks, CA 91362 (805) 241-2499', '', '','', 'Thousand Oaks', '', 'US', '34.224294', '-118.844712', 'SHOP', 1, 1),
-(20, 'The Coffee Bean & Tea Leaf', 'STRTO2', '"487 North Moorpark Road #3,Thousand Oaks, CA 91360 (805) 497-7467"', '', '','', 'Thousand Oaks', '', 'US', '34.185997', '-118.875596', 'SHOP,CORNER', 1, 1),
-(30, 'The Coffee Bean & Tea Leaf', 'STRTO3', '"278 West Hillcrest Drive Thousand Oaks, CA 91360 (805) 497-1211"', '', '','', 'Thousand Oaks', '', 'US', '34.185926', '-118.888599', 'SHOP,CORNER', 1, 1),
+(10, 'The Coffee Bean & Tea Leaf', 'STRTO1', '1772 A East Avenida De Los Arboles', '', '','91362', 'Thousand Oaks', 'CA', 'US', '34.224294', '-118.844712', 'SHOP', 1, 1),
+(20, 'The Coffee Bean & Tea Leaf', 'STRTO2', '487 North Moorpark Road #3', '', '','91360', 'Thousand Oaks', 'CA', 'US', '34.185997', '-118.875596', 'SHOP,CORNER', 1, 1),
+(30, 'The Coffee Bean & Tea Leaf', 'STRTO3', '278 West Hillcrest Drive', '', '','91360', 'Thousand Oaks', 'CA', 'US', '34.185926', '-118.888599', 'SHOP,CORNER', 1, 1),
 
-(40, 'The Coffee Bean & Tea Leaf', 'STRTO4', '"968 S Westlake Blvd #6 Westlake Village, CA 91361 (805) 497-1256"', '', '','', 'Thousand Oaks', '', 'US', '34.154077', '-118.826673', 'SHOP,CORNER', 1, 1),
+(40, 'The Coffee Bean & Tea Leaf', 'STRTO4', '968 S Westlake Blvd #6', '', '','91361', 'Westlake Village', 'CA', 'US', '34.154077', '-118.826673', 'SHOP,CORNER', 1, 1),
 
-(50, 'The Coffee Bean & Tea Leaf', 'STRLA1', '209 South Mednik Avenue Los Angeles, CA 90022 (323) 263-931,', '', '','', 'Los Angeles', '', 'US', '34.049815', '-118.162873', 'SHOP,CORNER', 1, 1),
+(50, 'The Coffee Bean & Tea Leaf', 'STRLA1', '209 South Mednik Avenue', '', '','90022', 'Los Angeles', 'CA', 'US', '34.049815', '-118.162873', 'SHOP,CORNER', 1, 1),
 
-(60, 'The Coffee Bean & Tea Leaf', 'STRLA2', '2081 Hillhurst Avenue Los Angeles, CA 90027 (323) 913-3457', '', '','', 'Los Angeles', '', 'US', '34.126016', '-118.286469', 'SHOP,CORNER', 1, 1),
+(60, 'The Coffee Bean & Tea Leaf', 'STRLA2', '2081 Hillhurst Avenue', '', '','90027', 'Los Angeles', 'CA', 'US', '34.126016', '-118.286469', 'SHOP,CORNER', 1, 1),
 
-(70, 'The Coffee Bean & Tea Leaf', 'STRLA3', '"11698 San Vicente Boulevard Los Angeles, CA 90049 (310) 442-1019"', '', '','', 'Los Angeles', '', 'US', '34.069725', '-118.46225', 'SHOP,CORNER', 1, 1),
+(70, 'The Coffee Bean & Tea Leaf', 'STRLA3', '11698 San Vicente Boulevard', '', '','90049', 'Los Angeles', 'CA', 'US', '34.069725', '-118.46225', 'SHOP,CORNER', 1, 1),
 
-(80, 'The Coffee Bean & Tea Leaf', 'STRLA4', '6333 West 3rd Street, E-11, Farmers Market Los Angeles, CA 90036 (323) 857-0461', '', '','', 'Los Angeles', '', 'US', '34.088493', '-118.362687', 'SHOP,CORNER', 1, 1),
+(80, 'The Coffee Bean & Tea Leaf', 'STRLA4', '6333 West 3rd Street, E-11, Farmers Market', '', '','90036', 'Los Angeles', 'CA', 'US', '34.088493', '-118.362687', 'SHOP,CORNER', 1, 1),
 
-(90, 'The Coffee Bean & Tea Leaf', 'STRLA5', '"Exposition Blvd Los Angeles, CA 90007 (213) 745-4963"', '', '','', 'Los Angeles', '', 'US', '34.034453', '-118.284409', 'SHOP,CORNER', 1, 1),
+(90, 'The Coffee Bean & Tea Leaf', 'STRLA5', 'Exposition Blvd', '', '','90007', 'Los Angeles', 'CA', 'US', '34.034453', '-118.284409', 'SHOP,CORNER', 1, 1),
 
-(100, 'Le Tropic Café', 'STRPARIS1', '"66 Rue des Lombards 75001 Paris, France +33 1 40 13 92 62"', '', '','', 'Paris', '', 'FR', '48.863924', '2.347271', 'SHOP,CORNER', 1, 1),
-(110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées 75008 Paris, France +33 1 40 69 60 50', '', '','', 'Paris', '', 'FR', '48.874313', '2.301609', 'SHOP,CORNER', 1, 1),
-(120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1, 1),
+(100, 'Le Tropic Café', 'STRPARIS1', '66 Rue des Lombards', '', '','75001', 'Paris', '75', 'FR', '48.8599562', '2.3473762', 'SHOP,CORNER', 1, 1),
+(110, "Le Fouquet's", 'STRPARIS2', '99 Avenue des Champs-Élysées', '', '','75008', 'Paris', '75', 'FR', '48.8719523', '2.3008841', 'SHOP,CORNER', 1, 1),
+(120, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber', '', '','75009', 'Paris', '75', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1, 1),
 
-(130, 'The Coffee Bean & Tea Leaf', 'STRTX1', '1000 E. 41st Street, Suite G-100 Austin, TX 78751 (512) 351-8676', '', '','', 'Texas', '', 'US', '30.299852', '-97.721888', 'SHOP,CORNER', 1, 1),
-(140, 'The Coffee Bean & Tea Leaf', 'STRNV1', '4321 West Flamingo Road Las Vegas, NV 89103 (702) 944-5018', '', '','', 'Las Vegas', '', 'US', '36.113471', '-115.194826', 'SHOP,CORNER', 1, 1),
-(150, 'The Coffee Bean & Tea Leaf', 'STRAZ1', '4032 North Miller Road #102 Scottsdale, AZ 85251 (480) 941-7059', '', '','', 'Scottsdale', '', 'US', '33.494435', '-111.917612', 'SHOP,CORNER', 1, 1),
-(160, 'The Coffee Bean & Tea Leaf', 'STRAZ2', '2000 East Rio Salado Parkway Tempe, AZ 85281 (480) 966-0252', '', '','', 'Tempe', '', 'US', '33.432981', '-111.904298', 'SHOP,CORNER', 1, 1),
-(170, 'The Coffee Bean & Tea Leaf', 'STRNY1', '1412 Broadway New York, NY 10018 (212) 575-3854', '', '','', 'New York', '', 'US', '40.753629', '-73.986939', 'SHOP,CORNER', 1, 1),
-(180, 'The Coffee Bean & Tea Leaf', 'STRVN1', '235 Đồng Khởi, Bến Nghé, 1 Hồ Chí Minh, Việt Nam +84 8 3508 7285', '', '','', 'Ho Chi Minh', '', 'VN', '10.778864', '106.699859', 'SHOP,CORNER', 1, 1),
-(190, 'The Coffee Bean & Tea Leaf', 'STRVN2', '12-14, Phường Bến Nghé, District 1 (Quan 1), Thành phố Hồ Chí Minh Hồ Chí Minh, Vietnam', '', '','', 'Ho Chi Minh', '', 'VN', '10.779886', '106.70397', 'SHOP,CORNER', 1, 1),
-(200, 'The Coffee Bean & Tea Leaf', 'STRSG1', '51 Bras Basah Rd Singapore 189554 +65 6238 0267', '', '','', 'Singapore', '', 'SG', '1.297665', '103.850053', 'SHOP,CORNER', 1, 1),
-(210, 'The Coffee Bean & Tea Leaf', 'STRSG2', 'Food Opera ION Orchard Singapore 238801 +65 6509 9742', '', '','', 'Singapore', '', 'SG', '1.303994', '103.832033', 'SHOP,CORNER', 1, 1);
+(130, 'The Coffee Bean & Tea Leaf', 'STRTX1', '1000 E. 41st Street, Suite G-100', '', '','', 'Austin', ' TX', 'US', '30.299852', '-97.721888', 'SHOP,CORNER', 1, 1),
+(140, 'The Coffee Bean & Tea Leaf', 'STRNV1', '4321 West Flamingo Road', '', '','', 'Las Vegas', 'NV', 'US', '36.113471', '-115.194826', 'SHOP,CORNER', 1, 1),
+(150, 'The Coffee Bean & Tea Leaf', 'STRAZ1', '4032 North Miller Road #102', '', '','', 'Scottsdale', 'AZ', 'US', '33.494435', '-111.917612', 'SHOP,CORNER', 1, 1),
+(160, 'The Coffee Bean & Tea Leaf', 'STRAZ2', '2000 East Rio Salado Parkway', '', '','', 'Tempe', 'AZ', 'US', '33.432981', '-111.904298', 'SHOP,CORNER', 1, 1),
+(170, 'The Coffee Bean & Tea Leaf', 'STRNY1', '1412 Broadway', '', '','', 'New York', 'NY', 'US', '40.753629', '-73.986939', 'SHOP,CORNER', 1, 1),
+(180, 'The Coffee Bean & Tea Leaf', 'STRVN1', '235 Đồng Khởi, Bến Nghé, 1', '', '','', 'Ho Chi Minh', '', 'VN', '10.778864', '106.699859', 'SHOP,CORNER', 1, 1),
+(190, 'The Coffee Bean & Tea Leaf', 'STRVN2', '12-14, Phường Bến Nghé, District 1 (Quan 1), Thành phố', '', '','', 'Ho Chi Minh', '', 'VN', '10.779886', '106.70397', 'SHOP,CORNER', 1, 1),
+(200, 'The Coffee Bean & Tea Leaf', 'STRSG1', '51 Bras Basah Rd', '', '','', 'Singapore', '', 'SG', '1.297665', '103.850053', 'SHOP,CORNER', 1, 1),
+(210, 'The Coffee Bean & Tea Leaf', 'STRSG2', 'Food Opera ION Orchard', '', '','', 'Singapore', '', 'SG', '1.303994', '103.832033', 'SHOP,CORNER', 1, 1);
 --(180, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),

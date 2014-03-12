@@ -24,6 +24,7 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -45,10 +46,12 @@ public class StoreLocationController extends AbstractMCommerceController {
         final Locale locale = requestData.getLocale();
         
 		final List<Store> stores = storeService.findStores();
-		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildStoreLocatorViewBean(requestUtil.getRequestData(request), stores);
-		final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildStoreLocatorFilterBean(storeLocator, locale);
+		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestUtil.getRequestData(request), stores);
+		final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeLocator, locale);
 		modelAndView.addObject("storeLocator", storeLocator);
 		modelAndView.addObject("storeFilter", storeFilter);
+		
+        modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
 		
         return modelAndView;
 	}

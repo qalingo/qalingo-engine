@@ -51,7 +51,7 @@ public class CartOrderConfirmationController extends AbstractMCommerceController
             return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request))));
         }
 
-        final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildOrderViewBean(requestUtil.getRequestData(request), lastOrder);
+        final OrderViewBean orderViewBean = frontofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), lastOrder);
 
         Object[] params = { orderViewBean.getOrderNum(), orderViewBean.getExpectedDeliveryDate() };
         final String confirmationMessage = getSpecificMessage(ScopeWebMessage.CHECKOUT_SHOPPING_CART, "order_confirmation_message", params, locale);

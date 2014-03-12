@@ -71,97 +71,96 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 
 public interface ViewBeanFactory {
 
-	CommonViewBean buildCommonViewBean(RequestData requestData) throws Exception;
+	CommonViewBean buildViewBeanCommon(RequestData requestData) throws Exception;
 	
-	HeaderCartViewBean buildHeaderCartViewBean(RequestData requestData) throws Exception;
+	HeaderCartViewBean buildViewBeanHeaderCart(RequestData requestData) throws Exception;
 	
-	List<MenuViewBean> buildMenuViewBeans(RequestData requestData) throws Exception;
+	List<MenuViewBean> buildListViewBeanMenu(RequestData requestData) throws Exception;
 
-	List<FooterMenuViewBean> buildFooterMenuViewBeans(RequestData requestData) throws Exception;
+	List<FooterMenuViewBean> buildViewBeanFooterMenu(RequestData requestData) throws Exception;
 	
-	FollowUsViewBean buildFollowUsViewBean(RequestData requestData) throws Exception;
+	FollowUsViewBean buildViewBeanFollowUs(RequestData requestData) throws Exception;
 	
-	FollowUsOptionViewBean buildFollowOption(RequestData requestData, Locale locale, String followType) throws Exception;
+	FollowUsOptionViewBean buildViewBeanFollowOption(RequestData requestData, Locale locale, String followType) throws Exception;
 	
-	LegalTermsViewBean buildLegalTermsViewBean(RequestData requestData) throws Exception;
+	LegalTermsViewBean buildViewBeanLegalTerms(RequestData requestData) throws Exception;
 
-	OurCompanyViewBean buildOurCompanyViewBean(RequestData requestData) throws Exception;
+	OurCompanyViewBean buildViewBeanOurCompany(RequestData requestData) throws Exception;
 	
-	FaqViewBean buildFaqViewBean(RequestData requestData) throws Exception;
+	FaqViewBean buildViewBeanFaq(RequestData requestData) throws Exception;
 	
-	SecurityViewBean buildSecurityViewBean(RequestData requestData) throws Exception;
+	SecurityViewBean buildViewBeanSecurity(RequestData requestData) throws Exception;
 
-	ConditionsViewBean buildConditionsViewBean(RequestData requestData) throws Exception;
+	ConditionsViewBean buildViewBeanConditions(RequestData requestData) throws Exception;
 	
-	List<RetailerViewBean> buildRetailerViewBeansByMarketArea(RequestData requestData) throws Exception;
+	List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(RequestData requestData) throws Exception;
 	
-	List<RetailerViewBean> buildRetailerViewBeans(RequestData requestData, List<Retailer> retailers) throws Exception;
+	List<RetailerViewBean> buildListViewBeanRetailer(RequestData requestData, List<Retailer> retailers) throws Exception;
 
-	RetailerViewBean buildRetailerViewBean(RequestData requestData, Retailer currentRetailer) throws Exception;
+	RetailerViewBean buildViewBeanRetailer(RequestData requestData, Retailer currentRetailer) throws Exception;
 
-	List<CutomerMenuViewBean> buildCutomerMenuViewBeans(RequestData requestData) throws Exception;
+	List<CutomerMenuViewBean> buildListViewBeanCutomerMenu(RequestData requestData) throws Exception;
 	
-	List<MarketPlaceViewBean> buildMarketPlaceViewBeans(RequestData requestData) throws Exception;
+	List<MarketPlaceViewBean> buildListViewBeanMarketPlace(RequestData requestData) throws Exception;
 	
-	MarketPlaceViewBean buildMarketPlaceViewBean(RequestData requestData, MarketPlace marketPlace) throws Exception;
+	MarketPlaceViewBean buildViewBeanMarketPlace(RequestData requestData, MarketPlace marketPlace) throws Exception;
 	
-	List<MarketViewBean> buildMarketViewBeans(RequestData requestData, MarketPlace marketPlace, List<Market> markets) throws Exception;
+	List<MarketViewBean> buildListViewBeanMarket(RequestData requestData, MarketPlace marketPlace, List<Market> markets) throws Exception;
 	
-	List<MarketAreaViewBean> buildMarketAreaViewBeans(RequestData requestData, Market market, List<MarketArea> marketAreas) throws Exception;
+	List<MarketAreaViewBean> buildListViewBeanMarketArea(RequestData requestData, Market market, List<MarketArea> marketAreas) throws Exception;
 
-	MarketAreaViewBean buildMarketAreaViewBean(RequestData requestData, MarketArea marketArea) throws Exception;
+	MarketAreaViewBean buildViewBeanMarketArea(RequestData requestData, MarketArea marketArea) throws Exception;
 
-	List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(RequestData requestData, Localization localization) throws Exception;
+	List<LocalizationViewBean> buildListViewBeanLocalizationByMarketArea(RequestData requestData, Localization localization) throws Exception;
 	
-    List<CurrencyReferentialViewBean> buildCurrenciesViewBeansByMarketArea(RequestData requestData) throws Exception;
+    List<CurrencyReferentialViewBean> buildListViewBeanCurrenciesByMarketArea(RequestData requestData) throws Exception;
 
-    List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(RequestData requestData, List<CurrencyReferential> currencyReferentials) throws Exception;
+    List<CurrencyReferentialViewBean> buildListViewBeanCurrencyReferential(RequestData requestData, List<CurrencyReferential> currencyReferentials) throws Exception;
 
-    CurrencyReferentialViewBean buildCurrencyReferentialViewBean(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
+    CurrencyReferentialViewBean buildViewBeanCurrencyReferential(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
 
-	StoreLocatorViewBean buildStoreLocatorViewBean(RequestData requestData, List<Store> stores) throws Exception;
+	StoreLocatorViewBean buildViewBeanStoreLocator(RequestData requestData, List<Store> stores) throws Exception;
 	
-	StoreViewBean buildStoreViewBean(RequestData requestData, Store store) throws Exception;
+	StoreViewBean buildViewBeanStore(RequestData requestData, Store store) throws Exception;
 	
-	CustomerViewBean buildCustomerViewBean(RequestData requestData, Customer customer) throws Exception ;
+	CustomerViewBean buildViewBeanCustomer(RequestData requestData, Customer customer) throws Exception ;
 
-	CustomerWishlistViewBean buildCustomerWishlistViewBean(RequestData requestData, Customer customer) throws Exception;
+	CustomerWishlistViewBean buildViewBeanCustomerWishlist(RequestData requestData, Customer customer) throws Exception;
 
-	CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(RequestData requestData, Customer customer) throws Exception;
+	CustomerProductCommentsViewBean buildViewBeanCustomerProductComments(RequestData requestData, Customer customer) throws Exception;
 	
-	CustomerProductCommentViewBean buildCustomerProductCommentViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 
+	CustomerProductCommentViewBean buildViewBeanCustomerProductComment(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, 
 										ProductMarketing productMarketing, ProductSku productSku, CustomerProductComment customerProductComment) throws Exception;
 	
-	CustomerAddressListViewBean buildCustomerAddressListViewBean(RequestData requestData, Customer customer) throws Exception;
+	CustomerAddressListViewBean buildViewBeanCustomerAddressList(RequestData requestData, Customer customer) throws Exception;
 	
-	CustomerAddressViewBean buildCustomeAddressViewBean(RequestData requestData, CustomerAddress customerAddress) throws Exception;
+	CustomerAddressViewBean buildViewBeanCustomeAddress(RequestData requestData, CustomerAddress customerAddress) throws Exception;
 	
-	ProductBrandViewBean buildProductBrandViewBean(RequestData requestData, ProductBrand productBrand) throws Exception;
+	ProductBrandViewBean buildViewBeanProductBrand(RequestData requestData, ProductBrand productBrand) throws Exception;
 
-	ProductBrandViewBean buildProductBrandViewBean(RequestData requestData, ProductBrand productBrand, List<ProductMarketing> productMarketings) throws Exception;
+	ProductBrandViewBean buildViewBeanProductBrand(RequestData requestData, ProductBrand productBrand, List<ProductMarketing> productMarketings) throws Exception;
 
-	CatalogCategoryViewBean buildMasterProductCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryViewBean buildViewBeanMastercatalogCategoryVirtual(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
 
-	CatalogCategoryViewBean buildCatalogCategoryViewBean(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
+	CatalogCategoryViewBean buildViewBeanCatalogCategory(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
 	
-	ProductMarketingViewBean buildProductMarketingViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, ProductMarketing productMarketing) throws Exception;
+	ProductMarketingViewBean buildViewBeanProductMarketing(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, ProductMarketing productMarketing) throws Exception;
 
-	CartViewBean buildCartViewBean(RequestData requestData, Cart cart) throws Exception;
+    ProductSkuViewBean buildViewBeanProductSku(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, ProductMarketing productMarketing, ProductSku productSku) throws Exception;
 
-	List<OrderViewBean> buildOrderViewBeans(RequestData requestData,  List<OrderCustomer> orders) throws Exception;
+	CartViewBean buildViewBeanCart(RequestData requestData, Cart cart) throws Exception;
+
+	List<OrderViewBean> buildListViewBeanOrder(RequestData requestData,  List<OrderCustomer> orders) throws Exception;
 	
-	OrderViewBean buildOrderViewBean(RequestData requestData, OrderCustomer order) throws Exception;
+	OrderViewBean buildViewBeanOrder(RequestData requestData, OrderCustomer order) throws Exception;
 
 
-	OrderItemViewBean buildOrderItemViewBean(RequestData requestData, OrderItem orderItem) throws Exception;
+	OrderItemViewBean buildViewBeanOrderItem(RequestData requestData, OrderItem orderItem) throws Exception;
 	
-	ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 
+	ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, 
 														   ProductMarketing productMarketing) throws Exception;
 	
-	ProductSkuViewBean buildProductSkuViewBean(RequestData requestData, CatalogCategoryVirtual productCategory, 
-												ProductMarketing productMarketing, ProductSku productSku) throws Exception;
-	
-    DeliveryMethodViewBean buildDeliveryMethodViewBean(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
+    DeliveryMethodViewBean buildViewBeanDeliveryMethod(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
 
-    PaymentMethodViewBean buildPaymentMethodViewBean(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
+    PaymentMethodViewBean buildViewBeanPaymentMethod(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
 }

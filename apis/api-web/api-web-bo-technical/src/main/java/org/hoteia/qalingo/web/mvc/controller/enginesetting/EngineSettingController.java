@@ -103,7 +103,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
 		if(StringUtils.isNotEmpty(engineSettingId)){
 			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
 			if(engineSetting != null){
-				EngineSettingViewBean engineSettingViewBean = backofficeViewBeanFactory.buildEngineSettingViewBean(requestData, engineSetting);
+				EngineSettingViewBean engineSettingViewBean = backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSetting);
 				modelAndView.addObject("engineSetting", engineSettingViewBean);
                 initLinks(request, modelAndView, locale, engineSetting);
 			} else {
@@ -131,7 +131,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         if(StringUtils.isNotEmpty(engineSettingValueId)){
             final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
             if(engineSettingValue != null){
-                modelAndView.addObject("engineSetting", backofficeViewBeanFactory.buildEngineSettingViewBean(requestData, engineSettingValue.getEngineSetting()));
+                modelAndView.addObject("engineSetting", backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSettingValue.getEngineSetting()));
                 backofficeFormFactory.buildEngineSettingValueEditForm(requestData, engineSettingValue);
                 initLinks(request, modelAndView, locale, engineSettingValue.getEngineSetting());
                 return modelAndView;
@@ -213,7 +213,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
     
 	protected PagedListHolder<EngineSettingViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<EngineSetting> engineSettings,
 			PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder) throws Exception{
-		List<EngineSettingViewBean> engineSettingViewBeans = backofficeViewBeanFactory.buildEngineSettingViewBeans(requestUtil.getRequestData(request), engineSettings);
+		List<EngineSettingViewBean> engineSettingViewBeans = backofficeViewBeanFactory.buildListViewBeanEngineSetting(requestUtil.getRequestData(request), engineSettings);
 		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
 		
 		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 

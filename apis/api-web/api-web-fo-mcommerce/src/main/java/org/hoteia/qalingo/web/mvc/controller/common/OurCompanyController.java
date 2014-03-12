@@ -32,7 +32,7 @@ public class OurCompanyController extends AbstractMCommerceController {
 	public ModelAndView ourCompany(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.OUR_COMPANY.getVelocityPage());
 		
-		final OurCompanyViewBean ourCompany = frontofficeViewBeanFactory.buildOurCompanyViewBean(requestUtil.getRequestData(request));
+		final OurCompanyViewBean ourCompany = frontofficeViewBeanFactory.buildViewBeanOurCompany(requestUtil.getRequestData(request));
 		modelAndView.addObject(ModelConstants.OUR_COMPANY_VIEW_BEAN, ourCompany);
 		
         return modelAndView;

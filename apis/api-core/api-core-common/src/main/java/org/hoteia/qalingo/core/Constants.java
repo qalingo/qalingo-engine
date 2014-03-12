@@ -117,7 +117,6 @@ public final class Constants {
     public static final String ENGINE_CLICKSTREAM           = "ENGINE_CLICKSTREAM";
 
 	// SEARCH PAGINATION
-	public static final String SEARCH_FACET_FIELD_LIST = "facetFieldList";
 	public static final String SEARCH_TEXT = "searchText";
 
 	// SPRING VIEW PAGINATION

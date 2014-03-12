@@ -197,7 +197,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final List<RetailerViewBean> RetailerViewBeans = new ArrayList<RetailerViewBean>();
 		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 			Retailer retailerIt = (Retailer) iterator.next();
-			RetailerViewBeans.add(backofficeViewBeanFactory.buildRetailerViewBean(requestData, retailerIt));
+			RetailerViewBeans.add(backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerIt));
 		}
 		RetailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>(RetailerViewBeans);
 		RetailerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
@@ -232,7 +232,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final String currentRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRetailerCode);
 		
-		return backofficeViewBeanFactory.buildRetailerViewBean(requestData, retailerEdit);
+		return backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerEdit);
 	}
 	
     @ModelAttribute(ModelConstants.COUNTRIES)

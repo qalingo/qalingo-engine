@@ -78,6 +78,8 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
 	 */
 	public CatalogCategoryResponseBean searchCatalogCategory(String searchBy,String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
@@ -125,6 +127,8 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
 	 */
     public CatalogCategoryResponseBean searchCatalogCategory() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);

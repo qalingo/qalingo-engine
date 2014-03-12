@@ -171,7 +171,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CommonViewBean buildCommonViewBean(final RequestData requestData) throws Exception {
+    public CommonViewBean buildViewBeanCommon(final RequestData requestData) throws Exception {
         final CommonViewBean commonViewBean = new CommonViewBean();
 
         final MarketPlace marketPlace = requestData.getMarketPlace();
@@ -198,12 +198,12 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         commonViewBean.setContextJsonUrl(urlService.generateUrl(FoUrls.CONTEXT, requestData));
 
-        commonViewBean.setCurrentMarketPlace(buildMarketPlaceViewBean(requestData, marketPlace));
-        commonViewBean.setCurrentMarket(buildMarketViewBean(requestData, market));
-        commonViewBean.setCurrentMarketArea(buildMarketAreaViewBean(requestData, marketArea));
-        commonViewBean.setCurrentMarketAreaLocalization(buildLocalizationViewBean(requestData, localization));
-        commonViewBean.setCurrentMarketAreaRetailer(buildRetailerViewBean(requestData, retailer));
-        commonViewBean.setCurrentMarketAreaCurrency(buildCurrencyReferentialViewBean(requestData, currency));
+        commonViewBean.setCurrentMarketPlace(buildViewBeanMarketPlace(requestData, marketPlace));
+        commonViewBean.setCurrentMarket(buildViewBeanMarket(requestData, market));
+        commonViewBean.setCurrentMarketArea(buildViewBeanMarketArea(requestData, marketArea));
+        commonViewBean.setCurrentMarketAreaLocalization(buildViewBeanLocalization(requestData, localization));
+        commonViewBean.setCurrentMarketAreaRetailer(buildViewBeanRetailer(requestData, retailer));
+        commonViewBean.setCurrentMarketAreaCurrency(buildViewBeanCurrencyReferential(requestData, currency));
 
         return commonViewBean;
     }
@@ -211,7 +211,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public HeaderCartViewBean buildHeaderCartViewBean(final RequestData requestData) throws Exception {
+    public HeaderCartViewBean buildViewBeanHeaderCart(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
         final HeaderCartViewBean headerCartViewBean = new HeaderCartViewBean();
 
@@ -242,7 +242,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<MenuViewBean> buildMenuViewBeans(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
         List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 
         return menuViewBeans;
@@ -251,7 +251,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<FooterMenuViewBean> buildFooterMenuViewBeans(final RequestData requestData) throws Exception {
+    public List<FooterMenuViewBean> buildViewBeanFooterMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
         List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
 
@@ -297,7 +297,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public FollowUsViewBean buildFollowUsViewBean(final RequestData requestData) throws Exception {
+    public FollowUsViewBean buildViewBeanFollowUs(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
 
         final FollowUsViewBean followUs = new FollowUsViewBean();
@@ -306,16 +306,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         followUs.setSubmitUrlFullForm(urlService.generateUrl(FoUrls.FOLLOW_US, requestData));
 
         final List<FollowUsOptionViewBean> followOptions = new ArrayList<FollowUsOptionViewBean>();
-        followOptions.add(buildFollowOption(requestData, locale, "facebook"));
-        followOptions.add(buildFollowOption(requestData, locale, "twitter"));
-        followOptions.add(buildFollowOption(requestData, locale, "google-plus"));
-        followOptions.add(buildFollowOption(requestData, locale, "rss"));
+        followOptions.add(buildViewBeanFollowOption(requestData, locale, "facebook"));
+        followOptions.add(buildViewBeanFollowOption(requestData, locale, "twitter"));
+        followOptions.add(buildViewBeanFollowOption(requestData, locale, "google-plus"));
+        followOptions.add(buildViewBeanFollowOption(requestData, locale, "rss"));
         followUs.setFollowOptions(followOptions);
 
         return followUs;
     }
 
-    public FollowUsOptionViewBean buildFollowOption(final RequestData requestData, final Locale locale, String followType) throws Exception {
+    public FollowUsOptionViewBean buildViewBeanFollowOption(final RequestData requestData, final Locale locale, String followType) throws Exception {
         String followTypeMessageKey = followType;
         if (followTypeMessageKey.contains("-")) {
             // REPLACE DASH BY DOT - DOT WILL BE REPLACE LATER TO GET MESSAGE
@@ -334,7 +334,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public LegalTermsViewBean buildLegalTermsViewBean(final RequestData requestData) throws Exception {
+    public LegalTermsViewBean buildViewBeanLegalTerms(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
 
         final LegalTermsViewBean legalTerms = new LegalTermsViewBean();
@@ -365,7 +365,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public OurCompanyViewBean buildOurCompanyViewBean(final RequestData requestData) throws Exception {
+    public OurCompanyViewBean buildViewBeanOurCompany(final RequestData requestData) throws Exception {
         final OurCompanyViewBean ourCompany = new OurCompanyViewBean();
         return ourCompany;
     }
@@ -373,7 +373,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public FaqViewBean buildFaqViewBean(final RequestData requestData) throws Exception {
+    public FaqViewBean buildViewBeanFaq(final RequestData requestData) throws Exception {
         final FaqViewBean faq = new FaqViewBean();
         return faq;
     }
@@ -381,7 +381,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public SecurityViewBean buildSecurityViewBean(final RequestData requestData) throws Exception {
+    public SecurityViewBean buildViewBeanSecurity(final RequestData requestData) throws Exception {
         final SecurityViewBean security = new SecurityViewBean();
 
         security.setLoginUrl(urlService.generateUrl(FoUrls.LOGIN, requestData));
@@ -400,17 +400,17 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<RetailerViewBean> buildRetailerViewBeansByMarketArea(final RequestData requestData) throws Exception {
+    public List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-        List<RetailerViewBean> retailerViewBeans = buildRetailerViewBeans(requestData, retailers);
+        List<RetailerViewBean> retailerViewBeans = buildListViewBeanRetailer(requestData, retailers);
         return retailerViewBeans;
     }
 
     /**
      * 
      */
-    public List<RetailerViewBean> buildRetailerViewBeans(final RequestData requestData, final List<Retailer> retailers) throws Exception {
+    public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData, final List<Retailer> retailers) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
@@ -419,7 +419,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
             final Retailer retailerIt = (Retailer) iterator.next();
             final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
-            retailerViewBeans.add(buildRetailerViewBean(requestData, reloadedRetailer));
+            retailerViewBeans.add(buildViewBeanRetailer(requestData, reloadedRetailer));
         }
         return retailerViewBeans;
     }
@@ -427,7 +427,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public RetailerViewBean buildRetailerViewBean(final RequestData requestData, final Retailer retailer) throws Exception {
+    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
@@ -543,7 +543,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         if (stores != null) {
             for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
                 Store store = (Store) iterator.next();
-                StoreViewBean storeViewBean = buildStoreViewBean(requestData, store);
+                StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
                 retailerViewBean.getStores().add(storeViewBean);
             }
         }
@@ -554,7 +554,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
                 String shareOption = (String) iterator.next();
                 String relativeUrl = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer);
-                ShareOptionViewBean shareOptionViewBean = buildShareOptionViewBean(requestData, shareOption, relativeUrl);
+                ShareOptionViewBean shareOptionViewBean = buildViewBeanShareOption(requestData, shareOption, relativeUrl);
                 retailerViewBean.getShareOptions().add(shareOptionViewBean);
             }
         }
@@ -565,7 +565,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<CutomerMenuViewBean> buildCutomerMenuViewBeans(final RequestData requestData) throws Exception {
+    public List<CutomerMenuViewBean> buildListViewBeanCutomerMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
 
         List<CutomerMenuViewBean> customerLinks = new ArrayList<CutomerMenuViewBean>();
@@ -605,7 +605,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ConditionsViewBean buildConditionsViewBean(final RequestData requestData) throws Exception {
+    public ConditionsViewBean buildViewBeanConditions(final RequestData requestData) throws Exception {
         final ConditionsViewBean conditions = new ConditionsViewBean();
 
         return conditions;
@@ -614,7 +614,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<MarketPlaceViewBean> buildMarketPlaceViewBeans(final RequestData requestData) throws Exception {
+    public List<MarketPlaceViewBean> buildListViewBeanMarketPlace(final RequestData requestData) throws Exception {
         List<MarketPlaceViewBean> marketPlaceViewBeans = new ArrayList<MarketPlaceViewBean>();
         final List<MarketPlace> marketPlaceList = marketService.findMarketPlaces();
         for (Iterator<MarketPlace> iteratorMarketPlace = marketPlaceList.iterator(); iteratorMarketPlace.hasNext();) {
@@ -635,7 +635,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             requestDataForThisMarketPlace.setMarketAreaLocalization(defaultLocalization);
             requestDataForThisMarketPlace.setMarketAreaRetailer(defaultRetailer);
             
-            marketPlaceViewBeans.add(buildMarketPlaceViewBean(requestDataForThisMarketPlace, marketPlaceNavigation));
+            marketPlaceViewBeans.add(buildViewBeanMarketPlace(requestDataForThisMarketPlace, marketPlaceNavigation));
         }
         return marketPlaceViewBeans;
     }
@@ -643,14 +643,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public MarketPlaceViewBean buildMarketPlaceViewBean(final RequestData requestData, final MarketPlace marketPlace) throws Exception {
+    public MarketPlaceViewBean buildViewBeanMarketPlace(final RequestData requestData, final MarketPlace marketPlace) throws Exception {
         final MarketPlaceViewBean marketPlaceViewBean = new MarketPlaceViewBean();
         marketPlaceViewBean.setName(marketPlace.getName());
 
         marketPlaceViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestData));
         marketPlaceViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 
-        marketPlaceViewBean.setMarkets(buildMarketViewBeans(requestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
+        marketPlaceViewBean.setMarkets(buildListViewBeanMarket(requestData, marketPlace, new ArrayList<Market>(marketPlace.getMarkets())));
 
         return marketPlaceViewBean;
     }
@@ -658,7 +658,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<MarketViewBean> buildMarketViewBeans(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
+    public List<MarketViewBean> buildListViewBeanMarket(final RequestData requestData, final MarketPlace marketPlace, final List<Market> markets) throws Exception {
         List<MarketViewBean> marketViewBeans = new ArrayList<MarketViewBean>();
         for (Iterator<Market> iteratorMarket = markets.iterator(); iteratorMarket.hasNext();) {
             final Market marketNavigation = (Market) iteratorMarket.next();
@@ -677,7 +677,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             requestDataForThisMarket.setMarketAreaLocalization(defaultLocalization);
             requestDataForThisMarket.setMarketAreaRetailer(defaultRetailer);
 
-            marketViewBeans.add(buildMarketViewBean(requestDataForThisMarket, marketNavigationReloaded));
+            marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
         }
         return marketViewBeans;
     }
@@ -685,14 +685,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public MarketViewBean buildMarketViewBean(final RequestData requestData, final Market market) throws Exception {
+    public MarketViewBean buildViewBeanMarket(final RequestData requestData, final Market market) throws Exception {
         final MarketViewBean marketViewBean = new MarketViewBean();
         marketViewBean.setName(market.getName());
 
         marketViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestData));
         marketViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 
-        marketViewBean.setMarketAreas(buildMarketAreaViewBeans(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
+        marketViewBean.setMarketAreas(buildListViewBeanMarketArea(requestData, market, new ArrayList<MarketArea>(market.getMarketAreas())));
 
         return marketViewBean;
     }
@@ -700,7 +700,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<MarketAreaViewBean> buildMarketAreaViewBeans(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
+    public List<MarketAreaViewBean> buildListViewBeanMarketArea(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
         for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
             final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
@@ -724,7 +724,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
             requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
             
-            marketAreaViewBeans.add(buildMarketAreaViewBean(requestDataForThisMarketArea, marketArea));
+            marketAreaViewBeans.add(buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea));
         }
         return marketAreaViewBeans;
     }
@@ -732,7 +732,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public MarketAreaViewBean buildMarketAreaViewBean(final RequestData requestData, final MarketArea marketArea) throws Exception {
+    public MarketAreaViewBean buildViewBeanMarketArea(final RequestData requestData, final MarketArea marketArea) throws Exception {
         final MarketAreaViewBean marketAreaViewBean = new MarketAreaViewBean();
         marketAreaViewBean.setName(marketArea.getName());
         marketAreaViewBean.setDescription(marketArea.getDescription());
@@ -749,13 +749,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<LocalizationViewBean> buildLocalizationViewBeansByMarketArea(final RequestData requestData, final Localization currentLocalization) throws Exception {
+    public List<LocalizationViewBean> buildListViewBeanLocalizationByMarketArea(final RequestData requestData, final Localization currentLocalization) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<Localization> translationAvailables = new ArrayList<Localization>(marketArea.getLocalizations());
         List<LocalizationViewBean> localizationViewBeans = new ArrayList<LocalizationViewBean>();
         for (Iterator<Localization> iterator = translationAvailables.iterator(); iterator.hasNext();) {
             final Localization localizationAvailable = (Localization) iterator.next();
-            localizationViewBeans.add(buildLocalizationViewBean(requestData, localizationAvailable));
+            localizationViewBeans.add(buildViewBeanLocalization(requestData, localizationAvailable));
         }
         for (Iterator<LocalizationViewBean> iterator = localizationViewBeans.iterator(); iterator.hasNext();) {
             final LocalizationViewBean localizationViewBean = (LocalizationViewBean) iterator.next();
@@ -770,7 +770,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public LocalizationViewBean buildLocalizationViewBean(final RequestData requestData, final Localization localization) throws Exception {
+    public LocalizationViewBean buildViewBeanLocalization(final RequestData requestData, final Localization localization) throws Exception {
         final Locale locale = requestData.getLocale();
         final String localizationCodeNavigation = localization.getCode();
 
@@ -798,22 +798,22 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return localizationViewBean;
     }
     
-    public List<CurrencyReferentialViewBean> buildCurrenciesViewBeansByMarketArea(final RequestData requestData) throws Exception {
+    public List<CurrencyReferentialViewBean> buildListViewBeanCurrenciesByMarketArea(final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final List<CurrencyReferential> currencies = new ArrayList<CurrencyReferential>(marketArea.getCurrencies());
-        List<CurrencyReferentialViewBean> retailerViewBeans = buildCurrencyReferentialViewBeans(requestData, currencies);
+        List<CurrencyReferentialViewBean> retailerViewBeans = buildListViewBeanCurrencyReferential(requestData, currencies);
         return retailerViewBeans;
     }
 
     /**
      *
      */
-    public List<CurrencyReferentialViewBean> buildCurrencyReferentialViewBeans(final RequestData requestData, final List<CurrencyReferential> currencyReferentials) throws Exception {
+    public List<CurrencyReferentialViewBean> buildListViewBeanCurrencyReferential(final RequestData requestData, final List<CurrencyReferential> currencyReferentials) throws Exception {
         final List<CurrencyReferentialViewBean> currencyReferentialViewBeans = new ArrayList<CurrencyReferentialViewBean>();
         if (currencyReferentials != null) {
             for (Iterator<CurrencyReferential> iterator = currencyReferentials.iterator(); iterator.hasNext();) {
                 CurrencyReferential currencyReferential = (CurrencyReferential) iterator.next();
-                currencyReferentialViewBeans.add(buildCurrencyReferentialViewBean(requestData, currencyReferential));
+                currencyReferentialViewBeans.add(buildViewBeanCurrencyReferential(requestData, currencyReferential));
             }
         }
         return currencyReferentialViewBeans;
@@ -822,7 +822,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      *
      */
-    public CurrencyReferentialViewBean buildCurrencyReferentialViewBean(final RequestData requestData, final CurrencyReferential currencyReferential) throws Exception {
+    public CurrencyReferentialViewBean buildViewBeanCurrencyReferential(final RequestData requestData, final CurrencyReferential currencyReferential) throws Exception {
         final CurrencyReferentialViewBean currencyReferentialViewBean = new CurrencyReferentialViewBean();
         if (currencyReferential != null) {
             currencyReferentialViewBean.setName(currencyReferential.getName());
@@ -861,14 +861,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public StoreLocatorViewBean buildStoreLocatorViewBean(final RequestData requestData, final List<Store> stores) throws Exception {
+    public StoreLocatorViewBean buildViewBeanStoreLocator(final RequestData requestData, final List<Store> stores) throws Exception {
         final Locale locale = requestData.getLocale();
         StoreLocatorViewBean storeLocator = new StoreLocatorViewBean();
         storeLocator.setPageTitle(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "header.title", locale));
         storeLocator.setTextHtml(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "content.text", locale));
         for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
             final Store store = (Store) iterator.next();
-            storeLocator.getStores().add(buildStoreViewBean(requestData, store));
+            storeLocator.getStores().add(buildViewBeanStore(requestData, store));
         }
         return storeLocator;
     }
@@ -876,7 +876,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public StoreViewBean buildStoreViewBean(final RequestData requestData, final Store store) throws Exception {
+    public StoreViewBean buildViewBeanStore(final RequestData requestData, final Store store) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
 
         final StoreViewBean storeViewBean = new StoreViewBean();
@@ -919,7 +919,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ShareOptionViewBean buildShareOptionViewBean(final RequestData requestData, final String shareOption, final String relativeUrl) throws Exception {
+    public ShareOptionViewBean buildViewBeanShareOption(final RequestData requestData, final String shareOption, final String relativeUrl) throws Exception {
         final Locale locale = requestData.getLocale();
 
         String shareOptionCode = shareOption;
@@ -952,7 +952,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerViewBean buildCustomerViewBean(final RequestData requestData, final Customer customer) throws Exception {
+    public CustomerViewBean buildViewBeanCustomer(final RequestData requestData, final Customer customer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Locale locale = requestData.getLocale();
         final CustomerViewBean customerViewBean = new CustomerViewBean();
@@ -996,7 +996,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerWishlistViewBean buildCustomerWishlistViewBean(final RequestData requestData, final Customer customer) throws Exception {
+    public CustomerWishlistViewBean buildViewBeanCustomerWishlist(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
 
         final CustomerWishlistViewBean customerWishlistViewBean = new CustomerWishlistViewBean();
@@ -1009,7 +1009,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode());
                     final ProductMarketing productMarketing =  productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                     final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-                    customerWishlistViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku));
+                    customerWishlistViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
                 }
             }
         }
@@ -1020,7 +1020,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerProductCommentsViewBean buildCustomerProductCommentsViewBean(final RequestData requestData, final Customer customer) throws Exception {
+    public CustomerProductCommentsViewBean buildViewBeanCustomerProductComments(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
 
         final CustomerProductCommentsViewBean customerProductCommentsViewBean = new CustomerProductCommentsViewBean();
@@ -1034,7 +1034,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     final ProductMarketing productMarketing = reloadedProductSku.getProductMarketing();
                     final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
                     customerProductCommentsViewBean.getCustomerProductCommentViewBeans().add(
-                            buildCustomerProductCommentViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku, customerProductComment));
+                            buildViewBeanCustomerProductComment(requestData, catalogCategory, productMarketing, reloadedProductSku, customerProductComment));
                 }
             }
         }
@@ -1044,10 +1044,10 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerProductCommentViewBean buildCustomerProductCommentViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing,
+    public CustomerProductCommentViewBean buildViewBeanCustomerProductComment(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing,
             final ProductSku productSku, final CustomerProductComment customerProductComment) throws Exception {
         final CustomerProductCommentViewBean customerProductCommentViewBean = new CustomerProductCommentViewBean();
-        customerProductCommentViewBean.setProductSku(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, productSku));
+        customerProductCommentViewBean.setProductSku(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku));
         customerProductCommentViewBean.setComment(customerProductComment.getComment());
         return customerProductCommentViewBean;
     }
@@ -1055,14 +1055,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerAddressListViewBean buildCustomerAddressListViewBean(final RequestData requestData, final Customer customer) throws Exception {
+    public CustomerAddressListViewBean buildViewBeanCustomerAddressList(final RequestData requestData, final Customer customer) throws Exception {
         final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
         customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 
         Set<CustomerAddress> addresses = customer.getAddresses();
         for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
             CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-            customerAddressListViewBean.getCustomerAddressList().add(buildCustomeAddressViewBean(requestData, customerAddress));
+            customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomeAddress(requestData, customerAddress));
         }
 
         return customerAddressListViewBean;
@@ -1071,7 +1071,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CustomerAddressViewBean buildCustomeAddressViewBean(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
+    public CustomerAddressViewBean buildViewBeanCustomeAddress(final RequestData requestData, final CustomerAddress customerAddress) throws Exception {
         final Locale locale = requestData.getLocale();
         final CustomerAddressViewBean customerAddressViewBean = new CustomerAddressViewBean();
         customerAddressViewBean.setId(customerAddress.getId());
@@ -1119,7 +1119,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductBrandViewBean buildProductBrandViewBean(final RequestData requestData, final ProductBrand productBrand) throws Exception {
+    public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand) throws Exception {
         final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
         productBrandViewBean.setName(productBrand.getName());
         productBrandViewBean.setDescription(productBrand.getDescription());
@@ -1129,14 +1129,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductBrandViewBean buildProductBrandViewBean(final RequestData requestData, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
+    public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand, final List<ProductMarketing> productMarketings) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
 
-        final ProductBrandViewBean productBrandViewBean = buildProductBrandViewBean(requestData, productBrand);
+        final ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
             final ProductMarketing productMarketing = (ProductMarketing) iterator.next();
             CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
-            productBrandViewBean.getProductMarketings().add(buildProductMarketingViewBean(requestData, catalogCategory, productMarketing));
+            productBrandViewBean.getProductMarketings().add(buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing));
         }
         return productBrandViewBean;
     }
@@ -1144,15 +1144,15 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public CatalogCategoryViewBean buildMasterProductCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = buildCatalogCategoryViewBean(requestData, catalogCategory);
+    public CatalogCategoryViewBean buildViewBeanMastercatalogCategoryVirtual(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategory);
         return catalogCategoryViewBean;
     }
 
     /**
      * 
      */
-    public CatalogCategoryViewBean buildCatalogCategoryViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogCategoryViewBean buildViewBeanCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1199,16 +1199,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             catalogCategoryViewBean.setProductLineUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, catalogCategory));
         }
 
-        List<CatalogCategoryViewBean> subProductCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+        List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
         Set<CatalogCategoryVirtual> subCategories = catalogCategory.getCatalogCategories();
         if (subCategories != null) {
-            for (Iterator<CatalogCategoryVirtual> iteratorSubProductCategory = subCategories.iterator(); iteratorSubProductCategory.hasNext();) {
-                final CatalogCategoryVirtual subProductCategory = (CatalogCategoryVirtual) iteratorSubProductCategory.next();
-                final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(marketArea.getId(), subProductCategory.getCode());
-                subProductCategoryViewBeans.add(buildCatalogCategoryViewBean(requestData, reloadedSubCatalogCategory));
+            for (Iterator<CatalogCategoryVirtual> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
+                final CatalogCategoryVirtual subcatalogCategoryVirtual = (CatalogCategoryVirtual) iteratorSubcatalogCategoryVirtual.next();
+                final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(marketArea.getId(), subcatalogCategoryVirtual.getCode());
+                subcatalogCategoryVirtualViewBeans.add(buildViewBeanCatalogCategory(requestData, reloadedSubCatalogCategory));
             }
         }
-        catalogCategoryViewBean.setSubCategories(subProductCategoryViewBeans);
+        catalogCategoryViewBean.setSubCategories(subcatalogCategoryVirtualViewBeans);
 
         List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
         List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
@@ -1217,7 +1217,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
                 final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
                 final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productMarketing.getCode());
-                ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, catalogCategory, reloadedProductMarketing);
+                ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing);
                 productMarketingViewBeans.add(productMarketingViewBean);
                 if (productMarketingViewBean.isFeatured()) {
                     featuredProductMarketings.add(productMarketingViewBean);
@@ -1226,8 +1226,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
         catalogCategoryViewBean.setProductMarketings(productMarketingViewBeans);
 
-        for (CatalogCategoryViewBean subProductCategoryViewBean : subProductCategoryViewBeans) {
-            featuredProductMarketings.addAll(subProductCategoryViewBean.getFeaturedProductMarketings());
+        for (CatalogCategoryViewBean subcatalogCategoryVirtualViewBean : subcatalogCategoryVirtualViewBeans) {
+            featuredProductMarketings.addAll(subcatalogCategoryVirtualViewBean.getFeaturedProductMarketings());
         }
 
         catalogCategoryViewBean.setFeaturedProductMarketings(featuredProductMarketings);
@@ -1238,8 +1238,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productMarketing);
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
@@ -1254,7 +1254,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSku = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+                productMarketingViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
         }
 
@@ -1264,7 +1264,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
                     final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
-                    productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, catalogCategory, reloadedAssociatedProductMarketing));
+                    productMarketingViewBean.getProductAssociationLinks().add(buildViewBeanProductAssociationLink(requestData, catalogCategory, reloadedAssociatedProductMarketing));
                 }
             }
         }
@@ -1277,9 +1277,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
             throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = buildProductMarketingViewBean(requestData, productMarketing);
+        final ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
@@ -1294,7 +1294,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSku = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                productMarketingViewBean.getProductSkus().add(buildProductSkuViewBean(requestData, catalogCategory, productMarketing, reloadedProductSku));
+                productMarketingViewBean.getProductSkus().add(buildViewBeanProductSku(requestData, catalogCategory, productMarketing, reloadedProductSku));
             }
         }
 
@@ -1304,7 +1304,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
                     final ProductMarketing reloadedAssociatedProductMarketing = productService.getProductMarketingByCode(productAssociationLink.getProductSku().getProductMarketing().getCode());
-                    productMarketingViewBean.getProductAssociationLinks().add(buildProductAssociationLinkViewBean(requestData, catalogCategory, reloadedAssociatedProductMarketing));
+                    productMarketingViewBean.getProductAssociationLinks().add(buildViewBeanProductAssociationLink(requestData, catalogCategory, reloadedAssociatedProductMarketing));
                 }
             }
         }
@@ -1319,7 +1319,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    private ProductMarketingViewBean buildProductMarketingViewBean(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+    private ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
@@ -1357,7 +1357,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * @throws Exception
      * 
      */
-    public CartViewBean buildCartViewBean(final RequestData requestData, final Cart cart) throws Exception {
+    public CartViewBean buildViewBeanCart(final RequestData requestData, final Cart cart) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
@@ -1380,7 +1380,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 final CartItem cartItem = (CartItem) iterator.next();
-                cartItemViewBeans.add(buildCartItemViewBean(requestData, cartItem));
+                cartItemViewBeans.add(buildViewBeanCartItem(requestData, cartItem));
             }
             cartViewBean.setCartItems(cartItemViewBeans);
 
@@ -1432,7 +1432,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    private CartItemViewBean buildCartItemViewBean(final RequestData requestData, final CartItem cartItem) throws Exception {
+    private CartItemViewBean buildViewBeanCartItem(final RequestData requestData, final CartItem cartItem) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
@@ -1481,11 +1481,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public List<OrderViewBean> buildOrderViewBeans(final RequestData requestData, final List<OrderCustomer> orders) throws Exception {
+    public List<OrderViewBean> buildListViewBeanOrder(final RequestData requestData, final List<OrderCustomer> orders) throws Exception {
         final List<OrderViewBean> orderViewBeans = new ArrayList<OrderViewBean>();
         for (Iterator<OrderCustomer> iterator = orders.iterator(); iterator.hasNext();) {
             OrderCustomer order = (OrderCustomer) iterator.next();
-            orderViewBeans.add(buildOrderViewBean(requestData, order));
+            orderViewBeans.add(buildViewBeanOrder(requestData, order));
         }
         return orderViewBeans;
     }
@@ -1493,7 +1493,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public OrderViewBean buildOrderViewBean(final RequestData requestData, final OrderCustomer order) throws Exception {
+    public OrderViewBean buildViewBeanOrder(final RequestData requestData, final OrderCustomer order) throws Exception {
         final Locale locale = requestData.getLocale();
         final OrderViewBean orderViewBean = new OrderViewBean();
         orderViewBean.setOrderNum(order.getOrderNum());
@@ -1525,7 +1525,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             final Set<OrderItem> orderItems = order.getOrderItems();
             for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
                 OrderItem orderItem = (OrderItem) iterator.next();
-                orderItemViewBeans.add(buildOrderItemViewBean(requestData, orderItem));
+                orderItemViewBeans.add(buildViewBeanOrderItem(requestData, orderItem));
             }
             orderViewBean.setOrderItems(orderItemViewBeans);
 
@@ -1574,7 +1574,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public OrderItemViewBean buildOrderItemViewBean(final RequestData requestData, final OrderItem orderItem) throws Exception {
+    public OrderItemViewBean buildViewBeanOrderItem(final RequestData requestData, final OrderItem orderItem) throws Exception {
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localizationCode = localization.getCode();
 
@@ -1604,9 +1604,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing)
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing)
             throws Exception {
-        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildProductAssociationLinkViewBean(requestData, productMarketing);
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
 
         productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
@@ -1616,9 +1616,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
             throws Exception {
-        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildProductAssociationLinkViewBean(requestData, productMarketing);
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
 
         productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
@@ -1628,7 +1628,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final ProductMarketing productMarketing)
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final ProductMarketing productMarketing)
             throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1668,9 +1668,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
-            throws Exception {
-        final ProductSkuViewBean productSkuViewBean = buildProductSkuViewBean(requestData, productMarketing, productSku);
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing, 
+                                                      final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
 
         productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
@@ -1690,9 +1690,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
             throws Exception {
-        final ProductSkuViewBean productSkuViewBean = buildProductSkuViewBean(requestData, productMarketing, productSku);
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
 
         productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
@@ -1712,7 +1712,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public ProductSkuViewBean buildProductSkuViewBean(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku)
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku)
             throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1765,7 +1765,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * @throws Exception
      * 
      */
-    public DeliveryMethodViewBean buildDeliveryMethodViewBean(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
+    public DeliveryMethodViewBean buildViewBeanDeliveryMethod(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
 
@@ -1814,7 +1814,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * @throws Exception
      * 
      */
-    public PaymentMethodViewBean buildPaymentMethodViewBean(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
+    public PaymentMethodViewBean buildViewBeanPaymentMethod(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
         final PaymentMethodViewBean paymentMethodViewBean = new PaymentMethodViewBean();
 
         paymentMethodViewBean.setCode(paymentGateway.getCode());
@@ -1824,7 +1824,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getPaymentGatewayOptions();
         for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
             PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
-            paymentMethodViewBean.getPaymentMethodOptions().add(buildPaymentMethodOptionViewBean(requestData, paymentGatewayOption));
+            paymentMethodViewBean.getPaymentMethodOptions().add(buildViewBeanPaymentMethodOption(requestData, paymentGatewayOption));
         }
         
         return paymentMethodViewBean;
@@ -1834,7 +1834,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * @throws Exception
      * 
      */
-    public PaymentMethodOptionViewBean buildPaymentMethodOptionViewBean(final RequestData requestData, final PaymentGatewayOption paymentGatewayOption) throws Exception {
+    public PaymentMethodOptionViewBean buildViewBeanPaymentMethodOption(final RequestData requestData, final PaymentGatewayOption paymentGatewayOption) throws Exception {
         final PaymentMethodOptionViewBean paymentMethodOptionViewBean = new PaymentMethodOptionViewBean();
 
         paymentMethodOptionViewBean.setCode(paymentGatewayOption.getCode());

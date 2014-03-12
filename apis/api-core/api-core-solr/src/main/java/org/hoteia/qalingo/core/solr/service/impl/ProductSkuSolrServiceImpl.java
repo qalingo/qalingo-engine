@@ -76,6 +76,8 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
 	 */
     public ProductSkuResponseBean searchProductSku(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
         if (StringUtils.isEmpty(searchBy)) {
             throw new IllegalArgumentException("searcBy field can not be Empty or Blank ");
         }
@@ -115,6 +117,8 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
 	 */
     public ProductSkuResponseBean searchProductSku() throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
+        
         solrQuery.setQuery("*");
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
