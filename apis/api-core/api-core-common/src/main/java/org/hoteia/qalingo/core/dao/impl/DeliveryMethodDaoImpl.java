@@ -17,7 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,20 +31,22 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", deliveryMethodId));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
+        deliveryMethod.setFetchPlan(fetchPlan);
         return deliveryMethod;
 	}
 
 	public DeliveryMethod getDeliveryMethodByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
+        deliveryMethod.setFetchPlan(fetchPlan);
         return deliveryMethod;
 	}
 	
@@ -83,7 +85,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	}
 
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

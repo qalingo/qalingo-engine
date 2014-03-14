@@ -7,19 +7,17 @@ import org.dozer.event.DozerEvent;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.cart.FoCartItemPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.FoDeliveryMethodPojo;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
@@ -37,12 +35,6 @@ public class FrontofficePojoEventListener implements DozerEventListener {
     
     @Autowired
     protected RequestUtil requestUtil;
-    
-    @Autowired 
-    protected ProductService productService;
-
-    @Autowired 
-    protected CatalogCategoryService catalogCategoryService;
     
     @Autowired 
     protected UrlService urlService;
@@ -85,13 +77,38 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     
                     cartItemPojo.setI18nName(cartItem.getProductSku().getI18nName(localizationCode));
                     
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode());
-                    
-                    cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
+                    cartItemPojo.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, cartItem.getCatalogCategory(), cartItem.getProductMarketing(), cartItem.getProductSku()));
 
                     cartItemPojo.setPriceWithStandardCurrencySign(cartItem.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
                     cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if(event.getDestinationObject() instanceof ProductSkuPojo){
+            if(event.getFieldMap().getDestFieldName().equals("code")){
+                // INJECT BACKOFFICE URLS
+                ProductSku productSku = (ProductSku) event.getSourceObject();
+                ProductSkuPojo productSkuPojo = (ProductSkuPojo) event.getDestinationObject();
+                try {
+                    final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
+                    final MarketArea marketArea = requestData.getMarketArea();
+                    final Retailer retailer = requestData.getMarketAreaRetailer();
+                    final Localization localization = requestData.getMarketAreaLocalization();
+                    final String localizationCode = localization.getCode();
+                    
+                    final Asset defaultPaskshotImage = productSku.getDefaultPaskshotImage(ImageSize.SMALL.name());
+                    if (defaultPaskshotImage != null) {
+                        String summaryImage = requestUtil.getProductMarketingImageWebPath(httpServletRequest, defaultPaskshotImage);
+                        productSkuPojo.setDefaultPaskshotImage(summaryImage);
+                    } else {
+                        productSkuPojo.setDefaultPaskshotImage("");
+                    }
+                    
+                    productSkuPojo.setI18nName(productSku.getI18nName(localizationCode));
+                    
+                    productSkuPojo.setPriceWithStandardCurrencySign(productSku.getPrice(marketArea.getId(), retailer.getId()).getPriceWithStandardCurrencySign());
 
                 } catch (Exception e) {
                     e.printStackTrace();

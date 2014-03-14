@@ -19,8 +19,8 @@ public class HeaderCartViewBean extends AbstractViewBean implements Serializable
 	private static final long serialVersionUID = -3703554811104386867L;
 	
 	protected int cartTotalItems;
-	protected String cartTotalSummaryLabel;
-	protected String cartUrl;
+	protected String checkoutShoppingCartHeaderLabel;
+	protected String checkoutShoppingCartUrl;
 	
 	public int getCartTotalItems() {
 		return cartTotalItems;
@@ -30,20 +30,20 @@ public class HeaderCartViewBean extends AbstractViewBean implements Serializable
 		this.cartTotalItems = cartTotalItems;
 	}
 	
-	public String getCartTotalSummaryLabel() {
-		return cartTotalSummaryLabel;
-	}
+	public String getCheckoutShoppingCartHeaderLabel() {
+        return checkoutShoppingCartHeaderLabel;
+    }
 	
-	public void setCartTotalSummaryLabel(String cartTotalSummaryLabel) {
-		this.cartTotalSummaryLabel = cartTotalSummaryLabel;
-	}
+	public void setCheckoutShoppingCartHeaderLabel(String checkoutShoppingCartHeaderLabel) {
+        this.checkoutShoppingCartHeaderLabel = checkoutShoppingCartHeaderLabel;
+    }
 	
-	public String getCartUrl() {
-		return cartUrl;
-	}
+	public String getCheckoutShoppingCartUrl() {
+        return checkoutShoppingCartUrl;
+    }
 	
-	public void setCartUrl(String cartUrl) {
-		this.cartUrl = cartUrl;
-	}
+	public void setCheckoutShoppingCartUrl(String checkoutShoppingCartUrl) {
+        this.checkoutShoppingCartUrl = checkoutShoppingCartUrl;
+    }
 	
 }

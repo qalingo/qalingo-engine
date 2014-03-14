@@ -25,7 +25,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,19 +40,19 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	
 	public ProductMarketing getProductMarketingById(final Long productMarketingId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductMarketingFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productMarketingId));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
-        productMarketing.setFetchModes(fetchModes);
+        productMarketing.setFetchPlan(fetchPlan);
         return productMarketing;
 	}
 
 	public ProductMarketing getProductMarketingByCode(final String productMarketingCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductMarketingFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productMarketingCode));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
-        productMarketing.setFetchModes(fetchModes);
+        productMarketing.setFetchPlan(fetchPlan);
 		return productMarketing;
 	}
 	
@@ -284,7 +284,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 		em.remove(productMarketingAsset);
 	}
 	
-    protected List<SpecificFetchMode> handleSpecificProductMarketingFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificProductMarketingFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
@@ -296,19 +296,19 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
 	
     public ProductSku getProductSkuById(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductSkuFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productSkuId));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
-        productSku.setFetchModes(fetchModes);
+        productSku.setFetchPlan(fetchPlan);
         return productSku;
     }
     
     public ProductSku getProductSkuByCode(final String productSkuCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductSkuFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productSkuCode));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
-        productSku.setFetchModes(fetchModes);
+        productSku.setFetchPlan(fetchPlan);
         return productSku;
     }
         
@@ -361,7 +361,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productSku);
     }
     
-    protected List<SpecificFetchMode> handleSpecificProductSkuFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificProductSkuFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
@@ -411,19 +411,19 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     
     public ProductBrand getProductBrandById(final Long productBrandId, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductBrandFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
-        productBrand.setFetchModes(fetchModes);
+        productBrand.setFetchPlan(fetchPlan);
         return productBrand;
     }
 
     public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificProductBrandFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
-        productBrand.setFetchModes(fetchModes);
+        productBrand.setFetchPlan(fetchPlan);
         return productBrand;
     }
     
@@ -464,7 +464,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         em.remove(productBrand);
     }
     
-    protected List<SpecificFetchMode> handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

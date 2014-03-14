@@ -218,21 +218,21 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         // NO CACHE FOR THIS PART
 
         final Cart currentCart = requestData.getCart();
-        headerCartViewBean.setCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+        headerCartViewBean.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
         if(currentCart != null && currentCart.getCartItems() != null){
             headerCartViewBean.setCartTotalItems(currentCart.getCartItems().size());
             if (currentCart.getCartItems().size() == 1) {
-                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
+                headerCartViewBean.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
             } else if (currentCart.getCartItems().size() > 1) {
                 Object[] cartTotalSummaryLabelParams = { currentCart.getCartItems().size() };
-                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
+                headerCartViewBean.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
             } else {
-                headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+                headerCartViewBean.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
             }
             
         } else {
             headerCartViewBean.setCartTotalItems(0);
-            headerCartViewBean.setCartTotalSummaryLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+            headerCartViewBean.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
         }
 
 

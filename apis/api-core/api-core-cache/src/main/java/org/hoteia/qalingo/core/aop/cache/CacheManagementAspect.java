@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hoteia.qalingo.core.domain.AbstractEntity;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.slf4j.Logger;
@@ -61,12 +62,18 @@ public class CacheManagementAspect {
             
             for (int i = 0; i < args.length; i++) {
                 Object arg = args[i];
-                if(arg instanceof List){
-                    List argList = (List) arg;
-                    if(argList != null && !argList.isEmpty() && argList.iterator().next() instanceof SpecificFetchMode){
-                        askedFetchModes = (List<SpecificFetchMode>) arg;
+                if(arg instanceof Object[]){
+                    Object[] objects = (Object[]) arg;
+                    for (int j = 0; j < objects.length; j++) {
+                        Object object = (Object) objects[j];
+                        if(object instanceof FetchPlan){
+                            FetchPlan fetchPlan = (FetchPlan) object;
+                            if(fetchPlan != null && !fetchPlan.getFetchModes().isEmpty()){
+                                askedFetchModes = fetchPlan.getFetchModes();
+                            }
+                        }
                     }
-                }
+                } 
                 if(arg instanceof RequestData){
                     RequestData requestData = (RequestData) arg;
                     if(!suffix.endsWith("_")){
@@ -148,22 +155,9 @@ public class CacheManagementAspect {
                         returnObject = element.getObjectValue();
                         if(returnObject instanceof AbstractEntity){
                             AbstractEntity entity = (AbstractEntity) returnObject;
-                            loadedFetchModes = entity.getFetchModes();
-                            if(askedFetchModes != null){
-                                for (Iterator<SpecificFetchMode> iterator = askedFetchModes.iterator(); iterator.hasNext();) {
-                                    SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                                    if(entity.getFetchModes() == null){
-                                        // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
-                                        returnObject = null;
-                                        break;
-                                    } else if (!entity.getFetchModes().contains(specificFetchMode)){
-                                        // ENTITY IS LOAD WITH A DIFF FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD
-                                        returnObject = null;
-                                        break;
-                                    }
-                                }
+                            if(entity.getFetchPlan() != null){
+                                loadedFetchModes = entity.getFetchPlan().getFetchModes();
                             }
-                            
                             
                             if(cacheType.equals(CACHE_BY_ID)){
                                 // ENTITY : UPDATE THE CACHE LINK ID CODE
@@ -238,7 +232,7 @@ public class CacheManagementAspect {
                 }
                 if(returnObject == null){
                     if(loadedFetchModes != null){
-                        ArrayUtils.add(args, loadedFetchModes);
+                        args = ArrayUtils.add(args, loadedFetchModes);
                         returnObject = joinPoint.proceed(args);
                     } else {
                         returnObject = joinPoint.proceed();
@@ -267,7 +261,83 @@ public class CacheManagementAspect {
                     } else {
                         cache.put(new Element(key, returnObject));
                     }
+                } else {
+                    if(returnObject instanceof AbstractEntity){
+                        AbstractEntity entity = (AbstractEntity) returnObject;
+                        if(entity.getFetchPlan() != null){
+                            loadedFetchModes = entity.getFetchPlan().getFetchModes();
+                        }
+                        if(askedFetchModes != null){
+                            for (Iterator<SpecificFetchMode> iterator = askedFetchModes.iterator(); iterator.hasNext();) {
+                                SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                                if(loadedFetchModes == null){
+                                    // ENTITY IS LOAD WITHOUT FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD WITH THE FETCHPLAN
+                                    returnObject = null;
+                                    break;
+                                } else if (!loadedFetchModes.contains(specificFetchMode)){
+                                    // ENTITY IS LOAD WITH A DIFF FETCHPLAN - WE RESET THE returnObject TO TRIGGER THE RELOAD
+                                    returnObject = null;
+                                    break;
+                                }
+                            }
+                            
+                            if(returnObject == null){
+                                if(loadedFetchModes != null){
+                                    for (int i = 0; i < args.length; i++) {
+                                        Object arg = args[i];
+                                        if(arg instanceof Object[]){
+                                            Object[] objects = (Object[]) arg;
+                                            for (int j = 0; j < objects.length; j++) {
+                                                Object object = (Object) objects[j];
+                                                if(object instanceof FetchPlan){
+                                                    // WE ARE IN THE FETCHPLAN OBJECT ARRAY
+                                                    objects = ArrayUtils.add(objects, entity.getFetchPlan());
+                                                    args = ArrayUtils.remove(args, i);
+                                                    args = ArrayUtils.add(args, objects);
+                                                    break;
+                                                }
+                                            }
+                                        } 
+                                    }
+                                    
+                                    returnObject = joinPoint.proceed(args);
+                                } else {
+                                    returnObject = joinPoint.proceed();
+                                }
+                                
+                                if(returnObject != null){
+                                    if(cacheType.equals(CACHE_BY_CODE)){
+                                        // PUT IN THE RIGHT ENTITY CACHE
+                                        String cacheNameEntityById = cacheName.replace("_link_code_id", "");
+                                        Cache cacheEntityById = getCacheManager() != null && StringUtils.isNotEmpty(cacheNameEntityById) ? getCacheManager().getCache(cacheNameEntityById) : null;
+                                        String newKey = null;
+                                        Method[] methods = classTarget.getMethods();
+                                        Long value = null;
+                                        for (int i = 0; i < methods.length; i++) {
+                                            Method methodIt = methods[i];
+                                            if(methodIt.getName().equals("getId")){
+                                                Long id = (Long) methodIt.invoke(returnObject);
+                                                newKey = classTarget.getName() + "_" + id;
+                                                value = id;
+                                            }
+                                        }
+                                        if (cacheEntityById != null) {
+                                            cacheEntityById.put(new Element(newKey, returnObject));
+                                        }
+                                        
+                                        cache.put(new Element(key, value));
+
+                                    } else {
+                                        cache.put(new Element(key, returnObject));
+                                    }
+                                }
+                            }
+                            
+                        }
+                        
+                    }
                 }
+                
             }
 
         } catch (Exception e) {

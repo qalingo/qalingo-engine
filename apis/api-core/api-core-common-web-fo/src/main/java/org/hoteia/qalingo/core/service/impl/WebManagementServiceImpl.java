@@ -124,6 +124,35 @@ public class WebManagementServiceImpl implements WebManagementService {
     /**
      * 
      */
+    public void addToCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        // SANITY CHECK : sku code is empty or null : no sense
+        if (StringUtils.isEmpty(productSkuCode)) {
+            throw new Exception("");
+        }
+
+        // SANITY CHECK : quantity is equal zero : no sense
+        if (quantity == 0) {
+            throw new Exception("");
+        }
+
+        Cart cart = requestData.getCart();
+        int finalQuantity = quantity;
+        if(cart != null){
+            Set<CartItem> cartItems = cart.getCartItems();
+            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+                CartItem cartItem = (CartItem) iterator.next();
+                if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
+                    finalQuantity = finalQuantity + cartItem.getQuantity();
+                }
+            }
+        }
+        
+        updateCart(requestData, catalogCategoryCode, productSkuCode, finalQuantity);
+    }
+    
+    /**
+     * 
+     */
     public void updateCart(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         
@@ -157,26 +186,14 @@ public class WebManagementServiceImpl implements WebManagementService {
                 CartItem cartItem = new CartItem();
                 cartItem.setProductSkuCode(productSkuCode);
                 cartItem.setProductSku(productSku);
-//                cartItem.setCart(cart);
 
                 cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
-//                cartItem.setProductMarketing(reloadedProductMarketing);
                 cartItem.setQuantity(quantity);
                 if(StringUtils.isNotEmpty(catalogCategoryCode)){
-//                    CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
                     cartItem.setCatalogCategoryCode(catalogCategoryCode);
-//                    cartItem.setCatalogCategory(catalogCategory);
                 } else {
                     final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
                     cartItem.setCatalogCategoryCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-
-//                    if(reloadedProductMarketing.getDefaultCatalogCategory() != null){
-//                        CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-//                        cartItem.setCatalogCategoryCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
-//                        if(catalogCategory != null){
-//                            cartItem.setCatalogCategory(catalogCategory);
-//                        }
-//                    }
                 }
                 cart.getCartItems().add(cartItem);
             } else {

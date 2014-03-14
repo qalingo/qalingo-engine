@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.eco;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +20,17 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
+import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.pojo.cart.CartItemPojo;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
+import org.hoteia.qalingo.core.pojo.cart.FoAddToCartPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoDeliveryMethodInformationPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoErrorPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
+import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
@@ -45,6 +52,9 @@ public class CartAjaxController extends AbstractMCommerceController {
     @Autowired
     protected CheckoutPojoService checkoutPojoService;
 
+    @Autowired
+    protected MarketService marketService;
+    
     @RequestMapping(value = FoUrls.GET_CART_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public FoCheckoutPojo getCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -54,6 +64,57 @@ public class CartAjaxController extends AbstractMCommerceController {
         return checkout;
     }
 
+    @RequestMapping(value = FoUrls.ADD_TO_CART_AJAX_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public FoAddToCartPojo addProductSkuToCart(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_CODE);
+        final String quantity = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_ITEM_SKU_QUANTITY);
+        final FoAddToCartPojo addToCart = new FoAddToCartPojo();
+        addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+        try {
+            int quantityValue = Integer.parseInt(quantity);
+            webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
+            
+            CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
+            for (Iterator<CartItemPojo> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
+                CartItemPojo cartItem = (CartItemPojo) iterator.next();
+                if(cartItem.getProductSku().getCode().equals(productSkuCode)){
+                    addToCart.setProductSku(cartItem.getProductSku());
+                    addToCart.setQuantity(cartItem.getQuantity());
+                }
+            }
+            
+            if(cart != null && cart.getCartItems() != null){
+                if (cart.getCartItems().size() == 1) {
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_one_item", locale));
+                } else if (cart.getCartItems().size() > 1) {
+                    Object[] cartTotalSummaryLabelParams = { cart.getCartItems().size() };
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_many_items", cartTotalSummaryLabelParams, locale));
+                } else {
+                    addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+                }
+                
+            } else {
+                addToCart.setCheckoutShoppingCartHeaderLabel(getSpecificMessage(ScopeWebMessage.COMMON, "cart_total_summary_label_no_item", locale));
+            }
+            
+            addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
+            
+        } catch (Exception e) {
+            logger.error("", e);
+            FoErrorPojo error = new FoErrorPojo();
+            error.setId("error-add-to-cart-product-sku");
+            error.setMessage(e.getMessage());
+            addToCart.getErrors().add(error);
+            addToCart.setStatuts(false);
+            return addToCart;
+        }
+        return addToCart;
+    }
+    
     @RequestMapping(value = FoUrls.UPDATE_CART_ITEM_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public FoCheckoutPojo updateItemQuantity(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -194,7 +255,8 @@ public class CartAjaxController extends AbstractMCommerceController {
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             checkout.setCart(cart);
 
-            List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(requestData.getMarketArea());
+            MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.getSpecificMarketAreaFetchPlanWithCheckoutData());
+            List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(marketArea);
             
             // TODO : SPLIT availableDeliveryMethods by items which matchs : drools ? and display deliveyMethods group by items : customer will choose 2 or more deliveyMethod
             FoDeliveryMethodInformationPojo deliveryMethodInformation = new FoDeliveryMethodInformationPojo();

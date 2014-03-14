@@ -9,14 +9,15 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public abstract class AbstractGenericDaoImpl {  
@@ -34,26 +35,33 @@ public abstract class AbstractGenericDaoImpl {
         return criteria;
     }
     
-    @SuppressWarnings("unchecked")
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params){
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){
         if (params != null) {
+            FetchPlan globalFetchPlan = new FetchPlan(new ArrayList<SpecificFetchMode>());
             for (Object param : params) {
-                if (param instanceof List) {
-                    List argList = (List) param;
-                    if(argList != null && !argList.isEmpty() && argList.iterator().next() instanceof SpecificFetchMode){
-                        List<SpecificFetchMode> specificFetchModes = (List<SpecificFetchMode>) param;
-                        for (Iterator<SpecificFetchMode> iterator = specificFetchModes.iterator(); iterator.hasNext();) {
-                            SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
-                            if(specificFetchMode.getRequiredAlias() != null){
-                                // TODO : Denis : check duplicate entry are manage or not
-                                criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
-                            }
-                            criteria.setFetchMode(specificFetchMode.getAssocationPath(), specificFetchMode.getFetchMode());
+                if (param instanceof FetchPlan) {
+                    FetchPlan fetchPlan = (FetchPlan) param;
+                    for (Iterator<SpecificFetchMode> iterator = fetchPlan.getFetchModes().iterator(); iterator.hasNext();) {
+                        SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                        if(!globalFetchPlan.getFetchModes().contains(specificFetchMode)){
+                            globalFetchPlan.getFetchModes().add(specificFetchMode);
                         }
-                        return specificFetchModes;
                     }
                 }
             }
+            
+            if(globalFetchPlan != null && globalFetchPlan.getFetchModes() != null){
+                for (Iterator<SpecificFetchMode> iterator = globalFetchPlan.getFetchModes().iterator(); iterator.hasNext();) {
+                    SpecificFetchMode specificFetchMode = (SpecificFetchMode) iterator.next();
+                    if(specificFetchMode.getRequiredAlias() != null){
+                        // TODO : Denis : check duplicate entry are manage or not
+                        criteria.createAlias(specificFetchMode.getRequiredAlias().getAssocationPath(), specificFetchMode.getRequiredAlias().getAlias(), specificFetchMode.getRequiredAlias().getJoinType());
+                    }
+                    criteria.setFetchMode(specificFetchMode.getAssocationPath(), specificFetchMode.getFetchMode());
+                }
+                return globalFetchPlan;
+            }
+            
         }
         return null;
     }

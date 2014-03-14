@@ -47,7 +47,7 @@ public class CartPojo {
 
     private BigDecimal cartTotal;
     private String cartTotalWithStandardCurrencySign;
-    
+
     private Date dateCreate;
     private Date dateUpdate;
 

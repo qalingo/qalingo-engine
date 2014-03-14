@@ -47,7 +47,6 @@ import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
@@ -494,7 +493,8 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	 final MarketArea currentMarketArea = requestData.getMarketArea();
     	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
     	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
-    	 catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
+    	 catalogBreadCumViewBean.setCode(catalogCategory.getCode());
+         catalogBreadCumViewBean.setName(catalogCategory.getI18nName(localizationCode));
 		
 		 if (catalogCategory.isRoot()) {
 			catalogBreadCumViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategory));

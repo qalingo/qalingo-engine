@@ -17,12 +17,15 @@ import java.util.Set;
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.slf4j.Logger;
@@ -41,33 +44,30 @@ public class CheckoutPojoServiceImpl implements CheckoutPojoService {
     protected ProductService productService;
     
     @Autowired 
+    protected CatalogCategoryService catalogCategoryService;
+    
+    @Autowired 
     private Mapper dozerBeanMapper;
     
     public CartPojo handleCartMapping(final Cart cart) {
-        
-        // CLEAN GRAPH : EVICT LAZY / SESSION EXCEPTION WITH UNUSED INFORMATIONS
-        Set<CartItem> cartItems = cart.getCartItems();
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
-            if(cartItem.getProductSku() == null){
-                final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode());
-                cartItem.setProductSku(productSku);
+        if(cart != null){
+            Set<CartItem> cartItems = cart.getCartItems();
+            for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
+                CartItem cartItem = (CartItem) iterator.next();
+                if(cartItem.getProductSku() == null){
+                    final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode());
+                    cartItem.setProductSku(productSku);
+                }
+                if(cartItem.getProductMarketing() == null){
+                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
+                    cartItem.setProductMarketing(productMarketing);
+                }
+                if(cartItem.getCatalogCategory() == null){
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode());
+                    cartItem.setCatalogCategory(catalogCategory);
+                }
             }
-            cartItem.getProductSku().setProductMarketing(null);
-            cartItem.getProductSku().setRetailers(null);
-            
-//          cartItem.getProductMarketing().setProductBrand(null);
-//          cartItem.getProductMarketing().setProductMarketingType(null);
-//          cartItem.getProductMarketing().setProductSkus(null);
-//          cartItem.getProductMarketing().setProductAssociationLinks(null);
-//          cartItem.getProductMarketing().setDefaultCatalogCategory(null);
-
-//          cartItem.getCatalogCategory().setDefaultParentCatalogCategory(null);
-//          cartItem.getCatalogCategory().setCatalogCategories(null);
-//          cartItem.getCatalogCategory().setProductMarketings(null);
-
         }
-        
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
     }
     
