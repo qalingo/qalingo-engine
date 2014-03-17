@@ -47,6 +47,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.pojo.UrlParameterMapping;
 import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CurrencyReferentialService;
@@ -568,7 +569,6 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public EngineEcoSession getCurrentEcoSession(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = (EngineEcoSession) request.getSession().getAttribute(Constants.ENGINE_ECO_SESSION_OBJECT);
-        engineEcoSession = checkEngineEcoSession(request, engineEcoSession);
         return engineEcoSession;
     }
 
@@ -679,7 +679,7 @@ public class RequestUtilImpl implements RequestUtil {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             marketPlace = engineEcoSession.getCurrentMarketPlace();
             if (marketPlace == null) {
-                initDefaultEcoMarketPlace(request);
+                initEcoMarketPlace(request);
                 marketPlace = engineEcoSession.getCurrentMarketPlace();
             }
         }
@@ -696,14 +696,14 @@ public class RequestUtilImpl implements RequestUtil {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
             market = engineBoSession.getCurrentMarket();
             if (market == null) {
-                initDefaultEcoMarketPlace(request);
+                initEcoMarketPlace(request);
                 market = engineBoSession.getCurrentMarket();
             }
         } else {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             market = engineEcoSession.getCurrentMarket();
             if (market == null) {
-                initDefaultEcoMarketPlace(request);
+                initEcoMarketPlace(request);
                 market = engineEcoSession.getCurrentMarket();
             }
         }
@@ -727,7 +727,7 @@ public class RequestUtilImpl implements RequestUtil {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             marketArea = engineEcoSession.getCurrentMarketArea();
             if (marketArea == null) {
-                initDefaultEcoMarketPlace(request);
+                initEcoMarketPlace(request);
                 marketArea = engineEcoSession.getCurrentMarketArea();
             }
         }
@@ -800,7 +800,7 @@ public class RequestUtilImpl implements RequestUtil {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
             retailer = engineEcoSession.getCurrentMarketAreaRetailer();
             if (retailer == null) {
-                initDefaultEcoMarketPlace(request);
+                initEcoMarketPlace(request);
             }
         }
         return retailer;
@@ -926,46 +926,27 @@ public class RequestUtilImpl implements RequestUtil {
 	  * 
 	  */
     public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
-        String marketPlaceCode = null;
-        String marketCode = null;
-        String marketAreaCode = null;
-        String localizationCode = null;
-        String retailerCode = null;
-        String currencyCode = null;
-
-        // TEMP
-        String requestUri = request.getRequestURI();
-        requestUri = requestUri.replace(request.getContextPath(), "");
-        if (requestUri.startsWith("/")) {
-            requestUri = requestUri.substring(1, requestUri.length());
-        }
-        String[] uriSegments = requestUri.toString().split("/");
-        if (uriSegments.length > 4) {
-            marketPlaceCode = uriSegments[0];
-            marketCode = uriSegments[1];
-            marketAreaCode = uriSegments[2];
-            localizationCode = uriSegments[3];
-            retailerCode = uriSegments[4];
-        } else {
-            marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-            marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
-            marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-            localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE);
-            retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE);
-            currencyCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE);
-        }
+        UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
+        String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
+        String marketCode = urlParameterMapping.getMarketCode();
+        String marketAreaCode = urlParameterMapping.getMarketAreaCode();
+        String localizationCode = urlParameterMapping.getLocalizationCode();
+        String retailerCode = urlParameterMapping.getRetailerCode();
+        String currencyCode = urlParameterMapping.getCurrencyCode();
 
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
 
-        MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();
+        engineEcoSession = checkEngineEcoSession(request);
+        
         if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
+            MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
                 // RESET ALL SESSION AND CHANGE THE MARKET PLACE
                 initEcoSession(request);
                 MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
                 if (newMarketPlace == null) {
                     // INIT A DEFAULT MARKET PLACE
-                    initDefaultEcoMarketPlace(request);
+                    initEcoMarketPlace(request);
                 } else {
                     // MARKET PLACE
                     engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, newMarketPlace);
@@ -1452,6 +1433,9 @@ public class RequestUtilImpl implements RequestUtil {
     public RequestData getRequestData(final HttpServletRequest request) throws Exception {
         final RequestData requestData = new RequestData();
         requestData.setRequest(request);
+        
+        checkEngineEcoSession(request);
+        
         String contextPath = "";
         if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")) {
             contextPath = contextPath + request.getContextPath() + "/";
@@ -1492,6 +1476,45 @@ public class RequestUtilImpl implements RequestUtil {
         return requestData;
     }
 
+    protected UrlParameterMapping handleUrlParameters(final HttpServletRequest request) {
+        UrlParameterMapping urlParameterMapping = new UrlParameterMapping();
+        String marketPlaceCode = null;
+        String marketCode = null;
+        String marketAreaCode = null;
+        String localizationCode = null;
+        String retailerCode = null;
+        String currencyCode = null;
+        String requestUri = request.getRequestURI();
+        requestUri = requestUri.replace(request.getContextPath(), "");
+        if (requestUri.startsWith("/")) {
+            requestUri = requestUri.substring(1, requestUri.length());
+        }
+        String[] uriSegments = requestUri.toString().split("/");
+        if (uriSegments.length > 4) {
+            marketPlaceCode = uriSegments[0];
+            marketCode = uriSegments[1];
+            marketAreaCode = uriSegments[2];
+            localizationCode = uriSegments[3];
+            retailerCode = uriSegments[4];
+        } else {
+            marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
+            marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
+            marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
+            localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE);
+            retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE);
+            currencyCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE);
+        }
+        
+        urlParameterMapping.setMarketPlaceCode(marketPlaceCode);
+        urlParameterMapping.setMarketCode(marketCode);
+        urlParameterMapping.setMarketAreaCode(marketAreaCode);
+        urlParameterMapping.setLocalizationCode(localizationCode);
+        urlParameterMapping.setRetailerCode(retailerCode);
+        urlParameterMapping.setCurrencyCode(currencyCode);
+        
+        return urlParameterMapping;
+    }
+    
     /**
 	 * 
 	 */
@@ -1522,7 +1545,7 @@ public class RequestUtilImpl implements RequestUtil {
         setCurrentEcoSession(request, engineEcoSession);
         String jSessionId = request.getSession().getId();
         engineEcoSession.setjSessionId(jSessionId);
-        engineEcoSession = initDefaultEcoMarketPlace(request);
+        engineEcoSession = initEcoMarketPlace(request);
         engineEcoSession = initCart(request);
         
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
@@ -1535,7 +1558,8 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected EngineEcoSession checkEngineEcoSession(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
+    protected EngineEcoSession checkEngineEcoSession(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         String jSessionId = request.getSession().getId();
         if (engineEcoSession == null) {
             // RELOAD OLD SESSION
@@ -1689,10 +1713,33 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected EngineEcoSession initDefaultEcoMarketPlace(final HttpServletRequest request) throws Exception {
+    protected MarketArea evaluateMarketPlace(final HttpServletRequest request) throws Exception {
         EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        MarketPlace marketPlace = null;
+        Market market = null;
+        MarketArea marketArea = null;
         
-        // TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
+        if(engineEcoSession == null){
+            initEcoSession(request);
+        }
+        
+        // STEP 1 - CHECK THE URL PARAMETERS
+        UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
+        String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
+        if(StringUtils.isNotEmpty(marketPlaceCode)){
+            marketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
+            if(marketPlace != null){
+                String marketCode = urlParameterMapping.getMarketCode();
+                market = marketPlace.getMarket(marketCode);
+                if(market != null){
+                    String marketAreaCode = urlParameterMapping.getMarketAreaCode();
+                    marketArea = market.getMarketArea(marketAreaCode);
+                    return marketArea;
+                }
+            }
+        }
+
+        // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
         final String remoteAddress = getRemoteAddr(request);
         final Country country = geolocService.geolocAndGetCountry(remoteAddress);
         MarketArea marketAreaGeoloc = null;
@@ -1720,24 +1767,36 @@ public class RequestUtilImpl implements RequestUtil {
             }
         }
         
-        MarketPlace marketPlace = null;
-        Market market = null;
-        MarketArea marketArea = null;
-        if(marketAreaGeoloc != null){
+        if (marketAreaGeoloc != null) {
             marketPlace = marketService.getMarketPlaceByCode(marketAreaGeoloc.getMarket().getMarketPlace().getCode());
             market = marketAreaGeoloc.getMarket();
             marketArea = marketAreaGeoloc;
-            
-        } else {
-            marketPlace = marketService.getDefaultMarketPlace();
-            market = marketPlace.getDefaultMarket();
-            marketArea = market.getDefaultMarketArea();
+            return marketArea;
         }
+
+        // STEP 3 - DEFAULT MARTKETPLACE
+        marketPlace = marketService.getDefaultMarketPlace();
+        market = marketPlace.getDefaultMarket();
+        marketArea = market.getDefaultMarketArea();
+        
+        return marketArea;
+    }
+    
+    /**
+     * 
+     */
+    protected EngineEcoSession initEcoMarketPlace(final HttpServletRequest request) throws Exception {
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+        MarketArea marketArea = evaluateMarketPlace(request);
+        Market market = marketArea.getMarket();
+        MarketPlace marketPlace = market.getMarketPlace();
+        
         engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, marketPlace);
         engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
 
         // DEFAULT LOCALE IS FROM THE REQUEST OR FROM THE MARKET AREA
+        marketArea = engineEcoSession.getCurrentMarketArea();
         final String requestLocale = request.getLocale().toString();
         Localization localization = marketArea.getDefaultLocalization();
         if (marketArea.getLocalization(requestLocale) != null) {
