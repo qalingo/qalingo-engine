@@ -53,5 +53,44 @@ public class SpecificFetchMode implements Serializable {
     public void setRequiredAlias(SpecificAlias requiredAlias) {
         this.requiredAlias = requiredAlias;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((assocationPath == null) ? 0 : assocationPath.hashCode());
+        result = prime * result + ((fetchMode == null) ? 0 : fetchMode.hashCode());
+        result = prime * result + ((requiredAlias == null) ? 0 : requiredAlias.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SpecificFetchMode other = (SpecificFetchMode) obj;
+        if (assocationPath == null) {
+            if (other.assocationPath != null)
+                return false;
+        } else if (!assocationPath.equals(other.assocationPath))
+            return false;
+        if (fetchMode != other.fetchMode)
+            return false;
+        if (requiredAlias == null) {
+            if (other.requiredAlias != null)
+                return false;
+        } else if (!requiredAlias.equals(other.requiredAlias))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "SpecificFetchMode [assocationPath=" + assocationPath + ", fetchMode=" + fetchMode + ", requiredAlias=" + requiredAlias + "]";
+    }
     
 }

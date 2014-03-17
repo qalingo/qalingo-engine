@@ -18,7 +18,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.UserDao;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,20 +33,20 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     
     public User getUserById(final Long userId, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", userId));
         User user = (User) criteria.uniqueResult();
-        user.setFetchModes(fetchModes);
+        user.setFetchPlan(fetchPlan);
         return user;
     }
 
     public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         User user = (User) criteria.uniqueResult();
-        user.setFetchModes(fetchModes);
+        user.setFetchPlan(fetchPlan);
         return user;
     }
 
@@ -83,7 +83,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     }
     
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
@@ -95,10 +95,10 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     
     public Company getCompanyById(final Long companyId, Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
-        List<SpecificFetchMode> fetchModes = handleCompanySpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", companyId));
         Company company = (Company) criteria.uniqueResult();
-        company.setFetchModes(fetchModes);
+        company.setFetchPlan(fetchPlan);
         return company;
     }
     
@@ -112,7 +112,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         return companies;
     }
 
-    protected List<SpecificFetchMode> handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

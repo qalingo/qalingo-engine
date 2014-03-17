@@ -3,6 +3,8 @@ package org.hoteia.qalingo.core.web.mvc.controller;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +17,7 @@ import net.sf.ehcache.Statistics;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
@@ -115,6 +118,17 @@ public class CacheManagerController extends AbstractQalingoController {
         for (String cacheName : getCacheManager().getCacheNames()) {
             caches.add(getCacheManager().getCache(cacheName));
         }
+        Collections.sort(caches, new Comparator<Cache>() {
+            @Override
+            public int compare(Cache o1, Cache o2) {
+                if (o1 != null && o2 != null) {
+                    String order1 = o1.getName();
+                    String order2 = o2.getName();
+                    return order1.compareTo(order2);
+                }
+                return 0;
+            }
+        });
         return caches;
     }
 

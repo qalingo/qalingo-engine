@@ -17,7 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,20 +31,22 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", paymentGatewayId));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
+        paymentGateway.setFetchPlan(fetchPlan);
         return paymentGateway;
 	}
 
 	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", paymentGatewayCode));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
+        paymentGateway.setFetchPlan(fetchPlan);
 		return paymentGateway;
 	}
 	
@@ -83,7 +85,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 	
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

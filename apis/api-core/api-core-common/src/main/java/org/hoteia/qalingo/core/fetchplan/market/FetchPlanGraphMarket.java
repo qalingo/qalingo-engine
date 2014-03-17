@@ -3,12 +3,13 @@ package org.hoteia.qalingo.core.fetchplan.market;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphMarket {
 
-    public static List<SpecificFetchMode> getDefaultMarketPlaceFetchPlan(){
+    public static FetchPlan getDefaultMarketPlaceFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("masterCatalog"));
@@ -17,20 +18,20 @@ public class FetchPlanGraphMarket {
 
         fetchplans.add(new SpecificFetchMode("marketAreas", new SpecificAlias("markets.marketAreas")));
 
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
-    public static List<SpecificFetchMode> getDefaultMarketFetchPlan(){
+    public static FetchPlan getDefaultMarketFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("marketPlace"));
         fetchplans.add(new SpecificFetchMode("marketAreas"));
         fetchplans.add(new SpecificFetchMode("marketAttributes"));
         
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
-    public static List<SpecificFetchMode> getSpecificMarketFetch(){
+    public static FetchPlan getSpecificMarketFetch(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("marketPlace"));
@@ -45,10 +46,10 @@ public class FetchPlanGraphMarket {
 
         fetchplans.add(new SpecificFetchMode("marketAreaAttributes", new SpecificAlias("marketAreas.marketAreaAttributes")));
         
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
-    public static List<SpecificFetchMode> getDefaultMarketAreaFetchPlan(){
+    public static FetchPlan getDefaultMarketAreaFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("catalog"));
@@ -68,10 +69,10 @@ public class FetchPlanGraphMarket {
         fetchplans.add(new SpecificFetchMode("defaultCurrency"));
         fetchplans.add(new SpecificFetchMode("currencies"));
 
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
-    public static List<SpecificFetchMode> getSpecificMarketAreaFetchPlan(){
+    public static FetchPlan getSpecificMarketAreaFetchPlanWithCheckoutData(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("catalog"));
@@ -99,6 +100,6 @@ public class FetchPlanGraphMarket {
 
         fetchplans.add(new SpecificFetchMode("paymentGateways"));
         
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
 }

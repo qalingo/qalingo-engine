@@ -277,7 +277,10 @@ public class Cart extends AbstractEntity {
     }
 
     public String getCartItemTotalWithStandardCurrencySign() {
-        return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
+        if(getCurrency() != null){
+            return getCurrency().formatPriceWithStandardCurrencySign(getCartItemTotal());
+        }
+        return null;
     }
 
     public BigDecimal getTaxTotal() {

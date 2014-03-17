@@ -1,11 +1,10 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 
 public abstract class AbstractEntity implements Serializable {
 
@@ -15,14 +14,14 @@ public abstract class AbstractEntity implements Serializable {
     private static final long serialVersionUID = -171297053896353957L;
 
     @Transient
-    private List<SpecificFetchMode> fetchModes;
+    private FetchPlan fetchPlan;
 
-    public List<SpecificFetchMode> getFetchModes() {
-        return fetchModes;
+    public FetchPlan getFetchPlan() {
+        return fetchPlan;
     }
     
-    public void setFetchModes(List<SpecificFetchMode> fetchModes) {
-        this.fetchModes = fetchModes;
+    public void setFetchPlan(FetchPlan fetchPlan) {
+        this.fetchPlan = fetchPlan;
     }
     
 }

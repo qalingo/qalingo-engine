@@ -26,6 +26,8 @@ import org.hoteia.qalingo.web.mvc.form.RetailerContactForm;
 
 public interface WebManagementService {
 
+    void addToCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
+
     void updateCart(RequestData requestData, String catalogCategoryCode, String productSkuCode, int quantity) throws Exception;
 
     void updateCart(RequestData requestData, String productSkuCode, int quantity) throws Exception;

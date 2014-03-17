@@ -23,7 +23,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderNumber;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,20 +37,22 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
+        orderCustomer.setFetchPlan(fetchPlan);
         return orderCustomer;
     }
 
     public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
+        orderCustomer.setFetchPlan(fetchPlan);
         return orderCustomer;
     }
 
@@ -168,7 +170,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     }
 
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

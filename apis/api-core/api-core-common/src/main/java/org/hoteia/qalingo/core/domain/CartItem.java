@@ -60,9 +60,15 @@ public class CartItem extends AbstractEntity {
     @Column(name = "PRODUCT_MARKETING_CODE")
     private String productMarketingCode;
 
+    @Transient
+    private ProductMarketing productMarketing;
+    
     @Column(name = "VIRTUAL_CATEGORY_CODE")
     private String catalogCategoryCode;
 
+    @Transient
+    private CatalogCategoryVirtual catalogCategory;
+    
     @Transient
     private DeliveryMethod deliveryMethod;
 
@@ -132,6 +138,14 @@ public class CartItem extends AbstractEntity {
     public void setProductMarketingCode(String productMarketingCode) {
         this.productMarketingCode = productMarketingCode;
     }
+    
+    public ProductMarketing getProductMarketing() {
+        return productMarketing;
+    }
+    
+    public void setProductMarketing(ProductMarketing productMarketing) {
+        this.productMarketing = productMarketing;
+    }
 
     public String getCatalogCategoryCode() {
         return catalogCategoryCode;
@@ -141,6 +155,14 @@ public class CartItem extends AbstractEntity {
         this.catalogCategoryCode = catalogCategoryCode;
     }
 
+    public CatalogCategoryVirtual getCatalogCategory() {
+        return catalogCategory;
+    }
+    
+    public void setCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+        this.catalogCategory = catalogCategory;
+    }
+    
     public DeliveryMethod getDeliveryMethod() {
         return deliveryMethod;
     }

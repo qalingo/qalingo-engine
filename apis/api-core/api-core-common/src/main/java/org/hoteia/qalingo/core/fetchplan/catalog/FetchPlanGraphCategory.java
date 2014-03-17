@@ -3,12 +3,13 @@ package org.hoteia.qalingo.core.fetchplan.catalog;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificAlias;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphCategory {
 
-    public static List<SpecificFetchMode> getAllCategoriesWithouProductsAndAssetsFetchPlan(){
+    public static FetchPlan getAllCategoriesWithouProductsAndAssetsFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("categoryMaster"));
@@ -20,10 +21,10 @@ public class FetchPlanGraphCategory {
 
 //        fetchplans.add(new SpecificFetchMode("catalogSubCategoryAttributes", new SpecificAlias("catalogCategories.catalogCategoryAttributes")));
         
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
-    public static List<SpecificFetchMode> getDefaultCatalogCategoryFetchPlan(){
+    public static FetchPlan getDefaultCatalogCategoryFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("categoryMaster"));
@@ -39,7 +40,7 @@ public class FetchPlanGraphCategory {
 
         fetchplans.add(new SpecificFetchMode("assets"));
 
-        return fetchplans;
+        return new FetchPlan(fetchplans);
     }
     
 }

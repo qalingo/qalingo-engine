@@ -20,7 +20,7 @@ import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,30 +36,33 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
     public MarketPlace getDefaultMarketPlace(Object... params) {
         Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
-        handleSpecificFetchModeMarketPlace(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
         
         criteria.add(Restrictions.eq("isDefault", true));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        marketPlace.setFetchPlan(fetchPlan);
         return marketPlace;
     }
     
     public MarketPlace getMarketPlaceById(final Long marketPlaceId, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
-        handleSpecificFetchModeMarketPlace(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketPlaceId));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        marketPlace.setFetchPlan(fetchPlan);
         return marketPlace;
     }
     
     public MarketPlace getMarketPlaceByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketPlace.class);
         
-        handleSpecificFetchModeMarketPlace(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        marketPlace.setFetchPlan(fetchPlan);
         return marketPlace;
     }
     
@@ -98,7 +101,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         em.remove(marketPlace);
     }
 
-    protected List<SpecificFetchMode> handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
@@ -111,30 +114,33 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	public Market getDefaultMarket(Object... params) {
         Criteria criteria = createDefaultCriteria(Market.class);
         
-        handleSpecificFetchModeMarket(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
         
         criteria.add(Restrictions.eq("isDefault", true));
         Market market = (Market) criteria.uniqueResult();
+        market.setFetchPlan(fetchPlan);
 		return market;
 	}
 	
 	public Market getMarketById(final Long marketId, Object... params) {
         Criteria criteria = createDefaultCriteria(Market.class);
 
-        handleSpecificFetchModeMarket(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketId));
         Market market = (Market) criteria.uniqueResult();
+        market.setFetchPlan(fetchPlan);
         return market;
 	}
 
 	public Market getMarketByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(Market.class);
 
-        handleSpecificFetchModeMarket(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         Market market = (Market) criteria.uniqueResult();
+        market.setFetchPlan(fetchPlan);
 		return market;
 	}
 	
@@ -187,7 +193,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 		em.remove(market);
 	}
 	
-    protected List<SpecificFetchMode> handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
@@ -200,22 +206,22 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 	public MarketArea getMarketAreaById(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchModeMarketArea(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketAreaId));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
-        marketArea.setFetchModes(fetchModes);
+        marketArea.setFetchPlan(fetchPlan);
         return marketArea;
 	}
 	
 	public MarketArea getMarketAreaByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(MarketArea.class);
         
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchModeMarketArea(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
-        marketArea.setFetchModes(fetchModes);
+        marketArea.setFetchPlan(fetchPlan);
 		return marketArea;
 	}
 
@@ -253,7 +259,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         em.remove(marketArea);
     }
     
-    protected List<SpecificFetchMode> handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

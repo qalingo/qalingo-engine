@@ -20,7 +20,7 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +35,11 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
     public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
         CatalogMaster catalogMaster = (CatalogMaster) criteria.uniqueResult();
-        catalogMaster.setFetchModes(fetchModes);
+        catalogMaster.setFetchPlan(fetchPlan);
         return catalogMaster;
 	}
     
@@ -79,28 +79,28 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
     public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
-        catalogVirtual.setFetchModes(fetchModes);
+        catalogVirtual.setFetchPlan(fetchPlan);
         return catalogVirtual;
     }
     
 	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
-        List<SpecificFetchMode> fetchModes = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
         criteria.createAlias("marketArea", "ma", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("ma.id", marketAreaId));
 
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
-        catalogVirtual.setFetchModes(fetchModes);
+        catalogVirtual.setFetchPlan(fetchPlan);
 		return catalogVirtual;
 	}
 	
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {

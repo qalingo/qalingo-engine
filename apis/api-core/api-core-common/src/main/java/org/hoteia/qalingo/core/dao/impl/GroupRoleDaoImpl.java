@@ -10,13 +10,12 @@
 package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.GroupRoleDao;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
-import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,20 +29,22 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 	public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", customerGroupId));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        customerGroup.setFetchPlan(fetchPlan);
         return customerGroup;
 	}
 	
 	public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
+        customerGroup.setFetchPlan(fetchPlan);
         return customerGroup;
 	}
 	
@@ -70,7 +71,7 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 	}
 	
     @Override
-    protected List<SpecificFetchMode> handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
