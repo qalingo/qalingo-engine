@@ -81,18 +81,19 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
             webManagementService.updateCart(requestData, customer);
 
             setUseReferer(false);
-            String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
+            String targetUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
             String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
             // SANITY CHECK
-            if (StringUtils.isNotEmpty(lastUrl) && (lastUrl.contains("cart") || lastUrl.contains("checkout"))) {
-                url = urlService.generateUrl(FoUrls.CART_DELIVERY, requestUtil.getRequestData(request));
+            if (StringUtils.isNotEmpty(lastUrl)) {
+                // && (lastUrl.contains("cart") || lastUrl.contains("checkout"))
+                targetUrl = lastUrl;
             } else {
-                url = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
+                targetUrl = urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
             }
 
-            setDefaultTargetUrl(url);
-            redirectStrategy.sendRedirect(request, response, url);
+            setDefaultTargetUrl(targetUrl);
+            redirectStrategy.sendRedirect(request, response, targetUrl);
 
         } catch (Exception e) {
             logger.error("", e);
