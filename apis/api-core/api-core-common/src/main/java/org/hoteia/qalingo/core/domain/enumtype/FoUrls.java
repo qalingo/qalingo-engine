@@ -389,7 +389,7 @@ public enum FoUrls {
 
 	public static final String XRDS_KEY				= "xrds";
 	public static final String XRDS_URL				= "/**/xrds.html";
-	public static final String XRDS_VELOCITY_PAGE	= "";
+	public static final String XRDS_VELOCITY_PAGE	= "openid/xrds";
 
     public static final String VELOCITY_CACHE_KEY           = "flush-cache-ihm";
     public static final String VELOCITY_CACHE_URL           = "/**/flush-cache-ihm.html";
