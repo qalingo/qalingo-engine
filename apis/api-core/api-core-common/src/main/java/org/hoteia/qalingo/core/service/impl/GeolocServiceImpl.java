@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.service.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.InetAddress;
 
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -54,9 +55,6 @@ public class GeolocServiceImpl implements GeolocService {
      */
     public Country geolocAndGetCountry(final String customerRemoteAddr) throws Exception {
         try {
-//            final Reader reader = new Reader(getCountryDataBase());
-//            final JsonNode jsonNode = reader.get(address);
-//            reader.close();
             final InetAddress address = InetAddress.getByName(customerRemoteAddr);
             
             final DatabaseReader databaseReader = new DatabaseReader.Builder(getCountryDataBase()).build();
@@ -65,9 +63,11 @@ public class GeolocServiceImpl implements GeolocService {
                 return countryResponse.getCountry();
             }
         } catch (AddressNotFoundException e) {
-            logger.warn("Geoloc can't find this address:" + customerRemoteAddr);
+            logger.warn("Geoloc country, can't find this address:" + customerRemoteAddr);
+        } catch (FileNotFoundException e) {
+            logger.error("Geoloc country, can't find database MaxMind", e);
         } catch (Exception e) {
-            logger.error("Geoloc can't find this address:" + customerRemoteAddr);
+            logger.error("Geoloc country, exception to find country with this address:" + customerRemoteAddr, e);
         }
         return null;
     }
@@ -85,9 +85,6 @@ public class GeolocServiceImpl implements GeolocService {
      */
     public City geolocAndGetCity(final String customerRemoteAddr) throws Exception {
         try {
-//            final Reader reader = new Reader(getCityDataBase());
-//            final JsonNode jsonNode = reader.get(address);
-//            reader.close();
             final InetAddress address = InetAddress.getByName(customerRemoteAddr);
             
             final DatabaseReader databaseReader = new DatabaseReader.Builder(getCityDataBase()).build();
@@ -98,9 +95,11 @@ public class GeolocServiceImpl implements GeolocService {
                 
             }
         } catch (AddressNotFoundException e) {
-            logger.warn("Geoloc can't find this address:" + customerRemoteAddr);
+            logger.warn("Geoloc city, can't find this address:" + customerRemoteAddr);
+        } catch (FileNotFoundException e) {
+            logger.error("Geoloc city, can't find database MaxMind", e);
         } catch (Exception e) {
-            logger.error("Geoloc can't find this address:" + customerRemoteAddr);
+            logger.error("Geoloc city, can't find this city with this address:" + customerRemoteAddr, e);
         }
         return null;
     }

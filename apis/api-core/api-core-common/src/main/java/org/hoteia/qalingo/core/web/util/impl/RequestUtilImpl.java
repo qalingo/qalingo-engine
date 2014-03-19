@@ -1545,6 +1545,10 @@ public class RequestUtilImpl implements RequestUtil {
         setCurrentEcoSession(request, engineEcoSession);
         String jSessionId = request.getSession().getId();
         engineEcoSession.setjSessionId(jSessionId);
+        
+        // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
+        engineEcoSession = checkGeolocData(request, engineEcoSession);
+
         engineEcoSession = initEcoMarketPlace(request);
         engineEcoSession = initCart(request);
         
@@ -1553,6 +1557,43 @@ public class RequestUtilImpl implements RequestUtil {
         engineEcoSession = engineSessionService.saveOrUpdateEngineEcoSession(engineEcoSession);
         
         return engineEcoSession;
+    }
+
+    /**
+     * 
+     */
+    protected EngineEcoSession checkGeolocData(final HttpServletRequest request, EngineEcoSession engineEcoSession) throws Exception {
+        final String remoteAddress = getRemoteAddr(request);
+        GeolocData geolocData = engineEcoSession.getGeolocData();
+        if (geolocData == null) {
+            geolocData = new GeolocData();
+            initGeolocData(geolocData, remoteAddress);
+        } else {
+            if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) && !geolocData.getRemoteAddress().equals(remoteAddress)) {
+                geolocData = new GeolocData();
+                initGeolocData(geolocData, remoteAddress);
+            }
+        }
+        engineEcoSession.setGeolocData(geolocData);
+        engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
+        return engineEcoSession;
+    }
+    
+    /**
+     * 
+     */
+    protected GeolocData initGeolocData(final GeolocData geolocData, final String remoteAddress) throws Exception {
+        if(geolocData != null){
+            final Country country = geolocService.geolocAndGetCountry(remoteAddress);
+            geolocData.setRemoteAddress(remoteAddress);
+            if(country != null 
+                    && StringUtils.isNotEmpty(country.getIsoCode())){
+                geolocData.setCountry(country);
+                final City city = geolocService.geolocAndGetCity(remoteAddress);
+                geolocData.setCity(city);
+            }
+        }
+        return geolocData;
     }
 
     /**
@@ -1588,6 +1629,10 @@ public class RequestUtilImpl implements RequestUtil {
             engineEcoSession.setjSessionId(jSessionId);
             updateCurrentEcoSession(request, engineEcoSession);
         }
+
+        // CHECK GEOLOC DATA : create or reload
+        engineEcoSession = checkGeolocData(request, engineEcoSession);
+
         return engineEcoSession;
     }
 
@@ -1740,28 +1785,21 @@ public class RequestUtilImpl implements RequestUtil {
         }
 
         // STEP 2 - TRY TO GEOLOC THE CUSTOMER AND SET THE RIGHT MARKET AREA
-        final String remoteAddress = getRemoteAddr(request);
-        final Country country = geolocService.geolocAndGetCountry(remoteAddress);
+        final GeolocData geolocData = engineEcoSession.getGeolocData();
         MarketArea marketAreaGeoloc = null;
-        if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
-            GeolocData geolocData = new GeolocData();
-            geolocData.setRemoteAddress(remoteAddress);
-            geolocData.setCountry(country);
-            
-            final City city = geolocService.geolocAndGetCity(remoteAddress);
-            geolocData.setCity(city);
-            
-            engineEcoSession.setGeolocData(geolocData);
-
-            List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(country.getIsoCode());
-            if(marketAreas != null && marketAreas.size() == 1){
-                marketAreaGeoloc = marketAreas.get(0);
-            } else {
-                // WE HAVE MANY MARKET AREA FOR THE CURRENT COUNTRY CODE - WE SELECT THE DEFAULT MARKET PLACE ASSOCIATE
-                for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
-                    MarketArea marketAreaIt = (MarketArea) iterator.next();
-                    if(marketAreaIt.getMarket().getMarketPlace().isDefault()){
-                        marketAreaGeoloc = marketAreaIt;
+        if(geolocData != null){
+            final Country country = geolocData.getCountry();
+            if(country != null && StringUtils.isNotEmpty(country.getIsoCode())){
+                List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(country.getIsoCode());
+                if(marketAreas != null && marketAreas.size() == 1){
+                    marketAreaGeoloc = marketAreas.get(0);
+                } else {
+                    // WE HAVE MANY MARKET AREA FOR THE CURRENT COUNTRY CODE - WE SELECT THE DEFAULT MARKET PLACE ASSOCIATE
+                    for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                        MarketArea marketAreaIt = (MarketArea) iterator.next();
+                        if(marketAreaIt.getMarket().getMarketPlace().isDefault()){
+                            marketAreaGeoloc = marketAreaIt;
+                        }
                     }
                 }
             }
