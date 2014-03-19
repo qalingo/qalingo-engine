@@ -55,6 +55,7 @@ public class ExtLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 			
 	        String url = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
 	        setDefaultTargetUrl(url);
+	        
 		} catch (Exception e) {
 			logger.error("", e);
 		}

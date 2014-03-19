@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.UserConnectionLogService;
 import org.hoteia.qalingo.core.service.UserService;
@@ -77,16 +78,20 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
 	    	user.getConnectionLogs().add(userConnectionLog);
 	    	requestUtil.updateCurrentUser(request, user);
 	    	
-	    	setUseReferer(false);
-			String url = requestUtil.getCurrentRequestUrlNotSecurity(request);
-			
-	        // SANITY CHECK
-	        if(StringUtils.isEmpty(url)){
-	    		url = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-	        }
-	        
-	    	setDefaultTargetUrl(url);
-	        redirectStrategy.sendRedirect(request, response, url);
+            setUseReferer(false);
+            String targetUrl = null;
+            String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+
+            // SANITY CHECK
+            if (StringUtils.isNotEmpty(lastUrl)) {
+                // && (lastUrl.contains("cart") || lastUrl.contains("checkout"))
+                targetUrl = lastUrl;
+            } else {
+                targetUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));;
+            }
+
+            setDefaultTargetUrl(targetUrl);
+            redirectStrategy.sendRedirect(request, response, targetUrl);
 	        
 		} catch (Exception e) {
 			logger.error("", e);

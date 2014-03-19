@@ -178,6 +178,11 @@ public interface RequestUtil {
     /**
      * 
      */
+    void cleanCurrentUser(HttpServletRequest request) throws Exception;
+    
+    /**
+     * 
+     */
     Company getCurrentCompany(HttpServletRequest request) throws Exception;
 
     /**

@@ -9,6 +9,16 @@ public enum BoUrls {
     FAQ(BoUrls.FAQ_URL, BoUrls.FAQ_KEY, BoUrls.FAQ_VELOCITY_PAGE, false),
     LEGAL_TERMS(BoUrls.LEGAL_TERMS_URL, BoUrls.LEGAL_TERMS_KEY, BoUrls.LEGAL_TERMS_VELOCITY_PAGE, false),
     
+    PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, false),
+    PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, false),
+
+    SEARCH(BoUrls.SEARCH_URL, BoUrls.SEARCH_KEY, BoUrls.SEARCH_VELOCITY_PAGE, true),
+    SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE, true),
+    GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null, true),
+    
+    CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null, true),
+    CHANGE_CONTEXT(BoUrls.CHANGE_CONTEXT_URL, null, null, true),
+
     LOGIN(BoUrls.LOGIN_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, false),
     LOGIN_CHECK(BoUrls.LOGIN_CHECK_URL, BoUrls.LOGIN_KEY, BoUrls.LOGIN_VELOCITY_PAGE, false),
     LOGOUT(BoUrls.LOGOUT_URL, BoUrls.LOGOUT_KEY, BoUrls.LOGOUT_VELOCITY_PAGE, false),
@@ -17,15 +27,6 @@ public enum BoUrls {
     FORGOTTEN_PASSWORD(BoUrls.FORGOTTEN_PASSWORD_URL, BoUrls.FORGOTTEN_PASSWORD_KEY, BoUrls.FORGOTTEN_PASSWORD_VELOCITY_PAGE, false),
     RESET_PASSWORD(BoUrls.RESET_PASSWORD_URL, BoUrls.RESET_PASSWORD_KEY, BoUrls.RESET_PASSWORD_VELOCITY_PAGE, false),
     
-    PERSONAL_DETAILS(BoUrls.PERSONAL_DETAILS_URL, BoUrls.PERSONAL_DETAILS_KEY, BoUrls.PERSONAL_DETAILS_VELOCITY_PAGE, false),
-    PERSONAL_EDIT(BoUrls.PERSONAL_EDIT_URL, BoUrls.PERSONAL_EDIT_KEY, BoUrls.PERSONAL_EDIT_VELOCITY_PAGE, false),
-
-    SEARCH(BoUrls.SEARCH_URL, BoUrls.SEARCH_KEY, BoUrls.SEARCH_VELOCITY_PAGE, true),
-    SEARCH_CONFIG(BoUrls.SEARCH_CONFIG_URL, BoUrls.SEARCH_CONFIG_KEY, BoUrls.SEARCH_CONFIG_VELOCITY_PAGE, true),
-    GLOBAL_SEARCH(BoUrls.GLOBAL_SEARCH_URL, null, null, true),
-    CHANGE_LANGUAGE(BoUrls.CHANGE_LANGUAGE_URL, null, null, true),
-    CHANGE_CONTEXT(BoUrls.CHANGE_CONTEXT_URL, null, null, true),
-
     MONITORING(BoUrls.MONITORING_URL, BoUrls.MONITORING_KEY, BoUrls.MONITORING_VELOCITY_PAGE, true),
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE, true),
 
@@ -102,7 +103,7 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     
-    CONTEXT(FoUrls.CONTEXT_URL, FoUrls.CONTEXT_KEY, FoUrls.CONTEXT_VELOCITY_PAGE, false),
+    CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false),
 
     ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, false),
     ERROR_400(BoUrls.ERROR_400_URL, BoUrls.ERROR_400_KEY, BoUrls.ERROR_400_VELOCITY_PAGE, false),
@@ -124,36 +125,6 @@ public enum BoUrls {
 	public static final String LEGAL_TERMS_URL				= "/legal-terms.html";
 	public static final String LEGAL_TERMS_VELOCITY_PAGE	= "legal-terms/legal-terms";
 
-	public static final String LOGIN_KEY				= "login";
-	public static final String LOGIN_URL				= "/login.html";
-	public static final String LOGIN_VELOCITY_PAGE		= "security/login";
-
-	public static final String LOGIN_CHECK_URL				= "/login-check.html";
-
-	public static final String LOGOUT_KEY				= "logout";
-	public static final String LOGOUT_URL				= "/logout.html";
-	public static final String LOGOUT_VELOCITY_PAGE		= "security/logout";
-
-	public static final String FORBIDDEN_KEY				= "forbidden";
-	public static final String FORBIDDEN_URL				= "/forbidden.html";
-	public static final String FORBIDDEN_VELOCITY_PAGE		= "security/forbidden";
-
-	public static final String TIMEOUT_KEY				= "timeout";
-	public static final String TIMEOUT_URL				= "/timeout.html";
-	public static final String TIMEOUT_VELOCITY_PAGE	= "security/timeout";
-	
-	public static final String FORGOTTEN_PASSWORD_KEY			= "forgotten-password";
-	public static final String FORGOTTEN_PASSWORD_URL			= "/forgotten-password.html";
-	public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE	= "security/forgotten-password-edit";
-
-	public static final String RESET_PASSWORD_KEY				= "reset-password";
-	public static final String RESET_PASSWORD_URL				= "/reset-password.html";
-	public static final String RESET_PASSWORD_VELOCITY_PAGE		= "security/reset-password-edit";
-	
-	public static final String LOGOUT_SESSION_URL		= "/logout-session.html";
-	public static final String SPRING_SECURITY_URL		= "/j_spring_security_check";
-	public static final String GLOBAL_SEARCH_URL		= "/**/global-search.html";
-	
     public static final String PERSONAL_DETAILS_KEY                 = "personal-details";
     public static final String PERSONAL_DETAILS_URL                 = "/personal-details.html";
     public static final String PERSONAL_DETAILS_VELOCITY_PAGE       = "user/personal-details";
@@ -165,6 +136,35 @@ public enum BoUrls {
 	public static final String CHANGE_LANGUAGE_URL		= "/**/change-language.html";
 	public static final String CHANGE_CONTEXT_URL		= "/**/change-context.html";
 	
+    public static final String LOGIN_KEY                = "login";
+    public static final String LOGIN_URL                = "/login.html";
+    public static final String LOGIN_VELOCITY_PAGE      = "security/login";
+
+    public static final String LOGIN_CHECK_URL          = "/login-check.html";
+
+    public static final String LOGOUT_KEY               = "logout";
+    public static final String LOGOUT_URL               = "/**/logout-session.html";
+    public static final String LOGOUT_VELOCITY_PAGE     = "security/logout";
+
+    public static final String FORBIDDEN_KEY            = "forbidden";
+    public static final String FORBIDDEN_URL            = "/forbidden.html";
+    public static final String FORBIDDEN_VELOCITY_PAGE  = "security/forbidden";
+
+    public static final String TIMEOUT_KEY              = "timeout";
+    public static final String TIMEOUT_URL              = "/timeout.html";
+    public static final String TIMEOUT_VELOCITY_PAGE    = "security/timeout";
+	    
+    public static final String FORGOTTEN_PASSWORD_KEY           = "forgotten-password";
+    public static final String FORGOTTEN_PASSWORD_URL           = "/forgotten-password.html";
+    public static final String FORGOTTEN_PASSWORD_VELOCITY_PAGE = "security/forgotten-password-edit";
+
+    public static final String RESET_PASSWORD_KEY               = "reset-password";
+    public static final String RESET_PASSWORD_URL               = "/reset-password.html";
+    public static final String RESET_PASSWORD_VELOCITY_PAGE     = "security/reset-password-edit";
+	    
+    public static final String SPRING_SECURITY_URL      = "/j_spring_security_check";
+    public static final String GLOBAL_SEARCH_URL        = "/**/global-search.html";
+	    
 	// MONITORING
 	public static final String MONITORING_KEY				= "monitoring";
 	public static final String MONITORING_URL				= "/**/monitoring.html";

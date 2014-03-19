@@ -252,12 +252,7 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public String getLastRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
-        final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add("login");
-        excludedPatterns.add("auth");
-        excludedPatterns.add("logout");
-        excludedPatterns.add("timeout");
-        excludedPatterns.add("forbidden");
+        final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         return getRequestUrl(request, excludedPatterns, 1);
     }
 
@@ -279,12 +274,7 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public String getCurrentRequestUrlNotSecurity(final HttpServletRequest request) throws Exception {
-        final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add("login");
-        excludedPatterns.add("auth");
-        excludedPatterns.add("logout");
-        excludedPatterns.add("timeout");
-        excludedPatterns.add("forbidden");
+        final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
         return getRequestUrl(request, excludedPatterns, 0);
     }
 
@@ -292,15 +282,27 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public String getLastRequestForEmptyCartUrl(final HttpServletRequest request, final String fallbackUrl) throws Exception {
+        final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
+        excludedPatterns.add("cart");
+        String lastUrl = getLastRequestUrl(request, excludedPatterns, fallbackUrl);
+        return lastUrl;
+    }
+    
+    /**
+     * 
+     */
+    protected List<String> getCommonUrlExcludedPatterns() throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add("login");
         excludedPatterns.add("auth");
         excludedPatterns.add("logout");
         excludedPatterns.add("timeout");
         excludedPatterns.add("forbidden");
-        excludedPatterns.add("cart");
-        String lastUrl = getLastRequestUrl(request, excludedPatterns, fallbackUrl);
-        return lastUrl;
+        excludedPatterns.add("500");
+        excludedPatterns.add("400");
+        excludedPatterns.add("403");
+        excludedPatterns.add("404");
+        return excludedPatterns;
     }
     
     /**
@@ -1158,6 +1160,15 @@ public class RequestUtilImpl implements RequestUtil {
             updateCurrentBoSession(request, engineBoSession);
         }
     }
+    
+    /**
+     * 
+     */
+    public void cleanCurrentUser(final HttpServletRequest request) throws Exception {
+        final EngineBoSession engineBoSession = getCurrentBoSession(request);
+        engineBoSession.setCurrentUser(null);
+        updateCurrentBoSession(request, engineBoSession);
+    }
 
     /**
      * 
@@ -1434,8 +1445,6 @@ public class RequestUtilImpl implements RequestUtil {
         final RequestData requestData = new RequestData();
         requestData.setRequest(request);
         
-        checkEngineEcoSession(request);
-        
         String contextPath = "";
         if (request.getRequestURL().toString().contains("localhost") || request.getRequestURL().toString().contains("127.0.0.1")) {
             contextPath = contextPath + request.getContextPath() + "/";
@@ -1446,6 +1455,10 @@ public class RequestUtilImpl implements RequestUtil {
         requestData.setContextNameValue(getCurrentContextNameValue(request));
 
         requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
+
+        if (!requestData.isBackoffice()) {
+            checkEngineEcoSession(request);
+        }
 
         requestData.setGeolocData(getCurrentGeolocData(request));
 
@@ -1550,6 +1563,7 @@ public class RequestUtilImpl implements RequestUtil {
         engineEcoSession = checkGeolocData(request, engineEcoSession);
 
         engineEcoSession = initEcoMarketPlace(request);
+        
         engineEcoSession = initCart(request);
         
         engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);

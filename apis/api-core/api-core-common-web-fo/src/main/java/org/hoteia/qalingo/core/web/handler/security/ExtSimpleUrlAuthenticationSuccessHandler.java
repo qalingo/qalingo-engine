@@ -81,7 +81,7 @@ public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentic
             webManagementService.updateCart(requestData, customer);
 
             setUseReferer(false);
-            String targetUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
+            String targetUrl = null;
             String lastUrl = requestUtil.getCurrentRequestUrlNotSecurity(request);
 
             // SANITY CHECK
