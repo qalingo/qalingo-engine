@@ -1627,24 +1627,28 @@ public class RequestUtilImpl implements RequestUtil {
         final String remoteAddress = getRemoteAddr(request);
         GeolocData geolocData = engineEcoSession.getGeolocData();
         if (geolocData == null) {
-            geolocData = new GeolocData();
-            initGeolocData(geolocData, remoteAddress);
+            geolocData = initGeolocData(remoteAddress);
         } else {
-            if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) && !geolocData.getRemoteAddress().equals(remoteAddress)) {
-                geolocData = new GeolocData();
-                initGeolocData(geolocData, remoteAddress);
+            if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) 
+                    && !geolocData.getRemoteAddress().equals(remoteAddress)) {
+                // IP ADDRESS HAS CHANGED - RELOAD
+                geolocData = initGeolocData(remoteAddress);
             }
         }
-        engineEcoSession.setGeolocData(geolocData);
-        engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
+        if (geolocData != null) {
+            engineEcoSession.setGeolocData(geolocData);
+            engineEcoSession = updateCurrentEcoSession(request, engineEcoSession);
+        }
         return engineEcoSession;
     }
     
     /**
      * 
      */
-    protected GeolocData initGeolocData(final GeolocData geolocData, final String remoteAddress) throws Exception {
-        if(geolocData != null){
+    protected GeolocData initGeolocData(final String remoteAddress) throws Exception {
+        GeolocData geolocData = null;
+        if(!remoteAddress.equals("127.0.0.1")){
+            geolocData = new GeolocData();
             final Country country = geolocService.geolocAndGetCountry(remoteAddress);
             geolocData.setRemoteAddress(remoteAddress);
             if(country != null 
