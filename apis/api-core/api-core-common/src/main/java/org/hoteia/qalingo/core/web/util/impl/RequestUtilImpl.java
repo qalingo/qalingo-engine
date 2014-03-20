@@ -1011,7 +1011,6 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public EngineBoSession getCurrentBoSession(final HttpServletRequest request) throws Exception {
         EngineBoSession engineBoSession = (EngineBoSession) request.getSession().getAttribute(Constants.ENGINE_BO_SESSION_OBJECT);
-        engineBoSession = checkEngineBoSession(request, engineBoSession);
         return engineBoSession;
     }
 
@@ -1494,6 +1493,15 @@ public class RequestUtilImpl implements RequestUtil {
         requestData.setContextPath(contextPath);
         requestData.setContextNameValue(getCurrentContextNameValue(request));
 
+        // SPECIFIC BACKOFFICE
+        if (requestData.isBackoffice()) {
+            checkEngineBoSession(request);
+        } else {
+            // SPECIFIC FRONTOFFICE
+            checkEngineEcoSession(request);
+            requestData.setGeolocData(getCurrentGeolocData(request));
+        }
+        
         requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
 
         requestData.setMarketPlace(getCurrentMarketPlace(requestData));
@@ -1517,9 +1525,6 @@ public class RequestUtilImpl implements RequestUtil {
 
         } else {
             // SPECIFIC FRONTOFFICE
-            checkEngineEcoSession(request);
-            requestData.setGeolocData(getCurrentGeolocData(request));
-            
             Customer customer = getCurrentCustomer(request);
             if (customer != null) {
                 requestData.setCustomer(customer);
@@ -1695,7 +1700,8 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected EngineBoSession checkEngineBoSession(final HttpServletRequest request, EngineBoSession engineBoSession) throws Exception {
+    protected EngineBoSession checkEngineBoSession(final HttpServletRequest request) throws Exception {
+        EngineBoSession engineBoSession = getCurrentBoSession(request);
         if (engineBoSession == null) {
             engineBoSession = initBoSession(request);
         }
