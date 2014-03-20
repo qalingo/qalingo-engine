@@ -59,6 +59,7 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -910,9 +911,17 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         } else {
             storeViewBean.setIconImage("");
         }
-
+        
+       
+		final List<Asset> assets = store.getSlideShows();
+        List<String> sliders = new ArrayList<String>();
+        for(Asset asset : assets ){
+        	final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), asset);
+        	sliders.add(iconImage);
+        }
+        
         storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
-
+        storeViewBean.setSliders(sliders);
         return storeViewBean;
     }
 
