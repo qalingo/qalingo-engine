@@ -95,8 +95,12 @@ public class Store extends AbstractEntity {
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
-    private Set<StoreAttribute> storeAttributes = new HashSet<StoreAttribute>();
-
+    private Set<StoreAttribute> attributes = new HashSet<StoreAttribute>();
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "STORE_ID")
+    private Set<StoreBusinessHour> businessHours = new HashSet<StoreBusinessHour>();
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<Asset> assets = new HashSet<Asset>();
@@ -230,14 +234,22 @@ public class Store extends AbstractEntity {
         this.retailerId = retailerId;
     }
     
-    public Set<StoreAttribute> getStoreAttributes() {
-        return storeAttributes;
+    public Set<StoreAttribute> getAttributes() {
+        return attributes;
     }
 
-    public void setStoreAttributes(Set<StoreAttribute> storeAttributes) {
-        this.storeAttributes = storeAttributes;
+    public void setAttributes(Set<StoreAttribute> attributes) {
+        this.attributes = attributes;
     }
 
+    public Set<StoreBusinessHour> getBusinessHours() {
+        return businessHours;
+    }
+    
+    public void setBusinessHours(Set<StoreBusinessHour> businessHours) {
+        this.businessHours = businessHours;
+    }
+    
     public Set<Asset> getAssets() {
         return assets;
     }
@@ -324,10 +336,10 @@ public class Store extends AbstractEntity {
 
     public StoreAttribute getStoreAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
         StoreAttribute storeAttributeToReturn = null;
-        if (storeAttributes != null
-                && Hibernate.isInitialized(storeAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             List<StoreAttribute> storeAttributesFilter = new ArrayList<StoreAttribute>();
-            for (Iterator<StoreAttribute> iterator = storeAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<StoreAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = storeAttribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
@@ -362,7 +374,7 @@ public class Store extends AbstractEntity {
                 if (storeAttributesFilter.size() == 0) {
                     // TODO : throw error ?
 
-                    for (Iterator<StoreAttribute> iterator = storeAttributes.iterator(); iterator.hasNext();) {
+                    for (Iterator<StoreAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                         StoreAttribute storeAttribute = (StoreAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting
