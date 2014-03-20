@@ -963,7 +963,6 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public String getCurrentVelocityWebPrefix(final RequestData requestData) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         String velocityPath = "/" + getCurrentTheme(requestData) + "/www/" + getCurrentDevice(requestData) + "/content/";
         return velocityPath;
     }
@@ -972,7 +971,6 @@ public class RequestUtilImpl implements RequestUtil {
      * 
      */
     public String getCurrentVelocityEmailPrefix(final RequestData requestData) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         String velocityPath = "/" + getCurrentTheme(requestData) + "/email/";
         return velocityPath;
     }
@@ -1412,11 +1410,14 @@ public class RequestUtilImpl implements RequestUtil {
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
             EngineBoSession engineBoSession = getCurrentBoSession(request);
-            currenTheme = engineBoSession.getTheme();
+            if(engineBoSession != null){
+                currenTheme = engineBoSession.getTheme();
+            }
         } else {
             EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-            currenTheme = engineEcoSession.getTheme();
-            
+            if(engineEcoSession != null){
+                currenTheme = engineEcoSession.getTheme();
+            }
         }
         
         // SANITY CHECK
