@@ -353,7 +353,7 @@ public enum BoUrls {
 
 	public static final String VIRTUAL_CATALOG_KEY				= "virtual-catalog";
 	public static final String VIRTUAL_CATALOG_URL				= "/**/virtual-catalog.html";
-	public static final String VIRTUAL_CATALOG_VELOCITY_PAGE	= "catalog/catalog";
+	public static final String VIRTUAL_CATALOG_VELOCITY_PAGE	= "catalog/catalog-manage";
 
 	public static final String VIRTUAL_CATEGORY_DETAILS_KEY				= "virtual-category-details";
 	public static final String VIRTUAL_CATEGORY_DETAILS_URL				= "/**/catalog-virtual-category-details.html";

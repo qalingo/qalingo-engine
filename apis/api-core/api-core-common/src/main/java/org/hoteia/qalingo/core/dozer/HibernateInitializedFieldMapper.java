@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class HibernateInitializedFieldMapper implements CustomFieldMapper {
     
     public boolean mapField(Object source, Object destination, Object sourceFieldValue, ClassMap classMap, FieldMap fieldMapping) {
-        return !org.hibernate.Hibernate.isInitialized(sourceFieldValue);
+        return !org.hibernate.Hibernate.isInitialized(sourceFieldValue); //  || sourceFieldValue == null
     }
     
 }

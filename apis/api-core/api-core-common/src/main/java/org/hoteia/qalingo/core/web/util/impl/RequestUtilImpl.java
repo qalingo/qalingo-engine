@@ -135,6 +135,424 @@ public class RequestUtilImpl implements RequestUtil {
     protected GeolocService geolocService;
     
     /**
+     * 
+     */
+    public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
+        UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
+        String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
+        String marketCode = urlParameterMapping.getMarketCode();
+        String marketAreaCode = urlParameterMapping.getMarketAreaCode();
+        String localizationCode = urlParameterMapping.getLocalizationCode();
+        String retailerCode = urlParameterMapping.getRetailerCode();
+        String currencyCode = urlParameterMapping.getCurrencyCode();
+
+        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+
+        engineEcoSession = checkEngineEcoSession(request);
+
+        if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
+            MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();
+            if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
+                // RESET ALL SESSION AND CHANGE THE MARKET PLACE
+                initEcoSession(request);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
+                if (newMarketPlace == null) {
+                    // INIT A DEFAULT MARKET PLACE
+                    initEcoMarketPlace(request);
+                } else {
+                    // MARKET PLACE
+                    engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, newMarketPlace);
+                    updateCurrentTheme(request, newMarketPlace.getTheme());
+
+                    // MARKET
+                    Market market = newMarketPlace.getMarket(marketCode);
+                    if (market == null) {
+                        market = newMarketPlace.getDefaultMarket();
+                    }
+                    engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
+
+                    // MARKET AREA
+                    MarketArea marketArea = market.getMarketArea(marketAreaCode);
+                    if (marketArea == null) {
+                        marketArea = market.getDefaultMarketArea();
+                    }
+                    engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
+
+                    // LOCALE
+                    Localization localization = marketArea.getLocalization(localizationCode);
+                    if (localization == null) {
+                        Localization defaultLocalization = marketArea.getDefaultLocalization();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                    }
+
+                    // RETAILER
+                    Retailer retailer = marketArea.getRetailer(retailerCode);
+                    if (retailer == null) {
+                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
+                    }
+
+                    // CURRENCY
+                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                    if (currency == null) {
+                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
+                    }
+                }
+
+            } else {
+                Market market = engineEcoSession.getCurrentMarket();
+                if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
+
+                    // CHANGE THE MARKET
+                    Market newMarket = marketService.getMarketByCode(marketCode);
+                    if (newMarket == null) {
+                        newMarket = currentMarketPlace.getDefaultMarket();
+                    }
+                    engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
+                    updateCurrentTheme(request, newMarket.getTheme());
+
+                    // MARKET AREA
+                    MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
+                    if (marketArea == null) {
+                        marketArea = market.getDefaultMarketArea();
+                    }
+                    engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
+
+                    // LOCALE
+                    Localization localization = marketArea.getLocalization(localizationCode);
+                    if (localization == null) {
+                        Localization defaultLocalization = marketArea.getDefaultLocalization();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                    }
+
+                    // RETAILER
+                    Retailer retailer = marketArea.getRetailer(retailerCode);
+                    if (retailer == null) {
+                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
+                    }
+
+                    // CURRENCY
+                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                    if (currency == null) {
+                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
+                    } else {
+                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
+                    }
+
+                } else {
+                    MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
+                    if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
+
+                        // CHANGE THE MARKET AREA
+                        MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
+                        if (newMarketArea == null) {
+                            newMarketArea = market.getDefaultMarketArea();
+                        }
+                        engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
+                        updateCurrentTheme(request, newMarketArea.getTheme());
+
+                        // LOCALE
+                        Localization localization = newMarketArea.getLocalization(localizationCode);
+                        if (localization == null) {
+                            Localization defaultLocalization = marketArea.getDefaultLocalization();
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
+                        } else {
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                        }
+
+                        // RETAILER
+                        Retailer retailer = marketArea.getRetailer(retailerCode);
+                        if (retailer == null) {
+                            Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
+                        } else {
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
+                        }
+
+                        // CURRENCY
+                        CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                        if (currency == null) {
+                            CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
+                        } else {
+                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
+                        }
+
+                    } else {
+                        Localization localization = engineEcoSession.getCurrentMarketAreaLocalization();
+                        Retailer retailer = engineEcoSession.getCurrentMarketAreaRetailer();
+                        CurrencyReferential currency = engineEcoSession.getCurrentMarketAreaCurrency();
+                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(localizationCode)) {
+                            // CHANGE THE LOCALE
+                            Localization newLocalization = marketArea.getLocalization(localizationCode);
+                            if (newLocalization == null) {
+                                Localization defaultLocalization = marketArea.getDefaultLocalization();
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
+                            } else {
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, newLocalization);
+                            }
+
+                        } else if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(localizationCode)) {
+                            // CHANGE THE RETAILER
+                            Retailer newRetailer = marketArea.getRetailer(retailerCode);
+                            if (newRetailer == null) {
+                                Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
+                            } else {
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, newRetailer);
+                            }
+                            
+                        } else if (currency != null && !currency.getCode().toString().equalsIgnoreCase(currencyCode)) {
+                            // CHANGE THE CURRENCY
+                            CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
+                            if (newCurrency == null) {
+                                CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
+                            } else {
+                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, newCurrency);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // THEME
+        final MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
+        String themeFolder = "default";
+        if (StringUtils.isNotEmpty(marketArea.getTheme())) {
+            themeFolder = marketArea.getTheme();
+        }
+        updateCurrentTheme(request, themeFolder);
+
+        // SAVE THE ENGINE SESSION
+        updateCurrentEcoSession(request, engineEcoSession);
+    }
+
+    /**
+    * 
+    */
+    public void handleBackofficeUrlParameters(final HttpServletRequest request) throws Exception {
+        UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
+        String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
+        String marketCode = urlParameterMapping.getMarketCode();
+        String marketAreaCode = urlParameterMapping.getMarketAreaCode();
+        String localizationCode = urlParameterMapping.getLocalizationCode();
+        String retailerCode = urlParameterMapping.getRetailerCode();
+        String currencyCode = urlParameterMapping.getCurrencyCode();
+
+        EngineBoSession engineBoSession = getCurrentBoSession(request);
+
+        MarketPlace currentMarketPlace = engineBoSession.getCurrentMarketPlace();
+        if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
+            if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
+                // RESET ALL SESSION AND CHANGE THE MARKET PLACE
+                initBoSession(request);
+                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
+                if (newMarketPlace == null) {
+                    // INIT A DEFAULT MARKET PLACE
+                    initDefaultBoMarketPlace(request);
+                } else {
+                    // MARKET PLACE
+                    engineBoSession = (EngineBoSession) setSessionMarketPlace(engineBoSession, newMarketPlace);
+                    updateCurrentTheme(request, newMarketPlace.getTheme());
+
+                    // MARKET
+                    Market market = newMarketPlace.getMarket(marketCode);
+                    if (market == null) {
+                        market = newMarketPlace.getDefaultMarket();
+                    }
+                    engineBoSession = (EngineBoSession) setSessionMarket(engineBoSession, market);
+
+                    // MARKET AREA
+                    MarketArea marketArea = market.getMarketArea(marketAreaCode);
+                    if (marketArea == null) {
+                        marketArea = market.getDefaultMarketArea();
+                    }
+                    engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
+
+                    // LOCALE
+                    Localization localization = marketArea.getLocalization(localizationCode);
+                    if (localization == null) {
+                        Localization defaultLocalization = marketArea.getDefaultLocalization();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                    }
+
+                    // RETAILER
+                    Retailer retailer = marketArea.getRetailer(localizationCode);
+                    if (retailer == null) {
+                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
+                    }
+                    
+                    // CURRENCY
+                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                    if (currency == null) {
+                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, defaultCurrency);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, currency);
+                    }
+
+                }
+
+            } else {
+                Market market = engineBoSession.getCurrentMarket();
+                if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
+
+                    // CHANGE THE MARKET
+                    Market newMarket = marketService.getMarketByCode(marketCode);
+                    if (newMarket == null) {
+                        newMarket = currentMarketPlace.getDefaultMarket();
+                    }
+                    engineBoSession = (EngineBoSession) setSessionMarket(engineBoSession, market);
+                    updateCurrentTheme(request, newMarket.getTheme());
+
+                    // MARKET AREA
+                    MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
+                    if (marketArea == null) {
+                        marketArea = market.getDefaultMarketArea();
+                    }
+                    engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
+
+                    // LOCALE
+                    Localization localization = marketArea.getLocalization(localizationCode);
+                    if (localization == null) {
+                        Localization defaultLocalization = marketArea.getDefaultLocalization();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                    }
+
+                    // RETAILER
+                    Retailer retailer = marketArea.getRetailer(retailerCode);
+                    if (retailer == null) {
+                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
+                    }
+                    
+                    // CURRENCY
+                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                    if (currency == null) {
+                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, defaultCurrency);
+                    } else {
+                        engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, currency);
+                    }
+
+                } else {
+                    MarketArea marketArea = engineBoSession.getCurrentMarketArea();
+                    if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
+
+                        // CHANGE THE MARKET AREA
+                        MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
+                        if (newMarketArea == null) {
+                            newMarketArea = market.getDefaultMarketArea();
+                        }
+                        engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
+                        updateCurrentTheme(request, newMarketArea.getTheme());
+
+                        // LOCALE
+                        Localization localization = newMarketArea.getLocalization(localizationCode);
+                        if (localization == null) {
+                            Localization defaultLocalization = marketArea.getDefaultLocalization();
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
+                        } else {
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
+                        }
+
+                        // RETAILER
+                        Retailer retailer = marketArea.getRetailer(retailerCode);
+                        if (retailer == null) {
+                            Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
+                        } else {
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
+                        }
+                        
+                        // CURRENCY
+                        CurrencyReferential currency = marketArea.getCurrency(currencyCode);
+                        if (currency == null) {
+                            CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, defaultCurrency);
+                        } else {
+                            engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, currency);
+                        }
+
+                    } else {
+                        Localization localization = engineBoSession.getCurrentMarketAreaLocalization();
+                        Retailer retailer = engineBoSession.getCurrentMarketAreaRetailer();
+                        CurrencyReferential currency = engineBoSession.getCurrentMarketAreaCurrency();
+                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(localizationCode)) {
+                            // CHANGE THE LOCALE
+                            Localization newLocalization = marketArea.getLocalization(localizationCode);
+                            if (newLocalization == null) {
+                                Localization defaultLocalization = marketArea.getDefaultLocalization();
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
+                            } else {
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, newLocalization);
+                            }
+
+                        } else if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(localizationCode)) {
+                            // CHANGE THE RETAILER
+                            Retailer newRetailer = marketArea.getRetailer(retailerCode);
+                            if (newRetailer == null) {
+                                Retailer defaultRetailer = marketArea.getDefaultRetailer();
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
+                            } else {
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, newRetailer);
+                            }
+                            
+                        } else if (currency != null && !currency.getCode().toString().equalsIgnoreCase(currencyCode)) {
+                            // CHANGE THE CURRENCY
+                            CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
+                            if (newCurrency == null) {
+                                CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, defaultCurrency);
+                            } else {
+                                engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, newCurrency);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // CHECK BACKOFFICE LANGUAGES
+        String backofficeLocalizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
+        // LOCALIZATIONS
+        Company company = getCurrentCompany(request);
+        if (company != null) {
+            Localization localization = company.getLocalization(backofficeLocalizationCode);
+            if (localization != null) {
+                engineBoSession.setCurrentBackofficeLocalization(localization);
+            }
+        }
+
+        // SAVE THE ENGINE SESSION
+        updateCurrentBoSession(request, engineBoSession);
+    }
+   
+    /**
 	 *
 	 */
     public boolean isLocalHostMode(final HttpServletRequest request) throws Exception {
@@ -514,7 +932,7 @@ public class RequestUtilImpl implements RequestUtil {
             } else {
                 logger.warn("This engine setting is request, but doesn't exist: " + engineSetting.getCode() + "/" + contextValue);
             }
-            String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(request);
+            String currentThemeResourcePrefixPath = prefixPath + getCurrentTheme(requestData);
             if (currentThemeResourcePrefixPath.endsWith("/")) {
                 currentThemeResourcePrefixPath = currentThemeResourcePrefixPath.substring(0, currentThemeResourcePrefixPath.length() - 1);
             }
@@ -546,7 +964,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public String getCurrentVelocityWebPrefix(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        String velocityPath = "/" + getCurrentTheme(request) + "/www/" + getCurrentDevice(requestData) + "/content/";
+        String velocityPath = "/" + getCurrentTheme(requestData) + "/www/" + getCurrentDevice(requestData) + "/content/";
         return velocityPath;
     }
 
@@ -555,7 +973,7 @@ public class RequestUtilImpl implements RequestUtil {
      */
     public String getCurrentVelocityEmailPrefix(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
-        String velocityPath = "/" + getCurrentTheme(request) + "/email/";
+        String velocityPath = "/" + getCurrentTheme(requestData) + "/email/";
         return velocityPath;
     }
 
@@ -811,9 +1229,23 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    protected CurrencyReferential getCurrentMarketAreaCurrency(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        return engineEcoSession.getCurrentMarketAreaCurrency();
+    protected CurrencyReferential getCurrentMarketAreaCurrency(final RequestData requestData) throws Exception {
+        CurrencyReferential currencyReferential = null;
+        final HttpServletRequest request = requestData.getRequest();
+        if (requestData.isBackoffice()) {
+            EngineBoSession engineBoSession = getCurrentBoSession(request);
+            currencyReferential = engineBoSession.getCurrentMarketAreaCurrency();
+            if (currencyReferential == null) {
+                initDefaultBoMarketPlace(request);
+            }
+        } else {
+            EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+            currencyReferential = engineEcoSession.getCurrentMarketAreaCurrency();
+            if (currencyReferential == null) {
+                initEcoMarketPlace(request);
+            }
+        }
+        return currencyReferential;
     }
 
     /**
@@ -924,222 +1356,7 @@ public class RequestUtilImpl implements RequestUtil {
         updateCurrentEcoSession(request, engineEcoSession);
     }
 
-    /**
-	  * 
-	  */
-    public void handleFrontofficeUrlParameters(final HttpServletRequest request) throws Exception {
-        UrlParameterMapping urlParameterMapping = handleUrlParameters(request);
-        String marketPlaceCode = urlParameterMapping.getMarketPlaceCode();
-        String marketCode = urlParameterMapping.getMarketCode();
-        String marketAreaCode = urlParameterMapping.getMarketAreaCode();
-        String localizationCode = urlParameterMapping.getLocalizationCode();
-        String retailerCode = urlParameterMapping.getRetailerCode();
-        String currencyCode = urlParameterMapping.getCurrencyCode();
 
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-
-        engineEcoSession = checkEngineEcoSession(request);
-        
-        if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
-            MarketPlace currentMarketPlace = engineEcoSession.getCurrentMarketPlace();
-            if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
-                // RESET ALL SESSION AND CHANGE THE MARKET PLACE
-                initEcoSession(request);
-                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
-                if (newMarketPlace == null) {
-                    // INIT A DEFAULT MARKET PLACE
-                    initEcoMarketPlace(request);
-                } else {
-                    // MARKET PLACE
-                    engineEcoSession = (EngineEcoSession) setSessionMarketPlace(engineEcoSession, newMarketPlace);
-                    updateCurrentTheme(request, newMarketPlace.getTheme());
-
-                    // MARKET
-                    Market market = newMarketPlace.getMarket(marketCode);
-                    if (market == null) {
-                        market = newMarketPlace.getDefaultMarket();
-                    }
-                    engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
-
-                    // MARKET AREA
-                    MarketArea marketArea = market.getMarketArea(marketAreaCode);
-                    if (marketArea == null) {
-                        marketArea = market.getDefaultMarketArea();
-                    }
-                    engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
-
-                    // LOCALE
-                    Localization localization = marketArea.getLocalization(localizationCode);
-                    if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
-                    }
-
-                    // RETAILER
-                    Retailer retailer = marketArea.getRetailer(retailerCode);
-                    if (retailer == null) {
-                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
-                    }
-                    
-                    // CURRENCY
-                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
-                    if (currency == null) {
-                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
-                    }
-                }
-
-            } else {
-                Market market = engineEcoSession.getCurrentMarket();
-                if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
-
-                    // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode);
-                    if (newMarket == null) {
-                        newMarket = currentMarketPlace.getDefaultMarket();
-                    }
-                    engineEcoSession = (EngineEcoSession) setSessionMarket(engineEcoSession, market);
-                    updateCurrentTheme(request, newMarket.getTheme());
-
-                    // MARKET AREA
-                    MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
-                    if (marketArea == null) {
-                        marketArea = market.getDefaultMarketArea();
-                    }
-                    engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
-
-                    // LOCALE
-                    Localization localization = marketArea.getLocalization(localizationCode);
-                    if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
-                    }
-
-                    // RETAILER
-                    Retailer retailer = marketArea.getRetailer(retailerCode);
-                    if (retailer == null) {
-                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
-                    }
-                    
-                    // CURRENCY
-                    CurrencyReferential currency = marketArea.getCurrency(currencyCode);
-                    if (currency == null) {
-                        CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
-                    } else {
-                        engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
-                    }
-                    
-                } else {
-                    MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
-                    if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
-
-                        // CHANGE THE MARKET AREA
-                        MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
-                        if (newMarketArea == null) {
-                            newMarketArea = market.getDefaultMarketArea();
-                        }
-                        engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
-                        updateCurrentTheme(request, newMarketArea.getTheme());
-
-                        // LOCALE
-                        Localization localization = newMarketArea.getLocalization(localizationCode);
-                        if (localization == null) {
-                            Localization defaultLocalization = marketArea.getDefaultLocalization();
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                        } else {
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
-                        }
-
-                        // RETAILER
-                        Retailer retailer = marketArea.getRetailer(retailerCode);
-                        if (retailer == null) {
-                            Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
-                        } else {
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, retailer);
-                        }
-                        
-                        // CURRENCY
-                        CurrencyReferential currency = marketArea.getCurrency(currencyCode);
-                        if (currency == null) {
-                            CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
-                        } else {
-                            engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, currency);
-                        }
-                        
-                    } else {
-                        Localization localization = engineEcoSession.getCurrentMarketAreaLocalization();
-                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(localizationCode)) {
-                            // CHANGE THE LOCALE
-                            Localization newLocalization = marketArea.getLocalization(localizationCode);
-                            if (newLocalization == null) {
-                                Localization defaultLocalization = marketArea.getDefaultLocalization();
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, defaultLocalization);
-                            } else {
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, newLocalization);
-                            }
-                        }
-                        
-                        Retailer retailer = engineEcoSession.getCurrentMarketAreaRetailer();
-                        if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(retailerCode)) {
-                            // CHANGE THE RETAILER
-                            Retailer newRetailer = marketArea.getRetailer(retailerCode);
-                            if (newRetailer == null) {
-                                Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, defaultRetailer);
-                            } else {
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaRetailer(engineEcoSession, newRetailer);
-                            }
-                            
-                        } 
-                        
-                        CurrencyReferential currency = engineEcoSession.getCurrentMarketAreaCurrency();
-                        if (currency != null && !currency.getCode().toString().equalsIgnoreCase(currencyCode)) {
-                            // CHANGE THE CURRENCY
-                            CurrencyReferential newCurrency = marketArea.getCurrency(currencyCode);
-                            if (newCurrency == null) {
-                                CurrencyReferential defaultCurrency = marketArea.getDefaultCurrency();
-                                if(engineEcoSession.getCart() != null){
-                                    engineEcoSession.getCart().setCurrency(defaultCurrency);
-                                }
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, defaultCurrency);
-                            } else {
-                                if(engineEcoSession.getCart() != null){
-                                    engineEcoSession.getCart().setCurrency(newCurrency);
-                                }
-                                engineEcoSession = (EngineEcoSession) setSessionMarketAreaCurrency(engineEcoSession, newCurrency);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // THEME
-        final MarketArea marketArea = engineEcoSession.getCurrentMarketArea();
-        String themeFolder = "default";
-        if (StringUtils.isNotEmpty(marketArea.getTheme())) {
-            themeFolder = marketArea.getTheme();
-        }
-        updateCurrentTheme(request, themeFolder);
-
-        // SAVE THE ENGINE SESSION
-        updateCurrentEcoSession(request, engineEcoSession);
-    }
 
     /**
      * 
@@ -1188,195 +1405,20 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     /**
-	  * 
-	  */
-    public void handleBackofficeUrlParameters(final HttpServletRequest request) throws Exception {
-        String marketPlaceCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_PLACE_CODE);
-        String marketCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_CODE);
-        String marketAreaCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_CODE);
-        String marketAreaLanguageCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_LANGUAGE);
-        String marketAreaRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE);
-
-        EngineBoSession engineBoSession = getCurrentBoSession(request);
-
-        MarketPlace currentMarketPlace = engineBoSession.getCurrentMarketPlace();
-        if (StringUtils.isNotEmpty(marketPlaceCode) 
-                && StringUtils.isNotEmpty(marketCode) 
-                && StringUtils.isNotEmpty(marketAreaCode) 
-                && StringUtils.isNotEmpty(marketAreaLanguageCode)) {
-            if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {
-                // RESET ALL SESSION AND CHANGE THE MARKET PLACE
-                initBoSession(request);
-                MarketPlace newMarketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
-                if (newMarketPlace == null) {
-                    // INIT A DEFAULT MARKET PLACE
-                    initDefaultBoMarketPlace(request);
-                } else {
-                    // MARKET PLACE
-                    engineBoSession = (EngineBoSession) setSessionMarketPlace(engineBoSession, newMarketPlace);
-                    updateCurrentTheme(request, newMarketPlace.getTheme());
-
-                    // MARKET
-                    Market market = newMarketPlace.getMarket(marketCode);
-                    if (market == null) {
-                        market = newMarketPlace.getDefaultMarket();
-                    }
-                    engineBoSession = (EngineBoSession) setSessionMarket(engineBoSession, market);
-
-                    // MARKET AREA
-                    MarketArea marketArea = market.getMarketArea(marketAreaCode);
-                    if (marketArea == null) {
-                        marketArea = market.getDefaultMarketArea();
-                    }
-                    engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
-
-                    // LOCALE
-                    Localization localization = marketArea.getLocalization(marketAreaLanguageCode);
-                    if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
-                    }
-
-                    // RETAILER
-                    Retailer retailer = marketArea.getRetailer(marketAreaRetailerCode);
-                    if (retailer == null) {
-                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
-                    }
-                }
-
-            } else {
-                Market market = engineBoSession.getCurrentMarket();
-                if (market != null && !market.getCode().equalsIgnoreCase(marketCode)) {
-
-                    // CHANGE THE MARKET
-                    Market newMarket = marketService.getMarketByCode(marketCode);
-                    if (newMarket == null) {
-                        newMarket = currentMarketPlace.getDefaultMarket();
-                    }
-                    engineBoSession = (EngineBoSession) setSessionMarket(engineBoSession, market);
-                    updateCurrentTheme(request, newMarket.getTheme());
-
-                    // MARKET AREA
-                    MarketArea marketArea = newMarket.getMarketArea(marketAreaCode);
-                    if (marketArea == null) {
-                        marketArea = market.getDefaultMarketArea();
-                    }
-                    engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
-
-                    // LOCALE
-                    Localization localization = marketArea.getLocalization(marketAreaLanguageCode);
-                    if (localization == null) {
-                        Localization defaultLocalization = marketArea.getDefaultLocalization();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
-                    }
-
-                    // RETAILER
-                    Retailer retailer = marketArea.getRetailer(marketAreaRetailerCode);
-                    if (retailer == null) {
-                        Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
-                    } else {
-                        engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
-                    }
-                    
-                } else {
-                    MarketArea marketArea = engineBoSession.getCurrentMarketArea();
-                    if (marketArea != null && !marketArea.getCode().equalsIgnoreCase(marketAreaCode)) {
-
-                        // CHANGE THE MARKET AREA
-                        MarketArea newMarketArea = market.getMarketArea(marketAreaCode);
-                        if (newMarketArea == null) {
-                            newMarketArea = market.getDefaultMarketArea();
-                        }
-                        engineBoSession = (EngineBoSession) setSessionMarketArea(engineBoSession, marketArea);
-                        updateCurrentTheme(request, newMarketArea.getTheme());
-
-                        // LOCALE
-                        Localization localization = newMarketArea.getLocalization(marketAreaLanguageCode);
-                        if (localization == null) {
-                            Localization defaultLocalization = marketArea.getDefaultLocalization();
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                        } else {
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, localization);
-                        }
-
-                        // RETAILER
-                        Retailer retailer = marketArea.getRetailer(marketAreaRetailerCode);
-                        if (retailer == null) {
-                            Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
-                        } else {
-                            engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
-                        }
-                        
-                    } else {
-                        Localization localization = engineBoSession.getCurrentMarketAreaLocalization();
-                        if (localization != null && !localization.getLocale().toString().equalsIgnoreCase(marketAreaLanguageCode)) {
-                            // CHANGE THE LOCALE
-                            Localization newLocalization = marketArea.getLocalization(marketAreaLanguageCode);
-                            if (newLocalization == null) {
-                                Localization defaultLocalization = marketArea.getDefaultLocalization();
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, defaultLocalization);
-                            } else {
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaLocalization(engineBoSession, newLocalization);
-                            }
-
-                            // RETAILER
-                            Retailer retailer = marketArea.getRetailer(marketAreaRetailerCode);
-                            if (retailer == null) {
-                                Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
-                            } else {
-                                engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
-                            }
-
-                        } else {
-                            Retailer retailer = engineBoSession.getCurrentMarketAreaRetailer();
-                            if (retailer != null && !retailer.getCode().toString().equalsIgnoreCase(marketAreaRetailerCode)) {
-                                // CHANGE THE RETAILER
-                                Retailer newRetailer = marketArea.getRetailer(marketAreaRetailerCode);
-                                if (newRetailer == null) {
-                                    Retailer defaultRetailer = marketArea.getDefaultRetailer();
-                                    engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, defaultRetailer);
-                                } else {
-                                    engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, newRetailer);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // CHECK BACKOFFICE LANGUAGES
-        String localizationCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_LOCALE_CODE);
-        // LOCALIZATIONS
-        Company company = getCurrentCompany(request);
-        if (company != null) {
-            Localization localization = company.getLocalization(localizationCode);
-            if (localization != null) {
-                engineBoSession.setCurrentBackofficeLocalization(localization);
-            }
-        }
-
-        // SAVE THE ENGINE SESSION
-        updateCurrentBoSession(request, engineBoSession);
-    }
-
-    /**
      * 
      */
-    @Override
-    public String getCurrentTheme(final HttpServletRequest request) throws Exception {
-        EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-        String currenTheme = engineEcoSession.getTheme();
+    public String getCurrentTheme(final RequestData requestData) throws Exception {
+        String currenTheme = "";
+        final HttpServletRequest request = requestData.getRequest();
+        if (requestData.isBackoffice()) {
+            EngineBoSession engineBoSession = getCurrentBoSession(request);
+            currenTheme = engineBoSession.getTheme();
+        } else {
+            EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
+            currenTheme = engineEcoSession.getTheme();
+            
+        }
+        
         // SANITY CHECK
         if (StringUtils.isEmpty(currenTheme)) {
             return "default";
@@ -1387,7 +1429,6 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    @Override
     public void updateCurrentTheme(final HttpServletRequest request, final String theme) throws Exception {
         final EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
         if (StringUtils.isNotEmpty(theme)) {
@@ -1399,7 +1440,6 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    @Override
     public String getCurrentDevice(final RequestData requestData) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         String currenDevice = "default";
@@ -1420,7 +1460,6 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    @Override
     public void updateCurrentDevice(final RequestData requestData, final String device) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         if (requestData.isBackoffice()) {
@@ -1456,35 +1495,37 @@ public class RequestUtilImpl implements RequestUtil {
 
         requestData.setVelocityEmailPrefix(getCurrentVelocityEmailPrefix(requestData));
 
-        if (!requestData.isBackoffice()) {
-            checkEngineEcoSession(request);
-        }
-
-        requestData.setGeolocData(getCurrentGeolocData(request));
-
-        Customer customer = getCurrentCustomer(request);
-        if (customer != null) {
-            requestData.setCustomer(customer);
-        }
-        
-        User user = getCurrentUser(request);
-        if (user != null) {
-            requestData.setUser(user);
-        }
-
-        Company company = getCurrentCompany(request);
-        if (company != null) {
-            requestData.setCompany(company);
-        }
-        
         requestData.setMarketPlace(getCurrentMarketPlace(requestData));
         requestData.setMarket(getCurrentMarket(requestData));
         requestData.setMarketArea(getCurrentMarketArea(requestData));
         requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(requestData));
         requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(requestData));
-        requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(request));
+        requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(requestData));
 
-        requestData.setCart(getCurrentCart(request));
+        // SPECIFIC BACKOFFICE
+        if (requestData.isBackoffice()) {
+            User user = getCurrentUser(request);
+            if (user != null) {
+                requestData.setUser(user);
+            }
+
+            Company company = getCurrentCompany(request);
+            if (company != null) {
+                requestData.setCompany(company);
+            }
+
+        } else {
+            // SPECIFIC FRONTOFFICE
+            checkEngineEcoSession(request);
+            requestData.setGeolocData(getCurrentGeolocData(request));
+            
+            Customer customer = getCurrentCustomer(request);
+            if (customer != null) {
+                requestData.setCustomer(customer);
+            }
+            
+            requestData.setCart(getCurrentCart(request));
+        }
 
         return requestData;
     }
@@ -1696,6 +1737,9 @@ public class RequestUtilImpl implements RequestUtil {
 
         Retailer retailer = marketArea.getDefaultRetailer();
         engineBoSession = (EngineBoSession) setSessionMarketAreaRetailer(engineBoSession, retailer);
+
+        final CurrencyReferential currency = marketArea.getDefaultCurrency();
+        engineBoSession = (EngineBoSession) setSessionMarketAreaCurrency(engineBoSession, currency);
 
         updateCurrentBoSession(request, engineBoSession);
     }
