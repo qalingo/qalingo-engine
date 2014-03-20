@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
@@ -17,6 +19,7 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
@@ -36,15 +39,20 @@ public class StoreController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
+	
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
 		Store store = retailerService.getStoreByCode(storeCode);
-		
+		final List<Store> stores = retailerService.findStores();
+		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestData, stores);
+		List<StoreViewBean> otherStores = storeLocator.getStores();
 		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+		otherStores.remove(storeViewBean);
 		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
+		model.addAttribute("otherStores",otherStores);
 		
 		model.addAttribute("withMap", true);
 		

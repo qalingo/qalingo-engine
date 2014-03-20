@@ -271,6 +271,9 @@ INSERT INTO teco_store
 --(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(210, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
+update teco_store 
+set additional_information = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+
 
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)
@@ -344,66 +347,201 @@ INSERT INTO teco_asset
  VALUES 
 (1011, 'image ...', 'IMG_STORE10_', 'store-2-img.jpg', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
 (1012, 'image ...', 'ICON_STORE10', 'store-2-img-icon.jpg', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
+(1013, 'image slide show', 'SLIDE_STORE101', 'store-full1.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
+(1014, 'image slide show', 'SLIDE_STORE102', 'store-full2.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
+(1015, 'image slide show', 'SLIDE_STORE103', 'store-full3.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
+(1016, 'image slide show', 'SLIDE_STORE104', 'store-full4.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
+(1017, 'image slide show', 'SLIDE_STORE105', 'store-full5.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
 
 (1021, 'image ...', 'IMG_STORE20_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
 (1022, 'image ...', 'ICON_STORE20', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE'),
+(1023, 'image slide show', 'SLIDE_STORE203', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1024, 'image slide show', 'SLIDE_STORE204', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1025, 'image slide show', 'SLIDE_STORE205', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1026, 'image slide show', 'SLIDE_STORE206', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1027, 'image slide show', 'SLIDE_STORE207', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1028, 'image slide show.', 'SLIDE_STORE208', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+(1029, 'image slide show', 'SLIDE_STORE209', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
+
 
 (1031, 'image ...', 'IMG_STORE30_', '278-west-hillcrest.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 30, 'STORE'), 
 (1032, 'image ...', 'ICON_STORE30', '278-west-hillcrest-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 30, 'STORE'),
+(1033, 'image slide show', 'SLIDE_STORE303', 'store-full2.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
+(1034, 'image slide show', 'ICON_STORE304', 'store-full7.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
+(1035, 'image slide show', 'SLIDE_STORE305', 'store-full5.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
+(1036, 'image slide show', 'ICON_STORE306', 'store-full4.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
+(1037, 'image slide show', 'SLIDE_STORE307', 'store-full3.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
+(1038, 'image slide show', 'ICON_STORE308', 'store-full1.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
 
 (1041, 'image ...', 'IMG_STORE40_', 'westlake-blvd.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 40, 'STORE'), 
 (1042, 'image ...', 'ICON_STORE40', 'westlake-blvd-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 40, 'STORE'),
+(1043, 'image slide show', 'SLIDE_STORE403', 'store-full2.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
+(1044, 'image slide show', 'SLIDE_STORE404', 'store-full3.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
+(1045, 'image slide show', 'SLIDE_STORE405', 'store-full1.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
+(1046, 'image slide show', 'SLIDE_STORE406', 'store-full4.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
+(1047, 'image slide show', 'SLIDE_STORE407', 'store-full5.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
+(1048, 'image slide show', 'SLIDE_STORE408', 'store-full7.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
 
 (1051, 'image ...', 'IMG_STORE50_', 'store-2-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 50, 'STORE'), 
 (1052, 'image ...', 'ICON_STORE50', 'store-2-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 50, 'STORE'),
+(1053, 'image slide show', 'ICON_STORE503', 'store-full2', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
+(1054, 'image ...', 'ICON_STORE504', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
+(1055, 'image ...', 'ICON_STORE505', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
+(1056, 'image ...', 'ICON_STORE506', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
+(1057, 'image ...', 'ICON_STORE507', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
+(1058, 'image ...', 'ICON_STORE508', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
 
 (1061, 'image ...', 'IMG_STORE60_', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 60, 'STORE'), 
 (1062, 'image ...', 'ICON_STORE60', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 60, 'STORE'),
+(1063, 'image slide show', 'ICON_STORE603', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
+(1064, 'image slide show', 'ICON_STORE604', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
+(1065, 'image slide show', 'ICON_STORE605', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
+(1066, 'image slide show', 'ICON_STORE606', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
+(1067, 'image slide show', 'ICON_STORE607', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
+
 
 (1071, 'image ...', 'IMG_STORE70_', 'san-vicente-boulevard.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 70, 'STORE'), 
 (1072, 'image ...', 'ICON_STORE70', 'san-vicente-boulevard-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 70, 'STORE'),
+(1073, 'image slide show', 'ICON_STORE703', 'store-full6.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+(1074, 'image slide show', 'ICON_STORE704', 'store-full7.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+(1075, 'image slide show', 'ICON_STORE705', 'store-full5.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+(1076, 'image slide show', 'ICON_STORE706', 'store-full3.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+(1077, 'image slide show', 'ICON_STORE707', 'store-full2.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+(1078, 'image slide show', 'ICON_STORE708', 'store-full1.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
+
 
 (1081, 'image ...', 'IMG_STORE80_', 'store-2-img.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 80, 'STORE'), 
 (1082, 'image ...', 'ICON_STORE80', 'store-2-img-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 80, 'STORE'),
+(1083, 'image slide show', 'ICON_STORE803', 'store-full1.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+(1084, 'image slide show', 'ICON_STORE804', 'store-full2.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+(1085, 'image slide show', 'ICON_STORE805', 'store-full3.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+(1086, 'image slide show', 'ICON_STORE806', 'store-full4.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+(1087, 'image slide show', 'ICON_STORE807', 'store-full5.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+(1088, 'image slide show', 'ICON_STORE808', 'store-full6.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
+
 
 (1091, 'image ...', 'IMG_STORE90_', 'exposition-blvd.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 90, 'STORE'), 
 (1092, 'image ...', 'ICON_STORE90', 'exposition-blvd-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 90, 'STORE'),
+(1093, 'image slide show', 'ICON_STORE903', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+(1094, 'image slide show', 'ICON_STORE904', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+(1095, 'image slide show', 'ICON_STORE905', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+(1096, 'image slide show', 'ICON_STORE906', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+(1097, 'image slide show', 'ICON_STORE907', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+(1098, 'image slide show', 'ICON_STORE908', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
+
 
 (10101, 'image ...', 'IMG_STORE100_', 'le-tropic-cafe.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 100, 'STORE'), 
 (10102, 'image ...', 'ICON_STORE100', 'le-tropic-cafe-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 100, 'STORE'),
+(10103, 'image slide show', 'ICON_STORE1003', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
+(10104, 'image slide show', 'ICON_STORE1004', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
+(10105, 'image slide show', 'ICON_STORE1005', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
+(10106, 'image slide show', 'ICON_STORE1006', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
+(10107, 'image slide show', 'ICON_STORE1007', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
+(10108, 'image slide show', 'ICON_STORE1008', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
 
 (10111, 'image ...', 'IMG_STORE110_', 'le-fouquets.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 110, 'STORE'), 
 (10112, 'image ...', 'ICON_STORE110', 'le-fouquets-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 110, 'STORE'),
+(10113, 'image slide show', 'ICON_STORE1103', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+(10114, 'image slide show', 'ICON_STORE1104', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+(10115, 'image slide show', 'ICON_STORE1105', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+(10116, 'image slide show', 'ICON_STORE1106', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+(10117, 'image slide show', 'ICON_STORE1107', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+(10118, 'image slide show', 'ICON_STORE1108', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
+
 
 (10121, 'image ...', 'IMG_STORE120_', 'espressamente-france.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 120, 'STORE'), 
 (10122, 'image ...', 'ICON_STORE120', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 120, 'STORE'),
+(10123, 'image slide show', 'ICON_STORE1203', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+(10124, 'image slide show', 'ICON_STORE1204', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+(10125, 'image slide show', 'ICON_STORE1205', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+(10126, 'image slide show', 'ICON_STORE1206', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+(10127, 'image slide show', 'ICON_STORE1207', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+(10128, 'image slide show', 'ICON_STORE1208', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
+
 
 (10131, 'image ...', 'IMG_STORE130_', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 130, 'STORE'), 
 (10132, 'image ...', 'ICON_STORE130', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 130, 'STORE'),
+(10133, 'image slide show', 'ICON_STORE1303', 'store-full1.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10134, 'image slide show', 'ICON_STORE1304', 'store-full2.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10135, 'image slide show', 'ICON_STORE1305', 'store-full3.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10136, 'image slide show', 'ICON_STORE1306', 'store-full4.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10137, 'image slide show', 'ICON_STORE1307', 'store-full5.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10138, 'image slide show', 'ICON_STORE1308', 'store-full6.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
+(10139, 'image slide show', 'ICON_STORE1309', 'store-full7.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
 
 (10141, 'image ...', 'IMG_STORE140_', 'store-2-img.jpg', 0, 'image 1 store 140', 1, 'PACKSHOT', 'SMALL', 1, 140, 'STORE'), 
 (10142, 'image ...', 'ICON_STORE140', 'store-2-img-icon.jpg', 0, 'icon 1 store 140', 1, 'ICON', null, 1, 140, 'STORE'),
+(10143, 'image slide show', 'ICON_STORE1403', 'store-full7.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
+(10144, 'image slide show', 'ICON_STORE1404', 'store-full6.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
+(10145, 'image slide show', 'ICON_STORE1405', 'store-full5.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
+(10146, 'image slide show', 'ICON_STORE1406', 'store-full4.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
+(10147, 'image slide show', 'ICON_STORE1407', 'store-full3.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
+(10148, 'image slide show', 'ICON_STORE1408', 'store-full2.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
 
 (10151, 'image ...', 'IMG_STORE150_', 'store-2-img.jpg', 0, 'image 1 store 150', 1, 'PACKSHOT', 'SMALL', 1, 150, 'STORE'), 
 (10152, 'image ...', 'ICON_STORE150', 'store-2-img-icon.jpg', 0, 'icon 1 store 150', 1, 'ICON', null, 1, 150, 'STORE'),
+(10153, 'image slide show', 'ICON_STORE1503', 'store-full1.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
+(10154, 'image slide show', 'ICON_STORE1504', 'store-full2.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
+(10155, 'image slide show', 'ICON_STORE1505', 'store-full3.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
+(10156, 'image slide show', 'ICON_STORE1506', 'store-full4.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
+(10157, 'image slide show', 'ICON_STORE1507', 'store-full5.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
+(10158, 'image slide show', 'ICON_STORE1508', 'store-full6.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
 
 (10161, 'image ...', 'IMG_STORE160_', 'store-2-img.jpg', 0, 'image 1 store 160', 1, 'PACKSHOT', 'SMALL', 1, 160, 'STORE'), 
 (10162, 'image ...', 'ICON_STORE160', 'store-2-img-icon.jpg', 0, 'icon 1 store 160', 1, 'ICON', null, 1, 160, 'STORE'),
+(10163, 'image slide show', 'ICON_STORE1603', 'store-full6.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10164, 'image slide show', 'ICON_STORE1604', 'store-full1.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10165, 'image slide show', 'ICON_STORE1605', 'store-full2.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10166, 'image slide show', 'ICON_STORE1606', 'store-full3.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10167, 'image slide show', 'ICON_STORE1607', 'store-full4.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10168, 'image slide show', 'ICON_STORE1608', 'store-full5.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
+(10169, 'image slide show', 'ICON_STORE1609', 'store-full7.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
 
 (10171, 'image ...', 'IMG_STORE170_', 'store-2-img.jpg', 0, 'image 1 store 170', 1, 'PACKSHOT', 'SMALL', 1, 170, 'STORE'), 
 (10172, 'image ...', 'ICON_STORE170', 'store-2-img-icon.jpg', 0, 'icon 1 store 170', 1, 'ICON', null, 1, 170, 'STORE'),
+(10173, 'image slide show', 'ICON_STORE1703', 'store-full1.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
+(10174, 'image slide show', 'ICON_STORE1704', 'store-full7.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
+(10175, 'image slide show', 'ICON_STORE1705', 'store-full3.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
+(10176, 'image slide show', 'ICON_STORE1706', 'store-full4.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
+(10177, 'image slide show', 'ICON_STORE1707', 'store-full5.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
+(10178, 'image slide show', 'ICON_STORE1708', 'store-full6.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
 
 (10181, 'image ...', 'IMG_STORE180_', 'store-2-img.jpg', 0, 'image 1 store 180', 1, 'PACKSHOT', 'SMALL', 1, 180, 'STORE'), 
 (10182, 'image ...', 'ICON_STORE180', 'store-2-img-icon.jpg', 0, 'icon 1 store 180', 1, 'ICON', null, 1, 180, 'STORE'),
+(10183, 'image slide show', 'ICON_STORE1803', 'store-full6.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
+(10184, 'image slide show', 'ICON_STORE1804', 'store-full1.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
+(10185, 'image slide show', 'ICON_STORE1805', 'store-full7.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
+(10186, 'image slide show', 'ICON_STORE1806', 'store-full2.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
+(10187, 'image slide show', 'ICON_STORE1807', 'store-full3.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
+(10188, 'image slide show', 'ICON_STORE1808', 'store-full4.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
 
 (10191, 'image ...', 'IMG_STORE190_', 'store-2-img.jpg', 0, 'image 1 store 190', 1, 'PACKSHOT', 'SMALL', 1, 190, 'STORE'), 
 (10192, 'image ...', 'ICON_STORE190', 'store-2-img-icon.jpg', 0, 'icon 1 store 190', 1, 'ICON', null, 1, 190, 'STORE'),
+(10193, 'image slide show', 'ICON_STORE1903', 'store-full4.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
+(10194, 'image slide show', 'ICON_STORE1904', 'store-full1.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
+(10195, 'image slide show', 'ICON_STORE1905', 'store-full2.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
+(10196, 'image slide show', 'ICON_STORE1906', 'store-full3.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
+(10197, 'image slide show', 'ICON_STORE1907', 'store-full7.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
+(10198, 'image slide show', 'ICON_STORE1908', 'store-full5.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
 
 (10201, 'image ...', 'IMG_STORE200_', 'store-2-img.jpg', 0, 'image 1 store 200', 1, 'PACKSHOT', 'SMALL', 1, 200, 'STORE'), 
 (10202, 'image ...', 'ICON_STORE200', 'store-2-img-icon.jpg', 0, 'icon 1 store 200', 1, 'ICON', null, 1, 200, 'STORE'),
+(10203, 'image slide show', 'ICON_STORE2003', 'store-full5.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10204, 'image slide show', 'ICON_STORE2004', 'store-full1.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10205, 'image slide show', 'ICON_STORE2005', 'store-full2.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10206, 'image slide show', 'ICON_STORE2006', 'store-full3.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10207, 'image slide show', 'ICON_STORE2007', 'store-full4.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10208, 'image slide show', 'ICON_STORE2008', 'store-full7.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
+(10209, 'image slide show', 'ICON_STORE2009', 'store-full6.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
 
 (10211, 'image ...', 'IMG_STORE210_', 'store-2-img.jpg', 0, 'image 1 store 210', 1, 'PACKSHOT', 'SMALL', 1, 210, 'STORE'), 
-(10212, 'image ...', 'ICON_STORE210', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'ICON', null, 1, 210, 'STORE');
+(10212, 'image ...', 'ICON_STORE210', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'ICON', null, 1, 210, 'STORE'),
+(10213, 'image slide show', 'ICON_STORE2103', 'store-full1.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
+(10214, 'image slide show', 'ICON_STORE2104', 'store-full2.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
+(10215, 'image slide show', 'ICON_STORE2105', 'store-full3.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
+(10216, 'image slide show', 'ICON_STORE2106', 'store-full4.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
+(10217, 'image slide show', 'ICON_STORE2107', 'store-full5.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
+(10218, 'image slide show', 'ICON_STORE2108', 'store-full6.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE');
 
 -- PRODUCT
 

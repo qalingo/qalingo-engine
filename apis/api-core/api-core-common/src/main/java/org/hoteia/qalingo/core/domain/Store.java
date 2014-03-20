@@ -462,6 +462,20 @@ public class Store extends AbstractEntity {
  		}
  		return defaultStoreImage;
  	}
+ 	
+	public List<Asset> getSlideShows() {
+ 		List<Asset> slideShows = new ArrayList<Asset>();
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if(assetsIsGlobal != null){
+ 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+ 				Asset storeImage = (Asset) iterator.next();
+ 				if(AssetType.SLIDESHOW.equals(storeImage.getType())){
+ 					slideShows.add(storeImage);
+ 				}
+ 			}
+ 		}
+ 		return slideShows;
+ 	}
 
     @Override
     public int hashCode() {
