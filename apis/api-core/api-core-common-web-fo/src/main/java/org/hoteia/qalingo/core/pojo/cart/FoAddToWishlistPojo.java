@@ -3,11 +3,15 @@ package org.hoteia.qalingo.core.pojo.cart;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoCheckoutPojo {
+import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
+
+public class FoAddToWishlistPojo {
 
     private boolean statuts = true;
-    private CartPojo cart;
-    private List<FoDeliveryMethodInformationPojo> deliveryMethodInformations = new ArrayList<FoDeliveryMethodInformationPojo>();
+    
+    private ProductSkuPojo productSku;
+
+    private String wishListDetailsUrl;
 
     private List<FoMessagePojo> successMessages = new ArrayList<FoMessagePojo>();
     private List<FoMessagePojo> errorMessages = new ArrayList<FoMessagePojo>();
@@ -20,22 +24,22 @@ public class FoCheckoutPojo {
         this.statuts = statuts;
     }
 
-    public CartPojo getCart() {
-        return cart;
-    }
-
-    public void setCart(CartPojo cart) {
-        this.cart = cart;
-    }
-
-    public List<FoDeliveryMethodInformationPojo> getDeliveryMethodInformations() {
-        return deliveryMethodInformations;
+    public ProductSkuPojo getProductSku() {
+        return productSku;
     }
     
-    public void setDeliveryMethodInformations(List<FoDeliveryMethodInformationPojo> deliveryMethodInformations) {
-        this.deliveryMethodInformations = deliveryMethodInformations;
+    public void setProductSku(ProductSkuPojo productSku) {
+        this.productSku = productSku;
     }
 
+    public String getWishListDetailsUrl() {
+        return wishListDetailsUrl;
+    }
+    
+    public void setWishListDetailsUrl(String wishListDetailsUrl) {
+        this.wishListDetailsUrl = wishListDetailsUrl;
+    }
+    
     public List<FoMessagePojo> getSuccessMessages() {
         return successMessages;
     }

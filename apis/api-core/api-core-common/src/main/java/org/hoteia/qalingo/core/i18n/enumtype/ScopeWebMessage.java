@@ -114,6 +114,11 @@ public enum ScopeWebMessage {
 	 */
 	ENGINE_SETTING("engine_setting"),
 	
+    /**
+     * 
+     */
+    ERROR("error"),
+    
 	/**
 	 * 
 	 */
