@@ -1930,7 +1930,7 @@ public class RequestUtilImpl implements RequestUtil {
     }
     
     protected AbstractEngineSession setSessionMarketPlace(final AbstractEngineSession session, final MarketPlace marketPlace){
-        session.setCurrentMarketPlace(marketPlace);
+        session.setCurrentMarketPlace(marketService.getMarketPlaceById(marketPlace.getId().toString()));
         return session;
     }
 
