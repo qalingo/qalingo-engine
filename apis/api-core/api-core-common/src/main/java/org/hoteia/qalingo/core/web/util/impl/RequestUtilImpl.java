@@ -726,7 +726,9 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getLastRequestUrl(final HttpServletRequest request, final List<String> excludedPatterns, String fallbackUrl) throws Exception {
+    public String getLastRequestUrl(final HttpServletRequest request, final List<String> moreExcludedPatterns, String fallbackUrl) throws Exception {
+        final List<String> excludedPatterns = getCommonUrlExcludedPatterns();
+        excludedPatterns.addAll(moreExcludedPatterns);
         String url = getRequestUrl(request, excludedPatterns, 1);
         if (StringUtils.isEmpty(url)) {
             return fallbackUrl;

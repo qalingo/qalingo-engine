@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.customer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +62,11 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 			return new ModelAndView(new RedirectView(url));
 		}
 		
-		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+		final List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(FoUrls.CUSTOMER_CREATE_ACCOUNT.getUrlWithoutWildcard());
+		final String lastUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+		
+		modelAndView.addObject(ModelConstants.URL_BACK, lastUrl);
 		
         return modelAndView;
 	}
@@ -117,7 +123,10 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
             return new ModelAndView(new RedirectView(url));
         }
         
-        modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+        final List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(FoUrls.CUSTOMER_CREATE_ACCOUNT.getUrlWithoutWildcard());
+        final String lastUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
+        modelAndView.addObject(ModelConstants.URL_BACK, lastUrl);
         
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);
         
