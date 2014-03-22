@@ -288,7 +288,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductMarketingFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productMarketingDefaultFetchPlan());
         }
     }
     
@@ -365,7 +365,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductSkuFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuDefaultFetchPlan());
         }
     }
     
@@ -468,7 +468,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.getDefaultProductBrandFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.defaultProductBrandFetchPlan());
         }
     }
     

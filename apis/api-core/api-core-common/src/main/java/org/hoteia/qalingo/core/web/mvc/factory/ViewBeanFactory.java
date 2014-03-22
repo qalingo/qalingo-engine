@@ -148,6 +148,9 @@ public interface ViewBeanFactory {
 
     ProductSkuViewBean buildViewBeanProductSku(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, ProductMarketing productMarketing, ProductSku productSku) throws Exception;
 
+    ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, 
+            ProductMarketing productMarketing) throws Exception;
+
 	CartViewBean buildViewBeanCart(RequestData requestData, Cart cart) throws Exception;
 
 	List<OrderViewBean> buildListViewBeanOrder(RequestData requestData,  List<OrderCustomer> orders) throws Exception;
@@ -156,9 +159,6 @@ public interface ViewBeanFactory {
 
 
 	OrderItemViewBean buildViewBeanOrderItem(RequestData requestData, OrderItem orderItem) throws Exception;
-	
-	ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual, 
-														   ProductMarketing productMarketing) throws Exception;
 	
     DeliveryMethodViewBean buildViewBeanDeliveryMethod(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
 

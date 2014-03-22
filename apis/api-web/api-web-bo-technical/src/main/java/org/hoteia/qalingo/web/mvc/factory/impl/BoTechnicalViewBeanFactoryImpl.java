@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -30,49 +32,57 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
      */
     @Override
     public List<MenuViewBean> buildListViewBeanMenu(RequestData requestData) throws Exception {
-		final Localization localization = requestData.getMarketAreaLocalization();
-		final Locale locale = localization.getLocale();
+        final HttpServletRequest request = requestData.getRequest();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Locale locale = localization.getLocale();
+        final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		MenuViewBean menu = new MenuViewBean();
-		menu.setCssClass("active");
-		menu.setCssIcon("fa fa-home");
+        menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlWithoutWildcard()));
+        menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
-		menu.setCssIcon("fa fa-cogs");
+        menu.setActive(currentUrl.contains(BoUrls.ENGINE_SETTING_LIST.getUrlWithoutWildcard()));
+        menu.setCssIcon("fa fa-cogs");
 		menu.setName("Engine Setting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.CACHE.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-bars");
 		menu.setName("Cache");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CACHE, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.BATCH.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-random");
 		menu.setName("Batch");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.USER_LIST.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-group");
 		menu.setName("Users");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.USER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.REFERENCE_DATAS.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-book");
 		menu.setName("References Datas");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REFERENCE_DATAS, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.MONITORING.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Monitoring");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.MONITORING, requestData));

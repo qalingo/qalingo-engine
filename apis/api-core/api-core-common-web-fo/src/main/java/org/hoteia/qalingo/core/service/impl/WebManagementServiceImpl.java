@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -65,6 +66,7 @@ import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.service.ProductService;
+import org.hoteia.qalingo.core.service.ReferentialDataService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.service.WebManagementService;
@@ -116,6 +118,9 @@ public class WebManagementServiceImpl implements WebManagementService {
     @Autowired
     protected UrlService urlService;
     
+    @Autowired
+    protected ReferentialDataService referentialDataService;
+
     @Autowired
     protected RequestUtil requestUtil;
     
@@ -475,6 +480,7 @@ public class WebManagementServiceImpl implements WebManagementService {
      */
     public void buildAndSaveCustomerForgottenPasswordMail(final RequestData requestData, final Customer customer, final CustomerCredential customerCredential, final ForgottenPasswordForm forgottenPasswordForm) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
+        final Locale locale = requestData.getLocale();
         final String contextNameValue = requestData.getContextNameValue();
 
         final CustomerForgottenPasswordEmailBean customerForgottenPasswordEmailBean = new CustomerForgottenPasswordEmailBean();
@@ -485,7 +491,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         customerForgottenPasswordEmailBean.setToEmail(customer.getEmail());
         customerForgottenPasswordEmailBean.setToken(customerCredential.getResetToken());
         
-        customerForgottenPasswordEmailBean.setTitle(customer.getTitle());
+        customerForgottenPasswordEmailBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
         customerForgottenPasswordEmailBean.setFirstname(customer.getFirstname());
         customerForgottenPasswordEmailBean.setLastname(customer.getLastname());
         customerForgottenPasswordEmailBean.setEmail(customer.getEmail());
@@ -899,6 +905,7 @@ public class WebManagementServiceImpl implements WebManagementService {
      */
     public void buildAndSaveCustomerResetPasswordConfirmationMail(final RequestData requestData, final Customer customer) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
+        final Locale locale = requestData.getLocale();
         final String contextNameValue = requestData.getContextNameValue();
         final String velocityPath = requestData.getVelocityEmailPrefix();
 
@@ -908,7 +915,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         customerResetPasswordConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_RESET_PASSWORD_CONFIRMATION));
         customerResetPasswordConfirmationEmailBean.setToEmail(customer.getEmail());
         
-        customerResetPasswordConfirmationEmailBean.setTitle(customer.getTitle());
+        customerResetPasswordConfirmationEmailBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
         customerResetPasswordConfirmationEmailBean.setFirstname(customer.getFirstname());
         customerResetPasswordConfirmationEmailBean.setLastname(customer.getLastname());
         customerResetPasswordConfirmationEmailBean.setEmail(customer.getEmail());

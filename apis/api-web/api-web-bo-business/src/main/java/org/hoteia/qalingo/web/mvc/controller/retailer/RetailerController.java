@@ -215,8 +215,8 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
-		final String currentRuleCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
-		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRuleCode);
+		final String currentRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRetailerCode);
     	
     	return backofficeFormFactory.buildRetailerForm(requestData, retailerEdit);
 	}

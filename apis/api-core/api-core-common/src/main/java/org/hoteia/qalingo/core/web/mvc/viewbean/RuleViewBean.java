@@ -10,6 +10,7 @@ public class RuleViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -3496510221185684784L;
 	private Long id;
 	private int version;
+    private String code;
 	private String name;
 	private String description;
 	private String salience;
@@ -38,6 +39,14 @@ public class RuleViewBean extends AbstractViewBean implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getName() {
 		return name;

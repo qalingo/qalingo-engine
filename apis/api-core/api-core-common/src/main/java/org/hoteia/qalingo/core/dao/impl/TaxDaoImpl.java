@@ -58,7 +58,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultTaxFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
         }
     }
     

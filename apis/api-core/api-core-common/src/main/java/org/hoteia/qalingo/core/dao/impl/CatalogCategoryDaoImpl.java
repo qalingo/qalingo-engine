@@ -35,7 +35,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public CatalogCategoryMaster getMasterCatalogCategoryById(final Long catalogCategoryId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMasterCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", catalogCategoryId));
 
@@ -47,7 +47,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String catalogCategoryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMasterCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
@@ -59,7 +59,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMasterCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
@@ -70,7 +70,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	
 	public List<CatalogCategoryMaster> findRootCatalogCategories(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificFetchMasterCategoryMode(criteria, params);
         
         criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
         criteria.addOrder(Order.asc("id"));        
@@ -83,7 +83,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificFetchMasterCategoryMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -116,13 +116,21 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public void deleteCatalogCategory(final CatalogCategoryMaster catalogCategory) {
 		em.remove(catalogCategory);
 	}
-	
+
+    protected FetchPlan handleSpecificFetchMasterCategoryMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultMasterCatalogCategoryFetchPlan());
+        }
+    }
+
 	// VIRTUAL
 	
 	public CatalogCategoryVirtual getVirtualCatalogCategoryById(final Long catalogCategoryId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", catalogCategoryId));
 
@@ -134,7 +142,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
@@ -146,7 +154,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
@@ -158,7 +166,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
         criteria.addOrder(Order.asc("id"));
@@ -171,7 +179,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -183,7 +191,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(final Long marketAreaId, final String productMarketingCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.createAlias("productMarketings", "productMarketing", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("productMarketing.code", productMarketingCode));
@@ -217,12 +225,11 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		em.remove(catalogCategory);
 	}
 	
-	@Override
-	protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){
+	protected FetchPlan handleSpecificFetchVirtualCategoryMode(Criteria criteria, Object... params){
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.getDefaultCatalogCategoryFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultVirtualCatalogCategoryFetchPlan());
         }
 	}
 	

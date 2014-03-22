@@ -9,9 +9,16 @@
  */
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
-public class ValueBean {
+import java.io.Serializable;
 
-	String key;
+public class ValueBean implements Serializable {
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 3100619545421675045L;
+    
+    String key;
 	String value;
 	
 	public ValueBean(){

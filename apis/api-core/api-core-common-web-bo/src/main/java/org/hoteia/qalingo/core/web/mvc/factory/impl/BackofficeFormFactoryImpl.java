@@ -21,6 +21,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
@@ -30,8 +31,8 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.AttributeService;
@@ -40,6 +41,7 @@ import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
+import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.OrderForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
@@ -48,8 +50,8 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
-import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
+import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,6 +92,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         final UserForm userForm = new UserForm();
         userForm.setId(user.getId().toString());
         userForm.setLogin(user.getLogin());
+        userForm.setTitle(user.getTitle());
         userForm.setFirstname(user.getFirstname());
         userForm.setLastname(user.getLastname());
         userForm.setEmail(user.getEmail());
@@ -288,6 +291,21 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             ruleForm.setSalience(rule.getSalience());
         }
         return ruleForm;
+    }
+    
+    public WarehouseForm buildWarehouseForm(final RequestData requestData, final Warehouse warehouse) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        
+        final WarehouseForm warehouseForm = new WarehouseForm();
+        if(warehouse != null){
+            warehouseForm.setId(warehouse.getId().toString());
+            warehouseForm.setVersion(warehouse.getVersion());
+            warehouseForm.setName(warehouse.getName());
+            warehouseForm.setDescription(warehouse.getDescription());
+            warehouseForm.setCode(warehouse.getCode());
+        }
+        return warehouseForm;
     }
     
     public DeliveryMethodForm buildDeliveryMethodForm(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {

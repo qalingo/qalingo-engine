@@ -9,7 +9,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphProduct {
 
-    public static FetchPlan getDefaultProductMarketingFetchPlan(){
+    public static FetchPlan productMarketingBackofficeCatalogueViewFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("productBrand"));
         fetchplans.add(new SpecificFetchMode("productMarketingType"));
@@ -23,7 +23,30 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultProductSkuFetchPlan(){
+    public static FetchPlan productMarketingDefaultFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode("productBrand"));
+        fetchplans.add(new SpecificFetchMode("productMarketingType"));
+        fetchplans.add(new SpecificFetchMode("productMarketingAttributes"));
+        fetchplans.add(new SpecificFetchMode("productSkus"));
+        fetchplans.add(new SpecificFetchMode("prices", new SpecificAlias("productSkus.prices")));
+        fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("productSkus.prices.currency")));
+        fetchplans.add(new SpecificFetchMode("productAssociationLinks"));
+        fetchplans.add(new SpecificFetchMode("assets"));
+        fetchplans.add(new SpecificFetchMode("defaultCatalogCategory"));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan productMarketingBackofficeCatalogueManagementFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode("productBrand"));
+        fetchplans.add(new SpecificFetchMode("productMarketingType"));
+        fetchplans.add(new SpecificFetchMode("productSkus"));
+        fetchplans.add(new SpecificFetchMode("defaultCatalogCategory"));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan productSkuDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("productSkuAttributes"));
         fetchplans.add(new SpecificFetchMode("productMarketing"));
@@ -35,7 +58,7 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultProductBrandFetchPlan(){
+    public static FetchPlan defaultProductBrandFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         return new FetchPlan(fetchplans);
     }

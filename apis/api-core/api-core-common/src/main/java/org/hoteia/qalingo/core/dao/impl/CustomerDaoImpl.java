@@ -160,7 +160,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCustomerFetchPlan());
         }
     }
 

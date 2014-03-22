@@ -44,8 +44,8 @@ VALUES
 
 -- password equal "password"
 INSERT INTO tbo_user 
-(id, version, email, firstname, lastname, password, login, is_active, company_id)
-VALUES (1, 1, 'qalingo@qalingo.com', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
+(id, version, email, title, firstname, lastname, password, login, is_active, company_id)
+VALUES (1, 1, 'qalingo@qalingo.com', 'MR', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
 
 INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
 
@@ -53,8 +53,8 @@ INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
 
 -- password equal "password"
 INSERT INTO teco_customer 
-(id, version, email, firstname, lastname, password, login, code, is_active)
-VALUES (1, 1, 'qalingo@qalingo.com', 'Customer', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'customer', 'CUST1', 1);
+(id, version, email, title, firstname, lastname, password, login, code, is_active)
+VALUES (1, 1, 'qalingo@qalingo.com', 'MR', 'Customer', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'customer', 'CUST1', 1);
 
 INSERT INTO teco_customer_address 
 (id, title, firstname, lastname, address1, address2, additional_information, address_name, city, postal_code, country_code, is_default_billing, is_default_shipping, customer_id)

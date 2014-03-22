@@ -43,6 +43,12 @@ public class ContextController extends AbstractBackofficeQalingoController {
         final ContextPojo context = new ContextPojo();
         
         UrlPojo url = new UrlPojo();
+        url.setCode(BoUrls.GET_CATALOG_AJAX.name());
+        url.setUrl(backofficeUrlService.generateUrl(BoUrls.GET_CATALOG_AJAX, requestData));
+        url.setMethod("GET");
+        context.getUrls().add(url);
+
+        url = new UrlPojo();
         url.setCode(BoUrls.GET_PRODUCT_LIST_AJAX.name());
         url.setUrl(backofficeUrlService.generateUrl(BoUrls.GET_PRODUCT_LIST_AJAX, requestData));
         url.setMethod("GET");

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -30,49 +32,57 @@ public class BoReportingViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
      */
 	@Override
 	public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
-		final Localization localization = requestData.getMarketAreaLocalization();
-		final Locale locale = localization.getLocale();
+        final HttpServletRequest request = requestData.getRequest();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final Locale locale = localization.getLocale();
+        final String currentUrl = requestUtil.getCurrentRequestUrl(request);
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
 		MenuViewBean menu = new MenuViewBean();
-		menu.setCssClass("active");
+        menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.CATALOG.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-sitemap");
 		menu.setName("Catalog stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CATALOG, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.RULE_LIST.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-money");
 		menu.setName("Promotion stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-truck");
 		menu.setName("Shipping stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.ORDER_LIST.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-shopping-cart");
 		menu.setName("Orders stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-group");
 		menu.setName("Customers stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
 		menu = new MenuViewBean();
+        menu.setActive(currentUrl.contains(BoUrls.REPORTING.getUrlWithoutWildcard()));
 		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Reporting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REPORTING, requestData));

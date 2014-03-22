@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
-
 public class ProductMarketingViewBean extends AbstractViewBean implements
 		Serializable {
 
@@ -41,7 +39,7 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 	protected boolean isDefault;
 	protected boolean featured;
 
-	protected BrandViewBean brand;
+	protected ProductBrandViewBean brand;
 
 	protected Map<String, String> globalAttributes = new HashMap<String, String>();
 	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
@@ -148,11 +146,11 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		this.featured = featured;
 	}
 
-	public BrandViewBean getBrand() {
+	public ProductBrandViewBean getBrand() {
 		return brand;
 	}
 
-	public void setBrand(BrandViewBean brand) {
+	public void setBrand(ProductBrandViewBean brand) {
 		this.brand = brand;
 	}
 

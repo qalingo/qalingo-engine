@@ -104,7 +104,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCatalogFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCatalogFetchPlan());
         }
     }
 }

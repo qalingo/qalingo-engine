@@ -9,7 +9,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphMarket {
 
-    public static FetchPlan getDefaultMarketPlaceFetchPlan(){
+    public static FetchPlan defaultMarketPlaceFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("masterCatalog"));
@@ -21,7 +21,7 @@ public class FetchPlanGraphMarket {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultMarketFetchPlan(){
+    public static FetchPlan defaultMarketFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("marketPlace"));
@@ -31,7 +31,7 @@ public class FetchPlanGraphMarket {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getSpecificMarketFetch(){
+    public static FetchPlan specificMarketFetch(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("marketPlace"));
@@ -49,7 +49,7 @@ public class FetchPlanGraphMarket {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultMarketAreaFetchPlan(){
+    public static FetchPlan defaultMarketAreaFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("catalog"));
@@ -72,7 +72,7 @@ public class FetchPlanGraphMarket {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getSpecificMarketAreaFetchPlanWithCheckoutData(){
+    public static FetchPlan specificMarketAreaFetchPlanWithCheckoutData(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("catalog"));

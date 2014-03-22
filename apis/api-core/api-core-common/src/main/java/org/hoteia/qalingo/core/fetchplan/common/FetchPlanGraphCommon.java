@@ -9,7 +9,7 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphCommon {
 
-    public static FetchPlan getDefaultCartFetchPlan(){
+    public static FetchPlan defaultCartFetchPlan(){
         
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
@@ -39,7 +39,7 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultCatalogFetchPlan() {
+    public static FetchPlan defaultCatalogFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
 
         fetchplans.add(new SpecificFetchMode("catalogCategories"));
@@ -47,7 +47,7 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultCustomerFetchPlan() {
+    public static FetchPlan defaultCustomerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
 
         fetchplans.add(new SpecificFetchMode("credentials"));
@@ -69,7 +69,7 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan getDefaultDeliveryMethodFetchPlan() {
+    public static FetchPlan defaultDeliveryMethodFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("deliveryMethodCountries"));
         fetchplans.add(new SpecificFetchMode("prices"));
@@ -77,19 +77,19 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan getDefaultEngineSettingFetchPlan() {
+    public static FetchPlan defaultEngineSettingFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("engineSettingValues"));
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan getDefaultCustomerGroupFetchPlan() {
+    public static FetchPlan defaultCustomerGroupFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("customerRoles"));
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultOrderCustomerFetchPlan() {
+    public static FetchPlan defaultOrderCustomerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("billingAddress"));
         fetchplans.add(new SpecificFetchMode("shippingAddress"));
@@ -107,25 +107,25 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultPaymentGatewayFetchPlan() {
+    public static FetchPlan defaultPaymentGatewayFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("paymentGatewayAttributes"));
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultTaxFetchPlan() {
+    public static FetchPlan defaultTaxFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("taxCountries"));
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultCompanyFetchPlan() {
+    public static FetchPlan defaultCompanyFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("localizations"));
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultRetailerFetchPlan() {
+    public static FetchPlan defaultRetailerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("links"));
         fetchplans.add(new SpecificFetchMode("addresses"));
@@ -138,14 +138,19 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultStoreFetchPlan() {
+    public static FetchPlan defaultStoreFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("storeAttributes"));
         fetchplans.add(new SpecificFetchMode("assets"));
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan getDefaultUserFetchPlan() {
+    public static FetchPlan defaultWarehouseFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan defaultUserFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("defaultLocalization"));
         fetchplans.add(new SpecificFetchMode("company"));

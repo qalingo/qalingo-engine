@@ -121,7 +121,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultEngineSettingFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
         }
     }
 }
