@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.core.solr.service.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
