@@ -9,10 +9,27 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.ProductSkuStock;
+import org.hoteia.qalingo.core.domain.Warehouse;
 
-public interface StockDao {
+public interface WarehouseDao {
 
+    // WAREHOUSE
+    
+    Warehouse getWarehouseById(Long warehouseId, Object... params);
+
+    Warehouse getWarehouseByCode(String warehouseCode, Object... params);
+
+    List<Warehouse> findWarehouses(Object... params);
+
+    Warehouse saveOrUpdateWarehouse(Warehouse warehouse) throws Exception;
+
+    void deleteWarehouse(Warehouse warehouse);
+    
+    // STOCK
+    
 	ProductSkuStock getStockById(Long stockId, Object... params);
 
 	ProductSkuStock saveOrUpdateStock(ProductSkuStock stock);

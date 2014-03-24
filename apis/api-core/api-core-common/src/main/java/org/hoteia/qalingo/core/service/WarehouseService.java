@@ -9,10 +9,29 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.ProductSkuStock;
+import org.hoteia.qalingo.core.domain.Warehouse;
 
-public interface StockService {
+public interface WarehouseService {
 
+    // WAREHOUSE
+    
+    Warehouse getWarehouseById(Long warehouseId, Object... params);
+
+    Warehouse getWarehouseById(String warehouseId, Object... params);
+
+    Warehouse getWarehouseByCode(String warehouseCode, Object... params);
+
+    List<Warehouse> findWarehouses(Object... params);
+
+    Warehouse saveOrUpdateWarehouse(Warehouse warehouse) throws Exception;
+
+    void deleteWarehouse(Warehouse warehouse);
+    
+    // STOCK
+    
     ProductSkuStock getStockById(Long stockId, Object... params);
 
     ProductSkuStock getStockById(String stockId, Object... params);

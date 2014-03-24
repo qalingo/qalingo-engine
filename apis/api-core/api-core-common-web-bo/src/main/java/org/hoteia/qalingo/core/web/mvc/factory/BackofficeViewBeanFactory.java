@@ -30,6 +30,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
@@ -49,6 +50,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.WarehouseViewBean;
 
 public interface BackofficeViewBeanFactory extends ViewBeanFactory {
 
@@ -104,6 +106,8 @@ public interface BackofficeViewBeanFactory extends ViewBeanFactory {
 	
 	BatchViewBean buildViewBeanBatch(RequestData requestData, BatchProcessObject batchProcessObject) throws Exception;
 	
+    WarehouseViewBean buildViewBeanWarehouse(RequestData requestData, Warehouse warehouse) throws Exception;
+
 	List<PaymentGatewayViewBean> buildListViewBeanPaymentGateway(RequestData requestData, List<AbstractPaymentGateway> paymentGateways) throws Exception;
 	
 	PaymentGatewayViewBean buildViewBeanPaymentGateway(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;

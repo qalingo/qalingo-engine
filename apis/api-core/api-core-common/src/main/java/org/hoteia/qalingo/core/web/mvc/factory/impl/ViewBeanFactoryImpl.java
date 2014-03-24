@@ -23,6 +23,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
@@ -59,7 +60,6 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -443,7 +443,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         retailerViewBean.setBrand(retailer.isBrand());
         retailerViewBean.setEcommerce(retailer.isEcommerce());
 
-        if (retailer.getAddresses() != null) {
+        if (Hibernate.isInitialized(retailer.getAddresses()) 
+                && retailer.getAddresses() != null) {
             RetailerAddress defaultAddress = retailer.getDefaultAddress();
             if (defaultAddress != null) {
                 retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
@@ -495,7 +496,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
 
         Set<RetailerCustomerComment> customerComments = retailer.getCustomerComments();
-        if (customerComments != null) {
+        if (Hibernate.isInitialized(customerComments) &&
+                customerComments != null) {
             for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
                 RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
                 RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
@@ -529,7 +531,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         Set<RetailerTag> tags = retailer.getRetailerTags();
-        if (tags != null) {
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
             for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
                 RetailerTag retailerTag = (RetailerTag) iterator.next();
                 RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
@@ -541,7 +544,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         Set<Store> stores = retailer.getStores();
-        if (stores != null) {
+        if (Hibernate.isInitialized(stores) &&
+                stores != null) {
             for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
                 Store store = (Store) iterator.next();
                 StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
@@ -912,16 +916,17 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             storeViewBean.setIconImage("");
         }
         
-       
 		final List<Asset> assets = store.getSlideShows();
-        List<String> sliders = new ArrayList<String>();
-        for(Asset asset : assets ){
-        	final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), asset);
-        	sliders.add(iconImage);
-        }
-        
+		if(assets != null){
+	        List<String> sliders = new ArrayList<String>();
+	        for(Asset asset : assets ){
+	            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), asset);
+	            sliders.add(iconImage);
+	        }
+	        storeViewBean.setSliders(sliders);
+		}
         storeViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));
-        storeViewBean.setSliders(sliders);
+        
         return storeViewBean;
     }
 
@@ -967,6 +972,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final CustomerViewBean customerViewBean = new CustomerViewBean();
         if (customer != null) {
             customerViewBean.setAvatarImg(requestUtil.getCustomerAvatar(request, customer));
+            customerViewBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
             customerViewBean.setFirstname(customer.getFirstname());
             customerViewBean.setLastname(customer.getLastname());
             customerViewBean.setEmail(customer.getEmail());
@@ -984,8 +990,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                 customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
-            if (customer.getConnectionLogs() != null && customer.getConnectionLogs().size() > 0) {
-                CustomerConnectionLog customerConnectionLog = customer.getConnectionLogs().iterator().next();
+            final Set<CustomerConnectionLog> connectionLogs = customer.getConnectionLogs();
+            if (connectionLogs != null && Hibernate.isInitialized(connectionLogs) && connectionLogs.size() > 0) {
+                CustomerConnectionLog customerConnectionLog = connectionLogs.iterator().next();
                 if (customerConnectionLog.getLoginDate() != null) {
                     customerViewBean.setLastConnectionDate(dateFormat.format(customerConnectionLog.getLoginDate()));
                 } else {
@@ -1012,7 +1019,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
         if (customerMarketArea != null) {
             final Set<CustomerWishlist> customerWishlists = customerMarketArea.getWishlistProducts();
-            if (customerWishlists != null) {
+            if (Hibernate.isInitialized(customerWishlists) && customerWishlists != null) {
                 for (Iterator<CustomerWishlist> iterator = customerWishlists.iterator(); iterator.hasNext();) {
                     final CustomerWishlist customerWishlist = (CustomerWishlist) iterator.next();
                     final ProductSku productSku = productService.getProductSkuByCode(customerWishlist.getProductSkuCode());
@@ -1036,7 +1043,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
         if (customerMarketArea != null) {
             final Set<CustomerProductComment> customerProductComments = customerMarketArea.getProductComments();
-            if (customerProductComments != null) {
+            if (Hibernate.isInitialized(customerProductComments) && customerProductComments != null) {
                 for (Iterator<CustomerProductComment> iterator = customerProductComments.iterator(); iterator.hasNext();) {
                     final CustomerProductComment customerProductComment = (CustomerProductComment) iterator.next();
                     final ProductSku reloadedProductSku = productService.getProductSkuByCode(customerProductComment.getProductSkuCode());
@@ -1067,13 +1074,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public CustomerAddressListViewBean buildViewBeanCustomerAddressList(final RequestData requestData, final Customer customer) throws Exception {
         final CustomerAddressListViewBean customerAddressListViewBean = new CustomerAddressListViewBean();
         customerAddressListViewBean.setBackUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-
-        Set<CustomerAddress> addresses = customer.getAddresses();
-        for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
-            CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-            customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomeAddress(requestData, customerAddress));
+        final Set<CustomerAddress> addresses = customer.getAddresses();
+        if(Hibernate.isInitialized(addresses) && addresses != null){
+            for (Iterator<CustomerAddress> iterator = addresses.iterator(); iterator.hasNext();) {
+                CustomerAddress customerAddress = (CustomerAddress) iterator.next();
+                customerAddressListViewBean.getCustomerAddressList().add(buildViewBeanCustomeAddress(requestData, customerAddress));
+            }
         }
-
         return customerAddressListViewBean;
     }
 
@@ -1130,6 +1137,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      */
     public ProductBrandViewBean buildViewBeanProductBrand(final RequestData requestData, final ProductBrand productBrand) throws Exception {
         final ProductBrandViewBean productBrandViewBean = new ProductBrandViewBean();
+        productBrandViewBean.setCode(productBrand.getCode());
         productBrandViewBean.setName(productBrand.getName());
         productBrandViewBean.setDescription(productBrand.getDescription());
         return productBrandViewBean;
@@ -1209,8 +1217,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         List<CatalogCategoryViewBean> subcatalogCategoryVirtualViewBeans = new ArrayList<CatalogCategoryViewBean>();
-        Set<CatalogCategoryVirtual> subCategories = catalogCategory.getCatalogCategories();
-        if (subCategories != null) {
+        final Set<CatalogCategoryVirtual> subCategories = catalogCategory.getCatalogCategories();
+        if (Hibernate.isInitialized(subCategories) && subCategories != null) {
             for (Iterator<CatalogCategoryVirtual> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
                 final CatalogCategoryVirtual subcatalogCategoryVirtual = (CatalogCategoryVirtual) iteratorSubcatalogCategoryVirtual.next();
                 final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(marketArea.getId(), subcatalogCategoryVirtual.getCode());
@@ -1221,8 +1229,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         List<ProductMarketingViewBean> productMarketingViewBeans = new ArrayList<ProductMarketingViewBean>();
         List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
-        Set<ProductMarketing> productMarketings = catalogCategory.getProductMarketings();
-        if (productMarketings != null) {
+        final Set<ProductMarketing> productMarketings = catalogCategory.getProductMarketings();
+        if (Hibernate.isInitialized(productMarketings) && productMarketings != null) {
             for (Iterator<ProductMarketing> iteratorProductMarketing = productMarketings.iterator(); iteratorProductMarketing.hasNext();) {
                 final ProductMarketing productMarketing = (ProductMarketing) iteratorProductMarketing.next();
                 final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productMarketing.getCode());
@@ -1253,13 +1261,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
         final ProductBrand productBrand = productMarketing.getProductBrand();
-        if (productBrand != null) {
+        if (Hibernate.isInitialized(productBrand) && productBrand != null) {
+            productMarketingViewBean.setBrand(buildViewBeanProductBrand(requestData, productBrand));
             productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
             productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
         }
 
-        Set<ProductSku> skus = productMarketing.getProductSkus();
-        if (skus != null) {
+        final Set<ProductSku> skus = productMarketing.getProductSkus();
+        if (Hibernate.isInitialized(skus) && skus != null) {
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSku = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
@@ -1267,8 +1276,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             }
         }
 
-        Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
-        if (productAssociationLinks != null) {
+        final Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
+        if (Hibernate.isInitialized(productAssociationLinks) && productAssociationLinks != null) {
             for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
@@ -1293,13 +1302,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productMarketingViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
 
         final ProductBrand productBrand = productMarketing.getProductBrand();
-        if (productBrand != null) {
+        if (Hibernate.isInitialized(productBrand) && productBrand != null) {
             productMarketingViewBean.setBrandDetailsUrl(urlService.generateUrl(FoUrls.BRAND_DETAILS, requestData, productBrand));
             productMarketingViewBean.setBrandLineDetailsUrl(urlService.generateUrl(FoUrls.BRAND_LINE, requestData, productBrand));
         }
 
-        Set<ProductSku> skus = productMarketing.getProductSkus();
-        if (skus != null) {
+        final Set<ProductSku> skus = productMarketing.getProductSkus();
+        if (Hibernate.isInitialized(skus) && skus != null) {
             for (Iterator<ProductSku> iterator = skus.iterator(); iterator.hasNext();) {
                 final ProductSku productSku = (ProductSku) iterator.next();
                 final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
@@ -1307,8 +1316,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             }
         }
 
-        Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
-        if (productAssociationLinks != null) {
+        final Set<ProductAssociationLink> productAssociationLinks = productMarketing.getProductAssociationLinks();
+        if (Hibernate.isInitialized(productAssociationLinks) && productAssociationLinks != null) {
             for (Iterator<ProductAssociationLink> iterator = productAssociationLinks.iterator(); iterator.hasNext();) {
                 final ProductAssociationLink productAssociationLink = (ProductAssociationLink) iterator.next();
                 if (productAssociationLink.getType().equals(ProductAssociationLinkType.CROSS_SELLING)) {
@@ -1334,9 +1343,28 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final String localizationCode = localization.getCode();
         final ProductMarketingViewBean productMarketingViewBean = new ProductMarketingViewBean();
 
+        productMarketingViewBean.setCode(productMarketing.getCode());
+        productMarketingViewBean.setBusinessName(productMarketing.getBusinessName());
         productMarketingViewBean.setI18nName(productMarketing.getI18nName(localizationCode));
         productMarketingViewBean.setDescription(productMarketing.getDescription());
 
+        productMarketingViewBean.setDefault(productMarketing.isDefault());
+
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        Date dateCreate = productMarketing.getDateCreate();
+        if (dateCreate != null) {
+            productMarketingViewBean.setCreatedDate(dateFormat.format(dateCreate));
+        } else {
+            productMarketingViewBean.setCreatedDate("NA");
+        }
+
+        Date dateUpdate = productMarketing.getDateUpdate();
+        if (dateUpdate != null) {
+            productMarketingViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+        } else {
+            productMarketingViewBean.setUpdatedDate("NA");
+        }
+        
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
             final String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
@@ -1362,6 +1390,184 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return productMarketingViewBean;
     }
     
+    /**
+     * 
+     */
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing, 
+                                                      final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
+
+        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
+
+        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
+
+        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
+        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
+
+        return productSkuViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
+            throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
+
+        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+
+        Map<String, String> getParams = new HashMap<String, String>();
+        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
+        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
+
+        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
+        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
+
+        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
+        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
+
+        return productSkuViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku)
+            throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+        
+        final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
+
+        productSkuViewBean.setCode(productSku.getCode());
+        productSkuViewBean.setBusinessName(productSku.getBusinessName());
+        productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
+        productSkuViewBean.setDescription(productSku.getDescription());
+        productSkuViewBean.setDefault(productSku.isDefault());
+        
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        Date dateCreate = productMarketing.getDateCreate();
+        if (dateCreate != null) {
+            productSkuViewBean.setCreatedDate(dateFormat.format(dateCreate));
+        } else {
+            productSkuViewBean.setCreatedDate("NA");
+        }
+
+        Date dateUpdate = productMarketing.getDateUpdate();
+        if (dateUpdate != null) {
+            productSkuViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+        } else {
+            productSkuViewBean.setUpdatedDate("NA");
+        }
+        
+        final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
+        if(productSkuPrice != null){
+            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
+            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
+            productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
+        } else {
+            productSkuViewBean.setPriceWithCurrencySign("NA");
+        }
+        
+        final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
+        if (defaultBackgroundImage != null) {
+            String backgroundImage = requestUtil.getProductSkuImageWebPath(request, defaultBackgroundImage);
+            productSkuViewBean.setBackgroundImage(backgroundImage);
+        } else {
+            productSkuViewBean.setBackgroundImage("");
+        }
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            String carouselImage = requestUtil.getProductSkuImageWebPath(request, defaultPaskshotImage);
+            productSkuViewBean.setCarouselImage(carouselImage);
+        } else {
+            productSkuViewBean.setCarouselImage("");
+        }
+        final Asset defaultIconImage = productSku.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            String iconImage = requestUtil.getProductSkuImageWebPath(request, defaultIconImage);
+            productSkuViewBean.setIconImage(iconImage);
+        } else {
+            productSkuViewBean.setIconImage("");
+        }
+        
+        productSkuViewBean.setProductMarketing(buildViewBeanProductMarketing(requestData, productMarketing));
+
+        return productSkuViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing)
+            throws Exception {
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
+
+        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
+
+        return productAssociationLinkViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
+            throws Exception {
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
+
+        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
+
+        return productAssociationLinkViewBean;
+    }
+    
+    /**
+     * 
+     */
+    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final ProductMarketing productMarketing)
+            throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCode = localization.getCode();
+        final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
+
+        // TODO : WRONG : CROSS IS SKU not marketing
+
+        productAssociationLinkViewBean.setName(productMarketing.getI18nName(localizationCode));
+        productAssociationLinkViewBean.setDescription(productMarketing.getDescription());
+
+        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
+        if (defaultBackgroundImage != null) {
+            String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
+            productAssociationLinkViewBean.setBackgroundImage(backgroundImage);
+        } else {
+            productAssociationLinkViewBean.setBackgroundImage("");
+        }
+        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
+        if (defaultPaskshotImage != null) {
+            String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
+            productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
+        } else {
+            productAssociationLinkViewBean.setCrossLinkImage("");
+        }
+        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
+            productAssociationLinkViewBean.setIconImage(iconImage);
+        } else {
+            productAssociationLinkViewBean.setIconImage("");
+        }
+
+        return productAssociationLinkViewBean;
+    }
+
     /**
      * @throws Exception
      * 
@@ -1541,7 +1747,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             // SUB PART : Shippings
             final List<OrderShippingViewBean> orderShippingViewBeans = new ArrayList<OrderShippingViewBean>();
             final Set<OrderShipment> orderShipments = order.getOrderShipments();
-            if (orderShipments != null) {
+            if (Hibernate.isInitialized(orderShipments) && orderShipments != null) {
                 for (Iterator<OrderShipment> iterator = orderShipments.iterator(); iterator.hasNext();) {
                     final OrderShipment orderShipment = (OrderShipment) iterator.next();
                     final OrderShippingViewBean orderShippingViewBean = new OrderShippingViewBean();
@@ -1555,7 +1761,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             // SUB PART : Taxes
             final List<OrderTaxViewBean> orderTaxViewBeans = new ArrayList<OrderTaxViewBean>();
             final Set<OrderTax> orderTaxes = order.getOrderTaxes();
-            if (orderTaxes != null) {
+            if (Hibernate.isInitialized(orderTaxes) && orderTaxes != null) {
                 for (Iterator<OrderTax> iterator = orderTaxes.iterator(); iterator.hasNext();) {
                     final OrderTax orderTax = (OrderTax) iterator.next();
                     final OrderTaxViewBean orderTaxViewBean = new OrderTaxViewBean();
@@ -1609,166 +1815,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         return orderItemViewBean;
     }
-
-    /**
-     * 
-     */
-    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing)
-            throws Exception {
-        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
-
-        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
-
-        return productAssociationLinkViewBean;
-    }
-    
-    /**
-     * 
-     */
-    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing)
-            throws Exception {
-        final ProductAssociationLinkViewBean productAssociationLinkViewBean = buildViewBeanProductAssociationLink(requestData, productMarketing);
-
-        productAssociationLinkViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));
-
-        return productAssociationLinkViewBean;
-    }
-    
-    /**
-     * 
-     */
-    public ProductAssociationLinkViewBean buildViewBeanProductAssociationLink(final RequestData requestData, final ProductMarketing productMarketing)
-            throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
-        final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
-
-        // TODO : WRONG : CROSS IS SKU not marketing
-
-        productAssociationLinkViewBean.setName(productMarketing.getI18nName(localizationCode));
-        productAssociationLinkViewBean.setDescription(productMarketing.getDescription());
-
-        final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            String backgroundImage = requestUtil.getProductMarketingImageWebPath(request, defaultBackgroundImage);
-            productAssociationLinkViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productAssociationLinkViewBean.setBackgroundImage("");
-        }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            String carouselImage = requestUtil.getProductMarketingImageWebPath(request, defaultPaskshotImage);
-            productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
-        } else {
-            productAssociationLinkViewBean.setCrossLinkImage("");
-        }
-        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
-        if (defaultIconImage != null) {
-            String iconImage = requestUtil.getProductMarketingImageWebPath(request, defaultIconImage);
-            productAssociationLinkViewBean.setIconImage(iconImage);
-        } else {
-            productAssociationLinkViewBean.setIconImage("");
-        }
-
-        return productAssociationLinkViewBean;
-    }
-
-    /**
-     * 
-     */
-    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final ProductMarketing productMarketing, 
-                                                      final ProductSku productSku) throws Exception {
-        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
-
-        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
-
-        Map<String, String> getParams = new HashMap<String, String>();
-        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
-        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
-
-        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
-        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
-
-        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
-        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
-
-        return productSkuViewBean;
-    }
-    
-    /**
-     * 
-     */
-    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing, final ProductSku productSku)
-            throws Exception {
-        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productMarketing, productSku);
-
-        productSkuViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
-
-        Map<String, String> getParams = new HashMap<String, String>();
-        getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());
-        getParams.put(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE, catalogCategory.getCode());
-
-        productSkuViewBean.setAddToCartUrl(urlService.generateUrl(FoUrls.CART_ADD_ITEM, requestData, getParams));
-        productSkuViewBean.setRemoveFromCartUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
-
-        productSkuViewBean.setAddToWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_ADD_PRODUCT, requestData, getParams));
-        productSkuViewBean.setRemoveFromWishlistUrl(urlService.generateUrl(FoUrls.WISHLIST_REMOVE_ITEM, requestData, getParams));
-
-        return productSkuViewBean;
-    }
-    
-    /**
-     * 
-     */
-    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku)
-            throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCode = localization.getCode();
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-        
-        final ProductSkuViewBean productSkuViewBean = new ProductSkuViewBean();
-
-        productSkuViewBean.setI18nName(productSku.getI18nName(localizationCode));
-        productSkuViewBean.setDescription(productSku.getDescription());
-        productSkuViewBean.setDefault(productSku.isDefault());
-        productSkuViewBean.setCode(productSku.getCode());
-        
-        final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
-        if(productSkuPrice != null){
-            productSkuViewBean.setCatalogPrice(productSkuPrice.getCatalogPrice().toString());
-            productSkuViewBean.setSalePrice(productSkuPrice.getSalePrice().toString());
-            productSkuViewBean.setPriceWithCurrencySign(productSkuPrice.getPriceWithStandardCurrencySign());
-        } else {
-            productSkuViewBean.setPriceWithCurrencySign("NA");
-        }
-        
-        final Asset defaultBackgroundImage = productSku.getDefaultBackgroundImage();
-        if (defaultBackgroundImage != null) {
-            String backgroundImage = requestUtil.getProductSkuImageWebPath(request, defaultBackgroundImage);
-            productSkuViewBean.setBackgroundImage(backgroundImage);
-        } else {
-            productSkuViewBean.setBackgroundImage("");
-        }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            String carouselImage = requestUtil.getProductSkuImageWebPath(request, defaultPaskshotImage);
-            productSkuViewBean.setCarouselImage(carouselImage);
-        } else {
-            productSkuViewBean.setCarouselImage("");
-        }
-        final Asset defaultIconImage = productSku.getDefaultIconImage();
-        if (defaultIconImage != null) {
-            String iconImage = requestUtil.getProductSkuImageWebPath(request, defaultIconImage);
-            productSkuViewBean.setIconImage(iconImage);
-        } else {
-            productSkuViewBean.setIconImage("");
-        }
-
-        return productSkuViewBean;
-    }
     
     /**
      * @throws Exception
@@ -1786,17 +1832,19 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         deliveryMethodViewBean.setDescription(deliveryMethod.getDescription());
         deliveryMethodViewBean.setCode(deliveryMethod.getCode());
         
-        Set<DeliveryMethodPrice> prices = deliveryMethod.getPrices();
-        for (DeliveryMethodPrice deliveryMethodPrice : prices) {
-            if(deliveryMethodPrice.getMarketAreaId().equals(marketArea.getId()) && deliveryMethodPrice.getRetailerId().equals(retailer.getId())) {
-                deliveryMethodViewBean.setCatalogPrice(deliveryMethodPrice.getPrice().toString());
-                deliveryMethodViewBean.setSalePrice(deliveryMethodPrice.getSalePrice().toString());
-                deliveryMethodViewBean.setPriceWithCurrencySign(deliveryMethodPrice.getPriceWithStandardCurrencySign());
-                
-                deliveryMethodViewBean.setCurrencySign(deliveryMethodPrice.getCurrency().getSign());
-                deliveryMethodViewBean.setCurrencyAbbreviated(deliveryMethodPrice.getCurrency().getAbbreviated());
+        final Set<DeliveryMethodPrice> prices = deliveryMethod.getPrices();
+        if(Hibernate.isInitialized(prices) && prices != null){
+            for (DeliveryMethodPrice deliveryMethodPrice : prices) {
+                if(deliveryMethodPrice.getMarketAreaId().equals(marketArea.getId()) && deliveryMethodPrice.getRetailerId().equals(retailer.getId())) {
+                    deliveryMethodViewBean.setCatalogPrice(deliveryMethodPrice.getPrice().toString());
+                    deliveryMethodViewBean.setSalePrice(deliveryMethodPrice.getSalePrice().toString());
+                    deliveryMethodViewBean.setPriceWithCurrencySign(deliveryMethodPrice.getPriceWithStandardCurrencySign());
+                    
+                    deliveryMethodViewBean.setCurrencySign(deliveryMethodPrice.getCurrency().getSign());
+                    deliveryMethodViewBean.setCurrencyAbbreviated(deliveryMethodPrice.getCurrency().getAbbreviated());
 
-                break;
+                    break;
+                }
             }
         }
 
@@ -1830,10 +1878,12 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         paymentMethodViewBean.setName(paymentGateway.getName());
         paymentMethodViewBean.setDescription(paymentGateway.getDescription());
         
-        Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getPaymentGatewayOptions();
-        for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
-            PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
-            paymentMethodViewBean.getPaymentMethodOptions().add(buildViewBeanPaymentMethodOption(requestData, paymentGatewayOption));
+        final Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getPaymentGatewayOptions();
+        if(Hibernate.isInitialized(paymentGatewayOptions) && paymentGatewayOptions != null){
+            for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
+                PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();
+                paymentMethodViewBean.getPaymentMethodOptions().add(buildViewBeanPaymentMethodOption(requestData, paymentGatewayOption));
+            }
         }
         
         return paymentMethodViewBean;

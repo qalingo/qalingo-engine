@@ -58,6 +58,9 @@ public class User extends AbstractEntity {
     @Column(name = "LOGIN")
     private String login;
 
+    @Column(name = "TITLE")
+    private String title;
+    
     @Column(name = "FIRSTNAME")
     private String firstname;
 
@@ -125,6 +128,14 @@ public class User extends AbstractEntity {
         this.login = login;
     }
 
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public String getFirstname() {
         return firstname;
     }

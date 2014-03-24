@@ -89,7 +89,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultPaymentGatewayFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultPaymentGatewayFetchPlan());
         }
     }
 

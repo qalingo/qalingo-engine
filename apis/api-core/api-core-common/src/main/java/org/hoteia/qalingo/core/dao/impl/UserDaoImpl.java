@@ -87,7 +87,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultUserFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
         }
     }
     
@@ -116,7 +116,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCompanyFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
         }
     }
     

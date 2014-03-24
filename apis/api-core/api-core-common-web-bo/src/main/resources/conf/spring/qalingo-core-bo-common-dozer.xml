@@ -32,6 +32,9 @@
         -->
         <property name="factories">
             <map>
+                <entry key="org.hoteia.qalingo.core.dozer.CatalogCustomBeanFactory">
+                    <ref bean="catalogCustomBeanFactory" />
+                </entry>
                 <entry key="org.hoteia.qalingo.core.dozer.CatalogCategoryCustomBeanFactory">
                     <ref bean="catalogCategoryCustomBeanFactory" />
                 </entry>
@@ -50,6 +53,8 @@
         </property>
     </bean>
     
+    <bean id="catalogCustomBeanFactory" class="org.hoteia.qalingo.core.dozer.CatalogCustomBeanFactory" />
+
     <bean id="catalogCategoryCustomBeanFactory" class="org.hoteia.qalingo.core.dozer.CatalogCategoryCustomBeanFactory" />
 
     <bean id="productMarketingCustomBeanFactory" class="org.hoteia.qalingo.core.dozer.ProductMarketingCustomBeanFactory" />

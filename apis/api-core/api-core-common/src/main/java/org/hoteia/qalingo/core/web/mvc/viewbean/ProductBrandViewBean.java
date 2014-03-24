@@ -20,11 +20,20 @@ public class ProductBrandViewBean extends AbstractViewBean implements Serializab
 	 */
 	private static final long serialVersionUID = -6549054968245197081L;
 	
+    protected String code;
 	protected String name;
 	protected String description;
 
 	protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
 
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
+	
 	public String getName() {
 		return name;
 	}

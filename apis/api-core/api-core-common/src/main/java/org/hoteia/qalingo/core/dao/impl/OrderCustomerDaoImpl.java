@@ -174,7 +174,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultOrderCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
         }
     }
     

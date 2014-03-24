@@ -112,6 +112,9 @@ public final class ModelConstants {
     public static final String RULE_VIEW_BEAN                   = "rule";
     public static final String ORDER_VIEW_BEAN                  = "order";
     
+    public static final String WAREHOUSES_VIEW_BEAN             = "warehouses";
+    public static final String WAREHOUSE_VIEW_BEAN              = "warehouse";
+
     public static final String DELIVERY_METHODS_VIEW_BEAN       = "deliveryMethods";
     public static final String DELIVERY_METHOD_VIEW_BEAN        = "deliveryMethod";
 

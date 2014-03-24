@@ -89,7 +89,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultDeliveryMethodFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultDeliveryMethodFetchPlan());
         }
     }
 	

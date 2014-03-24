@@ -327,7 +327,7 @@ public class CartAjaxController extends AbstractMCommerceController {
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());
             checkout.setCart(cart);
 
-            MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.getSpecificMarketAreaFetchPlanWithCheckoutData());
+            MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.specificMarketAreaFetchPlanWithCheckoutData());
             List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(marketArea);
             
             // TODO : SPLIT availableDeliveryMethods by items which matchs : drools ? and display deliveyMethods group by items : customer will choose 2 or more deliveyMethod

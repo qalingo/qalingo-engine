@@ -105,7 +105,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketPlaceFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketPlaceFetchPlan());
         }
     }
     
@@ -197,7 +197,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketFetchPlan());
         }
     }
 	
@@ -263,7 +263,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.getDefaultMarketAreaFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketAreaFetchPlan());
         }
     }
 	

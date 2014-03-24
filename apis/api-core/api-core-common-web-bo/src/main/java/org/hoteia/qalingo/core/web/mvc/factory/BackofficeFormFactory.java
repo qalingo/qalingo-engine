@@ -15,17 +15,19 @@ import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
+import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.OrderForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
@@ -34,8 +36,8 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
-import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
+import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface BackofficeFormFactory {
 
@@ -73,6 +75,8 @@ public interface BackofficeFormFactory {
     
     RuleForm buildRuleForm(RequestData requestData, AbstractRuleReferential promotion) throws Exception;
     
+    WarehouseForm buildWarehouseForm(RequestData requestData, Warehouse warehouse) throws Exception;
+
     DeliveryMethodForm buildDeliveryMethodForm(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
     
     RetailerForm buildRetailerForm(RequestData requestData, Retailer retailer) throws Exception;

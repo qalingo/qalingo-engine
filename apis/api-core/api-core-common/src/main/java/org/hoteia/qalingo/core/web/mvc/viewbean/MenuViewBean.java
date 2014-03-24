@@ -77,13 +77,16 @@ public class MenuViewBean extends AbstractViewBean implements Serializable {
     }
 
     public String getCssClass() {
-        return cssClass;
+       if(isActive()){
+           return cssClass + " active";
+       }
+       return cssClass;
     }
 
     public void setCssClass(String cssClass) {
         this.cssClass = cssClass;
     }
-
+    
     public String getCssIcon() {
         return cssIcon;
     }

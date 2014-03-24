@@ -137,9 +137,9 @@
             <aop:pointcut id="serverServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.ServerService.get*(..))" />
             <aop:around method="around" pointcut-ref="serverServicePointcut" />
         </aop:aspect>
-        <aop:aspect id="triggerCacheStockService" ref="cacheManagementAspect">
-            <aop:pointcut id="stockServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.StockService.get*(..))" />
-            <aop:around method="around" pointcut-ref="stockServicePointcut" />
+        <aop:aspect id="triggerCacheWarehouseService" ref="cacheManagementAspect">
+            <aop:pointcut id="warehouseServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.WarehouseService.get*(..))" />
+            <aop:around method="around" pointcut-ref="warehouseServicePointcut" />
         </aop:aspect>
         <aop:aspect id="triggerCacheTaxService" ref="cacheManagementAspect">
             <aop:pointcut id="taxServicePointcut" expression="execution(* org.hoteia.qalingo.core.service.TaxService.get*(..))" />

@@ -95,10 +95,10 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
 		
-		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalog(requestUtil.getRequestData(request), catalogMaster, rootCatalogCategories);
-		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
+//		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalog(requestUtil.getRequestData(request), catalogMaster, rootCatalogCategories);
+//		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -108,7 +108,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
                 Set<CatalogCategoryMaster> catalogCategoriesReload = new HashSet<CatalogCategoryMaster>();
                 for (Iterator<CatalogCategoryMaster> iteratorSubCategories = catalogCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
                     CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
-                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
                     catalogCategoriesReload.add(reloadedCategory);
                 }
                 catalogCategoryMaster.setCatalogCategories(catalogCategoriesReload);
@@ -117,6 +117,9 @@ public class CatalogController extends AbstractBusinessBackofficeController {
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalogMaster);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
+            
+            modelAndView.addObject("catalogType", "master");
+
         } catch (JsonGenerationException e) {
             logger.error(e.getMessage());
         } catch (JsonMappingException e) {
@@ -141,7 +144,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		
-		List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+		List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
 //		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalog(requestUtil.getRequestData(request), catalogVirtual, rootCatalogCategories);
 //		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
@@ -154,7 +157,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
                 Set<CatalogCategoryVirtual> subCatalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
                 for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = rootCatalogCategoryVirtual.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
                     CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
-                    CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+                    CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
                     subCatalogCategoriesReload.add(subCatalogCategoryReloaded);
                 }
                 rootCatalogCategoryVirtual.setCatalogCategories(subCatalogCategoriesReload);
@@ -164,6 +167,9 @@ public class CatalogController extends AbstractBusinessBackofficeController {
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
+            
+            modelAndView.addObject("catalogType", "virtual");
+
         } catch (JsonGenerationException e) {
             logger.error(e.getMessage(), e);
         } catch (JsonMappingException e) {
@@ -328,7 +334,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 				if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
 					// CHIELD CATEGORY
 					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), parentCatalogCategoryCode);
-					initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
+					initProductMasterCategoryModelAndView(request, modelAndView, parentCatalogCategory);
 					return modelAndView;
 					
 				} else {
@@ -357,7 +363,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 				if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
 					// CHIELD CATEGORY
 					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), parentCatalogCategoryCode);
-					initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
+					initProductMasterCategoryModelAndView(request, modelAndView, parentCatalogCategory);
 					return modelAndView;
 					
 				} else {

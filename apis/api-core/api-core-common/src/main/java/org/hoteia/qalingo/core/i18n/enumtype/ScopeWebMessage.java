@@ -27,7 +27,12 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
-	HEADER_MENU("header_menu"),
+	HEADER_TITLE("header_title"),
+
+	   /**
+     * 
+     */
+    HEADER_MENU("header_menu"),
 
 	/**
 	 * 
@@ -174,6 +179,11 @@ public enum ScopeWebMessage {
 	 */
 	RETAILER("retailer"),
 	
+    /**
+     * 
+     */
+    WAREHOUSE("warehouse"),
+    
 	/**
 	 * 
 	 */

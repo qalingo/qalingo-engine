@@ -75,7 +75,7 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCustomerGroupFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCustomerGroupFetchPlan());
         }
     }
 

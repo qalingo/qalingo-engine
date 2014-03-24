@@ -51,11 +51,13 @@
         </property>
 	</bean>
 	
+	<!--
     <aop:config>
         <aop:aspect id="triggerFrontofficeViewBeanFactory" ref="cacheManagementAspect">
             <aop:pointcut id="frontofficeViewBeanFactoryPointcut" expression="execution(* org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory.buildViewBean*(..))" />
             <aop:around method="around" pointcut-ref="frontofficeViewBeanFactoryPointcut" />
         </aop:aspect>
     </aop:config>
+	-->
 	
 </beans>

@@ -70,7 +70,7 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.getDefaultCartFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
         }
     }
 	   

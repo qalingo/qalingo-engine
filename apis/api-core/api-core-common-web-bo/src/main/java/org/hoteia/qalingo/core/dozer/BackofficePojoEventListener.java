@@ -6,12 +6,14 @@ import org.dozer.DozerEventListener;
 import org.dozer.event.DozerEvent;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogMaster;
+import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.catalog.BoCatalogCategoryPojo;
-import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
+import org.hoteia.qalingo.core.pojo.catalog.BoCatalogPojo;
 import org.hoteia.qalingo.core.pojo.product.BoProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.product.BoProductSkuPojo;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
@@ -50,8 +52,24 @@ public class BackofficePojoEventListener implements DozerEventListener {
 
     @Override
     public void postWritingDestinationValue(DozerEvent event) {
-        if(event.getDestinationObject() instanceof CatalogPojo){
-            // NOTHING
+        if(event.getDestinationObject() instanceof BoCatalogPojo){
+            if(event.getFieldMap().getDestFieldName().equals("code")){
+                // INJECT BACKOFFICE URLS
+                BoCatalogPojo catalogPojo = (BoCatalogPojo) event.getDestinationObject();
+                try {
+                    RequestData requestData = requestUtil.getRequestData(httpServletRequest);
+                    
+                    if(event.getSourceObject() instanceof CatalogMaster){
+                        catalogPojo.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData));
+                        
+                    } else if(event.getSourceObject() instanceof CatalogVirtual){
+                        catalogPojo.setAddRootCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData));
+                        
+                    }
+                } catch (Exception e) {
+                    logger.error("postWritingDestinationValue error with BoCatalogPojo", e);
+                }
+            }
         } else if(event.getDestinationObject() instanceof BoCatalogCategoryPojo){
             if(event.getFieldMap().getDestFieldName().equals("code")){
                 // INJECT BACKOFFICE URLS

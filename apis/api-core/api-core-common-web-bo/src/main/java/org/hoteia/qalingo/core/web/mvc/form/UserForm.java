@@ -21,6 +21,7 @@ public class UserForm {
 	
     private String id;
 	private String login;
+    private String title;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -59,6 +60,14 @@ public class UserForm {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
+	public String getTitle() {
+        return title;
+    }
+	
+	public void setTitle(String title) {
+        this.title = title;
+    }
 
 	@NotEmpty(message = "error.form.user.firstname.is.empty")
 	public String getFirstname() {
