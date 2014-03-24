@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.solr.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -71,7 +72,8 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
 	 */
-    public StoreResponseBean searchStore(String searchBy, String searchText, String facetField) throws SolrServerException, IOException {
+    public StoreResponseBean searchStore(String searchBy, String searchText, String facetField, String faceFieldSecond,
+    									List<String> cities,List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         
@@ -85,12 +87,41 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
             solrQuery.setQuery(searchBy + ":" + searchText + "*");
         }
 
+        
         if (StringUtils.isNotEmpty(facetField)) {
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
-            solrQuery.setFacetLimit(8);
+            solrQuery.setFacetLimit(30);
+            solrQuery.setFacetMissing(false);
             solrQuery.addFacetField(facetField);
+            solrQuery.addFacetField(faceFieldSecond);
         }
+
+        if(cities != null && cities.size() > 0){
+        	StringBuilder fq = new StringBuilder("city:(");
+        	for (int i = 0; i < cities.size(); i++) {
+				String city = cities.get(i);
+				fq.append('"'+city+'"');
+				if(i < cities.size() - 1){
+					fq.append(" OR ");
+				}
+			}
+        	fq.append(")");
+        	solrQuery.addFilterQuery(fq.toString());
+        }
+        if(countries != null && countries.size() > 0){
+        	StringBuilder fq = new StringBuilder("countrycode:(");
+        	for (int i = 0; i < countries.size(); i++) {
+				String country = countries.get(i);
+				fq.append('"'+country+'"');
+				if(i < countries.size() - 1){
+					fq.append(" OR ");
+				}
+			}
+        	fq.append(")");
+        	solrQuery.addFilterQuery(fq.toString());
+        }
+        
 
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
 

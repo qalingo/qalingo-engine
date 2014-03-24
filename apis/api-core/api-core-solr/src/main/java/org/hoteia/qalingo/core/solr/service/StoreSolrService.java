@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.solr.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -37,7 +38,7 @@ public interface StoreSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	StoreResponseBean searchStore(String searchBy,String searchText, String facetField) throws SolrServerException, IOException;
+	StoreResponseBean searchStore(String searchBy,String searchText, String facetField, String faceFieldSecond,List<String> cities,List<String> countries) throws SolrServerException, IOException;
 	
 	/**
 	 * Search store.

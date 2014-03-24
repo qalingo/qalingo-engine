@@ -413,6 +413,14 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         } else {
             searchItemViewBean.setIconImage("");
         }
+        
+        final Asset carouselImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (carouselImage != null) {
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), carouselImage);
+            searchItemViewBean.setCarouselImage(iconImage); 
+        } else {
+            searchItemViewBean.setIconImage("");
+        }
 
         return searchItemViewBean;
     }
@@ -437,7 +445,31 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
 
         // TODO : Denis : facet like country ? city ? online/corner etc
+        if(StoreResponseBean.STORE_DEFAULT_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        	searchFacetViewBean.setName(facetField.getName());
+            List<ValueBean> values = new ArrayList<ValueBean>();
+            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
+                Count count = (Count) iterator.next();
+                ValueBean valueBean = new ValueBean();
+                valueBean.setValue(count.getName()+ "(" + count.getCount() + ")");
+                valueBean.setKey(count.getName());
+                values.add(valueBean);
+            }
+            searchFacetViewBean.setValues(values);
+        }
         
+        if(StoreResponseBean.STORE_SECOND_FACET_FIELD.equalsIgnoreCase(facetField.getName())){
+        	searchFacetViewBean.setName(facetField.getName());
+            List<ValueBean> values = new ArrayList<ValueBean>();
+            for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
+                Count count = (Count) iterator.next();
+                ValueBean valueBean = new ValueBean();
+                valueBean.setValue(count.getName()+ "(" + count.getCount() + ")");
+                valueBean.setKey(count.getName());
+                values.add(valueBean);
+            }
+            searchFacetViewBean.setValues(values);
+        }
         return searchFacetViewBean;
     }
     
