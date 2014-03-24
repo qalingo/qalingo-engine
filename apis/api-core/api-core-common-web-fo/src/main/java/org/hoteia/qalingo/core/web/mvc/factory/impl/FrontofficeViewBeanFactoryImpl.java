@@ -455,6 +455,15 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
                 valueBean.setKey(count.getName());
                 values.add(valueBean);
             }
+            Collections.sort(values, new Comparator<ValueBean>() {
+
+				@Override
+				public int compare(ValueBean o1, ValueBean o2) {
+					return o1.getValue().compareTo(o2.getValue());
+				}
+            	
+			});
+            
             searchFacetViewBean.setValues(values);
         }
         
@@ -468,6 +477,15 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
                 valueBean.setKey(count.getName());
                 values.add(valueBean);
             }
+            Collections.sort(values, new Comparator<ValueBean>() {
+
+				@Override
+				public int compare(ValueBean o1, ValueBean o2) {
+					return o1.getValue().compareTo(o2.getValue());
+				}
+            	
+			});
+            
             searchFacetViewBean.setValues(values);
         }
         return searchFacetViewBean;
