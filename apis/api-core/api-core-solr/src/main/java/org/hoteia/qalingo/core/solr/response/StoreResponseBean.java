@@ -19,6 +19,7 @@ public class StoreResponseBean {
 
     public static final String STORE_DEFAULT_SEARCH_FIELD = "text";
     public static final String STORE_DEFAULT_FACET_FIELD = "city";
+    public static final String STORE_SECOND_FACET_FIELD = "countrycode";
 
     private List<StoreSolr> storeSolrList = new ArrayList<StoreSolr>();
 

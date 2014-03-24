@@ -30,6 +30,7 @@ public class SearchForm implements Serializable {
 	private String order;
 	private PriceRange price;
 	private String categoriesFilter;
+	private String cities;
 
 	public SearchForm() {
 		page = 0;
@@ -94,6 +95,15 @@ public class SearchForm implements Serializable {
 	public void setCategoriesFilter(String categoriesFilter) {
 		this.categoriesFilter = categoriesFilter;
 	}
+	
+
+	public String getCities() {
+		return cities;
+	}
+
+	public void setCities(String cities) {
+		this.cities = cities;
+	}
 
 	public List<String> getCatalogCategoryList() {
 		if (StringUtils.isEmpty(categoriesFilter)) {
@@ -101,6 +111,15 @@ public class SearchForm implements Serializable {
 		}
 
 		String[] arr = categoriesFilter.split(",");
+		return Arrays.asList(arr);
+	}
+	
+	public List<String> getCityList() {
+		if (StringUtils.isEmpty(cities)) {
+			return null;
+		}
+
+		String[] arr = cities.split(",");
 		return Arrays.asList(arr);
 	}
 
