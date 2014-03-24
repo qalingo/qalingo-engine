@@ -33,6 +33,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
@@ -116,9 +117,13 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         AbstractRuleReferential rule = (AbstractRuleReferential) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_RULE_CODE, handleParamValue(rule.getCode().toString()));
                         break;
+                    } else if (param instanceof Warehouse) {
+                        Warehouse warehouse = (Warehouse) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_WAREHOUSE_CODE, handleParamValue(warehouse.getCode().toString()));
+                        break;
                     } else if (param instanceof DeliveryMethod) {
-                        DeliveryMethod shipping = (DeliveryMethod) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE, handleParamValue(shipping.getCode().toString()));
+                        DeliveryMethod deliveryMethod = (DeliveryMethod) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE, handleParamValue(deliveryMethod.getCode().toString()));
                         break;
                     } else if (param instanceof OrderCustomer) {
                         OrderCustomer order = (OrderCustomer) param;

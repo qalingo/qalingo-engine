@@ -1468,29 +1468,51 @@ INSERT INTO teco_asset
 (199, 'image ...', 'PS_IMG99', 'the-jaidun-tumbler.jpg', 0, 'image 99', 1, 'BACKGROUND', null, 1, 49, 'PRODUCT_SKU'),
 (200, 'image ...', 'PS_IMG100', 'bamboo-ceramic-tea-set.jpg', 0, 'image 100', 1, 'BACKGROUND', null, 1, 50, 'PRODUCT_SKU');
 
+-- WAREHOUSE
+
+INSERT INTO teco_warehouse  
+(id, code, name, description, version)
+ VALUES 
+(10, 'WAREHOUSE_FR', 'WAREHOUSE France', 'WAREHOUSE France', 1), 
+(20, 'WAREHOUSE_US', 'WAREHOUSE USA', 'WAREHOUSE USA', 1);
+
+INSERT INTO teco_market_area_warehouse_rel  
+(market_area_id, warehouse_id)
+ VALUES 
+(101, 10),
+(201, 20);
 
 -- DELIVERY METHODS
 
 INSERT INTO teco_delivery_method  
 (id, code, name, description, version)
  VALUES 
-(10, 'UPS', 'UPS', 'UPS', 1), 
+(10, 'UPS_FR', 'UPS', 'UPS', 1), 
 (20, 'CHONOPOST', 'Chronopost', 'Chronopost', 1), 
-(30, 'COLISSIMO', 'Collisimo', 'Collisimo', 1);
+(30, 'COLISSIMO', 'Collisimo', 'Collisimo', 1),
+(40, 'UPS_US', 'UPS', 'UPS', 1), 
+(50, 'FEDEX_US', 'Fedex', 'Fedex', 1), 
+(60, 'US_POSTAL', 'US Postal', 'US Postal', 1);
 
-INSERT INTO teco_market_area_delivery_method_rel  
-(market_area_id, delivery_method_id)
+INSERT INTO teco_warehouse_delivery_method_rel  
+(warehouse_id, delivery_method_id)
  VALUES 
-(1, 10),
-(1, 20),
-(1, 30);
+(10, 10),
+(10, 20),
+(10, 30),
+(20, 40),
+(20, 50),
+(20, 60);
 
 INSERT INTO teco_delivery_method_price  
-(id, market_area_id, price, retailer_id, currency_id, delivery_method_id)
+(id, price, currency_id, delivery_method_id)
 VALUES 
-(10, 1, 14.35, 1, 150, 10),
-(20, 1, 15.35, 1, 150, 20),
-(30, 1, 16.35, 1, 150, 30);
+(10, 14.35, 45, 10),
+(20, 15.35, 45, 20),
+(30, 16.35, 45, 30),
+(40, 14.35, 150, 40),
+(50, 15.35, 150, 50),
+(60, 16.35, 150, 60);
 
 -- RULE | PROMO
 

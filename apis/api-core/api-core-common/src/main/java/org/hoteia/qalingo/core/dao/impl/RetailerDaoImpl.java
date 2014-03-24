@@ -12,7 +12,9 @@ package org.hoteia.qalingo.core.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -174,6 +176,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 		if(retailer.getDateCreate() == null){
 			retailer.setDateCreate(new Date());
 		}
+        if (StringUtils.isEmpty(retailer.getCode())) {
+            retailer.setCode(UUID.randomUUID().toString());
+        }
 		retailer.setDateUpdate(new Date());
         if (retailer.getId() != null) {
             if(em.contains(retailer)){

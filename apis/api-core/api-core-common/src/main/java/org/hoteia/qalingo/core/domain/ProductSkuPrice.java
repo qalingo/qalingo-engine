@@ -56,6 +56,10 @@ public class ProductSkuPrice extends AbstractPrice {
 	@Column(name="RETAILER_ID")
 	private Long retailerId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
+    private ProductSku productSku;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_START")
     private Date dateStart;
@@ -131,6 +135,14 @@ public class ProductSkuPrice extends AbstractPrice {
 	public void setRetailerId(Long retailerId) {
 		this.retailerId = retailerId;
 	}
+	
+	public ProductSku getProductSku() {
+        return productSku;
+    }
+	
+	public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
+    }
 	
     public Date getDateStart() {
         return dateStart;
@@ -209,8 +221,8 @@ public class ProductSkuPrice extends AbstractPrice {
 
     @Override
     public String toString() {
-        return "ProductSkuPrice [id=" + id + ", version=" + version + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
-                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductSkuPrice [id=" + id + ", version=" + version + ", catalogPrice=" + catalogPrice + ", currency=" + currency + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId
+                + ", productSku=" + productSku + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
-    
+
 }

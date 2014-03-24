@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.WarehouseDao;
 import org.hoteia.qalingo.core.domain.ProductSkuStock;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -67,13 +68,28 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
 
         return warehouses;
     }
+    
+    public List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-    public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) throws Exception {
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("marketAreas", "ma", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("ma.id", marketAreaId));
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Warehouse> warehouses = criteria.list();
+        return warehouses;
+    }
+
+    public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) {
         if (warehouse.getDateCreate() == null) {
             warehouse.setDateCreate(new Date());
-            if (StringUtils.isEmpty(warehouse.getCode())) {
-                warehouse.setCode(UUID.randomUUID().toString());
-            }
+        }
+        if (StringUtils.isEmpty(warehouse.getCode())) {
+            warehouse.setCode(UUID.randomUUID().toString());
         }
         warehouse.setDateUpdate(new Date());
 

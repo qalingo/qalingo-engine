@@ -117,10 +117,10 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_RETAILER_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
-    @JoinTable(name = "TECO_MARKET_AREA_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
-    private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
-
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
+    @JoinTable(name = "TECO_MARKET_AREA_WAREHOUSE_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
+    private Set<Warehouse> warehouses = new HashSet<Warehouse>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
     @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"))
     private Set<AbstractPaymentGateway> paymentGateways = new HashSet<AbstractPaymentGateway>();
@@ -328,12 +328,36 @@ public class MarketArea extends AbstractEntity {
         this.retailers = retailers;
     }
 
+    public Set<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+    
+    public void setWarehouses(Set<Warehouse> warehouses) {
+        this.warehouses = warehouses;
+    }
+    
     public Set<DeliveryMethod> getDeliveryMethods() {
+        Set<DeliveryMethod> deliveryMethods = null;
+        if(warehouses != null
+                && Hibernate.isInitialized(warehouses)){
+            deliveryMethods = new HashSet<DeliveryMethod>();
+            for (Iterator<Warehouse> iteratorWarehouse = warehouses.iterator(); iteratorWarehouse.hasNext();) {
+                Warehouse warehouse = (Warehouse) iteratorWarehouse.next();
+                if(warehouse.getDeliveryMethods() != null
+                        && Hibernate.isInitialized(warehouse.getDeliveryMethods())){
+                    for (Iterator<DeliveryMethod> iteratorDeliveryMethod = warehouse.getDeliveryMethods().iterator(); iteratorDeliveryMethod.hasNext();) {
+                        DeliveryMethod deliveryMethod = (DeliveryMethod) iteratorDeliveryMethod.next();
+                        deliveryMethods.add(deliveryMethod);
+                    }
+                }
+            }
+        }
         return deliveryMethods;
     }
 
     public DeliveryMethod getDeliveryMethod(String deliveryMethodCode) {
         DeliveryMethod deliveryMethodToReturn = null;
+        Set<DeliveryMethod> deliveryMethods = getDeliveryMethods();
         if (deliveryMethods != null 
                 && Hibernate.isInitialized(deliveryMethods)) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
@@ -346,10 +370,6 @@ public class MarketArea extends AbstractEntity {
         return deliveryMethodToReturn;
     }
 
-    public void setDeliveryMethods(Set<DeliveryMethod> deliveryMethods) {
-        this.deliveryMethods = deliveryMethods;
-    }
-    
     public Set<AbstractPaymentGateway> getPaymentGateways() {
         return paymentGateways;
     }
@@ -512,7 +532,10 @@ public class MarketArea extends AbstractEntity {
     @Override
     public String toString() {
         return "MarketArea [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault + ", isEcommerce=" + isEcommerce
-                + ", theme=" + theme + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", theme=" + theme + ", geolocCountryCode=" + geolocCountryCode + ", catalog=" + catalog + ", market=" + market + ", defaultCurrency=" + defaultCurrency + ", currencies="
+                + currencies + ", marketAreaAttributes=" + marketAreaAttributes + ", defaultLocalization=" + defaultLocalization + ", localizations=" + localizations + ", defaultRetailer="
+                + defaultRetailer + ", retailers=" + retailers + ", warehouses=" + warehouses + ", paymentGateways=" + paymentGateways + ", longitude=" + longitude + ", latitude=" + latitude
+                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

@@ -1109,8 +1109,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
                 warehouseViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
-            warehouseViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_DETAILS, requestData, warehouse));
-            warehouseViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_EDIT, requestData, warehouse));
+            warehouseViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse));
+            warehouseViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_EDIT, requestData, warehouse));
 
         }
         return warehouseViewBean;

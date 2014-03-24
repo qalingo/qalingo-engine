@@ -92,11 +92,11 @@ Example in your root pom :
 
 <bean id="viewBeanFactory" class="fr.hoteia.opentailor.web.mvc.factory.impl.ExtViewBeanFactoryImpl" />
 		  
-* If you can't -> create an issue, or make a pull request on Qalingo :D
+* If you can't -> create an issue, or make a pull request on Qalingo
 
-* If you need something more -> create an issue, or make a pull request on Qalingo :D
+* If you need something more -> create an issue, or make a pull request on Qalingo
 
-* If you can do more -> create an issue, or make a pull request on Qalingo :D
+* If you can do more -> create an issue, or make a pull request on Qalingo
 
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a4b531544e9d501a94053f08e6337817 "githalytics.com")](http://githalytics.com/qalingo/qalingo-b2c-engine)

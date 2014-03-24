@@ -26,7 +26,9 @@ public interface WarehouseService {
 
     List<Warehouse> findWarehouses(Object... params);
 
-    Warehouse saveOrUpdateWarehouse(Warehouse warehouse) throws Exception;
+    List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params);
+
+    Warehouse saveOrUpdateWarehouse(Warehouse warehouse);
 
     void deleteWarehouse(Warehouse warehouse);
     

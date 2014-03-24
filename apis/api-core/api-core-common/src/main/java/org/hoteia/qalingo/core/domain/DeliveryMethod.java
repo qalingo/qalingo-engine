@@ -22,6 +22,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -68,6 +70,10 @@ public class DeliveryMethod extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="DELIVERY_METHOD_ID")
     private Set<DeliveryMethodPrice> prices = new HashSet<DeliveryMethodPrice>(); 
+    
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
+    @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "WAREHOUSE_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
+    private Set<Warehouse> warehouses = new HashSet<Warehouse>();
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -144,10 +150,14 @@ public class DeliveryMethod extends AbstractEntity {
         if(prices != null
                 && Hibernate.isInitialized(prices)){
             for (DeliveryMethodPrice deliveryMethodPrice : prices) {
-                if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
-                        && deliveryMethodPrice.getRetailerId().equals(retailerId)) {
-                    return deliveryMethodPrice;
-                }
+                
+                // TODO : denis : fix the context
+                
+//                if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
+//                        && deliveryMethodPrice.getRetailerId().equals(retailerId)) {
+//                    return deliveryMethodPrice;
+//                }
+                return deliveryMethodPrice;
             }    
         }
         return null;
@@ -171,6 +181,14 @@ public class DeliveryMethod extends AbstractEntity {
     
     public void setPrices(Set<DeliveryMethodPrice> prices) {
         this.prices = prices;
+    }
+    
+    public Set<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+    
+    public void setWarehouses(Set<Warehouse> warehouses) {
+        this.warehouses = warehouses;
     }
 
     public Date getDateCreate() {
@@ -228,8 +246,8 @@ public class DeliveryMethod extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "DeliveryMethod [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", deliveryTime=" + deliveryTime + ", dateCreate="
-                + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "DeliveryMethod [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", deliveryTime=" + deliveryTime + ", countries="
+                + countries + ", prices=" + prices + ", warehouses=" + warehouses + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

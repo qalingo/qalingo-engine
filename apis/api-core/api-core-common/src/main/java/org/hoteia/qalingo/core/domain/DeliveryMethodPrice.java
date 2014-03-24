@@ -50,11 +50,14 @@ public class DeliveryMethodPrice extends AbstractPrice {
     @JoinColumn(name="CURRENCY_ID", insertable = true, updatable = true)
 	private CurrencyReferential currency;
 	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
-	@Column(name="RETAILER_ID")
-	private Long retailerId;
+//	@Column(name="MARKET_AREA_ID")
+//	private Long marketAreaId;
+//	
+//	@Column(name="RETAILER_ID")
+//	private Long retailerId;
+
+    @Column(name = "DELIVERY_METHOD_ID")
+    private Long deliveryMethodPriceId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_START")
@@ -116,22 +119,30 @@ public class DeliveryMethodPrice extends AbstractPrice {
 		this.currency = currency;
 	}
 
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
+//	public Long getMarketAreaId() {
+//		return marketAreaId;
+//	}
+//
+//	public void setMarketAreaId(Long marketAreaId) {
+//		this.marketAreaId = marketAreaId;
+//	}
+//	
+//	public Long getRetailerId() {
+//		return retailerId;
+//	}
+//	
+//	public void setRetailerId(Long retailerId) {
+//		this.retailerId = retailerId;
+//	}
 
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
+	public Long getDeliveryMethodPriceId() {
+        return deliveryMethodPriceId;
+    }
 	
-	public Long getRetailerId() {
-		return retailerId;
-	}
+	public void setDeliveryMethodPriceId(Long deliveryMethodPriceId) {
+        this.deliveryMethodPriceId = deliveryMethodPriceId;
+    }
 	
-	public void setRetailerId(Long retailerId) {
-		this.retailerId = retailerId;
-	}
-
     public Date getDateStart() {
         return dateStart;
     }
@@ -170,8 +181,7 @@ public class DeliveryMethodPrice extends AbstractPrice {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((marketAreaId == null) ? 0 : marketAreaId.hashCode());
-        result = prime * result + ((retailerId == null) ? 0 : retailerId.hashCode());
+        result = prime * result + ((deliveryMethodPriceId == null) ? 0 : deliveryMethodPriceId.hashCode());
         return result;
     }
 
@@ -194,22 +204,17 @@ public class DeliveryMethodPrice extends AbstractPrice {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (marketAreaId == null) {
-            if (other.marketAreaId != null)
+        if (deliveryMethodPriceId == null) {
+            if (other.deliveryMethodPriceId != null)
                 return false;
-        } else if (!marketAreaId.equals(other.marketAreaId))
-            return false;
-        if (retailerId == null) {
-            if (other.retailerId != null)
-                return false;
-        } else if (!retailerId.equals(other.retailerId))
+        } else if (!deliveryMethodPriceId.equals(other.deliveryMethodPriceId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "DeliveryMethodPrice [id=" + id + ", version=" + version + ", marketAreaId=" + marketAreaId + ", retailerId=" + retailerId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+        return "DeliveryMethodPrice [id=" + id + ", version=" + version + ", deliveryMethodPriceId=" + deliveryMethodPriceId + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
                 + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
     
