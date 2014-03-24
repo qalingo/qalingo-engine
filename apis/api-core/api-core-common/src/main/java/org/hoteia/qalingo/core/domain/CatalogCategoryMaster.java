@@ -64,18 +64,18 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
-
-    @Column(name = "DESCRIPTION")
-    private String description;
-
     @Column(name = "CODE", nullable = false)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = true, updatable = true)
     private CatalogCategoryType catalogCategoryType;
+    
+    @Column(name = "BUSINESS_NAME")
+    private String businessName;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
@@ -128,6 +128,22 @@ public class CatalogCategoryMaster extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public CatalogCategoryType getCatalogCategoryType() {
+        return catalogCategoryType;
+    }
+
+    public void setCatalogCategoryType(CatalogCategoryType catalogCategoryType) {
+        this.catalogCategoryType = catalogCategoryType;
+    }
+    
     public String getBusinessName() {
         return businessName;
     }
@@ -165,22 +181,6 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public CatalogCategoryType getCatalogCategoryType() {
-        return catalogCategoryType;
-    }
-
-    public void setCatalogCategoryType(CatalogCategoryType catalogCategoryType) {
-        this.catalogCategoryType = catalogCategoryType;
     }
 
     public Set<CatalogCategoryMasterAttribute> getCatalogCategoryAttributes() {

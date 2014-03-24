@@ -95,7 +95,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 
-		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
 		
 		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalog(requestUtil.getRequestData(request), catalogMaster, rootCatalogCategories);
 		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
@@ -108,7 +108,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
                 Set<CatalogCategoryMaster> catalogCategoriesReload = new HashSet<CatalogCategoryMaster>();
                 for (Iterator<CatalogCategoryMaster> iteratorSubCategories = catalogCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
                     CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
-                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
+                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
                     catalogCategoriesReload.add(reloadedCategory);
                 }
                 catalogCategoryMaster.setCatalogCategories(catalogCategoriesReload);
@@ -141,33 +141,35 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		
-		List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
-		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalog(requestUtil.getRequestData(request), catalogVirtual, rootCatalogCategories);
-		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
+		List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategories(currentMarketArea.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+//		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalog(requestUtil.getRequestData(request), catalogVirtual, rootCatalogCategories);
+//		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
 		
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO : Denis : temporary hack - need a good recursive fetch with criteria
+            Set<CatalogCategoryVirtual> rootCatalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
             for (Iterator<CatalogCategoryVirtual> iterator = rootCatalogCategories.iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
-                Set<CatalogCategoryVirtual> catalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
-                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = catalogCategoryVirtual.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-                    CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
-                    CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithouProductsAndAssetsFetchPlan());
-                    catalogCategoriesReload.add(reloadedCategory);
+                CatalogCategoryVirtual rootCatalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
+                Set<CatalogCategoryVirtual> subCatalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
+                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = rootCatalogCategoryVirtual.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+                    CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
+                    CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.getAllCategoriesWithoutProductsAndAssetsFetchPlan());
+                    subCatalogCategoriesReload.add(subCatalogCategoryReloaded);
                 }
-                catalogCategoryVirtual.setCatalogCategories(catalogCategoriesReload);
+                rootCatalogCategoryVirtual.setCatalogCategories(subCatalogCategoriesReload);
+                rootCatalogCategoriesReload.add(rootCatalogCategoryVirtual);
             }
-            catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategories));
+            catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategoriesReload));
             CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
             String catalog = mapper.writeValueAsString(catalogPojo);
             modelAndView.addObject("catalogJson", catalog);
         } catch (JsonGenerationException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         } catch (JsonMappingException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return modelAndView;
 	}
@@ -566,7 +568,6 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 			} else {
 				// CREATE PRODUCT MARKETING
 				webBackofficeService.createCatalogCategory(currentMarketArea, currentLocalization, catalogCategory, catalogCategoryForm);
-
 			}
 		}
 		

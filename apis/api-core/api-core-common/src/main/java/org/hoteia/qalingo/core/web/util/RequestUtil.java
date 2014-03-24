@@ -11,7 +11,6 @@ package org.hoteia.qalingo.core.web.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
 
@@ -35,6 +33,16 @@ import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
  */
 public interface RequestUtil {
 
+    /**
+     * 
+     */
+    void handleFrontofficeUrlParameters(HttpServletRequest request) throws Exception;
+
+    /**
+     * 
+     */
+    void handleBackofficeUrlParameters(HttpServletRequest request) throws Exception;
+    
     /**
 	 *
 	 */
@@ -148,11 +156,6 @@ public interface RequestUtil {
     /**
      * 
      */
-    void handleFrontofficeUrlParameters(HttpServletRequest request) throws Exception;
-
-    /**
-     * 
-     */
     EngineEcoSession getCurrentEcoSession(HttpServletRequest request) throws Exception;
 
     /**
@@ -178,12 +181,12 @@ public interface RequestUtil {
     /**
      * 
      */
-    Company getCurrentCompany(HttpServletRequest request) throws Exception;
-
+    void cleanCurrentUser(HttpServletRequest request) throws Exception;
+    
     /**
      * 
      */
-    void handleBackofficeUrlParameters(HttpServletRequest request) throws Exception;
+    Company getCurrentCompany(HttpServletRequest request) throws Exception;
 
     /**
      * 
@@ -258,7 +261,7 @@ public interface RequestUtil {
     /**
      * 
      */
-    String getCurrentTheme(HttpServletRequest request) throws Exception;
+    String getCurrentTheme(RequestData requestData) throws Exception;
 
     /**
      * 

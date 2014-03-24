@@ -9,10 +9,12 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
 public class FetchPlanGraphCategory {
 
-    public static FetchPlan getAllCategoriesWithouProductsAndAssetsFetchPlan(){
+    public static FetchPlan getAllCategoriesWithoutProductsAndAssetsFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("categoryMaster"));
+        fetchplans.add(new SpecificFetchMode("catalogCategoryType", new SpecificAlias("categoryMaster.catalogCategoryType")));
+
         fetchplans.add(new SpecificFetchMode("defaultParentCatalogCategory"));
         fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes"));
         fetchplans.add(new SpecificFetchMode("catalogCategories"));
@@ -28,6 +30,8 @@ public class FetchPlanGraphCategory {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("categoryMaster"));
+        fetchplans.add(new SpecificFetchMode("catalogCategoryType", new SpecificAlias("categoryMaster.catalogCategoryType")));
+
         fetchplans.add(new SpecificFetchMode("defaultParentCatalogCategory"));
         fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes"));
         fetchplans.add(new SpecificFetchMode("catalogCategories"));

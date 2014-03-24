@@ -86,7 +86,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         
 		model.addAttribute(ModelConstants.LOCALE_LANGUAGE_CODE, locale.getLanguage());
 		model.addAttribute(ModelConstants.CONTEXT_PATH, request.getContextPath());
-		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(request));
+		model.addAttribute(ModelConstants.THEME, requestUtil.getCurrentTheme(requestData));
 		Object[] params = {StringUtils.capitalize(requestUtil.getEnvironmentName())};
 		model.addAttribute(ModelConstants.ENV_NAME, getSpecificMessage(ScopeWebMessage.COMMON, "header.env.name", params, locale));
 	}

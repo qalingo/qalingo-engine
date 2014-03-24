@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * User details
  */
-@Controller("userController")
-public class UserController extends AbstractBackofficeQalingoController {
+@Controller("userPersonalController")
+public class UserPersonalController extends AbstractBackofficeQalingoController {
 
     @RequestMapping(value = BoUrls.PERSONAL_DETAILS_URL, method = RequestMethod.GET)
     public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {

@@ -83,7 +83,6 @@ public class CatalogPojoServiceImpl implements CatalogPojoService {
         return productMarketingPojo;
     }
     
-    
     public ProductSkuPojo buildProductSku(final ProductSku productSku) {
         final ProductSkuPojo productSkuPojo = dozerBeanMapper.map(productSku, ProductSkuPojo.class);
         logger.debug("Load {} sku", productSku.getCode());

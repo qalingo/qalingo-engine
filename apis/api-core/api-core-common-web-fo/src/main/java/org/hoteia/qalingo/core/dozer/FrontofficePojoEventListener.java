@@ -83,7 +83,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     cartItemPojo.setTotalAmountWithStandardCurrencySign(cartItem.getTotalAmountWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error("postWritingDestinationValue error with FoCartItemPojo", e);
                 }
             }
         } else if(event.getDestinationObject() instanceof ProductSkuPojo){
@@ -111,7 +111,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     productSkuPojo.setPriceWithStandardCurrencySign(productSku.getPrice(marketArea.getId(), retailer.getId()).getPriceWithStandardCurrencySign());
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error("postWritingDestinationValue error with ProductSkuPojo", e);
                 }
             }
         } else if(event.getDestinationObject() instanceof FoDeliveryMethodPojo){
@@ -134,7 +134,7 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                         deliveryMethodPojo.setSelected(true);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error("postWritingDestinationValue error with FoDeliveryMethodPojo", e);
                 }
             }
         }

@@ -17,7 +17,6 @@ import net.sf.ehcache.Statistics;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;

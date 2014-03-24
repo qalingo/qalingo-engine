@@ -53,6 +53,7 @@ import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmail
 import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
+import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
@@ -660,7 +661,7 @@ public class WebManagementServiceImpl implements WebManagementService {
             requestUtil.updateCurrentCustomer(request, customer);
         } else {
             // Wishlist for this product sku code already exist
-            throw new Exception(""); 
+            throw new ProductAlreadyExistInWishlistException(); 
         }
         return customer;
     }

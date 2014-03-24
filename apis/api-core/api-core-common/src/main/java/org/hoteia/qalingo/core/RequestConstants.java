@@ -57,6 +57,7 @@ public final class RequestConstants {
 
     public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_SKU_CODES     = "sku-codes";
     public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITIES    = "qties";
+    public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITY    = "quantity";
 
     public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID       = "payment-gateway-guid";
     public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID      = "customer-address-guid";

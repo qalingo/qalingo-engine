@@ -15,7 +15,8 @@ public class FoAddToCartPojo {
     private String checkoutShoppingCartHeaderLabel;
     private String checkoutShoppingCartUrl;
 
-    private List<FoErrorPojo> errors = new ArrayList<FoErrorPojo>();
+    private List<FoMessagePojo> successMessages = new ArrayList<FoMessagePojo>();
+    private List<FoMessagePojo> errorMessages = new ArrayList<FoMessagePojo>();
 
     public boolean isStatuts() {
         return statuts;
@@ -57,12 +58,20 @@ public class FoAddToCartPojo {
         this.checkoutShoppingCartUrl = checkoutShoppingCartUrl;
     }
 
-    public List<FoErrorPojo> getErrors() {
-        return errors;
+    public List<FoMessagePojo> getSuccessMessages() {
+        return successMessages;
+    }
+    
+    public void setSuccessMessages(List<FoMessagePojo> successMessages) {
+        this.successMessages = successMessages;
     }
 
-    public void setErrors(List<FoErrorPojo> errors) {
-        this.errors = errors;
+    public List<FoMessagePojo> getErrorMessages() {
+        return errorMessages;
+    }
+    
+    public void setErrorMessages(List<FoMessagePojo> errorMessages) {
+        this.errorMessages = errorMessages;
     }
 
 }
