@@ -111,7 +111,10 @@ public class StoreSearchController extends AbstractMCommerceController {
 			StoreResponseBean storeResponseBean = null;
 			storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), StoreResponseBean.STORE_DEFAULT_FACET_FIELD,
 					StoreResponseBean.STORE_SECOND_FACET_FIELD, cityList,countryList);
-			modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponseBean));
+			StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), StoreResponseBean.STORE_DEFAULT_FACET_FIELD,
+					StoreResponseBean.STORE_SECOND_FACET_FIELD);
+			
+			modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter));
 	        
 			PagedListHolder<SearchStoreItemViewBean> productsViewBeanPagedListHolder;
 

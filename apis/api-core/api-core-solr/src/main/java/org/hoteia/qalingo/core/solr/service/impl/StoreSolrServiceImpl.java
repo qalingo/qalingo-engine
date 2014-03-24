@@ -68,6 +68,13 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         storeSolrServer.addBean(storeSolr);
         storeSolrServer.commit();
     }
+    
+    /* (non-Javadoc)
+	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
+	 */
+    public StoreResponseBean searchStore(String searchBy, String searchText, String facetField, String faceFieldSecond) throws SolrServerException, IOException {
+    	return searchStore(searchBy, searchText, facetField, faceFieldSecond, null, null);
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)

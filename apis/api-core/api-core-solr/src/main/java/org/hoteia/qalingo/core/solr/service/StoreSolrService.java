@@ -34,11 +34,28 @@ public interface StoreSolrService {
 	 * @param searchBy the search by
 	 * @param searchText the search text
 	 * @param facetField the facet field
+	 * @param facetFieldSecond the facet field
+	 * @param cities the list city
+	 * @param countries the list country
 	 * @return the store response bean
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	StoreResponseBean searchStore(String searchBy,String searchText, String facetField, String faceFieldSecond,List<String> cities,List<String> countries) throws SolrServerException, IOException;
+	
+	/**
+	 * Search store.
+	 *
+	 * @param searchBy the search by
+	 * @param searchText the search text
+	 * @param facetField the facet field
+	 * @param facetFieldSecond the facet field
+	 * @return the store response bean
+	 * @throws SolrServerException the solr server exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	
+	StoreResponseBean searchStore(String searchBy, String searchText, String facetField, String faceFieldSecond) throws SolrServerException, IOException;
 	
 	/**
 	 * Search store.
