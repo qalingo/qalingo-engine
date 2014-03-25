@@ -48,7 +48,11 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseDao.findWarehouses(params);
     }
 
-    public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) throws Exception {
+    public List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params) {
+        return warehouseDao.findWarehousesByMarketAreaId(marketAreaId, params);
+    }
+    
+    public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) {
         return warehouseDao.saveOrUpdateWarehouse(warehouse);
     }
 

@@ -1,12 +1,18 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,17 +37,22 @@ public class Warehouse extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE")
+    private String code;
+    
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "CODE")
-    private String code;
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @JoinTable(name = "TECO_MARKET_AREA_WAREHOUSE_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
+    private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
     
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
+    @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "WAREHOUSE_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
+    private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -70,6 +81,14 @@ public class Warehouse extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
@@ -86,20 +105,20 @@ public class Warehouse extends AbstractEntity {
         this.description = description;
     }
 
-    public String getCode() {
-        return code;
+    public Set<MarketArea> getMarketAreas() {
+        return marketAreas;
     }
-
-    public void setCode(String code) {
-        this.code = code;
+    
+    public void setMarketAreas(Set<MarketArea> marketAreas) {
+        this.marketAreas = marketAreas;
     }
-
-    public Long getRetailerId() {
-        return retailerId;
+    
+    public Set<DeliveryMethod> getDeliveryMethods() {
+        return deliveryMethods;
     }
-
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
+    
+    public void setDeliveryMethods(Set<DeliveryMethod> deliveryMethods) {
+        this.deliveryMethods = deliveryMethods;
     }
 
     public Date getDateCreate() {
@@ -157,8 +176,8 @@ public class Warehouse extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Warehouse [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", retailerId=" + retailerId + ", dateCreate=" + dateCreate
+        return "Warehouse [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", marketAreas=" + marketAreas + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
-    
+
 }

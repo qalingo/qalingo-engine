@@ -294,9 +294,6 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     }
     
     public WarehouseForm buildWarehouseForm(final RequestData requestData, final Warehouse warehouse) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-        
         final WarehouseForm warehouseForm = new WarehouseForm();
         if(warehouse != null){
             warehouseForm.setId(warehouse.getId().toString());

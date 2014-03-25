@@ -23,8 +23,10 @@ public interface WarehouseDao {
     Warehouse getWarehouseByCode(String warehouseCode, Object... params);
 
     List<Warehouse> findWarehouses(Object... params);
+    
+    List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params);
 
-    Warehouse saveOrUpdateWarehouse(Warehouse warehouse) throws Exception;
+    Warehouse saveOrUpdateWarehouse(Warehouse warehouse);
 
     void deleteWarehouse(Warehouse warehouse);
     

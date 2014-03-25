@@ -19,6 +19,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
@@ -27,6 +28,7 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
+import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface WebBackofficeService {
 
@@ -56,6 +58,8 @@ public interface WebBackofficeService {
 
     void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm);
 
+    void createOrUpdateWarehouse(Warehouse warehouse, WarehouseForm warehouseForm);
+    
     void updateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
 
 }

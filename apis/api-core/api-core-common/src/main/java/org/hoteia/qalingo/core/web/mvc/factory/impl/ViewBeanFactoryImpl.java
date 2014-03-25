@@ -999,6 +999,8 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
                     customerViewBean.setLastConnectionDate(Constants.NOT_AVAILABLE);
                 }
             }
+            
+            customerViewBean.setActive(customer.isActive());
 
             final ValueBean customerScreenNameValueBean = new ValueBean();
             customerScreenNameValueBean.setKey(getSpecificMessage(ScopeWebMessage.CUSTOMER, "screenname.label", locale));
@@ -1835,16 +1837,21 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final Set<DeliveryMethodPrice> prices = deliveryMethod.getPrices();
         if(Hibernate.isInitialized(prices) && prices != null){
             for (DeliveryMethodPrice deliveryMethodPrice : prices) {
-                if(deliveryMethodPrice.getMarketAreaId().equals(marketArea.getId()) && deliveryMethodPrice.getRetailerId().equals(retailer.getId())) {
-                    deliveryMethodViewBean.setCatalogPrice(deliveryMethodPrice.getPrice().toString());
-                    deliveryMethodViewBean.setSalePrice(deliveryMethodPrice.getSalePrice().toString());
-                    deliveryMethodViewBean.setPriceWithCurrencySign(deliveryMethodPrice.getPriceWithStandardCurrencySign());
-                    
-                    deliveryMethodViewBean.setCurrencySign(deliveryMethodPrice.getCurrency().getSign());
-                    deliveryMethodViewBean.setCurrencyAbbreviated(deliveryMethodPrice.getCurrency().getAbbreviated());
+                
+                // TODO : denis : fix the context
+                
+                
+//                if(deliveryMethodPrice.getMarketAreaId().equals(marketArea.getId()) && deliveryMethodPrice.getRetailerId().equals(retailer.getId())) {
+//                }
+                deliveryMethodViewBean.setCatalogPrice(deliveryMethodPrice.getPrice().toString());
+                deliveryMethodViewBean.setSalePrice(deliveryMethodPrice.getSalePrice().toString());
+                deliveryMethodViewBean.setPriceWithCurrencySign(deliveryMethodPrice.getPriceWithStandardCurrencySign());
+                
+                deliveryMethodViewBean.setCurrencySign(deliveryMethodPrice.getCurrency().getSign());
+                deliveryMethodViewBean.setCurrencyAbbreviated(deliveryMethodPrice.getCurrency().getAbbreviated());
+    
+                break;
 
-                    break;
-                }
             }
         }
 

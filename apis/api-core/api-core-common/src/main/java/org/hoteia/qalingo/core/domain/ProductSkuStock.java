@@ -13,9 +13,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,9 +63,14 @@ public class ProductSkuStock extends AbstractEntity {
     @Column(name = "REORDER_NEXT_DATE")
     private Date reorderNextDate;
 
-	@Column(name="WAREHOUSE_ID")
-	private Long warehouseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WAREHOUSE_ID", insertable = true, updatable = true)
+	private Warehouse warehouse;
 	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="PRODUCT_SKU_ID", insertable = true, updatable = true)
+    private ProductSku productSku;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -146,14 +154,22 @@ public class ProductSkuStock extends AbstractEntity {
         this.reorderNextDate = reorderNextDate;
     }
 
-    public Long getWarehouseId() {
-        return warehouseId;
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
     
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 
+    public ProductSku getProductSku() {
+        return productSku;
+    }
+    
+    public void setProductSku(ProductSku productSku) {
+        this.productSku = productSku;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -176,7 +192,6 @@ public class ProductSkuStock extends AbstractEntity {
         int result = 1;
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((warehouseId == null) ? 0 : warehouseId.hashCode());
         return result;
     }
 
@@ -199,11 +214,6 @@ public class ProductSkuStock extends AbstractEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (warehouseId == null) {
-            if (other.warehouseId != null)
-                return false;
-        } else if (!warehouseId.equals(other.warehouseId))
-            return false;
         return true;
     }
 
@@ -211,7 +221,7 @@ public class ProductSkuStock extends AbstractEntity {
     public String toString() {
         return "ProductSkuStock [id=" + id + ", version=" + version + ", globalStockQuantity=" + globalStockQuantity + ", reservedStockWharehouse=" + reservedStockWharehouse + ", reservedStockEco="
                 + reservedStockEco + ", stockUsedByActiveCart=" + stockUsedByActiveCart + ", reorderQuantityAlert=" + reorderQuantityAlert + ", reorderQuantityTrigger=" + reorderQuantityTrigger
-                + ", reorderNextDate=" + reorderNextDate + ", warehouseId=" + warehouseId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", reorderNextDate=" + reorderNextDate + ", warehouse=" + warehouse + ", productSku=" + productSku + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }
