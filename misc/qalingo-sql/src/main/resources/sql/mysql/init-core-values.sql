@@ -489,10 +489,10 @@ INSERT INTO teco_catalog_master
 -- ECO RULE | PROMO
 
 INSERT INTO teco_rule_referential   
-(id, name, description, rule_type) 
+(id, code, name, description, rule_type) 
  VALUES 
-(10, 'PROMO SKU PROMOTION', 'DESCRIPTION SKU PROMOTION', 'productSkuPromotion'), 
-(20, 'PROMO SHIPPING PROMOTION', 'DESCRIPTION SHIPPING PROMOTION', 'shippingPromotion');
+(10, 'PROMO_SKU_PROMOTION', 'PROMO SKU PROMOTION', 'DESCRIPTION SKU PROMOTION', 'productSkuPromotion'), 
+(20, 'PROMO_SHIPPING_PROMOTION', 'PROMO SHIPPING PROMOTION', 'DESCRIPTION SHIPPING PROMOTION', 'shippingPromotion');
 
 INSERT INTO teco_rule_repository  
 (id, name, description, code, is_active, start_date, end_date) 
