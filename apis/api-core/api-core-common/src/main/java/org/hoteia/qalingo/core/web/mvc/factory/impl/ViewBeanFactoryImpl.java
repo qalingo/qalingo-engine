@@ -1909,4 +1909,15 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         return paymentMethodOptionViewBean;
     }
+    
+    protected boolean menuIsActive(String currentUrl, List<String> scopeUrls){
+        for (Iterator<String> iterator = scopeUrls.iterator(); iterator.hasNext();) {
+            String scopeUrl = (String) iterator.next();
+            if(currentUrl.contains(scopeUrl)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

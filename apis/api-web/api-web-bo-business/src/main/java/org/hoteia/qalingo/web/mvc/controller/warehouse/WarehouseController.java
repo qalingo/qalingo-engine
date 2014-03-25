@@ -69,7 +69,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         final String contentText = getSpecificMessage(ScopeWebMessage.WAREHOUSE, BoMessageKey.MAIN_CONTENT_TEXT, locale);
         modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
         
-        displayList(request, model, requestData, null);
+        displayList(request, model, requestData);
         
         return modelAndView;
     }
@@ -145,43 +145,40 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 
-    private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData, List<Warehouse> warehouses) throws Exception{
-        final MarketArea marketArea = requestData.getMarketArea();
-        
+    private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception{
         String url = request.getRequestURI();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
         
-        PagedListHolder<WarehouseViewBean> WarehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
+        PagedListHolder<WarehouseViewBean> warehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
 
-        if(warehouses == null){
-            warehouses = warehouseService.findWarehousesByMarketAreaId(marketArea.getId());
-        }
-        
         if(StringUtils.isEmpty(page)){
-            WarehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, warehouses);
+            warehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
             
         } else {
-            WarehouseViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
-            if (WarehouseViewBeanPagedListHolder == null) { 
-                WarehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, warehouses);
+            warehouseViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+            if (warehouseViewBeanPagedListHolder == null) { 
+                warehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
             }
             int pageTarget = new Integer(page).intValue() - 1;
-            int pageCurrent = WarehouseViewBeanPagedListHolder.getPage();
+            int pageCurrent = warehouseViewBeanPagedListHolder.getPage();
             if (pageCurrent < pageTarget) { 
                 for (int i = pageCurrent; i < pageTarget; i++) {
-                    WarehouseViewBeanPagedListHolder.nextPage(); 
+                    warehouseViewBeanPagedListHolder.nextPage(); 
                 }
             } else if (pageCurrent > pageTarget) { 
                 for (int i = pageTarget; i < pageCurrent; i++) {
-                    WarehouseViewBeanPagedListHolder.previousPage(); 
+                    warehouseViewBeanPagedListHolder.previousPage(); 
                 }
             } 
         }
         model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
-        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, WarehouseViewBeanPagedListHolder);
+        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, warehouseViewBeanPagedListHolder);
     }
     
-    private PagedListHolder<WarehouseViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData, final List<Warehouse> warehouses) throws Exception {
+    private PagedListHolder<WarehouseViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        List<Warehouse> warehouses = warehouseService.findWarehousesByMarketAreaId(marketArea.getId());
+
         PagedListHolder<WarehouseViewBean> WarehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
         
         final List<WarehouseViewBean> WarehouseViewBeans = new ArrayList<WarehouseViewBean>();

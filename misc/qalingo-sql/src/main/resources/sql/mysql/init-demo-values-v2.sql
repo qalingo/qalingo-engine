@@ -1473,14 +1473,29 @@ INSERT INTO teco_asset
 INSERT INTO teco_warehouse  
 (id, code, name, description, version)
  VALUES 
-(10, 'WAREHOUSE_FR', 'WAREHOUSE France', 'WAREHOUSE France', 1), 
-(20, 'WAREHOUSE_US', 'WAREHOUSE USA', 'WAREHOUSE USA', 1);
+(10, 'WAREHOUSE_GLOBAL', 'WAREHOUSE Global', 'WAREHOUSE Global', 1), 
+(20, 'WAREHOUSE_US', 'WAREHOUSE USA', 'WAREHOUSE USA', 1),
+(30, 'WAREHOUSE_FR', 'WAREHOUSE France', 'WAREHOUSE France', 1);
 
 INSERT INTO teco_market_area_warehouse_rel  
 (market_area_id, warehouse_id)
  VALUES 
+(1, 10),
 (101, 10),
-(201, 20);
+(102, 10),
+(201, 10),
+(202, 10),
+(210, 10),
+(211, 10),
+(301, 10),
+(302, 10),
+(303, 10);
+
+INSERT INTO teco_market_area_warehouse_rel  
+(market_area_id, warehouse_id)
+ VALUES 
+(201, 20),
+(101, 30);
 
 -- DELIVERY METHODS
 
