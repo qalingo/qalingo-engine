@@ -41,7 +41,7 @@ public interface StoreSolrService {
 	 * @throws SolrServerException the solr server exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	StoreResponseBean searchStore(String searchBy,String searchText, List<String> facetFields,List<String> cities,List<String> countries) throws SolrServerException, IOException;
+	StoreResponseBean searchStore(String searchBy,String searchText, List<String> facetFields, List<String> cities, List<String> countries) throws SolrServerException, IOException;
 	
 	/**
 	 * Search store.
