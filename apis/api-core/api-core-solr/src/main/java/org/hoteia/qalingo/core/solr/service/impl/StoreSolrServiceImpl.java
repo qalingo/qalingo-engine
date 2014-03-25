@@ -79,7 +79,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
 	 */
     public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields,
-    									List<String> cities,List<String> countries) throws SolrServerException, IOException {
+                                         List<String> cities, List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
         

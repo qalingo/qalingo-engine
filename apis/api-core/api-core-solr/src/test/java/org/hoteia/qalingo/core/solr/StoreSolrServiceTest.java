@@ -115,8 +115,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountryWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country with facet");        
-        responseBean = storeSolrService.searchStore("countrycode", "", Arrays.asList(new String[]{"city, country"}), 
-        		Arrays.asList(new String[]{"businessname"}), Arrays.asList(new String[]{"businessname"}));
+        responseBean = storeSolrService.searchStore("countrycode", "", Arrays.asList(new String[]{"businessname"}));
         printData();
     }
 
