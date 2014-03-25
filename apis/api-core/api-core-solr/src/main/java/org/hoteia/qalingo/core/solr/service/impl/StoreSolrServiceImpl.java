@@ -71,14 +71,14 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
     /* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
 	 */
-    public StoreResponseBean searchStore(String searchBy, String searchText, String facetField, String faceFieldSecond) throws SolrServerException, IOException {
-    	return searchStore(searchBy, searchText, facetField, faceFieldSecond, null, null);
+    public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields) throws SolrServerException, IOException {
+    	return searchStore(searchBy, searchText, facetFields, null, null);
     }
 
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.StoreSolrService#searchStore(java.lang.String, java.lang.String, java.lang.String)
 	 */
-    public StoreResponseBean searchStore(String searchBy, String searchText, String facetField, String faceFieldSecond,
+    public StoreResponseBean searchStore(String searchBy, String searchText, List<String> facetFields,
     									List<String> cities,List<String> countries) throws SolrServerException, IOException {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setParam("rows", ROWS_DEFAULT_VALUE);
@@ -94,13 +94,14 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         }
 
         
-        if (StringUtils.isNotEmpty(facetField)) {
+        if (facetFields != null && facetFields.size() > 0) {
             solrQuery.setFacet(true);
             solrQuery.setFacetMinCount(1);
             solrQuery.setFacetLimit(30);
-            solrQuery.setFacetMissing(false);
-            solrQuery.addFacetField(facetField);
-            solrQuery.addFacetField(faceFieldSecond);
+            for( String facetField : facetFields){
+            	solrQuery.addFacetField(facetField);
+            }
+            
         }
 
         if(cities != null && cities.size() > 0){
@@ -139,7 +140,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         storeResponseBean.setStoreSolrList(storeSolrList);
 
         logger.debug("storeSolrList add sucessflly in StoreResponseBeen ");
-        if (StringUtils.isNotEmpty(facetField)) {
+        if (facetFields != null && facetFields.size() > 0) {
             List<FacetField> storeSolrFacetFieldList = response.getFacetFields();
             logger.debug("storeFacetFileList: " + storeSolrFacetFieldList);
             storeResponseBean.setStoreSolrFacetFieldList(storeSolrFacetFieldList);
