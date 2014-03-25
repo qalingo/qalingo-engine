@@ -58,6 +58,9 @@ public class ProductMarketing extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
     @Column(name = "BUSINESS_NAME")
     private String businessName;
 
@@ -66,9 +69,6 @@ public class ProductMarketing extends AbstractEntity {
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
-
-    @Column(name = "CODE", nullable = false)
-    private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BRAND_ID", insertable = true, updatable = true)
@@ -124,6 +124,14 @@ public class ProductMarketing extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getBusinessName() {
 		return businessName;
@@ -149,14 +157,6 @@ public class ProductMarketing extends AbstractEntity {
 		this.isDefault = isDefault;
 	}
 
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	public ProductBrand getProductBrand() {
 		return productBrand;
 	}

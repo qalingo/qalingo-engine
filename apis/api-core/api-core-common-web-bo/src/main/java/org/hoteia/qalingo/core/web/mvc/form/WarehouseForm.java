@@ -39,7 +39,7 @@ public class WarehouseForm {
         this.version = version;
     }
     
-	@NotEmpty(message = "bo.retailer.error_form_retailer_code_empty")
+	@NotEmpty(message = "bo.warehouse.error_form_code_empty")
 	public String getCode() {
 		return code;
 	}
@@ -48,7 +48,7 @@ public class WarehouseForm {
 		this.code = code;
 	}
 
-	@NotEmpty(message = "bo.retailer.error_form_retailer_name_empty")
+	@NotEmpty(message = "bo.warehouse.error_form_name_empty")
 	public String getName() {
 		return name;
 	}

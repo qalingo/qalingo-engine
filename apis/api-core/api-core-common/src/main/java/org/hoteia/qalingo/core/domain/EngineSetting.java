@@ -40,98 +40,98 @@ public class EngineSetting extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 1773804870039476505L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
-	
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="DEFAULT_VALUE")
-	private String defaultValue;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name="ENGINE_SETTING_ID")
-    @OrderBy("CONTEXT") 
-	private Set<EngineSettingValue> engineSettingValues = new HashSet<EngineSettingValue>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public EngineSetting() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    @Column(name = "DEFAULT_VALUE")
+    private String defaultValue;
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "ENGINE_SETTING_ID")
+    @OrderBy("CONTEXT")
+    private Set<EngineSettingValue> engineSettingValues = new HashSet<EngineSettingValue>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
-	public Set<EngineSettingValue> getEngineSettingValues() {
-		return engineSettingValues;
-	}
-	
-	public void setEngineSettingValues(Set<EngineSettingValue> engineSettingValues) {
-		this.engineSettingValues = engineSettingValues;
-	}
+    public EngineSetting() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public Set<EngineSettingValue> getEngineSettingValues() {
+        return engineSettingValues;
+    }
+
+    public void setEngineSettingValues(Set<EngineSettingValue> engineSettingValues) {
+        this.engineSettingValues = engineSettingValues;
+    }
 	
 	public EngineSettingValue getEngineSettingValue(String context) {
 		if(engineSettingValues != null
@@ -145,22 +145,22 @@ public class EngineSetting extends AbstractEntity {
 		}
 		return null;
 	}
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
     @Override
     public int hashCode() {

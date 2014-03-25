@@ -45,6 +45,14 @@ public class DeliveryMethodServiceImpl implements DeliveryMethodService {
 
     public List<DeliveryMethod> findDeliveryMethods(Object... params) {
         return deliveryMethodDao.findDeliveryMethods(params);
+    } 
+
+    public List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params) {
+        return deliveryMethodDao.findDeliveryMethodsByWarehouseId(warehouseId, params);
+    }
+
+    public List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params) {
+        return deliveryMethodDao.findDeliveryMethodsByMarketAreaId(marketAreaId, params);
     }
 
     public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {

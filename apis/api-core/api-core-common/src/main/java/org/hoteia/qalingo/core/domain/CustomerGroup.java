@@ -40,43 +40,43 @@ public class CustomerGroup extends AbstractEntity {
 	// TODO : ENUM OR NOT ?
 	public static String GROUP_FO_CUSTOMER = "GROUP_FO_CUSTOMER";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
-	
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.CustomerRole.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            targetEntity=org.hoteia.qalingo.core.domain.CustomerRole.class,
+            cascade={CascadeType.PERSIST, CascadeType.MERGE}
+        )
     @JoinTable(
-	        name="TECO_GROUP_ROLE_REL",
-	        joinColumns=@JoinColumn(name="GROUP_ID"),
-	        inverseJoinColumns=@JoinColumn(name="ROLE_ID")
-	    )
-	private Set<CustomerRole> customerRoles;
+            name="TECO_GROUP_ROLE_REL",
+            joinColumns=@JoinColumn(name="GROUP_ID"),
+            inverseJoinColumns=@JoinColumn(name="ROLE_ID")
+        )
+    private Set<CustomerRole> customerRoles;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public CustomerGroup(){
 	}
@@ -97,6 +97,14 @@ public class CustomerGroup extends AbstractEntity {
 		this.version = version;
 	}
 
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
 	public String getName() {
 		return name;
 	}
@@ -113,14 +121,14 @@ public class CustomerGroup extends AbstractEntity {
 		this.description = description;
 	}
 	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public Set<CustomerRole> getCustomerRoles() {
+        return customerRoles;
+    }
 
+    public void setCustomerRoles(Set<CustomerRole> customerRoles) {
+        this.customerRoles = customerRoles;
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -136,14 +144,6 @@ public class CustomerGroup extends AbstractEntity {
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
-
-    public Set<CustomerRole> getCustomerRoles() {
-        return customerRoles;
-    }
-
-    public void setCustomerRoles(Set<CustomerRole> customerRoles) {
-        this.customerRoles = customerRoles;
-    }
 
     @Override
     public int hashCode() {

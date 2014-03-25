@@ -55,9 +55,9 @@ public class MarketPlace extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE")
+    @Column(name = "CODE", nullable = false)
     private String code;
-    
+
     @Column(name = "NAME")
     private String name;
 

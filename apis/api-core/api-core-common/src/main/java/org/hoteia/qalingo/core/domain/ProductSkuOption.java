@@ -46,14 +46,14 @@ public class ProductSkuOption extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
-
-    @Column(name = "CODE")
-    private String code;
 
     @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
     private int ordering;
@@ -89,6 +89,14 @@ public class ProductSkuOption extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
@@ -103,14 +111,6 @@ public class ProductSkuOption extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public int getOrdering() {

@@ -49,39 +49,39 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -8137471618726382479L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="CODE")
-	private String code;
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PAYMENT_GATEWAY_ID")
-	private Set<PaymentGatewayAttribute> paymentGatewayAttributes = new HashSet<PaymentGatewayAttribute>(); 
-	
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PAYMENT_GATEWAY_ID")
+    private Set<PaymentGatewayAttribute> paymentGatewayAttributes = new HashSet<PaymentGatewayAttribute>();
+
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_PAYMENT_GATEWAY_OPTION_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_OPTION_ID"))
     private Set<PaymentGatewayOption> paymentGatewayOptions = new HashSet<PaymentGatewayOption>();
-	   
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
     private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
 	public AbstractPaymentGateway() {
 	}
@@ -101,6 +101,14 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getName() {
 		return name;
@@ -118,14 +126,6 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 		this.description = description;
 	}
 	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public Set<PaymentGatewayAttribute> getPaymentGatewayAttributes() {
 		return paymentGatewayAttributes;
 	}

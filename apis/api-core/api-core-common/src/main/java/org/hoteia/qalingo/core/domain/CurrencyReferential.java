@@ -38,104 +38,104 @@ public class CurrencyReferential extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -8773291277705820667L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="SIGN")
-	private String sign;
-	
-	@Column(name="ABBREVIATED")
-	private String abbreviated;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "SIGN")
+    private String sign;
+
+    @Column(name = "ABBREVIATED")
+    private String abbreviated;
 
     @Column(name = "FORMAT_LOCALE")
     private String formatLocale;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public CurrencyReferential() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public int getVersion() {
-		return version;
-	}
+    public CurrencyReferential() {
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSign() {
-		return sign;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getAbbreviated() {
-		return abbreviated;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setAbbreviated(String abbreviated) {
-		this.abbreviated = abbreviated;
-	}
-	
-	public String getFormatLocale() {
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public String getAbbreviated() {
+        return abbreviated;
+    }
+
+    public void setAbbreviated(String abbreviated) {
+        this.abbreviated = abbreviated;
+    }
+
+    public String getFormatLocale() {
         return formatLocale;
     }
-	
+
     public Locale getLocale() {
         if(StringUtils.isNotEmpty(formatLocale)){
             String[] split = formatLocale.split("_");

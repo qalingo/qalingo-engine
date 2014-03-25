@@ -50,46 +50,38 @@ public abstract class AbstractRuleReferential extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -8747405711328545732L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="CODE")
-	private String code;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="NAME")
-	private String name;
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	@Column(name="DESCRIPTION")
-	private String description;
+    @Column(name = "NAME")
+    private String name;
 
-	@Column(name="SALIENCE")
-	private String salience;
-	
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_RULE_REPOSITORY_ATTRIBUTE_REL",
-	        joinColumns=@JoinColumn(name="RULE_REPOSITORY_ID"),
-	        inverseJoinColumns=@JoinColumn(name="RULE_REPOSITORY_ATTRIBUTE_ID")
-	    )
-	private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "SALIENCE")
+    private String salience;
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_RULE_REPOSITORY_ATTRIBUTE_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REPOSITORY_ATTRIBUTE_ID"))
+    private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
 	public AbstractRuleReferential() {
 	}
@@ -110,20 +102,20 @@ public abstract class AbstractRuleReferential extends AbstractEntity {
 		this.version = version;
 	}
 
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public String getDescription() {

@@ -51,14 +51,14 @@ public class Company extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
-
-    @Column(name = "CODE")
-    private String code;
 
     @Column(name = "THEME")
     private String theme;
@@ -102,6 +102,14 @@ public class Company extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
@@ -116,14 +124,6 @@ public class Company extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getTheme() {

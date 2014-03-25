@@ -65,7 +65,7 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 
     @Column(name = "CODE", nullable = false)
     private String code;
-    
+
     @Column(name = "BUSINESS_NAME")
     private String businessName;
 

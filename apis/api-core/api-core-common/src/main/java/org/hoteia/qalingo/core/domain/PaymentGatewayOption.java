@@ -31,30 +31,30 @@ public class PaymentGatewayOption extends AbstractEntity {
 	 */
     private static final long serialVersionUID = -7653306435642835721L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-    @Column(name="NAME")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
+
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name="DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name="CODE")
-    private String code;
-    
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="DATE_CREATE")
+    @Column(name = "DATE_CREATE")
     private Date dateCreate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="DATE_UPDATE")
+    @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 	
 	public PaymentGatewayOption() {
@@ -75,6 +75,14 @@ public class PaymentGatewayOption extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getName() {
         return name;
@@ -90,14 +98,6 @@ public class PaymentGatewayOption extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Date getDateCreate() {

@@ -52,59 +52,59 @@ public class ProductSku extends AbstractEntity {
 
     public static final String CACHE_NAME = "web_cache_product_sku";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="BUSINESS_NAME")
-	private String businessName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="CODE", nullable=false)
-	private String code;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>(); 
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="PRODUCT_MARKETING_ID", insertable = true, updatable = true)
-	private ProductMarketing productMarketing;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	@OrderBy(clause = "ordering asc")
-	private Set<Asset> assets = new HashSet<Asset>(); 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+    
+    @Column(name = "BUSINESS_NAME")
+    private String businessName;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="PRODUCT_SKU_ID")
-	private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>(); 
-	
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
+    private ProductMarketing productMarketing;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    @OrderBy(clause = "ordering asc")
+    private Set<Asset> assets = new HashSet<Asset>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuPrice> prices = new HashSet<ProductSkuPrice>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuStock> stocks = new HashSet<ProductSkuStock>();
+
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
     @JoinTable(name = "TECO_PRODUCT_SKU_RETAILER_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
-	private Set<Retailer> retailers = new HashSet<Retailer>();
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    private Set<Retailer> retailers = new HashSet<Retailer>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public ProductSku(){
 	}
@@ -124,7 +124,15 @@ public class ProductSku extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
 	public String getBusinessName() {
 		return businessName;
 	}
@@ -147,14 +155,6 @@ public class ProductSku extends AbstractEntity {
 	
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public Set<ProductSkuAttribute> getProductSkuAttributes() {

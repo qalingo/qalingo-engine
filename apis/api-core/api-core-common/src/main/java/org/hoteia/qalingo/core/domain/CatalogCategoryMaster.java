@@ -70,7 +70,7 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = true, updatable = true)
     private CatalogCategoryType catalogCategoryType;
-    
+
     @Column(name = "BUSINESS_NAME")
     private String businessName;
 

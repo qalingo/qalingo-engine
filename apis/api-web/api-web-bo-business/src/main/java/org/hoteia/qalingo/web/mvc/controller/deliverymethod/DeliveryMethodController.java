@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -37,6 +38,7 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,12 +68,12 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		PagedListHolder<DeliveryMethodViewBean> deliveryMethodViewBeanPagedListHolder = new PagedListHolder<DeliveryMethodViewBean>();
 		
         if(StringUtils.isEmpty(page)){
-        	deliveryMethodViewBeanPagedListHolder = initList(request, sessionKey);
+        	deliveryMethodViewBeanPagedListHolder = initList(request, sessionKey, requestData);
     		
         } else {
         	deliveryMethodViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 	        if (deliveryMethodViewBeanPagedListHolder == null) { 
-	        	deliveryMethodViewBeanPagedListHolder = initList(request, sessionKey);
+	        	deliveryMethodViewBeanPagedListHolder = initList(request, sessionKey, requestData);
 	        }
 	        int pageTarget = new Integer(page).intValue() - 1;
 	        int pageCurrent = deliveryMethodViewBeanPagedListHolder.getPage();
@@ -94,7 +96,8 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView deliveryMethodDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_DETAILS.getVelocityPage());
-
+		final RequestData requestData = requestUtil.getRequestData(request);
+		
 		final String currentDeliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
 		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodCode);
 		
@@ -105,45 +108,67 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 			return new ModelAndView(new RedirectView(url));
 		}
 		
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
+		
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView deliveryMethodEdit(final HttpServletRequest request, final Model model) throws Exception {
+	public ModelAndView deliveryMethodEdit(final HttpServletRequest request, final Model model, @ModelAttribute("deliveryMethodForm") DeliveryMethodForm deliveryMethodForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_EDIT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
+		
 		final String currentDeliveryMethodId = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
 		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodId);
 		
 		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, deliveryMethod));
 		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_FORM, backofficeFormFactory.buildDeliveryMethodForm(requestData, deliveryMethod));
+
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
+
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView submitDeliveryMethodEdit(final HttpServletRequest request, final Model model, @Valid DeliveryMethodForm deliveryMethodForm,
-								BindingResult result) throws Exception {
-		
-		final String currentDeliveryMethodId = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
-		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodId);
+	public ModelAndView submitDeliveryMethodEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("deliveryMethodForm") DeliveryMethodForm deliveryMethodForm,
+								                 BindingResult result) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+
+		final String currentDeliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodCode);
 		
 		if (result.hasErrors()) {
-			return deliveryMethodEdit(request, model);
+			return deliveryMethodEdit(request, model, deliveryMethodForm);
 		}
-		
-		// UPDATE DELIVERY_METHOD
-//		webBackofficeService.updateDeliveryMethod(deliveryMethod, deliveryMethodForm);
+
+		try {
+    		// CREATE OR UPDATE WAREHOUSE
+    		webBackofficeService.createOrUpdateDeliveryMethod(deliveryMethod, deliveryMethodForm);
+    		
+    		if(deliveryMethod == null){
+    	        addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_success_message", locale));
+    		} else {
+    	        addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "update_success_message", locale));
+    		}
+        } catch (Exception e) {
+            addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_or_update_message", locale));
+            logger.error("Can't save or update Delivery Method:" + deliveryMethodForm.getId() + "/" + deliveryMethodForm.getCode(), e);
+            return deliveryMethodEdit(request, model, deliveryMethodForm);
+        }
 		
 		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestUtil.getRequestData(request), deliveryMethod);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
-	private PagedListHolder<DeliveryMethodViewBean> initList(final HttpServletRequest request, String sessionKey) throws Exception{
+	private PagedListHolder<DeliveryMethodViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData) throws Exception {
+	    final MarketArea marketArea = requestData.getMarketArea();
+	    
 		PagedListHolder<DeliveryMethodViewBean> deliveryMethodViewBeanPagedListHolder = new PagedListHolder<DeliveryMethodViewBean>();
 		
 		final List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
 
-		final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethods();
+		final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethodsByMarketAreaId(marketArea.getId());
 		for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
 			DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
 			deliveryMethodViewBeans.add(backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestUtil.getRequestData(request), deliveryMethod));

@@ -166,8 +166,7 @@ public abstract class AbstractQalingoController {
         return requestUtil.getCurrentVelocityWebPrefix(requestData);
     }
     
-	protected void initMessageError(BindingResult result, Exception e, Map<String, String> wording, String formKey, String fieldKey, String errorKey){
-        String errorMessage = wording.get(errorKey);
+	protected void addMessageError(BindingResult result, Exception e, String formKey, String fieldKey, String errorMessage){
         if(StringUtils.isEmpty(errorMessage)){
         	errorMessage = ""; // EMPTY VALUE TO EVENT VELOCITY MethodInvocationException
         }

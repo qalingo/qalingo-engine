@@ -31,43 +31,43 @@ public class ProductMarketingTag extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -64640787776013413L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isGlobal;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
-	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+
+    @Column(name = "IS_GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isGlobal;
+
+    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    private Integer ordering;
+
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public ProductMarketingTag(){
 	}
@@ -87,6 +87,14 @@ public class ProductMarketingTag extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getName() {
 		return name;
@@ -94,14 +102,6 @@ public class ProductMarketingTag extends AbstractEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public String getDescription() {

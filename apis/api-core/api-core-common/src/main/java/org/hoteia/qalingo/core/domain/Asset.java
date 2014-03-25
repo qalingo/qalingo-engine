@@ -37,61 +37,61 @@ public class Asset extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -6464078723126013413L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="PATH")
-	private String path;
-	
-	@Column(name="SCOPE")
-	@Enumerated(EnumType.STRING) 
-	private AssetScope scope;
-	
-	@Column(name="TYPE")
-	@Enumerated(EnumType.STRING) 
-	private AssetType type;
-	
-	@Column(name="SIZE")
-	@Enumerated(EnumType.STRING) 
-	private ImageSize size;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="FILE_SIZE")
-	private Long fileSize;
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isDefault;
-	
-	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isGlobal;
+    @Column(name = "NAME")
+    private String name;
 
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private int ordering;
-	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "PATH")
+    private String path;
+
+    @Column(name = "SCOPE")
+    @Enumerated(EnumType.STRING)
+    private AssetScope scope;
+
+    @Column(name = "TYPE")
+    @Enumerated(EnumType.STRING)
+    private AssetType type;
+
+    @Column(name = "SIZE")
+    @Enumerated(EnumType.STRING)
+    private ImageSize size;
+
+    @Column(name = "FILE_SIZE")
+    private Long fileSize;
+
+    @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefault;
+
+    @Column(name = "IS_GLOBAL", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isGlobal;
+
+    @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
+    private int ordering;
+
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public Asset(){
 	}
@@ -111,6 +111,14 @@ public class Asset extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getName() {
 		return name;
@@ -118,14 +126,6 @@ public class Asset extends AbstractEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public String getDescription() {

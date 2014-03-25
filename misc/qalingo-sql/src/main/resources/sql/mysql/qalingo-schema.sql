@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `tbo_company`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbo_company` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -125,7 +125,7 @@ DROP TABLE IF EXISTS `tbo_group`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbo_group` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS `tbo_menu`;
 CREATE TABLE `tbo_menu` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '1',
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `NAME` varchar(255) DEFAULT NULL,
@@ -223,7 +223,7 @@ DROP TABLE IF EXISTS `tbo_permission`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbo_permission` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -243,7 +243,7 @@ DROP TABLE IF EXISTS `tbo_role`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbo_role` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -367,7 +367,7 @@ DROP TABLE IF EXISTS `teco_asset`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_asset` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -383,11 +383,11 @@ CREATE TABLE `teco_asset` (
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
   `RETAILER_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `STORE_ID` bigint(20) DEFAULT NULL,
   `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
-  `STORE_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
   KEY `FK475D66AE820B6ACF` (`PRODUCT_MARKETING_ID`),
@@ -415,7 +415,7 @@ DROP TABLE IF EXISTS `teco_attribute_definition`;
 CREATE TABLE `teco_attribute_definition` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ATTRIBUTE_TYPE` int(11) DEFAULT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -488,7 +488,7 @@ DROP TABLE IF EXISTS `teco_catalog_category_type`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_catalog_category_type` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -833,7 +833,7 @@ DROP TABLE IF EXISTS `teco_currency_referential`;
 CREATE TABLE `teco_currency_referential` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ABBREVIATED` varchar(255) DEFAULT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -876,7 +876,7 @@ CREATE TABLE `teco_customer` (
   `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '0',
   `IS_ANONYMOUS` tinyint(1) NOT NULL DEFAULT '0',
   `AVATAR_IMG` varchar(255) DEFAULT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DEFAULT_BILLING_ADDRESS` bigint(20) DEFAULT NULL,
@@ -1184,7 +1184,7 @@ DROP TABLE IF EXISTS `teco_delivery_method`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_delivery_method` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DELIVERY_TIME` varchar(255) DEFAULT NULL,
@@ -1286,7 +1286,7 @@ DROP TABLE IF EXISTS `teco_engine_setting`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_engine_setting` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DEFAULT_VALUE` varchar(255) DEFAULT NULL,
@@ -1326,7 +1326,7 @@ DROP TABLE IF EXISTS `teco_group`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_group` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1364,7 +1364,7 @@ DROP TABLE IF EXISTS `teco_localization`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_localization` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `COUNTRY` varchar(255) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
@@ -1386,7 +1386,7 @@ DROP TABLE IF EXISTS `teco_market`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1411,7 +1411,7 @@ DROP TABLE IF EXISTS `teco_market_area`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market_area` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1555,15 +1555,11 @@ DROP TABLE IF EXISTS `teco_market_area_warehouse_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market_area_warehouse_rel` (
-  `MARKET_AREA_ID` bigint(20) NOT NULL,
   `WAREHOUSE_ID` bigint(20) NOT NULL,
+  `MARKET_AREA_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`MARKET_AREA_ID`,`WAREHOUSE_ID`),
   KEY `FK35BA26CD93FD4A7` (`MARKET_AREA_ID`),
-  KEY `FK35BA26CB8B9CC99` (`MARKET_AREA_ID`),
   KEY `FK35BA26CCC4E6FA6` (`WAREHOUSE_ID`),
-  KEY `FK35BA26CECD477B4` (`WAREHOUSE_ID`),
-  CONSTRAINT `FK35BA26CECD477B4` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_market_area` (`ID`),
-  CONSTRAINT `FK35BA26CB8B9CC99` FOREIGN KEY (`MARKET_AREA_ID`) REFERENCES `teco_warehouse` (`ID`),
   CONSTRAINT `FK35BA26CCC4E6FA6` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_warehouse` (`ID`),
   CONSTRAINT `FK35BA26CD93FD4A7` FOREIGN KEY (`MARKET_AREA_ID`) REFERENCES `teco_market_area` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1610,7 +1606,7 @@ DROP TABLE IF EXISTS `teco_marketplace`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_marketplace` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1867,7 +1863,7 @@ DROP TABLE IF EXISTS `teco_payment_gateway`;
 CREATE TABLE `teco_payment_gateway` (
   `PAYMENT_GATEWAY_TYPE` varchar(31) NOT NULL,
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1914,7 +1910,7 @@ DROP TABLE IF EXISTS `teco_payment_gateway_option`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_payment_gateway_option` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1952,7 +1948,7 @@ DROP TABLE IF EXISTS `teco_permission`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_permission` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -1998,7 +1994,7 @@ DROP TABLE IF EXISTS `teco_product_brand`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_brand` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2130,7 +2126,7 @@ DROP TABLE IF EXISTS `teco_product_marketing_familly`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_marketing_familly` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2186,7 +2182,7 @@ DROP TABLE IF EXISTS `teco_product_marketing_tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_marketing_tag` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2210,7 +2206,7 @@ DROP TABLE IF EXISTS `teco_product_marketing_type`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_marketing_type` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2319,7 +2315,7 @@ DROP TABLE IF EXISTS `teco_product_sku_option`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_sku_option` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2340,7 +2336,7 @@ DROP TABLE IF EXISTS `teco_product_sku_option_definition`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_product_sku_option_definition` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2468,7 +2464,7 @@ DROP TABLE IF EXISTS `teco_retailer`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_retailer` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2651,7 +2647,7 @@ DROP TABLE IF EXISTS `teco_retailer_tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_retailer_tag` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2670,7 +2666,7 @@ DROP TABLE IF EXISTS `teco_role`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_role` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2709,7 +2705,7 @@ DROP TABLE IF EXISTS `teco_rule_referential`;
 CREATE TABLE `teco_rule_referential` (
   `RULE_TYPE` varchar(31) NOT NULL,
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2754,7 +2750,7 @@ DROP TABLE IF EXISTS `teco_rule_repository`;
 CREATE TABLE `teco_rule_repository` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '1',
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2843,7 +2839,7 @@ CREATE TABLE `teco_store` (
   `AREA_CODE` varchar(255) DEFAULT NULL,
   `BUSINESS_NAME` varchar(255) DEFAULT NULL,
   `CITY` varchar(255) DEFAULT NULL,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `COUNTRY_CODE` varchar(255) DEFAULT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
@@ -2932,7 +2928,7 @@ DROP TABLE IF EXISTS `teco_tax`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_tax` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -2991,7 +2987,7 @@ DROP TABLE IF EXISTS `teco_tax_type`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_tax_type` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -3011,7 +3007,7 @@ DROP TABLE IF EXISTS `teco_warehouse`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_warehouse` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `CODE` varchar(255) DEFAULT NULL,
+  `CODE` varchar(255) NOT NULL,
   `DATE_CREATE` datetime DEFAULT NULL,
   `DATE_UPDATE` datetime DEFAULT NULL,
   `DESCRIPTION` varchar(255) DEFAULT NULL,
@@ -3030,16 +3026,12 @@ DROP TABLE IF EXISTS `teco_warehouse_delivery_method_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_warehouse_delivery_method_rel` (
-  `WAREHOUSE_ID` bigint(20) NOT NULL,
   `DELIVERY_METHOD_ID` bigint(20) NOT NULL,
+  `WAREHOUSE_ID` bigint(20) NOT NULL,
   PRIMARY KEY (`WAREHOUSE_ID`,`DELIVERY_METHOD_ID`),
   KEY `FK20A34388CC4E6FA6` (`WAREHOUSE_ID`),
-  KEY `FK20A343887C1DB4C0` (`WAREHOUSE_ID`),
   KEY `FK20A343885CAFB757` (`DELIVERY_METHOD_ID`),
-  KEY `FK20A34388ACE0723D` (`DELIVERY_METHOD_ID`),
-  CONSTRAINT `FK20A34388ACE0723D` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_warehouse` (`ID`),
   CONSTRAINT `FK20A343885CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_method` (`ID`),
-  CONSTRAINT `FK20A343887C1DB4C0` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_delivery_method` (`ID`),
   CONSTRAINT `FK20A34388CC4E6FA6` FOREIGN KEY (`WAREHOUSE_ID`) REFERENCES `teco_warehouse` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3053,4 +3045,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-24 21:04:06
+-- Dump completed on 2014-03-25 17:33:26

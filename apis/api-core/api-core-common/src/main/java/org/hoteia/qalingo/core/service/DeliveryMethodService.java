@@ -23,6 +23,10 @@ public interface DeliveryMethodService {
 
     List<DeliveryMethod> findDeliveryMethods(Object... params);
 
+    List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params);
+    
+    List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params);
+
     void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
 
     void deleteDeliveryMethod(DeliveryMethod deliveryMethod);

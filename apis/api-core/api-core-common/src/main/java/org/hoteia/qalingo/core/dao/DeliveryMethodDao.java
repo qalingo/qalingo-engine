@@ -20,6 +20,10 @@ public interface DeliveryMethodDao {
 	DeliveryMethod getDeliveryMethodByCode(String code, Object... params);
 	
 	List<DeliveryMethod> findDeliveryMethods(Object... params);
+	
+	List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params);
+	
+	List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params);
 
 	DeliveryMethod saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
 

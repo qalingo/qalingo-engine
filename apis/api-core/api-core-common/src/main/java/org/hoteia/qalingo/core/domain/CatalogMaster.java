@@ -38,26 +38,26 @@ public class CatalogMaster extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 5663387436039325641L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="BUSINESS_NAME")
-	private String businessName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "BUSINESS_NAME")
+    private String businessName;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 	
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
-	
-	@Column(name="CODE", nullable=false)
-	private String code;
 	
 	@OneToMany(
 	        targetEntity=org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
@@ -71,13 +71,13 @@ public class CatalogMaster extends AbstractEntity {
 	    )
 	private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>(); 
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public CatalogMaster(){
 	}
@@ -97,6 +97,14 @@ public class CatalogMaster extends AbstractEntity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getBusinessName() {
 		return businessName;
@@ -122,14 +130,6 @@ public class CatalogMaster extends AbstractEntity {
 		this.isDefault = isDefault;
 	}
 
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	public Set<CatalogCategoryMaster> getCatalogCategories() {
 		return catalogCategories;
 	}

@@ -15,6 +15,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -61,6 +62,38 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
         List<DeliveryMethod> deliveryMethods = criteria.list();
 		return deliveryMethods;
 	}
+
+    public List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params) {
+        Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("warehouses", "warehouse", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("warehouse.id", warehouseId));
+
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<DeliveryMethod> deliveryMethods = criteria.list();
+        return deliveryMethods;
+    }
+
+    public List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("warehouses", "warehouse", JoinType.LEFT_OUTER_JOIN);
+
+        criteria.createAlias("warehouse.marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<DeliveryMethod> deliveryMethods = criteria.list();
+        return deliveryMethods;
+    }
 
 	public DeliveryMethod saveOrUpdateDeliveryMethod(final DeliveryMethod deliveryMethod) {
         if (deliveryMethod.getDateCreate() == null) {

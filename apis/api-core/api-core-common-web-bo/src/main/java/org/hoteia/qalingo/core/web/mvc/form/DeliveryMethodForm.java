@@ -11,74 +11,78 @@ package org.hoteia.qalingo.core.web.mvc.form;
 
 import java.math.BigDecimal;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * 
  * 
  */
 public class DeliveryMethodForm {
 
-	private Long id;
-	private int version;
-	private String name;
-	private String description;
-	private String code;
-	private BigDecimal price;
-	private Long marketAreaId;
+    private Long id;
+    private int version;
+    private String code;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private Long marketAreaId;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public int getVersion() {
-		return version;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public String getName() {
-		return name;
-	}
+    @NotEmpty(message = "bo.delivery.method.error_form_code_empty")
+    public String getCode() {
+        return code;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    @NotEmpty(message = "bo.delivery.method.error_form_name_empty")
+    public String getName() {
+        return name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
 
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
 
 }

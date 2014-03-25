@@ -1507,17 +1507,19 @@ INSERT INTO teco_delivery_method
 (30, 'COLISSIMO', 'Collisimo', 'Collisimo', 1),
 (40, 'UPS_US', 'UPS', 'UPS', 1), 
 (50, 'FEDEX_US', 'Fedex', 'Fedex', 1), 
-(60, 'US_POSTAL', 'US Postal', 'US Postal', 1);
+(60, 'US_POSTAL', 'US Postal', 'US Postal', 1),
+(70, 'GLOBAL_DELIVERY', 'Worlwide Delivery', 'Worlwide Delivery', 1);
 
 INSERT INTO teco_warehouse_delivery_method_rel  
 (warehouse_id, delivery_method_id)
  VALUES 
-(10, 10),
-(10, 20),
-(10, 30),
+(10, 70),
 (20, 40),
 (20, 50),
-(20, 60);
+(20, 60),
+(30, 10),
+(30, 20),
+(30, 30);
 
 INSERT INTO teco_delivery_method_price  
 (id, price, currency_id, delivery_method_id)

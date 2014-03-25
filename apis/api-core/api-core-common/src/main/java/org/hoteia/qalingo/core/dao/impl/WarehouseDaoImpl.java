@@ -74,8 +74,8 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
 
         handleSpecificFetchMode(criteria, params);
 
-        criteria.createAlias("marketAreas", "ma", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("ma.id", marketAreaId));
+        criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
 
         criteria.addOrder(Order.asc("code"));
 

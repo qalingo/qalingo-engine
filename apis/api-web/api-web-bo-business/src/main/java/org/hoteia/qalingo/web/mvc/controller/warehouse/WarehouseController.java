@@ -25,14 +25,17 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.WarehouseService;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
+import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.WarehouseViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -60,6 +63,9 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     @Autowired
     private WarehouseService warehouseService;
 
+    @Autowired
+    private DeliveryMethodService deliveryMethodService;
+    
     @RequestMapping(value = BoUrls.WAREHOUSE_LIST_URL, method = RequestMethod.GET)
     public ModelAndView warehouseList(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.WAREHOUSE_LIST.getVelocityPage());
@@ -93,6 +99,14 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         
         request.setAttribute(ModelConstants.WAREHOUSE_VIEW_BEAN, warehouseViewBean);
         
+        final List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
+        final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethodsByWarehouseId(warehouse.getId());
+        for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
+            DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
+            deliveryMethodViewBeans.add(backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestUtil.getRequestData(request), deliveryMethod));
+        }
+        request.setAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN, deliveryMethodViewBeans);
+
         return modelAndView;
     }
     
@@ -122,6 +136,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("warehouseForm") WarehouseForm warehouseForm,
                                 BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
         
         if (result.hasErrors()) {
             return warehouseEdit(request, model, warehouseForm);
@@ -131,12 +146,19 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         if(StringUtils.isNotEmpty(warehouseForm.getId())){
             warehouse = warehouseService.getWarehouseById(warehouseForm.getId());
         }
-        
+
         try {
-            // UPDATE WAREHOUSE
+            // CREATE OR UPDATE WAREHOUSE
             webBackofficeService.createOrUpdateWarehouse(warehouse, warehouseForm);
             
+            if(warehouse == null){
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "create_success_message", locale));
+            } else {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "update_success_message", locale));
+            }
+            
         } catch (Exception e) {
+            addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.WAREHOUSE, "create_or_update_message", locale));
             logger.error("Can't save or update Warehouse:" + warehouseForm.getId() + "/" + warehouseForm.getCode(), e);
             return warehouseEdit(request, model, warehouseForm);
         }

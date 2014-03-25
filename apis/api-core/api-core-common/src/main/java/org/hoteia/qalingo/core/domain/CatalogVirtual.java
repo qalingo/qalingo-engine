@@ -54,6 +54,9 @@ public class CatalogVirtual extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
     @Column(name = "BUSINESS_NAME")
     private String businessName;
 
@@ -62,9 +65,6 @@ public class CatalogVirtual extends AbstractEntity {
 
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
-
-    @Column(name = "CODE", nullable = false)
-    private String code;
 
     @OneToOne(mappedBy = "catalog")
     private MarketArea marketArea;
@@ -104,6 +104,14 @@ public class CatalogVirtual extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getBusinessName() {
         return businessName;
     }
@@ -126,14 +134,6 @@ public class CatalogVirtual extends AbstractEntity {
 
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public MarketArea getMarketArea() {

@@ -15,21 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.drools.core.util.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
-import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -39,6 +29,14 @@ import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.hoteia.qalingo.web.mvc.form.ForgottenPasswordForm;
 import org.hoteia.qalingo.web.mvc.form.ResetPasswordForm;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -59,20 +57,22 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	public ModelAndView forgottenPassword(final HttpServletRequest request, @Valid @ModelAttribute("forgottenPasswordForm") ForgottenPasswordForm forgottenPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FORGOTTEN_PASSWORD_SUCCESS_VELOCITY_PAGE);
-		final RequestData requestData = requestUtil.getRequestData(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		if (result.hasErrors()) {
 			return displayForgottenPassword(request, modelMap);
 		}
 		
 		final Customer customer = customerService.getCustomerByLoginOrEmail(forgottenPasswordForm.getEmailOrLogin());
 		if (customer == null) {
-			initMessageError(result, null, getWordingMap(request), "forgottenPasswordForm", "emailOrLogin", "fo.auth.error_form_reset_password_email_doesnt_exist");
+			addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin", getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
 			return displayForgottenPassword(request, modelMap);
 		}
 		
 		if (customer != null
 				&& customer.isAnonymous()) {
-			initMessageError(result, null, getWordingMap(request), "forgottenPasswordForm", "emailOrLogin", "fo.auth.error_form_reset_password_customer_is_not_active");
+		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_customer_is_not_active", locale));
 			return displayForgottenPassword(request, modelMap);
 		}
 		
@@ -118,7 +118,9 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 	public ModelAndView resetPassword(final HttpServletRequest request, @Valid @ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm,
 			BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.RESET_PASSWORD_SUCCESS_VELOCITY_PAGE);
-		final RequestData requestData = requestUtil.getRequestData(request);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
 		if (result.hasErrors()) {
 			return displayResetPassword(request, modelMap);
 		}
@@ -126,19 +128,19 @@ public class ForgottentPasswordController extends AbstractMCommerceController {
 		final Customer customer = customerService.getCustomerByLoginOrEmail(resetPasswordForm.getEmail());
 		if (customer == null) {
 			// ADD ERROR
-			initMessageError(result, null, getWordingMap(request), "forgottenPasswordForm", "emailOrLogin", "fo.auth.error_form_reset_password_email_doesnt_exist");
+		    addMessageError(result, null, "forgottenPasswordForm", "emailOrLogin",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_email_doesnt_exist", locale));
 			return displayResetPassword(request, modelMap);
 		}
 		
 		if(!customer.getCurrentCredential().getResetToken().equals(resetPasswordForm.getToken())){
 			// ADD ERROR
-			initMessageError(result, null, getWordingMap(request), "forgottenPasswordForm", "confirmNewPassword", "fo.auth.error.form_reset_password_token_is_wrong");
+		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error.form_reset_password_token_is_wrong", locale));
 			return displayResetPassword(request, modelMap);
 		}
 		
 		if(!resetPasswordForm.getNewPassword().equals(resetPasswordForm.getConfirmNewPassword())){
 			// ADD ERROR
-			initMessageError(result, null, getWordingMap(request), "forgottenPasswordForm", "confirmNewPassword", "fo.auth.error_form_reset_password_confirm_password_is_wrong");
+		    addMessageError(result, null, "forgottenPasswordForm", "confirmNewPassword",  getSpecificMessage(ScopeWebMessage.AUTH, "error_form_reset_password_confirm_password_is_wrong", locale));
 			return displayResetPassword(request, modelMap);
 		}
 		

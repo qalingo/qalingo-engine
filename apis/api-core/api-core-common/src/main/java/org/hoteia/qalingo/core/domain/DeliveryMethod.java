@@ -51,14 +51,14 @@ public class DeliveryMethod extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+    
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
-
-    @Column(name = "CODE")
-    private String code;
 
     @Column(name = "DELIVERY_TIME")
     private String deliveryTime;
@@ -72,7 +72,7 @@ public class DeliveryMethod extends AbstractEntity {
     private Set<DeliveryMethodPrice> prices = new HashSet<DeliveryMethodPrice>(); 
     
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
-    @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "WAREHOUSE_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
+    @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
     private Set<Warehouse> warehouses = new HashSet<Warehouse>();
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -102,6 +102,14 @@ public class DeliveryMethod extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -118,18 +126,10 @@ public class DeliveryMethod extends AbstractEntity {
         this.description = description;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-    
     public String getDeliveryTime() {
         return deliveryTime;
     }
-    
+
     public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
@@ -137,7 +137,7 @@ public class DeliveryMethod extends AbstractEntity {
     public Set<DeliveryMethodCountry> getCountries() {
         return countries;
     }
-    
+
     public void setCountries(Set<DeliveryMethodCountry> countries) {
         this.countries = countries;
     }

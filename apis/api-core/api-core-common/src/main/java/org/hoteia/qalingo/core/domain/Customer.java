@@ -55,64 +55,64 @@ public class Customer extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -6596549095870442990L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="CODE")
-	private String code;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="LOGIN")
-	private String login;
-	
-	@Column(name="AVATAR_IMG")
-	private String avatarImg;
-	
-	@Column(name="PERMALINK")
-	private String permalink;
-	
-	@Column(name="GENDER")
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "LOGIN")
+    private String login;
+
+    @Column(name = "AVATAR_IMG")
+    private String avatarImg;
+
+    @Column(name = "PERMALINK")
+    private String permalink;
+
+    @Column(name = "GENDER")
     private String gender;
 
-	@Column(name="TITLE")
+    @Column(name = "TITLE")
     private String title;
-	
-	@Column(name="FIRSTNAME")
-	private String firstname;
-	
-	@Column(name="LASTNAME")
-	private String lastname;
-	
-	@Column(name="EMAIL")
-	private String email;
-	
-	@Column(name="PASSWORD")
-	private String password;
-	
-	@Column(name="DEFAULT_LOCALE")
-	private String defaultLocale;
-	
-	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean active;
-	
-	@Column(name="VALIDATED", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean validated;
-	
-	@Column(name="VALIDATION_TOKEN")
-	private String validationToken;
-	
-	@Column(name="IS_ANONYMOUS", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean anonymous;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>(); 
-	
+
+    @Column(name = "FIRSTNAME")
+    private String firstname;
+
+    @Column(name = "LASTNAME")
+    private String lastname;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "DEFAULT_LOCALE")
+    private String defaultLocale;
+
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean active;
+
+    @Column(name = "VALIDATED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean validated;
+
+    @Column(name = "VALIDATION_TOKEN")
+    private String validationToken;
+
+    @Column(name = "IS_ANONYMOUS", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean anonymous;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerCredential> credentials = new HashSet<CustomerCredential>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerAddress> addresses = new HashSet<CustomerAddress>();
@@ -127,13 +127,13 @@ public class Customer extends AbstractEntity {
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerConnectionLog> connectionLogs = new HashSet<CustomerConnectionLog>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>(); 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerMarketArea> customerMarketAreas = new HashSet<CustomerMarketArea>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 
 	
 	@ManyToMany(
 	        targetEntity=org.hoteia.qalingo.core.domain.CustomerGroup.class,
@@ -145,34 +145,34 @@ public class Customer extends AbstractEntity {
 	        inverseJoinColumns=@JoinColumn(name="GROUP_ID")
 	    )
 	private Set<CustomerGroup> customerGroups = new HashSet<CustomerGroup>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>(); 
-	
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Set<CustomerOAuth> oauthAccesses = new HashSet<CustomerOAuth>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID")
     private Set<CustomerPaymentInformation> paymentInformations = new HashSet<CustomerPaymentInformation>();
-	   
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_ID")
-	private CustomerOrderAudit customerOrderAudit;
-	
-	@Column(name="PLATFORM_ORIGN")
-	@Enumerated(EnumType.STRING) 
-	private CustomerPlatformOrigin platformOrigin;
-	
-	@Column(name="NETWORK_ORIGN")
-	@Enumerated(EnumType.STRING) 
-	private CustomerNetworkOrigin networkOrigin;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private CustomerOrderAudit customerOrderAudit;
+
+    @Column(name = "PLATFORM_ORIGN")
+    @Enumerated(EnumType.STRING)
+    private CustomerPlatformOrigin platformOrigin;
+
+    @Column(name = "NETWORK_ORIGN")
+    @Enumerated(EnumType.STRING)
+    private CustomerNetworkOrigin networkOrigin;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
 	public Customer() {
 	}

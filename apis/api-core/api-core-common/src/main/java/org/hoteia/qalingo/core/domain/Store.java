@@ -57,7 +57,7 @@ public class Store extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE")
+    @Column(name = "CODE", nullable = false)
     private String code;
 
     @Column(name = "TYPE")
@@ -90,17 +90,17 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
-    @Column(name="RETAILER_ID")
+    @Column(name = "RETAILER_ID")
     private Long retailerId;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreAttribute> attributes = new HashSet<StoreAttribute>();
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<StoreBusinessHour> businessHours = new HashSet<StoreBusinessHour>();
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
     private Set<Asset> assets = new HashSet<Asset>();

@@ -40,46 +40,46 @@ public class CustomerMarketArea extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -6596549095870442990L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="PHONE")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
+
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "PHONE")
     private String phone;
 
-	@Column(name="FAX")
+    @Column(name = "FAX")
     private String fax;
-	
-	@Column(name="MOBILE")
+
+    @Column(name = "MOBILE")
     private String mobile;
 
-	@Column(name="MARKET_AREA_ID")
+    @Column(name = "MARKET_AREA_ID")
     private Long marketAreaId;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
-	private Set<CustomerOptin> optins = new HashSet<CustomerOptin>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
-	private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>(); 
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="CUSTOMER_MARKET_AREA_ID")
-	private Set<CustomerProductComment> productComments = new HashSet<CustomerProductComment>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
+    private Set<CustomerOptin> optins = new HashSet<CustomerOptin>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
+    private Set<CustomerWishlist> wishlistProducts = new HashSet<CustomerWishlist>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_MARKET_AREA_ID")
+    private Set<CustomerProductComment> productComments = new HashSet<CustomerProductComment>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
 	public CustomerMarketArea(){
 	}

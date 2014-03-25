@@ -60,6 +60,9 @@ public class Retailer extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
     @Column(name = "NAME")
     private String name;
 
@@ -81,9 +84,6 @@ public class Retailer extends AbstractEntity {
     @Column(name = "IS_CORNER", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isCorner;
 
-    @Column(name = "CODE")
-    private String code;
-
     @Column(name = "QUALITY_OF_SERVICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int qualityOfService;
 
@@ -96,7 +96,7 @@ public class Retailer extends AbstractEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "WAREHOUSE_ID")
     private Warehouse warehouse;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
     private Set<RetailerLink> links = new HashSet<RetailerLink>();
@@ -111,7 +111,7 @@ public class Retailer extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RETAILER_ID")
-    @OrderBy(clause = "ordering asc")    
+    @OrderBy(clause = "ordering asc")
     private Set<Asset> assets = new HashSet<Asset>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -157,6 +157,14 @@ public class Retailer extends AbstractEntity {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
@@ -211,14 +219,6 @@ public class Retailer extends AbstractEntity {
 
     public void setCorner(boolean isCorner) {
         this.isCorner = isCorner;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public int getQualityOfService() {

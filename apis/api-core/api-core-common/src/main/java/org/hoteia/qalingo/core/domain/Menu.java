@@ -40,63 +40,47 @@ public class Menu extends AbstractEntity {
 	 */
     private static final long serialVersionUID = 4941716986199595500L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="POSITION")
-	private int position;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
-	private boolean active;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MENU_ID")
-    @OrderBy("POSITION") 	
-	private Set<Menu> subMenus = new HashSet<Menu>(); 
-	
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.UserGroup.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TBO_MENU_GROUP_REL",
-	        joinColumns=@JoinColumn(name="MENU_ID"),
-	        inverseJoinColumns=@JoinColumn(name="GROUP_ID")
-	    )
-	private Set<UserGroup> userGroups = new HashSet<UserGroup>(); 
-	
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.UserRole.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TBO_MENU_ROLE_REL",
-	        joinColumns=@JoinColumn(name="MENU_ID"),
-	        inverseJoinColumns=@JoinColumn(name="ROLE_ID")
-	    )	
-	private Set<UserRole> groupRoles = new HashSet<UserRole>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "POSITION")
+    private int position;
+
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
+    private boolean active;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MENU_ID")
+    @OrderBy("POSITION")
+    private Set<Menu> subMenus = new HashSet<Menu>();
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TBO_MENU_GROUP_REL", joinColumns = @JoinColumn(name = "MENU_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
+    private Set<UserGroup> userGroups = new HashSet<UserGroup>();
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserRole.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TBO_MENU_ROLE_REL", joinColumns = @JoinColumn(name = "MENU_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    private Set<UserRole> groupRoles = new HashSet<UserRole>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
 	public Menu(){
 	}

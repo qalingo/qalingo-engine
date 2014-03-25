@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -35,6 +36,7 @@ import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.RetailerService;
@@ -43,6 +45,7 @@ import org.hoteia.qalingo.core.service.WarehouseService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
@@ -71,6 +74,10 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 
     @Autowired
     protected WarehouseService warehouseService;
+    
+    @Autowired
+    protected DeliveryMethodService deliveryMethodService;
+
     
     @Autowired
     protected AttributeService attributeService;
@@ -460,6 +467,14 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         warehouse.setDescription(warehouseForm.getDescription());
 
         warehouseService.saveOrUpdateWarehouse(warehouse);
+    }
+    
+    public void createOrUpdateDeliveryMethod(final DeliveryMethod deliveryMethod, final DeliveryMethodForm deliveryMethodForm) {
+        deliveryMethod.setCode(deliveryMethodForm.getCode());
+        deliveryMethod.setName(deliveryMethodForm.getName());
+        deliveryMethod.setDescription(deliveryMethodForm.getDescription());
+
+        deliveryMethodService.saveOrUpdateDeliveryMethod(deliveryMethod);
     }
 
     public void updateEngineSettingValue(final EngineSettingValue engineSettingValue, final EngineSettingValueForm engineSettingValueForm) {

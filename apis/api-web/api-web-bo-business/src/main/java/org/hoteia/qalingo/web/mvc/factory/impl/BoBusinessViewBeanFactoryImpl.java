@@ -87,7 +87,9 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
         menuViewBeans.add(menu);
         
         List<String> priceUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.PRICE_LIST.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.PRICE_LIST.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.PRICE_DETAILS.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.PRICE_EDIT.getUrlWithoutWildcard());
         
         menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, priceUrls));
@@ -97,7 +99,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
         menuViewBeans.add(menu);
         
         List<String> ruleUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.RULE_LIST.getUrlWithoutWildcard());
+        ruleUrls.add(BoUrls.RULE_LIST.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, ruleUrls));
@@ -107,7 +109,9 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menuViewBeans.add(menu);
 
         List<String> deliveryMethodUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_DETAILS.getUrlWithoutWildcard());
+        deliveryMethodUrls.add(BoUrls.DELIVERY_METHOD_EDIT.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, deliveryMethodUrls));
@@ -117,7 +121,8 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menuViewBeans.add(menu);
 		
         List<String> orderUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.ORDER_LIST.getUrlWithoutWildcard());
+        orderUrls.add(BoUrls.ORDER_LIST.getUrlWithoutWildcard());
+        orderUrls.add(BoUrls.ORDER_DETAILS.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, orderUrls));
@@ -127,7 +132,9 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menuViewBeans.add(menu);
 		
         List<String> customerUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard());
+        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard());
+        customerUrls.add(BoUrls.CUSTOMER_DETAILS.getUrlWithoutWildcard());
+        customerUrls.add(BoUrls.CUSTOMER_EDIT.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, customerUrls));
@@ -137,7 +144,9 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menuViewBeans.add(menu);
 		
         List<String> retailerUrls = new ArrayList<String>();
-        catalogManagementUrls.add(BoUrls.RETAILER_LIST.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.RETAILER_LIST.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.RETAILER_DETAILS.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.RETAILER_EDIT.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, retailerUrls));

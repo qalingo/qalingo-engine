@@ -46,7 +46,7 @@ public class TaxType extends AbstractEntity {
 	@Column(name="DESCRIPTION")
 	private String description;
 	
-	@Column(name="CODE")
+	@Column(name="CODE", nullable = false)
 	private String code;
 	
 	@Temporal(TemporalType.TIMESTAMP)

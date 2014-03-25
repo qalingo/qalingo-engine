@@ -37,35 +37,35 @@ public class CatalogCategoryType extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -3980707450354384779L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="MASTER_CATEGORY_ID")
-	private Set<CatalogCategoryTypeAttribute> catalogCategoryTypeAttributes = new HashSet<CatalogCategoryTypeAttribute>(); 
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "MASTER_CATEGORY_ID")
+    private Set<CatalogCategoryTypeAttribute> catalogCategoryTypeAttributes = new HashSet<CatalogCategoryTypeAttribute>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
 	public CatalogCategoryType(){
 	}
@@ -86,6 +86,14 @@ public class CatalogCategoryType extends AbstractEntity {
 		this.version = version;
 	}
 
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
 	public String getName() {
 		return name;
 	}
@@ -100,14 +108,6 @@ public class CatalogCategoryType extends AbstractEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-	
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public Set<CatalogCategoryTypeAttribute> getCatalogCategoryTypeAttributes() {

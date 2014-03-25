@@ -42,133 +42,117 @@ public class RuleRepository extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -8807165174312292506L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
 
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="IS_ACTIVE", nullable=false, columnDefinition="tinyint(1) default 1")
-	private boolean active;
-	
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.AbstractRuleReferential.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_RULE_REPOSITORY_REFERENTIAL_REL",
-	        joinColumns=@JoinColumn(name="RULE_REPOSITORY_ID"),
-	        inverseJoinColumns=@JoinColumn(name="RULE_REFERENTIAL_ID")
-	    )
-	private Set<AbstractRuleReferential> rules = new HashSet<AbstractRuleReferential>(); 
-	
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_RULE_REPOSITORY_ATTRIBUTE_REL",
-	        joinColumns=@JoinColumn(name="RULE_REPOSITORY_ID"),
-	        inverseJoinColumns=@JoinColumn(name="RULE_REPOSITORY_ATTRIBUTE_ID")
-	    )
-	private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>(); 
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="START_DATE")
-	private Date startDate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="END_DATE")
-	private Date endDate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public RuleRepository() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "CODE", nullable = false)
+    private String code;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public int getVersion() {
-		return version;
-	}
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
+    private boolean active;
 
-	public String getName() {
-		return name;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.AbstractRuleReferential.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_RULE_REPOSITORY_REFERENTIAL_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REFERENTIAL_ID"))
+    private Set<AbstractRuleReferential> rules = new HashSet<AbstractRuleReferential>();
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.RuleRepositoryAttribute.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_RULE_REPOSITORY_ATTRIBUTE_REL", joinColumns = @JoinColumn(name = "RULE_REPOSITORY_ID"), inverseJoinColumns = @JoinColumn(name = "RULE_REPOSITORY_ATTRIBUTE_ID"))
+    private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new HashSet<RuleRepositoryAttribute>();
 
-	public String getDescription() {
-		return description;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "START_DATE")
+    private Date startDate;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "END_DATE")
+    private Date endDate;
 
-	public String getCode() {
-		return code;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public boolean isActive() {
-		return active;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public RuleRepository() {
+    }
 
-	public Set<AbstractRuleReferential> getRules() {
-		return rules;
-	}
-	
-	public void setRules(Set<AbstractRuleReferential> rules) {
-		this.rules = rules;
-	}
-	
-	public Set<RuleRepositoryAttribute> getRuleRepositoryAttributes() {
-		return ruleRepositoryAttributes;
-	}
-	
-	public void setRuleRepositoryAttributes(Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
-		this.ruleRepositoryAttributes = ruleRepositoryAttributes;
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<AbstractRuleReferential> getRules() {
+        return rules;
+    }
+
+    public void setRules(Set<AbstractRuleReferential> rules) {
+        this.rules = rules;
+    }
+
+    public Set<RuleRepositoryAttribute> getRuleRepositoryAttributes() {
+        return ruleRepositoryAttributes;
+    }
+
+    public void setRuleRepositoryAttributes(Set<RuleRepositoryAttribute> ruleRepositoryAttributes) {
+        this.ruleRepositoryAttributes = ruleRepositoryAttributes;
+    }
 	
 	@Transient
 	public String getRuleString() {

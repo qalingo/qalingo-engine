@@ -38,136 +38,136 @@ public class Tax extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 7515272027282284761L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID", nullable=false)
-	private Long id;
-	
-	@Version
-	@Column(name="VERSION", nullable=false, columnDefinition="int(11) default 1")
-	private int version;
-	
-	@Column(name="NAME")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
-	@Column(name="DESCRIPTION")
-	private String description;
-	
-	@Column(name="CODE")
-	private String code;
-	
-	@Column(name="PERCENT")
-	private BigDecimal percent;
-	
+    @Version
+    @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
+    private int version;
+
+    @Column(name = "CODE", nullable = false)
+    private String code;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "PERCENT")
+    private BigDecimal percent;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TAX_TYPE_ID", insertable = true, updatable = true)
     private TaxType taxType;
-    
-	@OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="TAX_ID")
-	private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>(); 
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TAX_ID")
+    private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>();
+
+    @Column(name = "MARKET_AREA_ID")
+    private Long marketAreaId;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATE")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_UPDATE")
+    private Date dateUpdate;
 	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_CREATE")
-	private Date dateCreate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DATE_UPDATE")
-	private Date dateUpdate;
-	
-	public Tax() {
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    public Tax() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public int getVersion() {
-		return version;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public BigDecimal getPercent() {
-		return percent;
-	}
-	
-	public void setPercent(BigDecimal percent) {
-		this.percent = percent;
-	}
-	
-	public TaxType getTaxType() {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getPercent() {
+        return percent;
+    }
+
+    public void setPercent(BigDecimal percent) {
+        this.percent = percent;
+    }
+
+    public TaxType getTaxType() {
         return taxType;
     }
-	
-	public void setTaxType(TaxType taxType) {
+
+    public void setTaxType(TaxType taxType) {
         this.taxType = taxType;
     }
-	
-	public Date getDateCreate() {
-		return dateCreate;
-	}
 
-	public void setDateCreate(Date dateCreate) {
-		this.dateCreate = dateCreate;
-	}
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
-	public Date getDateUpdate() {
-		return dateUpdate;
-	}
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
 
-	public void setDateUpdate(Date dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
+    public Date getDateUpdate() {
+        return dateUpdate;
+    }
 
-	public Set<TaxCountry> getTaxCountries() {
-		return taxCountries;
-	}
+    public void setDateUpdate(Date dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
 
-	public void setTaxeCountries(Set<TaxCountry> taxCountries) {
-		this.taxCountries = taxCountries;
-	}
-	
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
-	
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
+    public Set<TaxCountry> getTaxCountries() {
+        return taxCountries;
+    }
+
+    public void setTaxeCountries(Set<TaxCountry> taxCountries) {
+        this.taxCountries = taxCountries;
+    }
+
+    public Long getMarketAreaId() {
+        return marketAreaId;
+    }
+
+    public void setMarketAreaId(Long marketAreaId) {
+        this.marketAreaId = marketAreaId;
+    }
 
     @Override
     public int hashCode() {
