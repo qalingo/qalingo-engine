@@ -38,9 +38,9 @@ public enum BoUrls {
     WAREHOUSE_DETAILS(BoUrls.WAREHOUSE_DETAILS_URL, BoUrls.WAREHOUSE_DETAILS_KEY, BoUrls.WAREHOUSE_DETAILS_VELOCITY_PAGE, true),
     WAREHOUSE_EDIT(BoUrls.WAREHOUSE_EDIT_URL, BoUrls.WAREHOUSE_EDIT_KEY, BoUrls.WAREHOUSE_EDIT_VELOCITY_PAGE, true),
 
-    PRICE_LIST(BoUrls.PRICE_LIST_URL, BoUrls.PRICE_LIST_KEY, BoUrls.PRICE_LIST_VELOCITY_PAGE, true),
-    PRICE_DETAILS(BoUrls.PRICE_DETAILS_URL, BoUrls.PRICE_DETAILS_KEY, BoUrls.PRICE_DETAILS_VELOCITY_PAGE, true),
-    PRICE_EDIT(BoUrls.PRICE_EDIT_URL, BoUrls.PRICE_EDIT_KEY, BoUrls.PRICE_EDIT_VELOCITY_PAGE, true),
+    TAX_LIST(BoUrls.TAX_LIST_URL, BoUrls.TAX_LIST_KEY, BoUrls.TAX_LIST_VELOCITY_PAGE, true),
+    TAX_DETAILS(BoUrls.TAX_DETAILS_URL, BoUrls.TAX_DETAILS_KEY, BoUrls.TAX_DETAILS_VELOCITY_PAGE, true),
+    TAX_EDIT(BoUrls.TAX_EDIT_URL, BoUrls.TAX_EDIT_KEY, BoUrls.TAX_EDIT_VELOCITY_PAGE, true),
 
     RULE_LIST(BoUrls.RULE_LIST_URL, BoUrls.RULE_LIST_KEY, BoUrls.RULE_LIST_VELOCITY_PAGE, true),
     RULE_DETAILS(BoUrls.RULE_DETAILS_URL, BoUrls.RULE_DETAILS_KEY, BoUrls.RULE_DETAILS_VELOCITY_PAGE, true),
@@ -190,7 +190,7 @@ public enum BoUrls {
 	public static final String REPORTING_VELOCITY_PAGE		= "reporting/reporting-list";
 
 	// RULE
-	public static final String RULE_LIST_KEY				= "rule";
+	public static final String RULE_LIST_KEY				= "rule-list";
 	public static final String RULE_LIST_URL				= "/**/rule-list.html";
 	public static final String RULE_LIST_VELOCITY_PAGE		= "rule/rule-list";
 
@@ -203,7 +203,7 @@ public enum BoUrls {
 	public static final String RULE_EDIT_VELOCITY_PAGE		= "rule/rule-edit";
 
 	// ORDER
-	public static final String ORDER_LIST_KEY					= "order";
+	public static final String ORDER_LIST_KEY					= "order-list";
 	public static final String ORDER_LIST_URL					= "/**/order-list.html";
 	public static final String ORDER_LIST_VELOCITY_PAGE			= "order/order-list";
 
@@ -212,7 +212,7 @@ public enum BoUrls {
 	public static final String ORDER_DETAILS_VELOCITY_PAGE		= "order/order-details";
 	
 	// DELIVERY_METHOD
-	public static final String DELIVERY_METHOD_LIST_KEY                = "delivery-method";
+	public static final String DELIVERY_METHOD_LIST_KEY                = "delivery-method-list";
 	public static final String DELIVERY_METHOD_LIST_URL                = "/**/delivery-method-list.html";
 	public static final String DELIVERY_METHOD_LIST_VELOCITY_PAGE      = "delivery-method/delivery-method-list";
 
@@ -225,7 +225,7 @@ public enum BoUrls {
 	public static final String DELIVERY_METHOD_EDIT_VELOCITY_PAGE  = "delivery-method/delivery-method-edit";
 
     // WAREHOUSE
-    public static final String WAREHOUSE_LIST_KEY                = "warehouse";
+    public static final String WAREHOUSE_LIST_KEY                = "warehouse-list";
     public static final String WAREHOUSE_LIST_URL                = "/**/warehouse-list.html";
     public static final String WAREHOUSE_LIST_VELOCITY_PAGE      = "warehouse/warehouse-list";
 
@@ -238,17 +238,17 @@ public enum BoUrls {
     public static final String WAREHOUSE_EDIT_VELOCITY_PAGE      = "warehouse/warehouse-edit";
 
     // PRICE
-    public static final String PRICE_LIST_KEY                = "price";
-    public static final String PRICE_LIST_URL                = "/**/price-list.html";
-    public static final String PRICE_LIST_VELOCITY_PAGE      = "price/price-list";
+    public static final String TAX_LIST_KEY                = "tax-list";
+    public static final String TAX_LIST_URL                = "/**/tax-list.html";
+    public static final String TAX_LIST_VELOCITY_PAGE      = "tax/tax-list";
 
-    public static final String PRICE_DETAILS_KEY             = "price-details";
-    public static final String PRICE_DETAILS_URL             = "/**/price-details.html";
-    public static final String PRICE_DETAILS_VELOCITY_PAGE   = "price/price-details";
+    public static final String TAX_DETAILS_KEY             = "tax-details";
+    public static final String TAX_DETAILS_URL             = "/**/tax-details.html";
+    public static final String TAX_DETAILS_VELOCITY_PAGE   = "tax/tax-details";
 
-    public static final String PRICE_EDIT_KEY                = "price-edit";
-    public static final String PRICE_EDIT_URL                = "/**/price-edit.html";
-    public static final String PRICE_EDIT_VELOCITY_PAGE      = "price/price-edit";
+    public static final String TAX_EDIT_KEY                = "tax-edit";
+    public static final String TAX_EDIT_URL                = "/**/tax-edit.html";
+    public static final String TAX_EDIT_VELOCITY_PAGE      = "tax/tax-edit";
     
 	// BATCH
 	public static final String BATCH_KEY				= "batch";
@@ -317,7 +317,7 @@ public enum BoUrls {
     public static final String CUSTOMER_EDIT_VELOCITY_PAGE  = "customer/customer-edit";
 
 	// RETAILER
-	public static final String RETAILER_LIST_KEY			= "retailer";
+	public static final String RETAILER_LIST_KEY			= "retailer-list";
 	public static final String RETAILER_LIST_URL			= "/**/retailer-list.html";
 	public static final String RETAILER_LIST_VELOCITY_PAGE	= "retailer/retailer-list";
 

@@ -44,6 +44,7 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_RULE_CODE                  = "rule-code";
     public static final String REQUEST_PARAMETER_WAREHOUSE_CODE             = "warehouse-code";
     public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE       = "delivery-method-code";
+    public static final String REQUEST_PARAMETER_TAX_CODE                   = "tax-code";
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE        = "engine-setting-code";
     public static final String REQUEST_PARAMETER_RETAILER_CODE              = "retailer-code";
     public static final String REQUEST_PARAMETER_STORE_CODE                 = "store-code";

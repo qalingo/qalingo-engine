@@ -83,6 +83,21 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
         List<Warehouse> warehouses = criteria.list();
         return warehouses;
     }
+    
+    public List<Warehouse> findWarehousesByDeliveryMethodId(Long deliveryMethodId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Warehouse.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("deliveryMethods", "deliveryMethod", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("deliveryMethod.id", deliveryMethodId));
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Warehouse> warehouses = criteria.list();
+        return warehouses;
+    }
 
     public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) {
         if (warehouse.getDateCreate() == null) {

@@ -9,10 +9,14 @@
  */
 package org.hoteia.qalingo.core.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.TaxDao;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
@@ -35,6 +39,30 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
         return tax;
 	}
 
+    public Tax getTaxByCode(final String taxCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("code", taxCode));
+        Tax tax = (Tax) criteria.uniqueResult();
+        tax.setFetchPlan(fetchPlan);
+        return tax;
+    }
+    
+    public List<Tax> findTaxes(Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Tax> taxes = criteria.list();
+
+        return taxes;
+    }
+    
 	public Tax saveOrUpdateTax(final Tax tax) {
         if (tax.getId() != null) {
             if(em.contains(tax)){

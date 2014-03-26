@@ -87,15 +87,15 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
         menuViewBeans.add(menu);
         
         List<String> priceUrls = new ArrayList<String>();
-        priceUrls.add(BoUrls.PRICE_LIST.getUrlWithoutWildcard());
-        priceUrls.add(BoUrls.PRICE_DETAILS.getUrlWithoutWildcard());
-        priceUrls.add(BoUrls.PRICE_EDIT.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.TAX_LIST.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.TAX_DETAILS.getUrlWithoutWildcard());
+        priceUrls.add(BoUrls.TAX_EDIT.getUrlWithoutWildcard());
         
         menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, priceUrls));
         menu.setCssIcon("fa fa-usd");
-        menu.setName("Price");
-        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PRICE_LIST, requestData));
+        menu.setName("Tax");
+        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData));
         menuViewBeans.add(menu);
         
         List<String> ruleUrls = new ArrayList<String>();
@@ -127,7 +127,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, orderUrls));
 		menu.setCssIcon("fa fa-shopping-cart");
-		menu.setName("Orders");
+		menu.setName("Order");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
@@ -139,7 +139,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, customerUrls));
 		menu.setCssIcon("fa fa-group");
-		menu.setName("Customers");
+		menu.setName("Customer");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
@@ -151,7 +151,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, retailerUrls));
         menu.setCssIcon(" fa fa-map-marker");
-		menu.setName("Retailers");
+		menu.setName("Retailer");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
         menuViewBeans.add(menu);
 		

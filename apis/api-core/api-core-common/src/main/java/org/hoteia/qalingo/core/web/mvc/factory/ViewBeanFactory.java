@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
@@ -68,6 +69,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 
 public interface ViewBeanFactory {
 
@@ -161,6 +163,8 @@ public interface ViewBeanFactory {
 	OrderItemViewBean buildViewBeanOrderItem(RequestData requestData, OrderItem orderItem) throws Exception;
 	
     DeliveryMethodViewBean buildViewBeanDeliveryMethod(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
+
+    TaxViewBean buildViewBeanTax(RequestData requestData, Tax tax) throws Exception;
 
     PaymentMethodViewBean buildViewBeanPaymentMethod(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
 }

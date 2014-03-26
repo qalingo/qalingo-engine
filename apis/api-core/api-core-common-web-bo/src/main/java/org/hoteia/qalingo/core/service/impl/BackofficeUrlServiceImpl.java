@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -124,6 +125,10 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                     } else if (param instanceof DeliveryMethod) {
                         DeliveryMethod deliveryMethod = (DeliveryMethod) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE, handleParamValue(deliveryMethod.getCode().toString()));
+                        break;
+                    } else if (param instanceof Tax) {
+                        Tax tax = (Tax) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_TAX_CODE, handleParamValue(tax.getCode().toString()));
                         break;
                     } else if (param instanceof OrderCustomer) {
                         OrderCustomer order = (OrderCustomer) param;

@@ -50,6 +50,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
 import org.hoteia.qalingo.core.domain.UserGroup;
@@ -89,6 +90,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.WarehouseViewBean;
@@ -900,6 +902,20 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
         return deliveryMethodViewBean;
     }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    @Override
+    public TaxViewBean buildViewBeanTax(final RequestData requestData, final Tax tax) throws Exception {
+        final TaxViewBean taxViewBean = super.buildViewBeanTax(requestData, tax);
+
+        taxViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax));
+        taxViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.TAX_EDIT, requestData, tax));
+
+        return taxViewBean;
+    }    
 
     /**
      * @throws Exception

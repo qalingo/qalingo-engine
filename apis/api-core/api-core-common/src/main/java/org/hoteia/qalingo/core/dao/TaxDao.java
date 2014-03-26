@@ -9,14 +9,20 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.List;
+
 import org.hoteia.qalingo.core.domain.Tax;
 
 public interface TaxDao {
 
-	Tax getTaxById(Long taxId, Object... params);
+    Tax getTaxById(Long taxId, Object... params);
 
-	Tax saveOrUpdateTax(Tax tax);
+    Tax getTaxByCode(String taxCode, Object... params);
 
-	void deleteTax(Tax tax);
+    List<Tax> findTaxes(Object... params);
+    
+    Tax saveOrUpdateTax(Tax tax);
+
+    void deleteTax(Tax tax);
 
 }

@@ -21,6 +21,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -36,6 +37,7 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
+import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
@@ -78,7 +80,9 @@ public interface BackofficeFormFactory {
     WarehouseForm buildWarehouseForm(RequestData requestData, Warehouse warehouse) throws Exception;
 
     DeliveryMethodForm buildDeliveryMethodForm(RequestData requestData, DeliveryMethod deliveryMethod) throws Exception;
-    
+
+    TaxForm buildTaxForm(RequestData requestData, Tax tax) throws Exception;
+
     RetailerForm buildRetailerForm(RequestData requestData, Retailer retailer) throws Exception;
 
 }

@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class DeliveryMethodForm {
 
-    private Long id;
+    private String id;
     private int version;
     private String code;
     private String name;
@@ -27,11 +27,11 @@ public class DeliveryMethodForm {
     private BigDecimal price;
     private Long marketAreaId;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class DeliveryMethodForm {
         this.version = version;
     }
 
-    @NotEmpty(message = "bo.delivery.method.error_form_code_empty")
+    @NotEmpty(message = "bo.delivery_method.error_form_code_empty")
     public String getCode() {
         return code;
     }
@@ -52,7 +52,7 @@ public class DeliveryMethodForm {
         this.code = code;
     }
 
-    @NotEmpty(message = "bo.delivery.method.error_form_name_empty")
+    @NotEmpty(message = "bo.delivery_method.error_form_name_empty")
     public String getName() {
         return name;
     }

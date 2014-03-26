@@ -60,6 +60,7 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
@@ -123,6 +124,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
@@ -893,7 +895,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         storeViewBean.setPostalCode(store.getPostalCode());
 
         // I18n values
-        storeViewBean.setCity(store.getI18nCity(localization));
+        storeViewBean.setCity(store.getCity());
+        String i18nCityName = store.getI18nCity(localization);
+        if(StringUtils.isNotEmpty(i18nCityName)){
+            storeViewBean.setCity(i18nCityName);
+        }
 
         storeViewBean.setStateCode(store.getStateCode());
         storeViewBean.setCountry(store.getCountryCode());
@@ -1823,9 +1829,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
      * 
      */
     public DeliveryMethodViewBean buildViewBeanDeliveryMethod(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-
         final DeliveryMethodViewBean deliveryMethodViewBean = new DeliveryMethodViewBean();
         deliveryMethodViewBean.setId(deliveryMethod.getId());
 
@@ -1872,6 +1875,34 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 //        deliveryMethodViewBean.setEditUrl(urlService.generateUrl(FoUrls.DELIVERY_METHOD_EDIT, requestData, deliveryMethod));
 
         return deliveryMethodViewBean;
+    }
+    
+    /**
+     * @throws Exception
+     * 
+     */
+    public TaxViewBean buildViewBeanTax(final RequestData requestData, final Tax tax) throws Exception {
+        final TaxViewBean taxViewBean = new TaxViewBean();
+        taxViewBean.setId(tax.getId());
+
+        taxViewBean.setVersion(tax.getVersion());
+        taxViewBean.setName(tax.getName());
+        taxViewBean.setDescription(tax.getDescription());
+        taxViewBean.setCode(tax.getCode());
+        
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (tax.getDateCreate() != null) {
+            taxViewBean.setDateCreate(dateFormat.format(tax.getDateCreate()));
+        } else {
+            taxViewBean.setDateCreate("NA");
+        }
+        if (tax.getDateUpdate() != null) {
+            taxViewBean.setDateUpdate(dateFormat.format(tax.getDateUpdate()));
+        } else {
+            taxViewBean.setDateUpdate("NA");
+        }
+
+        return taxViewBean;
     }
     
     /**

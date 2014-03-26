@@ -31,6 +31,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
@@ -50,6 +51,7 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
+import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
@@ -311,7 +313,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         
         final DeliveryMethodForm deliveryMethodForm = new DeliveryMethodForm();
         if(deliveryMethod != null){
-            deliveryMethodForm.setId(deliveryMethod.getId());
+            deliveryMethodForm.setId(deliveryMethod.getId().toString());
             deliveryMethodForm.setVersion(deliveryMethod.getVersion());
             deliveryMethodForm.setName(deliveryMethod.getName());
             deliveryMethodForm.setDescription(deliveryMethod.getDescription());
@@ -319,6 +321,19 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             deliveryMethodForm.setPrice(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
         }
         return deliveryMethodForm;
+    }
+    
+    public TaxForm buildTaxForm(final RequestData requestData, final Tax tax) throws Exception {
+        
+        final TaxForm taxForm = new TaxForm();
+        if(tax != null){
+            taxForm.setId(tax.getId().toString());
+            taxForm.setVersion(tax.getVersion());
+            taxForm.setName(tax.getName());
+            taxForm.setDescription(tax.getDescription());
+            taxForm.setCode(tax.getCode());
+        }
+        return taxForm;
     }
     
     public RetailerForm buildRetailerForm(final RequestData requestData, final Retailer retailer) throws Exception {

@@ -104,6 +104,11 @@ public enum ScopeWebMessage {
 	 */
 	DELIVERY_METHOD("delivery_method"),
 	
+    /**
+     * 
+     */
+    TAX("tax"),
+    
 	/**
 	 * 
 	 */

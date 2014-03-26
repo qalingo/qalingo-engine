@@ -165,6 +165,23 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 		}
 	}
 	
+    /**
+     * 
+     */
+    protected void initPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        String pageTitleKey = titleKey;
+        String headerTitle = "";
+        if(params != null){
+            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+        } else {
+            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+        }
+        modelAndView.addObject(ModelConstants.SEO_PAGE_META_TITLE, getAppName(request) + " - " + headerTitle);
+        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
+    }
+	
 	/**
 	 * 
 	 */

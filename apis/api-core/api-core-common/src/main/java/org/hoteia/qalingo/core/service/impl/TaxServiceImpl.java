@@ -9,13 +9,14 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import org.hoteia.qalingo.core.dao.TaxDao;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.service.TaxService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("taxService")
 @Transactional
@@ -36,6 +37,14 @@ public class TaxServiceImpl implements TaxService {
             throw new IllegalArgumentException(e);
         }
         return getTaxById(taxId, params);
+    }
+    
+    public Tax getTaxByCode(String taxCode, Object... params) {
+        return taxDao.getTaxByCode(taxCode, params);
+    }
+    
+    public List<Tax> findTaxes(Object... params) {
+        return taxDao.findTaxes(params);
     }
 
     public void saveOrUpdateTax(Tax tax) {

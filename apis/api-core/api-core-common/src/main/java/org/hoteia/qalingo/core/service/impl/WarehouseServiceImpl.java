@@ -52,6 +52,10 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseDao.findWarehousesByMarketAreaId(marketAreaId, params);
     }
     
+    public List<Warehouse> findWarehousesByDeliveryMethodId(Long deliveryMethodId, Object... params) {
+        return warehouseDao.findWarehousesByDeliveryMethodId(deliveryMethodId, params);
+    }
+    
     public Warehouse saveOrUpdateWarehouse(final Warehouse warehouse) {
         return warehouseDao.saveOrUpdateWarehouse(warehouse);
     }

@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -22,7 +20,6 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
@@ -63,7 +60,8 @@ public class ProductController extends AbstractBusinessBackofficeController {
         ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
         modelAndView.addObject(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
         
-		initSpecificSeo(request, modelAndView,  BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")");
+        Object[] params = {productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
 		
         return modelAndView;
 	}
@@ -83,7 +81,8 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 		
-		initSpecificSeo(request, modelAndView, BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")");
+        Object[] params = {productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
 
 		return modelAndView;
 	}
@@ -126,7 +125,8 @@ public class ProductController extends AbstractBusinessBackofficeController {
         ProductSkuViewBean productSkuViewBean = backofficeViewBeanFactory.buildViewBeanProductSku(requestUtil.getRequestData(request), productSku);
         modelAndView.addObject(ModelConstants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
         
-		initSpecificSeo(request, modelAndView, BoUrls.PRODUCT_SKU_DETAILS.getKey(), productSku.getBusinessName() + " (" + productSku.getCode() + ")");
+        Object[] params = {productSku.getBusinessName() + " (" + productSku.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_DETAILS.getKey(), params);
 		
         return modelAndView;
 	}
@@ -144,7 +144,9 @@ public class ProductController extends AbstractBusinessBackofficeController {
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
 
 		modelAndView.addObject(ModelConstants.PRODUCT_SKU_FORM, backofficeFormFactory.buildProductSkuForm(requestData, productSku));
-		initSpecificSeo(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), productSku.getBusinessName() + " (" + productSku.getCode() + ")");
+		
+		Object[] params = {productSku.getBusinessName() + " (" + productSku.getCode() + ")"};
+		initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
 		
         return modelAndView;
 	}
@@ -176,19 +178,6 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		}
 		
         return new ModelAndView(new RedirectView(urlRedirect));
-	}
-	
-	/**
-	 * 
-	 */
-	protected void initSpecificSeo(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, String productName) throws Exception {
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-		String pageTitleKey = titleKey;
-		Object[] params = {productName};
-		String headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
-        modelAndView.addObject(ModelConstants.SEO_PAGE_META_TITLE, getAppName(request) + " - " + headerTitle);
-        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
 	}
 	
 }

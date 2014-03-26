@@ -118,6 +118,9 @@ public final class ModelConstants {
     public static final String DELIVERY_METHODS_VIEW_BEAN       = "deliveryMethods";
     public static final String DELIVERY_METHOD_VIEW_BEAN        = "deliveryMethod";
 
+    public static final String TAXES_VIEW_BEAN                  = "taxes";
+    public static final String TAX_VIEW_BEAN                    = "tax";
+
     public static final String CUSTOMER_VIEW_BEAN               = "customer";
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";

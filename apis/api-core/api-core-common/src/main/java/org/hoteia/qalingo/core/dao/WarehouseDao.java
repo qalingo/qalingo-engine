@@ -26,6 +26,8 @@ public interface WarehouseDao {
     
     List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params);
 
+    List<Warehouse> findWarehousesByDeliveryMethodId(Long deliveryMethodId, Object... params);
+
     Warehouse saveOrUpdateWarehouse(Warehouse warehouse);
 
     void deleteWarehouse(Warehouse warehouse);
