@@ -144,7 +144,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 			}
 			
 			// UPDATE ASSET
-			webBackofficeService.updateProductMarketingAsset(asset, assetForm);
+			webBackofficeService.createOrUpdateProductMarketingAsset(asset, assetForm);
 
 		} catch (Exception e) {
 			logger.error("Can't save/update asset file!", e);

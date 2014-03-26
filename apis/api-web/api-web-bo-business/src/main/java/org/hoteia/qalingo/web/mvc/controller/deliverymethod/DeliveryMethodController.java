@@ -108,7 +108,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView deliveryMethodEdit(final HttpServletRequest request, final Model model, @ModelAttribute("deliveryMethodForm") DeliveryMethodForm deliveryMethodForm) throws Exception {
+	public ModelAndView deliveryMethodEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.DELIVERY_METHOD_FORM) DeliveryMethodForm deliveryMethodForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_EDIT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
@@ -126,7 +126,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView submitDeliveryMethodEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("deliveryMethodForm") DeliveryMethodForm deliveryMethodForm,
+	public ModelAndView submitDeliveryMethodEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.DELIVERY_METHOD_FORM) DeliveryMethodForm deliveryMethodForm,
 								                 BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -160,7 +160,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
     /**
      * 
      */
-    @ModelAttribute("deliveryMethodForm")
+    @ModelAttribute(ModelConstants.DELIVERY_METHOD_FORM)
     protected DeliveryMethodForm initDeliveryMethodForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         

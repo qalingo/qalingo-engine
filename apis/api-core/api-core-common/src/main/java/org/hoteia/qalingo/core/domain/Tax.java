@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -67,6 +68,10 @@ public class Tax extends AbstractEntity {
     @JoinColumn(name = "TAX_ID")
     private Set<TaxCountry> taxCountries = new HashSet<TaxCountry>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "TAX_ID")
+    private Set<TaxAttribute> attributes = new HashSet<TaxAttribute>();
+    
     @Column(name = "MARKET_AREA_ID")
     private Long marketAreaId;
 
@@ -160,6 +165,14 @@ public class Tax extends AbstractEntity {
     public void setTaxeCountries(Set<TaxCountry> taxCountries) {
         this.taxCountries = taxCountries;
     }
+    
+    public Set<TaxAttribute> getAttributes() {
+        return attributes;
+    }
+    
+    public void setAttributes(Set<TaxAttribute> attributes) {
+        this.attributes = attributes;
+    }
 
     public Long getMarketAreaId() {
         return marketAreaId;
@@ -208,8 +221,9 @@ public class Tax extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Tax [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", percent=" + percent + ", marketAreaId=" + marketAreaId
-                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "Tax [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", percent=" + percent + ", taxType=" + taxType + ", taxCountries="
+                + taxCountries + ", attributes=" + attributes + ", marketAreaId=" + marketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
+
 
 }

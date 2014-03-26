@@ -153,7 +153,7 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                     } else if (param instanceof User
                             && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
                         User user = (User) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_USER_GUID, handleParamValue(user.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_USER, handleParamValue(user.getLogin()));
                         break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;

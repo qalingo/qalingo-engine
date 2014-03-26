@@ -69,7 +69,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
 
         // Update the user
 //        webBackofficeService.updateCurrentUser(request, requestUtil.getRequestData(request), currentMarket, currentMarketArea, userForm);
-        webBackofficeService.updateUser(checkUser, userForm);
+        webBackofficeService.createOrUpdateUser(checkUser, userForm);
         
         final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -79,7 +79,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
      * 
      */
     @ModelAttribute(ModelConstants.USER_FORM)
-    protected UserForm initRetailerForm(final HttpServletRequest request, final Model model) throws Exception {
+    protected UserForm initUserForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final User currentUser = requestData.getUser();
         return backofficeFormFactory.buildUserForm(requestData, currentUser);

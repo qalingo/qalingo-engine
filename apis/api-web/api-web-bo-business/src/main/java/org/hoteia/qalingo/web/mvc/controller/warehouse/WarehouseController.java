@@ -118,7 +118,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     }
     
     @RequestMapping(value = BoUrls.WAREHOUSE_EDIT_URL, method = RequestMethod.GET)
-    public ModelAndView warehouseEdit(final HttpServletRequest request, final Model model, @ModelAttribute("warehouseForm") WarehouseForm warehouseForm) throws Exception {
+    public ModelAndView warehouseEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.WAREHOUSE_FORM) WarehouseForm warehouseForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.WAREHOUSE_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -143,7 +143,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     }
     
     @RequestMapping(value = BoUrls.WAREHOUSE_EDIT_URL, method = RequestMethod.POST)
-    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("warehouseForm") WarehouseForm warehouseForm,
+    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.WAREHOUSE_FORM) WarehouseForm warehouseForm,
                                 BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -180,7 +180,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     /**
      * 
      */
-    @ModelAttribute("warehouseForm")
+    @ModelAttribute(ModelConstants.WAREHOUSE_FORM)
     protected WarehouseForm initWarehouseForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -254,18 +254,18 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         final MarketArea marketArea = requestData.getMarketArea();
         List<Warehouse> warehouses = warehouseService.findWarehousesByMarketAreaId(marketArea.getId());
 
-        PagedListHolder<WarehouseViewBean> WarehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
+        PagedListHolder<WarehouseViewBean> warehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
         
-        final List<WarehouseViewBean> WarehouseViewBeans = new ArrayList<WarehouseViewBean>();
+        final List<WarehouseViewBean> warehouseViewBeans = new ArrayList<WarehouseViewBean>();
         for (Iterator<Warehouse> iterator = warehouses.iterator(); iterator.hasNext();) {
             Warehouse warehouseIt = (Warehouse) iterator.next();
-            WarehouseViewBeans.add(backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouseIt));
+            warehouseViewBeans.add(backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouseIt));
         }
-        WarehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>(WarehouseViewBeans);
-        WarehouseViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
-        request.getSession().setAttribute(sessionKey, WarehouseViewBeanPagedListHolder); 
+        warehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>(warehouseViewBeans);
+        warehouseViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
+        request.getSession().setAttribute(sessionKey, warehouseViewBeanPagedListHolder); 
         
-        return WarehouseViewBeanPagedListHolder;
+        return warehouseViewBeanPagedListHolder;
     }
  
 }

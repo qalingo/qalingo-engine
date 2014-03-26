@@ -39,50 +39,71 @@ public class BoReportingViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
+        List<String> homeUrls = new ArrayList<String>();
+        homeUrls.add(BoUrls.HOME.getUrlWithoutWildcard());
+        
 		MenuViewBean menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, homeUrls));
 		menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
+        List<String> catalogUrls = new ArrayList<String>();
+        catalogUrls.add(BoUrls.CATALOG.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.CATALOG.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, catalogUrls));
 		menu.setCssIcon("fa fa-sitemap");
 		menu.setName("Catalog stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CATALOG, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> ruletUrls = new ArrayList<String>();
+        ruletUrls.add(BoUrls.RULE_LIST.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.RULE_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, ruletUrls));
 		menu.setCssIcon("fa fa-money");
 		menu.setName("Promotion stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.RULE_LIST, requestData));
 		menuViewBeans.add(menu);
 
+        List<String> deliveryMethodsUrls = new ArrayList<String>();
+        deliveryMethodsUrls.add(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.DELIVERY_METHOD_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, deliveryMethodsUrls));
 		menu.setCssIcon("fa fa-truck");
 		menu.setName("Shipping stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> orderUrls = new ArrayList<String>();
+        orderUrls.add(BoUrls.ORDER_LIST.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.ORDER_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, orderUrls));
 		menu.setCssIcon("fa fa-shopping-cart");
 		menu.setName("Orders stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> customerUrls = new ArrayList<String>();
+        customerUrls.add(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.CUSTOMER_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, customerUrls));
 		menu.setCssIcon("fa fa-group");
 		menu.setName("Customers stats");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> reportingUrls = new ArrayList<String>();
+        reportingUrls.add(BoUrls.REPORTING.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.REPORTING.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, reportingUrls));
 		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Reporting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REPORTING, requestData));

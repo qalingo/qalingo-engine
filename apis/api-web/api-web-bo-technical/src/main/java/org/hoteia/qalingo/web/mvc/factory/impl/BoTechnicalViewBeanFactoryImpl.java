@@ -39,50 +39,73 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		
 		final List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
 		
+        List<String> homeUrls = new ArrayList<String>();
+        homeUrls.add(BoUrls.HOME.getUrlWithoutWildcard());
+        
 		MenuViewBean menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.HOME.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, homeUrls));
         menu.setCssIcon("fa fa-home");
 		menu.setName(getSpecificMessage(ScopeWebMessage.HEADER_MENU, "home", locale));
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
 		menuViewBeans.add(menu);
 
+        List<String> engineSettingUrls = new ArrayList<String>();
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_LIST.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.ENGINE_SETTING_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, engineSettingUrls));
         menu.setCssIcon("fa fa-cogs");
 		menu.setName("Engine Setting");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> cacheUrls = new ArrayList<String>();
+        cacheUrls.add(BoUrls.CACHE.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.CACHE.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, cacheUrls));
 		menu.setCssIcon("fa fa-bars");
 		menu.setName("Cache");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.CACHE, requestData));
 		menuViewBeans.add(menu);
 
+        List<String> batchUrls = new ArrayList<String>();
+        batchUrls.add(BoUrls.BATCH.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.BATCH.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, batchUrls));
 		menu.setCssIcon("fa fa-random");
 		menu.setName("Batch");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> userUrls = new ArrayList<String>();
+        userUrls.add(BoUrls.USER_LIST.getUrlWithoutWildcard());
+        userUrls.add(BoUrls.USER_DETAILS.getUrlWithoutWildcard());
+        userUrls.add(BoUrls.USER_EDIT.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.USER_LIST.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, userUrls));
 		menu.setCssIcon("fa fa-group");
 		menu.setName("Users");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.USER_LIST, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> referenceDataUrls = new ArrayList<String>();
+        referenceDataUrls.add(BoUrls.REFERENCE_DATAS.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.REFERENCE_DATAS.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, referenceDataUrls));
 		menu.setCssIcon("fa fa-book");
 		menu.setName("References Datas");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.REFERENCE_DATAS, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> monitoringUrls = new ArrayList<String>();
+        monitoringUrls.add(BoUrls.MONITORING.getUrlWithoutWildcard());
+        
 		menu = new MenuViewBean();
-        menu.setActive(currentUrl.contains(BoUrls.MONITORING.getUrlWithoutWildcard()));
+        menu.setActive(menuIsActive(currentUrl, monitoringUrls));
 		menu.setCssIcon("fa fa-bar-chart-o");
 		menu.setName("Monitoring");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.MONITORING, requestData));

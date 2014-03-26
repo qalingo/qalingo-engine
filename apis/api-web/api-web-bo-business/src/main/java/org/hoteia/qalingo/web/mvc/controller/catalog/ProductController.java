@@ -101,16 +101,9 @@ public class ProductController extends AbstractBusinessBackofficeController {
 			
 			// SANITY CHECK
 			final ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
-			if(productMarketing != null){
-				// UPDATE PRODUCT MARKETING
-				webBackofficeService.updateProductMarketing(productMarketing, productMarketingForm);
-				
-			} else {
-				// CREATE PRODUCT MARKETING
-				webBackofficeService.createProductMarketing(productMarketing, productMarketingForm);
-			}
+			webBackofficeService.createOrUpdateProductMarketing(productMarketing, productMarketingForm);
 			
-		     urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestUtil.getRequestData(request), productMarketing);
+	        urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestUtil.getRequestData(request), productMarketing);
 		}
 		
         return new ModelAndView(new RedirectView(urlRedirect));
@@ -165,16 +158,9 @@ public class ProductController extends AbstractBusinessBackofficeController {
 			
 			// SANITY CHECK
 			final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
-			if(productSku != null){
-				// UPDATE PRODUCT MARKETING
-				webBackofficeService.updateProductSku(productSku, productSkuForm);
-				
-			} else {
-				// CREATE PRODUCT MARKETING
-				webBackofficeService.createProductSku(productSku, productSkuForm);
-			}
+            webBackofficeService.createOrUpdateProductSku(productSku, productSkuForm);
 			
-	          urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestUtil.getRequestData(request), productSku);
+            urlRedirect = backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestUtil.getRequestData(request), productSku);
 		}
 		
         return new ModelAndView(new RedirectView(urlRedirect));

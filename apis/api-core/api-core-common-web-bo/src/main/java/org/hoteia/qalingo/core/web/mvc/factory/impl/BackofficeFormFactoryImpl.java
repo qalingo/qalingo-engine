@@ -78,27 +78,33 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
 
     public EngineSettingValueForm buildEngineSettingValueEditForm(final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
         final EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
-        engineSettingValueForm.setId(engineSettingValue.getId().toString());
-        engineSettingValueForm.setContext(engineSettingValue.getContext());
-        engineSettingValueForm.setValue(engineSettingValue.getValue());
+        if(engineSettingValue != null){
+            engineSettingValueForm.setId(engineSettingValue.getId().toString());
+            engineSettingValueForm.setContext(engineSettingValue.getContext());
+            engineSettingValueForm.setValue(engineSettingValue.getValue());
+        }
         return engineSettingValueForm;
     }
 
     public PaymentGatewayForm buildPaymentGatewayForm(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
         final PaymentGatewayForm paymentGatewayForm = new PaymentGatewayForm();
-        paymentGatewayForm.setId(paymentGateway.getId().toString());
+        if(paymentGateway != null){
+            paymentGatewayForm.setId(paymentGateway.getId().toString());
+        }
         return paymentGatewayForm;
     }
 
     public UserForm buildUserForm(final RequestData requestData, final User user) throws Exception {
         final UserForm userForm = new UserForm();
-        userForm.setId(user.getId().toString());
-        userForm.setLogin(user.getLogin());
-        userForm.setTitle(user.getTitle());
-        userForm.setFirstname(user.getFirstname());
-        userForm.setLastname(user.getLastname());
-        userForm.setEmail(user.getEmail());
-        userForm.setActive(user.isActive());
+        if(user != null){
+            userForm.setId(user.getId().toString());
+            userForm.setLogin(user.getLogin());
+            userForm.setTitle(user.getTitle());
+            userForm.setFirstname(user.getFirstname());
+            userForm.setLastname(user.getLastname());
+            userForm.setEmail(user.getEmail());
+            userForm.setActive(user.isActive());
+        }
         return userForm;
     }
 

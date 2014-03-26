@@ -85,7 +85,10 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     @Autowired
     protected EngineSettingService engineSettingService;
 	   
-	public void updateUser(final User user, final UserForm userForm) {
+	public void createOrUpdateUser(User user, final UserForm userForm) {
+	    if(user == null){
+	        user = new User();
+	    }
 		user.setLogin(userForm.getLogin());
 		user.setLastname(userForm.getLastname());
 		user.setFirstname(userForm.getFirstname());
@@ -381,35 +384,27 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		return catalogCategoryVirtualAttribute;
 	}
 	
-	public void updateProductMarketing(final ProductMarketing productMarketing, final ProductMarketingForm productMarketingForm) {
+	public void createOrUpdateProductMarketing(ProductMarketing productMarketing, final ProductMarketingForm productMarketingForm) {
+       if(productMarketing == null){
+           productMarketing = new ProductMarketing();
+        }
 		productMarketing.setBusinessName(productMarketingForm.getName());
 		productMarketing.setCode(productMarketingForm.getCode());
 		productMarketing.setDescription(productMarketingForm.getDescription());
 		productService.saveOrUpdateProductMarketing(productMarketing);
 	}
 	
-	public void createProductMarketing(final ProductMarketing productMarketing, final ProductMarketingForm productMarketingForm) {
-		productMarketing.setBusinessName(productMarketingForm.getName());
-		productMarketing.setCode(productMarketingForm.getCode());
-		productMarketing.setDescription(productMarketingForm.getDescription());
-		productService.saveOrUpdateProductMarketing(productMarketing);
-	}
-	
-	public void updateProductSku(final ProductSku productSku, final ProductSkuForm productSkuForm) {
+	public void createOrUpdateProductSku(ProductSku productSku, final ProductSkuForm productSkuForm) {
+	    if(productSku == null){
+	        productSku = new ProductSku();
+	    }
 		productSku.setBusinessName(productSkuForm.getName());
 		productSku.setCode(productSkuForm.getCode());
 		productSku.setDescription(productSkuForm.getDescription());
 		productService.saveOrUpdateProductSku(productSku);
 	}
 	
-	public void createProductSku(final ProductSku productSku, final ProductSkuForm productSkuForm) {
-		productSku.setBusinessName(productSkuForm.getName());
-		productSku.setCode(productSkuForm.getCode());
-		productSku.setDescription(productSkuForm.getDescription());
-		productService.saveOrUpdateProductSku(productSku);
-	}
-	
-	public void updateProductMarketingAsset(final Asset asset, final AssetForm assetForm) {
+	public void createOrUpdateProductMarketingAsset(final Asset asset, final AssetForm assetForm) {
 		asset.setName(assetForm.getName());
 		asset.setCode(assetForm.getCode());
 		asset.setDescription(assetForm.getDescription());
@@ -419,16 +414,6 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 //		private boolean isGlobal;
 //		private Integer ordering;
 //		private Long marketAreaId;
-		
-		productService.saveOrUpdateProductMarketingAsset(asset);
-	}
-	
-	public void createProductMarketingAsset(final Asset asset, final AssetForm assetForm) {
-		asset.setName(assetForm.getName());
-		asset.setCode(assetForm.getCode());
-		asset.setDescription(assetForm.getDescription());
-		
-		// ...
 		
 		productService.saveOrUpdateProductMarketingAsset(asset);
 	}

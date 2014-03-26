@@ -130,7 +130,9 @@ public final class ModelConstants {
     public static final String ASSET_FORM               = "assetForm";
     public static final String RULE_FORM                = "ruleForm";
     public static final String ORDER_FORM               = "orderForm";
+    public static final String WAREHOUSE_FORM           = "warehouseForm";
     public static final String DELIVERY_METHOD_FORM     = "deliveryMethodForm";
+    public static final String TAX_FORM                 = "taxForm";
     public static final String CUSTOMER_FORM            = "customerForm";
     public static final String USER_FORM                = "userForm";
     public static final String CART_FORM                = "cartForm";

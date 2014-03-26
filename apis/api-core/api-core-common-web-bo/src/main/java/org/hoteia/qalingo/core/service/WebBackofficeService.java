@@ -34,7 +34,7 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface WebBackofficeService {
 
-    void updateUser(User user, UserForm userForm);
+    void createOrUpdateUser(User user, UserForm userForm);
 
     void createCatalogCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
                                CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
@@ -46,17 +46,11 @@ public interface WebBackofficeService {
 
     void updateCatalogCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
-    void updateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
+    void createOrUpdateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
 
-    void createProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
+    void createOrUpdateProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
 
-    void updateProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
-
-    void createProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
-
-    void updateProductMarketingAsset(Asset asset, AssetForm assetForm);
-
-    void createProductMarketingAsset(Asset asset, AssetForm assetForm);
+    void createOrUpdateProductMarketingAsset(Asset asset, AssetForm assetForm);
 
     void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm);
 

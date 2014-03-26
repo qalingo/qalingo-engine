@@ -67,7 +67,9 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_GUID        = "customer-order-guid";
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_GUID        = "engine-setting-guid";
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID  = "engine-setting-value-guid";
-    public static final String REQUEST_PARAMETER_USER_GUID                  = "user-guid";
+    
+    public static final String REQUEST_PARAMETER_USER_ID                    = "user-id";
+    public static final String REQUEST_PARAMETER_USER                       = "user";
 
 	public static final String REQUEST_PARAMETER_PAGE_ID					= "page-id";
 

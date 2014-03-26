@@ -46,6 +46,7 @@ public class AttributeDefinition extends AbstractEntity {
 	public static int OBJECT_TYPE_PAYMENT_GATEWAY = 6;
 	public static int OBJECT_TYPE_RULE_REFERENTIAL = 7;
 	public static int OBJECT_TYPE_MARKET_AREA = 8;
+    public static int OBJECT_TYPE_TAX = 9;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

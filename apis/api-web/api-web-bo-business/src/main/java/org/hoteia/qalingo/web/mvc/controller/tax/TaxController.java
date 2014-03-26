@@ -99,7 +99,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
     }
     
     @RequestMapping(value = BoUrls.TAX_EDIT_URL, method = RequestMethod.GET)
-    public ModelAndView taxEdit(final HttpServletRequest request, final Model model, @ModelAttribute("taxForm") TaxForm taxForm) throws Exception {
+    public ModelAndView taxEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.TAX_FORM) TaxForm taxForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.TAX_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -124,7 +124,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
     }
     
     @RequestMapping(value = BoUrls.TAX_EDIT_URL, method = RequestMethod.POST)
-    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("taxForm") TaxForm taxForm,
+    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.TAX_FORM) TaxForm taxForm,
                                 BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -161,7 +161,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
     /**
      * 
      */
-    @ModelAttribute("taxForm")
+    @ModelAttribute(ModelConstants.TAX_FORM)
     protected TaxForm initTaxForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
