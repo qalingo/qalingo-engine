@@ -198,33 +198,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         model.addAttribute(ModelConstants.MAIN_CONTENT_TITLE, "");
 	}
 	
-//	/**
-//	 * 
-//	 */
-//	@ModelAttribute(ModelConstants.USER_VIEW_BEAN)
-//	protected User initUser(final HttpServletRequest request, final Model model) throws Exception {
-//		final User user = requestUtil.getCurrentUser(request);
-//		return user;
-//	}
-//	
-//	/**
-//	 * @throws Exception  
-//	 * 
-//	 */
-//	protected String getUserId(final HttpServletRequest request) throws Exception {
-//		User user = requestUtil.getCurrentUser(request);
-//		if(user != null){
-//			Long userId = user.getId();
-//			if(userId != null){
-//				return userId.toString();
-//			} else {
-//				return null;
-//			}
-//		} else {
-//			return null;
-//		}
-//	}
-	
 	/**
 	 * @throws Exception 
 	 * 

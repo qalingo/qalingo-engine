@@ -1,5 +1,8 @@
 package org.hoteia.qalingo.core.web.mvc.controller.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -28,8 +31,19 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
     @RequestMapping(value = BoUrls.PERSONAL_DETAILS_URL, method = RequestMethod.GET)
     public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PERSONAL_DETAILS.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final User currentUser = requestData.getUser();
         
         // User is already set by the abstract
+
+        Object[] params = {currentUser.getLastname() + " " + currentUser.getFirstname() + " (" + currentUser.getLogin() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_DETAILS.getKey(), params);
+
+        List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add(BoUrls.PERSONAL_DETAILS_URL);
+        excludedPatterns.add(BoUrls.PERSONAL_EDIT_URL);
+        String lastUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, backofficeUrlService.generateUrl(BoUrls.HOME, requestData));
+        model.addAttribute(ModelConstants.URL_BACK, lastUrl);
 
         return modelAndView;
     }
@@ -37,15 +51,16 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
     @RequestMapping(value = BoUrls.PERSONAL_EDIT_URL, method = RequestMethod.GET)
     public ModelAndView displayPersonalEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.USER_FORM) UserForm userForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PERSONAL_EDIT.getVelocityPage());
-//        final RequestData requestData = requestUtil.getRequestData(request);
-//        final User currentUser = requestData.getUser();
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final User currentUser = requestData.getUser();
         
-//        if(userForm == null 
-//                || userForm.equals(new UserForm())){
-//            userForm = backofficeFormFactory.buildUserForm(requestData, currentUser);
-//            model.addAttribute(ModelConstants.USER_FORM, userForm);
-//        }
+        // User is already set by the abstract
+
+        Object[] params = {currentUser.getLastname() + " " + currentUser.getFirstname() + " (" + currentUser.getLogin() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_EDIT.getKey(), params);
         
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
+
         return modelAndView;
     }
     
