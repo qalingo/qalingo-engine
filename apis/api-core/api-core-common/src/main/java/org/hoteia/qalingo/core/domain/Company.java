@@ -22,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -58,6 +59,7 @@ public class Company extends AbstractEntity {
     private String name;
 
     @Column(name = "DESCRIPTION")
+    @Lob
     private String description;
 
     @Column(name = "THEME")
