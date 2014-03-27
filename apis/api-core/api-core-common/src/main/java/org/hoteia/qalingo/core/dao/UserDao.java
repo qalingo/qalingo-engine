@@ -17,18 +17,20 @@ import org.hoteia.qalingo.core.domain.User;
 public interface UserDao extends GenericDao<User, Long> {
 
     // USER
-    
-	User getUserById(Long userId, Object... params);
 
-	User getUserByLoginOrEmail(String usernameOrEmail, Object... params);
-	 
-	List<User> findUsers(Object... params);
-	
-	User saveOrUpdateUser(User user);
+    User getUserById(Long userId, Object... params);
 
-	void deleteUser(User user);
-	
-	// COMPANY
+    User getUserByCode(String userCode, Object... params);
+
+    User getUserByLoginOrEmail(String usernameOrEmail, Object... params);
+
+    List<User> findUsers(Object... params);
+
+    User saveOrUpdateUser(User user);
+
+    void deleteUser(User user);
+
+    // COMPANY
 
     Company getCompanyById(Long companyId, Object... params);
 

@@ -801,6 +801,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         final HttpServletRequest request = requestData.getRequest();
         final UserViewBean userViewBean = new UserViewBean();
         userViewBean.setId(user.getId());
+        userViewBean.setCode(user.getCode());
         userViewBean.setLogin(user.getLogin());
         userViewBean.setFirstname(user.getFirstname());
         userViewBean.setLastname(user.getLastname());

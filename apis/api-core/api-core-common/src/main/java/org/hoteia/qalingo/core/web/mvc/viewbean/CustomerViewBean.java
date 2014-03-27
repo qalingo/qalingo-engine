@@ -24,6 +24,7 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
     private Long id;
     private int version;
+    private String code;
     private String login;
     private String title;
     private String firstname;
@@ -59,6 +60,14 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getLogin() {

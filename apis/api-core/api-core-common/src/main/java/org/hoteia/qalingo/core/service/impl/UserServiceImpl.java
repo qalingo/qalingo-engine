@@ -42,10 +42,14 @@ public class UserServiceImpl implements UserService {
 		return getUserById(userId, params);
 	}
 	
+    public User getUserByCode(String userCode, Object... params) {
+        return userDao.getUserByCode(userCode, params);
+    }
+    
 	public User getUserByLoginOrEmail(String usernameOrEmail, Object... params) {
 		return userDao.getUserByLoginOrEmail(usernameOrEmail, params);
 	}
-
+	
 	public List<User> findUsers(Object... params) {
 		return userDao.findUsers(params);
 	}

@@ -16,8 +16,9 @@ package org.hoteia.qalingo.core.web.mvc.form;
  */
 public class CustomerForm {
 
-	private Long id;
+	private String id;
 	private int version;
+    private String code;
 	private String login;
 	private String title;
 	private String firstname;
@@ -27,11 +28,11 @@ public class CustomerForm {
 	private String defaultLocale;
 	private boolean active;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -43,6 +44,14 @@ public class CustomerForm {
 		this.version = version;
 	}
 
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
+	
 	public String getLogin() {
 		return login;
 	}

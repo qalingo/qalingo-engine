@@ -23,6 +23,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
+import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -36,6 +37,7 @@ import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
+import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -45,6 +47,7 @@ import org.hoteia.qalingo.core.service.WarehouseService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
@@ -63,6 +66,9 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     @Autowired
     protected UserService userService;
 
+    @Autowired
+    protected CustomerService customerService;
+    
     @Autowired
     protected CatalogCategoryService catalogCategoryService;
 
@@ -96,6 +102,17 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		userService.saveOrUpdateUser(user);
 	}
 	
+    public void createOrUpdateCustomer(Customer customer, final CustomerForm customerForm) throws Exception {
+        if(customer == null){
+            customer = new Customer();
+        }
+        customer.setLogin(customerForm.getLogin());
+        customer.setLastname(customerForm.getLastname());
+        customer.setFirstname(customerForm.getFirstname());
+        customer.setEmail(customerForm.getEmail());
+        customerService.saveOrUpdateCustomer(customer);
+    }
+    
 	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentCatalogCategory, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
 		catalogCategory.setBusinessName(catalogCategoryForm.getName());

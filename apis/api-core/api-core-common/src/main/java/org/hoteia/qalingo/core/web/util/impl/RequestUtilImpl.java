@@ -720,6 +720,7 @@ public class RequestUtilImpl implements RequestUtil {
         excludedPatterns.add("400");
         excludedPatterns.add("403");
         excludedPatterns.add("404");
+        excludedPatterns.add("edit");
         return excludedPatterns;
     }
     

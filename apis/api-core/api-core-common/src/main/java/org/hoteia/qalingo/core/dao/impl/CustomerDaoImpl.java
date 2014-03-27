@@ -93,12 +93,12 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			customer.setDateCreate(new Date());
 			customer.setActive(true);
 			customer.setValidated(false);
-			if(StringUtils.isEmpty(customer.getCode())){
-				customer.setCode(UUID.randomUUID().toString());
-			}
 		}
 		customer.setDateUpdate(new Date());
-		
+        if(StringUtils.isEmpty(customer.getCode())){
+            customer.setCode(UUID.randomUUID().toString());
+        }
+
 		if(customer.getPermalink() == null){
 			customer.setPermalink(UUID.randomUUID().toString());
 		}

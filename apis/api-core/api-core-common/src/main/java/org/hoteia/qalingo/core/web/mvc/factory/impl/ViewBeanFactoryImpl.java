@@ -977,11 +977,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final Locale locale = requestData.getLocale();
         final CustomerViewBean customerViewBean = new CustomerViewBean();
         if (customer != null) {
+            customerViewBean.setCode(customer.getCode());
             customerViewBean.setAvatarImg(requestUtil.getCustomerAvatar(request, customer));
             customerViewBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
             customerViewBean.setFirstname(customer.getFirstname());
             customerViewBean.setLastname(customer.getLastname());
             customerViewBean.setEmail(customer.getEmail());
+            customerViewBean.setLogin(customer.getLogin());
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (customer.getDateCreate() != null) {
