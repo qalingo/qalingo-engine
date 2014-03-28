@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -55,6 +56,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
@@ -489,6 +491,31 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             searchFacetViewBean.setValues(values);
         }
         return searchFacetViewBean;
+    }
+    /*
+     * 
+     */
+    public List<StoreBusinessHourViewBean> buildListViewBeanStoreBusinessHour(final Store store){
+    	List<StoreBusinessHourViewBean>  storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
+    	List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
+    	if(storeBusinessHours != null){
+	    	for(StoreBusinessHour storeBusinessHour : storeBusinessHours){
+	    		StoreBusinessHourViewBean storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+	    		storeBusinessHourViewBean.setClosingDateEnd(storeBusinessHour.getClosingDateEnd());
+	    		storeBusinessHourViewBean.setClosingDateStart(storeBusinessHour.getClosingDateStart());
+	    		storeBusinessHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+	    		storeBusinessHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+	    		storeBusinessHourViewBean.setMonday(storeBusinessHour.isMonday());
+	    		storeBusinessHourViewBean.setTuesday(storeBusinessHour.isTuesday());
+	    		storeBusinessHourViewBean.setWednesday(storeBusinessHour.isWednesday());
+	    		storeBusinessHourViewBean.setThursday(storeBusinessHour.isThursday());
+	    		storeBusinessHourViewBean.setFriday(storeBusinessHour.isFriday());
+	    		storeBusinessHourViewBean.setSaturday(storeBusinessHour.isSaturday());
+	    		storeBusinessHourViewBean.setSunday(storeBusinessHour.isSunday());
+	    		storeBusinessHourViewBeans.add(storeBusinessHourViewBean);
+	    	}
+    	}
+    	return storeBusinessHourViewBeans;
     }
     
     public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {

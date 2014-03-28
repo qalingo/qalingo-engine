@@ -19,6 +19,7 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -50,10 +51,12 @@ public class StoreController extends AbstractMCommerceController {
 		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestData, stores);
 		List<StoreViewBean> otherStores = storeLocator.getStores();
 		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+		List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = frontofficeViewBeanFactory.buildListViewBeanStoreBusinessHour(store);
 		otherStores.remove(storeViewBean);
 		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
-		model.addAttribute("otherStores",otherStores);
 		
+		model.addAttribute("otherStores",otherStores);
+		model.addAttribute("businessHours",storeBusinessHourViewBeans);
 		model.addAttribute("withMap", true);
 		
         return modelAndView;

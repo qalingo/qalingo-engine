@@ -349,6 +349,20 @@ VALUES
 (210, null, null, null, null, null, 'Singapore', 210, 510, 'en', null),
 (211, null, null, null, null, null, 'Singapore', 210, 510, 'fr', null);
 
+-- insert Operation Hour
+
+INSERT INTO teco_store_business_hour
+(`CLOSING_DATE_END`, `CLOSING_DATE_START`, `END_HOUR`, `MONDAY`, `START_HOUR`, `STORE_ID`)
+VALUES ('6', '2', '10.00:PM', '1', '8.00:AM', '10'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '20'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '30'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '40'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '50'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '60'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '70'),
+('6', '2', '10.00:PM', '1', '8.00:AM', '80');
+
+
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, store_id, scope)
