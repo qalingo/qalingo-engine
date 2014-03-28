@@ -23,6 +23,7 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	private static final long serialVersionUID = -1826858352678981858L;
 	
 	private Long id;
+    private String code;
 	private String login;
 	private String firstname;
 	private String lastname;
@@ -51,6 +52,14 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public String getCode() {
+        return code;
+    }
+	
+	public void setCode(String code) {
+        this.code = code;
+    }
 
 	public String getLogin() {
 		return login;

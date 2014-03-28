@@ -38,7 +38,7 @@ import javax.persistence.Version;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "LOGIN", "EMAIL" }) })
+@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "LOGIN", "CODE", "EMAIL" }) })
 public class User extends AbstractEntity {
 
     /**
@@ -55,6 +55,9 @@ public class User extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
+    @Column(name = "CODE", nullable = false)
+    private String code;
+    
     @Column(name = "LOGIN")
     private String login;
 
@@ -118,6 +121,14 @@ public class User extends AbstractEntity {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getLogin() {
@@ -298,8 +309,9 @@ public class User extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", version=" + version + ", login=" + login + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", password=" + password + ", active="
-                + active + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "User [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", title=" + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+                + ", password=" + password + ", active=" + active + ", defaultLocalization=" + defaultLocalization + ", company=" + company + ", userGroups=" + userGroups + ", connectionLogs="
+                + connectionLogs + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

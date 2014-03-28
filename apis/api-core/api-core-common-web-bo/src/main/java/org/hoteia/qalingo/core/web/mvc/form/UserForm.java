@@ -20,6 +20,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserForm {
 	
     private String id;
+    private int version;
+    private String code;
 	private String login;
     private String title;
 	private String firstname;
@@ -42,6 +44,23 @@ public class UserForm {
     public void setId(String id) {
 		this.id = id;
 	}
+    
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+    
+    @NotEmpty(message = "error.form.user.code.is.empty")
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
     
 	@NotEmpty(message = "error.form.user.lastname.is.empty")
 	public String getLastname() {

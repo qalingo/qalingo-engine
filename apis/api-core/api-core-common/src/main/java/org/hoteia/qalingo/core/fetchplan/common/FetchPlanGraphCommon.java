@@ -142,6 +142,7 @@ public class FetchPlanGraphCommon {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("storeAttributes"));
         fetchplans.add(new SpecificFetchMode("assets"));
+        fetchplans.add(new SpecificFetchMode("businessHours"));
         return new FetchPlan(fetchplans);
     }
     

@@ -98,6 +98,8 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         final UserForm userForm = new UserForm();
         if(user != null){
             userForm.setId(user.getId().toString());
+            userForm.setVersion(user.getVersion());
+            userForm.setCode(user.getCode());
             userForm.setLogin(user.getLogin());
             userForm.setTitle(user.getTitle());
             userForm.setFirstname(user.getFirstname());
@@ -261,8 +263,9 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     public CustomerForm buildCustomerForm(final RequestData requestData, final Customer customer) throws Exception {
         final CustomerForm customerForm = new CustomerForm();
         if(customer != null){
-            customerForm.setId(customer.getId());
+            customerForm.setId(customer.getId().toString());
             customerForm.setVersion(customer.getVersion());
+            customerForm.setCode(customer.getCode());
             customerForm.setLogin(customer.getLogin());
             customerForm.setTitle(customer.getTitle());
             customerForm.setFirstname(customer.getFirstname());
@@ -278,7 +281,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     public OrderForm buildOrderForm(final RequestData requestData, final OrderCustomer order) throws Exception {
         final OrderForm orderForm = new OrderForm();
         if(order != null){
-            orderForm.setId(order.getId());
+            orderForm.setId(order.getId().toString());
             orderForm.setVersion(order.getVersion());
             orderForm.setStatus(order.getStatus());
             orderForm.setOrderNum(order.getOrderNum());
@@ -381,25 +384,4 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         return retailerForm;
     }
     
-//    public UserForm buildUserForm(final RequestData requestData, final User user) throws Exception {
-//        final HttpServletRequest request = requestData.getRequest();
-//        final UserForm userForm = new UserForm();
-//        if(user != null){
-//            userForm.setId(user.getId().toString());
-//            userForm.setLogin(user.getLogin());
-//            userForm.setFirstname(user.getFirstname());
-//            userForm.setLastname(user.getLastname());
-//            userForm.setEmail(user.getEmail());
-//            userForm.setActive(user.isActive());
-//        }
-//        
-//        final List<String> excludedPatterns = new ArrayList<String>();
-//        excludedPatterns.add("form");
-//        userForm.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
-//        userForm.setUserDetailsUrl(backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request)));
-//        userForm.setUserEditUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestUtil.getRequestData(request)));
-//        userForm.setFormSubmitUrl(backofficeUrlService.generateUrl(BoUrls.USER_EDIT, requestUtil.getRequestData(request)));
-//        
-//        return userForm;
-//    }
 }

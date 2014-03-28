@@ -11,7 +11,9 @@ package org.hoteia.qalingo.core.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -39,6 +41,15 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         user.setFetchPlan(fetchPlan);
         return user;
     }
+    
+    public User getUserByCode(final String userCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(User.class);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("code", userCode));
+        User user = (User) criteria.uniqueResult();
+        user.setFetchPlan(fetchPlan);
+        return user;
+    }
 
     public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
@@ -61,10 +72,15 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     }
 
     public User saveOrUpdateUser(final User user) {
-        if (user.getDateCreate() == null) {
+        if(user.getDateCreate() == null){
             user.setDateCreate(new Date());
+            user.setActive(true);
         }
         user.setDateUpdate(new Date());
+        if(StringUtils.isEmpty(user.getCode())){
+            user.setCode(UUID.randomUUID().toString());
+        }
+
         if (user.getId() != null) {
             if(em.contains(user)){
                 em.refresh(user);

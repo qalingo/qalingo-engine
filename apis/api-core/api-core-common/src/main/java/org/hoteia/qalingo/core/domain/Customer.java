@@ -47,7 +47,7 @@ import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
-@Table(name="TECO_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"LOGIN", "EMAIL"})})
+@Table(name="TECO_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"LOGIN", "CODE", "EMAIL"})})
 public class Customer extends AbstractEntity {
 
 	/**

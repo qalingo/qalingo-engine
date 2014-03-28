@@ -22,7 +22,9 @@ public interface UserService {
 
     User getUserById(String userId, Object... params);
 
-	User getUserByLoginOrEmail(String loginOrEmail, Object... params);
+    User getUserByCode(String userCode, Object... params);
+
+    User getUserByLoginOrEmail(String loginOrEmail, Object... params);
 
 	List<User> findUsers(Object... params);
 	

@@ -63,8 +63,8 @@ public class UserController extends AbstractBackofficeQalingoController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        final String userLogin = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER);
-        final User user = userService.getUserByLoginOrEmail(userLogin);
+        final String userCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_CODE);
+        final User user = userService.getUserByCode(userCode);
         
         UserViewBean userViewBean = backofficeViewBeanFactory.buildViewBeanUser(requestData, user);
 
@@ -88,8 +88,8 @@ public class UserController extends AbstractBackofficeQalingoController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        final String userLogin = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER);
-        final User user = userService.getUserByLoginOrEmail(userLogin);
+        final String userCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_CODE);
+        final User user = userService.getUserByCode(userCode);
         
         UserViewBean userViewBean = backofficeViewBeanFactory.buildViewBeanUser(requestData, user);
         
@@ -116,8 +116,8 @@ public class UserController extends AbstractBackofficeQalingoController {
             return userEdit(request, model, userForm);
         }
         
-        final String userLogin = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER);
-        final User user = userService.getUserByLoginOrEmail(userLogin);
+        final String userCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_CODE);
+        final User user = userService.getUserByCode(userCode);
 
         // Update the user
         webBackofficeService.createOrUpdateUser(user, userForm);
@@ -133,9 +133,9 @@ public class UserController extends AbstractBackofficeQalingoController {
     protected UserForm initUserForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         
-        final String userLogin = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER);
-        if(StringUtils.isNotEmpty(userLogin)){
-            final User userEdit = userService.getUserByLoginOrEmail(userLogin);
+        final String userCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_USER_CODE);
+        if(StringUtils.isNotEmpty(userCode)){
+            final User userEdit = userService.getUserByCode(userCode);
             return backofficeFormFactory.buildUserForm(requestData, userEdit);
         }
 

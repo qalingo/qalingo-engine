@@ -60,7 +60,6 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
@@ -123,7 +122,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
@@ -937,7 +935,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         
         return storeViewBean;
     }
-    
 
     /**
      * 
@@ -980,11 +977,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final Locale locale = requestData.getLocale();
         final CustomerViewBean customerViewBean = new CustomerViewBean();
         if (customer != null) {
+            customerViewBean.setCode(customer.getCode());
             customerViewBean.setAvatarImg(requestUtil.getCustomerAvatar(request, customer));
             customerViewBean.setTitle(referentialDataService.getTitleByLocale(customer.getTitle(), locale));
             customerViewBean.setFirstname(customer.getFirstname());
             customerViewBean.setLastname(customer.getLastname());
             customerViewBean.setEmail(customer.getEmail());
+            customerViewBean.setLogin(customer.getLogin());
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (customer.getDateCreate() != null) {

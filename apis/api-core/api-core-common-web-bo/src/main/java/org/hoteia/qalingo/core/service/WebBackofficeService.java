@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.service;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -24,6 +25,7 @@ import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
@@ -35,6 +37,8 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 public interface WebBackofficeService {
 
     void createOrUpdateUser(User user, UserForm userForm);
+
+    void createOrUpdateCustomer(Customer customer, CustomerForm customerForm) throws Exception;
 
     void createCatalogCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
                                CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
