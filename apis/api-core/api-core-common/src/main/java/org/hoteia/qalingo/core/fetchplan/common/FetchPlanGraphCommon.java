@@ -69,14 +69,6 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan defaultDeliveryMethodFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("deliveryMethodCountries"));
-        fetchplans.add(new SpecificFetchMode("prices"));
-        fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("prices.currency")));
-        return new FetchPlan(fetchplans);
-    }
-
     public static FetchPlan defaultEngineSettingFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("engineSettingValues"));
@@ -109,13 +101,15 @@ public class FetchPlanGraphCommon {
     
     public static FetchPlan defaultPaymentGatewayFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("paymentGatewayAttributes"));
+        fetchplans.add(new SpecificFetchMode("attributes"));
+        fetchplans.add(new SpecificFetchMode("options"));
         return new FetchPlan(fetchplans);
     }
     
     public static FetchPlan defaultTaxFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("taxCountries"));
+        fetchplans.add(new SpecificFetchMode("attributes"));
         return new FetchPlan(fetchplans);
     }
     

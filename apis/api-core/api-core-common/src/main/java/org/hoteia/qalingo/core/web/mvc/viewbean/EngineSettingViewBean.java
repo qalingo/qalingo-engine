@@ -20,61 +20,98 @@ public class EngineSettingViewBean extends AbstractViewBean implements Serializa
 	 */
 	private static final long serialVersionUID = -1826858352678981858L;
 	
+    protected String id;
 	protected String name;
 	protected String description;
 	protected String code;
 	protected String defaultValue;
 	
-	protected String detailsUrl;
-	
 	protected List<EngineSettingValueViewBean> engineSettingValues = new ArrayList<EngineSettingValueViewBean>();
 
-	public String getName() {
-		return name;
-	}
+    private String dateCreate;
+    private String dateUpdate;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    protected String detailsUrl;
+    protected String editUrl;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getDefaultValue() {
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDefaultValue() {
         return defaultValue;
     }
-	
-	public void setDefaultValue(String defaultValue) {
+
+    public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
-	
-	public String getDetailsUrl() {
-		return detailsUrl;
-	}
 
-	public void setDetailsUrl(String detailsUrl) {
-		this.detailsUrl = detailsUrl;
-	}
-	
-	public List<EngineSettingValueViewBean> getEngineSettingValues() {
-		return engineSettingValues;
-	}
+    public List<EngineSettingValueViewBean> getEngineSettingValues() {
+        return engineSettingValues;
+    }
 
-	public void setEngineSettingValues(List<EngineSettingValueViewBean> engineSettingValues) {
-		this.engineSettingValues = engineSettingValues;
-	}
+    public void setEngineSettingValues(List<EngineSettingValueViewBean> engineSettingValues) {
+        this.engineSettingValues = engineSettingValues;
+    }
 
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+    
+    public String getEditUrl() {
+        return editUrl;
+    }
+    
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+    
 }

@@ -31,16 +31,25 @@ public enum BoUrls {
     REPORTING(BoUrls.REPORTING_URL, BoUrls.REPORTING_KEY, BoUrls.REPORTING_VELOCITY_PAGE, true),
 
     REFERENCE_DATAS(BoUrls.REFERENCE_DATAS_URL, BoUrls.REFERENCE_DATAS_KEY, BoUrls.REFERENCE_DATAS_VELOCITY_PAGE, true),
+    
+    PAYMENT_GATEWAY_LIST(BoUrls.PAYMENT_GATEWAY_LIST_URL, BoUrls.PAYMENT_GATEWAY_LIST_KEY, BoUrls.PAYMENT_GATEWAY_LIST_VELOCITY_PAGE, true),
     PAYMENT_GATEWAY_DETAILS(BoUrls.PAYMENT_GATEWAY_DETAILS_URL, BoUrls.PAYMENT_GATEWAY_DETAILS_KEY, BoUrls.PAYMENT_GATEWAY_DETAILS_VELOCITY_PAGE, true),
     PAYMENT_GATEWAY_EDIT(BoUrls.PAYMENT_GATEWAY_EDIT_URL, BoUrls.PAYMENT_GATEWAY_EDIT_KEY, BoUrls.PAYMENT_GATEWAY_EDIT_VELOCITY_PAGE, true),
     
     WAREHOUSE_LIST(BoUrls.WAREHOUSE_LIST_URL, BoUrls.WAREHOUSE_LIST_KEY, BoUrls.WAREHOUSE_LIST_VELOCITY_PAGE, true),
     WAREHOUSE_DETAILS(BoUrls.WAREHOUSE_DETAILS_URL, BoUrls.WAREHOUSE_DETAILS_KEY, BoUrls.WAREHOUSE_DETAILS_VELOCITY_PAGE, true),
     WAREHOUSE_EDIT(BoUrls.WAREHOUSE_EDIT_URL, BoUrls.WAREHOUSE_EDIT_KEY, BoUrls.WAREHOUSE_EDIT_VELOCITY_PAGE, true),
+    WAREHOUSE_ADD(BoUrls.WAREHOUSE_EDIT_URL, BoUrls.WAREHOUSE_ADD_KEY, BoUrls.WAREHOUSE_EDIT_VELOCITY_PAGE, true),
 
     TAX_LIST(BoUrls.TAX_LIST_URL, BoUrls.TAX_LIST_KEY, BoUrls.TAX_LIST_VELOCITY_PAGE, true),
     TAX_DETAILS(BoUrls.TAX_DETAILS_URL, BoUrls.TAX_DETAILS_KEY, BoUrls.TAX_DETAILS_VELOCITY_PAGE, true),
     TAX_EDIT(BoUrls.TAX_EDIT_URL, BoUrls.TAX_EDIT_KEY, BoUrls.TAX_EDIT_VELOCITY_PAGE, true),
+    TAX_ADD(BoUrls.TAX_EDIT_URL, BoUrls.TAX_ADD_KEY, BoUrls.TAX_EDIT_VELOCITY_PAGE, true),
+
+    DELIVERY_METHOD_LIST(BoUrls.DELIVERY_METHOD_LIST_URL, BoUrls.DELIVERY_METHOD_LIST_KEY, BoUrls.DELIVERY_METHOD_LIST_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_DETAILS(BoUrls.DELIVERY_METHOD_DETAILS_URL, BoUrls.DELIVERY_METHOD_DETAILS_KEY, BoUrls.DELIVERY_METHOD_DETAILS_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_EDIT(BoUrls.DELIVERY_METHOD_EDIT_URL, BoUrls.DELIVERY_METHOD_EDIT_KEY, BoUrls.DELIVERY_METHOD_EDIT_VELOCITY_PAGE, true),
+    DELIVERY_METHOD_ADD(BoUrls.DELIVERY_METHOD_EDIT_URL, BoUrls.DELIVERY_METHOD_ADD_KEY, BoUrls.DELIVERY_METHOD_EDIT_VELOCITY_PAGE, true),
 
     RULE_LIST(BoUrls.RULE_LIST_URL, BoUrls.RULE_LIST_KEY, BoUrls.RULE_LIST_VELOCITY_PAGE, true),
     RULE_DETAILS(BoUrls.RULE_DETAILS_URL, BoUrls.RULE_DETAILS_KEY, BoUrls.RULE_DETAILS_VELOCITY_PAGE, true),
@@ -49,13 +58,10 @@ public enum BoUrls {
     ORDER_LIST(BoUrls.ORDER_LIST_URL, BoUrls.ORDER_LIST_KEY, BoUrls.ORDER_LIST_VELOCITY_PAGE, true),
     ORDER_DETAILS(BoUrls.ORDER_DETAILS_URL, BoUrls.ORDER_DETAILS_KEY, BoUrls.ORDER_DETAILS_VELOCITY_PAGE, true),
     
-    DELIVERY_METHOD_LIST(BoUrls.DELIVERY_METHOD_LIST_URL, BoUrls.DELIVERY_METHOD_LIST_KEY, BoUrls.DELIVERY_METHOD_LIST_VELOCITY_PAGE, true),
-    DELIVERY_METHOD_DETAILS(BoUrls.DELIVERY_METHOD_DETAILS_URL, BoUrls.DELIVERY_METHOD_DETAILS_KEY, BoUrls.DELIVERY_METHOD_DETAILS_VELOCITY_PAGE, true),
-    DELIVERY_METHOD_EDIT(BoUrls.DELIVERY_METHOD_EDIT_URL, BoUrls.DELIVERY_METHOD_EDIT_KEY, BoUrls.DELIVERY_METHOD_EDIT_VELOCITY_PAGE, true),
-
     CUSTOMER_LIST(BoUrls.CUSTOMER_LIST_URL, BoUrls.CUSTOMER_LIST_KEY, BoUrls.CUSTOMER_LIST_VELOCITY_PAGE, true),
     CUSTOMER_DETAILS(BoUrls.CUSTOMER_DETAILS_URL, BoUrls.CUSTOMER_DETAILS_KEY, BoUrls.CUSTOMER_DETAILS_VELOCITY_PAGE, true),
     CUSTOMER_EDIT(BoUrls.CUSTOMER_EDIT_URL, BoUrls.CUSTOMER_EDIT_KEY, BoUrls.CUSTOMER_EDIT_VELOCITY_PAGE, true),
+    CUSTOMER_ADD(BoUrls.CUSTOMER_EDIT_URL, BoUrls.CUSTOMER_ADD_KEY, BoUrls.CUSTOMER_EDIT_VELOCITY_PAGE, true),
 
     CATALOG(BoUrls.CATALOG_URL, BoUrls.CATALOG_KEY, BoUrls.CATALOG_VELOCITY_PAGE, true),
 
@@ -70,8 +76,9 @@ public enum BoUrls {
 
     ENGINE_SETTING_LIST(BoUrls.ENGINE_SETTING_LIST_URL, BoUrls.ENGINE_SETTING_LIST_KEY, BoUrls.ENGINE_SETTING_LIST_VELOCITY_PAGE, true),
     ENGINE_SETTING_DETAILS(BoUrls.ENGINE_SETTING_DETAILS_URL, BoUrls.ENGINE_SETTING_DETAILS_KEY, BoUrls.ENGINE_SETTING_DETAILS_VELOCITY_PAGE, true),
+    ENGINE_SETTING_EDIT(BoUrls.ENGINE_SETTING_EDIT_URL, BoUrls.ENGINE_SETTING_EDIT_KEY, BoUrls.ENGINE_SETTING_EDIT_VELOCITY_PAGE, true),
     ENGINE_SETTING_VALUE_EDIT(BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, BoUrls.ENGINE_SETTING_VALUE_EDIT_KEY, BoUrls.ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE, true),
-    ENGINE_SETTING_VALUE_ADD(BoUrls.ENGINE_SETTING_VALUE_ADD_URL, BoUrls.ENGINE_SETTING_VALUE_ADD_KEY, BoUrls.ENGINE_SETTING_VALUE_ADD_VELOCITY_PAGE, true),
+    ENGINE_SETTING_VALUE_ADD(BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, BoUrls.ENGINE_SETTING_VALUE_ADD_KEY, BoUrls.ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE, true),
 
     BATCH(BoUrls.BATCH_URL, BoUrls.BATCH_KEY, BoUrls.BATCH_VELOCITY_PAGE, true),
     BATCH_CUSTOMER(BoUrls.BATCH_CUSTOMER_URL, BoUrls.BATCH_CUSTOMER_KEY, BoUrls.BATCH_VELOCITY_PAGE, true),
@@ -176,13 +183,17 @@ public enum BoUrls {
 	public static final String REFERENCE_DATAS_URL				= "/**/reference-datas-list.html";
 	public static final String REFERENCE_DATAS_VELOCITY_PAGE	= "reference-data/reference-datas-list";
 
+    public static final String PAYMENT_GATEWAY_LIST_KEY           = "payment-gateway-list";
+    public static final String PAYMENT_GATEWAY_LIST_URL           = "/**/payment-gateway-list.html";
+    public static final String PAYMENT_GATEWAY_LIST_VELOCITY_PAGE = "payment-gateway/payment-gateway-list";
+
     public static final String PAYMENT_GATEWAY_DETAILS_KEY           = "payment-gateway-details";
     public static final String PAYMENT_GATEWAY_DETAILS_URL           = "/**/payment-gateway-details.html";
-    public static final String PAYMENT_GATEWAY_DETAILS_VELOCITY_PAGE = "reference-data/payment-gateway-details";
+    public static final String PAYMENT_GATEWAY_DETAILS_VELOCITY_PAGE = "payment-gateway/payment-gateway-details";
 
-    public static final String PAYMENT_GATEWAY_EDIT_KEY           = "payment-gateway-attribute-edit";
+    public static final String PAYMENT_GATEWAY_EDIT_KEY           = "payment-gateway-edit";
     public static final String PAYMENT_GATEWAY_EDIT_URL           = "/**/payment-gateway-edit.html";
-    public static final String PAYMENT_GATEWAY_EDIT_VELOCITY_PAGE = "reference-data/payment-gateway-edit";
+    public static final String PAYMENT_GATEWAY_EDIT_VELOCITY_PAGE = "payment-gateway/payment-gateway-edit";
 
 	// REPORTING
 	public static final String REPORTING_KEY				= "reporting";
@@ -220,22 +231,26 @@ public enum BoUrls {
 	public static final String DELIVERY_METHOD_DETAILS_URL				= "/**/delivery-method-details.html";
 	public static final String DELIVERY_METHOD_DETAILS_VELOCITY_PAGE	= "delivery-method/delivery-method-details";
 
-	public static final String DELIVERY_METHOD_EDIT_KEY            = "delivery-method-edit";
-	public static final String DELIVERY_METHOD_EDIT_URL            = "/**/delivery-method-edit.html";
-	public static final String DELIVERY_METHOD_EDIT_VELOCITY_PAGE  = "delivery-method/delivery-method-edit";
+    public static final String DELIVERY_METHOD_EDIT_KEY             = "delivery-method-edit";
+    public static final String DELIVERY_METHOD_EDIT_URL             = "/**/delivery-method-edit.html";
+    public static final String DELIVERY_METHOD_EDIT_VELOCITY_PAGE   = "delivery-method/delivery-method-edit";
+
+    public static final String DELIVERY_METHOD_ADD_KEY              = "delivery-method-add";
 
     // WAREHOUSE
-    public static final String WAREHOUSE_LIST_KEY                = "warehouse-list";
-    public static final String WAREHOUSE_LIST_URL                = "/**/warehouse-list.html";
-    public static final String WAREHOUSE_LIST_VELOCITY_PAGE      = "warehouse/warehouse-list";
+    public static final String WAREHOUSE_LIST_KEY               = "warehouse-list";
+    public static final String WAREHOUSE_LIST_URL               = "/**/warehouse-list.html";
+    public static final String WAREHOUSE_LIST_VELOCITY_PAGE     = "warehouse/warehouse-list";
 
-    public static final String WAREHOUSE_DETAILS_KEY             = "warehouse-details";
-    public static final String WAREHOUSE_DETAILS_URL             = "/**/warehouse-details.html";
-    public static final String WAREHOUSE_DETAILS_VELOCITY_PAGE   = "warehouse/warehouse-details";
+    public static final String WAREHOUSE_DETAILS_KEY            = "warehouse-details";
+    public static final String WAREHOUSE_DETAILS_URL            = "/**/warehouse-details.html";
+    public static final String WAREHOUSE_DETAILS_VELOCITY_PAGE  = "warehouse/warehouse-details";
 
-    public static final String WAREHOUSE_EDIT_KEY                = "warehouse-edit";
-    public static final String WAREHOUSE_EDIT_URL                = "/**/warehouse-edit.html";
-    public static final String WAREHOUSE_EDIT_VELOCITY_PAGE      = "warehouse/warehouse-edit";
+    public static final String WAREHOUSE_EDIT_KEY               = "warehouse-edit";
+    public static final String WAREHOUSE_EDIT_URL               = "/**/warehouse-edit.html";
+    public static final String WAREHOUSE_EDIT_VELOCITY_PAGE     = "warehouse/warehouse-edit";
+
+    public static final String WAREHOUSE_ADD_KEY                = "warehouse-add";
 
     // PRICE
     public static final String TAX_LIST_KEY                = "tax-list";
@@ -249,7 +264,9 @@ public enum BoUrls {
     public static final String TAX_EDIT_KEY                = "tax-edit";
     public static final String TAX_EDIT_URL                = "/**/tax-edit.html";
     public static final String TAX_EDIT_VELOCITY_PAGE      = "tax/tax-edit";
-    
+
+    public static final String TAX_ADD_KEY                  = "tax-add";
+
 	// BATCH
 	public static final String BATCH_KEY				= "batch";
 	public static final String BATCH_URL				= "/**/batch.html";
@@ -276,22 +293,24 @@ public enum BoUrls {
 	public static final String CACHE_VELOCITY_PAGE	= "cache/cache";
 	
 	// ENGINE SETTING
-	public static final String ENGINE_SETTING_LIST_KEY             = "engine-setting";
-	public static final String ENGINE_SETTING_LIST_URL             = "/**/engine-setting.html";
+	public static final String ENGINE_SETTING_LIST_KEY             = "engine-setting-list";
+	public static final String ENGINE_SETTING_LIST_URL             = "/**/engine-setting-list.html";
 	public static final String ENGINE_SETTING_LIST_VELOCITY_PAGE   = "engine-setting/engine-setting-list";
 
 	public static final String ENGINE_SETTING_DETAILS_KEY			= "engine-setting-details";
 	public static final String ENGINE_SETTING_DETAILS_URL			= "/**/engine-setting-details.html";
 	public static final String ENGINE_SETTING_DETAILS_VELOCITY_PAGE	= "engine-setting/engine-setting-details";
 
-    public static final String ENGINE_SETTING_VALUE_EDIT_KEY = "engine-setting-value-edit";
-    public static final String ENGINE_SETTING_VALUE_EDIT_URL = "/**/engine-setting-value-edit.html";
-    public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE = "engine-setting/engine-setting-value-edit";
-    
-    public static final String ENGINE_SETTING_VALUE_ADD_KEY = "engine-setting-value-add";
-    public static final String ENGINE_SETTING_VALUE_ADD_URL = "/**/engine-setting-value-add.html";
-    public static final String ENGINE_SETTING_VALUE_ADD_VELOCITY_PAGE = "engine-setting/engine-setting-value-add";	  
-    
+    public static final String ENGINE_SETTING_EDIT_KEY           = "engine-setting-edit";
+    public static final String ENGINE_SETTING_EDIT_URL           = "/**/engine-setting-edit.html";
+    public static final String ENGINE_SETTING_EDIT_VELOCITY_PAGE = "engine-setting/engine-setting-edit";
+
+    public static final String ENGINE_SETTING_VALUE_EDIT_KEY            = "engine-setting-value-edit";
+    public static final String ENGINE_SETTING_VALUE_EDIT_URL            = "/**/engine-setting-value-edit.html";
+    public static final String ENGINE_SETTING_VALUE_EDIT_VELOCITY_PAGE  = "engine-setting/engine-setting-value-edit";
+
+    public static final String ENGINE_SETTING_VALUE_ADD_KEY             = "engine-setting-value-add";
+
 	// CATALOG
 	public static final String CATALOG_KEY				= "catalog";
 	public static final String CATALOG_URL				= "/**/catalog.html";
@@ -315,6 +334,8 @@ public enum BoUrls {
     public static final String CUSTOMER_EDIT_KEY            = "customer-edit";
     public static final String CUSTOMER_EDIT_URL            = "/**/customer-edit.html";
     public static final String CUSTOMER_EDIT_VELOCITY_PAGE  = "customer/customer-edit";
+
+    public static final String CUSTOMER_ADD_KEY             = "customer-add";
 
 	// RETAILER
 	public static final String RETAILER_LIST_KEY			= "retailer-list";
@@ -400,7 +421,7 @@ public enum BoUrls {
     public static final String USER_SEARCH_URL              = "/**/search-user.html";
     public static final String USER_SEARCH_VELOCITY_PAGE    = "user/user-list";
 
-    public static final String USER_LIST_KEY                = "users";
+    public static final String USER_LIST_KEY                = "user-list";
     public static final String USER_LIST_URL                = "/**/user-list.html";
     public static final String USER_LIST_VELOCITY_PAGE      = "user/user-list";
 

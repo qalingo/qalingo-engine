@@ -15,13 +15,13 @@ import org.hoteia.qalingo.core.domain.AttributeDefinition;
 
 public interface AttributeDao {
 
-	AttributeDefinition getAttributeDefinitionById(Long attributeId, Object... params);
+	AttributeDefinition getAttributeDefinitionById(Long attributeId);
 
-	AttributeDefinition getAttributeDefinitionByCode(String code, Object... params);
+	AttributeDefinition getAttributeDefinitionByCode(String code);
 	
-	List<AttributeDefinition> findAttributeDefinitions(Object... params);
+	List<AttributeDefinition> findAttributeDefinitions();
 	
-	List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType, Object... params);
+	List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType);
 
 	AttributeDefinition saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
 

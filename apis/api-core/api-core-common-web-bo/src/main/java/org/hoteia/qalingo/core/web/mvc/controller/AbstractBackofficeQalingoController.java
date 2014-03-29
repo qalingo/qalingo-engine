@@ -14,6 +14,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
@@ -41,24 +42,27 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
+    @Autowired
     protected BackofficeUrlService backofficeUrlService;
 
-	@Autowired
-	protected UserService userService;
-	
-	@Autowired
-	protected LocalizationService localizationService;
-	
-	@Autowired
-	protected EngineSettingService engineSettingService;
-	
-	@Autowired
+    @Autowired
+    protected UserService userService;
+
+    @Autowired
+    protected LocalizationService localizationService;
+
+    @Autowired
+    protected AttributeService attributeService;
+
+    @Autowired
+    protected EngineSettingService engineSettingService;
+
+    @Autowired
     protected BackofficeViewBeanFactory backofficeViewBeanFactory;
-	
+
     @Autowired
     protected BackofficeFormFactory backofficeFormFactory;
-    
+
     @Autowired
     protected WebBackofficeService webBackofficeService;
 

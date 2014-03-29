@@ -16,6 +16,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -29,6 +30,7 @@ import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
+import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.OrderForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
@@ -43,7 +45,9 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface BackofficeFormFactory {
 
-    EngineSettingValueForm buildEngineSettingValueEditForm(RequestData requestData, EngineSettingValue engineSettingValue) throws Exception;
+    EngineSettingForm buildEngineSettingForm(RequestData requestData, EngineSetting engineSetting) throws Exception;
+
+    EngineSettingValueForm buildEngineSettingValueForm(RequestData requestData, EngineSettingValue engineSettingValue) throws Exception;
 
 	PaymentGatewayForm buildPaymentGatewayForm(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
 

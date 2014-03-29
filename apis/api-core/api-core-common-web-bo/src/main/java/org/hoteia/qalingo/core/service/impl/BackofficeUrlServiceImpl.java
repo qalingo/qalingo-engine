@@ -140,15 +140,16 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         break;
                     } else if (param instanceof EngineSetting) {
                         EngineSetting engineSetting = (EngineSetting) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID, handleParamValue(engineSetting.getCode().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE, handleParamValue(engineSetting.getCode().toString()));
                         break;
                     } else if (param instanceof EngineSettingValue) {
                         EngineSettingValue engineSettingValue = (EngineSettingValue) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID, handleParamValue(engineSettingValue.getId().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE, handleParamValue(engineSettingValue.getEngineSetting().getCode().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_CONTEXT, handleParamValue(engineSettingValue.getContext()));
                         break;
                     } else if (param instanceof AbstractPaymentGateway) {
                         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID, handleParamValue(paymentGateway.getCode().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE, handleParamValue(paymentGateway.getCode().toString()));
                         break;
                     } else if (param instanceof User
                             && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
@@ -159,7 +160,7 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         getParams = (Map<String, String>) param;
                         break;
                     } else {
-                        logger.warn("Unknowned url parameter : [{}]", param);
+                        logger.info("Unknowned url parameter : [{}]", param);
                     }
                 }    		
         	}

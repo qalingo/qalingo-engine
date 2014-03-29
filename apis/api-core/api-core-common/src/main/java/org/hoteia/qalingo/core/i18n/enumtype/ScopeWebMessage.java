@@ -189,6 +189,11 @@ public enum ScopeWebMessage {
      */
     WAREHOUSE("warehouse"),
     
+    /**
+     * 
+     */
+    PAYMENT_GATEWAY("payment_gateway"),
+    
 	/**
 	 * 
 	 */

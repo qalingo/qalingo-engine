@@ -39,7 +39,7 @@ public class AttributeDefinition extends AbstractEntity {
 	public static int ATTRIBUTE_TYPE_BLOB = 5;
 	public static int ATTRIBUTE_TYPE_BOOLEAN = 6;
 
-	public static int OBJECT_TYPE_PRODUCT_CATEGORY = 1;
+	public static int OBJECT_TYPE_CATALOG_CATEGORY = 1;
 	public static int OBJECT_TYPE_PRODUCT_MARKETING = 2;
 	public static int OBJECT_TYPE_PRODUCT_SKU = 3;
 	public static int OBJECT_TYPE_CUSTOMER = 4;
@@ -141,6 +141,23 @@ public class AttributeDefinition extends AbstractEntity {
 		return attributeType;
 	}
 
+    public String getAttributeType(int type) {
+        if (type == ATTRIBUTE_TYPE_STRING) {
+            return "STRING";
+        } else if (type == ATTRIBUTE_TYPE_DOUBLE) {
+            return "DOUBLE";
+        } else if (type == ATTRIBUTE_TYPE_FLOAT) {
+            return "FLOAT";
+        } else if (type == ATTRIBUTE_TYPE_INTEGER) {
+            return "INTEGER";
+        } else if (type == ATTRIBUTE_TYPE_BLOB) {
+            return "BLOB";
+        } else if (type == ATTRIBUTE_TYPE_BOOLEAN) {
+            return "BOOLEAN";
+        }
+        return null;
+    }
+
 	public void setAttributeType(int attributeType) {
 		this.attributeType = attributeType;
 	}
@@ -149,6 +166,29 @@ public class AttributeDefinition extends AbstractEntity {
 		return objectType;
 	}
 
+    public String getObjectType(int type) {
+        if (type == OBJECT_TYPE_CATALOG_CATEGORY) {
+            return "CATALOG_CATEGORY";
+        } else if (type == OBJECT_TYPE_PRODUCT_MARKETING) {
+            return "PRODUCT_MARKETING";
+        } else if (type == OBJECT_TYPE_PRODUCT_SKU) {
+            return "PRODUCT_SKU";
+        } else if (type == OBJECT_TYPE_CUSTOMER) {
+            return "CUSTOMER";
+        } else if (type == OBJECT_TYPE_STORE) {
+            return "STORE";
+        } else if (type == OBJECT_TYPE_PAYMENT_GATEWAY) {
+            return "PAYMENT_GATEWAY";
+        } else if (type == OBJECT_TYPE_RULE_REFERENTIAL) {
+            return "RULE_REFERENTIAL";
+        } else if (type == OBJECT_TYPE_MARKET_AREA) {
+            return "MARKET_AREA";
+        } else if (type == OBJECT_TYPE_TAX) {
+            return "TAX";
+        }
+        return null;
+    }
+	   
 	public void setObjectType(int objectType) {
 		this.objectType = objectType;
 	}

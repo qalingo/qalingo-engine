@@ -9,28 +9,35 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
+import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
+import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
+import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
@@ -58,10 +65,17 @@ public interface WebBackofficeService {
 
     void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm);
 
-    void createOrUpdateWarehouse(Warehouse warehouse, WarehouseForm warehouseForm);
+    void createOrUpdateWarehouse(RequestData requestData, Warehouse warehouse, WarehouseForm warehouseForm);
     
     void createOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod, DeliveryMethodForm deliveryMethodForm);
-    
+
+    void createOrUpdateTax(Tax tax, TaxForm taxForm);
+
     void updateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
 
+    void createOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway, PaymentGatewayForm paymentGatewayForm);
+
+    void createOrUpdateEngineSetting(EngineSetting engineSetting, EngineSettingForm engineSettingForm);
+    
+    void createOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
 }

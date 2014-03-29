@@ -15,19 +15,29 @@ import org.hoteia.qalingo.core.domain.AttributeDefinition;
 
 public interface AttributeService {
 
-    AttributeDefinition getAttributeDefinitionById(Long attributeId, Object... params);
+    AttributeDefinition getAttributeDefinitionById(Long attributeId);
     
-	AttributeDefinition getAttributeDefinitionById(String attributeId, Object... params);
+	AttributeDefinition getAttributeDefinitionById(String attributeId);
 	
-	AttributeDefinition getAttributeDefinitionByCode(String code, Object... params);
+	AttributeDefinition getAttributeDefinitionByCode(String code);
 	
-	List<AttributeDefinition> findAttributeDefinitions(Object... params);
+	List<AttributeDefinition> findAttributeDefinitions();
 
-	List<AttributeDefinition> findCatalogCategoryAttributeDefinitions(Object... params);
+	List<AttributeDefinition> findCatalogCategoryAttributeDefinitions();
 
-	List<AttributeDefinition> findProductMarketingAttributeDefinitions(Object... params);
+    List<AttributeDefinition> findProductMarketingAttributeDefinitions();
 
-	List<AttributeDefinition> findProductSkuAttributeDefinitions(Object... params);
+	List<AttributeDefinition> findProductSkuAttributeDefinitions();
+
+	List<AttributeDefinition> findCustomerAttributeDefinitions();
+
+    List<AttributeDefinition> findStoreDefinitions();
+
+    List<AttributeDefinition> findPaymentGatewayDefinitions();
+
+    List<AttributeDefinition> findMarketAreaAttributeDefinitions();
+
+    List<AttributeDefinition> findTaxDefinitions();
 
 	void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
 	

@@ -26,21 +26,21 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId, Object... params) {
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeDefinitionId) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("id", attributeDefinitionId));
         AttributeDefinition attributeDefinitions = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinitions;
     }
 
-    public AttributeDefinition getAttributeDefinitionByCode(final String code, Object... params) {
+    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("code", code));
         AttributeDefinition attributeDefinition = (AttributeDefinition) criteria.uniqueResult();
         return attributeDefinition;
     }
 
-    public List<AttributeDefinition> findAttributeDefinitions(Object... params) {
+    public List<AttributeDefinition> findAttributeDefinitions() {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
 
         criteria.addOrder(Order.asc("attributeType"));
@@ -51,7 +51,7 @@ public class AttributeDaoImpl extends AbstractGenericDaoImpl implements Attribut
         return attributeDefinitions;
     }
 
-    public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType, Object... params) {
+    public List<AttributeDefinition> findAttributeDefinitionsByObjectType(int objectType) {
         Criteria criteria = createDefaultCriteria(AttributeDefinition.class);
         criteria.add(Restrictions.eq("objectType", objectType));
 

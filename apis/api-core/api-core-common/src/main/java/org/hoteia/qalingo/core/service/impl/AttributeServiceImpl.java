@@ -11,13 +11,12 @@ package org.hoteia.qalingo.core.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.hoteia.qalingo.core.dao.AttributeDao;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.service.AttributeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("attributeService")
 @Transactional
@@ -26,38 +25,58 @@ public class AttributeServiceImpl implements AttributeService {
     @Autowired
     private AttributeDao attributeDao;
 
-    public AttributeDefinition getAttributeDefinitionById(final Long attributeId, Object... params) {
-        return attributeDao.getAttributeDefinitionById(attributeId, params);
+    public AttributeDefinition getAttributeDefinitionById(final Long attributeId) {
+        return attributeDao.getAttributeDefinitionById(attributeId);
     }
 
-    public AttributeDefinition getAttributeDefinitionById(final String rawAttributeId, Object... params) {
+    public AttributeDefinition getAttributeDefinitionById(final String rawAttributeId) {
         long attributeId = -1;
         try {
             attributeId = Long.parseLong(rawAttributeId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(e);
         }
-        return getAttributeDefinitionById(attributeId, params);
+        return getAttributeDefinitionById(attributeId);
     }
 
-    public AttributeDefinition getAttributeDefinitionByCode(final String code, Object... params) {
-        return attributeDao.getAttributeDefinitionByCode(code, params);
+    public AttributeDefinition getAttributeDefinitionByCode(final String code) {
+        return attributeDao.getAttributeDefinitionByCode(code);
     }
 
-    public List<AttributeDefinition> findAttributeDefinitions(Object... params) {
-        return attributeDao.findAttributeDefinitions(params);
+    public List<AttributeDefinition> findAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitions();
     }
 
-    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions(Object... params) {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_CATEGORY);
+    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CATALOG_CATEGORY);
     }
 
-    public List<AttributeDefinition> findProductMarketingAttributeDefinitions(Object... params) {
+    public List<AttributeDefinition> findProductMarketingAttributeDefinitions() {
         return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
     }
 
-    public List<AttributeDefinition> findProductSkuAttributeDefinitions(Object... params) {
+    public List<AttributeDefinition> findProductSkuAttributeDefinitions() {
         return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
+    }
+
+    public List<AttributeDefinition> findCustomerAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CUSTOMER);
+    }
+
+    public List<AttributeDefinition> findStoreDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_STORE);
+    }
+
+    public List<AttributeDefinition> findPaymentGatewayDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PAYMENT_GATEWAY);
+    }
+
+    public List<AttributeDefinition> findMarketAreaAttributeDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_MARKET_AREA);
+    }
+
+    public List<AttributeDefinition> findTaxDefinitions() {
+        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_TAX);
     }
 
     public void saveOrUpdateAttributeDefinition(final AttributeDefinition attributeDefinition) {

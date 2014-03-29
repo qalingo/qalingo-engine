@@ -12,17 +12,22 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 
 public interface PaymentGatewayService {
 
     AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId, Object... params);
-    
-	AbstractPaymentGateway getPaymentGatewayById(String paymentGatewayId, Object... params);
 
-	List<AbstractPaymentGateway> findPaymentGateways(Object... params);
+    AbstractPaymentGateway getPaymentGatewayById(String paymentGatewayId, Object... params);
 
-	void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
-	
-	void deletePaymentGateway(AbstractPaymentGateway paymentGateway);
+    AbstractPaymentGateway getPaymentGatewayByCode(String paymentGatewayCode, Object... params);
+
+    List<AbstractPaymentGateway> findPaymentGateways(Object... params);
+
+    List<PaymentGatewayOption> findPaymentGatewayOptions();
+
+    void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
+
+    void deletePaymentGateway(AbstractPaymentGateway paymentGateway);
 
 }

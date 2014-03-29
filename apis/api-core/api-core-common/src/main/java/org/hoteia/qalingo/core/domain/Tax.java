@@ -22,7 +22,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -73,9 +75,10 @@ public class Tax extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "TAX_ID")
     private Set<TaxAttribute> attributes = new HashSet<TaxAttribute>();
-    
-    @Column(name = "MARKET_AREA_ID")
-    private Long marketAreaId;
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "TAX_ID"), inverseJoinColumns = @JoinColumn(name = "MARKET_AREA_ID"))
+    private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -175,13 +178,13 @@ public class Tax extends AbstractEntity {
     public void setAttributes(Set<TaxAttribute> attributes) {
         this.attributes = attributes;
     }
-
-    public Long getMarketAreaId() {
-        return marketAreaId;
+    
+    public Set<MarketArea> getMarketAreas() {
+        return marketAreas;
     }
-
-    public void setMarketAreaId(Long marketAreaId) {
-        this.marketAreaId = marketAreaId;
+    
+    public void setMarketAreas(Set<MarketArea> marketAreas) {
+        this.marketAreas = marketAreas;
     }
 
     @Override
@@ -224,7 +227,7 @@ public class Tax extends AbstractEntity {
     @Override
     public String toString() {
         return "Tax [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", percent=" + percent + ", taxType=" + taxType + ", taxCountries="
-                + taxCountries + ", attributes=" + attributes + ", marketAreaId=" + marketAreaId + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + taxCountries + ", attributes=" + attributes + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 

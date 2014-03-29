@@ -21,8 +21,13 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
     // ENTITY
 	protected String code;
 	protected String name;
+    protected String description;
+    protected String country;
+    protected String language;
 	protected boolean active = false;
-
+    private String dateCreate;
+    private String dateUpdate;
+    
     // MENU
     protected String img;
     protected String changeContextUrl;
@@ -44,12 +49,52 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
     
     public String getImg() {

@@ -11,6 +11,7 @@ package org.hoteia.qalingo.core.domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_PAYMENT_GATEWAY", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -71,11 +74,11 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PAYMENT_GATEWAY_ID")
-    private Set<PaymentGatewayAttribute> paymentGatewayAttributes = new HashSet<PaymentGatewayAttribute>();
+    private Set<PaymentGatewayAttribute> attributes = new HashSet<PaymentGatewayAttribute>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.PaymentGatewayOption.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "TECO_PAYMENT_GATEWAY_OPTION_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_OPTION_ID"))
-    private Set<PaymentGatewayOption> paymentGatewayOptions = new HashSet<PaymentGatewayOption>();
+    private Set<PaymentGatewayOption> options = new HashSet<PaymentGatewayOption>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -128,20 +131,58 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
 		this.description = description;
 	}
 	
-	public Set<PaymentGatewayAttribute> getPaymentGatewayAttributes() {
-		return paymentGatewayAttributes;
+	public Set<PaymentGatewayAttribute> getAttributes() {
+		return attributes;
 	}
 	
-	public void setPaymentGatewayAttributes(Set<PaymentGatewayAttribute> paymentGatewayAttributes) {
-		this.paymentGatewayAttributes = paymentGatewayAttributes;
+    public boolean updateAttribute(String code, String value) {
+        if (attributes != null 
+                && Hibernate.isInitialized(attributes)) {
+            for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                if(code.equals(attribute.getAttributeDefinition().getCode())){
+                    attribute.setValue(value);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void addAttribute(AttributeDefinition attributeDefinition, String value) {
+        PaymentGatewayAttribute attribute = new PaymentGatewayAttribute();
+        attribute.setAttributeDefinition(attributeDefinition);
+        attribute.setValue(value);
+        if (attributes == null) {
+            attributes = new HashSet<PaymentGatewayAttribute>();
+        }
+        attributes.add(attribute);
+    }
+    
+	public void setAttributes(Set<PaymentGatewayAttribute> attributes) {
+		this.attributes = attributes;
 	}
 	
-	public Set<PaymentGatewayOption> getPaymentGatewayOptions() {
-        return paymentGatewayOptions;
+	public Set<PaymentGatewayOption> getOptions() {
+        return options;
     }
 	
-	public void setPaymentGatewayOptions(Set<PaymentGatewayOption> paymentGatewayOptions) {
-        this.paymentGatewayOptions = paymentGatewayOptions;
+    public boolean updateOption(String code, String value) {
+        if (options != null 
+                && Hibernate.isInitialized(options)) {
+            for (Iterator<PaymentGatewayOption> iterator = options.iterator(); iterator.hasNext();) {
+                PaymentGatewayOption option = (PaymentGatewayOption) iterator.next();
+                if(code.equals(option.getCode())){
+                    option.setOptionValue(value);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+	public void setOptions(Set<PaymentGatewayOption> options) {
+        this.options = options;
     }
 	
 	public Date getDateCreate() {

@@ -30,7 +30,7 @@ public class TaxViewBean extends AbstractViewBean implements Serializable {
 	
 	protected String detailsUrl;
     protected String editUrl;
-	   
+    
     private String dateCreate;
     private String dateUpdate;
     

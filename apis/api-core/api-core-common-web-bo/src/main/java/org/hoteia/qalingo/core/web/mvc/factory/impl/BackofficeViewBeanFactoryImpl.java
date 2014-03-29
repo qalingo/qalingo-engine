@@ -28,6 +28,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.BatchProcessObject;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
@@ -45,6 +46,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.PaymentGatewayAttribute;
+import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.domain.ProductAssociationLink;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -68,6 +70,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
@@ -1040,22 +1043,39 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             engineSettingViewBean.setDefaultValue(Constants.NOT_AVAILABLE);
         }
         
-        engineSettingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
-
         Set<EngineSettingValue> engineSettingValues = engineSetting.getEngineSettingValues();
         if (engineSettingValues != null) {
             for (Iterator<EngineSettingValue> iterator = engineSettingValues.iterator(); iterator.hasNext();) {
                 EngineSettingValue engineSettingValue = (EngineSettingValue) iterator.next();
-                engineSettingViewBean.getEngineSettingValues().add(buildEngineSettingValueViewBean(requestData, engineSettingValue));
+                engineSettingViewBean.getEngineSettingValues().add(buildViewBeanEngineSettingValue(requestData, engineSettingValue));
             }
         }
+        
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        Date dateCreate = engineSetting.getDateCreate();
+        if (dateCreate != null) {
+            engineSettingViewBean.setDateCreate(dateFormat.format(dateCreate));
+        } else {
+            engineSettingViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+        }
+
+        Date dateUpdate = engineSetting.getDateUpdate();
+        if (dateUpdate != null) {
+            engineSettingViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+        } else {
+            engineSettingViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
+        }
+
+        engineSettingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
+        engineSettingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_EDIT, requestData, engineSetting));
+
         return engineSettingViewBean;
     }
 
     /**
      * 
      */
-    public EngineSettingValueViewBean buildEngineSettingValueViewBean(final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
+    public EngineSettingValueViewBean buildViewBeanEngineSettingValue(final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
         final EngineSettingValueViewBean engineSettingValueViewBean = new EngineSettingValueViewBean();
         engineSettingValueViewBean.setContext(engineSettingValue.getContext());
         engineSettingValueViewBean.setValue(engineSettingValue.getValue());
@@ -1128,7 +1148,6 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
             warehouseViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse));
             warehouseViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_EDIT, requestData, warehouse));
-
         }
         return warehouseViewBean;
     }
@@ -1157,10 +1176,16 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             paymentGatewayViewBean.setDescription(paymentGateway.getDescription());
             paymentGatewayViewBean.setCode(paymentGateway.getCode());
 
-            Set<PaymentGatewayAttribute> paymentGatewayAttributes = paymentGateway.getPaymentGatewayAttributes();
-            for (Iterator<PaymentGatewayAttribute> iterator = paymentGatewayAttributes.iterator(); iterator.hasNext();) {
-                PaymentGatewayAttribute paymentGatewayAttribute = (PaymentGatewayAttribute) iterator.next();
-                paymentGatewayViewBean.getPaymentGatewayAttributes().put(paymentGatewayAttribute.getAttributeDefinition().getCode(), paymentGatewayAttribute.getValueAsString());
+            Set<PaymentGatewayAttribute> attributes = paymentGateway.getAttributes();
+            for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                paymentGatewayViewBean.getAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+            }
+            
+            Set<PaymentGatewayOption> options = paymentGateway.getOptions();
+            for (Iterator<PaymentGatewayOption> iterator = options.iterator(); iterator.hasNext();) {
+                PaymentGatewayOption option = (PaymentGatewayOption) iterator.next();
+                paymentGatewayViewBean.getOptions().put(option.getCode(), option.getOptionValue());
             }
             
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -1185,6 +1210,52 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         return paymentGatewayViewBean;
     }
 
+    /**
+     * 
+     */
+    public List<AttributeDefinitionViewBean> buildListViewBeanAttributeDefinition(final RequestData requestData, final List<AttributeDefinition> attributeDefinitions) throws Exception {
+        final List<AttributeDefinitionViewBean> attributeDefinitionViewBeans = new ArrayList<AttributeDefinitionViewBean>();
+        if (attributeDefinitions != null) {
+            for (Iterator<AttributeDefinition> iterator = attributeDefinitions.iterator(); iterator.hasNext();) {
+                AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
+                attributeDefinitionViewBeans.add(buildViewBeanAttributeDefinition(requestData, attributeDefinition));
+            }
+        }
+        return attributeDefinitionViewBeans;
+    }
+    
+    /**
+     * 
+     */
+    public AttributeDefinitionViewBean buildViewBeanAttributeDefinition(final RequestData requestData, final AttributeDefinition attributeDefinition) throws Exception {
+        final AttributeDefinitionViewBean attributeDefinitionViewBean = new AttributeDefinitionViewBean();
+        if (attributeDefinition != null) {
+            attributeDefinitionViewBean.setName(attributeDefinition.getName());
+            attributeDefinitionViewBean.setDescription(attributeDefinition.getDescription());
+            attributeDefinitionViewBean.setCode(attributeDefinition.getCode());
+
+            attributeDefinitionViewBean.setAttributeType(attributeDefinition.getAttributeType(attributeDefinition.getAttributeType()));
+            attributeDefinitionViewBean.setObjectType(attributeDefinition.getObjectType(attributeDefinition.getObjectType()));
+            
+            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+            Date dateCreate = attributeDefinition.getDateCreate();
+            if (dateCreate != null) {
+                attributeDefinitionViewBean.setDateCreate(dateFormat.format(dateCreate));
+            } else {
+                attributeDefinitionViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+            }
+
+            Date dateUpdate = attributeDefinition.getDateUpdate();
+            if (dateUpdate != null) {
+                attributeDefinitionViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+            } else {
+                attributeDefinitionViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
+            }
+
+        }
+        return attributeDefinitionViewBean;
+    }
+    
     protected String getSpecificMessage(ScopeWebMessage scope, String key, Locale locale) {
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, locale);
     }

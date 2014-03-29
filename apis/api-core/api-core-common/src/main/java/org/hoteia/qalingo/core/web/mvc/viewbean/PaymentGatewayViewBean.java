@@ -15,7 +15,8 @@ public class PaymentGatewayViewBean extends AbstractViewBean implements Serializ
     private String description;
     private String code;
     
-    private Map<String, String> paymentGatewayAttributes = new HashMap<String, String>();
+    private Map<String, String> attributes = new HashMap<String, String>();
+    private Map<String, String> options = new HashMap<String, String>();
 
     private String dateCreate;
     private String dateUpdate;
@@ -47,12 +48,20 @@ public class PaymentGatewayViewBean extends AbstractViewBean implements Serializ
         this.code = code;
     }
 
-    public Map<String, String> getPaymentGatewayAttributes() {
-        return paymentGatewayAttributes;
+    public Map<String, String> getAttributes() {
+        return attributes;
     }
     
-    public void setPaymentGatewayAttributes(Map<String, String> paymentGatewayAttributes) {
-        this.paymentGatewayAttributes = paymentGatewayAttributes;
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+    
+    public Map<String, String> getOptions() {
+        return options;
+    }
+    
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
     }
     
     public String getDateCreate() {
