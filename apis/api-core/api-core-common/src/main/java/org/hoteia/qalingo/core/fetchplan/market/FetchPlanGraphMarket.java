@@ -73,6 +73,10 @@ public class FetchPlanGraphMarket {
     }
     
     public static FetchPlan specificMarketAreaFetchPlanWithCheckoutData(){
+        return fullMarketAreaFetchPlan();
+    }
+    
+    public static FetchPlan fullMarketAreaFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("catalog"));
@@ -92,7 +96,7 @@ public class FetchPlanGraphMarket {
         fetchplans.add(new SpecificFetchMode("defaultRetailer"));
         fetchplans.add(new SpecificFetchMode("retailers"));
 
-        fetchplans.add(new SpecificFetchMode("deliveryMethods"));
+        fetchplans.add(new SpecificFetchMode("deliveryMethods", new SpecificAlias("warehouses.deliveryMethods")));
 
         fetchplans.add(new SpecificFetchMode("deliveryMethodCountries", new SpecificAlias("deliveryMethods.countries")));
 
@@ -102,4 +106,5 @@ public class FetchPlanGraphMarket {
         
         return new FetchPlan(fetchplans);
     }
+    
 }

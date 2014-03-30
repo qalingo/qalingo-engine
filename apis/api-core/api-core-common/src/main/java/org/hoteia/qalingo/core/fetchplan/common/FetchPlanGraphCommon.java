@@ -106,6 +106,14 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan fullPaymentGatewayFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode("attributes"));
+        fetchplans.add(new SpecificFetchMode("options"));
+        fetchplans.add(new SpecificFetchMode("marketAreas"));
+        return new FetchPlan(fetchplans);
+    }
+    
     public static FetchPlan defaultTaxFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("taxCountries"));

@@ -23,6 +23,14 @@ public interface AttributeService {
 	
 	List<AttributeDefinition> findAttributeDefinitions();
 
+    List<AttributeDefinition> findMarketAreaAttributeDefinitions();
+
+    void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
+    
+    void deleteAttributeDefinition(AttributeDefinition attributeDefinition);
+
+    // SPECIFIC
+    
 	List<AttributeDefinition> findCatalogCategoryAttributeDefinitions();
 
     List<AttributeDefinition> findProductMarketingAttributeDefinitions();
@@ -33,14 +41,10 @@ public interface AttributeService {
 
     List<AttributeDefinition> findStoreDefinitions();
 
-    List<AttributeDefinition> findPaymentGatewayDefinitions();
-
-    List<AttributeDefinition> findMarketAreaAttributeDefinitions();
+    List<AttributeDefinition> findPaymentGatewayGlobalAttributeDefinitions();
+    
+    List<AttributeDefinition> findPaymentGatewayMarketAreaAttributeDefinitions();
 
     List<AttributeDefinition> findTaxDefinitions();
-
-	void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
-	
-	void deleteAttributeDefinition(AttributeDefinition attributeDefinition);
 
 }

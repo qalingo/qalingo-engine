@@ -1170,16 +1170,27 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     public PaymentGatewayViewBean buildViewBeanPaymentGateway(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
         final PaymentGatewayViewBean paymentGatewayViewBean = new PaymentGatewayViewBean();
         if (paymentGateway != null) {
+            paymentGatewayViewBean.setCode(paymentGateway.getCode());
             paymentGatewayViewBean.setName(paymentGateway.getName());
             paymentGatewayViewBean.setDescription(paymentGateway.getDescription());
-            paymentGatewayViewBean.setCode(paymentGateway.getCode());
+            if(Hibernate.isInitialized(paymentGateway.getMarketAreas())
+                    && paymentGateway.getMarketAreas() != null){
+                paymentGatewayViewBean.setActive(paymentGateway.getMarketAreas().contains(marketArea));
+            }
 
-            Set<PaymentGatewayAttribute> attributes = paymentGateway.getAttributes();
-            for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+            List<PaymentGatewayAttribute> globalAttributes = paymentGateway.getGlobalAttributes();
+            for (Iterator<PaymentGatewayAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
-                paymentGatewayViewBean.getAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+                paymentGatewayViewBean.getGlobaAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+            }
+
+            List<PaymentGatewayAttribute> marketAreaAttributes = paymentGateway.getMarketAreaAttributes(marketArea.getId());
+            for (Iterator<PaymentGatewayAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                paymentGatewayViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
             }
             
             Set<PaymentGatewayOption> options = paymentGateway.getOptions();

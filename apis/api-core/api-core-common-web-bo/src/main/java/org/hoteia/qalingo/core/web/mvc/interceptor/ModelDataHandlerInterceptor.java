@@ -68,7 +68,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             final Company company = requestData.getCompany();
             
             if(user != null){
-                modelAndView.getModelMap().put(ModelConstants.USER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanUser(requestData, user));
+                modelAndView.getModelMap().put(ModelConstants.AUTHENTICATED_USER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanUser(requestData, user));
             }
             
             modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));

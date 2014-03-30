@@ -127,7 +127,7 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
     private Set<Tax> taxes = new HashSet<Tax>();
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.AbstractPaymentGateway.class)
     @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"))
     private Set<AbstractPaymentGateway> paymentGateways = new HashSet<AbstractPaymentGateway>();
 

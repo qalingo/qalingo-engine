@@ -108,6 +108,17 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     @Autowired
     protected PaymentGatewayService paymentGatewayService;
 
+    public void createOrUpdatePersonalUser(User user, final UserForm userForm) {
+        if(user == null){
+            user = new User();
+        }
+        user.setLogin(userForm.getLogin());
+        user.setLastname(userForm.getLastname());
+        user.setFirstname(userForm.getFirstname());
+        user.setEmail(userForm.getEmail());
+        userService.saveOrUpdateUser(user);
+    }
+    
 	public void createOrUpdateUser(User user, final UserForm userForm) {
 	    if(user == null){
 	        user = new User();
@@ -116,6 +127,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		user.setLastname(userForm.getLastname());
 		user.setFirstname(userForm.getFirstname());
 		user.setEmail(userForm.getEmail());
+		user.setActive(userForm.isActive());
 		userService.saveOrUpdateUser(user);
 	}
 	
@@ -465,20 +477,41 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         engineSettingService.saveOrUpdateEngineSettingValue(engineSettingValue);
     }
 
-    public void createOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) {
+    public void createOrUpdatePaymentGateway(final MarketArea marketArea, AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) {
         if (paymentGateway != null) {
             paymentGateway.setCode(paymentGatewayForm.getCode());
             paymentGateway.setName(paymentGatewayForm.getName());
             paymentGateway.setDescription(paymentGatewayForm.getDescription());
+            
+            if (paymentGatewayForm.isActive()) {
+                if (paymentGateway.getMarketAreas() == null || !paymentGateway.getMarketAreas().contains(marketArea)) {
+                    paymentGateway.addMarketArea(marketArea);
+                }
+            } else {
+                if (paymentGateway.getMarketAreas() == null || paymentGateway.getMarketAreas().contains(marketArea)) {
+                    paymentGateway.getMarketAreas().remove(marketArea);
+                }
+            }
 
-            for (Iterator<String> iterator = paymentGatewayForm.getAttributeMap().keySet().iterator(); iterator.hasNext();) {
+            for (Iterator<String> iterator = paymentGatewayForm.getGlobalAttributeMap().keySet().iterator(); iterator.hasNext();) {
                 String key = (String) iterator.next();
-                String value = paymentGatewayForm.getAttributeMap().get(key);
+                String value = paymentGatewayForm.getGlobalAttributeMap().get(key);
                 boolean success = paymentGateway.updateAttribute(key, value);
                 if(!success){
                     // ATTRIBUTE DOESN'T EXIT - ADD
                     AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(key);
-                    paymentGateway.addAttribute(attributeDefinition, value);
+                    paymentGateway.addAttribute(null, attributeDefinition, value);
+                }
+            }
+            
+            for (Iterator<String> iterator = paymentGatewayForm.getMarketAreaAttributeMap().keySet().iterator(); iterator.hasNext();) {
+                String key = (String) iterator.next();
+                String value = paymentGatewayForm.getMarketAreaAttributeMap().get(key);
+                boolean success = paymentGateway.updateAttribute(key, value);
+                if(!success){
+                    // ATTRIBUTE DOESN'T EXIT - ADD
+                    AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(key);
+                    paymentGateway.addAttribute(marketArea, attributeDefinition, value);
                 }
             }
             

@@ -59,7 +59,7 @@ public class UserController extends AbstractBackofficeQalingoController {
     }
     
     @RequestMapping(value = BoUrls.USER_DETAILS_URL, method = RequestMethod.GET)
-    public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
+    public ModelAndView userDetails(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -122,7 +122,7 @@ public class UserController extends AbstractBackofficeQalingoController {
         // Update the user
         webBackofficeService.createOrUpdateUser(user, userForm);
         
-        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request));
+        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.USER_DETAILS, requestUtil.getRequestData(request), user);
         return new ModelAndView(new RedirectView(urlRedirect));
     }
     

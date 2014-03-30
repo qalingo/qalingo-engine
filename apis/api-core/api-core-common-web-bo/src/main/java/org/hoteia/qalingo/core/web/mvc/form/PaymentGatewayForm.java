@@ -14,30 +14,31 @@ import java.util.Map;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
 /**
  * 
  * 
  */
 public class PaymentGatewayForm {
-	
+
     private String id;
     private int version;
     private String code;
     private String name;
     private String description;
+    private boolean active;
 
-    private Map<String, String> attributeMap = new HashMap<String, String>();
+    private Map<String, String> globalAttributeMap = new HashMap<String, String>();
+    private Map<String, String> marketAreaAttributeMap = new HashMap<String, String>();
     private Map<String, String> optionMap = new HashMap<String, String>();
-    
+
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public int getVersion() {
         return version;
     }
@@ -45,7 +46,7 @@ public class PaymentGatewayForm {
     public void setVersion(int version) {
         this.version = version;
     }
-    
+
     @NotEmpty(message = "bo.payment_gateway.error_form_code_empty")
     public String getCode() {
         return code;
@@ -71,19 +72,35 @@ public class PaymentGatewayForm {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public Map<String, String> getAttributeMap() {
-        return attributeMap;
+
+    public boolean isActive() {
+        return active;
     }
-    
-    public void setAttributeMap(Map<String, String> attributeMap) {
-        this.attributeMap = attributeMap;
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
-    
+
+    public Map<String, String> getGlobalAttributeMap() {
+        return globalAttributeMap;
+    }
+
+    public void setGlobalAttributeMap(Map<String, String> globalAttributeMap) {
+        this.globalAttributeMap = globalAttributeMap;
+    }
+
+    public Map<String, String> getMarketAreaAttributeMap() {
+        return marketAreaAttributeMap;
+    }
+
+    public void setMarketAreaAttributeMap(Map<String, String> marketAreaAttributeMap) {
+        this.marketAreaAttributeMap = marketAreaAttributeMap;
+    }
+
     public Map<String, String> getOptionMap() {
         return optionMap;
     }
-    
+
     public void setOptionMap(Map<String, String> optionMap) {
         this.optionMap = optionMap;
     }

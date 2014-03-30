@@ -9,9 +9,11 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -80,6 +82,10 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
     @JoinTable(name = "TECO_PAYMENT_GATEWAY_OPTION_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_OPTION_ID"))
     private Set<PaymentGatewayOption> options = new HashSet<PaymentGatewayOption>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
+    @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"), inverseJoinColumns = @JoinColumn(name = "MARKET_AREA_ID"))
+    private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -149,14 +155,51 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
         return false;
     }
     
-    public void addAttribute(AttributeDefinition attributeDefinition, String value) {
+    public void addAttribute(MarketArea marketArea, AttributeDefinition attributeDefinition, String value) {
         PaymentGatewayAttribute attribute = new PaymentGatewayAttribute();
         attribute.setAttributeDefinition(attributeDefinition);
+        if(marketArea != null){
+            attribute.setMarketAreaId(marketArea.getId());
+        }
         attribute.setValue(value);
         if (attributes == null) {
             attributes = new HashSet<PaymentGatewayAttribute>();
         }
         attributes.add(attribute);
+    }
+    
+    public List<PaymentGatewayAttribute> getGlobalAttributes() {
+        List<PaymentGatewayAttribute> globalAttributes = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            globalAttributes = new ArrayList<PaymentGatewayAttribute>();
+            for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    globalAttributes.add(attribute);
+                }
+            }
+        }        
+        return globalAttributes;
+    }
+
+    public List<PaymentGatewayAttribute> getMarketAreaAttributes(Long marketAreaId) {
+        List<PaymentGatewayAttribute> marketAreaAttributes = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            marketAreaAttributes = new ArrayList<PaymentGatewayAttribute>();
+            for (Iterator<PaymentGatewayAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    marketAreaAttributes.add(attribute);
+                }
+            }
+        }        
+        return marketAreaAttributes;
     }
     
 	public void setAttributes(Set<PaymentGatewayAttribute> attributes) {
@@ -183,6 +226,21 @@ public abstract class AbstractPaymentGateway extends AbstractEntity {
     
 	public void setOptions(Set<PaymentGatewayOption> options) {
         this.options = options;
+    }
+	
+	public Set<MarketArea> getMarketAreas() {
+        return marketAreas;
+    }
+	
+    public void addMarketArea(MarketArea marketArea) {
+        if(marketAreas == null){
+            marketAreas = new HashSet<MarketArea>();
+        }
+        marketAreas.add(marketArea);
+    }
+	
+	public void setMarketAreas(Set<MarketArea> marketAreas) {
+        this.marketAreas = marketAreas;
     }
 	
 	public Date getDateCreate() {

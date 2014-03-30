@@ -101,7 +101,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         return engineSettingValueForm;
     }
 
-    public PaymentGatewayForm buildPaymentGatewayForm(final RequestData requestData, final AbstractPaymentGateway paymentGateway) throws Exception {
+    public PaymentGatewayForm buildPaymentGatewayForm(final MarketArea marketArea, final AbstractPaymentGateway paymentGateway) throws Exception {
         final PaymentGatewayForm paymentGatewayForm = new PaymentGatewayForm();
         if(paymentGateway != null){
             paymentGatewayForm.setId(paymentGateway.getId().toString());
@@ -109,6 +109,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             paymentGatewayForm.setCode(paymentGateway.getCode());
             paymentGatewayForm.setName(paymentGateway.getName());
             paymentGatewayForm.setDescription(paymentGateway.getDescription());
+            paymentGatewayForm.setActive(paymentGateway.getMarketAreas().contains(marketArea));
         }
         return paymentGatewayForm;
     }

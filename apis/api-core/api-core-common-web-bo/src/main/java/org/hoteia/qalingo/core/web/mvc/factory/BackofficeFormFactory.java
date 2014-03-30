@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -49,7 +50,7 @@ public interface BackofficeFormFactory {
 
     EngineSettingValueForm buildEngineSettingValueForm(RequestData requestData, EngineSettingValue engineSettingValue) throws Exception;
 
-	PaymentGatewayForm buildPaymentGatewayForm(RequestData requestData, AbstractPaymentGateway paymentGateway) throws Exception;
+	PaymentGatewayForm buildPaymentGatewayForm(MarketArea marketArea, AbstractPaymentGateway paymentGateway) throws Exception;
 
     UserForm buildUserForm(RequestData requestData, User user) throws Exception;
 

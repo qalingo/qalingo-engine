@@ -25,9 +25,11 @@ import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.PaymentGatewayService;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.PaymentGatewayViewBean;
@@ -53,6 +55,9 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
 	@Autowired
 	protected PaymentGatewayService paymentGatewayService;
 	
+    @Autowired
+    protected MarketService marketService;
+    
     @RequestMapping(value = BoUrls.PAYMENT_GATEWAY_LIST_URL, method = RequestMethod.GET)
     public ModelAndView paymentGatewayList(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_LIST.getVelocityPage());
@@ -84,7 +89,7 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             return new ModelAndView(new RedirectView(urlRedirect));
         }
         
-        final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayByCode(currentPaymentGatewayCode);
+        final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayByCode(currentPaymentGatewayCode, FetchPlanGraphCommon.fullPaymentGatewayFetchPlan());
         
         // SANITY CHECK
         if(paymentGateway != null){
@@ -94,7 +99,6 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             return new ModelAndView(new RedirectView(url));
         }
         
-        modelAndView.addObject("availablePaymentGatewayAttributeDefinitions", attributeService.findPaymentGatewayDefinitions());
         modelAndView.addObject("availablePaymentGatewayOptions", paymentGatewayService.findPaymentGatewayOptions());
 
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_LIST, requestData));
@@ -118,7 +122,8 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             PaymentGatewayViewBean paymentGatewayViewBean = backofficeViewBeanFactory.buildViewBeanPaymentGateway(requestData, paymentGateway);
             request.setAttribute(ModelConstants.PAYMENT_GATEWAY_VIEW_BEAN, paymentGatewayViewBean);
 
-            modelAndView.addObject("availablePaymentGatewayAttributeDefinitions", attributeService.findPaymentGatewayDefinitions());
+            modelAndView.addObject("availablePaymentGatewayGlobaleAttributeDefinitions", attributeService.findPaymentGatewayGlobalAttributeDefinitions());
+            modelAndView.addObject("availablePaymentGatewayMarketAreaAttributeDefinitions", attributeService.findPaymentGatewayMarketAreaAttributeDefinitions());
             modelAndView.addObject("availablePaymentGatewayOptions", paymentGatewayService.findPaymentGatewayOptions());
 
             Object[] params = {paymentGateway.getName() + " (" + paymentGateway.getCode() + ")"};
@@ -146,12 +151,12 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
 
         AbstractPaymentGateway paymentGateway = null;
         if(StringUtils.isNotEmpty(paymentGatewayForm.getId())){
-            paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayForm.getId());
+            paymentGateway = paymentGatewayService.getPaymentGatewayById(paymentGatewayForm.getId(), FetchPlanGraphCommon.fullPaymentGatewayFetchPlan());
         }
 
         try {
             // CREATE OR UPDATE PAYMENT GATEWAY
-            webBackofficeService.createOrUpdatePaymentGateway(paymentGateway, paymentGatewayForm);
+            webBackofficeService.createOrUpdatePaymentGateway(requestData.getMarketArea(), paymentGateway, paymentGatewayForm);
             
             if (paymentGateway == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, "create_success_message", locale));
@@ -177,14 +182,14 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
     @ModelAttribute(ModelConstants.PAYMENT_GATEWAY_FORM)
     protected PaymentGatewayForm initPaymentGatewayForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        
+        final MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.fullMarketAreaFetchPlan());
         final String paymentGatewayCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE);
         if(StringUtils.isNotEmpty(paymentGatewayCode)){
-            final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayByCode(paymentGatewayCode);
-            return backofficeFormFactory.buildPaymentGatewayForm(requestData, paymentGateway);
+            final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayByCode(paymentGatewayCode, FetchPlanGraphCommon.fullPaymentGatewayFetchPlan());
+            return backofficeFormFactory.buildPaymentGatewayForm(marketArea, paymentGateway);
         }
         
-        return backofficeFormFactory.buildPaymentGatewayForm(requestData, null);
+        return backofficeFormFactory.buildPaymentGatewayForm(marketArea, null);
     }
     
     protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
@@ -223,7 +228,7 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
         
         final List<PaymentGatewayViewBean> paymentGatewayViewBeans = new ArrayList<PaymentGatewayViewBean>();
 
-        final List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways();
+        final List<AbstractPaymentGateway> paymentGateways = paymentGatewayService.findPaymentGateways(FetchPlanGraphCommon.fullPaymentGatewayFetchPlan());
         for (Iterator<AbstractPaymentGateway> iterator = paymentGateways.iterator(); iterator.hasNext();) {
             AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) iterator.next();
             paymentGatewayViewBeans.add(backofficeViewBeanFactory.buildViewBeanPaymentGateway(requestUtil.getRequestData(request), paymentGateway));
@@ -234,5 +239,5 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
         
         return paymentGatewayViewBeanPagedListHolder;
     }
-    
+
 }

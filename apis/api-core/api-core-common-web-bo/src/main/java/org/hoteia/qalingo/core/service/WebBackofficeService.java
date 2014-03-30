@@ -43,19 +43,21 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface WebBackofficeService {
 
+    void createOrUpdatePersonalUser(User user, UserForm userForm);
+
     void createOrUpdateUser(User user, UserForm userForm);
 
     void createOrUpdateCustomer(Customer customer, CustomerForm customerForm) throws Exception;
 
-    void createCatalogCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
+    void createCatalogCategory(MarketArea marketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
                                CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
 
-    void updateCatalogCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
+    void updateCatalogCategory(MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
                                throws UniqueConstraintCodeCategoryException;
 
-    void createCatalogCategory(MarketArea currentMarketArea, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    void createCatalogCategory(MarketArea marketArea, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
-    void updateCatalogCategory(MarketArea currentMarketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    void updateCatalogCategory(MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
     void createOrUpdateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
 
@@ -73,7 +75,7 @@ public interface WebBackofficeService {
 
     void updateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
 
-    void createOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway, PaymentGatewayForm paymentGatewayForm);
+    void createOrUpdatePaymentGateway(MarketArea marketArea, AbstractPaymentGateway paymentGateway, PaymentGatewayForm paymentGatewayForm);
 
     void createOrUpdateEngineSetting(EngineSetting engineSetting, EngineSettingForm engineSettingForm);
     
