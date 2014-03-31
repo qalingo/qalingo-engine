@@ -188,7 +188,6 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             final AbstractPaymentGateway paymentGateway = paymentGatewayService.getPaymentGatewayByCode(paymentGatewayCode, FetchPlanGraphCommon.fullPaymentGatewayFetchPlan());
             return backofficeFormFactory.buildPaymentGatewayForm(marketArea, paymentGateway);
         }
-        
         return backofficeFormFactory.buildPaymentGatewayForm(marketArea, null);
     }
     

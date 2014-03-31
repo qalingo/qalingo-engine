@@ -212,13 +212,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
     @ModelAttribute("retailerForm")
 	protected RetailerForm initRetailerForm(final HttpServletRequest request, final Model model) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getMarketAreaRetailer();
-		
-		final String currentRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
-		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRetailerCode);
-    	
-    	return backofficeFormFactory.buildRetailerForm(requestData, retailerEdit);
+		final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+		if(StringUtils.isNotEmpty(retailerCode)){
+	        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+	        return backofficeFormFactory.buildRetailerForm(requestData, retailer);
+		}
+    	return backofficeFormFactory.buildRetailerForm(requestData, null);
 	}
     
 	/**
@@ -228,11 +227,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final MarketArea marketArea = requestData.getMarketArea();
 		final Retailer retailer = requestData.getMarketAreaRetailer();
-		
-		final String currentRetailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
-		final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), currentRetailerCode);
-		
-		return backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerEdit);
+		final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+        if(StringUtils.isNotEmpty(retailerCode)){
+            final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerCode);
+            return backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerEdit);
+        }
+        return null;
 	}
 	
     @ModelAttribute(ModelConstants.COUNTRIES)
