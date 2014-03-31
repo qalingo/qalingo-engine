@@ -46,8 +46,11 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE       = "delivery-method-code";
     public static final String REQUEST_PARAMETER_TAX_CODE                   = "tax-code";
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE        = "engine-setting-code";
+    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE       = "payment-gateway-code";
     public static final String REQUEST_PARAMETER_RETAILER_CODE              = "retailer-code";
     public static final String REQUEST_PARAMETER_STORE_CODE                 = "store-code";
+
+    public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_CONTEXT   = "engine-setting-value-context";
 
 	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";
 	public static final String REQUEST_PARAMETER_SEARCH_TXT					= "search-txt";
@@ -62,11 +65,8 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITIES    = "qties";
     public static final String REQUEST_PARAMETER_MULTIPLE_ADD_TO_CART_QUANTITY    = "quantity";
 
-    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_GUID       = "payment-gateway-guid";
     public static final String REQUEST_PARAMETER_CUSTOMER_ADDRESS_GUID      = "customer-address-guid";
     public static final String REQUEST_PARAMETER_CUSTOMER_ORDER_GUID        = "customer-order-guid";
-    public static final String REQUEST_PARAMETER_ENGINE_SETTING_GUID        = "engine-setting-guid";
-    public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID  = "engine-setting-value-guid";
     
     public static final String REQUEST_PARAMETER_USER_ID                    = "user-id";
     public static final String REQUEST_PARAMETER_USER_CODE                  = "user-code";

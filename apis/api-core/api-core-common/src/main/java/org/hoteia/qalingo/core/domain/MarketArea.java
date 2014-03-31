@@ -123,6 +123,10 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_WAREHOUSE_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
     private Set<Warehouse> warehouses = new HashSet<Warehouse>();
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Tax.class)
+    @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
+    private Set<Tax> taxes = new HashSet<Tax>();
+    
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
     @JoinTable(name = "TECO_MARKET_AREA_PAYMENT_GATEWAY_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_GATEWAY_ID"))
     private Set<AbstractPaymentGateway> paymentGateways = new HashSet<AbstractPaymentGateway>();
@@ -372,6 +376,14 @@ public class MarketArea extends AbstractEntity {
         return deliveryMethodToReturn;
     }
 
+    public Set<Tax> getTaxes() {
+        return taxes;
+    }
+    
+    public void setTaxes(Set<Tax> taxes) {
+        this.taxes = taxes;
+    }
+    
     public Set<AbstractPaymentGateway> getPaymentGateways() {
         return paymentGateways;
     }

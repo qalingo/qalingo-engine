@@ -47,6 +47,10 @@ public class TaxServiceImpl implements TaxService {
         return taxDao.findTaxes(params);
     }
 
+    public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
+        return taxDao.findTaxesByMarketAreaId(marketAreaId, params);
+    }
+    
     public void saveOrUpdateTax(Tax tax) {
         taxDao.saveOrUpdateTax(tax);
     }

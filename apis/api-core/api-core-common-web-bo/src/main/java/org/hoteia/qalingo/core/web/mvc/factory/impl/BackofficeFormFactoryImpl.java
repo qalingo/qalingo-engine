@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
@@ -43,6 +44,7 @@ import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
+import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.OrderForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
@@ -76,7 +78,20 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     @Autowired
     protected AttributeService attributeService;
 
-    public EngineSettingValueForm buildEngineSettingValueEditForm(final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
+    public EngineSettingForm buildEngineSettingForm(final RequestData requestData, final EngineSetting engineSetting) throws Exception {
+        final EngineSettingForm engineSettingForm = new EngineSettingForm();
+        if(engineSetting != null){
+            engineSettingForm.setId(engineSetting.getId().toString());
+            engineSettingForm.setCode(engineSetting.getCode());
+            engineSettingForm.setVersion(engineSetting.getVersion());
+            engineSettingForm.setName(engineSetting.getName());
+            engineSettingForm.setDescription(engineSetting.getDescription());
+            engineSettingForm.setDefaultValue(engineSetting.getDefaultValue());
+        }
+        return engineSettingForm;
+    }
+    
+    public EngineSettingValueForm buildEngineSettingValueForm(final RequestData requestData, final EngineSettingValue engineSettingValue) throws Exception {
         final EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
         if(engineSettingValue != null){
             engineSettingValueForm.setId(engineSettingValue.getId().toString());
@@ -90,6 +105,10 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         final PaymentGatewayForm paymentGatewayForm = new PaymentGatewayForm();
         if(paymentGateway != null){
             paymentGatewayForm.setId(paymentGateway.getId().toString());
+            paymentGatewayForm.setVersion(paymentGateway.getVersion());
+            paymentGatewayForm.setCode(paymentGateway.getCode());
+            paymentGatewayForm.setName(paymentGateway.getName());
+            paymentGatewayForm.setDescription(paymentGateway.getDescription());
         }
         return paymentGatewayForm;
     }
@@ -297,6 +316,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         if(rule != null){
             ruleForm.setId(rule.getId());
             ruleForm.setVersion(rule.getVersion());
+            ruleForm.setCode(rule.getCode());
             ruleForm.setName(rule.getName());
             ruleForm.setDescription(rule.getDescription());
             ruleForm.setSalience(rule.getSalience());
@@ -309,9 +329,9 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         if(warehouse != null){
             warehouseForm.setId(warehouse.getId().toString());
             warehouseForm.setVersion(warehouse.getVersion());
+            warehouseForm.setCode(warehouse.getCode());
             warehouseForm.setName(warehouse.getName());
             warehouseForm.setDescription(warehouse.getDescription());
-            warehouseForm.setCode(warehouse.getCode());
         }
         return warehouseForm;
     }
@@ -324,23 +344,22 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         if(deliveryMethod != null){
             deliveryMethodForm.setId(deliveryMethod.getId().toString());
             deliveryMethodForm.setVersion(deliveryMethod.getVersion());
+            deliveryMethodForm.setCode(deliveryMethod.getCode());
             deliveryMethodForm.setName(deliveryMethod.getName());
             deliveryMethodForm.setDescription(deliveryMethod.getDescription());
-            deliveryMethodForm.setCode(deliveryMethod.getCode());
             deliveryMethodForm.setPrice(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
         }
         return deliveryMethodForm;
     }
     
     public TaxForm buildTaxForm(final RequestData requestData, final Tax tax) throws Exception {
-        
         final TaxForm taxForm = new TaxForm();
         if(tax != null){
             taxForm.setId(tax.getId().toString());
+            taxForm.setCode(tax.getCode());
             taxForm.setVersion(tax.getVersion());
             taxForm.setName(tax.getName());
             taxForm.setDescription(tax.getDescription());
-            taxForm.setCode(tax.getCode());
         }
         return taxForm;
     }

@@ -44,8 +44,8 @@ VALUES
 
 -- password equal "password"
 INSERT INTO tbo_user 
-(id, version, email, title, firstname, lastname, password, login, is_active, company_id)
-VALUES (1, 1, 'qalingo@qalingo.com', 'MR', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
+(id, version, code, email, title, firstname, lastname, password, login, is_active, company_id)
+VALUES (1, 1, 'admin', 'qalingo@qalingo.com', 'MR', 'Admin', 'Qalingo', 'c25f6e969040c60ca4598072d13d26a0539013a6f43fedb44362fe757683ebc43931ab8cd1f78f58', 'admin', 1, 1);
 
 INSERT INTO tbo_user_group_rel VALUES (1, 10),(1,20);
 
@@ -62,7 +62,7 @@ VALUES (1, 'MR', 'Customer', 'Qalingo', 'rue de versaille', '', '', 'address1', 
 
 INSERT INTO teco_customer_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, customer_id, attribute_definition_id, localization_code, market_area_id)
-VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 100, null, null);
+VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 4000, null, null);
 
 INSERT INTO teco_customer_credential 
 (id, customer_id, password)
@@ -120,14 +120,14 @@ INSERT INTO teco_marketplace
 INSERT INTO teco_marketplace_attribute   
 (id, context, string_value, market_place_id, attribute_definition_id)
 VALUES 
-(161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 600),
-(162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 600),
-(1161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 10, 600),
-(1162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 10, 600),
-(1261, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 20, 600),
-(1262, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 20, 600),
-(1361, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 30, 600),
-(1362, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 30, 600);
+(161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 1, 8000),
+(162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 1, 8000),
+(1161, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 10, 8000),
+(1162, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 10, 8000),
+(1261, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 20, 8000),
+(1262, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 20, 8000),
+(1361, 'FO_MCOMMERCE', 'fo-mcommerce.dev.qalingo.com', 30, 8000),
+(1362, 'FO_PREHOME',   'fo-prehome.dev.qalingo.com', 30, 8000);
 
 INSERT INTO teco_market 
 (id, description, code, theme, is_default, name, version, marketplace_id)
@@ -286,200 +286,68 @@ set additional_information = '<p>Lorem ipsum dolor sit amet, consectetuer adipis
 INSERT INTO teco_store_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, store_id, attribute_definition_id, localization_code, market_area_id)
 VALUES 
-(10, null, null, null, null, null, 'Thousand Oaks', 10, 510, 'en', null),
-(11, null, null, null, null, null, 'Thousand Oaks', 10, 510, 'fr', null),
+(10, null, null, null, null, null, 'Thousand Oaks', 10, 5010, 'en', null),
+(11, null, null, null, null, null, 'Thousand Oaks', 10, 5010, 'fr', null),
 
-(20, null, null, null, null, null, 'Thousand Oaks', 20, 510, 'en', null),
-(21, null, null, null, null, null, 'Thousand Oaks', 20, 510, 'fr', null),
+(20, null, null, null, null, null, 'Thousand Oaks', 20, 5010, 'en', null),
+(21, null, null, null, null, null, 'Thousand Oaks', 20, 5010, 'fr', null),
 
-(30, null, null, null, null, null, 'Thousand Oaks', 30, 510, 'en', null),
-(31, null, null, null, null, null, 'Thousand Oaks', 30, 510, 'fr', null),
+(30, null, null, null, null, null, 'Thousand Oaks', 30, 5010, 'en', null),
+(31, null, null, null, null, null, 'Thousand Oaks', 30, 5010, 'fr', null),
 
-(40, null, null, null, null, null, 'Thousand Oaks', 40, 510, 'en', null),
-(41, null, null, null, null, null, 'Thousand Oaks', 40, 510, 'fr', null),
+(40, null, null, null, null, null, 'Thousand Oaks', 40, 5010, 'en', null),
+(41, null, null, null, null, null, 'Thousand Oaks', 40, 5010, 'fr', null),
 
-(50, null, null, null, null, null, 'Los Angeles', 50, 510, 'en', null),
-(51, null, null, null, null, null, 'Los Angeles', 50, 510, 'fr', null),
+(50, null, null, null, null, null, 'Los Angeles', 50, 5010, 'en', null),
+(51, null, null, null, null, null, 'Los Angeles', 50, 5010, 'fr', null),
 
-(60, null, null, null, null, null, 'Los Angeles', 60, 510, 'en', null),
-(61, null, null, null, null, null, 'Los Angeles', 60, 510, 'fr', null),
+(60, null, null, null, null, null, 'Los Angeles', 60, 5010, 'en', null),
+(61, null, null, null, null, null, 'Los Angeles', 60, 5010, 'fr', null),
 
-(70, null, null, null, null, null, 'Los Angeles', 70, 510, 'en', null),
-(71, null, null, null, null, null, 'Los Angeles', 70, 510, 'fr', null),
+(70, null, null, null, null, null, 'Los Angeles', 70, 5010, 'en', null),
+(71, null, null, null, null, null, 'Los Angeles', 70, 5010, 'fr', null),
 
-(80, null, null, null, null, null, 'Los Angeles', 80, 510, 'en', null),
-(81, null, null, null, null, null, 'Los Angeles', 80, 510, 'fr', null),
+(80, null, null, null, null, null, 'Los Angeles', 80, 5010, 'en', null),
+(81, null, null, null, null, null, 'Los Angeles', 80, 5010, 'fr', null),
 
-(90, null, null, null, null, null, 'Los Angeles', 90, 510, 'en', null),
-(91, null, null, null, null, null, 'Los Angeles', 90, 510, 'fr', null),
+(90, null, null, null, null, null, 'Los Angeles', 90, 5010, 'en', null),
+(91, null, null, null, null, null, 'Los Angeles', 90, 5010, 'fr', null),
 
-(100, null, null, null, null, null, 'Paris', 100, 510, 'en', null),
-(101, null, null, null, null, null, 'Paris', 100, 510, 'fr', null),
+(100, null, null, null, null, null, 'Paris', 100, 5010, 'en', null),
+(101, null, null, null, null, null, 'Paris', 100, 5010, 'fr', null),
 
-(110, null, null, null, null, null, 'Paris', 110, 510, 'en', null),
-(111, null, null, null, null, null, 'Paris', 110, 510, 'fr', null),
+(110, null, null, null, null, null, 'Paris', 110, 5010, 'en', null),
+(111, null, null, null, null, null, 'Paris', 110, 5010, 'fr', null),
 
-(120, null, null, null, null, null, 'Paris', 120, 510, 'en', null),
-(121, null, null, null, null, null, 'Paris', 120, 510, 'fr', null),
+(120, null, null, null, null, null, 'Paris', 120, 5010, 'en', null),
+(121, null, null, null, null, null, 'Paris', 120, 5010, 'fr', null),
 
-(130, null, null, null, null, null, 'Texas', 130, 510, 'en', null),
-(131, null, null, null, null, null, 'Texas', 130, 510, 'fr', null),
+(130, null, null, null, null, null, 'Texas', 130, 5010, 'en', null),
+(131, null, null, null, null, null, 'Texas', 130, 5010, 'fr', null),
 
-(140, null, null, null, null, null, 'Nevada', 140, 510, 'en', null),
-(141, null, null, null, null, null, 'Nevada', 140, 510, 'fr', null),
+(140, null, null, null, null, null, 'Nevada', 140, 5010, 'en', null),
+(141, null, null, null, null, null, 'Nevada', 140, 5010, 'fr', null),
 
-(150, null, null, null, null, null, 'Arizona', 150, 510, 'en', null),
-(151, null, null, null, null, null, 'Arizona', 150, 510, 'fr', null),
+(150, null, null, null, null, null, 'Arizona', 150, 5010, 'en', null),
+(151, null, null, null, null, null, 'Arizona', 150, 5010, 'fr', null),
 
-(160, null, null, null, null, null, 'Arizona', 160, 510, 'en', null),
-(161, null, null, null, null, null, 'Arizona', 160, 510, 'fr', null),
+(160, null, null, null, null, null, 'Arizona', 160, 5010, 'en', null),
+(161, null, null, null, null, null, 'Arizona', 160, 5010, 'fr', null),
 
-(170, null, null, null, null, null, 'New York', 170, 510, 'en', null),
-(171, null, null, null, null, null, 'New York', 170, 510, 'fr', null),
+(170, null, null, null, null, null, 'New York', 170, 5010, 'en', null),
+(171, null, null, null, null, null, 'New York', 170, 5010, 'fr', null),
 
-(180, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'en', null),
-(181, null, null, null, null, null, 'Ho Chi Minh', 180, 510, 'fr', null),
+(180, null, null, null, null, null, 'Ho Chi Minh', 180, 5010, 'en', null),
+(181, null, null, null, null, null, 'Ho Chi Minh', 180, 5010, 'fr', null),
 
-(190, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'en', null),
-(191, null, null, null, null, null, 'Ho Chi Minh', 190, 510, 'fr', null),
+(190, null, null, null, null, null, 'Ho Chi Minh', 190, 5010, 'en', null),
+(191, null, null, null, null, null, 'Ho Chi Minh', 190, 5010, 'fr', null),
 
-(200, null, null, null, null, null, 'Singapore', 200, 510, 'en', null),
-(201, null, null, null, null, null, 'Singapore', 200, 510, 'fr', null),
+(200, null, null, null, null, null, 'Singapore', 200, 5010, 'en', null),
+(201, null, null, null, null, null, 'Singapore', 200, 5010, 'fr', null),
 
-(210, null, null, null, null, null, 'Singapore', 210, 510, 'en', null),
-(211, null, null, null, null, null, 'Singapore', 210, 510, 'fr', null);
-
--- insert Operation Hour
-
-INSERT INTO teco_store_business_hour
-(closing_date_end, closing_date_start, end_hour, start_hour, monday, tuesday, wednesday, thursday, friday, saturday, sunday, store_id)
-VALUES
---- store id 10
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 10),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 10),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 10),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 10),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 10),
---- store id 20
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 20),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 20),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 20),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 20),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 20),
---- store id 30
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 30),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 30),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 30),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 30),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 30),
---- store id 40
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 40),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 40),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 40),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 40),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 40),
---- store id 50
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 50),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 50),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 50),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 50),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 50),
---- store id 60
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 60),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 60),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 60),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 60),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 60),
---- store id 70
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 70),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 70),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 70),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 70),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 70),
---- store id 80
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 80),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 80),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 80),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 80),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 80),
---- store id 90
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 90),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 90),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 90),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 90),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 90),
---- store id 100
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 100),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 100),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 100),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 100),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 100),
---- store id 110
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 110),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 110),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 110),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 110),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 110),
---- store id 120
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 120),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 120),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 120),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 120),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 120),
---- store id 130
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 130),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 130),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 130),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 130),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 130),
---- store id 140
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 140),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 140),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 140),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 140),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 140),
---- store id 150
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 150),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 150),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 150),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 150),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 150),
---- store id 160
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 160),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 160),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 160),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 160),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 160),
---- store id 170
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 170),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 170),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 170),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 170),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 170),
---- store id 180
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 180),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 180),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 180),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 180),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 180),
---- store id 190
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 190),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 190),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 190),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 190),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 190),
---- store id 200
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 200),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 200),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 200),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 200),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 200),
---- store id 210
-('6', '2', '10.00:PM', '8.00:AM', 1,0,0,0,0,0,0, 210),
-('6', '2', '11.00:PM', '9.00:AM', 0,1,0,0,0,0,0, 210),
-('6', '2', '12.00:PM', '10.00:AM', 0,0,1,0,0,0,0, 210),
-('6', '2', '8.00:PM', '8.00:AM', 0,0,0,1,0,0,0, 210),
-('6', '2', '7.00:PM', '9.00:AM', 0,0,0,0,1,0,0, 210);
+(210, null, null, null, null, null, 'Singapore', 210, 5010, 'en', null),
+(211, null, null, null, null, null, 'Singapore', 210, 5010, 'fr', null);
 
 
 INSERT INTO teco_asset  
@@ -816,20 +684,20 @@ INSERT INTO teco_catalog_virtual_category
 INSERT INTO teco_catalog_virtual_category_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, virtual_category_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1,  null, null, null, null, null, 'Just Brewed',  101, 200, null, 1),
-(2,  null, null, null, null, null, 'Light & Subtle',  102, 200, null, 1),
-(3,  null, null, null, null, null, 'Light & Distinctive',  103, 200, null, 1),
-(4,  null, null, null, null, null, 'Medium & Smooth',  104, 200, null, 1),
-(5,  null, null, null, null, null, 'Dark & Distincetive',  105, 200, null, 1),
-(6,  null, null, null, null, null, 'Just Steeped',  201, 200, null, 1),
-(7,  null, null, null, null, null, 'Green',  202, 200, null, 1),
-(8,  null, null, null, null, null, 'Herbal Infusion',  203, 200, null, 1),
-(9,  null, null, null, null, null, 'Powders',  301, 200, null, 1),
-(10, null, null, null, null, null, 'Drinkware', 302, 200, null, 1),
-(11,  null, null, null, null, null, 'Tea',  401, 200, null, 1),
-(12,  null, null, null, null, null, 'Coffee',  402, 200, null, 1),
-(13,  null, null, null, null, null, 'Feasts Fathers',  501, 200, null, 1),
-(14, null, null, null, null, null, "Mother's Day", 502, 200, null, 1);
+(1,  null, null, null, null, null, 'Just Brewed',  101, 1000, null, 1),
+(2,  null, null, null, null, null, 'Light & Subtle',  102, 1000, null, 1),
+(3,  null, null, null, null, null, 'Light & Distinctive',  103, 1000, null, 1),
+(4,  null, null, null, null, null, 'Medium & Smooth',  104, 1000, null, 1),
+(5,  null, null, null, null, null, 'Dark & Distincetive',  105, 1000, null, 1),
+(6,  null, null, null, null, null, 'Just Steeped',  201, 1000, null, 1),
+(7,  null, null, null, null, null, 'Green',  202, 1000, null, 1),
+(8,  null, null, null, null, null, 'Herbal Infusion',  203, 1000, null, 1),
+(9,  null, null, null, null, null, 'Powders',  301, 1000, null, 1),
+(10, null, null, null, null, null, 'Drinkware', 302, 1000, null, 1),
+(11,  null, null, null, null, null, 'Tea',  401, 1000, null, 1),
+(12,  null, null, null, null, null, 'Coffee',  402, 1000, null, 1),
+(13,  null, null, null, null, null, 'Feasts Fathers',  501, 1000, null, 1),
+(14, null, null, null, null, null, "Mother's Day", 502, 1000, null, 1);
 
 
 INSERT INTO teco_catalog_master_category_child_category_rel  
@@ -938,56 +806,56 @@ Capacity: 16 oz', 'PROD49', 0, 'The Jaidun Tumbler', 1, 20, 302),
 INSERT INTO teco_product_marketing_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, product_marketing_id, attribute_definition_id, localization_code, market_area_id) 
 VALUES 
-(1, null, null, null, null, null, 'Blueberry Streusel Coffee', 1, 300, null, 1),
-(2, null, null, null, null, null, 'Bali Blue Moon Coffee', 2, 300, null, 1),
-(3, null, null, null, null, null, 'World Art Tumbler', 3, 300, null, 1),
-(4, null, null, null, null, null, 'Brazil Cerrado Coffee', 4, 300, null, 1),
-(5, null, null, null, null, null, 'House Blend Coffee', 5, 300, null, 1),
-(6, null, null, null, null, null, 'Decaf House Blend Coffee', 6, 300, null, 1),
-(7, null, null, null, null, null, 'House Blend Coffee 24 2oz Portion Packs', 7, 300, null, 1),
-(8, null, null, null, null, null, 'Ethiopia Yirgacheffe Coffee', 8, 300, null, 1),
-(9, null, null, null, null, null, 'Kenya AA Coffee', 9, 300, null, 1),
-(10, null, null, null, null, null, 'Colombia Narino Coffee', 10, 300, null, 1),
-(11, null, null, null, null, null, 'Costa Rica Cascada Tarrazu Coffee', 11, 300, null, 1),
-(12, null, null, null, null, null, 'Costa Rica La Minita Tarrazu Coffee', 12, 300, null, 1),
-(13, null, null, null, null, null, 'Decaf Colombia Narino Coffee', 13, 300, null, 1),
-(14, null, null, null, null, null, 'Guatemala Antigua Coffee', 14, 300, null, 1),
-(15, null, null, null, null, null, 'Mocha Java Coffee', 15, 300, null, 1),
-(16, null, null, null, null, null, 'Papua New Guinea Sigri Coffee', 16, 300, null, 1),
-(17, null, null, null, null, null, 'Sumatra Mandheling Coffee', 17, 300, null, 1),
-(18, null, null, null, null, null, 'Breakfast Blend Coffee', 18, 300, null, 1),
-(19, null, null, null, null, null, 'Colombia Narino Coffee, 24 2oz Portion Packs', 19, 300, null, 1),
-(20, null, null, null, null, null, 'Costa Rica Coffee, 24 2oz Portion Packs', 20, 300, null, 1),
-(21, null, null, null, null, null, 'Holiday Blend Coffee', 21, 300, null, 1),
-(22, null, null, null, null, null, 'Bali Blue Moon Coffee', 22, 300, null, 1),
-(23, null, null, null, null, null, 'University Blend Coffee', 23, 300, null, 1),
-(24, null, null, null, null, null, 'Harvest Blend Coffee', 24, 300, null, 1),
-(25, null, null, null, null, null, 'Decaf Espesso Roast Coffee', 25, 300, null, 1),
-(26, null, null, null, null, null, 'Decaf French Roast Coffee', 26, 300, null, 1),
-(27, null, null, null, null, null, 'Decaf Viennese Coffee', 27, 300, null, 1),
-(28, null, null, null, null, null, 'French Roast Coffee', 28, 300, null, 1),
-(29, null, null, null, null, null, 'Italian Roast Coffee', 29, 300, null, 1),
-(30, null, null, null, null, null, 'Tanzania Peaberry Coffee', 30, 300, null, 1),
-(31, null, null, null, null, null, 'Colombia Narino Dark Coffee', 31, 300, null, 1),
-(32, null, null, null, null, null, 'Espresso Roast Coffee', 32, 300, null, 1),
-(33, null, null, null, null, null, 'Master Davey Set: Blue Tiger Tea & Book', 33, 300, null, 1),
-(34, null, null, null, null, null, 'Winter Dream Tea', 34, 300, null, 1),
-(35, null, null, null, null, null, 'Peppermint Stick Tea', 35, 300, null, 1),
-(36, null, null, null, null, null, 'Los Angeles Sunshine Blend Tea', 36, 300, null, 1),
-(37, null, null, null, null, null, 'Georgia Peach Ginger White Tea', 37, 300, null, 1),
-(38, null, null, null, null, null, 'Jasmine Dragon Phoenix Pearl Tea', 38, 300, null, 1),
-(39, null, null, null, null, null, 'Genmaicha Green Tea', 39, 300, null, 1),
-(40, null, null, null, null, null, 'Lung Ching Dragonwell Tea', 40, 300, null, 1),
-(41, null, null, null, null, null, 'Decaf Green Tea', 41, 300, null, 1),
-(42, null, null, null, null, null, 'Swedish Berries Tea', 42, 300, null, 1),
-(43, null, null, null, null, null, 'Chai Rooibos Tea', 43, 300, null, 1),
-(44, null, null, null, null, null, 'African Sunrise Tea', 44, 300, null, 1),
-(45, null, null, null, null, null, 'French Deluxe Vanilla Powder', 45, 300, null, 1),
-(46, null, null, null, null, null, 'Special Dutch Chocolate Powder, no Sugar', 46, 300, null, 1),
-(47, null, null, null, null, null, 'Americana Tumbler', 47, 300, null, 1),
-(48, null, null, null, null, null, 'Bergamo Bottle', 48, 300, null, 1),
-(49, null, null, null, null, null, 'The Jaidun Tumbler', 49, 300, null, 1),
-(50, null, null, null, null, null, 'Bamboo Ceramic Tea Set', 50, 300, null, 1);
+(1, null, null, null, null, null, 'Blueberry Streusel Coffee', 1, 2000, null, 1),
+(2, null, null, null, null, null, 'Bali Blue Moon Coffee', 2, 2000, null, 1),
+(3, null, null, null, null, null, 'World Art Tumbler', 3, 2000, null, 1),
+(4, null, null, null, null, null, 'Brazil Cerrado Coffee', 4, 2000, null, 1),
+(5, null, null, null, null, null, 'House Blend Coffee', 5, 2000, null, 1),
+(6, null, null, null, null, null, 'Decaf House Blend Coffee', 6, 2000, null, 1),
+(7, null, null, null, null, null, 'House Blend Coffee 24 2oz Portion Packs', 7, 2000, null, 1),
+(8, null, null, null, null, null, 'Ethiopia Yirgacheffe Coffee', 8, 2000, null, 1),
+(9, null, null, null, null, null, 'Kenya AA Coffee', 9, 2000, null, 1),
+(10, null, null, null, null, null, 'Colombia Narino Coffee', 10, 2000, null, 1),
+(11, null, null, null, null, null, 'Costa Rica Cascada Tarrazu Coffee', 11, 2000, null, 1),
+(12, null, null, null, null, null, 'Costa Rica La Minita Tarrazu Coffee', 12, 2000, null, 1),
+(13, null, null, null, null, null, 'Decaf Colombia Narino Coffee', 13, 2000, null, 1),
+(14, null, null, null, null, null, 'Guatemala Antigua Coffee', 14, 2000, null, 1),
+(15, null, null, null, null, null, 'Mocha Java Coffee', 15, 2000, null, 1),
+(16, null, null, null, null, null, 'Papua New Guinea Sigri Coffee', 16, 2000, null, 1),
+(17, null, null, null, null, null, 'Sumatra Mandheling Coffee', 17, 2000, null, 1),
+(18, null, null, null, null, null, 'Breakfast Blend Coffee', 18, 2000, null, 1),
+(19, null, null, null, null, null, 'Colombia Narino Coffee, 24 2oz Portion Packs', 19, 2000, null, 1),
+(20, null, null, null, null, null, 'Costa Rica Coffee, 24 2oz Portion Packs', 20, 2000, null, 1),
+(21, null, null, null, null, null, 'Holiday Blend Coffee', 21, 2000, null, 1),
+(22, null, null, null, null, null, 'Bali Blue Moon Coffee', 22, 2000, null, 1),
+(23, null, null, null, null, null, 'University Blend Coffee', 23, 2000, null, 1),
+(24, null, null, null, null, null, 'Harvest Blend Coffee', 24, 2000, null, 1),
+(25, null, null, null, null, null, 'Decaf Espesso Roast Coffee', 25, 2000, null, 1),
+(26, null, null, null, null, null, 'Decaf French Roast Coffee', 26, 2000, null, 1),
+(27, null, null, null, null, null, 'Decaf Viennese Coffee', 27, 2000, null, 1),
+(28, null, null, null, null, null, 'French Roast Coffee', 28, 2000, null, 1),
+(29, null, null, null, null, null, 'Italian Roast Coffee', 29, 2000, null, 1),
+(30, null, null, null, null, null, 'Tanzania Peaberry Coffee', 30, 2000, null, 1),
+(31, null, null, null, null, null, 'Colombia Narino Dark Coffee', 31, 2000, null, 1),
+(32, null, null, null, null, null, 'Espresso Roast Coffee', 32, 2000, null, 1),
+(33, null, null, null, null, null, 'Master Davey Set: Blue Tiger Tea & Book', 33, 2000, null, 1),
+(34, null, null, null, null, null, 'Winter Dream Tea', 34, 2000, null, 1),
+(35, null, null, null, null, null, 'Peppermint Stick Tea', 35, 2000, null, 1),
+(36, null, null, null, null, null, 'Los Angeles Sunshine Blend Tea', 36, 2000, null, 1),
+(37, null, null, null, null, null, 'Georgia Peach Ginger White Tea', 37, 2000, null, 1),
+(38, null, null, null, null, null, 'Jasmine Dragon Phoenix Pearl Tea', 38, 2000, null, 1),
+(39, null, null, null, null, null, 'Genmaicha Green Tea', 39, 2000, null, 1),
+(40, null, null, null, null, null, 'Lung Ching Dragonwell Tea', 40, 2000, null, 1),
+(41, null, null, null, null, null, 'Decaf Green Tea', 41, 2000, null, 1),
+(42, null, null, null, null, null, 'Swedish Berries Tea', 42, 2000, null, 1),
+(43, null, null, null, null, null, 'Chai Rooibos Tea', 43, 2000, null, 1),
+(44, null, null, null, null, null, 'African Sunrise Tea', 44, 2000, null, 1),
+(45, null, null, null, null, null, 'French Deluxe Vanilla Powder', 45, 2000, null, 1),
+(46, null, null, null, null, null, 'Special Dutch Chocolate Powder, no Sugar', 46, 2000, null, 1),
+(47, null, null, null, null, null, 'Americana Tumbler', 47, 2000, null, 1),
+(48, null, null, null, null, null, 'Bergamo Bottle', 48, 2000, null, 1),
+(49, null, null, null, null, null, 'The Jaidun Tumbler', 49, 2000, null, 1),
+(50, null, null, null, null, null, 'Bamboo Ceramic Tea Set', 50, 2000, null, 1);
 
 
 INSERT INTO teco_product_sku 
@@ -1159,10 +1027,9 @@ INSERT INTO teco_catalog_virtual_category_product_marketing_rel
 (302, 49),
 (302, 50);
 
-
 INSERT INTO teco_product_marketing_attribute
 (boolean_value,is_global,market_area_id,ordering,version,attribute_definition_id,product_marketing_id)
-VALUES (1,0,1,0,1,520,1), (1,0,1,0,1,520,2), (1,0,1,0,1,520,3), (1,0,1,0,1,520,4);
+VALUES (1,0,1,0,1,2020,1), (1,0,1,0,1,2020,2), (1,0,1,0,1,2020,3), (1,0,1,0,1,2020,4);
 
 -- PRICE
 
@@ -1342,7 +1209,6 @@ VALUES
 (1108, 102, 14.95, 1, 45, 53),
 (1109, 102, 14.95, 1, 45, 54),
 (1110, 102, 18.95, 1, 45, 55);
-
 
 INSERT INTO teco_asset  
 (id, description, code, path, is_default, name, version, type, size, is_global, master_category_id, scope)
@@ -1662,6 +1528,15 @@ VALUES
 (40, 14.35, 150, 40),
 (50, 15.35, 150, 50),
 (60, 16.35, 150, 60);
+
+-- TAX
+INSERT INTO teco_market_area_tax_rel  
+(market_area_id, tax_id)
+ VALUES 
+(101, 10),
+(101, 20),
+(101, 30),
+(101, 40);
 
 -- RULE | PROMO
 

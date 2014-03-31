@@ -50,8 +50,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("taxController")
 public class TaxController extends AbstractBusinessBackofficeController {
 
-    public static final String SESSION_KEY = "PagedListHolder_Taxes";
-
     @Autowired
     private TaxService taxService;
 
@@ -68,7 +66,9 @@ public class TaxController extends AbstractBusinessBackofficeController {
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.TAX_LIST.getKey() + ".by.market.area", params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_LIST.getKey() + ".by.market.area", params);
+
+        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.TAX_ADD, requestData));
 
         return modelAndView;
     }
@@ -81,19 +81,18 @@ public class TaxController extends AbstractBusinessBackofficeController {
         final String taxCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_TAX_CODE);
         final Tax tax = taxService.getTaxByCode(taxCode);
         
-        TaxViewBean taxViewBean = backofficeViewBeanFactory.buildViewBeanTax(requestData, tax);
-
-        if(taxViewBean == null){
+        // SANITY CHECK
+        if(tax != null){
+            modelAndView.addObject(ModelConstants.TAX_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanTax(requestData, tax));
+        } else {
             final String url = requestUtil.getLastRequestUrl(request);
             return new ModelAndView(new RedirectView(url));
         }
-        
+
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData));
         
-        request.setAttribute(ModelConstants.TAX_VIEW_BEAN, taxViewBean);
-
         Object[] params = {tax.getName() + " (" + tax.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.TAX_DETAILS.getKey(), params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -104,27 +103,30 @@ public class TaxController extends AbstractBusinessBackofficeController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         final String taxCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_TAX_CODE);
-        final Tax tax = taxService.getTaxByCode(taxCode);
-        
-        TaxViewBean taxViewBean = backofficeViewBeanFactory.buildViewBeanTax(requestData, tax);
-        
-        if(taxViewBean == null){
-            final String url = requestUtil.getLastRequestUrl(request);
-            return new ModelAndView(new RedirectView(url));
+        if(StringUtils.isNotEmpty(taxCode)){
+            // EDIT MODE
+            final Tax tax = taxService.getTaxByCode(taxCode);
+
+            TaxViewBean taxViewBean = backofficeViewBeanFactory.buildViewBeanTax(requestData, tax);
+            request.setAttribute(ModelConstants.TAX_VIEW_BEAN, taxViewBean);
+
+            Object[] params = {tax.getName() + " (" + tax.getCode() + ")"};
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_EDIT.getKey(), params);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax));
+        } else {
+            // ADD MODE
+
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_ADD.getKey(), null);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData));
         }
         
-        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax));
-        
-        request.setAttribute(ModelConstants.TAX_VIEW_BEAN, taxViewBean);
-        
-        Object[] params = {tax.getName() + " (" + tax.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.TAX_DETAILS.getKey(), params);
-
         return modelAndView;
     }
     
     @RequestMapping(value = BoUrls.TAX_EDIT_URL, method = RequestMethod.POST)
-    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.TAX_FORM) TaxForm taxForm,
+    public ModelAndView submitTaxEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.TAX_FORM) TaxForm taxForm,
                                 BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -133,19 +135,23 @@ public class TaxController extends AbstractBusinessBackofficeController {
             return taxEdit(request, model, taxForm);
         }
         
-        Tax tax = new Tax();
+        Tax tax = null;
         if(StringUtils.isNotEmpty(taxForm.getId())){
             tax = taxService.getTaxById(taxForm.getId());
         }
 
         try {
             // CREATE OR UPDATE TAX
-//            webBackofficeService.createOrUpdateTax(tax, taxForm);
+            webBackofficeService.createOrUpdateTax(tax, taxForm);
             
-            if(tax == null){
+            if (tax == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "create_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData);
+                return new ModelAndView(new RedirectView(urlRedirect));
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.TAX, "update_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax);
+                return new ModelAndView(new RedirectView(urlRedirect));
             }
             
         } catch (Exception e) {
@@ -153,9 +159,6 @@ public class TaxController extends AbstractBusinessBackofficeController {
             logger.error("Can't save or update Tax:" + taxForm.getId() + "/" + taxForm.getCode(), e);
             return taxEdit(request, model, taxForm);
         }
-        
-        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax);
-        return new ModelAndView(new RedirectView(urlRedirect));
     }
 
     /**
@@ -177,16 +180,17 @@ public class TaxController extends AbstractBusinessBackofficeController {
     protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
         String url = request.getRequestURI();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+        String sessionKey = "PagedListHolder_Taxes";
         
         PagedListHolder<TaxViewBean> taxViewBeanPagedListHolder = new PagedListHolder<TaxViewBean>();
 
         if(StringUtils.isEmpty(page)){
-            taxViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+            taxViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             
         } else {
-            taxViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+            taxViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
             if (taxViewBeanPagedListHolder == null) { 
-                taxViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+                taxViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             }
             int pageTarget = new Integer(page).intValue() - 1;
             int pageCurrent = taxViewBeanPagedListHolder.getPage();
@@ -206,7 +210,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
     
     protected PagedListHolder<TaxViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
-        List<Tax> taxs = taxService.findTaxes();
+        List<Tax> taxs = taxService.findTaxesByMarketAreaId(marketArea.getId());
 
         PagedListHolder<TaxViewBean> TaxViewBeanPagedListHolder = new PagedListHolder<TaxViewBean>();
         

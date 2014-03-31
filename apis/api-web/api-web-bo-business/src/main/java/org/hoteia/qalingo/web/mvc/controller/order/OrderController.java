@@ -56,55 +56,67 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		final String contentText = getSpecificMessage(ScopeWebMessage.ORDER, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
-		String url = request.getRequestURI();
-		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
-		String sessionKey = "PagedListHolder_Orders";
+		displayList(request, model, requestData);
 		
-		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>();
-		
-        if(StringUtils.isEmpty(page)){
-        	orderViewBeanPagedListHolder = initList(request, sessionKey);
-    		
-        } else {
-        	orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
-	        if (orderViewBeanPagedListHolder == null) { 
-	        	orderViewBeanPagedListHolder = initList(request, sessionKey);
-	        }
-	        int pageTarget = new Integer(page).intValue() - 1;
-	        int pageCurrent = orderViewBeanPagedListHolder.getPage();
-	        if (pageCurrent < pageTarget) { 
-	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		orderViewBeanPagedListHolder.nextPage(); 
-				}
-	        } else if (pageCurrent > pageTarget) { 
-	        	for (int i = pageTarget; i < pageCurrent; i++) {
-	        		orderViewBeanPagedListHolder.previousPage(); 
-				}
-	        } 
-        }
-		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
-		
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_LIST.getKey(), null);
+
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.ORDER_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView orderDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ORDER_DETAILS.getVelocityPage());
-
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
 		final String orderNum = request.getParameter(RequestConstants.REQUEST_PARAMETER_ORDER_NUM);
 		final OrderCustomer orderCustomer = orderCustomerService.getOrderByOrderNum(orderNum);
 		
 		if(orderCustomer != null){
-			initOrderDetailsPage(request, model, modelAndView, orderCustomer);
+	        modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), orderCustomer));
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
 		}
 		
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ORDER_LIST, requestData));
+        
+        Object[] params = {orderCustomer.getOrderNum()};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_DETAILS.getKey(), params);
+		
         return modelAndView;
 	}
 	
+    protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
+        String url = request.getRequestURI();
+        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+        String sessionKey = "PagedListHolder_Orders";
+        
+        PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>();
+        
+        if(StringUtils.isEmpty(page)){
+            orderViewBeanPagedListHolder = initList(request, sessionKey);
+            
+        } else {
+            orderViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
+            if (orderViewBeanPagedListHolder == null) { 
+                orderViewBeanPagedListHolder = initList(request, sessionKey);
+            }
+            int pageTarget = new Integer(page).intValue() - 1;
+            int pageCurrent = orderViewBeanPagedListHolder.getPage();
+            if (pageCurrent < pageTarget) { 
+                for (int i = pageCurrent; i < pageTarget; i++) {
+                    orderViewBeanPagedListHolder.nextPage(); 
+                }
+            } else if (pageCurrent > pageTarget) { 
+                for (int i = pageTarget; i < pageCurrent; i++) {
+                    orderViewBeanPagedListHolder.previousPage(); 
+                }
+            } 
+        }
+        model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
+        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
+    }
+        
 	private PagedListHolder<OrderViewBean> initList(final HttpServletRequest request, String sessionKey) throws Exception{
 		PagedListHolder<OrderViewBean> orderViewBeanPagedListHolder = new PagedListHolder<OrderViewBean>();
 		
@@ -121,8 +133,4 @@ public class OrderController extends AbstractBusinessBackofficeController {
         return orderViewBeanPagedListHolder;
 	}
     
-	protected void initOrderDetailsPage(final HttpServletRequest request, final Model model, final ModelAndViewThemeDevice modelAndView, final OrderCustomer user) throws Exception{
-		modelAndView.addObject(ModelConstants.ORDER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanOrder(requestUtil.getRequestData(request), user));
-	}
-
 }

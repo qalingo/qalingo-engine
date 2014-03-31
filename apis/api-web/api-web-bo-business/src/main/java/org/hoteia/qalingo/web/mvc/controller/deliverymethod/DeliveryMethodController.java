@@ -25,6 +25,7 @@ import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphDeliveryMethod;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -71,8 +72,10 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		displayList(request, model, requestData);
 		
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.DELIVERY_METHOD_LIST.getKey() + ".by.market.area", params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_LIST.getKey() + ".by.market.area", params);
 
+        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_ADD, requestData));
+        
         return modelAndView;
 	}
 	
@@ -82,10 +85,18 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
 		final String currentDeliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+		
+        // SANITY CHECK
+        if(StringUtils.isEmpty(currentDeliveryMethodCode)){
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        
 		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodCode);
 		
+        // SANITY CHECK
 		if(deliveryMethod != null){
-			initDeliveryMethodDetailsPage(requestUtil.getRequestData(request), model, modelAndView, deliveryMethod);
+	        modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, deliveryMethod));
 		} else {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
@@ -97,32 +108,42 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
             Warehouse warehouse = (Warehouse) iterator.next();
             warehouseViewBeans.add(backofficeViewBeanFactory.buildViewBeanWarehouse(requestUtil.getRequestData(request), warehouse));
         }
-        request.setAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN, warehouseViewBeans);
+        request.setAttribute(ModelConstants.WAREHOUSES_VIEW_BEAN, warehouseViewBeans);
         
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		
         Object[] params = {deliveryMethod.getName() + " (" + deliveryMethod.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.DELIVERY_METHOD_DETAILS.getKey(), params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView deliveryMethodEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.DELIVERY_METHOD_FORM) DeliveryMethodForm deliveryMethodForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_EDIT.getVelocityPage());
-		final RequestData requestData = requestUtil.getRequestData(request);
-		
-		final String currentDeliveryMethodId = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
-		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodId);
-		
-		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, deliveryMethod));
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_EDIT.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+        if(StringUtils.isNotEmpty(deliveryMethodCode)){
+            // EDIT MODE
+            final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode, FetchPlanGraphDeliveryMethod.fullDeliveryMethodFetchPlan());
 
-        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
+            DeliveryMethodViewBean deliveryMethodViewBean = backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, deliveryMethod);
+            request.setAttribute(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, deliveryMethodViewBean);
 
-        Object[] params = {deliveryMethod.getName() + " (" + deliveryMethod.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.DELIVERY_METHOD_EDIT.getKey(), params);
+            Object[] params = {deliveryMethod.getName() + " (" + deliveryMethod.getCode() + ")"};
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_EDIT.getKey(), params);
 
-		return modelAndView;
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
+        } else {
+            // ADD MODE
+
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_ADD.getKey(), null);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
+        }
+        
+        return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_EDIT_URL, method = RequestMethod.POST)
@@ -131,30 +152,34 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
-		final String currentDeliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
-		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodCode);
-		
 		if (result.hasErrors()) {
 			return deliveryMethodEdit(request, model, deliveryMethodForm);
 		}
 
+        DeliveryMethod deliveryMethod = null;
+        if(StringUtils.isNotEmpty(deliveryMethodForm.getId())){
+            deliveryMethod = deliveryMethodService.getDeliveryMethodById(deliveryMethodForm.getId());
+        }
+
 		try {
-    		// CREATE OR UPDATE WAREHOUSE
+    		// CREATE OR UPDATE DELIVERY METHOD
     		webBackofficeService.createOrUpdateDeliveryMethod(deliveryMethod, deliveryMethodForm);
     		
-    		if(deliveryMethod == null){
-    	        addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_success_message", locale));
-    		} else {
-    	        addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "update_success_message", locale));
-    		}
+            if (deliveryMethod == null) {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestUtil.getRequestData(request));
+                return new ModelAndView(new RedirectView(urlRedirect));
+            } else {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "update_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestUtil.getRequestData(request), deliveryMethod);
+                return new ModelAndView(new RedirectView(urlRedirect));
+            }
+ 
         } catch (Exception e) {
             addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_or_update_message", locale));
             logger.error("Can't save or update Delivery Method:" + deliveryMethodForm.getId() + "/" + deliveryMethodForm.getCode(), e);
             return deliveryMethodEdit(request, model, deliveryMethodForm);
         }
-		
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestUtil.getRequestData(request), deliveryMethod);
-        return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
     /**
@@ -223,8 +248,4 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
         return deliveryMethodViewBeanPagedListHolder;
 	}
     
-	protected void initDeliveryMethodDetailsPage(final RequestData requestData, final Model model, final ModelAndViewThemeDevice modelAndView, final DeliveryMethod user) throws Exception{
-		modelAndView.addObject(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanDeliveryMethod(requestData, user));
-	}
-
 }

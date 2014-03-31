@@ -116,7 +116,7 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, deliveryMethodUrls));
 		menu.setCssIcon("fa fa-truck");
-		menu.setName("Delivery Option");
+		menu.setName("Delivery Method");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		menuViewBeans.add(menu);
 		

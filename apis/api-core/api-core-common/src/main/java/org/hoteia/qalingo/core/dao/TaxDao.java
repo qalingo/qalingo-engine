@@ -20,7 +20,9 @@ public interface TaxDao {
     Tax getTaxByCode(String taxCode, Object... params);
 
     List<Tax> findTaxes(Object... params);
-    
+
+    List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params);
+
     Tax saveOrUpdateTax(Tax tax);
 
     void deleteTax(Tax tax);

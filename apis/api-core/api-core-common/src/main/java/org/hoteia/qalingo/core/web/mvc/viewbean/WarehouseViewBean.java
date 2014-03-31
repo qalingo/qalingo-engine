@@ -109,7 +109,7 @@ public class WarehouseViewBean extends AbstractViewBean implements Serializable 
     public void setEditUrl(String editUrl) {
         this.editUrl = editUrl;
     }
-
+    
 	public String getMetaShareTitle() {
 		String metaShareTitle = getName();
 		metaShareTitle = encodeQuote(metaShareTitle);

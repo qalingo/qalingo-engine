@@ -51,6 +51,9 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 
         List<String> engineSettingUrls = new ArrayList<String>();
         engineSettingUrls.add(BoUrls.ENGINE_SETTING_LIST.getUrlWithoutWildcard());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_DETAILS.getUrlWithoutWildcard());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_EDIT.getUrlWithoutWildcard());
+        engineSettingUrls.add(BoUrls.ENGINE_SETTING_VALUE_EDIT.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, engineSettingUrls));
@@ -79,6 +82,18 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.BATCH, requestData));
 		menuViewBeans.add(menu);
 		
+        List<String> paymentGatewayUrls = new ArrayList<String>();
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_LIST.getUrlWithoutWildcard());
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_DETAILS.getUrlWithoutWildcard());
+        paymentGatewayUrls.add(BoUrls.PAYMENT_GATEWAY_EDIT.getUrlWithoutWildcard());
+
+        menu = new MenuViewBean();
+        menu.setActive(menuIsActive(currentUrl, paymentGatewayUrls));
+        menu.setCssIcon("fa fa-money");
+        menu.setName("Payment Gateway");
+        menu.setUrl(backofficeUrlService.generateUrl(BoUrls.PAYMENT_GATEWAY_LIST, requestData));
+        menuViewBeans.add(menu);
+
         List<String> userUrls = new ArrayList<String>();
         userUrls.add(BoUrls.USER_LIST.getUrlWithoutWildcard());
         userUrls.add(BoUrls.USER_DETAILS.getUrlWithoutWildcard());
@@ -87,7 +102,7 @@ public class BoTechnicalViewBeanFactoryImpl extends BackofficeViewBeanFactoryImp
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, userUrls));
 		menu.setCssIcon("fa fa-group");
-		menu.setName("Users");
+		menu.setName("User");
 		menu.setUrl(backofficeUrlService.generateUrl(BoUrls.USER_LIST, requestData));
 		menuViewBeans.add(menu);
 		

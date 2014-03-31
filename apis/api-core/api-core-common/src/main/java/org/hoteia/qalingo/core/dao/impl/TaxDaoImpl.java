@@ -14,9 +14,9 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.TaxDao;
 import org.hoteia.qalingo.core.domain.Tax;
-import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
@@ -60,6 +60,21 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
         @SuppressWarnings("unchecked")
         List<Tax> taxes = criteria.list();
 
+        return taxes;
+    }
+    
+    public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+
+        handleSpecificFetchMode(criteria, params);
+
+        criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Tax> taxes = criteria.list();
         return taxes;
     }
     

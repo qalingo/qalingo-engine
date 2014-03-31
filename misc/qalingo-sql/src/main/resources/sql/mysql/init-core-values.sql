@@ -64,10 +64,57 @@ INSERT INTO tbo_group_role_rel VALUES
 
 -- ECO GLOBAL
 
--- ATTRIBUTES
+-- ATTRIBUTES : CATALOG CATEGORY
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
 VALUES 
+(1000, 'Catalog Category attribute name', 'Catalog Category attribute name', 'CATALOG_CATEGORY_I18N_NAME', 1, 1, 1, 1, 0, 1),
+(1010, 'Catalog Category attribute order', 'Catalog Category attribute order', 'CATALOG_CATEGORY_ORDER', 4, 1, 0, 0, 0, 1);
+
+-- ATTRIBUTES : PRODUCT MARKETING
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(2000, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_I18N_NAME', 1, 2, 1, 1, 0, 1),
+(2010, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ORDER', 4, 2, 0, 0, 0, 1),
+(2020, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED', 6, 2, 0, 1, 0, 1);
+
+-- ATTRIBUTES : PRODUCT SKU
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(3000, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_I18N_NAME', 1, 3, 1, 1, 0, 1),
+(3010, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ORDER', 4, 3, 0, 0, 0, 1),
+(3020, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_WIDTH', 4, 3, 0, 1, 0, 1),
+(3030, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_HEIGHT', 4, 3, 1, 0, 0, 1),
+(3040, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_LENGTH', 4, 3, 1, 0, 0, 1),
+(3050, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_WEIGHT', 4, 3, 1, 0, 0, 1);
+
+-- ATTRIBUTES : CUSTOMER
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(4000, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_SCREENNAME', 1, 4, 1, 1, 0, 1);
+
+-- ATTRIBUTES : STORE
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(5000, 'Store attribute order', 'Store attribute order', 'STORE_ORDER', 4, 5, 0, 0, 0, 1),
+(5010, 'Store attribute city name', 'Store attribute city name', 'STORE_I18N_CITY', 1, 5, 0, 0, 0, 1);
+
+-- ATTRIBUTES : PAYMENT GATEWAY
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(6000, 'Payment Gateway client id', 'Payment Gateway client id', 'PAYMENT_GATEWAY_CLIENT_TOKEN', 1, 6, 0, 0, 0, 1);
+
+-- ATTRIBUTES : MARKET AREA
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(8000, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
+(8001, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (1, 'Market Area Email From Address (Generic)', 'Market Area Email From Address (Generic)', 'MARKET_AREA_EMAIL_FROM_ADDRESS', 1, 8, 0, 0, 0, 1),
 (2, 'Market Area Email From Name (Generic)', 'Market Area Email From Name(Generic)', 'MARKET_AREA_EMAIL_FROM_NAME', 1, 8, 0, 0, 0, 1),
 (3, 'Market Area Email Contact (To)', 'Market Area Email Contact (To)', 'MARKET_AREA_EMAIL_CONTACT', 1, 8, 0, 0, 0, 1),
@@ -76,24 +123,13 @@ VALUES
 (7, 'Market Area Save Payment informations', 'Market Area Save Payment informations', 'MARKET_AREA_SAVE_PAYMENT_INFORMATION', 6, 8, 0, 0, 0, 1),
 (8, 'Market Area Order confirmation template file path', 'Market Area Order confirmation template file path', 'MARKET_AREA_ORDER_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
 (9, 'Market Area Shipping confirmation template file path', 'Market Area Shipping confirmation template file path', 'MARKET_AREA_SHIPPING_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
-(10, 'Market Area Invoice template file path', 'Market Area Invoice template file path', 'MARKET_AREA_INVOICE_TEMPLATE', 1, 8, 0, 0, 0, 1),
-(100, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_ATTRIBUTE_SCREENNAME', 1, 4, 1, 1, 0, 1),
-(200, 'Product Category attribute name', 'Product Category attribute name', 'CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME', 1, 1, 1, 1, 0, 1),
-(210, 'Product Category attribute order', 'Product Category attribute order', 'CATALOG_CATEGORY_ATTRIBUTE_ORDER', 4, 1, 0, 0, 0, 1),
-(300, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME', 1, 2, 1, 1, 0, 1),
-(310, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ATTRIBUTE_ORDER', 4, 2, 0, 0, 0, 1),
-(400, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_ATTRIBUTE_I18N_NAME', 1, 3, 1, 1, 0, 1),
-(410, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ATTRIBUTE_ORDER', 4, 3, 0, 0, 0, 1),
-(420, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_ATTRIBUTE_WIDTH', 4, 3, 0, 1, 0, 1),
-(430, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_ATTRIBUTE_HEIGHT', 4, 3, 1, 0, 0, 1),
-(440, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_ATTRIBUTE_LENGTH', 4, 3, 1, 0, 0, 1),
-(450, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_ATTRIBUTE_WEIGHT', 4, 3, 1, 0, 0, 1),
-(500, 'Store attribute order', 'Store attribute order', 'STORE_ATTRIBUTE_ORDER', 4, 5, 0, 0, 0, 1),
-(510, 'Store attribute city name', 'Store attribute city name', 'STORE_ATTRIBUTE_I18N_CITY', 1, 5, 0, 0, 0, 1),
-(520, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_ATTRIBUTE_FEATURED', 6, 2, 0, 1, 0, 1),
-(600, 'Market Place Domaine name', 'Market Place Domaine name', 'MARKET_PLACE_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
-(700, 'Market Domaine name', 'Market Domaine name', 'MARKET_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
-(1000, 'Tax alias name', 'Tax alias name', 'TAX_ALIAS_NAME', 1, 9, 0, 0, 0, 1);
+(10, 'Market Area Invoice template file path', 'Market Area Invoice template file path', 'MARKET_AREA_INVOICE_TEMPLATE', 1, 8, 0, 0, 0, 1);
+
+-- ATTRIBUTES : TAX
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+VALUES 
+(9000, 'Tax alias name', 'Tax alias name', 'TAX_ALIAS_NAME', 1, 9, 0, 0, 0, 1);
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting
@@ -483,10 +519,10 @@ VALUES
 INSERT INTO teco_tax_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, tax_id, attribute_definition_id, localization_code, market_area_id)
 VALUES 
-(10, null, null, null, null, null, 'TVA', 10, 1000, null, null),
-(20, null, null, null, null, null, 'TVA', 20, 1000, null, null),
-(30, null, null, null, null, null, 'TVA', 30, 1000, null, null),
-(40, null, null, null, null, null, 'TVA', 40, 1000, null, null);
+(10, null, null, null, null, null, 'TVA', 10, 9000, null, null),
+(20, null, null, null, null, null, 'TVA', 20, 9000, null, null),
+(30, null, null, null, null, null, 'TVA', 30, 9000, null, null),
+(40, null, null, null, null, null, 'TVA', 40, 9000, null, null);
 
 -- ECO CUSTOMER
 INSERT INTO teco_group 
@@ -537,3 +573,13 @@ INSERT INTO teco_payment_gateway
 (id, payment_gateway_type, code, name, description) 
  VALUES 
 (10, 'paymentGatewayFake', 'PGF', 'Fake Payment Gateway', 'Payment Gateway with no provider, just for tests');
+
+INSERT INTO teco_payment_gateway_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, payment_gateway_id, attribute_definition_id, market_area_id)
+VALUES (1, null, null, null, null, null, 'YOUR_GATEWAY_TOKEN', 10, 6000, null);
+
+INSERT INTO teco_payment_gateway_option  
+(id, code, name, description, option_value) 
+ VALUES 
+(10, 'PROXY_PORT', 'Proxy port', 'Proxy port', ''),
+(20, 'PROXY_ADDRESS', 'Proxy address', 'Proxy address', '');

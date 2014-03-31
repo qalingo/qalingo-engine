@@ -50,6 +50,7 @@ public final class ModelConstants {
 
     // URL
     public static final String URL_BACK                     = "urlBack";
+    public static final String URL_ADD                      = "urlAdd";
     public static final String URL_CUSTOMER_EDIT            = "urlCustomerEdit";
     public static final String URL_CUSTOMER_ADDRESS_ADD     = "urlCustomerAddressAdd";
     public static final String URL_CUSTOMER_ADDRESS_EDIT    = "urlCustomerAddressEdit";
@@ -96,10 +97,9 @@ public final class ModelConstants {
     public static final String PRODUCT_BRANDS_VIEW_BEAN             = "productBrands";
     public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
     public static final String RELATED_PPRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
-    public static final String CUSTOMER_PRODUCT_RATES_VIEW_BEAN = "customerProductRates";
+    public static final String CUSTOMER_PRODUCT_RATES_VIEW_BEAN     = "customerProductRates";
     
-    public static final String PRODUCT_COMMENT_FORM_BEAN = "productCommentForm";
-    public static final String PRODUCT_COMMENT_SUBMIT_URL = "productCommentUrl";
+    public static final String PRODUCT_COMMENT_SUBMIT_URL           = "productCommentUrl";
 
     public static final String ASSET_VIEW_BEAN                  = "asset";
 
@@ -121,25 +121,35 @@ public final class ModelConstants {
     public static final String TAXES_VIEW_BEAN                  = "taxes";
     public static final String TAX_VIEW_BEAN                    = "tax";
 
+    public static final String PAYMENT_GATEWAYS_VIEW_BEAN       = "paymentGateways";
+    public static final String PAYMENT_GATEWAY_VIEW_BEAN        = "paymentGateway";
+
+    public static final String ENGINE_SETTINGS_VIEW_BEAN       = "engineSettings";
+    public static final String ENGINE_SETTING_VIEW_BEAN        = "engineSetting";
+
     public static final String CUSTOMER_VIEW_BEAN               = "customer";
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";
     public static final String USER_VIEW_BEAN                   = "user";
 
     // SPRING FORM
-    public static final String ASSET_FORM               = "assetForm";
-    public static final String RULE_FORM                = "ruleForm";
-    public static final String ORDER_FORM               = "orderForm";
-    public static final String WAREHOUSE_FORM           = "warehouseForm";
-    public static final String DELIVERY_METHOD_FORM     = "deliveryMethodForm";
-    public static final String TAX_FORM                 = "taxForm";
-    public static final String CUSTOMER_FORM            = "customerForm";
-    public static final String USER_FORM                = "userForm";
-    public static final String CART_FORM                = "cartForm";
-    public static final String PAYMENT_FORM             = "paymentForm";
-    public static final String CREATE_ACCOUNT_FORM      = "createAccountForm";
-    public static final String PRODUCT_SKU_FORM         = "productSkuForm";
-    public static final String PRODUCT_MARKETING_FORM   = "productMarketingForm";
+    public static final String ASSET_FORM                   = "assetForm";
+    public static final String RULE_FORM                    = "ruleForm";
+    public static final String ORDER_FORM                   = "orderForm";
+    public static final String WAREHOUSE_FORM               = "warehouseForm";
+    public static final String DELIVERY_METHOD_FORM         = "deliveryMethodForm";
+    public static final String TAX_FORM                     = "taxForm";
+    public static final String PAYMENT_GATEWAY_FORM         = "paymentGatewayForm";
+    public static final String ENGINE_SETTING_FORM          = "engineSettingForm";
+    public static final String ENGINE_SETTING_VALUE_FORM    = "engineSettingValueForm";
+    public static final String CUSTOMER_FORM                = "customerForm";
+    public static final String USER_FORM                    = "userForm";
+    public static final String CART_FORM                    = "cartForm";
+    public static final String PAYMENT_FORM                 = "paymentForm";
+    public static final String CREATE_ACCOUNT_FORM          = "createAccountForm";
+    public static final String PRODUCT_SKU_FORM             = "productSkuForm";
+    public static final String PRODUCT_MARKETING_FORM       = "productMarketingForm";
+    public static final String PRODUCT_COMMENT_FORM_BEAN    = "productCommentForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

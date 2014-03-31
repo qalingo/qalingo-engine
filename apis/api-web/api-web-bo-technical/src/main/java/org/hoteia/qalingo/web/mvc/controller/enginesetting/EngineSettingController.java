@@ -10,35 +10,41 @@
 package org.hoteia.qalingo.web.mvc.controller.enginesetting;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.EngineSettingService;
+import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.LinkMenuViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractTechnicalBackofficeController;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -47,201 +53,254 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("engineSettingController")
 public class EngineSettingController extends AbstractTechnicalBackofficeController {
 
-	@RequestMapping(value = BoUrls.ENGINE_SETTING_LIST_URL, method = RequestMethod.GET)
-	public ModelAndView engineSettingList(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_LIST.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-        
-		initLinks(request, modelAndView, locale, null);
-		
-		List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
-		
-		String url = requestUtil.getCurrentRequestUrl(request);
-		
-		String sessionKey = "PagedListHolder_Search_List_Product_" + request.getSession().getId();
-        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
-		PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder;
+    public static final String SESSION_KEY = "PagedListHolder_EngineSettings";
 
-        if(StringUtils.isEmpty(page)){
-        	engineSettingViewBeanPagedListHolder = initList(request, sessionKey, engineSettings, new PagedListHolder<EngineSettingViewBean>());
-        } else {
-	        engineSettingViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
-	        if (engineSettingViewBeanPagedListHolder == null) { 
-	        	engineSettingViewBeanPagedListHolder = initList(request, sessionKey, engineSettings, engineSettingViewBeanPagedListHolder);
-	        }
-	        int pageTarget = new Integer(page).intValue() - 1;
-	        int pageCurrent = engineSettingViewBeanPagedListHolder.getPage();
-	        if (pageCurrent < pageTarget) { 
-	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		engineSettingViewBeanPagedListHolder.nextPage(); 
-				}
-	        } else if (pageCurrent > pageTarget) { 
-	        	for (int i = pageTarget; i < pageCurrent; i++) {
-		        	engineSettingViewBeanPagedListHolder.previousPage(); 
-				}
-	        }
-        }
-		modelAndView.addObject(Constants.PAGINATION_PAGE_URL, url);
-		modelAndView.addObject(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, engineSettingViewBeanPagedListHolder);
-		
-		backofficeFormFactory.buildEngineSettingQuickSearchForm(requestData);
-		
+    @RequestMapping(value = BoUrls.ENGINE_SETTING_LIST_URL, method = RequestMethod.GET)
+    public ModelAndView engineSettingList(final HttpServletRequest request, final Model model) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_LIST.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Locale locale = requestData.getLocale();
+        
+        final String contentText = getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, BoMessageKey.MAIN_CONTENT_TEXT, locale);
+        modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
+        
+        displayList(request, model, requestData);
+        
+        Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_LIST.getKey(), params);
+
         return modelAndView;
-	}
-	
-	@RequestMapping(value = BoUrls.ENGINE_SETTING_DETAILS_URL, method = RequestMethod.GET)
-	public ModelAndView engineSettingDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_DETAILS.getVelocityPage());
-		modelAndView.addObject("pageContextPath", request.getContextPath());
-		
+    }
+    
+    @RequestMapping(value = BoUrls.ENGINE_SETTING_DETAILS_URL, method = RequestMethod.GET)
+    public ModelAndView engineSettingDetails(final HttpServletRequest request, final Model model) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_DETAILS.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final String engineSettingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE);
+        
+        // SANITY CHECK
+        if(StringUtils.isEmpty(engineSettingCode)){
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        
+        final EngineSetting engineSetting = engineSettingService.getEngineSettingByCode(engineSettingCode);
+
+        // SANITY CHECK
+        if(engineSetting != null){
+            modelAndView.addObject(ModelConstants.ENGINE_SETTING_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSetting));
+        } else {
+            final String url = requestUtil.getLastRequestUrl(request);
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
+        
+        Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_DETAILS.getKey(), params);
+
+        return modelAndView;
+    }
+    
+    @RequestMapping(value = BoUrls.ENGINE_SETTING_EDIT_URL, method = RequestMethod.GET)
+    public ModelAndView engineSettingEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.ENGINE_SETTING_FORM) EngineSettingForm engineSettingForm) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_EDIT.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
+        
+        final String engineSettingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE);
+        if(StringUtils.isNotEmpty(engineSettingCode)){
+            // EDIT MODE
+            final EngineSetting engineSetting = engineSettingService.getEngineSettingByCode(engineSettingCode);
+
+            EngineSettingViewBean engineSettingViewBean = backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSetting);
+            request.setAttribute(ModelConstants.ENGINE_SETTING_VIEW_BEAN, engineSettingViewBean);
+
+            Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
+        } else {
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+
+        return modelAndView;
+    }
+    
+    @RequestMapping(value = BoUrls.ENGINE_SETTING_EDIT_URL, method = RequestMethod.POST)
+    public ModelAndView submitEngineSettingEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.ENGINE_SETTING_FORM) EngineSettingForm engineSettingForm,
+                                BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-		final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID);
-		modelAndView.addObject("engineSettingId",engineSettingId);
-		if(StringUtils.isNotEmpty(engineSettingId)){
-			EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
-			if(engineSetting != null){
-				EngineSettingViewBean engineSettingViewBean = backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSetting);
-				modelAndView.addObject("engineSetting", engineSettingViewBean);
-                initLinks(request, modelAndView, locale, engineSetting);
-			} else {
-				final String url = requestUtil.getLastRequestUrl(request);
-				return new ModelAndView(new RedirectView(url));
-			}
-		} else {
-			final String url = requestUtil.getLastRequestUrl(request);
-			return new ModelAndView(new RedirectView(url));
-		}
-		modelAndView.addObject("addUrl",BoUrls.ENGINE_SETTING_VALUE_EDIT);
-		modelAndView.addObject("urlBack",BoUrls.ENGINE_SETTING_LIST);
-		backofficeFormFactory.buildEngineSettingQuickSearchForm(requestData);
-		
-        return modelAndView;
-	}
-	
+        if (result.hasErrors()) {
+            return engineSettingEdit(request, model, engineSettingForm);
+        }
+        
+        EngineSetting engineSetting = null;
+        if(StringUtils.isNotEmpty(engineSettingForm.getId())){
+            engineSetting = engineSettingService.getEngineSettingById(engineSettingForm.getId());
+        }
+
+        try {
+            // CREATE OR UPDATE ENGINE SETTING
+            webBackofficeService.createOrUpdateEngineSetting(engineSetting, engineSettingForm);
+            
+            if (engineSetting == null) {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "create_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData);
+                return new ModelAndView(new RedirectView(urlRedirect));
+            } else {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "update_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting);
+                return new ModelAndView(new RedirectView(urlRedirect));
+            }
+            
+        } catch (Exception e) {
+            addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "create_or_update_message", locale));
+            logger.error("Can't save or update EngineSetting:" + engineSettingForm.getId() + "/" + engineSettingForm.getCode(), e);
+            return engineSettingEdit(request, model, engineSettingForm);
+        }
+    }
+
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, method = RequestMethod.GET)
-    public ModelAndView engineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+    public ModelAndView engineSettingValueEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.ENGINE_SETTING_VALUE_FORM) EngineSettingValueForm engineSettingValueForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_VALUE_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
-        final String engineSettingValueId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_GUID);
-        if(StringUtils.isNotEmpty(engineSettingValueId)){
-            final EngineSettingValue engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
-            if(engineSettingValue != null){
-                modelAndView.addObject("engineSetting", backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSettingValue.getEngineSetting()));
-                backofficeFormFactory.buildEngineSettingValueEditForm(requestData, engineSettingValue);
-                initLinks(request, modelAndView, locale, engineSettingValue.getEngineSetting());
-                return modelAndView;
+        final String engineSettingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE);
+        final String engineSettingValueContext = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_VALUE_CONTEXT);
+        if(StringUtils.isNotEmpty(engineSettingCode)
+                && StringUtils.isNotEmpty(engineSettingValueContext)){
+            final EngineSetting engineSetting = engineSettingService.getEngineSettingByCode(engineSettingCode);
+            if(engineSetting != null){
+                EngineSettingValue engineSettingValue = engineSetting.getEngineSettingValue(engineSettingValueContext);
+                if(engineSettingValue != null){
+                    modelAndView.addObject("engineSetting", backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSetting));
+                    modelAndView.addObject("engineSettingValue", backofficeViewBeanFactory.buildViewBeanEngineSettingValue(requestData, engineSettingValue));
+                    modelAndView.addObject("engineSettingValueForm", backofficeFormFactory.buildEngineSettingValueForm(requestData, engineSettingValue));
+
+                    model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
+
+                    Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
+                    initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
+
+                    return modelAndView;
+                } else {
+                    final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), engineSetting);
+                    return new ModelAndView(new RedirectView(urlRedirect));
+                }
             }
         } 
-
         final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestUtil.getRequestData(request));
         return new ModelAndView(new RedirectView(urlRedirect));
     }
 
     @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_EDIT_URL, method = RequestMethod.POST)
-    public ModelAndView submitEngineSettingValueEdit(final HttpServletRequest request, final HttpServletResponse response, @Valid EngineSettingValueForm engineSettingValueForm,
-                                BindingResult result, ModelMap modelMap) throws Exception {
+    public ModelAndView submitEngineSettingEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.ENGINE_SETTING_VALUE_FORM) EngineSettingValueForm engineSettingValueForm,
+            BindingResult result, ModelMap modelMap) throws Exception {
 
         if (result.hasErrors()) {
-            return engineSettingValueEdit(request, response, modelMap);
+            return engineSettingValueEdit(request, model, engineSettingValueForm);
         }
 
         final String engineSettingValueId = engineSettingValueForm.getId();
  
         EngineSettingValue engineSettingValue = new EngineSettingValue();
         if(null == engineSettingValueId){
-        	
-        	webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
-        	
+            
+            webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
+            
         }else{
             engineSettingValue = engineSettingService.getEngineSettingValueById(engineSettingValueId);
 
-	        // UPDATE ENGINE SETTING VALUE
-	        webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
+            // UPDATE ENGINE SETTING VALUE
+            webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
         }
 
         return new ModelAndView(new RedirectView(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), engineSettingValue)));
     }
     
-    @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_ADD_URL, method = RequestMethod.POST)
-    public ModelAndView submitEngineSettingValueAdd(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
-        final String engineSettingId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID);
-        final EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
- 
-        EngineSettingValueForm engineSettingValueForm = new EngineSettingValueForm();
-        engineSettingValueForm.setContext(request.getParameter("context"));
-        engineSettingValueForm.setValue(request.getParameter("value"));
-
-        EngineSettingValue engineSettingValue = new EngineSettingValue();
-        engineSettingValue.setContext(request.getParameter("context"));
-        engineSettingValue.setValue(request.getParameter("value"));
-        engineSettingValue.setId(null);
-        engineSettingValue.setEngineSetting(engineSetting);
-        if(null != engineSettingId){
-
-           
-
-	        // UPDATE ENGINE SETTING VALUE
-	        webBackofficeService.updateEngineSettingValue(engineSettingValue, engineSettingValueForm);
-        }
-
-        return new ModelAndView(new RedirectView(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), engineSetting)));
+    /**
+     * 
+     */
+    @ModelAttribute(ModelConstants.ENGINE_SETTING_FORM)
+    protected EngineSettingForm initEngineSettingForm(final HttpServletRequest request, final Model model) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
         
-       //////// return engineSettingDetails(request,response);
-    }
-     
-    @RequestMapping(value = BoUrls.ENGINE_SETTING_VALUE_ADD_URL, method = RequestMethod.GET)
-    public ModelAndView engineSettingValueAdd(final HttpServletRequest request, final HttpServletResponse response, @RequestParam(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_GUID) final String engineSettingId) throws Exception{
-    	ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ENGINE_SETTING_VALUE_ADD.getVelocityPage());
-    	modelAndView.addObject("pageContextPath", request.getContextPath());
-    	
-        if(StringUtils.isNotEmpty(engineSettingId)){
-            final EngineSetting engineSetting = engineSettingService.getEngineSettingById(engineSettingId);
-            if(engineSetting != null){
-                modelAndView.addObject("engineSetting", engineSetting);
- 
-                return modelAndView;
-            }
-        } 
-        return modelAndView;
+        final String engineSettingCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ENGINE_SETTING_CODE);
+        if(StringUtils.isNotEmpty(engineSettingCode)){
+            final EngineSetting engineSettingEdit = engineSettingService.getEngineSettingByCode(engineSettingCode);
+            return backofficeFormFactory.buildEngineSettingForm(requestData, engineSettingEdit);
+        }
+        
+        return backofficeFormFactory.buildEngineSettingForm(requestData, null);
     }
     
-	protected PagedListHolder<EngineSettingViewBean> initList(final HttpServletRequest request, final String sessionKey, final List<EngineSetting> engineSettings,
-			PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder) throws Exception{
-		List<EngineSettingViewBean> engineSettingViewBeans = backofficeViewBeanFactory.buildListViewBeanEngineSetting(requestUtil.getRequestData(request), engineSettings);
-		engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(engineSettingViewBeans);
-		
-		engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGINATION_DEFAULT_PAGE_SIZE); 
-		String pageSize = engineSettingService.getEngineSettingValueByCode(EngineSettingService.ENGINE_SETTING_CODE_COUNT_ITEM_BY_PAGE, EngineSettingService.ENGINE_SETTING_CONTEXT_BO_TECHNICAL_ENGINE_SETTING_LIST);
-		if(StringUtils.isNotEmpty(pageSize)){
-			engineSettingViewBeanPagedListHolder.setPageSize(Integer.parseInt(pageSize)); 
-		}
-		
-        request.getSession().setAttribute(sessionKey, engineSettingViewBeanPagedListHolder);
+    protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
+        String url = request.getRequestURI();
+        String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+        
+        PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>();
+
+        if(StringUtils.isEmpty(page)){
+            engineSettingViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+            
+        } else {
+            engineSettingViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+            if (engineSettingViewBeanPagedListHolder == null) { 
+                engineSettingViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+            }
+            int pageTarget = new Integer(page).intValue() - 1;
+            int pageCurrent = engineSettingViewBeanPagedListHolder.getPage();
+            if (pageCurrent < pageTarget) { 
+                for (int i = pageCurrent; i < pageTarget; i++) {
+                    engineSettingViewBeanPagedListHolder.nextPage(); 
+                }
+            } else if (pageCurrent > pageTarget) { 
+                for (int i = pageTarget; i < pageCurrent; i++) {
+                    engineSettingViewBeanPagedListHolder.previousPage(); 
+                }
+            } 
+        }
+        model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
+        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, engineSettingViewBeanPagedListHolder);
+    }
+    
+    protected PagedListHolder<EngineSettingViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData) throws Exception {
+        List<EngineSetting> engineSettings = engineSettingService.findEngineSettings();
+
+        PagedListHolder<EngineSettingViewBean> engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>();
+        
+        final List<EngineSettingViewBean> engineSettingViewBeans = new ArrayList<EngineSettingViewBean>();
+        for (Iterator<EngineSetting> iterator = engineSettings.iterator(); iterator.hasNext();) {
+            EngineSetting engineSettingIt = (EngineSetting) iterator.next();
+            engineSettingViewBeans.add(backofficeViewBeanFactory.buildViewBeanEngineSetting(requestData, engineSettingIt));
+        }
+        engineSettingViewBeanPagedListHolder = new PagedListHolder<EngineSettingViewBean>(orderEngineSettingViewList(engineSettingViewBeans));
+        engineSettingViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
+        request.getSession().setAttribute(sessionKey, engineSettingViewBeanPagedListHolder); 
+        
         return engineSettingViewBeanPagedListHolder;
-	}
-	
-	protected void initLinks(final HttpServletRequest request, final ModelAndViewThemeDevice modelAndView, final Locale locale, final EngineSetting engineSetting) throws Exception{
-		List<LinkMenuViewBean> customerLinks = new ArrayList<LinkMenuViewBean>();
-
-		LinkMenuViewBean linkMenuViewBean = new LinkMenuViewBean();
-		linkMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "header_menu_engine_setting_list", locale));
-		linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestUtil.getRequestData(request)));
-		customerLinks.add(linkMenuViewBean);
-
-		if(engineSetting != null){
-			linkMenuViewBean = new LinkMenuViewBean();
-			linkMenuViewBean.setName(getSpecificMessage(ScopeWebMessage.ENGINE_SETTING, "header_menu_engine_setting_details", locale));
-			linkMenuViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestUtil.getRequestData(request), engineSetting));
-			customerLinks.add(linkMenuViewBean);
-		}
-		
-		modelAndView.addObject("links", customerLinks);
-	}
+    }
+    
+    protected List<EngineSettingViewBean> orderEngineSettingViewList(final List<EngineSettingViewBean> engineSettingViewBeans) {
+        if (engineSettingViewBeans != null) {
+            List<EngineSettingViewBean> sortedObjects = new LinkedList<EngineSettingViewBean>(engineSettingViewBeans);
+                Collections.sort(sortedObjects, new Comparator<EngineSettingViewBean>() {
+                    @Override
+                    public int compare(EngineSettingViewBean o1, EngineSettingViewBean o2) {
+                        if (o1 != null && o2 != null) {
+                            return o1.getCode().compareTo(o2.getCode());
+                        }
+                        return 0;
+                    }
+                });
+            return sortedObjects;
+        }
+        return null;
+    }
     
 }

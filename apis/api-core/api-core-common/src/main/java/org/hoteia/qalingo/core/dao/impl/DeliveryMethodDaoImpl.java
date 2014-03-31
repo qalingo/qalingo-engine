@@ -19,7 +19,7 @@ import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphDeliveryMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -122,7 +122,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultDeliveryMethodFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphDeliveryMethod.defaultDeliveryMethodFetchPlan());
         }
     }
 	

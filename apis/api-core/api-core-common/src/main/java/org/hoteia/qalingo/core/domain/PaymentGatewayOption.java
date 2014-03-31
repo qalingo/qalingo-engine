@@ -51,6 +51,9 @@ public class PaymentGatewayOption extends AbstractEntity {
     @Lob
     private String description;
 
+    @Column(name = "OPTION_VALUE")
+    private String optionValue;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -100,6 +103,14 @@ public class PaymentGatewayOption extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getOptionValue() {
+        return optionValue;
+    }
+    
+    public void setOptionValue(String optionValue) {
+        this.optionValue = optionValue;
     }
 
     public Date getDateCreate() {

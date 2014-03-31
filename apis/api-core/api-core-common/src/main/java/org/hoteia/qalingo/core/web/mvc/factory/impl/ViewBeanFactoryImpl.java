@@ -783,7 +783,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
 
         final LocalizationViewBean localizationViewBean = new LocalizationViewBean();
         localizationViewBean.setCode(localizationCodeNavigation);
+        localizationViewBean.setDescription(localization.getDescription());
+        localizationViewBean.setCountry(localization.getCountry());
+        localizationViewBean.setLanguage(localization.getLanguage());
 
+        localizationViewBean.setName(localization.getName());
         String localizationCodeTranslation = localizationCodeNavigation;
         if(localizationCodeTranslation.contains("-")){
             String[] split = localizationCodeTranslation.split("-");
@@ -793,15 +797,31 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             localizationViewBean.setName(getReferenceData(ScopeReferenceDataMessage.LANGUAGE, localizationCodeTranslation.toLowerCase(), locale));
         }
 
+        if (localization.getLocale().equals(locale)) {
+            localizationViewBean.setActive(true);
+        }
+
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        Date dateCreate = localization.getDateCreate();
+        if (dateCreate != null) {
+            localizationViewBean.setDateCreate(dateFormat.format(dateCreate));
+        } else {
+            localizationViewBean.setDateCreate("NA");
+        }
+
+        Date dateUpdate = localization.getDateUpdate();
+        if (dateUpdate != null) {
+            localizationViewBean.setDateUpdate(dateFormat.format(dateUpdate));
+        } else {
+            localizationViewBean.setDateUpdate("NA");
+        }
+        
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setMarketAreaLocalization(localization);
         localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
         localizationViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
-        if (localization.getLocale().equals(locale)) {
-            localizationViewBean.setActive(true);
-        }
         return localizationViewBean;
     }
     
@@ -1918,7 +1938,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         paymentMethodViewBean.setName(paymentGateway.getName());
         paymentMethodViewBean.setDescription(paymentGateway.getDescription());
         
-        final Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getPaymentGatewayOptions();
+        final Set<PaymentGatewayOption> paymentGatewayOptions = paymentGateway.getOptions();
         if(Hibernate.isInitialized(paymentGatewayOptions) && paymentGatewayOptions != null){
             for (Iterator<PaymentGatewayOption> iterator = paymentGatewayOptions.iterator(); iterator.hasNext();) {
                 PaymentGatewayOption paymentGatewayOption = (PaymentGatewayOption) iterator.next();

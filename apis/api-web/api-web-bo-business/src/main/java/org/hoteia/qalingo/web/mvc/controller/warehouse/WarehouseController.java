@@ -58,8 +58,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("warehouseController")
 public class WarehouseController extends AbstractBusinessBackofficeController {
 
-    public static final String SESSION_KEY = "PagedListHolder_Warehouses";
-
     @Autowired
     private WarehouseService warehouseService;
 
@@ -79,7 +77,9 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.WAREHOUSE_LIST.getKey() + ".by.market.area", params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_LIST.getKey() + ".by.market.area", params);
+
+        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_ADD, requestData));
 
         return modelAndView;
     }
@@ -90,18 +90,24 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         final String warehouseCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_WAREHOUSE_CODE);
-        final Warehouse warehouse = warehouseService.getWarehouseByCode(warehouseCode);
         
-        WarehouseViewBean warehouseViewBean = backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouse);
+        // SANITY CHECK
+        if(StringUtils.isEmpty(warehouseCode)){
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+        
+        final Warehouse warehouse = warehouseService.getWarehouseByCode(warehouseCode);
 
-        if(warehouseViewBean == null){
+        // SANITY CHECK
+        if(warehouse != null){
+            modelAndView.addObject(ModelConstants.WAREHOUSE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouse));
+        } else {
             final String url = requestUtil.getLastRequestUrl(request);
             return new ModelAndView(new RedirectView(url));
         }
         
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData));
-        
-        request.setAttribute(ModelConstants.WAREHOUSE_VIEW_BEAN, warehouseViewBean);
         
         final List<DeliveryMethodViewBean> deliveryMethodViewBeans = new ArrayList<DeliveryMethodViewBean>();
         final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethodsByWarehouseId(warehouse.getId());
@@ -112,7 +118,7 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         request.setAttribute(ModelConstants.DELIVERY_METHODS_VIEW_BEAN, deliveryMethodViewBeans);
 
         Object[] params = {warehouse.getName() + " (" + warehouse.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.WAREHOUSE_DETAILS.getKey(), params);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -123,27 +129,30 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
         final RequestData requestData = requestUtil.getRequestData(request);
         
         final String warehouseCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_WAREHOUSE_CODE);
-        final Warehouse warehouse = warehouseService.getWarehouseByCode(warehouseCode);
-        
-        WarehouseViewBean warehouseViewBean = backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouse);
-        
-        if(warehouseViewBean == null){
-            final String url = requestUtil.getLastRequestUrl(request);
-            return new ModelAndView(new RedirectView(url));
+        if(StringUtils.isNotEmpty(warehouseCode)){
+            // EDIT MODE
+            final Warehouse warehouse = warehouseService.getWarehouseByCode(warehouseCode);
+
+            WarehouseViewBean warehouseViewBean = backofficeViewBeanFactory.buildViewBeanWarehouse(requestData, warehouse);
+            request.setAttribute(ModelConstants.WAREHOUSE_VIEW_BEAN, warehouseViewBean);
+
+            Object[] params = {warehouse.getName() + " (" + warehouse.getCode() + ")"};
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_EDIT.getKey(), params);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse));
+        } else {
+            // ADD MODE
+
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.WAREHOUSE_ADD.getKey(), null);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData));
         }
-        
-        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse));
-        
-        request.setAttribute(ModelConstants.WAREHOUSE_VIEW_BEAN, warehouseViewBean);
-        
-        Object[] params = {warehouse.getName() + " (" + warehouse.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.WAREHOUSE_DETAILS.getKey(), params);
 
         return modelAndView;
     }
     
     @RequestMapping(value = BoUrls.WAREHOUSE_EDIT_URL, method = RequestMethod.POST)
-    public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.WAREHOUSE_FORM) WarehouseForm warehouseForm,
+    public ModelAndView submitWarehouseEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.WAREHOUSE_FORM) WarehouseForm warehouseForm,
                                 BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -152,19 +161,23 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
             return warehouseEdit(request, model, warehouseForm);
         }
         
-        Warehouse warehouse = new Warehouse();
+        Warehouse warehouse = null;
         if(StringUtils.isNotEmpty(warehouseForm.getId())){
             warehouse = warehouseService.getWarehouseById(warehouseForm.getId());
         }
 
         try {
             // CREATE OR UPDATE WAREHOUSE
-            webBackofficeService.createOrUpdateWarehouse(warehouse, warehouseForm);
+            webBackofficeService.createOrUpdateWarehouse(requestData, warehouse, warehouseForm);
             
-            if(warehouse == null){
+            if (warehouse == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "create_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData);
+                return new ModelAndView(new RedirectView(urlRedirect));
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "update_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse);
+                return new ModelAndView(new RedirectView(urlRedirect));
             }
             
         } catch (Exception e) {
@@ -172,9 +185,6 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
             logger.error("Can't save or update Warehouse:" + warehouseForm.getId() + "/" + warehouseForm.getCode(), e);
             return warehouseEdit(request, model, warehouseForm);
         }
-        
-        final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse);
-        return new ModelAndView(new RedirectView(urlRedirect));
     }
 
     /**
@@ -223,16 +233,17 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
     protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
         String url = request.getRequestURI();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+        String sessionKey = "PagedListHolder_Warehouses";
         
         PagedListHolder<WarehouseViewBean> warehouseViewBeanPagedListHolder = new PagedListHolder<WarehouseViewBean>();
 
         if(StringUtils.isEmpty(page)){
-            warehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+            warehouseViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             
         } else {
-            warehouseViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+            warehouseViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
             if (warehouseViewBeanPagedListHolder == null) { 
-                warehouseViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+                warehouseViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             }
             int pageTarget = new Integer(page).intValue() - 1;
             int pageCurrent = warehouseViewBeanPagedListHolder.getPage();

@@ -17,6 +17,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
+import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.slf4j.Logger;
@@ -39,28 +40,38 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
         return paymentGateway;
 	}
 
-	public AbstractPaymentGateway getPaymentGatewayByLoginOrEmail(final String paymentGatewayCode, Object... params) {
+    public AbstractPaymentGateway getPaymentGatewayByCode(final String paymentGatewayCode, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
-        
+
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", paymentGatewayCode));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
         paymentGateway.setFetchPlan(fetchPlan);
-		return paymentGateway;
-	}
+        return paymentGateway;
+    }
 	
 	public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
         handleSpecificFetchMode(criteria, params);
         
-        criteria.addOrder(Order.asc("name"));
+        criteria.addOrder(Order.asc("code"));
 
         @SuppressWarnings("unchecked")
         List<AbstractPaymentGateway> paymentGateways = criteria.list();
 		return paymentGateways;
 	}
+	
+    public List<PaymentGatewayOption> findPaymentGatewayOptions() {
+        Criteria criteria = createDefaultCriteria(PaymentGatewayOption.class);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<PaymentGatewayOption> paymentGatewayOptions = criteria.list();
+        return paymentGatewayOptions;
+    }
 
 	public AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
 		if(paymentGateway.getDateCreate() == null){

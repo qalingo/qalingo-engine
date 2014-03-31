@@ -9,6 +9,8 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import org.apache.commons.lang.BooleanUtils;
+
 public abstract class AbstractAttribute extends AbstractEntity {
 
 	/**
@@ -27,41 +29,55 @@ public abstract class AbstractAttribute extends AbstractEntity {
     public final static String MARKET_AREA_ATTRIBUTE_SHIPPING_CONFIRMATION_TEMPLATE = "MARKET_AREA_SHIPPING_CONFIRMATION_TEMPLATE";
     public final static String MARKET_AREA_ATTRIBUTE_INVOICE_TEMPLATE = "MARKET_AREA_INVOICE_TEMPLATE";
 
-	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_ATTRIBUTE_SCREENNAME";
+	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_SCREENNAME";
 
-	public final static String STORE_ATTRIBUTE_I18N_CITY = "STORE_ATTRIBUTE_I18N_CITY";
-	public final static String STORE_ATTRIBUTE_ORDER = "STORE_ATTRIBUTE_ORDER";
+	public final static String STORE_ATTRIBUTE_I18N_CITY = "STORE_I18N_CITY";
+	public final static String STORE_ATTRIBUTE_ORDER = "STORE_ORDER";
 
-	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME = "CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME";
-	public final static String CATALOG_CATEGORY_ATTRIBUTE_ORDER = "CATALOG_CATEGORY_ATTRIBUTE_ORDER";
+	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME = "CATALOG_CATEGORY_I18N_NAME";
+	public final static String CATALOG_CATEGORY_ATTRIBUTE_ORDER = "CATALOG_CATEGORY_ORDER";
 	
-	public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME = "PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME";
-	public final static String PRODUCT_MARKETING_ATTRIBUTE_ORDER = "PRODUCT_MARKETING_ATTRIBUTE_ORDER";
-    public final static String PRODUCT_MARKETING_ATTRIBUTE_FEATURED = "PRODUCT_MARKETING_ATTRIBUTE_FEATURED";
+	public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME = "PRODUCT_MARKETING_I18N_NAME";
+	public final static String PRODUCT_MARKETING_ATTRIBUTE_ORDER = "PRODUCT_MARKETING_ORDER";
+    public final static String PRODUCT_MARKETING_ATTRIBUTE_FEATURED = "PRODUCT_MARKETING_FEATURED";
     
-	public final static String PRODUCT_SKU_ATTRIBUTE_I18N_NAME = "PRODUCT_SKU_ATTRIBUTE_I18N_NAME";
-	public final static String PRODUCT_SKU_ATTRIBUTE_ORDER = "PRODUCT_SKU_ATTRIBUTE_ORDER";
-    public final static String PRODUCT_SKU_ATTRIBUTE_WIDTH = "PRODUCT_SKU_ATTRIBUTE_WIDTH";
-    public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT = "PRODUCT_SKU_ATTRIBUTE_HEIGHT";
-    public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH = "PRODUCT_SKU_ATTRIBUTE_LENGTH";
-    public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT = "PRODUCT_SKU_ATTRIBUTE_WEIGHT";
+	public final static String PRODUCT_SKU_ATTRIBUTE_I18N_NAME = "PRODUCT_SKU_I18N_NAME";
+	public final static String PRODUCT_SKU_ATTRIBUTE_ORDER = "PRODUCT_SKU_ORDER";
+    public final static String PRODUCT_SKU_ATTRIBUTE_WIDTH = "PRODUCT_SKU_WIDTH";
+    public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT = "PRODUCT_SKU_HEIGHT";
+    public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH = "PRODUCT_SKU_LENGTH";
+    public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT = "PRODUCT_SKU_WEIGHT";
 
-	public final static String RETAILER_ATTRIBUTE_I18N_NAME = "RETAILER_ATTRIBUTE_I18N_NAME";
-	public final static String RETAILER_ATTRIBUTE_ORDER = "RETAILER_ATTRIBUTE_ORDER";
+	public final static String RETAILER_ATTRIBUTE_I18N_NAME = "RETAILER_I18N_NAME";
+	public final static String RETAILER_ATTRIBUTE_ORDER = "RETAILER_ORDER";
 
-	public abstract AttributeDefinition getAttributeDefinition();
-	
-	public abstract String getStringValue();
+    public final static String PAYMENT_GATEWAY_ATTRIBUTE_CLIENT_TOKEN = "PAYMENT_GATEWAY_CLIENT_TOKEN";
 
-	public abstract Integer getIntegerValue();
+    public abstract AttributeDefinition getAttributeDefinition();
 
-	public abstract Double getDoubleValue();
+    public abstract String getStringValue();
 
-	public abstract Float getFloatValue();
+    public abstract void setStringValue(String value);
 
-	public abstract byte[] getBlobValue();
+    public abstract Integer getIntegerValue();
 
-	public abstract Boolean getBooleanValue();
+    public abstract void setIntegerValue(Integer value);
+
+    public abstract Double getDoubleValue();
+
+    public abstract void setDoubleValue(Double value);
+
+    public abstract Float getFloatValue();
+
+    public abstract void setFloatValue(Float value);
+
+    public abstract byte[] getBlobValue();
+
+    public abstract void setBlobValue(byte[] value);
+
+    public abstract Boolean getBooleanValue();
+
+    public abstract void setBooleanValue(Boolean value);
 
 	public Object getValue() {
 		AttributeDefinition attributeDefinition = getAttributeDefinition();
@@ -109,5 +125,22 @@ public abstract class AbstractAttribute extends AbstractEntity {
 		}
 		return null;
 	}
+	
+    public void setValue(String value) {
+        AttributeDefinition attributeDefinition = getAttributeDefinition();
+        if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING) {
+            setStringValue(value);
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE) {
+            setDoubleValue(new Double(value));
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_FLOAT) {
+            setFloatValue(new Float(value));
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_INTEGER) {
+            setIntegerValue(new Integer(value));
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BLOB) {
+            setBlobValue(value.getBytes());
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN) {
+            setBooleanValue(BooleanUtils.toBoolean(value));
+        }
+    }
 	
 }
