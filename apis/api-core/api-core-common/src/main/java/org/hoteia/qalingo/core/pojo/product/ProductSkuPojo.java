@@ -13,7 +13,7 @@ public class ProductSkuPojo {
 
     private Long id;
     private int version;
-    private String businessName;
+    private String name;
     private String i18nName;
     private Integer order;
     private Integer width;
@@ -57,12 +57,12 @@ public class ProductSkuPojo {
         this.version = version;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getI18nName() {

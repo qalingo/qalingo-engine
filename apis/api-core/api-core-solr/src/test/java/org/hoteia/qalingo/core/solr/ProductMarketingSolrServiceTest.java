@@ -52,7 +52,7 @@ public class ProductMarketingSolrServiceTest {
         
         productMarketing = new ProductMarketing();
         productMarketing.setId(new Long("1"));
-        productMarketing.setBusinessName("Product Marketing");
+        productMarketing.setName("Product Marketing");
         productMarketing.setDescription("Product Marketing ...");
         productMarketing.setCode("productMarketing");
         
@@ -160,7 +160,7 @@ public class ProductMarketingSolrServiceTest {
             logger.debug("---PRODUCT LIST---");
             for (int i = 0; i < responseBean.getProductMarketingSolrList().size(); i++) {
                 logger.debug("" + responseBean.getProductMarketingSolrList().get(i).getId());
-                logger.debug(responseBean.getProductMarketingSolrList().get(i).getBusinessname());
+                logger.debug(responseBean.getProductMarketingSolrList().get(i).getName());
                 logger.debug(responseBean.getProductMarketingSolrList().get(i).getDescription());
                 logger.debug(responseBean.getProductMarketingSolrList().get(i).getCode());
             }

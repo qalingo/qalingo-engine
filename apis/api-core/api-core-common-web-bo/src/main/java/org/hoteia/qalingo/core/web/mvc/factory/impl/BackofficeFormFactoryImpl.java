@@ -173,8 +173,8 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         }
         if(catalogCategory != null){
             catalogCategoryForm.setId(catalogCategory.getId().toString());
-            catalogCategoryForm.setCatalogCode(catalogCategory.getBusinessName());
-            catalogCategoryForm.setName(catalogCategory.getBusinessName());
+            catalogCategoryForm.setCatalogCode(catalogCategory.getName());
+            catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setCode(catalogCategory.getCode());
             catalogCategoryForm.setDescription(catalogCategory.getDescription());
             
@@ -205,8 +205,8 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         }
         if(catalogCategory != null){
             catalogCategoryForm.setId(catalogCategory.getId().toString());
-            catalogCategoryForm.setCatalogCode(catalogCategory.getBusinessName());
-            catalogCategoryForm.setName(catalogCategory.getBusinessName());
+            catalogCategoryForm.setCatalogCode(catalogCategory.getName());
+            catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setCode(catalogCategory.getCode());
             catalogCategoryForm.setDescription(catalogCategory.getDescription());
         }
@@ -219,7 +219,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         final ProductMarketingForm productMarketingForm = new ProductMarketingForm();
         if(productMarketing != null){
             productMarketingForm.setId(productMarketing.getId().toString());
-            productMarketingForm.setName(productMarketing.getBusinessName());
+            productMarketingForm.setName(productMarketing.getName());
             productMarketingForm.setCode(productMarketing.getCode());
             productMarketingForm.setDescription(productMarketing.getDescription());
             
@@ -260,7 +260,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
         if(productSku != null){
             
             productSkuForm.setId(productSku.getId().toString());
-            productSkuForm.setName(productSku.getBusinessName());
+            productSkuForm.setName(productSku.getName());
             productSkuForm.setCode(productSku.getCode());
             productSkuForm.setDescription(productSku.getDescription());
 

@@ -70,7 +70,7 @@ public class CustomerGroup extends AbstractEntity {
             joinColumns=@JoinColumn(name="GROUP_ID"),
             inverseJoinColumns=@JoinColumn(name="ROLE_ID")
         )
-    private Set<CustomerRole> customerRoles;
+    private Set<CustomerRole> roles;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -123,12 +123,12 @@ public class CustomerGroup extends AbstractEntity {
 		this.description = description;
 	}
 	
-    public Set<CustomerRole> getCustomerRoles() {
-        return customerRoles;
+    public Set<CustomerRole> getRoles() {
+        return roles;
     }
 
-    public void setCustomerRoles(Set<CustomerRole> customerRoles) {
-        this.customerRoles = customerRoles;
+    public void setRoles(Set<CustomerRole> roles) {
+        this.roles = roles;
     }
     
 	public Date getDateCreate() {
@@ -187,7 +187,7 @@ public class CustomerGroup extends AbstractEntity {
     @Override
     public String toString() {
         return "CustomerGroup [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
-                + ", customerRoles=" + customerRoles + "]";
+                + ", customerRoles=" + roles + "]";
     }
     
 }

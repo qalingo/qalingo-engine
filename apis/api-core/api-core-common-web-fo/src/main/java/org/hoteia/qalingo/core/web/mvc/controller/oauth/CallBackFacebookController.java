@@ -176,7 +176,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 					screenName = screenName + firstName;
 				}
 				attribute.setStringValue(screenName);
-				customer.getCustomerAttributes().add(attribute);
+				customer.getAttributes().add(attribute);
 				
 				if(StringUtils.isNotEmpty(locale)){
 					customer.setDefaultLocale(locale);

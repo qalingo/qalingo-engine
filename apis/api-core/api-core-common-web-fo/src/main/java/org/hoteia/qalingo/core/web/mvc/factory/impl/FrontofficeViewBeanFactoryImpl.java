@@ -396,7 +396,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final Store store = retailerService.getStoreByCode(storeCode);
         
         final SearchStoreItemViewBean searchItemViewBean = new SearchStoreItemViewBean();
-        searchItemViewBean.setName(storeSolr.getBusinessname());
+        searchItemViewBean.setName(storeSolr.getName());
         searchItemViewBean.setCode(storeCode);
 
         searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.STORE_DETAILS, requestData, store));

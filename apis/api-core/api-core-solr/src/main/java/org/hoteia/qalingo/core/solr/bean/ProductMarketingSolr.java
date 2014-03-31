@@ -29,7 +29,7 @@ public class ProductMarketingSolr {
 	private String code;
 
 	@Field
-	private String businessname;
+	private String name;
 
 	@Field
 	private String defaultCategoryCode;
@@ -49,13 +49,13 @@ public class ProductMarketingSolr {
 	@Field
 	private List<String> catalogCategories;
 
-	public String getBusinessname() {
-		return businessname;
-	}
-
-	public void setBusinessname(String businessname) {
-		this.businessname = businessname;
-	}
+	public String getName() {
+        return name;
+    }
+	
+	public void setName(String name) {
+        this.name = name;
+    }
 
 	public Long getId() {
 		return id;

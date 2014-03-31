@@ -38,8 +38,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("userController")
 public class UserController extends AbstractBackofficeQalingoController {
 
-    public static final String SESSION_KEY = "PagedListHolder_Users";
-    
     @RequestMapping(value = BoUrls.USER_LIST_URL, method = RequestMethod.GET)
     public ModelAndView userList(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.USER_LIST.getVelocityPage());
@@ -145,16 +143,17 @@ public class UserController extends AbstractBackofficeQalingoController {
     protected void displayList(final HttpServletRequest request, final Model model, final RequestData requestData) throws Exception {
         String url = request.getRequestURI();
         String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
+        String sessionKey = "PagedListHolder_Users";
         
         PagedListHolder<UserViewBean> userViewBeanPagedListHolder = new PagedListHolder<UserViewBean>();
 
         if(StringUtils.isEmpty(page)){
-            userViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+            userViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             
         } else {
-            userViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+            userViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
             if (userViewBeanPagedListHolder == null) { 
-                userViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData);
+                userViewBeanPagedListHolder = initList(request, sessionKey, requestData);
             }
             int pageTarget = new Integer(page).intValue() - 1;
             int pageCurrent = userViewBeanPagedListHolder.getPage();

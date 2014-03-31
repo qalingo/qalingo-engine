@@ -65,8 +65,8 @@ public class ProductSku extends AbstractEntity {
     @Column(name = "CODE", nullable = false)
     private String code;
     
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "DESCRIPTION")
     @Lob
@@ -135,12 +135,12 @@ public class ProductSku extends AbstractEntity {
         this.code = code;
     }
     
-	public String getBusinessName() {
-		return businessName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isDefault() {
@@ -407,7 +407,7 @@ public class ProductSku extends AbstractEntity {
 	public String getI18nName(String localizationCode) {
 		String i18nName = (String) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_I18N_NAME, null, localizationCode);
 		if(StringUtils.isEmpty(i18nName)){
-			i18nName = getBusinessName();
+			i18nName = getName();
 		}
 		return i18nName;
 	}
@@ -539,7 +539,7 @@ public class ProductSku extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "ProductSku [id=" + id + ", version=" + version + ", businessName=" + businessName + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", dateCreate="
+        return "ProductSku [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code + ", dateCreate="
                 + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	

@@ -54,7 +54,7 @@
 		<!-- general -->
 		<field name="id"			type="long"   		indexed="true"  stored="true"  multiValued="false" required="true" />
 		<field name="code"			type="string"   	indexed="true"  stored="true" />
-		<field name="businessname"	type="string"       indexed="true"  stored="true"  multiValued="false" />
+		<field name="name"			type="string"       indexed="true"  stored="true"  multiValued="false" />
 		<field name="description"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="text"			type="text_general" indexed="true" 	stored="false" multiValued="true" />
 		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
@@ -70,7 +70,7 @@
 	<!-- field for the QueryParser to use when an explicit fieldname is absent -->
 	<defaultSearchField>text</defaultSearchField>
 
-	<copyField source="businessname"	dest="text" />
+	<copyField source="name"			dest="text" />
 	<copyField source="description"		dest="text" />
 	<copyField source="code"			dest="text" />
 	<copyField source="price"			dest="price_s" />

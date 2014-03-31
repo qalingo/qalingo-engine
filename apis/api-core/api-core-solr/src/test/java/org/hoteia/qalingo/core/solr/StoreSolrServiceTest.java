@@ -42,7 +42,7 @@ public class StoreSolrServiceTest {
         
         store = new Store();
         store.setId(Long.parseLong("1"));
-        store.setBusinessName("development");
+        store.setName("development");
         store.setAreaCode("Area-21");
         store.setCity("pune");
         store.setCountryCode("IND");
@@ -115,7 +115,7 @@ public class StoreSolrServiceTest {
     @Test
     public void testSearchCountryWithFacet() throws SolrServerException, IOException {
         logger.debug("--------------->search: Country with facet");        
-        responseBean = storeSolrService.searchStore("countrycode", "", Arrays.asList(new String[]{"businessname"}));
+        responseBean = storeSolrService.searchStore("countrycode", "", Arrays.asList(new String[]{"name"}));
         printData();
     }
 
@@ -158,7 +158,7 @@ public class StoreSolrServiceTest {
             logger.debug("---STORE LIST---");
             for (int i = 0; i < responseBean.getStoreSolrList().size(); i++) {
                 logger.debug(responseBean.getStoreSolrList().get(i).getType());
-                logger.debug(responseBean.getStoreSolrList().get(i).getBusinessname());
+                logger.debug(responseBean.getStoreSolrList().get(i).getName());
                 logger.debug(responseBean.getStoreSolrList().get(i).getCity());
                 logger.debug(responseBean.getStoreSolrList().get(i).getCountryCode());
                 logger.debug(responseBean.getStoreSolrList().get(i).getPostalCode());

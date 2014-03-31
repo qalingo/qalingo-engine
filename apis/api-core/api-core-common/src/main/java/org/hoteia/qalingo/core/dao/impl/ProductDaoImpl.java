@@ -71,7 +71,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
         
         criteria.addOrder(Order.asc("id"));
@@ -329,7 +329,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         handleSpecificProductSkuFetchMode(criteria, params);
         
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
         
         criteria.addOrder(Order.asc("id"));

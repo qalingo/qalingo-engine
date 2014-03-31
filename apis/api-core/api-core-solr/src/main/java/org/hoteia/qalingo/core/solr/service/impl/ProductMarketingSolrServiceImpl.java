@@ -55,14 +55,14 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         }
         if (logger.isDebugEnabled()) {
             logger.debug("Indexing productMarketing " + productMarketing.getId());
-            logger.debug("Indexing productMarketing " + productMarketing.getBusinessName());
+            logger.debug("Indexing productMarketing " + productMarketing.getName());
             logger.debug("Indexing productMarketing " + productMarketing.getDescription());
             logger.debug("Indexing productMarketing " + productMarketing.getCode());
         }
         
         ProductMarketingSolr productSolr = new ProductMarketingSolr();
         productSolr.setId(productMarketing.getId());
-        productSolr.setBusinessname(productMarketing.getBusinessName());
+        productSolr.setName(productMarketing.getName());
         productSolr.setDescription(productMarketing.getDescription());
         productSolr.setCode(productMarketing.getCode());
         if(productMarketing.getDefaultCatalogCategory() != null){

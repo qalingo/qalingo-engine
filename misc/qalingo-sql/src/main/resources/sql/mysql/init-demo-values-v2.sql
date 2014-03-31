@@ -62,7 +62,7 @@ VALUES (1, 'MR', 'Customer', 'Qalingo', 'rue de versaille', '', '', 'address1', 
 
 INSERT INTO teco_customer_attribute 
 (id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, customer_id, attribute_definition_id, localization_code, market_area_id)
-VALUES (1, null, null, null, null, null, 'TEST ATTRIBUTE', 1, 4000, null, null);
+VALUES (1, null, null, null, null, null, 'SCREEN NAME ATTRIBUTE', 1, 4000, null, null);
 
 INSERT INTO teco_customer_credential 
 (id, customer_id, password)
@@ -76,7 +76,7 @@ VALUES (1, 10);
 -- ECO CATALOGUE
 
 INSERT INTO teco_catalog_virtual 
-(id, description, code, is_default, business_name, version, master_catalog_id)
+(id, description, code, is_default, name, version, master_catalog_id)
  VALUES 
 (100, 'Virtual Catalog description', 'V_CAT_INT', 0, 'Virtuel Catalog International', 1, 1),
 (101, 'Virtual Catalog description', 'V_CAT_FRA', 0, 'Virtuel Catalog France', 1, 1),
@@ -233,7 +233,7 @@ INSERT INTO teco_market_area_currency_rel
 -- STORE
 
 INSERT INTO teco_store 
-(id, business_name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, latitude, longitude, type, version, retailer_id)
+(id, name, code, address1, address2, additional_information, postal_code, city, state_code, country_code, latitude, longitude, type, version, retailer_id)
  VALUES 
 --(10, 'Store New-York', 'STRNYC', '57th Street & Lexington', '','', '', 'New York', '', 'US', '40.667', '-73.633', 'SHOP', 1),
 --(20, 'Store Paris', 'STRPARIS', '85 avenue Lafayette', '', '','', 'Paris', '', 'FR', '48.833', '2.333', 'SHOP,CORNER', 1),
@@ -699,7 +699,7 @@ update teco_product_brand
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 --
 INSERT INTO teco_catalog_master_category 
-(id, description, code, is_default, business_name, version)
+(id, description, code, is_default, name, version)
  VALUES 
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 1),
@@ -708,7 +708,7 @@ INSERT INTO teco_catalog_master_category
 (50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 1);
 
 INSERT INTO teco_catalog_virtual_category 
-(id, description, code, is_default, business_name, master_category_id, version)
+(id, description, code, is_default, name, master_category_id, version)
  VALUES 
 (10, 'Category 1 description', 'CATE10', 1, 'Coffee', 10, 1),
 (20, 'Category 2 description', 'CATE20', 0, 'Tea', 20, 1),
@@ -780,7 +780,7 @@ INSERT INTO teco_catalog_virtual_category_virtual_rel
 (303, 50);
 
 INSERT INTO teco_catalog_master_category 
-(id, description, code, is_default, business_name, version, default_parent_category_id)
+(id, description, code, is_default, name, version, default_parent_category_id)
  VALUES 
 (101, 'Category 1 sub category description', 'CATE101', 0, 'Just Brewed', 1, 10),
 (102, 'Category 1 sub category description', 'CATE102', 0, 'Light & Subtle', 1, 10),
@@ -798,7 +798,7 @@ INSERT INTO teco_catalog_master_category
 (502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères", 1, 50);
 
 INSERT INTO teco_catalog_virtual_category 
-(id, description, code, is_default, business_name, version, master_category_id, default_parent_category_id)
+(id, description, code, is_default, name, version, master_category_id, default_parent_category_id)
  VALUES 
 (101, 'Category 1 sub category description', 'CATE101', 0, 'Just Brewed', 1, 101, 10),
 (102, 'Category 1 sub category description', 'CATE102', 0, 'Light & Subtle', 1, 102, 10),
@@ -871,7 +871,7 @@ INSERT INTO teco_catalog_virtual_category_child_category_rel
 (50, 502);
 
 INSERT INTO teco_product_marketing 
-(id, description, code, is_default, business_name, version, brand_id, default_catalog_category_id)
+(id, description, code, is_default, name, version, brand_id, default_catalog_category_id)
  VALUES 
 (1, 'The flavor of resh ripe blueberries complemented by traditional brown sugar and pastry notes for a tasty flavored coffee treat.', 'PROD1', 1, 'Blueberry Streusel Coffee', 1, 10, 101), 
 (2, 'A fragrant toffee aroma with flavors of walnuts and semi-sweet chocolate, with a crisp black cherry finish; this coffee comes from the Kintamani Highlands in North Bali, Indonesia. ', 'PROD2', 0, 'Bali Blue Moon Coffee', 1, 10, 101), 
@@ -992,7 +992,7 @@ VALUES
 
 
 INSERT INTO teco_product_sku 
-(id, description, code, is_default, business_name, version, product_marketing_id)
+(id, description, code, is_default, name, version, product_marketing_id)
  VALUES 
 (1, 'prod 1 product sku 1', 'SKU11', 1, 'Sku 11', 1, 1), 
 (2, 'prod 2 product sku 1', 'SKU21', 0, 'Sku 21', 1, 2),

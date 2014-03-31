@@ -58,8 +58,8 @@ public class CatalogVirtual extends AbstractEntity {
     @Column(name = "CODE", nullable = false)
     private String code;
 
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "DESCRIPTION")
     @Lob
@@ -114,12 +114,12 @@ public class CatalogVirtual extends AbstractEntity {
         this.code = code;
     }
     
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isDefault() {
@@ -241,7 +241,7 @@ public class CatalogVirtual extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "CatalogVirtual [id=" + id + ", version=" + version + ", businessName=" + businessName + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code
+        return "CatalogVirtual [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", code=" + code
                 + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

@@ -58,7 +58,7 @@ public class OrderController extends AbstractBusinessBackofficeController {
 		
 		displayList(request, model, requestData);
 		
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_LIST.getKey(), null);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ORDER_LIST.getKey() + ".by.market.area", null);
 
         return modelAndView;
 	}

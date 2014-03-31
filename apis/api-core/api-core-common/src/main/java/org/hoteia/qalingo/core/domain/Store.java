@@ -63,8 +63,8 @@ public class Store extends AbstractEntity {
     @Column(name = "TYPE")
     private String type;
 
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "ADDRESS1")
     private String address1;
@@ -154,12 +154,12 @@ public class Store extends AbstractEntity {
         this.type = type;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress1() {
@@ -540,7 +540,7 @@ public class Store extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Store [id=" + id + ", version=" + version + ", code=" + code + ", type=" + type + ", businessName=" + businessName + ", address1=" + address1 + ", address2=" + address2
+        return "Store [id=" + id + ", version=" + version + ", code=" + code + ", type=" + type + ", name=" + name + ", address1=" + address1 + ", address2=" + address2
                 + ", addressAdditionalInformation=" + addressAdditionalInformation + ", postalCode=" + postalCode + ", city=" + city + ", stateCode=" + stateCode + ", areaCode=" + areaCode
                 + ", countryCode=" + countryCode + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }

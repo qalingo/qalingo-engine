@@ -42,7 +42,7 @@ public class StoreMarshalXmlHelperTest {
 	@Test(expected = MarshalException.class)
 	public void getXMLAsStringFailed() throws Exception {
 		Store store = getStoreTest();
-		store.setBusinessName(null);
+		store.setName(null);
 		storeMarshalXmlHelper.getXMLAsString(store);
 	}
 
@@ -51,7 +51,7 @@ public class StoreMarshalXmlHelperTest {
 
 		store.setId(new Long(1));
 		store.setVersion(1);
-		store.setBusinessName("test");
+		store.setName("test");
 
 		// ...
 		

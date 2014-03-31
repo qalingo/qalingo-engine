@@ -51,7 +51,7 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
         if (logger.isDebugEnabled()) {
             logger.debug("Indexing customer " + catalogCategoryMaster.getId());
             logger.debug("Indexing customer " + catalogCategoryMaster.getCode());
-            logger.debug("Indexing customer " + catalogCategoryMaster.getBusinessName());
+            logger.debug("Indexing customer " + catalogCategoryMaster.getName());
             logger.debug("Indexing customer " + catalogCategoryMaster.getDateCreate());
             logger.debug("Indexing customer " + catalogCategoryMaster.getDateUpdate());
         }
@@ -61,7 +61,7 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
         categorySolr.setCode(catalogCategoryMaster.getCode());
         categorySolr.setDateCreate(catalogCategoryMaster.getDateCreate());
         categorySolr.setDateUpdate(catalogCategoryMaster.getDateUpdate());
-        categorySolr.setBusinessname(catalogCategoryMaster.getBusinessName());
+        categorySolr.setName(catalogCategoryMaster.getName());
 
         // Adding Been in to solr for indexing
         catalogCategorySolrServer.addBean(categorySolr);

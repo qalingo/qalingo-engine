@@ -72,7 +72,7 @@ public class StoreMarshalXmlHelperImpl implements StoreMarshalXmlHelper {
 	public XmlStore buildStore(Store store, XmlStore xmlStore) {
 		xmlStore.setId(store.getId().toString());
 		xmlStore.setVersion(store.getVersion());
-		xmlStore.setName(store.getBusinessName());
+		xmlStore.setName(store.getName());
 
 		// ...
 		

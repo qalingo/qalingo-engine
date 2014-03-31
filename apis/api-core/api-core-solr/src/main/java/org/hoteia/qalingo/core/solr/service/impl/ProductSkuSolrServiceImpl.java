@@ -53,13 +53,13 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
         }
         if (logger.isDebugEnabled()) {
             logger.debug("Indexing productSku " + productSku.getId());
-            logger.debug("Indexing productSku " + productSku.getBusinessName());
+            logger.debug("Indexing productSku " + productSku.getName());
             logger.debug("Indexing productSku " + productSku.getDescription());
             logger.debug("Indexing productSku " + productSku.getCode());
         }
         ProductSkuSolr productSkuSolr = new ProductSkuSolr();
         productSkuSolr.setId(productSku.getId());
-        productSkuSolr.setBusinessname(productSku.getBusinessName());
+        productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
         productSkuSolr.setCode(productSku.getCode());
         ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
@@ -123,7 +123,7 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
-        solrQuery.addFacetField("businessname");
+        solrQuery.addFacetField("name");
         solrQuery.addFacetField("code");
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         // request.setPath(getRequestPath());

@@ -9,7 +9,7 @@ public class CatalogPojo {
     private Long id;
     private int version;
     private String code;
-    private String businessName;
+    private String name;
     private String description;
     private boolean isDefault = false;
     private boolean isMaster = false;
@@ -42,12 +42,12 @@ public class CatalogPojo {
         this.code = code;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

@@ -24,7 +24,7 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
 
     protected Long id;
     protected String code;
-    protected String businessName;
+    protected String name;
     protected String description;
     protected String backgroundImage;
     protected String carouselImage;
@@ -74,12 +74,12 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
         this.code = code;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
     
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getDescription() {

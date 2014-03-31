@@ -140,15 +140,15 @@ public class UrlServiceImpl extends AbstractUrlServiceImpl implements UrlService
                     } else if (param instanceof ProductMarketing) {
                         ProductMarketing productMarketing = (ProductMarketing) param;
                         urlParams.put(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE, handleParamValue(productMarketing.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(productMarketing.getBusinessName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(productMarketing.getName()) + "/";
                     } else if (param instanceof CatalogCategoryVirtual) {
                         CatalogCategoryVirtual category = (CatalogCategoryVirtual) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getBusinessName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getName()) + "/";
                     } else if (param instanceof CatalogCategoryMaster) {
                         CatalogCategoryMaster category = (CatalogCategoryMaster) param;
                         urlParams.put(RequestConstants.URL_PATTERN_CATEGORY_CODE, handleParamValue(category.getCode()));
-                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getBusinessName()) + "/";
+                        urlStr = addFullPrefixUrl(requestData, urlStr) + replaceSpaceAndUnderscore(category.getName()) + "/";
                     } else if (param instanceof ProductBrand) {
                         ProductBrand productBrand = (ProductBrand) param;
                         urlParams.put(RequestConstants.URL_PATTERN_BRAND_CODE, handleParamValue(productBrand.getCode()));

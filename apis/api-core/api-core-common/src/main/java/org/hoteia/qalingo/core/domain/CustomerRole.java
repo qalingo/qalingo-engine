@@ -75,7 +75,7 @@ public class CustomerRole extends AbstractEntity {
 	        joinColumns=@JoinColumn(name="ROLE_ID"),
 	        inverseJoinColumns=@JoinColumn(name="PERMISSION_ID")
 	    )
-	private Set<CustomerPermission> rolePermissions;
+	private Set<CustomerPermission> permissions;
 	
 	public CustomerRole(){
 	}
@@ -136,12 +136,12 @@ public class CustomerRole extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 	
-    public Set<CustomerPermission> getRolePermissions() {
-        return rolePermissions;
+    public Set<CustomerPermission> getPermissions() {
+        return permissions;
     }
 	
-	public void setRolePermissions(Set<CustomerPermission> rolePermissions) {
-		this.rolePermissions = rolePermissions;
+	public void setPermissions(Set<CustomerPermission> permissions) {
+		this.permissions = permissions;
 	}
 
     @Override
