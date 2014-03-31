@@ -21,15 +21,14 @@ public class StoreBusinessHourViewBean extends AbstractViewBean implements Seria
 	
 	private String closingDateStart;
 	private String closingDateEnd;
-	private String startHour;
-	private String endHour;
-	private boolean monday;
-    private boolean tuesday;
-    private boolean wednesday;
-    private boolean thursday;
-    private boolean friday;
-    private boolean saturday;
-    private boolean sunday;
+	
+	private OperationHourViewBean monday;
+    private OperationHourViewBean tuesday;
+    private OperationHourViewBean wednesday;
+    private OperationHourViewBean thursday;
+    private OperationHourViewBean friday;
+    private OperationHourViewBean saturday;
+    private OperationHourViewBean sunday;
 	public String getClosingDateStart() {
 		return closingDateStart;
 	}
@@ -42,72 +41,58 @@ public class StoreBusinessHourViewBean extends AbstractViewBean implements Seria
 	public void setClosingDateEnd(String closingDateEnd) {
 		this.closingDateEnd = closingDateEnd;
 	}
-	public String getStartHour() {
-		return startHour;
-	}
-	public void setStartHour(String startHour) {
-		this.startHour = startHour;
-	}
-	public String getEndHour() {
-		return endHour;
-	}
-	public void setEndHour(String endHour) {
-		this.endHour = endHour;
-	}
-	public boolean isMonday() {
+	public OperationHourViewBean getMonday() {
 		return monday;
 	}
-	public void setMonday(boolean monday) {
+	public void setMonday(OperationHourViewBean monday) {
 		this.monday = monday;
 	}
-	public boolean isTuesday() {
+	public OperationHourViewBean getTuesday() {
 		return tuesday;
 	}
-	public void setTuesday(boolean tuesday) {
+	public void setTuesday(OperationHourViewBean tuesday) {
 		this.tuesday = tuesday;
 	}
-	public boolean isWednesday() {
+	public OperationHourViewBean getWednesday() {
 		return wednesday;
 	}
-	public void setWednesday(boolean wednesday) {
+	public void setWednesday(OperationHourViewBean wednesday) {
 		this.wednesday = wednesday;
 	}
-	public boolean isThursday() {
+	public OperationHourViewBean getThursday() {
 		return thursday;
 	}
-	public void setThursday(boolean thursday) {
+	public void setThursday(OperationHourViewBean thursday) {
 		this.thursday = thursday;
 	}
-	public boolean isFriday() {
+	public OperationHourViewBean getFriday() {
 		return friday;
 	}
-	public void setFriday(boolean friday) {
+	public void setFriday(OperationHourViewBean friday) {
 		this.friday = friday;
 	}
-	public boolean isSaturday() {
+	public OperationHourViewBean getSaturday() {
 		return saturday;
 	}
-	public void setSaturday(boolean saturday) {
+	public void setSaturday(OperationHourViewBean saturday) {
 		this.saturday = saturday;
 	}
-	public boolean isSunday() {
+	public OperationHourViewBean getSunday() {
 		return sunday;
 	}
-	public void setSunday(boolean sunday) {
+	public void setSunday(OperationHourViewBean sunday) {
 		this.sunday = sunday;
 	}
 	@Override
 	public String toString() {
 		return "StoreBusinessHourViewBean [closingDateStart="
 				+ closingDateStart + ", closingDateEnd=" + closingDateEnd
-				+ ", startHour=" + startHour + ", endHour=" + endHour
 				+ ", monday=" + monday + ", tuesday=" + tuesday
 				+ ", wednesday=" + wednesday + ", thursday=" + thursday
 				+ ", friday=" + friday + ", saturday=" + saturday + ", sunday="
 				+ sunday + "]";
 	}
 	
-    
-    
+	
     
 }

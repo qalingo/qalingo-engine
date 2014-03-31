@@ -64,6 +64,6 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
     CatalogBreadcrumbViewBean buildViewBeanCatalogBreadcrumb(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 
     StoreLocatorFilterBean buildFilterBeanStoreLocator(StoreLocatorViewBean storeLocatorViewBean, Locale locale) throws Exception;
-    List<StoreBusinessHourViewBean> buildListViewBeanStoreBusinessHour(final Store store);
+    StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store);
     
 }

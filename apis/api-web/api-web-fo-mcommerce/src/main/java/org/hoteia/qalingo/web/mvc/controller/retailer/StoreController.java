@@ -51,12 +51,14 @@ public class StoreController extends AbstractMCommerceController {
 		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestData, stores);
 		List<StoreViewBean> otherStores = storeLocator.getStores();
 		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
-		List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = frontofficeViewBeanFactory.buildListViewBeanStoreBusinessHour(store);
+//		List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = frontofficeViewBeanFactory.buildListViewBeanStoreBusinessHour(store);
+		StoreBusinessHourViewBean storeBusinessHourViewBean = frontofficeViewBeanFactory.buildViewBeanStoreBusinessHour(store);
 		otherStores.remove(storeViewBean);
 		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
 		
 		model.addAttribute("otherStores",otherStores);
-		model.addAttribute("businessHours",storeBusinessHourViewBeans);
+		model.addAttribute("businessHours",storeBusinessHourViewBean);
+		
 		model.addAttribute("withMap", true);
 		
         return modelAndView;
