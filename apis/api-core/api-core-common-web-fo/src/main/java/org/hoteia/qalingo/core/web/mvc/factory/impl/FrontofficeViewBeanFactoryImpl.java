@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -48,6 +49,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OperationHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
@@ -55,6 +57,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
@@ -489,6 +492,46 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             searchFacetViewBean.setValues(values);
         }
         return searchFacetViewBean;
+    }
+    /*
+     * 
+     */
+    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store){
+//    	List<StoreBusinessHourViewBean>  storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
+    	List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
+    	StoreBusinessHourViewBean storeBusinessHourViewBean = null;
+    	if(storeBusinessHours != null && storeBusinessHours.size() > 0){
+    		storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+	    	for(StoreBusinessHour storeBusinessHour : storeBusinessHours){
+	    		OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
+	    		operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+	    		operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+	    		if(storeBusinessHour.isMonday()){
+	    			storeBusinessHourViewBean.setMonday(operationHourViewBean);
+	    		}
+	    		
+	    		if(storeBusinessHour.isTuesday()){
+	    			storeBusinessHourViewBean.setTuesday(operationHourViewBean);
+	    		}
+	    		if(storeBusinessHour.isWednesday()){
+	    			storeBusinessHourViewBean.setWednesday(operationHourViewBean);
+	    		}
+	    		if(storeBusinessHour.isThursday()){
+	    			storeBusinessHourViewBean.setThursday(operationHourViewBean);
+	    		}
+	    		if(storeBusinessHour.isFriday()){
+	    			storeBusinessHourViewBean.setFriday(operationHourViewBean);
+	    		}
+	    		if(storeBusinessHour.isSaturday()){
+	    			storeBusinessHourViewBean.setSaturday(operationHourViewBean);
+	    		}
+	    		if(storeBusinessHour.isSunday()){
+	    			storeBusinessHourViewBean.setSunday(operationHourViewBean);
+	    		}
+	    	}
+
+    	}
+    	return storeBusinessHourViewBean;
     }
     
     public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {

@@ -488,6 +488,18 @@ public class Store extends AbstractEntity {
  		}
  		return slideShows;
  	}
+	public List<StoreBusinessHour> getStoreBusinessHours (){
+		List<StoreBusinessHour> storeBusinessHours = null;
+		 if (businessHours != null 
+	                && Hibernate.isInitialized(businessHours)) {
+			 storeBusinessHours = new ArrayList<StoreBusinessHour>();
+	            for (Iterator<StoreBusinessHour> iterator = businessHours.iterator(); iterator.hasNext();) {
+	            	StoreBusinessHour storeBusinessHour = (StoreBusinessHour) iterator.next();
+	            	storeBusinessHours.add(storeBusinessHour);
+	            }
+	       }
+		return storeBusinessHours;
+	}
 
     @Override
     public int hashCode() {
