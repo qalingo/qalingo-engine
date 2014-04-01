@@ -22,17 +22,20 @@ public class CartItemPojo {
 
     private Long id;
     private int quantity;
-    private String productSkuCode;
     
     private CartItemPricePojo cartItemPrice;
     
     private Set<CartItemTaxPojo> taxes = new HashSet<CartItemTaxPojo>();
 
+    private String productSkuCode;
     private ProductSkuPojo productSku;
+
     private String productMarketingCode;
     private ProductMarketingPojo productMarketing;
+
     private String catalogCategoryCode;
     private CatalogCategoryPojo catalogCategory;
+    
     private ProductSkuPricePojo price;
     private BigDecimal totalAmountCartItem;
     

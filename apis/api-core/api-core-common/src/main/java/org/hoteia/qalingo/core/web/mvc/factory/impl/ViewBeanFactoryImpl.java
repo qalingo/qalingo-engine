@@ -1207,6 +1207,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         final String localizationCode = localization.getCode();
         final CatalogCategoryViewBean catalogCategoryViewBean = new CatalogCategoryViewBean();
         
+        catalogCategoryViewBean.setCode(catalogCategory.getCode());
         catalogCategoryViewBean.setName(catalogCategory.getI18nName(localizationCode));
         catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
         catalogCategoryViewBean.setRoot(catalogCategory.isRoot());

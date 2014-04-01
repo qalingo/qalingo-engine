@@ -248,8 +248,8 @@ public class DeliveryMethod extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "DeliveryMethod [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", deliveryTime=" + deliveryTime + ", countries="
-                + countries + ", prices=" + prices + ", warehouses=" + warehouses + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "DeliveryMethod [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + "]";
     }
 
 }

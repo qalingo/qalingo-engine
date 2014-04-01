@@ -450,7 +450,7 @@ public class ProductSku extends AbstractEntity {
 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
 				Asset productImage = (Asset) iterator.next();
 				if(AssetType.PACKSHOT.equals(productImage.getType())
-						&& size.equals(productImage.getSize())){
+						&& size.equals(productImage.getSize().name())){
 					defaultProductImage = productImage;
 				}
 			}
