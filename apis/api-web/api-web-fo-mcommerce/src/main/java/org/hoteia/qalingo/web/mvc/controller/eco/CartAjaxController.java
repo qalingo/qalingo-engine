@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -23,7 +24,6 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
-import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -141,7 +141,10 @@ public class CartAjaxController extends AbstractMCommerceController {
 
         addToCart.setCheckoutShoppingCartUrl(urlService.generateUrl(FoUrls.CART_DETAILS, requestData));
         try {
-            int quantityValue = Integer.parseInt(quantity);
+            int quantityValue = 1;
+            if(StringUtils.isNotEmpty(quantity)){
+                quantityValue = Integer.parseInt(quantity);
+            }
             webManagementService.addToCart(requestData, catalogCategoryCode, productSkuCode, quantityValue);
             
             CartPojo cart = checkoutPojoService.handleCartMapping(requestData.getCart());

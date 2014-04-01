@@ -77,7 +77,7 @@ public interface ProductService {
     
     ProductSku getProductSkuById(String productSkuId, Object... params);
     
-    ProductSku getProductSkuByCode(String productSkuCode, Object... params);
+    ProductSku getProductSkuByCode(String skuCode, Object... params);
     
     List<ProductSku> findProductSkusByproductMarketingId(Long marketAreaId, Long productMarketingId, Object... params);
     

@@ -72,9 +72,13 @@ public class CheckoutPojoServiceImpl implements CheckoutPojoService {
     }
     
     public List<DeliveryMethodPojo> getAvailableDeliveryMethods(final MarketArea marketArea) {
-        final List<DeliveryMethod> deliveryMethods = new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods());
-        logger.debug("Found {} deliveryMethods", deliveryMethods.size());
-        return PojoUtil.mapAll(dozerBeanMapper, deliveryMethods, DeliveryMethodPojo.class);
+        if(marketArea != null 
+                && marketArea.getDeliveryMethods() != null){
+            final List<DeliveryMethod> deliveryMethods = new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods());
+            logger.debug("Found {} deliveryMethods", deliveryMethods.size());
+            return PojoUtil.mapAll(dozerBeanMapper, deliveryMethods, DeliveryMethodPojo.class);
+        }
+        return null;
     }
 
 }

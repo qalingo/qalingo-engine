@@ -232,8 +232,8 @@ public class ProductServiceImpl implements ProductService {
         return getProductSkuById(productSkuId, params);
     }
 
-    public ProductSku getProductSkuByCode(final String productSkuCode, Object... params) {
-        return productDao.getProductSkuByCode(productSkuCode, params);
+    public ProductSku getProductSkuByCode(final String skuCode, Object... params) {
+        return productDao.getProductSkuByCode(skuCode, params);
     }
 
     public List<ProductSku> findProductSkusByproductMarketingId(final Long marketAreaId, final Long productMarketing, Object... params) {

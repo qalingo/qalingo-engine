@@ -231,10 +231,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	public String getSkuCode() {
 		if (productSkus != null) {
-			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator
-					.hasNext();) {
-				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator
-						.next();
+			for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+				ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
 				if (productSkuViewBean.isDefault()) {
 					return productSkuViewBean.getCode();
 				}

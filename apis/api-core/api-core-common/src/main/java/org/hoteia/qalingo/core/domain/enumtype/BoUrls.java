@@ -71,6 +71,7 @@ public enum BoUrls {
     RETAILER_LIST(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE, true),
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE, true),
     RETAILER_EDIT(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_EDIT_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE, true),
+    RETAILER_ADD(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_ADD_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE, true),
 
     CACHE(BoUrls.CACHE_URL, BoUrls.CACHE_KEY, BoUrls.CACHE_VELOCITY_PAGE, true),
 
@@ -350,6 +351,8 @@ public enum BoUrls {
 	public static final String RETAILER_EDIT_URL			= "/**/retailer-edit.html";
 	public static final String RETAILER_EDIT_VELOCITY_PAGE	= "retailer/retailer-edit";
 
+    public static final String RETAILER_ADD_KEY             = "retailer-add";
+	
 	// SEARCH
 	public static final String SEARCH_KEY				= "search";
 	public static final String SEARCH_URL				= "/**/search.html";

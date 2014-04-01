@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -73,13 +74,19 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	public ModelAndView retailerList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
+        final MarketArea marketArea = requestData.getMarketArea();
         final Locale locale = requestData.getLocale();
         
 		final String contentText = getSpecificMessage(ScopeWebMessage.RETAILER, BoMessageKey.MAIN_CONTENT_TEXT, locale);
 		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
 		
 		displayList(request, model, requestData, null);
-		
+
+        Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_LIST.getKey() + ".by.market.area", params);
+
+        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.RETAILER_ADD, requestData));
+
         return modelAndView;
 	}
 	
@@ -105,31 +112,63 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.RETAILER_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView retailerDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_DETAILS.getVelocityPage());
-		
-		RetailerViewBean retailerViewBean = initRetailerViewBean(request, model);
-		if(retailerViewBean == null){
-			final String url = requestUtil.getLastRequestUrl(request);
-			return new ModelAndView(new RedirectView(url));
-		}
-		
-		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
-		
+        final RequestData requestData = requestUtil.getRequestData(request);
+
+        final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+
+        // SANITY CHECK
+        if (StringUtils.isEmpty(retailerCode)) {
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+
+        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+
+        // SANITY CHECK
+        if (retailer != null) {
+            modelAndView.addObject(ModelConstants.RETAILER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailer));
+        } else {
+            final String url = requestUtil.getLastRequestUrl(request);
+            return new ModelAndView(new RedirectView(url));
+        }
+
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
+
+        Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
+
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.RETAILER_EDIT_URL, method = RequestMethod.GET)
 	public ModelAndView retailerEdit(final HttpServletRequest request, final Model model, @ModelAttribute("retailerForm") RetailerForm retailerForm) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_EDIT.getVelocityPage());
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_EDIT.getVelocityPage());
+        final RequestData requestData = requestUtil.getRequestData(request);
 
-		RetailerViewBean retailerViewBean = initRetailerViewBean(request, model);
-		if(retailerViewBean == null){
-			final String url = requestUtil.getLastRequestUrl(request);
-			return new ModelAndView(new RedirectView(url));
-		}
+        final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 
-		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
-		
-		return modelAndView;
+        // SANITY CHECK
+        if (StringUtils.isEmpty(retailerCode)) {
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
+        }
+
+        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+
+        // SANITY CHECK
+        if (retailer != null) {
+            modelAndView.addObject(ModelConstants.RETAILER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailer));
+        } else {
+            final String url = requestUtil.getLastRequestUrl(request);
+            return new ModelAndView(new RedirectView(url));
+        }
+
+        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
+
+        Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
+
+        return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.RETAILER_EDIT_URL, method = RequestMethod.POST)
@@ -225,21 +264,6 @@ public class RetailerController extends AbstractBusinessBackofficeController {
     	return backofficeFormFactory.buildRetailerForm(requestData, null);
 	}
     
-	/**
-	 * 
-	 */
-	protected RetailerViewBean initRetailerViewBean(final HttpServletRequest request, final Model model) throws Exception {
-		final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getMarketAreaRetailer();
-		final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
-        if(StringUtils.isNotEmpty(retailerCode)){
-            final Retailer retailerEdit = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerCode);
-            return backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerEdit);
-        }
-        return null;
-	}
-	
     @ModelAttribute(ModelConstants.COUNTRIES)
     public List<ValueBean> getCountries(HttpServletRequest request) throws Exception {
 		List<ValueBean> countriesValues = new ArrayList<ValueBean>();

@@ -322,17 +322,18 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         }
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date createdDate = retailer.getDateCreate();
-        if (createdDate != null) {
-            retailerViewBean.setCreatedDate(dateFormat.format(createdDate));
+        Date dateCreate = retailer.getDateCreate();
+        if (dateCreate != null) {
+            retailerViewBean.setDateCreate(dateFormat.format(dateCreate));
         } else {
-            retailerViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
+            retailerViewBean.setDateCreate(Constants.NOT_AVAILABLE);
         }
-        Date updatedDate = retailer.getDateUpdate();
-        if (updatedDate != null) {
-            retailerViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+
+        Date dateUpdate = retailer.getDateUpdate();
+        if (dateUpdate != null) {
+            retailerViewBean.setDateUpdate(dateFormat.format(dateUpdate));
         } else {
-            retailerViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
+            retailerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
         Map<String, String> urlParams = new HashMap<String, String>();

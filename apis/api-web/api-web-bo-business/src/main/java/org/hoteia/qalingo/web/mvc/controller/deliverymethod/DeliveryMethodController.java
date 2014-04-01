@@ -84,15 +84,15 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_DETAILS.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		
-		final String currentDeliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
+		final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_DELIVERY_METHOD_CODE);
 		
         // SANITY CHECK
-        if(StringUtils.isEmpty(currentDeliveryMethodCode)){
-            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData);
+        if(StringUtils.isEmpty(deliveryMethodCode)){
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData);
             return new ModelAndView(new RedirectView(urlRedirect));
         }
         
-		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(currentDeliveryMethodCode);
+		final DeliveryMethod deliveryMethod = deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode);
 		
         // SANITY CHECK
 		if(deliveryMethod != null){

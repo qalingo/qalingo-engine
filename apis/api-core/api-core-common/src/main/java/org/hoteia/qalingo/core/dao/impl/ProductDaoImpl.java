@@ -303,10 +303,10 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productSku;
     }
     
-    public ProductSku getProductSkuByCode(final String productSkuCode, Object... params) {
+    public ProductSku getProductSkuByCode(final String skuCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductSku.class);
         FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
-        criteria.add(Restrictions.eq("code", productSkuCode));
+        criteria.add(Restrictions.eq("code", skuCode));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
         productSku.setFetchPlan(fetchPlan);
         return productSku;

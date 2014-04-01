@@ -70,7 +70,7 @@ public interface ProductDao {
 	   
     ProductSku getProductSkuById(Long productSkuId, Object... params);
 
-    ProductSku getProductSkuByCode(String productSkuCode, Object... params);
+    ProductSku getProductSkuByCode(String skuCode, Object... params);
     
     List<ProductSku> findProductSkusByproductMarketingId(Long productMarkettingId, Object... params);
     
