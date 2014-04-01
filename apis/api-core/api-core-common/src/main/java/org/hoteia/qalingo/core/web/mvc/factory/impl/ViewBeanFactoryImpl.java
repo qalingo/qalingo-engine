@@ -444,6 +444,7 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
         retailerViewBean.setBrand(retailer.isBrand());
         retailerViewBean.setEcommerce(retailer.isEcommerce());
+        retailerViewBean.setCorner(retailer.isCorner());
 
         if (Hibernate.isInitialized(retailer.getAddresses()) 
                 && retailer.getAddresses() != null) {

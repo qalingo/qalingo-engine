@@ -27,11 +27,13 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.service.WarehouseService;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -63,6 +65,9 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 
 	@Autowired
 	private RetailerService retailerService;
+	
+	@Autowired
+	private WarehouseService warehouseService;
 
 	@RequestMapping(value = BoUrls.RETAILER_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView retailerList(final HttpServletRequest request, final Model model) throws Exception {
@@ -121,7 +126,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			final String url = requestUtil.getLastRequestUrl(request);
 			return new ModelAndView(new RedirectView(url));
 		}
-		
+
 		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
 		return modelAndView;
@@ -150,7 +155,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			return retailerEdit(request, model, retailerForm);
         }
 		
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailerEdit);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
@@ -260,6 +265,32 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			logger.error("", e);
 		}
 		return countriesValues;
+    }
+    
+    @ModelAttribute(ModelConstants.WAREHOUSES_VIEW_BEAN)
+    public List<ValueBean> getWarehouses(HttpServletRequest request) throws Exception{
+    	List<ValueBean> warehousesValues = new ArrayList<ValueBean>();
+		try {
+	        final RequestData requestData = requestUtil.getRequestData(request);
+	        final MarketArea marketArea = requestData.getMarketArea();
+	        List<Warehouse> warehouses = warehouseService.findWarehousesByMarketAreaId(marketArea.getId());
+	        if(warehouses != null){
+		        for (Iterator<Warehouse> iterator = warehouses.iterator(); iterator.hasNext();) {
+		            Warehouse warehouseIt = (Warehouse) iterator.next();
+		            final String warehouseId = warehouseIt.getId().toString();
+					warehousesValues.add(new ValueBean(warehouseId, warehouseIt.getName()));
+		        }
+		        Collections.sort(warehousesValues, new Comparator<ValueBean>() {
+					@Override
+					public int compare(ValueBean o1, ValueBean o2) {
+						return o1.getValue().compareTo(o2.getValue());
+					}
+				});
+	        }
+		} catch (Exception e) {
+			logger.error("", e);
+		}
+		return warehousesValues;
     }
 
 }

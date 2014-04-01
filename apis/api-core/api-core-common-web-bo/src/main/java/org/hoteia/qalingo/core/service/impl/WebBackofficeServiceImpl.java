@@ -431,6 +431,18 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		retailerAddress.setEmail(retailerForm.getEmail());
 		retailerAddress.setWebsite(retailerForm.getWebsite());
 		
+		retailer.setBrand(retailerForm.isBrand());
+		retailer.setCorner(retailerForm.isCorner());
+		retailer.setEcommerce(retailerForm.isEcommerce());
+		retailer.setOfficialRetailer(retailerForm.isOfficialRetailer());
+		
+		if(retailerForm.getWarehouseId() != null){
+			final Warehouse warehouse = warehouseService.getWarehouseById(retailerForm.getWarehouseId());
+			if(warehouse != null){
+				retailer.setWarehouse(warehouse);
+			}
+		}
+		
 		retailerService.saveOrUpdateRetailer(retailer);
 	}
 

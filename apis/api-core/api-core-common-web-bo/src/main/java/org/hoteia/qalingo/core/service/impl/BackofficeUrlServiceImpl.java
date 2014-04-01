@@ -156,6 +156,10 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         User user = (User) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_USER_CODE, handleParamValue(user.getLogin()));
                         break;
+                    } else if (param instanceof Retailer){ 
+                    	Retailer retailer = (Retailer) param;
+                    	getParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE, handleParamValue(retailer.getCode()));
+                    	break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
                         break;
