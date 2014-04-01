@@ -122,6 +122,13 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			return new ModelAndView(new RedirectView(url));
 		}
 		
+		//TODO: need to find how RetailerForm is initialized? Temp update some information
+		retailerForm.setBrand(retailerViewBean.isBrand());
+		retailerForm.setCorner(retailerViewBean.isCorner());
+		retailerForm.setOfficialRetailer(retailerViewBean.isOfficialRetailer());
+		retailerForm.setEcommerce(retailerViewBean.isEcommerce());
+		
+		//TODO: why need to put retailerViewBean?
 		request.setAttribute(ModelConstants.RETAILER_VIEW_BEAN, retailerViewBean);
 		
 		return modelAndView;
@@ -150,7 +157,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 			return retailerEdit(request, model, retailerForm);
         }
 		
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData);
+		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailerEdit);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 
