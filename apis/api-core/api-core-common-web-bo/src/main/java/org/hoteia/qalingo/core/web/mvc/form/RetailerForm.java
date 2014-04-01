@@ -35,6 +35,7 @@ public class RetailerForm {
 	private String stateCode;
 	private String areaCode;
 	private String countryCode;
+	private String warehouseId;
 
 	private String longitude;
 	private String latitude;
@@ -234,6 +235,14 @@ public class RetailerForm {
 
 	public void setCorner(boolean isCorner) {
 		this.isCorner = isCorner;
+	}
+
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 
 }

@@ -372,6 +372,15 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             retailerForm.setCode(retailer.getCode());
             retailerForm.setName(retailer.getName());
             retailerForm.setDescription(retailer.getDescription());
+            
+            retailerForm.setBrand(retailer.isBrand());
+    		retailerForm.setCorner(retailer.isCorner());
+    		retailerForm.setOfficialRetailer(retailer.isOfficialRetailer());
+    		retailerForm.setEcommerce(retailer.isEcommerce());
+    		
+    		if(retailer.getWarehouse() != null){
+    			retailerForm.setWarehouseId(retailer.getWarehouse().getId().toString());
+    		}
 
             if (retailer.getAddresses() != null) {
                 RetailerAddress defaultAddress = retailer.getDefaultAddress();
