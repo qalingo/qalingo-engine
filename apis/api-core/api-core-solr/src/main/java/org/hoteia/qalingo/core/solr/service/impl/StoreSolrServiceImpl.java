@@ -50,7 +50,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         }
         if (logger.isDebugEnabled()) {
             logger.debug("Indexing store " + store.getId());
-            logger.debug("Indexing store " + store.getBusinessName());
+            logger.debug("Indexing store " + store.getName());
             logger.debug("Indexing store " + store.getCity());
             logger.debug("Indexing store " + store.getCountryCode());
             logger.debug("Indexing store " + store.getPostalCode());
@@ -59,7 +59,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         StoreSolr storeSolr = new StoreSolr();
         storeSolr.setId(store.getId());
         storeSolr.setCode(store.getCode());
-        storeSolr.setBusinessname(store.getBusinessName());
+        storeSolr.setName(store.getName());
         storeSolr.setCity(store.getCity());
         storeSolr.setCountryCode(store.getCountryCode());
         storeSolr.setPostalCode(store.getPostalCode());
@@ -165,7 +165,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
         solrQuery.setFacet(true);
         solrQuery.setFacetMinCount(1);
         solrQuery.setFacetLimit(8);
-        solrQuery.addFacetField("businessname");
+        solrQuery.addFacetField("name");
         SolrRequest request = new QueryRequest(solrQuery, METHOD.POST);
         // request.setPath(getRequestPath());
         QueryResponse response = new QueryResponse(storeSolrServer.request(request), storeSolrServer);

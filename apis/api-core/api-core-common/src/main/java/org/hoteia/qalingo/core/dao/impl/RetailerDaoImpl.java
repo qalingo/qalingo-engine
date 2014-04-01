@@ -162,7 +162,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("code", "%" + searchTxt + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("businessName", "%" + searchTxt + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + searchTxt + "%")));
         criteria.add(Restrictions.or(Restrictions.eq("description", "%" + searchTxt + "%")));
         
         criteria.addOrder(Order.asc("id"));
@@ -290,7 +290,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
         criteria.add(Restrictions.eq("retailerId", retailerId));
         
-        criteria.addOrder(Order.asc("businessName"));
+        criteria.addOrder(Order.asc("name"));
 
         @SuppressWarnings("unchecked")
         List<Store> stores = criteria.list();

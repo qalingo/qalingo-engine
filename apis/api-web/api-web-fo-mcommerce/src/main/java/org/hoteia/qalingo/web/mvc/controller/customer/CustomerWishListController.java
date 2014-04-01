@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -39,14 +40,14 @@ public class CustomerWishListController extends AbstractCustomerController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_WISHLIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-		final Customer currentCustomer = requestData.getCustomer();
+		final Customer customer = requestData.getCustomer();
 		
 		// WE RELOAD THE CUSTOMER FOR THE PERSISTANCE PROXY FILTER 
 		// IT AVOIDS LazyInitializationException: could not initialize proxy - no Session
-		final Customer reloadedCustomer = customerService.getCustomerByLoginOrEmail(currentCustomer.getLogin());
+		final Customer reloadedCustomer = customerService.getCustomerByCode(customer.getCode());
 		
 		final CustomerWishlistViewBean customerWishListViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerWishlist(requestUtil.getRequestData(request), reloadedCustomer);
-		model.addAttribute("customerWishList", customerWishListViewBean);
+		model.addAttribute(ModelConstants.CUSTOMER_WISHLIST_VIEW_BEAN, customerWishListViewBean);
 
         return modelAndView;
 	}

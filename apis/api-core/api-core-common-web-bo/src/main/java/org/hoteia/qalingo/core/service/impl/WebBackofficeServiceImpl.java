@@ -139,12 +139,13 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         customer.setLastname(customerForm.getLastname());
         customer.setFirstname(customerForm.getFirstname());
         customer.setEmail(customerForm.getEmail());
+        customer.setActive(customerForm.isActive());
         customerService.saveOrUpdateCustomer(customer);
     }
     
 	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentCatalogCategory, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
-		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
@@ -196,7 +197,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	}
 	
 	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
-		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())) {
@@ -256,14 +257,14 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	}
 	
 	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
-		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 	
 	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
-		catalogCategory.setBusinessName(catalogCategoryForm.getName());
+		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())) {
@@ -375,7 +376,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
        if(productMarketing == null){
            productMarketing = new ProductMarketing();
         }
-		productMarketing.setBusinessName(productMarketingForm.getName());
+		productMarketing.setName(productMarketingForm.getName());
 		productMarketing.setCode(productMarketingForm.getCode());
 		productMarketing.setDescription(productMarketingForm.getDescription());
 		productService.saveOrUpdateProductMarketing(productMarketing);
@@ -385,7 +386,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	    if(productSku == null){
 	        productSku = new ProductSku();
 	    }
-		productSku.setBusinessName(productSkuForm.getName());
+		productSku.setName(productSkuForm.getName());
 		productSku.setCode(productSkuForm.getCode());
 		productSku.setDescription(productSkuForm.getDescription());
 		productService.saveOrUpdateProductSku(productSku);

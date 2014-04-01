@@ -22,7 +22,7 @@ public class StoreSolr {
     private String code;
     
     @Field
-	private String businessname;
+	private String name;
 
     @Field
    	private String city;
@@ -90,13 +90,13 @@ public class StoreSolr {
         this.code = code;
     }
 	
-	public String getBusinessname() {
-		return businessname;
-	}
+	public String getName() {
+        return name;
+    }
 	
-	public void setBusinessname(String businessname) {
-		this.businessname = businessname;
-	}
+	public void setName(String name) {
+        this.name = name;
+    }
 	
 	public Date getDateCreate() {
 		return dateCreate;

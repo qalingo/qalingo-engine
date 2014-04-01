@@ -15,7 +15,7 @@ public class CatalogCategoryPojo {
     private Long id;
     private int version;
     private String code;
-    private String businessName;
+    private String name;
     private String description;
     private boolean isDefault;
     private boolean isRoot;
@@ -56,12 +56,12 @@ public class CatalogCategoryPojo {
         this.code = code;
     }
     
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

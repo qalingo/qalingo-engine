@@ -49,7 +49,7 @@ public class ProductSkuSolrServiceTest {
         productSku = new ProductSku();
         productSku.setId(new Long("1"));
         productSku.setDefault(true);
-        productSku.setBusinessName("Product Sku");
+        productSku.setName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
         ProductSkuPrice productSkuPrice = new ProductSkuPrice();
@@ -78,7 +78,7 @@ public class ProductSkuSolrServiceTest {
         logger.debug("--------------->testIndexData");
         productSku = new ProductSku();
         productSku.setId(Long.parseLong("91"));
-        productSku.setBusinessName("Product Sku");
+        productSku.setName("Product Sku");
         productSku.setDescription("Product Sku ...");
         productSku.setCode("productSku");
         productSkuSolrService.addOrUpdateProductSku(productSku, marketArea, retailer);
@@ -154,7 +154,7 @@ public class ProductSkuSolrServiceTest {
             logger.debug("---PRODUCT LIST---");
             for (int i = 0; i < responseBean.getProductSkuSolrList().size(); i++) {
                 logger.debug("" + responseBean.getProductSkuSolrList().get(i).getId());
-                logger.debug(responseBean.getProductSkuSolrList().get(i).getBusinessname());
+                logger.debug(responseBean.getProductSkuSolrList().get(i).getName());
                 logger.debug(responseBean.getProductSkuSolrList().get(i).getDescription());
                 logger.debug(responseBean.getProductSkuSolrList().get(i).getCode());
             }

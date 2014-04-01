@@ -133,7 +133,7 @@ public class Customer extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID")
-    private Set<CustomerAttribute> customerAttributes = new HashSet<CustomerAttribute>(); 
+    private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>(); 
 	
 	@ManyToMany(
 	        targetEntity=org.hoteia.qalingo.core.domain.CustomerGroup.class,
@@ -144,7 +144,7 @@ public class Customer extends AbstractEntity {
 	        joinColumns=@JoinColumn(name="CUSTOMER_ID"),
 	        inverseJoinColumns=@JoinColumn(name="GROUP_ID")
 	    )
-	private Set<CustomerGroup> customerGroups = new HashSet<CustomerGroup>(); 
+	private Set<CustomerGroup> groups = new HashSet<CustomerGroup>(); 
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID")
@@ -427,24 +427,24 @@ public class Customer extends AbstractEntity {
 		return currentCustomerMarketArea;
 	}
 	
-	public void setCustomerMarketAreas(Set<CustomerMarketArea> customerMarketContexts) {
-		this.customerMarketAreas = customerMarketContexts;
+	public void setCustomerMarketAreas(Set<CustomerMarketArea> customerMarketAreas) {
+		this.customerMarketAreas = customerMarketAreas;
 	}
 	
-	public Set<CustomerAttribute> getCustomerAttributes() {
-		return customerAttributes;
+	public Set<CustomerAttribute> getAttributes() {
+		return attributes;
 	}
 	
-	public void setCustomerAttributes(Set<CustomerAttribute> customerAttributes) {
-		this.customerAttributes = customerAttributes;
+	public void setAttributes(Set<CustomerAttribute> attributes) {
+		this.attributes = attributes;
 	}
 	
-    public Set<CustomerGroup> getCustomerGroups() {
-        return customerGroups;
+    public Set<CustomerGroup> getGroups() {
+        return groups;
     }
 	
-	public void setCustomerGroups(Set<CustomerGroup> customerGroups) {
-		this.customerGroups = customerGroups;
+	public void setGroups(Set<CustomerGroup> groups) {
+		this.groups = groups;
 	}
 	
 	public Set<CustomerOAuth> getOauthAccesses() {
@@ -505,14 +505,14 @@ public class Customer extends AbstractEntity {
 	
 	public List<CustomerRole> getRoles() {
 		List<CustomerRole> roles = null;
-		Set<CustomerGroup> customerGroups = getCustomerGroups();
+		Set<CustomerGroup> customerGroups = getGroups();
 		if(customerGroups != null
 		        && Hibernate.isInitialized(customerGroups)){
 	        roles = new ArrayList<CustomerRole>();
 	        Iterator<CustomerGroup> it = customerGroups.iterator();
 	        while (it.hasNext()) {
 	            CustomerGroup customerGroup = (CustomerGroup) it.next();
-	            roles.addAll(customerGroup.getCustomerRoles());
+	            roles.addAll(customerGroup.getRoles());
 	        }
 		}
 		return roles;
@@ -534,10 +534,10 @@ public class Customer extends AbstractEntity {
 	
 	public CustomerAttribute getCustomerAttribute(String attributeCode, Long marketAreaId, String localizationCode) {
 		CustomerAttribute customerAttributeToReturn = null;
-		if(customerAttributes != null
-		        && Hibernate.isInitialized(customerAttributes)) {
+		if(attributes != null
+		        && Hibernate.isInitialized(attributes)) {
 			List<CustomerAttribute> customerAttributesFilter = new ArrayList<CustomerAttribute>();
-			for (Iterator<CustomerAttribute> iterator = customerAttributes.iterator(); iterator.hasNext();) {
+			for (Iterator<CustomerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
 				CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = customerAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
@@ -575,7 +575,7 @@ public class Customer extends AbstractEntity {
 				if(customerAttributesFilter.size() == 0){
 					// TODO : throw error ?
 					
-					for (Iterator<CustomerAttribute> iterator = customerAttributes.iterator(); iterator.hasNext();) {
+					for (Iterator<CustomerAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
 						CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?

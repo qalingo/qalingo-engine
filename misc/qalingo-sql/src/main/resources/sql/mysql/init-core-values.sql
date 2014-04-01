@@ -541,7 +541,7 @@ INSERT INTO teco_group_role_rel VALUES
 -- ECO CATALOGUE
 
 INSERT INTO teco_catalog_master 
-(id, description, code, is_default, business_name)
+(id, description, code, is_default, name)
  VALUES 
 (1, 'Default Master Catalog description', 'MASTER_CAT', 1, 'Master Catalog');
 

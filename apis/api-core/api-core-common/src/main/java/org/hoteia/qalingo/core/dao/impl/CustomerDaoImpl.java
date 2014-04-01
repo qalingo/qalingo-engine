@@ -24,7 +24,7 @@ import org.hoteia.qalingo.core.domain.CustomerAttribute;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.exception.CustomerAttributeException;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.springframework.stereotype.Repository;
 
 @Repository("customerDao")
@@ -103,7 +103,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 			customer.setPermalink(UUID.randomUUID().toString());
 		}
 		
-		for (Iterator<CustomerAttribute> iterator = customer.getCustomerAttributes().iterator(); iterator.hasNext();) {
+		for (Iterator<CustomerAttribute> iterator = customer.getAttributes().iterator(); iterator.hasNext();) {
 			CustomerAttribute customerAttribute = (CustomerAttribute) iterator.next();
 			// ATTRIBUTE DEFINITION CAN'T BE NULL
 	        if(customerAttribute.getAttributeDefinition() == null){
@@ -160,7 +160,7 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerFetchPlan());
         }
     }
 

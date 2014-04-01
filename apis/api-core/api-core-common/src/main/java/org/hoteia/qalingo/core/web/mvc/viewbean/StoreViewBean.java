@@ -20,7 +20,7 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
     private static final long serialVersionUID = 2538607600492625532L;
 
     private String code;
-    private String businessName;
+    private String name;
     private String address1;
     private String address2;
     private String addressAdditionalInformation;
@@ -46,12 +46,12 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
         this.code = code;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress1() {
@@ -174,143 +174,35 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 		this.sliders = sliders;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((address1 == null) ? 0 : address1.hashCode());
-		result = prime * result
-				+ ((address2 == null) ? 0 : address2.hashCode());
-		result = prime
-				* result
-				+ ((addressAdditionalInformation == null) ? 0
-						: addressAdditionalInformation.hashCode());
-		result = prime * result
-				+ ((areaCode == null) ? 0 : areaCode.hashCode());
-		result = prime * result
-				+ ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result
-				+ ((countryCode == null) ? 0 : countryCode.hashCode());
-		result = prime * result
-				+ ((defaultImage == null) ? 0 : defaultImage.hashCode());
-		result = prime * result
-				+ ((detailsUrl == null) ? 0 : detailsUrl.hashCode());
-		result = prime * result
-				+ ((iconImage == null) ? 0 : iconImage.hashCode());
-		result = prime * result
-				+ ((latitude == null) ? 0 : latitude.hashCode());
-		result = prime * result
-				+ ((longitude == null) ? 0 : longitude.hashCode());
-		result = prime * result
-				+ ((postalCode == null) ? 0 : postalCode.hashCode());
-		result = prime * result + ((sliders == null) ? 0 : sliders.hashCode());
-		result = prime * result
-				+ ((stateCode == null) ? 0 : stateCode.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StoreViewBean other = (StoreViewBean) obj;
-		if (address1 == null) {
-			if (other.address1 != null)
-				return false;
-		} else if (!address1.equals(other.address1))
-			return false;
-		if (address2 == null) {
-			if (other.address2 != null)
-				return false;
-		} else if (!address2.equals(other.address2))
-			return false;
-		if (addressAdditionalInformation == null) {
-			if (other.addressAdditionalInformation != null)
-				return false;
-		} else if (!addressAdditionalInformation
-				.equals(other.addressAdditionalInformation))
-			return false;
-		if (areaCode == null) {
-			if (other.areaCode != null)
-				return false;
-		} else if (!areaCode.equals(other.areaCode))
-			return false;
-		if (businessName == null) {
-			if (other.businessName != null)
-				return false;
-		} else if (!businessName.equals(other.businessName))
-			return false;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
-			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
-		if (countryCode == null) {
-			if (other.countryCode != null)
-				return false;
-		} else if (!countryCode.equals(other.countryCode))
-			return false;
-		if (defaultImage == null) {
-			if (other.defaultImage != null)
-				return false;
-		} else if (!defaultImage.equals(other.defaultImage))
-			return false;
-		if (detailsUrl == null) {
-			if (other.detailsUrl != null)
-				return false;
-		} else if (!detailsUrl.equals(other.detailsUrl))
-			return false;
-		if (iconImage == null) {
-			if (other.iconImage != null)
-				return false;
-		} else if (!iconImage.equals(other.iconImage))
-			return false;
-		if (latitude == null) {
-			if (other.latitude != null)
-				return false;
-		} else if (!latitude.equals(other.latitude))
-			return false;
-		if (longitude == null) {
-			if (other.longitude != null)
-				return false;
-		} else if (!longitude.equals(other.longitude))
-			return false;
-		if (postalCode == null) {
-			if (other.postalCode != null)
-				return false;
-		} else if (!postalCode.equals(other.postalCode))
-			return false;
-		if (sliders == null) {
-			if (other.sliders != null)
-				return false;
-		} else if (!sliders.equals(other.sliders))
-			return false;
-		if (stateCode == null) {
-			if (other.stateCode != null)
-				return false;
-		} else if (!stateCode.equals(other.stateCode))
-			return false;
-		return true;
-	}
-	
-    
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StoreViewBean other = (StoreViewBean) obj;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (code == null) {
+            if (other.code != null)
+                return false;
+        } else if (!code.equals(other.code))
+            return false;
+        return true;
+    }
+
 }

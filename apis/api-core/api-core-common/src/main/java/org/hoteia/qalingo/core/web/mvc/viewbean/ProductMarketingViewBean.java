@@ -26,7 +26,7 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	protected Long id;
 	protected String code;
-	protected String businessName;
+	protected String name;
 	protected String description;
 	protected int positionItem;
 
@@ -74,13 +74,13 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		this.code = code;
 	}
 
-	public String getBusinessName() {
-		return businessName;
-	}
-
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
-	}
+	public String getName() {
+        return name;
+    }
+	
+	public void setName(String name) {
+        this.name = name;
+    }
 
 	public String getDescription() {
 		return description;

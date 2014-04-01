@@ -12,7 +12,7 @@ public class ProductMarketingPojo {
 
     private Long id;
     private int version;
-    private String businessName;
+    private String name;
     private String description;
     private boolean isDefault;
     private String code;
@@ -45,12 +45,12 @@ public class ProductMarketingPojo {
         this.version = version;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

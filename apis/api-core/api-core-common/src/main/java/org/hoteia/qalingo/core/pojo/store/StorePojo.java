@@ -10,7 +10,7 @@ public class StorePojo {
     private int version;
     private String code;
     private String type;
-    private String businessName;
+    private String name;
     private String address1;
     private String address2;
     private String addressAdditionalInformation;
@@ -58,12 +58,12 @@ public class StorePojo {
         this.type = type;
     }
 
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress1() {

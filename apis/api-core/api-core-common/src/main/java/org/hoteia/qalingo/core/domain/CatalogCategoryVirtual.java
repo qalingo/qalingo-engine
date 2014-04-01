@@ -67,8 +67,8 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     @Column(name = "CODE", nullable = false)
     private String code;
 
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "DESCRIPTION")
     @Lob
@@ -149,12 +149,12 @@ public class CatalogCategoryVirtual extends AbstractEntity {
         return null;
     }
     
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -440,7 +440,7 @@ public class CatalogCategoryVirtual extends AbstractEntity {
     public String getI18nName(String localizationCode) {
         String i18nName = (String) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if (StringUtils.isEmpty(i18nName)) {
-            i18nName = getBusinessName();
+            i18nName = getName();
         }
         return i18nName;
     }
@@ -576,7 +576,7 @@ public class CatalogCategoryVirtual extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "CatalogCategoryVirtual [id=" + id + ", version=" + version + ", businessName=" + businessName + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault
+        return "CatalogCategoryVirtual [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault
                 + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

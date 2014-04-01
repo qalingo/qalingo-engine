@@ -352,7 +352,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      */
     public CatalogViewBean buildViewBeanMasterCatalog(final RequestData requestData, final CatalogMaster catalogMaster, final List<CatalogCategoryMaster> catalogCategories) throws Exception {
         final CatalogViewBean catalogViewBean = new CatalogViewBean();
-        catalogViewBean.setBusinessName(catalogMaster.getBusinessName());
+        catalogViewBean.setName(catalogMaster.getName());
         catalogViewBean.setCode(catalogMaster.getCode());
 
         if (catalogCategories != null) {
@@ -370,7 +370,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      */
     public CatalogViewBean buildViewBeanVirtualCatalog(final RequestData requestData, final CatalogVirtual catalogVirtual, final List<CatalogCategoryVirtual> catalogCategories) throws Exception {
         final CatalogViewBean catalogViewBean = new CatalogViewBean();
-        catalogViewBean.setBusinessName(catalogVirtual.getBusinessName());
+        catalogViewBean.setName(catalogVirtual.getName());
         catalogViewBean.setCode(catalogVirtual.getCode());
 
         if (catalogCategories != null) {
@@ -428,7 +428,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (catalogCategory != null) {
             final String categoryCode = catalogCategory.getCode();
 
-            catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
+            catalogCategoryViewBean.setName(catalogCategory.getName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
 
@@ -504,7 +504,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         if (catalogCategory != null) {
             final String categoryCode = catalogCategory.getCode();
 
-            catalogCategoryViewBean.setName(catalogCategory.getBusinessName());
+            catalogCategoryViewBean.setName(catalogCategory.getName());
             catalogCategoryViewBean.setCode(categoryCode);
             catalogCategoryViewBean.setDescription(catalogCategory.getDescription());
 
@@ -656,7 +656,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
 
         productAssociationLinkViewBean.setOrderItem(productAssociationLink.getRankPosition());
-        productAssociationLinkViewBean.setName(productAssociationLink.getProductSku().getProductMarketing().getBusinessName());
+        productAssociationLinkViewBean.setName(productAssociationLink.getProductSku().getProductMarketing().getName());
         productAssociationLinkViewBean.setType(productAssociationLink.getType().name());
         productAssociationLinkViewBean.setDescription(productAssociationLink.getType().name());
         productAssociationLinkViewBean.setProductDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productAssociationLink.getProductSku().getProductMarketing()));
@@ -1000,7 +1000,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             ProductMarketing productMarketing = (ProductMarketing) iterator.next();
 
             final GlobalSearchViewBean globalSearchViewBean = new GlobalSearchViewBean();
-            globalSearchViewBean.setValue(productMarketing.getBusinessName() + " : " + productMarketing.getCode());
+            globalSearchViewBean.setValue(productMarketing.getName() + " : " + productMarketing.getCode());
             globalSearchViewBean.setType("ProductMarketing");
             globalSearchViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 
@@ -1012,7 +1012,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             ProductSku productSku = (ProductSku) iterator.next();
 
             final GlobalSearchViewBean globalSearchViewBean = new GlobalSearchViewBean();
-            globalSearchViewBean.setValue(productSku.getBusinessName() + " : " + productSku.getCode());
+            globalSearchViewBean.setValue(productSku.getName() + " : " + productSku.getCode());
             globalSearchViewBean.setType("ProductSku");
             globalSearchViewBean.setUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
 

@@ -72,8 +72,8 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = true, updatable = true)
     private CatalogCategoryType catalogCategoryType;
 
-    @Column(name = "BUSINESS_NAME")
-    private String businessName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "DESCRIPTION")
     @Lob
@@ -146,12 +146,12 @@ public class CatalogCategoryMaster extends AbstractEntity {
         this.catalogCategoryType = catalogCategoryType;
     }
     
-    public String getBusinessName() {
-        return businessName;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isDefault() {
@@ -451,7 +451,7 @@ public class CatalogCategoryMaster extends AbstractEntity {
     public String getI18nName(String localizationCode) {
         String i18nName = (String) getValue(CatalogCategoryMasterAttribute.CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME, null, localizationCode);
         if (StringUtils.isEmpty(i18nName)) {
-            i18nName = getBusinessName();
+            i18nName = getName();
         }
         return i18nName;
     }
@@ -567,7 +567,7 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "CatalogCategoryMaster [id=" + id + ", version=" + version + ", businessName=" + businessName + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault
+        return "CatalogCategoryMaster [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault
                 + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

@@ -130,9 +130,11 @@ public final class ModelConstants {
     public static final String CUSTOMER_VIEW_BEAN               = "customer";
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";
+    public static final String CUSTOMER_WISHLIST_VIEW_BEAN      = "customerWishlist";
+
     public static final String USER_VIEW_BEAN                   = "user";
     public static final String AUTHENTICATED_USER_VIEW_BEAN     = "authenticatedUser";
-
+    
     // SPRING FORM
     public static final String ASSET_FORM                   = "assetForm";
     public static final String RULE_FORM                    = "ruleForm";

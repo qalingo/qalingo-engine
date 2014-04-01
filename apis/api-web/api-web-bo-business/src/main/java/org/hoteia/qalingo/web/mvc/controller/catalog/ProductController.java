@@ -60,7 +60,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
         ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), productMarketing);
         modelAndView.addObject(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
         
-        Object[] params = {productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")"};
+        Object[] params = {productMarketing.getName() + " (" + productMarketing.getCode() + ")"};
         initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
 		
         return modelAndView;
@@ -81,7 +81,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 		
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 		
-        Object[] params = {productMarketing.getBusinessName() + " (" + productMarketing.getCode() + ")"};
+        Object[] params = {productMarketing.getName() + " (" + productMarketing.getCode() + ")"};
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_MARKETING_DETAILS.getKey(), params);
 
 		return modelAndView;
@@ -118,7 +118,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
         ProductSkuViewBean productSkuViewBean = backofficeViewBeanFactory.buildViewBeanProductSku(requestUtil.getRequestData(request), productSku);
         modelAndView.addObject(ModelConstants.PRODUCT_SKU_VIEW_BEAN, productSkuViewBean);
         
-        Object[] params = {productSku.getBusinessName() + " (" + productSku.getCode() + ")"};
+        Object[] params = {productSku.getName() + " (" + productSku.getCode() + ")"};
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_DETAILS.getKey(), params);
 		
         return modelAndView;
@@ -138,7 +138,7 @@ public class ProductController extends AbstractBusinessBackofficeController {
 
 		modelAndView.addObject(ModelConstants.PRODUCT_SKU_FORM, backofficeFormFactory.buildProductSkuForm(requestData, productSku));
 		
-		Object[] params = {productSku.getBusinessName() + " (" + productSku.getCode() + ")"};
+		Object[] params = {productSku.getName() + " (" + productSku.getCode() + ")"};
 		initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
 		
         return modelAndView;

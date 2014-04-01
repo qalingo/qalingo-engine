@@ -47,40 +47,12 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan defaultCustomerFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-
-        fetchplans.add(new SpecificFetchMode("credentials"));
-        fetchplans.add(new SpecificFetchMode("addresses"));
-        fetchplans.add(new SpecificFetchMode("connectionLogs"));
-
-        fetchplans.add(new SpecificFetchMode("customerMarketAreas"));
-
-        fetchplans.add(new SpecificFetchMode("optins", new SpecificAlias("customerMarketAreas.optins")));
-        
-        fetchplans.add(new SpecificFetchMode("wishlistProducts", new SpecificAlias("customerMarketAreas.wishlistProducts")));
-        fetchplans.add(new SpecificFetchMode("productComments", new SpecificAlias("customerMarketAreas.productComments")));
-
-        fetchplans.add(new SpecificFetchMode("customerAttributes"));
-        fetchplans.add(new SpecificFetchMode("customerGroups"));
-        fetchplans.add(new SpecificFetchMode("oauthAccesses"));
-        fetchplans.add(new SpecificFetchMode("customerOrderAudit"));
-
-        return new FetchPlan(fetchplans);
-    }
-
     public static FetchPlan defaultEngineSettingFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("engineSettingValues"));
         return new FetchPlan(fetchplans);
     }
 
-    public static FetchPlan defaultCustomerGroupFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("customerRoles"));
-        return new FetchPlan(fetchplans);
-    }
-    
     public static FetchPlan defaultOrderCustomerFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("billingAddress"));

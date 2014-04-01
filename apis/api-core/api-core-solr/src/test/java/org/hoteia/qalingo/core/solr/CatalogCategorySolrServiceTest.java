@@ -43,7 +43,7 @@ public class CatalogCategorySolrServiceTest {
         catalogCategoryMaster = new CatalogCategoryMaster();
         catalogCategoryMaster.setId(Long.parseLong("80"));
         catalogCategoryMaster.setCode("xyz123");
-        catalogCategoryMaster.setBusinessName("Development");
+        catalogCategoryMaster.setName("Development");
         catalogCategoryMaster.setDateCreate(new Date());
         catalogCategoryMaster.setDateUpdate(new Date());
     }
@@ -78,32 +78,32 @@ public class CatalogCategorySolrServiceTest {
     }
 
 	/**
-	 *  Test case to check: search by given field businessname
+	 *  Test case to check: search by given field name
 	 */
     @Test
-    public void testSearchBusinessname() throws SolrServerException, IOException {
-        logger.debug("--------------->SearchBusinessname");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("businessname", "", "");
+    public void testSearchName() throws SolrServerException, IOException {
+        logger.debug("--------------->SearchName");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", "");
         printData();
     }
 	
 	/**
-	 * Test case to check: search by given field businessname with some text
+	 * Test case to check: search by given field name with some text
 	 */
     @Test
-    public void testSearchBusinessnameWithText() throws SolrServerException, IOException {
-        logger.debug("--------------->SearchBusinessnamewith some text");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("businessname", "Dev", "");
+    public void testSearchNameWithText() throws SolrServerException, IOException {
+        logger.debug("--------------->SearchNamewith some text");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "Dev", "");
         printData();
     }
 	
 	/**
-	 * Test case to check: search by given field businessname with facet
+	 * Test case to check: search by given field name with facet
 	 */
     @Test
-    public void testSearchBusinessnameWithFacet() throws SolrServerException, IOException {
-        logger.debug("--------------->SearchBusinessname with facet ");
-        responseBean = catalogCategorySolrService.searchCatalogCategory("businessname", "", "businessname");
+    public void testSearchNameWithFacet() throws SolrServerException, IOException {
+        logger.debug("--------------->SearchName with facet ");
+        responseBean = catalogCategorySolrService.searchCatalogCategory("name", "", "name");
         printData();
     }
 

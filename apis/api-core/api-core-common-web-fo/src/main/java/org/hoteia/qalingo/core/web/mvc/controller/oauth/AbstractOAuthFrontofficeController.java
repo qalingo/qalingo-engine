@@ -60,7 +60,7 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 		customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD);
 
 		CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-		customer.getCustomerGroups().add(customerGroup);
+		customer.getGroups().add(customerGroup);
 	}
 	   
     void checkNonce(String nonce) {

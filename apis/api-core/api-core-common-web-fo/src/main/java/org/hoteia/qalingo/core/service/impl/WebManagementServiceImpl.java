@@ -572,7 +572,7 @@ public class WebManagementServiceImpl implements WebManagementService {
         customerService.saveOrUpdateCustomer(customer);
         
         CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-        customer.getCustomerGroups().add(customerGroup);
+        customer.getGroups().add(customerGroup);
         
         customerService.saveOrUpdateCustomer(customer);
         

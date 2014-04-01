@@ -20,19 +20,19 @@ public class CatalogViewBean extends AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 906812037579319564L;
 	
-	protected String businessName;
+	protected String name;
 	protected String code;
 
 	protected List<CatalogCategoryViewBean> categories = new ArrayList<CatalogCategoryViewBean>();
 
 	protected String addRootCategoryUrl;
 
-	public String getBusinessName() {
-		return businessName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setBusinessName(String businessName) {
-		this.businessName = businessName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCode() {
