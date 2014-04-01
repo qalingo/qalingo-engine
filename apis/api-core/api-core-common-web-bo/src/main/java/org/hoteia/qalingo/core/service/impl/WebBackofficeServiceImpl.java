@@ -406,7 +406,10 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		productService.saveOrUpdateProductMarketingAsset(asset);
 	}
 	
-	public void createOrUpdateRetailer(final Retailer retailer, final RetailerForm retailerForm) {
+	public void createOrUpdateRetailer(Retailer retailer, final RetailerForm retailerForm) {
+	    if (retailer == null) {
+	        retailer = new Retailer();
+	    }
 		retailer.setCode(retailerForm.getCode());
 		retailer.setName(retailerForm.getName());
 		retailer.setDescription(retailerForm.getDescription());

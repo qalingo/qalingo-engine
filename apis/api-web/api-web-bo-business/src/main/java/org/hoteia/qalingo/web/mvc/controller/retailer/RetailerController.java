@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -144,58 +143,71 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	public ModelAndView retailerEdit(final HttpServletRequest request, final Model model, @ModelAttribute("retailerForm") RetailerForm retailerForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-
+        
         final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+        if(StringUtils.isNotEmpty(retailerCode)){
+            // EDIT MODE
+            final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
 
-        // SANITY CHECK
-        if (StringUtils.isEmpty(retailerCode)) {
-            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData);
-            return new ModelAndView(new RedirectView(urlRedirect));
-        }
+            // SANITY CHECK
+            if (retailer != null) {
+                modelAndView.addObject(ModelConstants.RETAILER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailer));
+            } else {
+                final String url = requestUtil.getLastRequestUrl(request);
+                return new ModelAndView(new RedirectView(url));
+            }
+            
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
 
-        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+            Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
 
-        // SANITY CHECK
-        if (retailer != null) {
-            modelAndView.addObject(ModelConstants.RETAILER_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailer));
         } else {
-            final String url = requestUtil.getLastRequestUrl(request);
-            return new ModelAndView(new RedirectView(url));
+            // ADD MODE
+
+            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_ADD.getKey(), null);
+
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData));
         }
-
-        model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
-
-        Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.RETAILER_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView submitRuleEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("retailerForm") RetailerForm retailerForm,
+	public ModelAndView submitRetailerEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("retailerForm") RetailerForm retailerForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
-		final RequestData requestData = requestUtil.getRequestData(request);
-		
-		if (result.hasErrors()) {
-			return retailerEdit(request, model, retailerForm);
-		}
-		
-		Retailer retailerEdit = new Retailer();
-		if(StringUtils.isNotEmpty(retailerForm.getId())){
-			retailerEdit = retailerService.getRetailerById(retailerForm.getId());
-		}
-		
-		try {
-			// UPDATE RETAILER
-			webBackofficeService.createOrUpdateRetailer(retailerEdit, retailerForm);
-	        
-        } catch (Exception e) {
-        	logger.error("Can't save or update Retailer:" + retailerForm.getId() + "/" + retailerForm.getCode(), e);
-			return retailerEdit(request, model, retailerForm);
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final Locale locale = requestData.getLocale();
+        
+        if (result.hasErrors()) {
+            return retailerEdit(request, model, retailerForm);
         }
-		
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailerEdit);
-        return new ModelAndView(new RedirectView(urlRedirect));
+        
+        Retailer retailer = null;
+        if(StringUtils.isNotEmpty(retailerForm.getId())){
+            retailer = retailerService.getRetailerById(retailerForm.getId());
+        }
+        
+        try {
+            // CREATE OR UPDATE RETAILER
+            webBackofficeService.createOrUpdateRetailer(retailer, retailerForm);
+            
+            if(retailer == null){
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "create_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestUtil.getRequestData(request));
+                return new ModelAndView(new RedirectView(urlRedirect));
+                
+            } else {
+                addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.RETAILER, "update_success_message", locale));
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestUtil.getRequestData(request), retailer);
+                return new ModelAndView(new RedirectView(urlRedirect));
+            }
+            
+        } catch (Exception e) {
+            addMessageError(result, null, "login", "login", getSpecificMessage(ScopeWebMessage.RETAILER, "create_or_update_message", locale));
+            logger.error("Can't save or update Retailer:" + retailerForm.getId() + "/" + retailerForm.getCode(), e);
+            return retailerEdit(request, model, retailerForm);
+        }
 	}
 
 	private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData, List<Retailer> retailers) throws Exception{

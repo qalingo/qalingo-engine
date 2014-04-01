@@ -144,12 +144,12 @@ public class CustomerController extends AbstractBusinessBackofficeController {
             
             if(customer == null){
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.CUSTOMER, "create_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestUtil.getRequestData(request));;
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestUtil.getRequestData(request));
                 return new ModelAndView(new RedirectView(urlRedirect));
                 
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.CUSTOMER, "update_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestUtil.getRequestData(request), customer);;
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestUtil.getRequestData(request), customer);
                 return new ModelAndView(new RedirectView(urlRedirect));
             }
             
