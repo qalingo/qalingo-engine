@@ -20,7 +20,7 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class StoreLocationController extends AbstractMCommerceController {
 
 	@Autowired
-    protected RetailerService storeService;
+    protected RetailerService retailerService;
 	
 	@RequestMapping(FoUrls.STORE_LOCATION_URL)
 	public ModelAndView storeLocation(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -43,16 +43,17 @@ public class StoreLocationController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         
-        final List<Store> stores = storeService.findStores();
-		
-		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestUtil.getRequestData(request), stores);
-        modelAndView.addObject("storeLocator", storeLocator);
+        final List<Store> stores = retailerService.findStores();
+		final List<StoreViewBean> storeViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
+        modelAndView.addObject("stores", storeViewBeans);
 
-        final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeLocator, locale);
+        final StoreLocatorFilterBean storeFilter = frontofficeViewBeanFactory.buildFilterBeanStoreLocator(storeViewBeans, locale);
 		modelAndView.addObject("storeFilter", storeFilter);
 		
         modelAndView.addObject("storeSearchUrl", urlService.generateUrl(FoUrls.STORE_SEARCH, requestData));
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_LOCATION.getKey());
+
         return modelAndView;
 	}
  

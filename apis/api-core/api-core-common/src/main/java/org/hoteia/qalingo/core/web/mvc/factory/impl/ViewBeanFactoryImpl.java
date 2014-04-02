@@ -122,7 +122,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -433,12 +432,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCodeNavigation = localization.getCode();
         final Locale locale = requestData.getLocale();
 
         final RetailerViewBean retailerViewBean = new RetailerViewBean();
 
         retailerViewBean.setCode(retailer.getCode());
         retailerViewBean.setName(retailer.getName());
+        retailerViewBean.setI18nName(retailer.getI18nName(localizationCodeNavigation));
+
         retailerViewBean.setDescription(retailer.getDescription());
 
         retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
@@ -889,16 +892,13 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public StoreLocatorViewBean buildViewBeanStoreLocator(final RequestData requestData, final List<Store> stores) throws Exception {
-        final Locale locale = requestData.getLocale();
-        StoreLocatorViewBean storeLocator = new StoreLocatorViewBean();
-        storeLocator.setPageTitle(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "header.title", locale));
-        storeLocator.setTextHtml(getSpecificMessage(ScopeWebMessage.STORE_LOCATOR, "content.text", locale));
+    public List<StoreViewBean> buildListViewBeanStore(final RequestData requestData, final List<Store> stores) throws Exception {
+        List<StoreViewBean> storeViewBeans = new ArrayList<StoreViewBean>();
         for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
             final Store store = (Store) iterator.next();
-            storeLocator.getStores().add(buildViewBeanStore(requestData, store));
+            storeViewBeans.add(buildViewBeanStore(requestData, store));
         }
-        return storeLocator;
+        return storeViewBeans;
     }
 
     /**

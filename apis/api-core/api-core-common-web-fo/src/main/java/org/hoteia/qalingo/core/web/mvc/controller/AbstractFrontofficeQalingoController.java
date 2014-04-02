@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
@@ -52,7 +51,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	 * 
 	 */
 	@ModelAttribute
-	protected void initSeo(final HttpServletRequest request, final Model model) throws Exception {
+	protected void initDefaultSeo(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
 
@@ -66,7 +65,7 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
         model.addAttribute(ModelConstants.SEO_PAGE_META_DESCIPRTION, seoPageMetaDescription);
 
 		String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
-        model.addAttribute(ModelConstants.SEO_PAGE_META_TITLE, seoPageTitle);
+        model.addAttribute(ModelConstants.SEO_PAGE_TITLE, seoPageTitle);
         
         String metaOgShareTitle = getSpecificMessage(ScopeWebMessage.SEO, FoMessageKey.PAGE_META_OG_TITLE, locale);
         model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, metaOgShareTitle);
@@ -106,18 +105,31 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 		String fullXrdsURL = urlService.buildAbsoluteUrl(requestUtil.getRequestData(request), xrdsURL);
 		return fullXrdsURL;
 	}
-	
-	/**
-	 * 
-	 */
-	protected void overrideSeoTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
+
+    /**
+     * 
+     */
+    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, titleKey, null);
+    }
+    
+    /**
+     * 
+     */
+    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketPlace currentMarketPlace = requestData.getMarketPlace();
-		final String fullTitle = currentMarketPlace.getName() + " - " + title;
-		if(StringUtils.isNotEmpty(fullTitle)){
-	        modelAndView.addObject("seoPageTitle", fullTitle);
-		}
-	}
+        final Locale locale = requestData.getLocale();
+        String pageTitleKey = titleKey;
+        String headerTitle = "";
+        if(params != null){
+            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, params, locale);
+        } else {
+            headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
+        }
+        String seoPageTitle = getCommonMessage(ScopeCommonMessage.SEO, FoMessageKey.SEO_PAGE_TITLE_SITE_NAME, locale);
+        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, seoPageTitle + " - " + headerTitle);
+        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
+    }
 	
 	/**
 	 * 

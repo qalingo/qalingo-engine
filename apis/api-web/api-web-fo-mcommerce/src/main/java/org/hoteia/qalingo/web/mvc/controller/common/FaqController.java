@@ -12,15 +12,14 @@ package org.hoteia.qalingo.web.mvc.controller.common;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FaqViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -28,14 +27,16 @@ import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 @Controller("faqController")
 public class FaqController extends AbstractMCommerceController {
 
-	@RequestMapping(FoUrls.FAQ_URL)
-	public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
-		
-		final FaqViewBean faq = frontofficeViewBeanFactory.buildViewBeanFaq(requestUtil.getRequestData(request));
-		modelAndView.addObject(ModelConstants.FAQ_VIEW_BEAN, faq);
-		
+    @RequestMapping(FoUrls.FAQ_URL)
+    public ModelAndView faq(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.FAQ.getVelocityPage());
+        
+        final FaqViewBean faq = frontofficeViewBeanFactory.buildViewBeanFaq(requestUtil.getRequestData(request));
+        modelAndView.addObject(ModelConstants.FAQ_VIEW_BEAN, faq);
+
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.FAQ.getKey());
+
         return modelAndView;
-	}
-	
+    }
+
 }

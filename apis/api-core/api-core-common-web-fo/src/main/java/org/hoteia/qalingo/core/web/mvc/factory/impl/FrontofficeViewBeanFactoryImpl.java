@@ -61,7 +61,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.springframework.stereotype.Service;
@@ -493,69 +492,69 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         }
         return searchFacetViewBean;
     }
+    
     /*
      * 
      */
-    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store){
-//    	List<StoreBusinessHourViewBean>  storeBusinessHourViewBeans = new ArrayList<StoreBusinessHourViewBean>();
-    	List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
-    	StoreBusinessHourViewBean storeBusinessHourViewBean = null;
-    	if(storeBusinessHours != null && storeBusinessHours.size() > 0){
-    		storeBusinessHourViewBean = new StoreBusinessHourViewBean();
-	    	for(StoreBusinessHour storeBusinessHour : storeBusinessHours){
-	    		OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
-	    		operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
-	    		operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
-	    		if(storeBusinessHour.isMonday()){
-	    			storeBusinessHourViewBean.setMonday(operationHourViewBean);
-	    		}
-	    		
-	    		if(storeBusinessHour.isTuesday()){
-	    			storeBusinessHourViewBean.setTuesday(operationHourViewBean);
-	    		}
-	    		if(storeBusinessHour.isWednesday()){
-	    			storeBusinessHourViewBean.setWednesday(operationHourViewBean);
-	    		}
-	    		if(storeBusinessHour.isThursday()){
-	    			storeBusinessHourViewBean.setThursday(operationHourViewBean);
-	    		}
-	    		if(storeBusinessHour.isFriday()){
-	    			storeBusinessHourViewBean.setFriday(operationHourViewBean);
-	    		}
-	    		if(storeBusinessHour.isSaturday()){
-	    			storeBusinessHourViewBean.setSaturday(operationHourViewBean);
-	    		}
-	    		if(storeBusinessHour.isSunday()){
-	    			storeBusinessHourViewBean.setSunday(operationHourViewBean);
-	    		}
-	    	}
+    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store) {
+        List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
+        StoreBusinessHourViewBean storeBusinessHourViewBean = null;
+        if (storeBusinessHours != null && storeBusinessHours.size() > 0) {
+            storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
+                OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
+                operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+                operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+                if (storeBusinessHour.isMonday()) {
+                    storeBusinessHourViewBean.setMonday(operationHourViewBean);
+                }
 
-    	}
-    	return storeBusinessHourViewBean;
+                if (storeBusinessHour.isTuesday()) {
+                    storeBusinessHourViewBean.setTuesday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isWednesday()) {
+                    storeBusinessHourViewBean.setWednesday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isThursday()) {
+                    storeBusinessHourViewBean.setThursday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isFriday()) {
+                    storeBusinessHourViewBean.setFriday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isSaturday()) {
+                    storeBusinessHourViewBean.setSaturday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isSunday()) {
+                    storeBusinessHourViewBean.setSunday(operationHourViewBean);
+                }
+            }
+
+        }
+        return storeBusinessHourViewBean;
     }
-    
+
     public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {
-    	final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
-    	
-    	final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-    	
-    	for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
-    		CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual);
-    		catalogCategoryViewBeans.add(catalogCategoryViewBean);
-		}
-    	
-    	return catalogCategoryViewBeans;
+        final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
+
+        final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
+
+        for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
+            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual);
+            catalogCategoryViewBeans.add(catalogCategoryViewBean);
+        }
+
+        return catalogCategoryViewBeans;
     }
-    
+
     public List<ProductBrandViewBean> buildListViewBeanProductBrand(final RequestData requestData, final CatalogCategoryVirtual catalogCategoryVirtual) throws Exception {
-    	final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
-    	
-    	List<ProductBrand> productBrands = productService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
-    	for (ProductBrand productBrand : productBrands) {
-    		ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
-    		productBrandViewBeans.add(productBrandViewBean);
-		}
-    	return productBrandViewBeans;
+        final List<ProductBrandViewBean> productBrandViewBeans = new ArrayList<ProductBrandViewBean>();
+
+        List<ProductBrand> productBrands = productService.findProductBrandsByCatalogCategoryCode(catalogCategoryVirtual.getCode());
+        for (ProductBrand productBrand : productBrands) {
+            ProductBrandViewBean productBrandViewBean = buildViewBeanProductBrand(requestData, productBrand);
+            productBrandViewBeans.add(productBrandViewBean);
+        }
+        return productBrandViewBeans;
     }
     
     @Override
@@ -603,8 +602,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     	return catalogBreadCumViewBean;
     }
     
-    public StoreLocatorFilterBean buildFilterBeanStoreLocator(final StoreLocatorViewBean storeLocatorViewBean, final Locale locale) throws Exception {
-        final List<StoreViewBean> stores = storeLocatorViewBean.getStores();
+    public StoreLocatorFilterBean buildFilterBeanStoreLocator(final List<StoreViewBean> stores, final Locale locale) throws Exception {
         final StoreLocatorFilterBean filter = new StoreLocatorFilterBean();
 
         final Map<String, StoreLocatorCountryFilterBean> countryFilterMap = new HashMap<String, StoreLocatorCountryFilterBean>();

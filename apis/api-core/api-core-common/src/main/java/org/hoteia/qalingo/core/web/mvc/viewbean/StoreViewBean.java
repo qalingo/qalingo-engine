@@ -12,6 +12,8 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class StoreViewBean extends AbstractViewBean implements Serializable {
 
     /**
@@ -21,6 +23,8 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 
     private String code;
     private String name;
+    private String i18nName;
+    
     private String address1;
     private String address2;
     private String addressAdditionalInformation;
@@ -52,6 +56,17 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
     }
 
     public String getAddress1() {

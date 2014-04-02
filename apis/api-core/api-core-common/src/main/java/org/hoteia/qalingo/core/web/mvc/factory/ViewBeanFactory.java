@@ -67,7 +67,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 
@@ -121,7 +120,7 @@ public interface ViewBeanFactory {
 
     CurrencyReferentialViewBean buildViewBeanCurrencyReferential(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
 
-	StoreLocatorViewBean buildViewBeanStoreLocator(RequestData requestData, List<Store> stores) throws Exception;
+    List<StoreViewBean> buildListViewBeanStore(RequestData requestData, List<Store> stores) throws Exception;
 	
 	StoreViewBean buildViewBeanStore(RequestData requestData, Store store) throws Exception;
 	

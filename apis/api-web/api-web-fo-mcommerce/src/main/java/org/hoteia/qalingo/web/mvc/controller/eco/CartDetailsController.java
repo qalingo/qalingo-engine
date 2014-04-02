@@ -53,6 +53,8 @@ public class CartDetailsController extends AbstractMCommerceController {
 
 		modelAndView.addObject(ModelConstants.CART_FORM, formFactory.buildCartForm(requestData));
 
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CART_DETAILS.getKey());
+
         return modelAndView;
 	}
 

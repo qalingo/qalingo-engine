@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,25 +56,14 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	public ModelAndView productDetails(final HttpServletRequest request, final HttpServletResponse response ,final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productMarketingCode,
 			 						   @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_SKU_CODE) final String productSkuCode,
-			 						   @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm) throws Exception {
+			 						   @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Locale locale = requestData.getLocale();
 
 		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
 		
-		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
-        model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
-
-		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
-        model.addAttribute("seoPageMetaDescription", seoPageMetaDescription);
-
-		String pageTitleKey = "header.title." + "";
-		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
-        model.addAttribute("seoPageTitle", seoPageTitle);
-        
 		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 
@@ -96,11 +84,21 @@ public class ProductDetailsController extends AbstractMCommerceController {
         //Check if has authorized user
         if(requestData.getCustomer() != null){
 	        productCommentForm = formFactory.buildProductCommentForm(requestData, productMarketing);
-	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN, productCommentForm);
+	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_FORM, productCommentForm);
 	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
         }
         
         requestUtil.addOrUpdateRecentProductToCookie(productMarketing.getId(), request, response);
+        
+        // SEO
+        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, productMarketingViewBean.getI18nName() );
+        
+        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, productMarketingViewBean.getI18nDescription());
+        
+        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, productMarketingViewBean.getCarouselImage()));
+
+        Object[] params = { productMarketingViewBean.getI18nName() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PRODUCT_DETAILS.getKey(), params);
         
         return modelAndView;
 	}

@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CatalogCategoryViewBean extends AbstractViewBean implements Serializable {
 
     /**
@@ -25,6 +27,10 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String code;
     protected String name;
     protected String description;
+
+    protected String i18nName;
+    protected String i18nDescription;
+
     protected String backgroundImage;
     protected String carouselImage;
     protected String slideshowImage;
@@ -62,7 +68,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -73,6 +79,28 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
     }
 
     public String getBackgroundImage() {

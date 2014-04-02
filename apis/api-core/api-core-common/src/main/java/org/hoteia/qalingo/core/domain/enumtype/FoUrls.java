@@ -260,9 +260,9 @@ public enum FoUrls {
 	public static final String BRAND_LINE_URL					= "/**/brand-line-{" + RequestConstants.URL_PATTERN_BRAND_CODE + ":[a-zA-Z0-9]+}.html";
 	public static final String BRAND_LINE_VELOCITY_PAGE			= "catalog/brand-line";
 
-	public static final String CATEGORY_AS_AXE_KEY					= "product-axe";
-	public static final String CATEGORY_AS_AXE_URL					= "/**/product-axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}.html";
-	public static final String CATEGORY_AS_AXE_VELOCITY_PAGE			= "catalog/product-axe";
+	public static final String CATEGORY_AS_AXE_KEY					= "axe";
+	public static final String CATEGORY_AS_AXE_URL					= "/**/axe-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}.html";
+	public static final String CATEGORY_AS_AXE_VELOCITY_PAGE        = "catalog/category-axe";
 
 	public static final String CATEGORY_AS_LINE_KEY					= "product-line";
 	public static final String CATEGORY_AS_LINE_URL					= "/**/product-line-{" + RequestConstants.URL_PATTERN_CATEGORY_CODE + ":[a-zA-Z0-9]+}.html";

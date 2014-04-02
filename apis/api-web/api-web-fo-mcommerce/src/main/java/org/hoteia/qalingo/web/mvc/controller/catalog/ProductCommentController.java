@@ -60,13 +60,13 @@ public class ProductCommentController extends AbstractMCommerceController {
 	
 	@RequestMapping(value = FoUrls.PRODUCT_VOTE_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductVoteForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm) throws Exception {
+												final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
         return displayProductCommentForm(request, productCode, model, productCommentForm);
 	}
 	
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.GET)
 	public ModelAndView displayProductCommentForm(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-												   final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm) throws Exception {
+												   final Model model, @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_COMMENT.getVelocityPage());
 		
 		model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
@@ -121,7 +121,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 
 	@RequestMapping(value = FoUrls.PRODUCT_COMMENT_URL, method = RequestMethod.POST)
 	public ModelAndView submitProductComment(final HttpServletRequest request, @PathVariable(RequestConstants.URL_PATTERN_PRODUCT_MARKETING_CODE) final String productCode,
-											 @Valid @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM_BEAN) ProductCommentForm productCommentForm,
+											 @Valid @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm,
 								BindingResult result, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();

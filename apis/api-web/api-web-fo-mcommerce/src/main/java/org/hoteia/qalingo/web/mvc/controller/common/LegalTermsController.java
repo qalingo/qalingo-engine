@@ -30,6 +30,8 @@ public class LegalTermsController extends AbstractMCommerceController {
 	public ModelAndView legalTerms(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.LEGAL_TERMS.getVelocityPage());
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.LEGAL_TERMS.getKey());
+
         return modelAndView;
 	}
 

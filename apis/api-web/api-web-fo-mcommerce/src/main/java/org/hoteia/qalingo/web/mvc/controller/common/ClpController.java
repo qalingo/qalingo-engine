@@ -9,22 +9,15 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.common;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
-import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 
 /**
  * CLP Customer Loyalty Program
@@ -35,12 +28,9 @@ public class ClpController extends AbstractMCommerceController {
 	@RequestMapping(FoUrls.CLP_URL)
 	public ModelAndView clp(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CLP.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
-		final String contentText = getSpecificMessage(ScopeWebMessage.CLP, BoMessageKey.MAIN_CONTENT_TEXT, locale);
-		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
-		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CLP.getKey());
+
 		return modelAndView;
 	}
 	

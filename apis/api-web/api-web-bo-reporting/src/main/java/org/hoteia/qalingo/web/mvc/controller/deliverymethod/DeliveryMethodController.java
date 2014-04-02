@@ -9,16 +9,10 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.deliverymethod;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.web.mvc.controller.AbstractReportingBackofficeController;
 import org.springframework.stereotype.Controller;
@@ -35,12 +29,7 @@ public class DeliveryMethodController extends AbstractReportingBackofficeControl
 	@RequestMapping(value = BoUrls.DELIVERY_METHOD_LIST_URL, method = RequestMethod.GET)
 	public ModelAndView shipping(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_LIST.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
-		final String contentText = getSpecificMessage(ScopeWebMessage.REPORTING, BoMessageKey.MAIN_CONTENT_TEXT, locale);
-		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
-		
         return modelAndView;
 	}
     
