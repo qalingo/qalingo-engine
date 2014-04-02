@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.web.mvc.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -45,6 +46,8 @@ public class RetailerForm {
 	private String mobile;
 	private String email;
 	private String website;
+
+	MultipartFile file;
 
 	public String getId() {
 		return id;
@@ -245,4 +248,11 @@ public class RetailerForm {
 		this.warehouseId = warehouseId;
 	}
 
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 }

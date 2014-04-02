@@ -29,6 +29,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -270,7 +271,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 		if(StringUtils.isNotEmpty(retailerCode)){
-	        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+	        final Retailer retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphCommon.fullRetailerFetchPlan());
 	        return backofficeFormFactory.buildRetailerForm(requestData, retailer);
 		}
     	return backofficeFormFactory.buildRetailerForm(requestData, null);
