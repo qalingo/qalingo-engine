@@ -38,7 +38,9 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
-        engineSetting.setFetchPlan(fetchPlan);
+        if(engineSetting != null){
+            engineSetting.setFetchPlan(fetchPlan);
+        }
         return engineSetting;
 	}
 	
@@ -49,7 +51,9 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
-        engineSetting.setFetchPlan(fetchPlan);
+        if(engineSetting != null){
+            engineSetting.setFetchPlan(fetchPlan);
+        }
 		return engineSetting;
 	}
 	
@@ -62,7 +66,6 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 
         @SuppressWarnings("unchecked")
         List<EngineSetting> engineSettings = criteria.list();
-        
 		return engineSettings;
 	}
 	

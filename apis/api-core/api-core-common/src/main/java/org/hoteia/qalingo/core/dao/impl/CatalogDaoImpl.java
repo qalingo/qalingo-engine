@@ -39,7 +39,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
         CatalogMaster catalogMaster = (CatalogMaster) criteria.uniqueResult();
-        catalogMaster.setFetchPlan(fetchPlan);
+        if(catalogMaster != null){
+            catalogMaster.setFetchPlan(fetchPlan);
+        }
         return catalogMaster;
 	}
     
@@ -83,7 +85,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
-        catalogVirtual.setFetchPlan(fetchPlan);
+        if(catalogVirtual != null){
+            catalogVirtual.setFetchPlan(fetchPlan);
+        }
         return catalogVirtual;
     }
     
@@ -95,7 +99,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
         criteria.add(Restrictions.eq("ma.id", marketAreaId));
 
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
-        catalogVirtual.setFetchPlan(fetchPlan);
+        if(catalogVirtual != null){
+            catalogVirtual.setFetchPlan(fetchPlan);
+        }
 		return catalogVirtual;
 	}
 	

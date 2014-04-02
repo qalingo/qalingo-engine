@@ -35,9 +35,9 @@ public class EngineSessionDaoImpl extends AbstractGenericDaoImpl implements Engi
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // ECO SESSION
-    public static volatile SetAttribute<EngineEcoSession, Cart> carts;
-    public static volatile SetAttribute<Cart, CartItem> cartItems;
-    public static volatile SetAttribute<Cart, CurrencyReferential> cartCurrency;
+//    public static volatile SetAttribute<EngineEcoSession, Cart> carts;
+//    public static volatile SetAttribute<Cart, CartItem> cartItems;
+//    public static volatile SetAttribute<Cart, CurrencyReferential> cartCurrency;
 
     public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId, Object... params) {
         CriteriaBuilder builder = em.getCriteriaBuilder();

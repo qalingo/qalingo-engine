@@ -36,7 +36,9 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 
         criteria.add(Restrictions.eq("id", paymentGatewayId));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
-        paymentGateway.setFetchPlan(fetchPlan);
+        if(paymentGateway != null){
+            paymentGateway.setFetchPlan(fetchPlan);
+        }
         return paymentGateway;
 	}
 
@@ -47,7 +49,9 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 
         criteria.add(Restrictions.eq("code", paymentGatewayCode));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
-        paymentGateway.setFetchPlan(fetchPlan);
+        if(paymentGateway != null){
+            paymentGateway.setFetchPlan(fetchPlan);
+        }
         return paymentGateway;
     }
 	

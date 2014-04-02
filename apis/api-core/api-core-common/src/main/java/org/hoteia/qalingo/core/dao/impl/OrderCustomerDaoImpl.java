@@ -41,7 +41,9 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
-        orderCustomer.setFetchPlan(fetchPlan);
+        if(orderCustomer != null){
+            orderCustomer.setFetchPlan(fetchPlan);
+        }
         return orderCustomer;
     }
 
@@ -52,7 +54,9 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
-        orderCustomer.setFetchPlan(fetchPlan);
+        if(orderCustomer != null){
+            orderCustomer.setFetchPlan(fetchPlan);
+        }
         return orderCustomer;
     }
 

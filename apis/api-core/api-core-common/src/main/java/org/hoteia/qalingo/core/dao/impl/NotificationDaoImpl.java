@@ -41,7 +41,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 
         @SuppressWarnings("unchecked")
         List<Notification> notifications = criteria.list();
-        
 		return notifications;
 	}
 	
@@ -54,7 +53,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 
         @SuppressWarnings("unchecked")
         List<Notification> notifications = criteria.list();
-        
 		return notifications;
 	}
 	
@@ -65,7 +63,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 
         @SuppressWarnings("unchecked")
         List<Notification> notifications = criteria.list();
-        
 		return notifications;
 	}
 	
@@ -76,7 +73,6 @@ public class NotificationDaoImpl extends AbstractGenericDaoImpl implements Notif
 
         @SuppressWarnings("unchecked")
         List<Notification> notifications = criteria.list();
-        
 		return notifications;
 	}
 

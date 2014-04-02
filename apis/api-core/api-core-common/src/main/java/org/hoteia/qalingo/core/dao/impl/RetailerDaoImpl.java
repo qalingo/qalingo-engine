@@ -45,7 +45,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         
         criteria.add(Restrictions.eq("id", retailerId));
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        retailer.setFetchPlan(fetchPlan);
+        if(retailer != null){
+            retailer.setFetchPlan(fetchPlan);
+        }
         return retailer;
 	}
 
@@ -56,7 +58,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        retailer.setFetchPlan(fetchPlan);
+        if(retailer != null){
+            retailer.setFetchPlan(fetchPlan);
+        }
         return retailer;
     }
 
@@ -67,7 +71,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
         criteria.add(Restrictions.eq("code", retailerCode));
         Retailer retailer = (Retailer) criteria.uniqueResult();
-        retailer.setFetchPlan(fetchPlan);
+        if(retailer != null){
+            retailer.setFetchPlan(fetchPlan);
+        }
 		return retailer;
 	}
 	
@@ -254,7 +260,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         
         criteria.add(Restrictions.eq("id", storeId));
         Store store = (Store) criteria.uniqueResult();
-        store.setFetchPlan(fetchPlan);
+        if(store != null){
+            store.setFetchPlan(fetchPlan);
+        }
         return store;
 	}
 
@@ -267,7 +275,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         
         criteria.add(Restrictions.eq("code", storeCode));
         Store store = (Store) criteria.uniqueResult();
-        store.setFetchPlan(fetchPlan);
+        if(store != null){
+            store.setFetchPlan(fetchPlan);
+        }
 		return store;
 	}
 	

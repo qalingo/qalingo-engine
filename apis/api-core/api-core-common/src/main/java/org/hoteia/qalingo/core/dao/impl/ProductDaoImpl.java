@@ -43,7 +43,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productMarketingId));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
-        productMarketing.setFetchPlan(fetchPlan);
+        if(productMarketing != null){
+            productMarketing.setFetchPlan(fetchPlan);
+        }
         return productMarketing;
 	}
 
@@ -52,7 +54,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductMarketingFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productMarketingCode));
         ProductMarketing productMarketing = (ProductMarketing) criteria.uniqueResult();
-        productMarketing.setFetchPlan(fetchPlan);
+        if(productMarketing != null){
+            productMarketing.setFetchPlan(fetchPlan);
+        }
 		return productMarketing;
 	}
 	
@@ -299,7 +303,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productSkuId));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
-        productSku.setFetchPlan(fetchPlan);
+        if(productSku != null){
+            productSku.setFetchPlan(fetchPlan);
+        }
         return productSku;
     }
     
@@ -308,7 +314,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductSkuFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", skuCode));
         ProductSku productSku = (ProductSku) criteria.uniqueResult();
-        productSku.setFetchPlan(fetchPlan);
+        if(productSku != null){
+            productSku.setFetchPlan(fetchPlan);
+        }
         return productSku;
     }
         
@@ -414,7 +422,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", productBrandId));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
-        productBrand.setFetchPlan(fetchPlan);
+        if(productBrand != null){
+            productBrand.setFetchPlan(fetchPlan);
+        }
         return productBrand;
     }
 
@@ -423,7 +433,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productBrandCode));
         ProductBrand productBrand = (ProductBrand) criteria.uniqueResult();
-        productBrand.setFetchPlan(fetchPlan);
+        if(productBrand != null){
+            productBrand.setFetchPlan(fetchPlan);
+        }
         return productBrand;
     }
     

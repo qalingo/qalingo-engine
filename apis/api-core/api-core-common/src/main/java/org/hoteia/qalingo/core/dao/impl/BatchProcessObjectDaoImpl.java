@@ -37,12 +37,10 @@ public class BatchProcessObjectDaoImpl extends AbstractGenericDaoImpl implements
 
 	public List<BatchProcessObject> findBatchProcessObjects(Object... params) {
         Criteria criteria = createDefaultCriteria(BatchProcessObject.class);
-
-        @SuppressWarnings("unchecked")
-        List<BatchProcessObject> batchProcessObjects = criteria.list();
-        
         criteria.addOrder(Order.asc("id"));
         
+        @SuppressWarnings("unchecked")
+        List<BatchProcessObject> batchProcessObjects = criteria.list();
 		return batchProcessObjects;
 	}
 	

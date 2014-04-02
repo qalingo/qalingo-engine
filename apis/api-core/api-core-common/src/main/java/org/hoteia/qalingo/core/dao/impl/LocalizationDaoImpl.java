@@ -48,7 +48,6 @@ public class LocalizationDaoImpl extends AbstractGenericDaoImpl implements Local
 
         @SuppressWarnings("unchecked")
         List<Localization> localizations = criteria.list();
-        
 		return localizations;
 	}
 	

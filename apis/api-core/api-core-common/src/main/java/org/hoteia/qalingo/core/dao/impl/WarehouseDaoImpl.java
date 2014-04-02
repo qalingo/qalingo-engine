@@ -41,7 +41,9 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
 
         criteria.add(Restrictions.eq("id", warehouseId));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
-        warehouse.setFetchPlan(fetchPlan);
+        if(warehouse != null){
+            warehouse.setFetchPlan(fetchPlan);
+        }
         return warehouse;
     }
 
@@ -52,7 +54,9 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
 
         criteria.add(Restrictions.eq("code", warehouseCode));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
-        warehouse.setFetchPlan(fetchPlan);
+        if(warehouse != null){
+            warehouse.setFetchPlan(fetchPlan);
+        }
         return warehouse;
     }
 

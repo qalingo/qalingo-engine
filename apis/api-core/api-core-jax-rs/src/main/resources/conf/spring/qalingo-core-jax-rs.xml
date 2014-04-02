@@ -33,11 +33,13 @@
 		<property name="applicationTitle" value="CXF Rest Qalingo" />
 	</bean>
 	
-	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
-	</bean>
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+
+    <bean id="cors-filter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>
 
 	<jaxrs:server id="restContainer" transportId="http://cxf.apache.org/transports/http">
 		<jaxrs:providers>
+            <ref bean="cors-filter" />
 			<ref bean="jsonProvider" />
 			<ref bean="wadlProvider" />
 		</jaxrs:providers>

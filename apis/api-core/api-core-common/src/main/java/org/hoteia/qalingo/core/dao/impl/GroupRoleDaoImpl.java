@@ -33,7 +33,9 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
         
         criteria.add(Restrictions.eq("id", customerGroupId));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
-        customerGroup.setFetchPlan(fetchPlan);
+        if(customerGroup != null){
+            customerGroup.setFetchPlan(fetchPlan);
+        }
         return customerGroup;
 	}
 	
@@ -44,7 +46,9 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
         
         criteria.add(Restrictions.eq("code", code));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
-        customerGroup.setFetchPlan(fetchPlan);
+        if(customerGroup != null){
+            customerGroup.setFetchPlan(fetchPlan);
+        }
         return customerGroup;
 	}
 	

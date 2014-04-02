@@ -41,7 +41,6 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
         
         @SuppressWarnings("unchecked")
         List<CustomerProductComment> customerProductComments = criteria.list();
-        
 		return customerProductComments;
 	}
 	
@@ -53,7 +52,6 @@ public class CustomerProductCommentDaoImpl extends AbstractGenericDaoImpl implem
 
         @SuppressWarnings("unchecked")
         List<CustomerProductComment> customerProductComments = criteria.list();
-        
 		return customerProductComments;
 	}
 
