@@ -442,15 +442,15 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             Date createdDate = catalogCategory.getDateCreate();
             if (createdDate != null) {
-                catalogCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
+                catalogCategoryViewBean.setDateCreate(dateFormat.format(createdDate));
             } else {
-                catalogCategoryViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
+                catalogCategoryViewBean.setDateCreate(Constants.NOT_AVAILABLE);
             }
             Date updatedDate = catalogCategory.getDateUpdate();
             if (updatedDate != null) {
-                catalogCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+                catalogCategoryViewBean.setDateUpdate(dateFormat.format(updatedDate));
             } else {
-                catalogCategoryViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
+                catalogCategoryViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
             if (fullPopulate) {
@@ -518,15 +518,15 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             Date createdDate = catalogCategory.getDateCreate();
             if (createdDate != null) {
-                catalogCategoryViewBean.setCreatedDate(dateFormat.format(createdDate));
+                catalogCategoryViewBean.setDateCreate(dateFormat.format(createdDate));
             } else {
-                catalogCategoryViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
+                catalogCategoryViewBean.setDateCreate(Constants.NOT_AVAILABLE);
             }
             Date updatedDate = catalogCategory.getDateUpdate();
             if (updatedDate != null) {
-                catalogCategoryViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+                catalogCategoryViewBean.setDateUpdate(dateFormat.format(updatedDate));
             } else {
-                catalogCategoryViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
+                catalogCategoryViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
             if (fullPopulate) {
@@ -757,15 +757,15 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date createdDate = asset.getDateCreate();
         if (createdDate != null) {
-            assetViewBean.setCreatedDate(dateFormat.format(createdDate));
+            assetViewBean.setDateCreate(dateFormat.format(createdDate));
         } else {
-            assetViewBean.setCreatedDate(Constants.NOT_AVAILABLE);
+            assetViewBean.setDateCreate(Constants.NOT_AVAILABLE);
         }
         Date updatedDate = asset.getDateUpdate();
         if (updatedDate != null) {
-            assetViewBean.setUpdatedDate(dateFormat.format(updatedDate));
+            assetViewBean.setDateUpdate(dateFormat.format(updatedDate));
         } else {
-            assetViewBean.setUpdatedDate(Constants.NOT_AVAILABLE);
+            assetViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
         assetViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.ASSET_DETAILS, requestData, asset));

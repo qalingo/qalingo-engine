@@ -53,8 +53,8 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
 
     private String detailsUrl;
 
-    protected String createdDate;
-    protected String updatedDate;
+    protected String dateCreate;
+    protected String dateUpdate;
 	    
 	public OrderViewBean() {
 	}
@@ -280,19 +280,19 @@ public class OrderViewBean extends AbstractViewBean implements Serializable {
         this.detailsUrl = detailsUrl;
     }
     
-    public String getCreatedDate() {
-        return createdDate;
+    public String getDateCreate() {
+        return dateCreate;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
-    public String getUpdatedDate() {
-        return updatedDate;
+    public String getDateUpdate() {
+        return dateUpdate;
     }
 
-    public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 }

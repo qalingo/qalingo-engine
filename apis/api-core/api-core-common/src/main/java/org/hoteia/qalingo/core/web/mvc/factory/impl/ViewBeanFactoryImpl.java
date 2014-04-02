@@ -1385,16 +1385,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date dateCreate = productMarketing.getDateCreate();
         if (dateCreate != null) {
-            productMarketingViewBean.setCreatedDate(dateFormat.format(dateCreate));
+            productMarketingViewBean.setDateCreate(dateFormat.format(dateCreate));
         } else {
-            productMarketingViewBean.setCreatedDate("NA");
+            productMarketingViewBean.setDateCreate("NA");
         }
 
         Date dateUpdate = productMarketing.getDateUpdate();
         if (dateUpdate != null) {
-            productMarketingViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+            productMarketingViewBean.setDateUpdate(dateFormat.format(dateUpdate));
         } else {
-            productMarketingViewBean.setUpdatedDate("NA");
+            productMarketingViewBean.setDateUpdate("NA");
         }
         
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
@@ -1488,16 +1488,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date dateCreate = productMarketing.getDateCreate();
         if (dateCreate != null) {
-            productSkuViewBean.setCreatedDate(dateFormat.format(dateCreate));
+            productSkuViewBean.setDateCreate(dateFormat.format(dateCreate));
         } else {
-            productSkuViewBean.setCreatedDate("NA");
+            productSkuViewBean.setDateCreate("NA");
         }
 
         Date dateUpdate = productMarketing.getDateUpdate();
         if (dateUpdate != null) {
-            productSkuViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+            productSkuViewBean.setDateUpdate(dateFormat.format(dateUpdate));
         } else {
-            productSkuViewBean.setUpdatedDate("NA");
+            productSkuViewBean.setDateUpdate("NA");
         }
         
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
@@ -1755,16 +1755,16 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             
             Date dateCreate = order.getDateCreate();
             if (dateCreate != null) {
-                orderViewBean.setCreatedDate(dateFormat.format(dateCreate));
+                orderViewBean.setDateCreate(dateFormat.format(dateCreate));
             } else {
-                orderViewBean.setCreatedDate("NA");
+                orderViewBean.setDateCreate("NA");
             }
 
             Date dateUpdate = order.getDateUpdate();
             if (dateUpdate != null) {
-                orderViewBean.setUpdatedDate(dateFormat.format(dateUpdate));
+                orderViewBean.setDateUpdate(dateFormat.format(dateUpdate));
             } else {
-                orderViewBean.setUpdatedDate("NA");
+                orderViewBean.setDateUpdate("NA");
             }
             
             // ITEMS PART
