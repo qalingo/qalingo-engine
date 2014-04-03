@@ -34,7 +34,7 @@ public final class ModelConstants {
     public static final String SEO_PAGE_META_AUTHOR         = "seoPageMetaAuthor";
     public static final String SEO_PAGE_META_KEYWORDS       = "seoPageMetaKeywords";
     public static final String SEO_PAGE_META_DESCIPRTION    = "seoPageMetaDescription";
-    public static final String SEO_PAGE_META_TITLE          = "seoPageTitle";
+    public static final String SEO_PAGE_TITLE          = "seoPageTitle";
 
     public static final String PAGE_META_OG_TITLE       = "metaOgTitle";
     public static final String PAGE_META_OG_DESCRIPTION = "metaOgDescription";
@@ -152,7 +152,8 @@ public final class ModelConstants {
     public static final String CREATE_ACCOUNT_FORM          = "createAccountForm";
     public static final String PRODUCT_SKU_FORM             = "productSkuForm";
     public static final String PRODUCT_MARKETING_FORM       = "productMarketingForm";
-    public static final String PRODUCT_COMMENT_FORM_BEAN    = "productCommentForm";
+    public static final String PRODUCT_COMMENT_FORM         = "productCommentForm";
+    public static final String CONTACT_FORM                 = "contactForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";
@@ -181,8 +182,6 @@ public final class ModelConstants {
     public static final String ERROR_MESSAGE    = "errorMessage";
     public static final String INFO_MESSAGE     = "infoMessage";
     public static final String SUCCESS_MESSAGE  = "successMessage";
-
-    public static final String CONTENT_TEXT     = "contentText";
 
     public static final String TITLES           = "titles";
     public static final String COUNTRIES        = "countries";

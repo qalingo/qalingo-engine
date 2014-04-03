@@ -15,6 +15,9 @@ public class SpecificAlias implements Serializable {
     private String alias;
     private JoinType joinType;
     
+    public SpecificAlias() {
+    }
+    
     public SpecificAlias(String assocationPath) {
         this.assocationPath = assocationPath;
     }

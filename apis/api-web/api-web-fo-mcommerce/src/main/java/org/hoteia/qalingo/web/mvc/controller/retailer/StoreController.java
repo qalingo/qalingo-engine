@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Store;
@@ -20,9 +21,9 @@ import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,28 +41,33 @@ public class StoreController extends AbstractMCommerceController {
 	@Autowired
 	protected RetailerService retailerService;
 	
-	
 	@RequestMapping(FoUrls.STORE_DETAILS_URL)
 	public ModelAndView displayRetailerDetails(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_STORE_CODE) final String storeCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_DETAILS.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
+		final RequestData requestData = requestUtil.getRequestData(request);
+		
+		if(StringUtils.isNotEmpty(storeCode)){
+	        Store store = retailerService.getStoreByCode(storeCode);
+	        final List<Store> stores = retailerService.findStores();
+	        final List<StoreViewBean> otherStoreViewBeans = frontofficeViewBeanFactory.buildListViewBeanStore(requestUtil.getRequestData(request), stores);
+	        StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
+	        StoreBusinessHourViewBean storeBusinessHourViewBean = frontofficeViewBeanFactory.buildViewBeanStoreBusinessHour(store);
+	        otherStoreViewBeans.remove(storeViewBean);
+	        model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
+	        
+	        model.addAttribute("otherStores", otherStoreViewBeans);
+	        model.addAttribute("businessHours", storeBusinessHourViewBean);
+	        
+	        model.addAttribute("withMap", true);
+	        
+	        Object[] params = {storeViewBean.getI18nName()};
+	        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.STORE_DETAILS.getKey(), params);
 
-		Store store = retailerService.getStoreByCode(storeCode);
-		final List<Store> stores = retailerService.findStores();
-		final StoreLocatorViewBean storeLocator = frontofficeViewBeanFactory.buildViewBeanStoreLocator(requestData, stores);
-		List<StoreViewBean> otherStores = storeLocator.getStores();
-		StoreViewBean storeViewBean = frontofficeViewBeanFactory.buildViewBeanStore(requestUtil.getRequestData(request), store);
-//		List<StoreBusinessHourViewBean> storeBusinessHourViewBeans = frontofficeViewBeanFactory.buildListViewBeanStoreBusinessHour(store);
-		StoreBusinessHourViewBean storeBusinessHourViewBean = frontofficeViewBeanFactory.buildViewBeanStoreBusinessHour(store);
-		otherStores.remove(storeViewBean);
-		model.addAttribute(ModelConstants.STORE_VIEW_BEAN, storeViewBean);
+	        return modelAndView;
+		}
 		
-		model.addAttribute("otherStores",otherStores);
-		model.addAttribute("businessHours",storeBusinessHourViewBean);
-		
-		model.addAttribute("withMap", true);
-		
-        return modelAndView;
+        final String urlRedirect = urlService.generateUrl(FoUrls.STORE_LOCATION, requestData);
+        return new ModelAndView(new RedirectView(urlRedirect));
 	}
     
     

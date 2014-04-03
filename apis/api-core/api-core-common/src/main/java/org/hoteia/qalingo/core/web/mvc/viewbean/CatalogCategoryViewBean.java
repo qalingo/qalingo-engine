@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CatalogCategoryViewBean extends AbstractViewBean implements Serializable {
 
     /**
@@ -25,6 +27,10 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String code;
     protected String name;
     protected String description;
+
+    protected String i18nName;
+    protected String i18nDescription;
+
     protected String backgroundImage;
     protected String carouselImage;
     protected String slideshowImage;
@@ -48,8 +54,8 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String detailsUrl;
     protected String editUrl;
     
-    protected String createdDate;
-    protected String updatedDate;
+    protected String dateCreate;
+    protected String dateUpdate;
     
     public String getCode() {
         return code;
@@ -62,7 +68,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -73,6 +79,28 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
     }
 
     public String getBackgroundImage() {
@@ -211,20 +239,20 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.editUrl = editUrl;
     }
     
-    public String getCreatedDate() {
-        return createdDate;
+    public String getDateCreate() {
+        return dateCreate;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
     
-    public String getUpdatedDate() {
-        return updatedDate;
+    public String getDateUpdate() {
+        return dateUpdate;
     }
     
-    public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
     }
 
 }

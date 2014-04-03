@@ -15,6 +15,9 @@ public class SpecificFetchMode implements Serializable {
     private FetchMode fetchMode;
     private SpecificAlias requiredAlias;
     
+    public SpecificFetchMode() {
+    }
+    
     public SpecificFetchMode(String assocationPath) {
         this.assocationPath = assocationPath;
     }

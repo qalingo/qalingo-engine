@@ -35,6 +35,8 @@ public class OurCompanyController extends AbstractMCommerceController {
 		final OurCompanyViewBean ourCompany = frontofficeViewBeanFactory.buildViewBeanOurCompany(requestUtil.getRequestData(request));
 		modelAndView.addObject(ModelConstants.OUR_COMPANY_VIEW_BEAN, ourCompany);
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.OUR_COMPANY.getKey());
+
         return modelAndView;
 	}
 	

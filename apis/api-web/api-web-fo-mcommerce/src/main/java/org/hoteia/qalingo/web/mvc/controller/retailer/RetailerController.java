@@ -96,6 +96,8 @@ public class RetailerController extends AbstractMCommerceController {
 		
 		model.addAttribute("withMap", true);
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.RETAILER_DETAILS.getKey());
+
         return modelAndView;
 	}
     
@@ -121,6 +123,11 @@ public class RetailerController extends AbstractMCommerceController {
 		model.addAttribute(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 
 		// CREATE
+		
+		
+		
+		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.RETAILER_CREATE.getKey());
 
         return modelAndView;
 	}

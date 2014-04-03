@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Path("/cms/")
+@CrossOriginResourceSharing(allowAllOrigins = true)
 @Component("cmsRestService")
 public class CmsRestService {
 
@@ -191,7 +193,7 @@ public class CmsRestService {
                                          @PathParam("localizationCode") final String localizationCode) {
         CmsContext cmsContext = new CmsContext();
 
-        LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(retailerCode);
+        LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(localizationCode);
 
         RetailerPojo selectedRetailer = retailerPojoService.getRetailerByCode(retailerCode);
 

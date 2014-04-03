@@ -37,7 +37,9 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
         criteria.add(Restrictions.eq("id", customerId));
         Customer customer = (Customer) criteria.uniqueResult();
-        customer.setFetchPlan(fetchPlan);
+        if(customer != null){
+            customer.setFetchPlan(fetchPlan);
+        }
         return customer;
 	}
 	
@@ -48,7 +50,9 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
         criteria.add(Restrictions.eq("code", code));
         Customer customer = (Customer) criteria.uniqueResult();
-        customer.setFetchPlan(fetchPlan);
+        if(customer != null){
+            customer.setFetchPlan(fetchPlan);
+        }
         return customer;
 	}
 	
@@ -59,7 +63,9 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
         criteria.add(Restrictions.eq("permalink", permalink));
         Customer customer = (Customer) criteria.uniqueResult();
-        customer.setFetchPlan(fetchPlan);
+        if(customer != null){
+            customer.setFetchPlan(fetchPlan);
+        }
         return customer;
 	}
 
@@ -70,7 +76,9 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         Customer customer = (Customer) criteria.uniqueResult();
-        customer.setFetchPlan(fetchPlan);
+        if(customer != null){
+            customer.setFetchPlan(fetchPlan);
+        }
         return customer;
 	}
 	
@@ -84,7 +92,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 
         @SuppressWarnings("unchecked")
         List<Customer> customers = criteria.list();
-        
 		return customers;
 	}
 	

@@ -26,7 +26,6 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
 import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.MarketService;
@@ -63,10 +62,6 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.PAYMENT_GATEWAY_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
-        final Locale locale = requestData.getLocale();
-        
-        final String contentText = getSpecificMessage(ScopeWebMessage.PAYMENT_GATEWAY, BoMessageKey.MAIN_CONTENT_TEXT, locale);
-        modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
         
         displayList(request, model, requestData);
         

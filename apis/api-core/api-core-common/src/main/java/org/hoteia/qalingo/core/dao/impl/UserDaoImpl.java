@@ -38,7 +38,9 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", userId));
         User user = (User) criteria.uniqueResult();
-        user.setFetchPlan(fetchPlan);
+        if(user != null){
+            user.setFetchPlan(fetchPlan);
+        }
         return user;
     }
     
@@ -47,7 +49,9 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", userCode));
         User user = (User) criteria.uniqueResult();
-        user.setFetchPlan(fetchPlan);
+        if(user != null){
+            user.setFetchPlan(fetchPlan);
+        }
         return user;
     }
 
@@ -57,7 +61,9 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         User user = (User) criteria.uniqueResult();
-        user.setFetchPlan(fetchPlan);
+        if(user != null){
+            user.setFetchPlan(fetchPlan);
+        }
         return user;
     }
 
@@ -114,7 +120,9 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
         FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", companyId));
         Company company = (Company) criteria.uniqueResult();
-        company.setFetchPlan(fetchPlan);
+        if(company != null){
+            company.setFetchPlan(fetchPlan);
+        }
         return company;
     }
     

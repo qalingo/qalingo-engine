@@ -33,7 +33,9 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
         
         criteria.add(Restrictions.eq("id", cartId));
         Cart cart = (Cart) criteria.uniqueResult();
-        cart.setFetchPlan(fetchPlan);
+        if(cart != null){
+            cart.setFetchPlan(fetchPlan);
+        }
         return cart;
 	}
 

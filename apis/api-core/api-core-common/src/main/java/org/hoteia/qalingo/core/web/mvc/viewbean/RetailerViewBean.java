@@ -30,8 +30,11 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected Long id;
 	protected int version;
 	protected String code;
-	protected String name;
-	protected String description;
+    protected String name;
+    protected String description;
+
+    protected String i18nName;
+    protected String i18nDescription;
 
 	protected boolean isDefault;
 	protected boolean isOfficialRetailer;
@@ -93,25 +96,43 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 		this.code = code;
 	}
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getSortDescription() {
-		return description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
 
 	public String getShortDescription() {
 		String shortDescription = getDescription();

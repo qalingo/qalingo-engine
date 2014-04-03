@@ -113,7 +113,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         model.addAttribute(ModelConstants.SEO_PAGE_META_DESCIPRTION, seoPageMetaDescription);
 
         // DEFAULT EMPTY VALUE
-        model.addAttribute(ModelConstants.SEO_PAGE_META_TITLE, getAppName(request));
+        model.addAttribute(ModelConstants.SEO_PAGE_TITLE, getAppName(request));
 	}
 	
 	/**
@@ -128,15 +128,6 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	 * 
 	 */
 	protected void overrideMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
-//		final Locale locale  = requestUtil.getCurrentLocale(request);
-//		String mainContentTitleKey = BoMessageKey.MAIN_CONTENT_TITLE_PREFIX + pageKey;
-//		try {
-//			String mainContentTitle = getSpecificMessage(ScopeWebMessage.BREADCRUMB_AND_HEADER, mainContentTitleKey, locale);
-//	        modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, mainContentTitle);
-//		} catch (Exception e) {
-//			// DOESN'T NEED WARNING OR ERROR LOG
-//			logger.debug("mainContentTitle with key header.title doesn't exist for:" + pageKey);
-//		}
 		if(StringUtils.isNotEmpty(title)){
 			 modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, title);
 		}
@@ -165,7 +156,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
 	protected void overrideSeoTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String title) throws Exception {
 		final String fullTitle = getAppName(request) + " - " + title;
 		if(StringUtils.isNotEmpty(fullTitle)){
-	        modelAndView.addObject(ModelConstants.SEO_PAGE_META_TITLE, fullTitle);
+	        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, fullTitle);
 		}
 	}
 	
@@ -182,7 +173,7 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         } else {
             headerTitle = getSpecificMessage(ScopeWebMessage.HEADER_TITLE, pageTitleKey, locale);
         }
-        modelAndView.addObject(ModelConstants.SEO_PAGE_META_TITLE, getAppName(request) + " - " + headerTitle);
+        modelAndView.addObject(ModelConstants.SEO_PAGE_TITLE, getAppName(request) + " - " + headerTitle);
         modelAndView.addObject(ModelConstants.MAIN_CONTENT_TITLE, headerTitle);
     }
 	

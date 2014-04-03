@@ -26,7 +26,6 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphDeliveryMethod;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.DeliveryMethodService;
@@ -64,11 +63,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.DELIVERY_METHOD_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
-        final Locale locale = requestData.getLocale();
         
-		final String contentText = getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, BoMessageKey.MAIN_CONTENT_TEXT, locale);
-		modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
-		
 		displayList(request, model, requestData);
 		
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};

@@ -9,14 +9,10 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.i18n.FoMessageKey;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -44,15 +40,6 @@ public class HomeController extends AbstractPrehomeController {
 	public ModelAndView displayHome(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PREHOME.getVelocityPage());
 
-		final RequestData requestData = requestUtil.getRequestData(request);
-		final Locale locale = requestData.getLocale();
-		final String pageKey = FoUrls.PREHOME.getKey();
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-
-		final String contentText = getSpecificMessage(ScopeWebMessage.HOME, FoMessageKey.MAIN_CONTENT_TEXT, locale);
-		model.addAttribute(ModelConstants.CONTENT_TEXT, contentText);
-		
 		final String remoteAddress = requestUtil.getRemoteAddr(request);
         model.addAttribute(ModelConstants.GEOLOC_REMOTE_ADDRESS, remoteAddress);
         
@@ -61,6 +48,8 @@ public class HomeController extends AbstractPrehomeController {
 
         final City city = geolocService.geolocAndGetCity(remoteAddress);
         model.addAttribute(ModelConstants.GEOLOC_CITY, city);
+
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PREHOME.getKey());
 
         return modelAndView;
 	}

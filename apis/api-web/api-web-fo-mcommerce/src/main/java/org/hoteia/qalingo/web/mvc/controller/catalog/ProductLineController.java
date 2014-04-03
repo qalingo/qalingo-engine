@@ -10,7 +10,6 @@
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,21 +56,10 @@ public class ProductLineController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
-        final Locale locale = requestData.getLocale();
         final Cart currentCart = requestData.getCart();
         
 		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
 		
-		String seoPageMetaKeywords = coreMessageSource.getMessage("page.meta.keywords", locale);
-        model.addAttribute("seoPageMetaKeywords", seoPageMetaKeywords);
-
-		String seoPageMetaDescription = coreMessageSource.getMessage("page.meta.description", locale);
-        model.addAttribute("seoPageMetaDescription", seoPageMetaDescription);
-
-		String pageTitleKey = "header.title." + "";
-		String seoPageTitle = coreMessageSource.getMessage("page.title.prefix", locale) + " - " + coreMessageSource.getMessage(pageTitleKey, locale);
-        model.addAttribute("seoPageTitle", seoPageTitle);
-        
 		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 
 		String sortBy = request.getParameter("sortBy");
@@ -121,6 +109,16 @@ public class ProductLineController extends AbstractMCommerceController {
 		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId);
         model.addAttribute(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+        
+        // SEO
+        model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, catalogCategoryViewBean.getI18nName() );
+        
+        model.addAttribute(ModelConstants.PAGE_META_OG_DESCRIPTION, catalogCategoryViewBean.getI18nDescription());
+        
+        model.addAttribute(ModelConstants.PAGE_META_OG_IMAGE, urlService.buildAbsoluteUrl(requestData, catalogCategoryViewBean.getCarouselImage()));
+
+        Object[] params = { catalogCategoryViewBean.getI18nName() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CATEGORY_AS_LINE.getKey(), params);
         
 		return modelAndView;
 	}

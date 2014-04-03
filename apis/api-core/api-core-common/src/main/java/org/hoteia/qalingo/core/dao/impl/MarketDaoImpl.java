@@ -40,7 +40,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         
         criteria.add(Restrictions.eq("isDefault", true));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
-        marketPlace.setFetchPlan(fetchPlan);
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
         return marketPlace;
     }
     
@@ -51,7 +53,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         criteria.add(Restrictions.eq("id", marketPlaceId));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
-        marketPlace.setFetchPlan(fetchPlan);
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
         return marketPlace;
     }
     
@@ -62,7 +66,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         criteria.add(Restrictions.eq("code", code));
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
-        marketPlace.setFetchPlan(fetchPlan);
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
         return marketPlace;
     }
     
@@ -75,7 +81,6 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         @SuppressWarnings("unchecked")
         List<MarketPlace> marketPlaces = criteria.list();
-        
         return marketPlaces;
     }
 
@@ -118,7 +123,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         
         criteria.add(Restrictions.eq("isDefault", true));
         Market market = (Market) criteria.uniqueResult();
-        market.setFetchPlan(fetchPlan);
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
 		return market;
 	}
 	
@@ -129,7 +136,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         criteria.add(Restrictions.eq("id", marketId));
         Market market = (Market) criteria.uniqueResult();
-        market.setFetchPlan(fetchPlan);
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
         return market;
 	}
 
@@ -140,7 +149,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         criteria.add(Restrictions.eq("code", code));
         Market market = (Market) criteria.uniqueResult();
-        market.setFetchPlan(fetchPlan);
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
 		return market;
 	}
 	
@@ -210,7 +221,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
 
         criteria.add(Restrictions.eq("id", marketAreaId));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
-        marketArea.setFetchPlan(fetchPlan);
+        if(marketArea != null){
+            marketArea.setFetchPlan(fetchPlan);
+        }
         return marketArea;
 	}
 	
@@ -221,7 +234,9 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         
         criteria.add(Restrictions.eq("code", code));
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
-        marketArea.setFetchPlan(fetchPlan);
+        if(marketArea != null){
+            marketArea.setFetchPlan(fetchPlan);
+        }
 		return marketArea;
 	}
 

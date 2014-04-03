@@ -40,7 +40,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("id", catalogCategoryId));
 
         CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
         return catalogCategory;
 	}
 	
@@ -52,7 +54,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
         CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
 		return catalogCategory;
 	}
 	
@@ -64,7 +68,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
         CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
 		return catalogCategory;
 	}
 	
@@ -135,7 +141,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("id", catalogCategoryId));
 
         CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
         return catalogCategory;
 	}
 	
@@ -147,7 +155,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
         CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
 		return catalogCategory;
 	}
 	
@@ -159,7 +169,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 
         CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
-        catalogCategory.setFetchPlan(fetchPlan);
+        if(catalogCategory != null){
+            catalogCategory.setFetchPlan(fetchPlan);
+        }
 		return catalogCategory;
 	}
 	

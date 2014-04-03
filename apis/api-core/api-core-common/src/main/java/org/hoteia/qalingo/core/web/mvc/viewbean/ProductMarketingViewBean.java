@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ProductMarketingViewBean extends AbstractViewBean implements
 		Serializable {
 
@@ -27,10 +29,12 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 	protected Long id;
 	protected String code;
 	protected String name;
-	protected String description;
-	protected int positionItem;
+    protected String description;
 
-	protected String i18nName;
+    protected String i18nName;
+    protected String i18nDescription;
+
+	protected int positionItem;
 
 	protected String backgroundImage;
 	protected String carouselImage;
@@ -53,8 +57,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 	protected String detailsUrl;
 	protected String editUrl;
 
-	protected String createdDate;
-	protected String updatedDate;
+	protected String dateCreate;
+	protected String dateUpdate;
 
 	protected CustomerProductRatesViewBean customerProductRates;
 
@@ -89,6 +93,28 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+    public String getI18nName() {
+        if(StringUtils.isNotEmpty(i18nName)){
+            return i18nName;
+        }
+        return name;
+    }
+    
+    public void setI18nName(String i18nName) {
+        this.i18nName = i18nName;
+    }
+    
+    public String getI18nDescription() {
+        if(StringUtils.isNotEmpty(i18nDescription)){
+            return i18nDescription;
+        }
+        return description;
+    }
+    
+    public void setI18nDescription(String i18nDescription) {
+        this.i18nDescription = i18nDescription;
+    }
 
 	public int getPositionItem() {
 		return positionItem;
@@ -96,14 +122,6 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	public void setPositionItem(int positionItem) {
 		this.positionItem = positionItem;
-	}
-
-	public String getI18nName() {
-		return i18nName;
-	}
-
-	public void setI18nName(String i18nName) {
-		this.i18nName = i18nName;
 	}
 
 	public String getBackgroundImage() {
@@ -302,20 +320,20 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		this.editUrl = editUrl;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public String getDateCreate() {
+		return dateCreate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setDateCreate(String dateCreate) {
+		this.dateCreate = dateCreate;
 	}
 
-	public String getUpdatedDate() {
-		return updatedDate;
+	public String getDateUpdate() {
+		return dateUpdate;
 	}
 
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
+	public void setDateUpdate(String dateUpdate) {
+		this.dateUpdate = dateUpdate;
 	}
 
 	public CustomerProductRatesViewBean getCustomerProductRates() {

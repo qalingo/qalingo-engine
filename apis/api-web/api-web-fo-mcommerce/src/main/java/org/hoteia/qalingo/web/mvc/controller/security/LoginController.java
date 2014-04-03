@@ -57,6 +57,8 @@ public class LoginController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
         
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.LOGIN.getKey());
+        
         return modelAndView;
     }
     
@@ -79,6 +81,8 @@ public class LoginController extends AbstractMCommerceController {
             model.addAttribute(ModelConstants.AUTH_HAS_FAIL, BooleanUtils.toBoolean(error));
             model.addAttribute(ModelConstants.AUTH_ERROR_MESSAGE, getCommonMessage(ScopeCommonMessage.AUTH, "login_or_password_are_wrong", locale));
         }
+        
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CART_AUTH.getKey());
         
         modelAndView.addObject(ModelConstants.CHECKOUT_STEP, 2);
 

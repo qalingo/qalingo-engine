@@ -47,6 +47,8 @@ public class BrandDetailsController extends AbstractMCommerceController {
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand);
 		model.addAttribute("productBrand", productBrandViewBean);
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.BRAND_DETAILS.getKey());
+
         return modelAndView;
 	}
 

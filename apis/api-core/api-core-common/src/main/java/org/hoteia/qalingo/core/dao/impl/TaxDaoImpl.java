@@ -35,7 +35,9 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
         
         criteria.add(Restrictions.eq("id", taxId));
         Tax tax = (Tax) criteria.uniqueResult();
-        tax.setFetchPlan(fetchPlan);
+        if(tax != null){
+            tax.setFetchPlan(fetchPlan);
+        }
         return tax;
 	}
 
@@ -46,7 +48,9 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
         criteria.add(Restrictions.eq("code", taxCode));
         Tax tax = (Tax) criteria.uniqueResult();
-        tax.setFetchPlan(fetchPlan);
+        if(tax != null){
+            tax.setFetchPlan(fetchPlan);
+        }
         return tax;
     }
     
@@ -59,7 +63,6 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 
         @SuppressWarnings("unchecked")
         List<Tax> taxes = criteria.list();
-
         return taxes;
     }
     

@@ -53,6 +53,8 @@ public class ContactController extends AbstractMCommerceController {
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CONTACT.getKey());
+
         return modelAndView;
 	}
 
@@ -82,7 +84,7 @@ public class ContactController extends AbstractMCommerceController {
 	/**
 	 * 
 	 */
-    @ModelAttribute("contactForm")
+    @ModelAttribute(ModelConstants.CONTACT_FORM)
 	protected ContactForm getContactForm(final HttpServletRequest request, final Model model) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
     	return formFactory.buildContactForm(requestData);

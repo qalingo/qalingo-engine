@@ -24,7 +24,6 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.TaxService;
@@ -58,10 +57,6 @@ public class TaxController extends AbstractBusinessBackofficeController {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.TAX_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
-        final Locale locale = requestData.getLocale();
-        
-        final String contentText = getSpecificMessage(ScopeWebMessage.TAX, BoMessageKey.MAIN_CONTENT_TEXT, locale);
-        modelAndView.addObject(ModelConstants.CONTENT_TEXT, contentText);
         
         displayList(request, model, requestData);
         

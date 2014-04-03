@@ -36,7 +36,9 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 
         criteria.add(Restrictions.eq("id", deliveryMethodId));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
-        deliveryMethod.setFetchPlan(fetchPlan);
+        if(deliveryMethod != null){
+            deliveryMethod.setFetchPlan(fetchPlan);
+        }
         return deliveryMethod;
 	}
 
@@ -47,7 +49,9 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 
         criteria.add(Restrictions.eq("code", code));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
-        deliveryMethod.setFetchPlan(fetchPlan);
+        if(deliveryMethod != null){
+            deliveryMethod.setFetchPlan(fetchPlan);
+        }
         return deliveryMethod;
 	}
 	
