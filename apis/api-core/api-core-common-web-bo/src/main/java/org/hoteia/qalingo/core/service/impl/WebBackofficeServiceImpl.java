@@ -9,15 +9,22 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.PersistenceException;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -70,6 +77,7 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service("webBackofficeService")
 @Transactional
@@ -406,7 +414,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		productService.saveOrUpdateProductMarketingAsset(asset);
 	}
 	
-	public void createOrUpdateRetailer(Retailer retailer, final RetailerForm retailerForm) {
+	public void createOrUpdateRetailer(Retailer retailer, final RetailerForm retailerForm) throws Exception {
 	    if (retailer == null) {
 	        retailer = new Retailer();
 	    }
@@ -444,9 +452,40 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(warehouse != null){
 				retailer.setWarehouse(warehouse);
 			}
-		}else{
+		} else {
 			retailer.setWarehouse(null);
 		}
+		
+        MultipartFile multipartFile = retailerForm.getFile();
+        if (multipartFile.getSize() > 0) {
+            UUID uuid = UUID.randomUUID();
+            String pathRetailerLogoImage = new StringBuilder(uuid.toString()).append(".").append(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toString();
+
+            String absoluteFilePath = retailerService.getRetailerLogoFilePath(pathRetailerLogoImage);
+            String absoluteFolderPath = absoluteFilePath.replace(pathRetailerLogoImage, "");
+
+            InputStream inputStream = multipartFile.getInputStream();
+            URI fileUrl = new URI(absoluteFilePath);
+            File fileLogo;
+            File folderLogo;
+            try {
+                folderLogo = new File(absoluteFolderPath);
+                folderLogo.mkdirs();
+                fileLogo = new File(fileUrl);
+                
+            } catch (IllegalArgumentException e) {
+                fileLogo = new File(fileUrl.getPath());
+            }
+            OutputStream outputStream = new FileOutputStream(fileLogo);
+            int readBytes = 0;
+            byte[] buffer = new byte[8192];
+            while ((readBytes = inputStream.read(buffer, 0, 8192)) != -1) {
+                outputStream.write(buffer, 0, readBytes);
+            }
+            outputStream.close();
+            inputStream.close();
+            retailer.setLogo(pathRetailerLogoImage);
+        }
 		
 		retailerService.saveOrUpdateRetailer(retailer);
 	}

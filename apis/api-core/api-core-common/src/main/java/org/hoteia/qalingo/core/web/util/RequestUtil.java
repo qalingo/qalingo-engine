@@ -24,6 +24,7 @@ import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
@@ -281,32 +282,32 @@ public interface RequestUtil {
     /**
      * 
      */
-    String getRootAssetFilePath(HttpServletRequest request) throws Exception;
+    String getRootAssetFilePath() throws Exception;
 
     /**
      * 
      */
-    String getRootAssetWebPath(HttpServletRequest request) throws Exception;
+    String getRootAssetWebPath() throws Exception;
 
     /**
      * 
      */
-    String getCatalogImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+    String getCatalogImageWebPath(Asset asset) throws Exception;
 
     /**
      * 
      */
-    String getProductMarketingImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+    String getProductMarketingImageWebPath(Asset asset) throws Exception;
 
     /**
      * 
      */
-    String getProductSkuImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+    String getProductSkuImageWebPath(Asset asset) throws Exception;
 
     /**
      * 
      */
-    String getRetailerOrStoreImageWebPath(HttpServletRequest request, Asset asset) throws Exception;
+    String getRetailerOrStoreImageWebPath(Asset asset) throws Exception;
     
     /**
      * 

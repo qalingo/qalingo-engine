@@ -228,7 +228,7 @@ VALUES
 (1013, 'Setting resource assets catalog file path', 'Setting resource assets catalog file path', 'ASSET_CATALOG_FILE_PATH', '/images/catalog/category', 1),
 (1014, 'Setting resource assets product marketing file path', 'Setting resource assets product marketing file path', 'ASSET_PRODUCT_MARKETING_FILE_PATH', '/images/catalog/product-marketing', 1),
 (1015, 'Setting resource assets product sku file path', 'Setting resource assets product sku file path', 'ASSET_PROPDUCT_SKU_FILE_PATH', '/images/catalog/product-sku', 1),
-(1016, 'Setting resource assets retailer & store file path', 'Setting resource assets retailer & store file path', 'ASSET_RETAILER_STORE_FILE_PATH', '/images/retailer_store', 1);
+(1016, 'Setting resource assets retailer & store file path', 'Setting resource assets retailer & store file path', 'ASSET_RETAILER_STORE_FILE_PATH', '/images/retailer-store', 1);
 
 
 -- Tracking/Monitoring settings

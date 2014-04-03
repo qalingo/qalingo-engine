@@ -158,7 +158,7 @@ public class CmsRestService {
                                      @PathParam("localizationCode") final String localizationCode) {
         CmsContext cmsContext = new CmsContext();
 
-        LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(retailerCode);
+        LocalizationPojo selectedLocalization = localizationPojoService.getLocalizationByCode(localizationCode);
 
         RetailerPojo selectedRetailer = retailerPojoService.getRetailerByCode(retailerCode);
         

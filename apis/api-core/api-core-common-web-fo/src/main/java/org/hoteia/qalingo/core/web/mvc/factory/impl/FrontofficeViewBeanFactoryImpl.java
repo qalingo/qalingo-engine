@@ -297,7 +297,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
-            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultBackgroundImage);
+            final String backgroundImage = requestUtil.getProductMarketingImageWebPath(defaultBackgroundImage);
             searchItemViewBean.setBackgroundImage(backgroundImage);
         } else {
         	searchItemViewBean.setBackgroundImage("");
@@ -305,7 +305,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
         if (defaultPaskshotImage != null) {
-            final String carouselImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultPaskshotImage);
+            final String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
             searchItemViewBean.setCarouselImage(carouselImage);
         } else {
         	searchItemViewBean.setCarouselImage("");
@@ -313,7 +313,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         final Asset defaultIconImage = productMarketing.getDefaultIconImage();
         if (defaultIconImage != null) {
-            final String iconImage = requestUtil.getProductMarketingImageWebPath(requestData.getRequest(), defaultIconImage);
+            final String iconImage = requestUtil.getProductMarketingImageWebPath(defaultIconImage);
             searchItemViewBean.setIconImage(iconImage);
         } else {
         	searchItemViewBean.setIconImage("");
@@ -402,7 +402,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 
         final Asset defaultBackgroundImage = store.getDefaultBackgroundImage();
         if (defaultBackgroundImage != null) {
-            final String backgroundImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultBackgroundImage);
+            final String backgroundImage = requestUtil.getRetailerOrStoreImageWebPath(defaultBackgroundImage);
             searchItemViewBean.setBackgroundImage(backgroundImage);
         } else {
             searchItemViewBean.setBackgroundImage("");
@@ -410,7 +410,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         final Asset defaultIconImage = store.getDefaultIconImage();
         if (defaultIconImage != null) {
-            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), defaultIconImage);
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(defaultIconImage);
             searchItemViewBean.setIconImage(iconImage);
         } else {
             searchItemViewBean.setIconImage("");
@@ -418,7 +418,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         
         final Asset carouselImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
         if (carouselImage != null) {
-            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(requestData.getRequest(), carouselImage);
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(carouselImage);
             searchItemViewBean.setCarouselImage(iconImage); 
         } else {
             searchItemViewBean.setIconImage("");

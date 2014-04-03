@@ -288,7 +288,9 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         retailerViewBean.setEcommerce(retailer.isEcommerce());
         retailerViewBean.setCorner(retailer.isCorner());
         retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
-        retailerViewBean.setImg(retailer.getLogo());
+        
+        String logo = retailerService.getRetailerLogoWebPath(retailer.getLogo());
+        retailerViewBean.setImg(logo);
 
         if (retailer.getAddresses() != null) {
             RetailerAddress defaultAddress = retailer.getDefaultAddress();
@@ -732,7 +734,6 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
      * 
      */
     public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
         final String assetCode = asset.getCode();
 
         AssetViewBean assetViewBean = new AssetViewBean();
@@ -753,7 +754,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         assetViewBean.setFileSize("" + asset.getFileSize());
         assetViewBean.setIsDefault("" + asset.isDefault());
 
-        assetViewBean.setAbsoluteWebPath(requestUtil.getProductMarketingImageWebPath(request, asset));
+        assetViewBean.setAbsoluteWebPath(requestUtil.getProductMarketingImageWebPath(asset));
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         Date createdDate = asset.getDateCreate();

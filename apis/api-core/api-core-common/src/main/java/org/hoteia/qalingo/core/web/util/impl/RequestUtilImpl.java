@@ -829,7 +829,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getRootAssetFilePath(final HttpServletRequest request) throws Exception {
+    public String getRootAssetFilePath() throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetFileRootPath();
         String prefixPath = "";
         if (engineSetting != null) {
@@ -844,7 +844,7 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getRootAssetWebPath(final HttpServletRequest request) throws Exception {
+    public String getRootAssetWebPath() throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
         String prefixPath = "";
         if (engineSetting != null) {
@@ -859,13 +859,13 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getCatalogImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+    public String getCatalogImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetCatalogFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
         if (catalogImageWebPath.endsWith("/")) {
             catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
         }
@@ -875,13 +875,13 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getProductMarketingImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+    public String getProductMarketingImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetProductMarketingFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
         if (productMarketingImageWebPath.endsWith("/")) {
             productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
         }
@@ -891,13 +891,13 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getProductSkuImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+    public String getProductSkuImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetPoductSkuFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
         if (productSkuImageWebPath.endsWith("/")) {
             productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
         }
@@ -907,13 +907,13 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * 
      */
-    public String getRetailerOrStoreImageWebPath(final HttpServletRequest request, final Asset asset) throws Exception {
+    public String getRetailerOrStoreImageWebPath(final Asset asset) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String storeImageWebPath = getRootAssetWebPath(request) + prefixPath + "/" + asset.getScope().name().toLowerCase() + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().name().toLowerCase() + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
         if (storeImageWebPath.endsWith("/")) {
             storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
         }

@@ -50,6 +50,10 @@ public interface RetailerService {
 	
 	void deleteRetailer(Retailer retailer);
 	
+	String getRetailerLogoFilePath(String logo);
+	
+	String getRetailerLogoWebPath(String logo) throws Exception;
+	
     // RETAILER COMMENT/RATE
 	
 	void saveOrUpdateRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);

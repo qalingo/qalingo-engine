@@ -65,7 +65,7 @@ public interface WebBackofficeService {
 
     void createOrUpdateProductMarketingAsset(Asset asset, AssetForm assetForm);
 
-    void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm);
+    void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm) throws Exception;
 
     void createOrUpdateWarehouse(RequestData requestData, Warehouse warehouse, WarehouseForm warehouseForm);
     

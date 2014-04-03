@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.RetailerDao;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.RetailerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class RetailerServiceImpl implements RetailerService {
     @Autowired
     private RetailerDao retailerDao;
 
+    @Autowired
+    private EngineSettingService engineSettingService;
+    
     // RETAILER
 
     public Retailer getRetailerById(final Long retailerId, Object... params) {
@@ -98,7 +103,54 @@ public class RetailerServiceImpl implements RetailerService {
     public void deleteRetailer(final Retailer retailer) {
         retailerDao.deleteRetailer(retailer);
     }
-
+    
+    public String getRetailerLogoFilePath(final String logo) {
+          String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
+          assetfileRootPath.replaceAll("\\\\", "/");
+          if (assetfileRootPath.endsWith("/")) {
+              assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
+          }
+          
+          String retailerLogoFilePath = engineSettingService.getAssetRetailerAndStoreFilePath().getDefaultValue();
+          retailerLogoFilePath.replaceAll("\\\\", "/");
+          if (retailerLogoFilePath.endsWith("/")) {
+              retailerLogoFilePath = retailerLogoFilePath.substring(0, retailerLogoFilePath.length() - 1);
+          }
+          if (!retailerLogoFilePath.startsWith("/")) {
+              retailerLogoFilePath = "/" + retailerLogoFilePath;
+          }
+          String absoluteFolderPath = new StringBuilder(assetfileRootPath).append(retailerLogoFilePath).append("/retailer-logo/").toString();
+          String absoluteFilePath = new StringBuilder(absoluteFolderPath).append(logo).toString();
+          return absoluteFilePath;
+    }
+    
+    protected String getRetailerLogoWebPathPrefix() throws Exception {
+        EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String retailerLogoWebPathPrefix = getRootAssetWebPath() + prefixPath + "/retailer-logo/";
+        return retailerLogoWebPathPrefix;
+    }
+    
+    public String getRetailerLogoWebPath(final String logo) throws Exception {
+        String retailerLogoWebPath = getRetailerLogoWebPathPrefix() + logo;
+        return retailerLogoWebPath;
+    }
+    
+    protected String getRootAssetWebPath() throws Exception {
+        EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        if (prefixPath.endsWith("/")) {
+            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+        }
+        return prefixPath;
+    }
+    
     // RETAILER COMMENT/RATE
 
     public void saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
