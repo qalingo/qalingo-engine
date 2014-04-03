@@ -288,6 +288,7 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
         retailerViewBean.setEcommerce(retailer.isEcommerce());
         retailerViewBean.setCorner(retailer.isCorner());
         retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
+        retailerViewBean.setImg(retailer.getLogo());
 
         if (retailer.getAddresses() != null) {
             RetailerAddress defaultAddress = retailer.getDefaultAddress();

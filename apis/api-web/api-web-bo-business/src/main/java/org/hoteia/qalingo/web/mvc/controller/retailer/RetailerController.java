@@ -9,6 +9,11 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.retailer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,10 +22,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
@@ -52,6 +59,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -189,7 +197,65 @@ public class RetailerController extends AbstractBusinessBackofficeController {
             retailer = retailerService.getRetailerById(retailerForm.getId());
         }
         
+        MultipartFile multipartFile = retailerForm.getFile();
+        
         try {
+        	if (multipartFile.getSize() > 0) {
+				
+//        		Commented by Tri: should avoid duplicated name by using GUID name
+//        		String pathRetailerLogoImage = multipartFile.getOriginalFilename();
+        		UUID uuid = UUID.randomUUID();
+        		String pathRetailerLogoImage = new StringBuilder(uuid.toString())
+        											.append(".")
+        											.append(FilenameUtils.getExtension(multipartFile.getOriginalFilename()))
+        											.toString();
+				
+				String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
+				assetfileRootPath.replaceAll("\\\\", "/");
+				if(assetfileRootPath.endsWith("/")){
+					assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
+				}
+				String retailerLogoFilePath = engineSettingService.getAssetRetailerAndStoreFilePath().getDefaultValue();
+				retailerLogoFilePath.replaceAll("\\\\", "/");
+				if(retailerLogoFilePath.endsWith("/")){
+					retailerLogoFilePath = retailerLogoFilePath.substring(0, retailerLogoFilePath.length() - 1);
+				}
+				if(!retailerLogoFilePath.startsWith("/")){
+					retailerLogoFilePath = "/" + retailerLogoFilePath;
+				}
+				
+				String absoluteFolderPath = new StringBuilder(assetfileRootPath)
+												.append(retailerLogoFilePath)
+												.append("/icon/")
+												.toString();
+				
+				String absoluteFilePath = new StringBuilder(absoluteFolderPath)												
+												.append(pathRetailerLogoImage)
+												.toString();
+				
+				InputStream inputStream = multipartFile.getInputStream();
+				URI fileUrl = new URI(absoluteFilePath);
+				File fileLogo;
+				File folderLogo;
+				try {
+					folderLogo = new File(absoluteFolderPath);
+					folderLogo.mkdirs();
+					
+					fileLogo = new File(fileUrl);
+				} catch(IllegalArgumentException e) {
+					fileLogo = new File(fileUrl.getPath());
+				}
+				OutputStream outputStream = new FileOutputStream(fileLogo);
+				int readBytes = 0;
+				byte[] buffer = new byte[8192];
+				while ((readBytes = inputStream.read(buffer, 0, 8192)) != -1) {
+					outputStream.write(buffer, 0, readBytes);
+				}
+				outputStream.close();
+				inputStream.close();
+				retailer.setLogo(pathRetailerLogoImage);
+			}
+        	
             // CREATE OR UPDATE RETAILER
             webBackofficeService.createOrUpdateRetailer(retailer, retailerForm);
             
@@ -218,49 +284,49 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		String url = request.getRequestURI();
 		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
 		
-		PagedListHolder<RetailerViewBean> RetailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>();
+		PagedListHolder<RetailerViewBean> retailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>();
 
        	if(retailers == null){
     		retailers = retailerService.findRetailers(marketArea.getId(), retailer.getId());
     	}
        	
         if(StringUtils.isEmpty(page)){
-        	RetailerViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, retailers);
+        	retailerViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, retailers);
     		
         } else {
-        	RetailerViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
-	        if (RetailerViewBeanPagedListHolder == null) { 
-	        	RetailerViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, retailers);
+        	retailerViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+	        if (retailerViewBeanPagedListHolder == null) { 
+	        	retailerViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, retailers);
 	        }
 	        int pageTarget = new Integer(page).intValue() - 1;
-	        int pageCurrent = RetailerViewBeanPagedListHolder.getPage();
+	        int pageCurrent = retailerViewBeanPagedListHolder.getPage();
 	        if (pageCurrent < pageTarget) { 
 	        	for (int i = pageCurrent; i < pageTarget; i++) {
-	        		RetailerViewBeanPagedListHolder.nextPage(); 
+	        		retailerViewBeanPagedListHolder.nextPage(); 
 				}
 	        } else if (pageCurrent > pageTarget) { 
 	        	for (int i = pageTarget; i < pageCurrent; i++) {
-	        		RetailerViewBeanPagedListHolder.previousPage(); 
+	        		retailerViewBeanPagedListHolder.previousPage(); 
 				}
 	        } 
         }
         model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
-        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, RetailerViewBeanPagedListHolder);
+        model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, retailerViewBeanPagedListHolder);
 	}
 	
 	private PagedListHolder<RetailerViewBean> initList(final HttpServletRequest request, String sessionKey, final RequestData requestData, final List<Retailer> retailers) throws Exception {
-		PagedListHolder<RetailerViewBean> RetailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>();
+		PagedListHolder<RetailerViewBean> retailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>();
 		
 		final List<RetailerViewBean> RetailerViewBeans = new ArrayList<RetailerViewBean>();
 		for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
 			Retailer retailerIt = (Retailer) iterator.next();
 			RetailerViewBeans.add(backofficeViewBeanFactory.buildViewBeanRetailer(requestData, retailerIt));
 		}
-		RetailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>(RetailerViewBeans);
-		RetailerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
-        request.getSession().setAttribute(sessionKey, RetailerViewBeanPagedListHolder); 
+		retailerViewBeanPagedListHolder = new PagedListHolder<RetailerViewBean>(RetailerViewBeans);
+		retailerViewBeanPagedListHolder.setPageSize(Constants.PAGE_SIZE);
+        request.getSession().setAttribute(sessionKey, retailerViewBeanPagedListHolder); 
         
-        return RetailerViewBeanPagedListHolder;
+        return retailerViewBeanPagedListHolder;
 	}
     
 	/**
@@ -325,7 +391,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 				});
 	        }
 		} catch (Exception e) {
-			logger.error("", e);
+			logger.error(e.getMessage(), e);
 		}
 		return warehousesValues;
     }
