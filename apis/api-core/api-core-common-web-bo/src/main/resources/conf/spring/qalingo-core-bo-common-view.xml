@@ -57,13 +57,13 @@
 	
 	<!-- Configure the multipart resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="100000" />
+		<property name="maxUploadSize" value="${multipart.resolver.max.upload.size}" />
 		<property name="uploadTempDir" ref="uploadDirResource" />
 	</bean>
 
 	<bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
 		<constructor-arg>
-		<value>/datas/upload/</value>
+		<value>${multipart.resolver.upload.temp.dir}</value>
 		</constructor-arg>
 	</bean>
 
