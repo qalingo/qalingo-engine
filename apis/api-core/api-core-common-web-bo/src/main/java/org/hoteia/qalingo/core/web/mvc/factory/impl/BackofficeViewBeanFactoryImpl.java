@@ -52,6 +52,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
@@ -60,6 +61,8 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -93,6 +96,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RuleViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserConnectionLogValueBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.UserViewBean;
@@ -1281,6 +1285,68 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
 
     protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale) {
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, params, locale);
+    }
+    
+    @Override
+    public StoreViewBean buildViewBeanStore(RequestData requestData, Store store)
+    		throws Exception {
+    	final Localization localization = requestData.getMarketAreaLocalization();
+
+        final StoreViewBean storeViewBean = new StoreViewBean();
+        storeViewBean.setCode(store.getCode());
+        storeViewBean.setName(store.getName());
+        storeViewBean.setAddress1(store.getAddress1());
+        storeViewBean.setAddress2(store.getAddress2());
+        storeViewBean.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
+        storeViewBean.setPostalCode(store.getPostalCode());
+
+        // I18n values
+        storeViewBean.setCity(store.getCity());
+        String i18nCityName = store.getI18nCity(localization);
+        if(StringUtils.isNotEmpty(i18nCityName)){
+            storeViewBean.setCity(i18nCityName);
+        }
+
+        storeViewBean.setStateCode(store.getStateCode());
+        storeViewBean.setCountry(store.getCountryCode());
+        storeViewBean.setCountryCode(store.getCountryCode());
+        storeViewBean.setLongitude(store.getLongitude());
+        storeViewBean.setLatitude(store.getLatitude());
+        
+        final Asset defaultPackshotImage = store.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            final String defaultImage = requestUtil.getRetailerOrStoreImageWebPath(defaultPackshotImage);
+            storeViewBean.setDefaultImage(defaultImage);
+        } else {
+            storeViewBean.setDefaultImage("");
+        }
+        final Asset defaultIconImage = store.getDefaultIconImage();
+        if (defaultIconImage != null) {
+            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(defaultIconImage);
+            storeViewBean.setIconImage(iconImage);
+        } else {
+            storeViewBean.setIconImage("");
+        }
+        
+		final List<Asset> assets = store.getSlideShows();
+		if(assets != null){
+	        List<String> sliders = new ArrayList<String>();
+	        for(Asset asset : assets ){
+	            final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(asset);
+	            sliders.add(iconImage);
+	        }
+	        storeViewBean.setSliders(sliders);
+		}
+		
+		Map<String, String> urlParams = new HashMap<String, String>();
+        urlParams.put(RequestConstants.REQUEST_PARAMETER_STORE_CODE, store.getCode());
+        String detailsUrl = backofficeUrlService.generateUrl(BoUrls.STORE_DETAILS, requestData, urlParams);
+        String editUrl = backofficeUrlService.generateUrl(BoUrls.STORE_EDIT, requestData, urlParams);
+
+        storeViewBean.setDetailsUrl(detailsUrl);
+        storeViewBean.setEditUrl(editUrl);
+        
+        return storeViewBean;
     }
 
 }
