@@ -227,7 +227,12 @@ public enum ScopeWebMessage {
 	/**
 	 * 
 	 */
-	CHARTE("charte");
+	CHARTE("charte"),
+	
+	/**
+	 * 
+	 */
+	STORE("store");
 	
 	private String propertyKey = "";
 

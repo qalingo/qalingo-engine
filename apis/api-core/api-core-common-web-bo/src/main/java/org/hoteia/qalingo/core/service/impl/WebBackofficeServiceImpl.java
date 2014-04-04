@@ -26,6 +26,7 @@ import javax.persistence.PersistenceException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
@@ -44,6 +45,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -71,6 +73,7 @@ import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
+import org.hoteia.qalingo.core.web.mvc.form.StoreForm;
 import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
@@ -600,6 +603,28 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 
             engineSettingService.saveOrUpdateEngineSettingValue(engineSettingValue);
         }
+    }
+    
+    @Override
+    public void createOrUpdateStore(Store store, StoreForm storeForm)
+    		throws Exception {
+    	if (store == null) {
+    		store = new Store();
+	    }
+    	store.setCode(storeForm.getCode());
+    	store.setName(storeForm.getName());
+		
+    	store.setAddress1(storeForm.getAddress1());
+    	store.setAddress2(storeForm.getAddress2());
+    	store.setAddressAdditionalInformation(storeForm.getAddressAdditionalInformation());
+    	store.setPostalCode(storeForm.getPostalCode());
+    	store.setCity(storeForm.getCity());
+    	store.setStateCode(storeForm.getStateCode());
+    	store.setCountryCode(storeForm.getCountryCode());
+		
+        store.setRetailerId(NumberUtils.toLong(storeForm.getRetailerId(), store.getRetailerId()));
+		
+		retailerService.saveOrUpdateStore(store);
     }
     
 }

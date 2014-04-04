@@ -81,6 +81,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.RETAILER_ADD, requestData));
+        model.addAttribute(ModelConstants.STORE_LIST_URL, backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData));
 
         return modelAndView;
 	}
@@ -303,9 +304,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
     public List<ValueBean> getWarehouses(HttpServletRequest request) throws Exception{
     	List<ValueBean> warehousesValues = new ArrayList<ValueBean>();
 		try {
-	        final RequestData requestData = requestUtil.getRequestData(request);
-	        final MarketArea marketArea = requestData.getMarketArea();
-	        List<Warehouse> warehouses = warehouseService.findWarehousesByMarketAreaId(marketArea.getId());
+	        List<Warehouse> warehouses = warehouseService.findWarehouses();
 	        if(warehouses != null){
 		        for (Iterator<Warehouse> iterator = warehouses.iterator(); iterator.hasNext();) {
 		            Warehouse warehouseIt = (Warehouse) iterator.next();

@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -53,6 +54,7 @@ import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
 import org.hoteia.qalingo.core.web.mvc.form.RuleForm;
+import org.hoteia.qalingo.core.web.mvc.form.StoreForm;
 import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
@@ -411,6 +413,32 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             
         }
         return retailerForm;
+    }
+    
+    @Override
+    public StoreForm buildStoreForm(RequestData requestData,
+    		Store store) throws Exception {
+    	final StoreForm storeForm = new StoreForm();
+    	if(store != null){
+	    	storeForm.setId(store.getId().toString());
+	    	storeForm.setCode(store.getCode());
+	    	storeForm.setName(store.getName());
+	    	storeForm.setRetailerId(store.getRetailerId().toString());
+	    	
+	    	storeForm.setAddress1(store.getAddress1());
+	    	storeForm.setAddress2(store.getAddress2());
+	    	storeForm.setAddressAdditionalInformation(store.getAddressAdditionalInformation());
+	    	
+	    	storeForm.setAreaCode(store.getAreaCode());
+	    	storeForm.setCity(store.getCity());
+	    	storeForm.setCountryCode(store.getCountryCode());
+	    	storeForm.setLatitude(store.getLatitude());
+	    	storeForm.setLongitude(store.getLongitude());
+	    	storeForm.setPostalCode(store.getPostalCode());
+	    	storeForm.setStateCode(store.getStateCode());    	
+    	}
+    	
+    	return storeForm;
     }
     
 }

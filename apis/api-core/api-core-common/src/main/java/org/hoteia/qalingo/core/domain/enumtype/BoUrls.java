@@ -72,6 +72,11 @@ public enum BoUrls {
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE, true),
     RETAILER_EDIT(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_EDIT_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE, true),
     RETAILER_ADD(BoUrls.RETAILER_EDIT_URL, BoUrls.RETAILER_ADD_KEY, BoUrls.RETAILER_EDIT_VELOCITY_PAGE, true),
+    
+    STORE_LIST(BoUrls.STORE_LIST_URL, BoUrls.STORE_LIST_KEY, BoUrls.STORE_LIST_VELOCITY_PAGE, true),
+    STORE_DETAILS(BoUrls.STORE_DETAILS_URL, BoUrls.STORE_DETAILS_KEY, BoUrls.STORE_DETAILS_VELOCITY_PAGE, true),
+    STORE_EDIT(BoUrls.STORE_EDIT_URL, BoUrls.STORE_EDIT_KEY, BoUrls.STORE_EDIT_VELOCITY_PAGE, true),
+    STORE_ADD(BoUrls.STORE_EDIT_URL, BoUrls.STORE_ADD_KEY, BoUrls.STORE_EDIT_VELOCITY_PAGE, true),
 
     CACHE(BoUrls.CACHE_URL, BoUrls.CACHE_KEY, BoUrls.CACHE_VELOCITY_PAGE, true),
 
@@ -352,6 +357,21 @@ public enum BoUrls {
 	public static final String RETAILER_EDIT_VELOCITY_PAGE	= "retailer/retailer-edit";
 
     public static final String RETAILER_ADD_KEY             = "retailer-add";
+    
+    // STORE
+ 	public static final String STORE_LIST_KEY			= "store-list";
+ 	public static final String STORE_LIST_URL			= "/**/store-list.html";
+ 	public static final String STORE_LIST_VELOCITY_PAGE	= "store/store-list";
+
+ 	public static final String STORE_DETAILS_KEY				= "store-details";
+ 	public static final String STORE_DETAILS_URL				= "/**/store-details.html";
+ 	public static final String STORE_DETAILS_VELOCITY_PAGE	= "store/store-details";
+
+ 	public static final String STORE_EDIT_KEY			= "store-edit";
+ 	public static final String STORE_EDIT_URL			= "/**/store-edit.html";
+ 	public static final String STORE_EDIT_VELOCITY_PAGE	= "store/store-edit";
+
+     public static final String STORE_ADD_KEY             = "store-add";
 	
 	// SEARCH
 	public static final String SEARCH_KEY				= "search";

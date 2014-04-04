@@ -75,6 +75,7 @@ public final class ModelConstants {
     public static final String RETAILERS_VIEW_BEAN                  = "retailers";
     public static final String RETAILER_VIEW_BEAN                   = "retailer";
     public static final String STORE_VIEW_BEAN                      = "store";
+    public static final String STORE_LIST_URL                       = "storeListUrl";
     
     public static final String BACKOFFICE_LOCALIZATION_VIEW_BEAN    = "backofficeLocalizations";
     public static final String LEGAl_TERMS_VIEW_BEAN                = "legalTerms";
