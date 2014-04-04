@@ -463,13 +463,13 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 
             String absoluteFilePath = retailerService.getRetailerLogoFilePath(pathRetailerLogoImage);
             String absoluteFolderPath = absoluteFilePath.replace(pathRetailerLogoImage, "");
-
+            
             InputStream inputStream = multipartFile.getInputStream();
             URI fileUrl = new URI(absoluteFilePath);
             File fileLogo;
             File folderLogo;
             try {
-                folderLogo = new File(absoluteFolderPath);
+                folderLogo = new File(new URI(absoluteFolderPath));
                 folderLogo.mkdirs();
                 fileLogo = new File(fileUrl);
                 

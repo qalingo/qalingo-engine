@@ -18,17 +18,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.velocity.VelocityEngineUtils;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.dao.EmailDao;
@@ -54,6 +47,13 @@ import org.hoteia.qalingo.core.service.EmailService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.UrlService;
 import org.hoteia.qalingo.core.util.impl.MimeMessagePreparatorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 @Service("emailService")
 @Transactional
@@ -688,7 +688,8 @@ public class EmailServiceImpl implements EmailService {
     		if(!emailFileMirroringFolderPath.endsWith("/")){
     			emailFileMirroringFolderPath = emailFileMirroringFolderPath + "/";
     		}
-    		mimeMessagePreparator.setMirroringFilePath(emailFileMirroringFolderPath + filePath);
+    		String mirroringFilePath = FilenameUtils.separatorsToUnix(emailFileMirroringFolderPath + filePath);
+    		mimeMessagePreparator.setMirroringFilePath(mirroringFilePath);
     		
     		// MIRRORING WEB URL IN EMAIL
     		String emailFileMirroringWebPath = engineSettingService.getEmailFileMirroringWebPath(emailType);

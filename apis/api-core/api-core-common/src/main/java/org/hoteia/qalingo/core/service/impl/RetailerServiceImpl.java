@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.hoteia.qalingo.core.dao.RetailerDao;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -106,13 +107,11 @@ public class RetailerServiceImpl implements RetailerService {
     
     public String getRetailerLogoFilePath(final String logo) {
           String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
-          assetfileRootPath.replaceAll("\\\\", "/");
           if (assetfileRootPath.endsWith("/")) {
               assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
           }
           
           String retailerLogoFilePath = engineSettingService.getAssetRetailerAndStoreFilePath().getDefaultValue();
-          retailerLogoFilePath.replaceAll("\\\\", "/");
           if (retailerLogoFilePath.endsWith("/")) {
               retailerLogoFilePath = retailerLogoFilePath.substring(0, retailerLogoFilePath.length() - 1);
           }
@@ -121,21 +120,17 @@ public class RetailerServiceImpl implements RetailerService {
           }
           String absoluteFolderPath = new StringBuilder(assetfileRootPath).append(retailerLogoFilePath).append("/retailer-logo/").toString();
           String absoluteFilePath = new StringBuilder(absoluteFolderPath).append(logo).toString();
-          return absoluteFilePath;
+          return FilenameUtils.separatorsToUnix(absoluteFilePath);
     }
     
-    protected String getRetailerLogoWebPathPrefix() throws Exception {
+    public String getRetailerLogoWebPath(final String logo) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
         String retailerLogoWebPathPrefix = getRootAssetWebPath() + prefixPath + "/retailer-logo/";
-        return retailerLogoWebPathPrefix;
-    }
-    
-    public String getRetailerLogoWebPath(final String logo) throws Exception {
-        String retailerLogoWebPath = getRetailerLogoWebPathPrefix() + logo;
+        String retailerLogoWebPath = retailerLogoWebPathPrefix + logo;
         return retailerLogoWebPath;
     }
     
