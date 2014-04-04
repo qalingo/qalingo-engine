@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -462,32 +461,33 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         MultipartFile multipartFile = retailerForm.getFile();
         if (multipartFile.getSize() > 0) {
             UUID uuid = UUID.randomUUID();
-            String pathRetailerLogoImage = new StringBuilder(uuid.toString()).append(".").append(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toString();
+            String pathRetailerLogoImage = new StringBuilder(uuid.toString()).append(System.getProperty ("file.separator")).append(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toString();
 
-            String absoluteFilePath = retailerService.getRetailerLogoFilePath(pathRetailerLogoImage);
+            String absoluteFilePath = retailerService.getRetailerLogoFilePath(retailer, pathRetailerLogoImage);
             String absoluteFolderPath = absoluteFilePath.replace(pathRetailerLogoImage, "");
             
             InputStream inputStream = multipartFile.getInputStream();
-            URI fileUrl = new URI(absoluteFilePath);
-            File fileLogo;
-            File folderLogo;
+            File fileLogo = null;
+            File folderLogo = null;
             try {
-                folderLogo = new File(new URI(absoluteFolderPath));
+                folderLogo = new File(absoluteFolderPath);
                 folderLogo.mkdirs();
-                fileLogo = new File(fileUrl);
+                fileLogo = new File(absoluteFilePath);
                 
-            } catch (IllegalArgumentException e) {
-                fileLogo = new File(fileUrl.getPath());
+            } catch (Exception e) {
+                //
             }
-            OutputStream outputStream = new FileOutputStream(fileLogo);
-            int readBytes = 0;
-            byte[] buffer = new byte[8192];
-            while ((readBytes = inputStream.read(buffer, 0, 8192)) != -1) {
-                outputStream.write(buffer, 0, readBytes);
+            if(fileLogo != null){
+                OutputStream outputStream = new FileOutputStream(fileLogo);
+                int readBytes = 0;
+                byte[] buffer = new byte[8192];
+                while ((readBytes = inputStream.read(buffer, 0, 8192)) != -1) {
+                    outputStream.write(buffer, 0, readBytes);
+                }
+                outputStream.close();
+                inputStream.close();
+                retailer.setLogo(pathRetailerLogoImage);
             }
-            outputStream.close();
-            inputStream.close();
-            retailer.setLogo(pathRetailerLogoImage);
         }
 		
 		retailerService.saveOrUpdateRetailer(retailer);
@@ -605,9 +605,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         }
     }
     
-    @Override
-    public void createOrUpdateStore(Store store, StoreForm storeForm)
-    		throws Exception {
+    public void createOrUpdateStore(Retailer retailer, Store store, StoreForm storeForm) throws Exception {
     	if (store == null) {
     		store = new Store();
 	    }
@@ -621,8 +619,10 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     	store.setCity(storeForm.getCity());
     	store.setStateCode(storeForm.getStateCode());
     	store.setCountryCode(storeForm.getCountryCode());
-		
-        store.setRetailerId(NumberUtils.toLong(storeForm.getRetailerId(), store.getRetailerId()));
+
+    	if(retailer != null){
+            store.setRetailer(retailer);
+    	}
 		
 		retailerService.saveOrUpdateStore(store);
     }

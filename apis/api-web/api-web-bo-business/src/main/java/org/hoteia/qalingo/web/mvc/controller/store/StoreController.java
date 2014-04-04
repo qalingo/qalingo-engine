@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
@@ -21,7 +20,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
@@ -47,38 +46,35 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
- * @author Tri Nguyen
- * @since 4 April 2014
  */
 @Controller("storeController")
 public class StoreController extends AbstractBusinessBackofficeController{
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public static final String SESSION_KEY = "PagedListHolder_Stores";
-
 	@Autowired
 	private RetailerService retailerService;
 	
 	@RequestMapping(value = BoUrls.STORE_LIST_URL, method = RequestMethod.GET)
-	public ModelAndView storeList(final HttpServletRequest request, final Model model, @RequestParam(value = "retailerId", defaultValue = "") String retailerId) throws Exception {
+	public ModelAndView storeList(final HttpServletRequest request, final Model model, @RequestParam(value = RequestConstants.REQUEST_PARAMETER_RETAILER_CODE) String retailerCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.STORE_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea marketArea = requestData.getMarketArea();
 		
-        Long retailerIdValue = NumberUtils.toLong(retailerId, -1);
-        
-        if(retailerIdValue > 0L){
-        	List<Store> stores = retailerService.findStoresByRetailerId(retailerIdValue);
-        	displayList(request, model, requestData, stores);
-        }else{
-        	displayList(request, model, requestData, null);
+        // SANITY CHECK
+        if (StringUtils.isEmpty(retailerCode)) {
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.RETAILER_LIST, requestData);
+            return new ModelAndView(new RedirectView(urlRedirect));
         }
 
-        Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_LIST.getKey() + ".by.market.area", params);
+        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
 
-        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.STORE_ADD, requestData));
+        displayList(request, model, requestData, null);
+
+        Object[] params = {retailer.getName() + " (" + retailer.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_LIST.getKey() + ".by.retailer", params);
+
+        model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.STORE_ADD, requestData, retailer));
 
         return modelAndView;
 	}
@@ -122,7 +118,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
         final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_STORE_CODE);
         if(StringUtils.isNotEmpty(storeCode)){
             // EDIT MODE
-            final Store store = retailerService.getStoreByCode(storeCode);
+            final Store store = retailerService.getStoreByCode(storeCode, FetchPlanGraphRetailer.fullStoreFetchPlan());
 
             // SANITY CHECK
             if (store != null) {
@@ -162,10 +158,16 @@ public class StoreController extends AbstractBusinessBackofficeController{
         if(StringUtils.isNotEmpty(storeForm.getId())){
             store = retailerService.getStoreById(storeForm.getId());
         }
-        
+
+        final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+        Retailer retailer = null;
+        if(StringUtils.isNotEmpty(retailerCode)){
+            retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphRetailer.fullStoreFetchPlan());
+        }
+
         try {
             // CREATE OR UPDATE RETAILER
-            webBackofficeService.createOrUpdateStore(store, storeForm);
+            webBackofficeService.createOrUpdateStore(retailer, store, storeForm);
             
             if(store == null){
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.STORE, "create_success_message", locale));
@@ -199,7 +201,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_STORE_CODE);
 		if(StringUtils.isNotEmpty(storeCode)){
-	        final Store store = retailerService.getStoreByCode(storeCode, FetchPlanGraphCommon.fullRetailerFetchPlan());
+	        final Store store = retailerService.getStoreByCode(storeCode, FetchPlanGraphRetailer.fullStoreFetchPlan());
 	        return backofficeFormFactory.buildStoreForm(requestData, store);
 		}
     	return backofficeFormFactory.buildStoreForm(requestData, null);
@@ -257,23 +259,25 @@ public class StoreController extends AbstractBusinessBackofficeController{
     	return retailerValues;
     }
 	
-	private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData, List<Store> stores) throws Exception{
+	private void displayList(final HttpServletRequest request, final Model model, final RequestData requestData,  List<Store> stores) throws Exception{
 		String url = request.getRequestURI();
 		String page = request.getParameter(Constants.PAGINATION_PAGE_PARAMETER);
-		
+		String sessionKey = "PagedListHolder_Stores";
+
 		PagedListHolder<StoreViewBean> storeViewBeanPagedListHolder = new PagedListHolder<StoreViewBean>();
 
-       	if(stores == null){       		
-    		stores = retailerService.findStores();
+       	if(stores == null){       	
+            final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
+    		stores = retailerService.findStoresByRetailerCode(retailerCode, FetchPlanGraphRetailer.fullStoreFetchPlan());
     	}
        	
         if(StringUtils.isEmpty(page)){
-        	storeViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, stores);
+        	storeViewBeanPagedListHolder = initList(request, sessionKey, requestData, stores);
     		
         } else {
-        	storeViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(SESSION_KEY); 
+        	storeViewBeanPagedListHolder = (PagedListHolder) request.getSession().getAttribute(sessionKey); 
 	        if (storeViewBeanPagedListHolder == null) { 
-	        	storeViewBeanPagedListHolder = initList(request, SESSION_KEY, requestData, stores);
+	        	storeViewBeanPagedListHolder = initList(request, sessionKey, requestData, stores);
 	        }
 	        int pageTarget = new Integer(page).intValue() - 1;
 	        int pageCurrent = storeViewBeanPagedListHolder.getPage();

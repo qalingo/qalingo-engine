@@ -416,14 +416,13 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
     }
     
     @Override
-    public StoreForm buildStoreForm(RequestData requestData,
-    		Store store) throws Exception {
+    public StoreForm buildStoreForm(RequestData requestData, Store store) throws Exception {
     	final StoreForm storeForm = new StoreForm();
     	if(store != null){
 	    	storeForm.setId(store.getId().toString());
 	    	storeForm.setCode(store.getCode());
 	    	storeForm.setName(store.getName());
-	    	storeForm.setRetailerId(store.getRetailerId().toString());
+	    	storeForm.setRetailerId(store.getRetailer().getId().toString());
 	    	
 	    	storeForm.setAddress1(store.getAddress1());
 	    	storeForm.setAddress2(store.getAddress2());

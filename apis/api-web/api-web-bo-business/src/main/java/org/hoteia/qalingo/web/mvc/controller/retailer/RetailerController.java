@@ -29,7 +29,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.RetailerService;
@@ -81,7 +81,6 @@ public class RetailerController extends AbstractBusinessBackofficeController {
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.RETAILER_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.RETAILER_ADD, requestData));
-        model.addAttribute(ModelConstants.STORE_LIST_URL, backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData));
 
         return modelAndView;
 	}
@@ -118,7 +117,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
             return new ModelAndView(new RedirectView(urlRedirect));
         }
 
-        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+        final Retailer retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphRetailer.fullRetailerFetchPlan());
 
         // SANITY CHECK
         if (retailer != null) {
@@ -144,7 +143,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
         final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
         if(StringUtils.isNotEmpty(retailerCode)){
             // EDIT MODE
-            final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+            final Retailer retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphRetailer.fullRetailerFetchPlan());
 
             // SANITY CHECK
             if (retailer != null) {
@@ -267,7 +266,7 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String retailerCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE);
 		if(StringUtils.isNotEmpty(retailerCode)){
-	        final Retailer retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphCommon.fullRetailerFetchPlan());
+	        final Retailer retailer = retailerService.getRetailerByCode(retailerCode, FetchPlanGraphRetailer.fullRetailerFetchPlan());
 	        return backofficeFormFactory.buildRetailerForm(requestData, retailer);
 		}
     	return backofficeFormFactory.buildRetailerForm(requestData, null);

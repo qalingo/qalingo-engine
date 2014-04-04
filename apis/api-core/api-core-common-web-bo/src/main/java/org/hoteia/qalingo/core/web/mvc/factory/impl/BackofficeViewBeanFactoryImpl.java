@@ -343,13 +343,9 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             retailerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        Map<String, String> urlParams = new HashMap<String, String>();
-        urlParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE, retailer.getCode());
-        String detailsUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, urlParams);
-        String editUrl = backofficeUrlService.generateUrl(BoUrls.RETAILER_EDIT, requestData, urlParams);
-
-        retailerViewBean.setDetailsUrl(detailsUrl);
-        retailerViewBean.setEditUrl(editUrl);
+        retailerViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
+        retailerViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.RETAILER_EDIT, requestData, retailer));
+        retailerViewBean.setStoreListUrl(backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData, retailer));
 
         return retailerViewBean;
     }

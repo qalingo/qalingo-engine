@@ -38,7 +38,9 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 	private String latitude;
 	private String defaultImage;
 	private String iconImage;
-
+    private String dateCreate;
+    private String dateUpdate;
+    
 	private String detailsUrl;
 	private String editUrl;
 
@@ -176,6 +178,22 @@ public class StoreViewBean extends AbstractViewBean implements Serializable {
 		this.iconImage = iconImage;
 	}
 
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+    
 	public String getDetailsUrl() {
 		return detailsUrl;
 	}

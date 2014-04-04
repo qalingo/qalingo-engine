@@ -39,6 +39,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
         
         criteria.add(Restrictions.eq("isDefault", true));
+        
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
         if(marketPlace != null){
             marketPlace.setFetchPlan(fetchPlan);
@@ -52,6 +53,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketPlaceId));
+        
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
         if(marketPlace != null){
             marketPlace.setFetchPlan(fetchPlan);
@@ -65,6 +67,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
+        
         MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
         if(marketPlace != null){
             marketPlace.setFetchPlan(fetchPlan);
@@ -122,6 +125,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
         
         criteria.add(Restrictions.eq("isDefault", true));
+        
         Market market = (Market) criteria.uniqueResult();
         if(market != null){
             market.setFetchPlan(fetchPlan);
@@ -135,6 +139,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketId));
+        
         Market market = (Market) criteria.uniqueResult();
         if(market != null){
             market.setFetchPlan(fetchPlan);
@@ -148,6 +153,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
+        
         Market market = (Market) criteria.uniqueResult();
         if(market != null){
             market.setFetchPlan(fetchPlan);
@@ -220,6 +226,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
 
         criteria.add(Restrictions.eq("id", marketAreaId));
+        
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
         if(marketArea != null){
             marketArea.setFetchPlan(fetchPlan);
@@ -233,6 +240,7 @@ public class MarketDaoImpl extends AbstractGenericDaoImpl implements MarketDao {
         FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
+        
         MarketArea marketArea = (MarketArea) criteria.uniqueResult();
         if(marketArea != null){
             marketArea.setFetchPlan(fetchPlan);

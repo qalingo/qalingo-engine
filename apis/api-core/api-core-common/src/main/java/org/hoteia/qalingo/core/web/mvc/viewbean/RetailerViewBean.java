@@ -43,9 +43,6 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 	protected boolean isEcommerce;
 	protected boolean isCorner;
 
-	protected String detailsUrl;
-	protected String editUrl;
-
 	protected int qualityOfService = 0;
 	protected int priceScore = 0;
 	protected int ratioQualityPrice = 0;
@@ -67,6 +64,10 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
     private String dateCreate;
     private String dateUpdate;
 
+    protected String detailsUrl;
+    protected String editUrl;
+    protected String storeListUrl;
+    
 	// MENU
 	protected String img;
 	protected String changeContextUrl;
@@ -184,22 +185,6 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	public void setCorner(boolean isCorner) {
 		this.isCorner = isCorner;
-	}
-
-	public String getDetailsUrl() {
-		return detailsUrl;
-	}
-
-	public void setDetailsUrl(String detailsUrl) {
-		this.detailsUrl = detailsUrl;
-	}
-
-	public String getEditUrl() {
-		return editUrl;
-	}
-
-	public void setEditUrl(String editUrl) {
-		this.editUrl = editUrl;
 	}
 
 	public int getQualityOfService() {
@@ -329,6 +314,30 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
+    }
+    
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
+
+    public String getEditUrl() {
+        return editUrl;
+    }
+
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+    
+    public String getStoreListUrl() {
+        return storeListUrl;
+    }
+    
+    public void setStoreListUrl(String storeListUrl) {
+        this.storeListUrl = storeListUrl;
     }
 
 	public String getImg() {

@@ -83,5 +83,5 @@ public interface WebBackofficeService {
     
     void createOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
     
-    void createOrUpdateStore(Store store, StoreForm storeForm) throws Exception;
+    void createOrUpdateStore(Retailer retailer, Store store, StoreForm storeForm) throws Exception;
 }

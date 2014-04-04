@@ -105,7 +105,7 @@ public class RetailerServiceImpl implements RetailerService {
         retailerDao.deleteRetailer(retailer);
     }
     
-    public String getRetailerLogoFilePath(final String logo) {
+    public String getRetailerLogoFilePath(final Retailer retailer, final String logo) {
           String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
           if (assetfileRootPath.endsWith("/")) {
               assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
@@ -118,9 +118,9 @@ public class RetailerServiceImpl implements RetailerService {
           if (!retailerLogoFilePath.startsWith("/")) {
               retailerLogoFilePath = "/" + retailerLogoFilePath;
           }
-          String absoluteFolderPath = new StringBuilder(assetfileRootPath).append(retailerLogoFilePath).append("/retailer-logo/").toString();
+          String absoluteFolderPath = new StringBuilder(assetfileRootPath).append(retailerLogoFilePath).append("/retailer-logo/").append(retailer.getCode()).append("/").toString();
           String absoluteFilePath = new StringBuilder(absoluteFolderPath).append(logo).toString();
-          return FilenameUtils.separatorsToUnix(absoluteFilePath);
+          return FilenameUtils.separatorsToSystem(absoluteFilePath);
     }
     
     public String getRetailerLogoWebPath(final String logo) throws Exception {
@@ -190,6 +190,10 @@ public class RetailerServiceImpl implements RetailerService {
     
     public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
         return retailerDao.findStoresByRetailerId(retailerId, params);
+    }
+    
+    public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
+        return retailerDao.findStoresByRetailerCode(retailerCode, params);
     }
 
     public void saveOrUpdateStore(final Store store) {

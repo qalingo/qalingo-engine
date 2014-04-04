@@ -147,6 +147,9 @@ public class BoBusinessViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl
         retailerUrls.add(BoUrls.RETAILER_LIST.getUrlWithoutWildcard());
         retailerUrls.add(BoUrls.RETAILER_DETAILS.getUrlWithoutWildcard());
         retailerUrls.add(BoUrls.RETAILER_EDIT.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.STORE_LIST.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.STORE_DETAILS.getUrlWithoutWildcard());
+        retailerUrls.add(BoUrls.STORE_EDIT.getUrlWithoutWildcard());
         
 		menu = new MenuViewBean();
         menu.setActive(menuIsActive(currentUrl, retailerUrls));

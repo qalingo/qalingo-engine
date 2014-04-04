@@ -271,16 +271,6 @@ INSERT INTO teco_store
 --(190, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(200, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1),
 --(210, 'ESPRESSAMENTE FRANCE', 'STRPARIS3', '13 Rue Auber 75009 Paris, France +33 1 42 66 13 85', '', '','', 'Paris', '', 'FR', '48.875667', '2.327873', 'SHOP,CORNER', 1);
-update teco_store 
-set additional_information = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
-								<br>
-								<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p>
-								<br>
-								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
-								<br>
-								<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p>
-								<br>
-								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p>';
 
 
 INSERT INTO teco_store_attribute 

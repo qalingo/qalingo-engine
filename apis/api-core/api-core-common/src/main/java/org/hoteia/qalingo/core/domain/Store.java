@@ -24,6 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -90,8 +91,9 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
-    @Column(name = "RETAILER_ID")
-    private Long retailerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
+    private Retailer retailer;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "STORE_ID")
@@ -226,12 +228,12 @@ public class Store extends AbstractEntity {
         this.countryCode = countryCode;
     }
 
-    public Long getRetailerId() {
-        return retailerId;
+    public Retailer getRetailer() {
+        return retailer;
     }
     
-    public void setRetailerId(Long retailerId) {
-        this.retailerId = retailerId;
+    public void setRetailer(Retailer retailer) {
+        this.retailer = retailer;
     }
     
     public Set<StoreAttribute> getAttributes() {

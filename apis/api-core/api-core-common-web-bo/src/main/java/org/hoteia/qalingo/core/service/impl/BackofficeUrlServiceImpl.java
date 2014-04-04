@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
@@ -160,6 +161,10 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                     	Retailer retailer = (Retailer) param;
                     	getParams.put(RequestConstants.REQUEST_PARAMETER_RETAILER_CODE, handleParamValue(retailer.getCode()));
                     	break;
+                    } else if (param instanceof Store){ 
+                        Store store = (Store) param;
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_STORE_CODE, handleParamValue(store.getCode()));
+                        break;
                     } else if (param instanceof Map) {
                         getParams = (Map<String, String>) param;
                         break;

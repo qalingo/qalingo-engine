@@ -943,6 +943,19 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             storeViewBean.setIconImage("");
         }
         
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (store.getDateCreate() != null) {
+            storeViewBean.setDateCreate(dateFormat.format(store.getDateCreate()));
+        } else {
+            storeViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+        }
+
+        if (store.getDateUpdate() != null) {
+            storeViewBean.setDateUpdate(dateFormat.format(store.getDateUpdate()));
+        } else {
+            storeViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
+        }
+        
 		final List<Asset> assets = store.getSlideShows();
 		if(assets != null){
 	        List<String> sliders = new ArrayList<String>();

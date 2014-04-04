@@ -99,41 +99,6 @@ public class FetchPlanGraphCommon {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan defaultRetailerFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("links"));
-        fetchplans.add(new SpecificFetchMode("addresses"));
-        fetchplans.add(new SpecificFetchMode("stores"));
-        fetchplans.add(new SpecificFetchMode("assets"));
-        fetchplans.add(new SpecificFetchMode("retailerAttributes"));
-        fetchplans.add(new SpecificFetchMode("customerRates"));
-        fetchplans.add(new SpecificFetchMode("customerComments"));
-        fetchplans.add(new SpecificFetchMode("retailerTags"));
-        return new FetchPlan(fetchplans);
-    }
-    
-    public static FetchPlan fullRetailerFetchPlan() {
-    	List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("links"));
-        fetchplans.add(new SpecificFetchMode("addresses"));
-        fetchplans.add(new SpecificFetchMode("stores"));
-        fetchplans.add(new SpecificFetchMode("assets"));
-        fetchplans.add(new SpecificFetchMode("retailerAttributes"));
-        fetchplans.add(new SpecificFetchMode("customerRates"));
-        fetchplans.add(new SpecificFetchMode("customerComments"));
-        fetchplans.add(new SpecificFetchMode("retailerTags"));
-        fetchplans.add(new SpecificFetchMode("warehouse"));
-        return new FetchPlan(fetchplans);
-    }
-    
-    public static FetchPlan defaultStoreFetchPlan() {
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("storeAttributes"));
-        fetchplans.add(new SpecificFetchMode("assets"));
-        fetchplans.add(new SpecificFetchMode("businessHours"));
-        return new FetchPlan(fetchplans);
-    }
-    
     public static FetchPlan defaultWarehouseFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         return new FetchPlan(fetchplans);

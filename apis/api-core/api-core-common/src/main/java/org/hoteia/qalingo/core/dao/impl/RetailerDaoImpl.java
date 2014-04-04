@@ -26,7 +26,7 @@ import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.hoteia.qalingo.core.fetchplan.retailer.FetchPlanGraphRetailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -44,6 +44,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", retailerId));
+        
         Retailer retailer = (Retailer) criteria.uniqueResult();
         if(retailer != null){
             retailer.setFetchPlan(fetchPlan);
@@ -57,6 +58,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
+        
         Retailer retailer = (Retailer) criteria.uniqueResult();
         if(retailer != null){
             retailer.setFetchPlan(fetchPlan);
@@ -70,6 +72,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         FetchPlan fetchPlan = handleSpecificRetailerFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", retailerCode));
+        
         Retailer retailer = (Retailer) criteria.uniqueResult();
         if(retailer != null){
             retailer.setFetchPlan(fetchPlan);
@@ -255,10 +258,11 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         Criteria criteria = createDefaultCriteria(Store.class);
         
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
-        
+
+        criteria.add(Restrictions.eq("id", storeId));
+
         criteria.addOrder(Order.asc("code"));
         
-        criteria.add(Restrictions.eq("id", storeId));
         Store store = (Store) criteria.uniqueResult();
         if(store != null){
             store.setFetchPlan(fetchPlan);
@@ -270,10 +274,11 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         Criteria criteria = createDefaultCriteria(Store.class);
         
         FetchPlan fetchPlan = handleSpecificStoreFetchMode(criteria, params);
-        
+
+        criteria.add(Restrictions.eq("code", storeCode));
+
         criteria.addOrder(Order.asc("code"));
         
-        criteria.add(Restrictions.eq("code", storeCode));
         Store store = (Store) criteria.uniqueResult();
         if(store != null){
             store.setFetchPlan(fetchPlan);
@@ -298,8 +303,9 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 
         handleSpecificStoreFetchMode(criteria, params);
 
-        criteria.add(Restrictions.eq("retailerId", retailerId));
-        
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("retailer.id", retailerId));
+
         criteria.addOrder(Order.asc("name"));
 
         @SuppressWarnings("unchecked")
@@ -307,6 +313,21 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         return stores;
     }
 
+    public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Store.class);
+
+        handleSpecificStoreFetchMode(criteria, params);
+
+        criteria.createAlias("retailer", "retailer", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("retailer.code", retailerCode));
+        
+        criteria.addOrder(Order.asc("name"));
+
+        @SuppressWarnings("unchecked")
+        List<Store> stores = criteria.list();
+        return stores;
+    }
+    
 	public Store saveOrUpdateStore(final Store store) {
 		if(store.getDateCreate() == null){
 			store.setDateCreate(new Date());
@@ -333,7 +354,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultRetailerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphRetailer.defaultRetailerFetchPlan());
         }
     }
     
@@ -341,7 +362,7 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultStoreFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphRetailer.defaultStoreFetchPlan());
         }
     }
 

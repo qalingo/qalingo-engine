@@ -65,7 +65,9 @@ public interface RetailerDao {
 	List<Store> findStores(Object... params);
 	
 	List<Store> findStoresByRetailerId(Long retailerId, Object... params);
-	
+
+    List<Store> findStoresByRetailerCode(String retailerCode, Object... params);
+
 	Store saveOrUpdateStore(Store store);
 
 	void deleteStore(Store store);

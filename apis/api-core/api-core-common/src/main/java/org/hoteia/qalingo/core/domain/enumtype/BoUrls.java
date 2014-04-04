@@ -363,9 +363,9 @@ public enum BoUrls {
  	public static final String STORE_LIST_URL			= "/**/store-list.html";
  	public static final String STORE_LIST_VELOCITY_PAGE	= "store/store-list";
 
- 	public static final String STORE_DETAILS_KEY				= "store-details";
- 	public static final String STORE_DETAILS_URL				= "/**/store-details.html";
- 	public static final String STORE_DETAILS_VELOCITY_PAGE	= "store/store-details";
+ 	public static final String STORE_DETAILS_KEY              = "store-details";
+ 	public static final String STORE_DETAILS_URL              = "/**/store-details.html";
+ 	public static final String STORE_DETAILS_VELOCITY_PAGE    = "store/store-details";
 
  	public static final String STORE_EDIT_KEY			= "store-edit";
  	public static final String STORE_EDIT_URL			= "/**/store-edit.html";
