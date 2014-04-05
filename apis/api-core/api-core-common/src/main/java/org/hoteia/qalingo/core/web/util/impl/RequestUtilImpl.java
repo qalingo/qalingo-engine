@@ -177,6 +177,7 @@ public class RequestUtilImpl implements RequestUtil {
                         marketArea = market.getDefaultMarketArea();
                     }
                     engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
+                    marketArea = engineEcoSession.getCurrentMarketArea();
 
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
@@ -224,6 +225,7 @@ public class RequestUtilImpl implements RequestUtil {
                         marketArea = market.getDefaultMarketArea();
                     }
                     engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, marketArea);
+                    marketArea = engineEcoSession.getCurrentMarketArea();
 
                     // LOCALE
                     Localization localization = marketArea.getLocalization(localizationCode);
@@ -262,6 +264,7 @@ public class RequestUtilImpl implements RequestUtil {
                             newMarketArea = market.getDefaultMarketArea();
                         }
                         engineEcoSession = (EngineEcoSession) setSessionMarketArea(engineEcoSession, newMarketArea);
+                        marketArea = engineEcoSession.getCurrentMarketArea();
                         updateCurrentTheme(request, newMarketArea.getTheme());
 
                         // LOCALE
