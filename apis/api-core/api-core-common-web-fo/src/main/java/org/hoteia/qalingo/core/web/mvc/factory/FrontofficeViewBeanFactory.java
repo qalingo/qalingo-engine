@@ -28,7 +28,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
@@ -37,7 +36,7 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 
     // SEARCH
 
-    SearchViewBean buildViewBeanSearch(RequestData requestData) throws Exception;
+//    SearchViewBean buildViewBeanSearch(RequestData requestData) throws Exception;
 
     List<SearchProductItemViewBean> buildListViewBeanSearchProductItem(RequestData requestData, ProductMarketingResponseBean productMarketingResponseBean) throws Exception;
 
@@ -64,7 +63,5 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
     CatalogBreadcrumbViewBean buildViewBeanCatalogBreadcrumb(RequestData requestData, CatalogCategoryVirtual productCategory) throws Exception;
 
     StoreLocatorFilterBean buildFilterBeanStoreLocator(List<StoreViewBean> stores, Locale locale) throws Exception;
-    
-    StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store);
     
 }

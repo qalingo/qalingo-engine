@@ -20,7 +20,6 @@ public class CustomerAddressListViewBean extends AbstractViewBean implements Ser
 	 */
 	private static final long serialVersionUID = 3367453428667832074L;
 	
-
     private String backUrl;
     
     private List<CustomerAddressViewBean> customerAddressList = new ArrayList<CustomerAddressViewBean>();

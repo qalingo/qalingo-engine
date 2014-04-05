@@ -61,9 +61,6 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 
 	protected List<ShareOptionViewBean> shareOptions = new ArrayList<ShareOptionViewBean>();
 
-    private String dateCreate;
-    private String dateUpdate;
-
     protected String detailsUrl;
     protected String editUrl;
     protected String storeListUrl;
@@ -300,22 +297,6 @@ public class RetailerViewBean extends AbstractViewBean implements Serializable {
 		return getImg();
 	}
 
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-    
     public String getDetailsUrl() {
         return detailsUrl;
     }

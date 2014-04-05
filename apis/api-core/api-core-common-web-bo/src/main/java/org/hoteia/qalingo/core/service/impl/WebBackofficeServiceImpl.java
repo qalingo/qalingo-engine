@@ -504,6 +504,17 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         warehouse.setName(warehouseForm.getName());
         warehouse.setDescription(warehouseForm.getDescription());
 
+        warehouse.setAddress1(warehouseForm.getAddress1());
+        warehouse.setAddress2(warehouseForm.getAddress2());
+        warehouse.setAddressAdditionalInformation(warehouseForm.getAddressAdditionalInformation());
+        warehouse.setPostalCode(warehouseForm.getPostalCode());
+        warehouse.setCity(warehouseForm.getCity());
+        warehouse.setStateCode(warehouseForm.getStateCode());
+        warehouse.setCountryCode(warehouseForm.getCountryCode());
+
+        warehouse.setLatitude(warehouseForm.getLatitude());
+        warehouse.setLongitude(warehouseForm.getLongitude());
+        
         warehouseService.saveOrUpdateWarehouse(warehouse);
     }
 
@@ -619,6 +630,9 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     	store.setCity(storeForm.getCity());
     	store.setStateCode(storeForm.getStateCode());
     	store.setCountryCode(storeForm.getCountryCode());
+
+        store.setLatitude(storeForm.getLatitude());
+        store.setLongitude(storeForm.getLongitude());
 
     	if(retailer != null){
             store.setRetailer(retailer);

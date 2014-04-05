@@ -56,7 +56,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.SearchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
@@ -234,18 +233,18 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         return super.buildViewBeanCatalogCategory(requestData, catalogCategory);
     }
 
-    /**
-     * 
-     */
-    public SearchViewBean buildViewBeanSearch(final RequestData requestData) throws Exception {
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final Locale locale = localization.getLocale();
-
-        final SearchViewBean search = new SearchViewBean();
-        search.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
-
-        return search;
-    }
+//    /**
+//     * 
+//     */
+//    public SearchViewBean buildViewBeanSearch(final RequestData requestData) throws Exception {
+//        final Localization localization = requestData.getMarketAreaLocalization();
+//        final Locale locale = localization.getLocale();
+//
+//        final SearchViewBean search = new SearchViewBean();
+//        search.setTextLabel(getSpecificMessage(ScopeWebMessage.SEARCH, "form.label.text", locale));
+//
+//        return search;
+//    }
 
     /**
      * 
@@ -493,46 +492,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         return searchFacetViewBean;
     }
     
-    /*
-     * 
-     */
-    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store) {
-        List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
-        StoreBusinessHourViewBean storeBusinessHourViewBean = null;
-        if (storeBusinessHours != null && storeBusinessHours.size() > 0) {
-            storeBusinessHourViewBean = new StoreBusinessHourViewBean();
-            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
-                OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
-                operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
-                operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
-                if (storeBusinessHour.isMonday()) {
-                    storeBusinessHourViewBean.setMonday(operationHourViewBean);
-                }
-
-                if (storeBusinessHour.isTuesday()) {
-                    storeBusinessHourViewBean.setTuesday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isWednesday()) {
-                    storeBusinessHourViewBean.setWednesday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isThursday()) {
-                    storeBusinessHourViewBean.setThursday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isFriday()) {
-                    storeBusinessHourViewBean.setFriday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isSaturday()) {
-                    storeBusinessHourViewBean.setSaturday(operationHourViewBean);
-                }
-                if (storeBusinessHour.isSunday()) {
-                    storeBusinessHourViewBean.setSunday(operationHourViewBean);
-                }
-            }
-
-        }
-        return storeBusinessHourViewBean;
-    }
-
     public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {
         final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
 

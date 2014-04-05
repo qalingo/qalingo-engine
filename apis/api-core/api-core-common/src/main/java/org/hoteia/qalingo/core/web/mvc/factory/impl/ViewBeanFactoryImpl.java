@@ -12,7 +12,6 @@ package org.hoteia.qalingo.core.web.mvc.factory.impl;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +59,7 @@ import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerTag;
 import org.hoteia.qalingo.core.domain.Store;
+import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
@@ -85,7 +85,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CartItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
@@ -95,7 +94,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FaqViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
@@ -106,6 +104,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.OperationHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderShippingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderTaxViewBean;
@@ -122,6 +121,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerTagViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ShareOptionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
@@ -375,14 +375,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
     /**
      * 
      */
-    public FaqViewBean buildViewBeanFaq(final RequestData requestData) throws Exception {
-        final FaqViewBean faq = new FaqViewBean();
-        return faq;
-    }
-
-    /**
-     * 
-     */
     public SecurityViewBean buildViewBeanSecurity(final RequestData requestData) throws Exception {
         final SecurityViewBean security = new SecurityViewBean();
 
@@ -397,180 +389,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         security.getUrls().put(OpenProvider.YAHOO.name() + "_CONNECT", urlService.buildOpenIdConnectUrl(requestData, OpenProvider.YAHOO.getPropertyKey()));
 
         return security;
-    }
-
-    /**
-     * 
-     */
-    public List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(final RequestData requestData) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
-        List<RetailerViewBean> retailerViewBeans = buildListViewBeanRetailer(requestData, retailers);
-        return retailerViewBeans;
-    }
-
-    /**
-     * 
-     */
-    public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData, final List<Retailer> retailers) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-
-        List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
-        retailerViewBeans = new ArrayList<RetailerViewBean>();
-        for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
-            final Retailer retailerIt = (Retailer) iterator.next();
-            final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
-            retailerViewBeans.add(buildViewBeanRetailer(requestData, reloadedRetailer));
-        }
-        return retailerViewBeans;
-    }
-
-    /**
-     * 
-     */
-    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Localization localization = requestData.getMarketAreaLocalization();
-        final String localizationCodeNavigation = localization.getCode();
-        final Locale locale = requestData.getLocale();
-
-        final RetailerViewBean retailerViewBean = new RetailerViewBean();
-
-        retailerViewBean.setCode(retailer.getCode());
-        retailerViewBean.setName(retailer.getName());
-        retailerViewBean.setI18nName(retailer.getI18nName(localizationCodeNavigation));
-
-        retailerViewBean.setDescription(retailer.getDescription());
-
-        retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
-        retailerViewBean.setBrand(retailer.isBrand());
-        retailerViewBean.setEcommerce(retailer.isEcommerce());
-        retailerViewBean.setCorner(retailer.isCorner());
-
-        if (Hibernate.isInitialized(retailer.getAddresses()) 
-                && retailer.getAddresses() != null) {
-            RetailerAddress defaultAddress = retailer.getDefaultAddress();
-            if (defaultAddress != null) {
-                retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
-                retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
-                retailerViewBean.getDefaultAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
-                retailerViewBean.getDefaultAddress().setPostalCode(defaultAddress.getPostalCode());
-                retailerViewBean.getDefaultAddress().setCity(defaultAddress.getCity());
-                retailerViewBean.getDefaultAddress().setStateCode(defaultAddress.getStateCode());
-                retailerViewBean.getDefaultAddress().setStateLabel(defaultAddress.getStateCode());
-                retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
-                retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
-                retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
-
-                String countryLabel = referentialDataService.getCountryByLocale(defaultAddress.getCountryCode(), locale);
-                retailerViewBean.getDefaultAddress().setCountryLabel(countryLabel);
-
-                retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
-                retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
-
-                retailerViewBean.getDefaultAddress().setPhone(defaultAddress.getPhone());
-                retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
-                retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
-                retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
-                String websiteUrl = defaultAddress.getWebsite();
-                if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
-                    websiteUrl = "http://" + websiteUrl;
-                }
-                retailerViewBean.getDefaultAddress().setWebsite(websiteUrl);
-            }
-        }
-
-        // CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
-        RequestData requestDataChangecontext = new RequestData();
-        BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        requestDataChangecontext.setMarketAreaRetailer(retailer);
-        
-        retailerViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
-        retailerViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
-
-        retailerViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
-
-        retailerViewBean.setQualityOfService(retailer.getQualityOfService());
-        retailerViewBean.setPriceScore(retailer.getPriceScore());
-        retailerViewBean.setRatioQualityPrice(retailer.getRatioQualityPrice());
-
-        int reviewCount = retailerViewBean.getComments().size();
-        retailerViewBean.setReviewCount(reviewCount);
-        Object[] reviewCountLabelParams = { reviewCount };
-        retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
-
-        Set<RetailerCustomerComment> customerComments = retailer.getCustomerComments();
-        if (Hibernate.isInitialized(customerComments) &&
-                customerComments != null) {
-            for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
-                RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
-                RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
-
-                retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
-                retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, retailerCustomerComment.getCustomer().getPermalink()));
-                retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), retailerCustomerComment.getCustomer()));
-
-                DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-                if (retailerCustomerComment.getDateCreate() != null) {
-                    retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
-                } else {
-                    retailerCustomerCommentViewBean.setDateCreate(Constants.NOT_AVAILABLE);
-                }
-
-                retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
-
-                ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
-                reviewDataVocabulary.setItemreviewed(retailer.getName());
-                reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
-                DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
-                reviewDataVocabulary.setDtreviewed(dateFormat.format(retailerCustomerComment.getDateCreate()));
-                // reviewDataVocabulary.setSummary(summary);
-                reviewDataVocabulary.setDescription(retailerCustomerComment.getComment());
-                // reviewDataVocabulary.setRating(rating);
-
-                retailerCustomerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
-
-                retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
-            }
-        }
-
-        Set<RetailerTag> tags = retailer.getRetailerTags();
-        if (Hibernate.isInitialized(tags) &&
-                tags != null) {
-            for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
-                RetailerTag retailerTag = (RetailerTag) iterator.next();
-                RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
-                retailerTagViewBean.setCode(retailerTag.getCode());
-                retailerTagViewBean.setName(retailerTag.getName());
-                retailerTagViewBean.setDescription(retailerTag.getDescription());
-                retailerViewBean.getTags().add(retailerTagViewBean);
-            }
-        }
-
-        Set<Store> stores = retailer.getStores();
-        if (Hibernate.isInitialized(stores) &&
-                stores != null) {
-            for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
-                Store store = (Store) iterator.next();
-                StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
-                retailerViewBean.getStores().add(storeViewBean);
-            }
-        }
-
-        final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
-        List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
-        if (shareOptions != null) {
-            for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
-                String shareOption = (String) iterator.next();
-                String relativeUrl = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer);
-                ShareOptionViewBean shareOptionViewBean = buildViewBeanShareOption(requestData, shareOption, relativeUrl);
-                retailerViewBean.getShareOptions().add(shareOptionViewBean);
-            }
-        }
-
-        return retailerViewBean;
     }
 
     /**
@@ -611,15 +429,6 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         customerLinks.add(cutomerMenuViewBean);
 
         return customerLinks;
-    }
-
-    /**
-     * 
-     */
-    public ConditionsViewBean buildViewBeanConditions(final RequestData requestData) throws Exception {
-        final ConditionsViewBean conditions = new ConditionsViewBean();
-
-        return conditions;
     }
 
     /**
@@ -806,18 +615,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         }
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date dateCreate = localization.getDateCreate();
-        if (dateCreate != null) {
-            localizationViewBean.setDateCreate(dateFormat.format(dateCreate));
-        } else {
-            localizationViewBean.setDateCreate("NA");
+        if (localization.getDateCreate() != null) {
+            localizationViewBean.setDateCreate(dateFormat.format(localization.getDateCreate()));
         }
-
-        Date dateUpdate = localization.getDateUpdate();
-        if (dateUpdate != null) {
-            localizationViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-        } else {
-            localizationViewBean.setDateUpdate("NA");
+        if (localization.getDateUpdate() != null) {
+            localizationViewBean.setDateUpdate(dateFormat.format(localization.getDateUpdate()));
         }
         
         RequestData requestDataChangecontext = new RequestData();
@@ -863,18 +665,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             currencyReferentialViewBean.setAbbreviated(currencyReferential.getAbbreviated());
 
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-            Date dateCreate = currencyReferential.getDateCreate();
-            if (dateCreate != null) {
-                currencyReferentialViewBean.setDateCreate(dateFormat.format(dateCreate));
-            } else {
-                currencyReferentialViewBean.setDateCreate("NA");
+            if (currencyReferential.getDateCreate() != null) {
+                currencyReferentialViewBean.setDateCreate(dateFormat.format(currencyReferential.getDateCreate()));
             }
-
-            Date dateUpdate = currencyReferential.getDateUpdate();
-            if (dateUpdate != null) {
-                currencyReferentialViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-            } else {
-                currencyReferentialViewBean.setDateUpdate("NA");
+            if (currencyReferential.getDateUpdate() != null) {
+                currencyReferentialViewBean.setDateUpdate(dateFormat.format(currencyReferential.getDateUpdate()));
             }
             
             // CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
@@ -889,6 +684,190 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return currencyReferentialViewBean;
     }
 
+    /**
+     * 
+     */
+    public List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(final RequestData requestData) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final List<Retailer> retailers = new ArrayList<Retailer>(marketArea.getRetailers());
+        List<RetailerViewBean> retailerViewBeans = buildListViewBeanRetailer(requestData, retailers);
+        return retailerViewBeans;
+    }
+
+    /**
+     * 
+     */
+    public List<RetailerViewBean> buildListViewBeanRetailer(final RequestData requestData, final List<Retailer> retailers) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Retailer retailer = requestData.getMarketAreaRetailer();
+
+        List<RetailerViewBean> retailerViewBeans = new ArrayList<RetailerViewBean>();
+        retailerViewBeans = new ArrayList<RetailerViewBean>();
+        for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
+            final Retailer retailerIt = (Retailer) iterator.next();
+            final Retailer reloadedRetailer = retailerService.getRetailerByCode(marketArea.getId(), retailer.getId(), retailerIt.getCode());
+            retailerViewBeans.add(buildViewBeanRetailer(requestData, reloadedRetailer));
+        }
+        return retailerViewBeans;
+    }
+
+    /**
+     * 
+     */
+    public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final MarketArea marketArea = requestData.getMarketArea();
+        final Localization localization = requestData.getMarketAreaLocalization();
+        final String localizationCodeNavigation = localization.getCode();
+        final Locale locale = requestData.getLocale();
+
+        final RetailerViewBean retailerViewBean = new RetailerViewBean();
+
+        retailerViewBean.setCode(retailer.getCode());
+        retailerViewBean.setName(retailer.getName());
+        retailerViewBean.setI18nName(retailer.getI18nName(localizationCodeNavigation));
+
+        retailerViewBean.setDescription(retailer.getDescription());
+
+        retailerViewBean.setOfficialRetailer(retailer.isOfficialRetailer());
+        retailerViewBean.setBrand(retailer.isBrand());
+        retailerViewBean.setEcommerce(retailer.isEcommerce());
+        retailerViewBean.setCorner(retailer.isCorner());
+
+        String logo = retailerService.getRetailerLogoWebPath(retailer.getLogo());
+        retailerViewBean.setImg(logo);
+        
+        if (Hibernate.isInitialized(retailer.getAddresses()) 
+                && retailer.getAddresses() != null) {
+            RetailerAddress defaultAddress = retailer.getDefaultAddress();
+            if (defaultAddress != null) {
+                retailerViewBean.getDefaultAddress().setAddress1(defaultAddress.getAddress1());
+                retailerViewBean.getDefaultAddress().setAddress2(defaultAddress.getAddress2());
+                retailerViewBean.getDefaultAddress().setAddressAdditionalInformation(defaultAddress.getAddressAdditionalInformation());
+                retailerViewBean.getDefaultAddress().setPostalCode(defaultAddress.getPostalCode());
+                retailerViewBean.getDefaultAddress().setCity(defaultAddress.getCity());
+                retailerViewBean.getDefaultAddress().setStateCode(defaultAddress.getStateCode());
+                retailerViewBean.getDefaultAddress().setStateLabel(defaultAddress.getStateCode());
+                retailerViewBean.getDefaultAddress().setAreaCode(defaultAddress.getAreaCode());
+                retailerViewBean.getDefaultAddress().setAreaLabel(defaultAddress.getAreaCode());
+                retailerViewBean.getDefaultAddress().setCountryCode(defaultAddress.getCountryCode());
+
+                String countryLabel = referentialDataService.getCountryByLocale(defaultAddress.getCountryCode(), locale);
+                retailerViewBean.getDefaultAddress().setCountryLabel(countryLabel);
+
+                retailerViewBean.getDefaultAddress().setLongitude(defaultAddress.getLongitude());
+                retailerViewBean.getDefaultAddress().setLatitude(defaultAddress.getLatitude());
+
+                retailerViewBean.getDefaultAddress().setPhone(defaultAddress.getPhone());
+                retailerViewBean.getDefaultAddress().setMobile(defaultAddress.getMobile());
+                retailerViewBean.getDefaultAddress().setFax(defaultAddress.getFax());
+                retailerViewBean.getDefaultAddress().setEmail(defaultAddress.getEmail());
+                String websiteUrl = defaultAddress.getWebsite();
+                if (StringUtils.isNotEmpty(websiteUrl) && !websiteUrl.contains("http")) {
+                    websiteUrl = "http://" + websiteUrl;
+                }
+                retailerViewBean.getDefaultAddress().setWebsite(websiteUrl);
+            }
+        }
+
+        retailerViewBean.setQualityOfService(retailer.getQualityOfService());
+        retailerViewBean.setPriceScore(retailer.getPriceScore());
+        retailerViewBean.setRatioQualityPrice(retailer.getRatioQualityPrice());
+
+        int reviewCount = retailerViewBean.getComments().size();
+        retailerViewBean.setReviewCount(reviewCount);
+        Object[] reviewCountLabelParams = { reviewCount };
+        retailerViewBean.setReviewCountLabel(getSpecificMessage(ScopeWebMessage.SOCIAL, "review_count_label", reviewCountLabelParams, locale));
+
+        Set<RetailerCustomerComment> customerComments = retailer.getCustomerComments();
+        if (Hibernate.isInitialized(customerComments) &&
+                customerComments != null) {
+            for (Iterator<RetailerCustomerComment> iterator = customerComments.iterator(); iterator.hasNext();) {
+                RetailerCustomerComment retailerCustomerComment = (RetailerCustomerComment) iterator.next();
+                RetailerCustomerCommentViewBean retailerCustomerCommentViewBean = new RetailerCustomerCommentViewBean();
+
+                retailerCustomerCommentViewBean.setCustomerDisplayName(retailerCustomerComment.getCustomer().getScreenName());
+                retailerCustomerCommentViewBean.setCustomerUrl(urlService.buildCustomerDetailsUrl(requestData, retailerCustomerComment.getCustomer().getPermalink()));
+                retailerCustomerCommentViewBean.setCustomerAvatarImg(requestUtil.getCustomerAvatar(requestData.getRequest(), retailerCustomerComment.getCustomer()));
+
+                DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+                if (retailerCustomerComment.getDateCreate() != null) {
+                    retailerCustomerCommentViewBean.setDateCreate(dateFormat.format(retailerCustomerComment.getDateCreate()));
+                }
+
+                retailerCustomerCommentViewBean.setComment(retailerCustomerComment.getComment());
+
+                ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
+                reviewDataVocabulary.setItemreviewed(retailer.getName());
+                reviewDataVocabulary.setReviewer(retailerCustomerComment.getCustomer().getScreenName());
+                DateFormat dateFormatDataVocabulary = requestUtil.getDataVocabularyFormatDate(requestData);
+                reviewDataVocabulary.setDtreviewed(dateFormat.format(retailerCustomerComment.getDateCreate()));
+                // reviewDataVocabulary.setSummary(summary);
+                reviewDataVocabulary.setDescription(retailerCustomerComment.getComment());
+                // reviewDataVocabulary.setRating(rating);
+
+                retailerCustomerCommentViewBean.setReviewDataVocabulary(reviewDataVocabulary);
+
+                retailerViewBean.getComments().add(retailerCustomerCommentViewBean);
+            }
+        }
+
+        Set<RetailerTag> tags = retailer.getRetailerTags();
+        if (Hibernate.isInitialized(tags) &&
+                tags != null) {
+            for (Iterator<RetailerTag> iterator = tags.iterator(); iterator.hasNext();) {
+                RetailerTag retailerTag = (RetailerTag) iterator.next();
+                RetailerTagViewBean retailerTagViewBean = new RetailerTagViewBean();
+                retailerTagViewBean.setCode(retailerTag.getCode());
+                retailerTagViewBean.setName(retailerTag.getName());
+                retailerTagViewBean.setDescription(retailerTag.getDescription());
+                retailerViewBean.getTags().add(retailerTagViewBean);
+            }
+        }
+
+        Set<Store> stores = retailer.getStores();
+        if (Hibernate.isInitialized(stores) &&
+                stores != null) {
+            for (Iterator<Store> iterator = stores.iterator(); iterator.hasNext();) {
+                Store store = (Store) iterator.next();
+                StoreViewBean storeViewBean = buildViewBeanStore(requestData, store);
+                retailerViewBean.getStores().add(storeViewBean);
+            }
+        }
+
+        final String contextNameValue = requestUtil.getCurrentContextNameValue(request);
+        List<String> shareOptions = marketArea.getShareOptions(contextNameValue);
+        if (shareOptions != null) {
+            for (Iterator<String> iterator = shareOptions.iterator(); iterator.hasNext();) {
+                String shareOption = (String) iterator.next();
+                String relativeUrl = urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer);
+                ShareOptionViewBean shareOptionViewBean = buildViewBeanShareOption(requestData, shareOption, relativeUrl);
+                retailerViewBean.getShareOptions().add(shareOptionViewBean);
+            }
+        }
+
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (retailer.getDateCreate() != null) {
+            retailerViewBean.setDateCreate(dateFormat.format(retailer.getDateCreate()));
+        }
+
+        if (retailer.getDateUpdate() != null) {
+            retailerViewBean.setDateUpdate(dateFormat.format(retailer.getDateUpdate()));
+        }
+        
+        // CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
+        RequestData requestDataChangecontext = new RequestData();
+        BeanUtils.copyProperties(requestData, requestDataChangecontext);
+        requestDataChangecontext.setMarketAreaRetailer(retailer);
+        
+        retailerViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestDataChangecontext));
+        retailerViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
+
+        retailerViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.RETAILER_DETAILS, requestData, retailer));
+        
+        return retailerViewBean;
+    }
+    
     /**
      * 
      */
@@ -946,14 +925,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (store.getDateCreate() != null) {
             storeViewBean.setDateCreate(dateFormat.format(store.getDateCreate()));
-        } else {
-            storeViewBean.setDateCreate(Constants.NOT_AVAILABLE);
         }
-
         if (store.getDateUpdate() != null) {
             storeViewBean.setDateUpdate(dateFormat.format(store.getDateUpdate()));
-        } else {
-            storeViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
         
 		final List<Asset> assets = store.getSlideShows();
@@ -970,6 +944,46 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         return storeViewBean;
     }
 
+    /**
+     * 
+     */
+    public StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(final Store store) {
+        List<StoreBusinessHour> storeBusinessHours = store.getStoreBusinessHours();
+        StoreBusinessHourViewBean storeBusinessHourViewBean = null;
+        if (storeBusinessHours != null && storeBusinessHours.size() > 0) {
+            storeBusinessHourViewBean = new StoreBusinessHourViewBean();
+            for (StoreBusinessHour storeBusinessHour : storeBusinessHours) {
+                OperationHourViewBean operationHourViewBean = new OperationHourViewBean();
+                operationHourViewBean.setEndHour(storeBusinessHour.getEndHour());
+                operationHourViewBean.setStartHour(storeBusinessHour.getStartHour());
+                if (storeBusinessHour.isMonday()) {
+                    storeBusinessHourViewBean.setMonday(operationHourViewBean);
+                }
+
+                if (storeBusinessHour.isTuesday()) {
+                    storeBusinessHourViewBean.setTuesday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isWednesday()) {
+                    storeBusinessHourViewBean.setWednesday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isThursday()) {
+                    storeBusinessHourViewBean.setThursday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isFriday()) {
+                    storeBusinessHourViewBean.setFriday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isSaturday()) {
+                    storeBusinessHourViewBean.setSaturday(operationHourViewBean);
+                }
+                if (storeBusinessHour.isSunday()) {
+                    storeBusinessHourViewBean.setSunday(operationHourViewBean);
+                }
+            }
+
+        }
+        return storeBusinessHourViewBean;
+    }
+    
     /**
      * 
      */
@@ -1022,14 +1036,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
             if (customer.getDateCreate() != null) {
                 customerViewBean.setDateCreate(dateFormat.format(customer.getDateCreate()));
-            } else {
-                customerViewBean.setDateCreate(Constants.NOT_AVAILABLE);
             }
-
             if (customer.getDateUpdate() != null) {
                 customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
-            } else {
-                customerViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
             }
 
             final Set<CustomerConnectionLog> connectionLogs = customer.getConnectionLogs();
@@ -1394,18 +1403,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productMarketingViewBean.setDefault(productMarketing.isDefault());
 
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date dateCreate = productMarketing.getDateCreate();
-        if (dateCreate != null) {
-            productMarketingViewBean.setDateCreate(dateFormat.format(dateCreate));
-        } else {
-            productMarketingViewBean.setDateCreate("NA");
+        if (productMarketing.getDateCreate() != null) {
+            productMarketingViewBean.setDateCreate(dateFormat.format(productMarketing.getDateCreate()));
         }
-
-        Date dateUpdate = productMarketing.getDateUpdate();
-        if (dateUpdate != null) {
-            productMarketingViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-        } else {
-            productMarketingViewBean.setDateUpdate("NA");
+        if (productMarketing.getDateUpdate() != null) {
+            productMarketingViewBean.setDateUpdate(dateFormat.format(productMarketing.getDateUpdate()));
         }
         
         final Asset defaultBackgroundImage = productMarketing.getDefaultBackgroundImage();
@@ -1495,18 +1497,11 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         productSkuViewBean.setDefault(productSku.isDefault());
         
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-        Date dateCreate = productMarketing.getDateCreate();
-        if (dateCreate != null) {
-            productSkuViewBean.setDateCreate(dateFormat.format(dateCreate));
-        } else {
-            productSkuViewBean.setDateCreate("NA");
+        if (productMarketing.getDateCreate() != null) {
+            productSkuViewBean.setDateCreate(dateFormat.format(productMarketing.getDateCreate()));
         }
-
-        Date dateUpdate = productMarketing.getDateUpdate();
-        if (dateUpdate != null) {
-            productSkuViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-        } else {
-            productSkuViewBean.setDateUpdate("NA");
+        if (productMarketing.getDateUpdate() != null) {
+            productSkuViewBean.setDateUpdate(dateFormat.format(productMarketing.getDateUpdate()));
         }
         
         final ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
@@ -1756,21 +1751,14 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
             if (order.getExpectedDeliveryDate() != null) {
                 orderViewBean.setExpectedDeliveryDate(dateFormat.format(order.getExpectedDeliveryDate()));
             } else {
-                orderViewBean.setExpectedDeliveryDate("NA");
+                orderViewBean.setExpectedDeliveryDate(Constants.NOT_AVAILABLE);
             }
             
-            Date dateCreate = order.getDateCreate();
-            if (dateCreate != null) {
-                orderViewBean.setDateCreate(dateFormat.format(dateCreate));
-            } else {
-                orderViewBean.setDateCreate("NA");
+            if (order.getDateCreate() != null) {
+                orderViewBean.setDateCreate(dateFormat.format(order.getDateCreate()));
             }
-
-            Date dateUpdate = order.getDateUpdate();
-            if (dateUpdate != null) {
-                orderViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-            } else {
-                orderViewBean.setDateUpdate("NA");
+            if (order.getDateUpdate() != null) {
+                orderViewBean.setDateUpdate(dateFormat.format(order.getDateUpdate()));
             }
             
             // ITEMS PART
@@ -1891,13 +1879,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (deliveryMethod.getDateCreate() != null) {
             deliveryMethodViewBean.setDateCreate(dateFormat.format(deliveryMethod.getDateCreate()));
-        } else {
-            deliveryMethodViewBean.setDateCreate("NA");
         }
         if (deliveryMethod.getDateUpdate() != null) {
             deliveryMethodViewBean.setDateUpdate(dateFormat.format(deliveryMethod.getDateUpdate()));
-        } else {
-            deliveryMethodViewBean.setDateUpdate("NA");
         }
 
         // TODO : CMS page to describe Delivery Methods
@@ -1923,13 +1907,9 @@ public class ViewBeanFactoryImpl extends AbstractViewBeanFactory implements View
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (tax.getDateCreate() != null) {
             taxViewBean.setDateCreate(dateFormat.format(tax.getDateCreate()));
-        } else {
-            taxViewBean.setDateCreate("NA");
         }
         if (tax.getDateUpdate() != null) {
             taxViewBean.setDateUpdate(dateFormat.format(tax.getDateUpdate()));
-        } else {
-            taxViewBean.setDateUpdate("NA");
         }
 
         return taxViewBean;

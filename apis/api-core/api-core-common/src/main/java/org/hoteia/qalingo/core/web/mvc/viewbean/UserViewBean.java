@@ -30,8 +30,6 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	private String email;
 	private String password;
 	private boolean active;
-	private String dateCreate;
-	private String dateUpdate;
 
 	private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
 	private Map<String, String> userGroups = new HashMap<String, String>();
@@ -107,22 +105,6 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public String getDateCreate() {
-		return dateCreate;
-	}
-
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
 	}
 
 	public List<UserConnectionLogValueBean> getUserConnectionLogs() {

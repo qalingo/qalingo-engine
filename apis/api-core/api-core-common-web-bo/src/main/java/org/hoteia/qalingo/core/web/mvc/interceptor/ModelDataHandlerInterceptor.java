@@ -73,8 +73,6 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             
             modelAndView.getModelMap().put(ModelConstants.LEGAl_TERMS_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanLegalTerms(requestData));
             
-            modelAndView.getModelMap().put(ModelConstants.CONDITIONS_OF_USE_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanConditions(requestData));
-            
             modelAndView.getModelMap().put(ModelConstants.HEADER_CART, backofficeViewBeanFactory.buildViewBeanHeaderCart(requestData));
             
             // ALL MARKETPLACES

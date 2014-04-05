@@ -51,6 +51,7 @@ public final class ModelConstants {
     // URL
     public static final String URL_BACK                     = "urlBack";
     public static final String URL_ADD                      = "urlAdd";
+    public static final String URL_RETAILER_VIEW            = "urlRetailerView";
     public static final String URL_CUSTOMER_EDIT            = "urlCustomerEdit";
     public static final String URL_CUSTOMER_ADDRESS_ADD     = "urlCustomerAddressAdd";
     public static final String URL_CUSTOMER_ADDRESS_EDIT    = "urlCustomerAddressEdit";
@@ -143,6 +144,8 @@ public final class ModelConstants {
     public static final String WAREHOUSE_FORM               = "warehouseForm";
     public static final String DELIVERY_METHOD_FORM         = "deliveryMethodForm";
     public static final String TAX_FORM                     = "taxForm";
+    public static final String RETAILER_FORM                = "retailerForm";
+    public static final String STORE_FORM                   = "storeForm";
     public static final String PAYMENT_GATEWAY_FORM         = "paymentGatewayForm";
     public static final String ENGINE_SETTING_FORM          = "engineSettingForm";
     public static final String ENGINE_SETTING_VALUE_FORM    = "engineSettingValueForm";

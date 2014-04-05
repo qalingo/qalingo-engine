@@ -16,9 +16,6 @@ public class AttributeDefinitionViewBean extends AbstractViewBean implements Ser
     private String attributeType;
     private String objectType;
     
-    private String dateCreate;
-    private String dateUpdate;
-
     public String getName() {
         return name;
     }
@@ -59,20 +56,4 @@ public class AttributeDefinitionViewBean extends AbstractViewBean implements Ser
         this.objectType = objectType;
     }
 
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-    
 }

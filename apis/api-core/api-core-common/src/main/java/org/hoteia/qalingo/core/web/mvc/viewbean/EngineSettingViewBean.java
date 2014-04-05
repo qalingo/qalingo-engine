@@ -28,9 +28,6 @@ public class EngineSettingViewBean extends AbstractViewBean implements Serializa
 	
 	protected List<EngineSettingValueViewBean> engineSettingValues = new ArrayList<EngineSettingValueViewBean>();
 
-    private String dateCreate;
-    private String dateUpdate;
-
     protected String detailsUrl;
     protected String editUrl;
 
@@ -80,22 +77,6 @@ public class EngineSettingViewBean extends AbstractViewBean implements Serializa
 
     public void setEngineSettingValues(List<EngineSettingValueViewBean> engineSettingValues) {
         this.engineSettingValues = engineSettingValues;
-    }
-
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
     }
 
     public String getDetailsUrl() {

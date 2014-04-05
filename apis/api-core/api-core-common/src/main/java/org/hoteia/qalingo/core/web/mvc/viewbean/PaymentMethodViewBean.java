@@ -17,9 +17,6 @@ public class PaymentMethodViewBean extends AbstractViewBean implements Serializa
     
     private List<PaymentMethodOptionViewBean> paymentMethodOptions = new ArrayList<PaymentMethodOptionViewBean>();
 
-    private String dateCreate;
-    private String dateUpdate;
-
     public String getName() {
         return name;
     }
@@ -50,22 +47,6 @@ public class PaymentMethodViewBean extends AbstractViewBean implements Serializa
     
     public void setPaymentMethodOptions(List<PaymentMethodOptionViewBean> paymentMethodOptions) {
         this.paymentMethodOptions = paymentMethodOptions;
-    }
-    
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
     }
     
 }

@@ -40,9 +40,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
     private Map<String, ValueBean> customerAttributes = new HashMap<String, ValueBean>();
 
-    private String dateCreate;
-    private String dateUpdate;
-
     private String detailsUrl;
     private String editUrl;
 
@@ -172,22 +169,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
         return screenNameValue;
     }
 
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-    
     public String getDetailsUrl() {
         return detailsUrl;
     }

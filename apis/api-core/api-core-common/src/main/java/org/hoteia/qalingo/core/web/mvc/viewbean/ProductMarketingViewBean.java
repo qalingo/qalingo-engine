@@ -48,19 +48,16 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 	protected Map<String, String> globalAttributes = new HashMap<String, String>();
 	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 
-	protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
-	protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
-	protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
+    protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
+    protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
+    protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
 
-	protected String brandDetailsUrl;
-	protected String brandLineDetailsUrl;
-	protected String detailsUrl;
-	protected String editUrl;
+    protected CustomerProductRatesViewBean customerProductRates;
 
-	protected String dateCreate;
-	protected String dateUpdate;
-
-	protected CustomerProductRatesViewBean customerProductRates;
+    protected String brandDetailsUrl;
+    protected String brandLineDetailsUrl;
+    protected String detailsUrl;
+    protected String editUrl;
 
 	public Long getId() {
 		return id;
@@ -304,9 +301,17 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		return null;
 	}
 
-	public String getDetailsUrl() {
-		return detailsUrl;
-	}
+    public CustomerProductRatesViewBean getCustomerProductRates() {
+        return customerProductRates;
+    }
+
+    public void setCustomerProductRates(CustomerProductRatesViewBean customerProductRatesViewBean) {
+        this.customerProductRates = customerProductRatesViewBean;
+    }
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
 	public void setDetailsUrl(String detailsUrl) {
 		this.detailsUrl = detailsUrl;
@@ -318,31 +323,6 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	public void setEditUrl(String editUrl) {
 		this.editUrl = editUrl;
-	}
-
-	public String getDateCreate() {
-		return dateCreate;
-	}
-
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-
-	public CustomerProductRatesViewBean getCustomerProductRates() {
-		return customerProductRates;
-	}
-
-	public void setCustomerProductRates(
-			CustomerProductRatesViewBean customerProductRatesViewBean) {
-		this.customerProductRates = customerProductRatesViewBean;
 	}
 
 }

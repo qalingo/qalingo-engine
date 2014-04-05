@@ -36,7 +36,6 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ConditionsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CurrencyReferentialViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressListViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerAddressViewBean;
@@ -46,7 +45,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CutomerMenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.FaqViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsOptionViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FooterMenuViewBean;
@@ -67,6 +65,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductSkuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SecurityViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 
@@ -88,17 +87,7 @@ public interface ViewBeanFactory {
 
 	OurCompanyViewBean buildViewBeanOurCompany(RequestData requestData) throws Exception;
 	
-	FaqViewBean buildViewBeanFaq(RequestData requestData) throws Exception;
-	
 	SecurityViewBean buildViewBeanSecurity(RequestData requestData) throws Exception;
-
-	ConditionsViewBean buildViewBeanConditions(RequestData requestData) throws Exception;
-	
-	List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(RequestData requestData) throws Exception;
-	
-	List<RetailerViewBean> buildListViewBeanRetailer(RequestData requestData, List<Retailer> retailers) throws Exception;
-
-	RetailerViewBean buildViewBeanRetailer(RequestData requestData, Retailer currentRetailer) throws Exception;
 
 	List<CutomerMenuViewBean> buildListViewBeanCutomerMenu(RequestData requestData) throws Exception;
 	
@@ -120,10 +109,18 @@ public interface ViewBeanFactory {
 
     CurrencyReferentialViewBean buildViewBeanCurrencyReferential(RequestData requestData, CurrencyReferential currencyReferential) throws Exception;
 
+    List<RetailerViewBean> buildListViewBeanRetailerByMarketArea(RequestData requestData) throws Exception;
+    
+    List<RetailerViewBean> buildListViewBeanRetailer(RequestData requestData, List<Retailer> retailers) throws Exception;
+
+    RetailerViewBean buildViewBeanRetailer(RequestData requestData, Retailer currentRetailer) throws Exception;
+
     List<StoreViewBean> buildListViewBeanStore(RequestData requestData, List<Store> stores) throws Exception;
 	
 	StoreViewBean buildViewBeanStore(RequestData requestData, Store store) throws Exception;
 	
+    StoreBusinessHourViewBean buildViewBeanStoreBusinessHour(Store store);
+    
 	CustomerViewBean buildViewBeanCustomer(RequestData requestData, Customer customer) throws Exception ;
 
 	CustomerWishlistViewBean buildViewBeanCustomerWishlist(RequestData requestData, Customer customer) throws Exception;

@@ -18,9 +18,6 @@ public class RuleViewBean extends AbstractViewBean implements Serializable {
 	// private Set<RuleRepositoryAttribute> ruleRepositoryAttributes = new
 	// HashSet<RuleRepositoryAttribute>();
 
-	private String dateCreate;
-	private String dateUpdate;
-
 	private String detailsUrl;
 	private String editUrl;
 
@@ -70,22 +67,6 @@ public class RuleViewBean extends AbstractViewBean implements Serializable {
 
 	public void setSalience(String salience) {
 		this.salience = salience;
-	}
-
-	public String getDateCreate() {
-		return dateCreate;
-	}
-
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
 	}
 
 	public String getDetailsUrl() {

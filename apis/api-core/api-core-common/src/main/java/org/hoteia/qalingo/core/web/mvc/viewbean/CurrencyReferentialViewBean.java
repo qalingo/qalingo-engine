@@ -24,8 +24,6 @@ public class CurrencyReferentialViewBean extends AbstractViewBean implements Ser
 	private String code;
 	private String sign;
 	private String abbreviated;
-	private String dateCreate;
-	private String dateUpdate;
 	
     // MENU
     protected String img;
@@ -70,22 +68,6 @@ public class CurrencyReferentialViewBean extends AbstractViewBean implements Ser
 
 	public void setAbbreviated(String abbreviated) {
 		this.abbreviated = abbreviated;
-	}
-
-	public String getDateCreate() {
-		return dateCreate;
-	}
-
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
 	}
 
     public String getImg() {

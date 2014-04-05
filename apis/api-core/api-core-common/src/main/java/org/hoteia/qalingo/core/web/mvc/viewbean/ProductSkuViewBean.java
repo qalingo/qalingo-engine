@@ -55,9 +55,6 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
     protected String detailsUrl;
     protected String editUrl;
     
-    protected String dateCreate;
-    protected String dateUpdate;
-    
     public Long getId() {
         return id;
     }
@@ -258,20 +255,4 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
         this.editUrl = editUrl;
     }
     
-    public String getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(String dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-    
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-
 }

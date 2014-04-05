@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.web.mvc.viewbean;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 
 public abstract class AbstractViewBean implements Serializable {
 
@@ -20,12 +21,37 @@ public abstract class AbstractViewBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 5246629091678484667L;
 
-	protected String handleString(String string){
-		if(StringUtils.isEmpty(string)){
-			return "";
-		}
-		return string;
-	}
+    private String dateCreate;
+    private String dateUpdate;
+
+    public String getDateCreate() {
+        if(StringUtils.isNotEmpty(dateCreate)){
+            return dateCreate;
+        }
+        return Constants.NOT_AVAILABLE;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public String getDateUpdate() {
+        if(StringUtils.isNotEmpty(dateUpdate)){
+            return dateUpdate;
+        }
+        return Constants.NOT_AVAILABLE;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    protected String handleString(String string) {
+        if (StringUtils.isEmpty(string)) {
+            return "";
+        }
+        return string;
+    }
 	
 	/**
 	 * 

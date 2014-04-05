@@ -26,7 +26,6 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	protected String customerAvatarImg;
 	protected String customerUrl;
 	protected String comment;
-	protected String dateCreate;
 	
 	ReviewDataVocabularyPojo reviewDataVocabulary = new ReviewDataVocabularyPojo();
 	
@@ -62,14 +61,6 @@ public class RetailerCustomerCommentViewBean extends AbstractViewBean implements
 	
 	public void setComment(String comment) {
     	this.comment = comment;
-    }
-	
-	public String getDateCreate() {
-    	return dateCreate;
-    }
-	
-	public void setDateCreate(String dateCreate) {
-    	this.dateCreate = dateCreate;
     }
 	
 	public ReviewDataVocabularyPojo getReviewDataVocabulary() {

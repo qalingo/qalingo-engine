@@ -16,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
@@ -59,7 +58,6 @@ public class StoreController extends AbstractBusinessBackofficeController{
 	public ModelAndView storeList(final HttpServletRequest request, final Model model, @RequestParam(value = RequestConstants.REQUEST_PARAMETER_RETAILER_CODE) String retailerCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.STORE_LIST.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea marketArea = requestData.getMarketArea();
 		
         // SANITY CHECK
         if (StringUtils.isEmpty(retailerCode)) {
@@ -75,10 +73,17 @@ public class StoreController extends AbstractBusinessBackofficeController{
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_LIST.getKey() + ".by.retailer", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.STORE_ADD, requestData, retailer));
+        model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
 
         return modelAndView;
 	}
 	
+    @RequestMapping(value = BoUrls.STORE_LIST_URL, method = RequestMethod.POST)
+    public ModelAndView searchRetailerList(final HttpServletRequest request, final Model model) throws Exception {
+        //TODO: implement
+        return null;
+    }
+    
 	@RequestMapping(value = BoUrls.STORE_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView storeDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.STORE_DETAILS.getVelocityPage());
@@ -103,6 +108,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
         }
 
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.STORE_LIST, requestData));
+        model.addAttribute(ModelConstants.URL_RETAILER_VIEW, backofficeUrlService.generateUrl(BoUrls.RETAILER_DETAILS, requestData, retailer));
 
         Object[] params = { retailer.getName() + " (" + retailer.getCode() + ")" };
         initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.STORE_DETAILS.getKey(), params);
@@ -111,7 +117,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
 	}
 	
 	@RequestMapping(value = BoUrls.STORE_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView storeEdit(final HttpServletRequest request, final Model model, @ModelAttribute("storeForm") StoreForm storeForm) throws Exception {
+	public ModelAndView storeEdit(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.STORE_FORM) StoreForm storeForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.STORE_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         
@@ -145,7 +151,7 @@ public class StoreController extends AbstractBusinessBackofficeController{
 	}
 	
 	@RequestMapping(value = BoUrls.STORE_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView submitRetailerEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute("storeForm") StoreForm storeForm,
+	public ModelAndView submitRetailerEdit(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.STORE_FORM) StoreForm storeForm,
 								BindingResult result, ModelMap modelMap) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
@@ -187,16 +193,10 @@ public class StoreController extends AbstractBusinessBackofficeController{
         }
 	}
 	
-	@RequestMapping(value = BoUrls.STORE_LIST_URL, method = RequestMethod.POST)
-	public ModelAndView searchRetailerList(final HttpServletRequest request, final Model model) throws Exception {
-		//TODO: implement
-		return null;
-	}
-	
 	/**
 	 * 
 	 */
-    @ModelAttribute("storeForm")
+    @ModelAttribute(ModelConstants.STORE_FORM)
 	protected StoreForm initStoreForm(final HttpServletRequest request, final Model model) throws Exception {
 		final RequestData requestData = requestUtil.getRequestData(request);
 		final String storeCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_STORE_CODE);

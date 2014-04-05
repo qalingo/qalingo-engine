@@ -30,9 +30,6 @@ public class AssetViewBean extends AbstractViewBean implements Serializable {
 
 	protected String absoluteWebPath;
 
-	protected String dateCreate;
-	protected String dateUpdate;
-
 	protected String detailsUrl;
 	protected String editUrl;
 	protected String backUrl;
@@ -117,22 +114,6 @@ public class AssetViewBean extends AbstractViewBean implements Serializable {
 		this.absoluteWebPath = absoluteWebPath;
 	}
 	
-	public String getDateCreate() {
-		return dateCreate;
-	}
-
-	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
-	}
-
-	public String getDateUpdate() {
-		return dateUpdate;
-	}
-
-	public void setDateUpdate(String dateUpdate) {
-		this.dateUpdate = dateUpdate;
-	}
-
 	public String getDetailsUrl() {
 		return detailsUrl;
 	}
