@@ -1,9 +1,15 @@
 package org.hoteia.qalingo.core.domain;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,11 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_WAREHOUSE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -78,10 +87,10 @@ public class Warehouse extends AbstractEntity {
     @Column(name = "LATITUDE")
     private String latitude;
     
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.MarketArea.class)
-    @JoinTable(name = "TECO_MARKET_AREA_WAREHOUSE_REL", joinColumns = @JoinColumn(name = "WAREHOUSE_ID"), inverseJoinColumns = @JoinColumn(name = "MARKET_AREA_ID"))
-    private Set<MarketArea> marketAreas = new HashSet<MarketArea>();
-    
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "WAREHOUSE_ID")
+    private Set<WarehouseMarketAreaRel> warehouseMarketAreaRels = new HashSet<WarehouseMarketAreaRel>();
+ 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.DeliveryMethod.class)
     @JoinTable(name = "TECO_WAREHOUSE_DELIVERY_METHOD_REL", joinColumns = @JoinColumn(name = "WAREHOUSE_ID"), inverseJoinColumns = @JoinColumn(name = "DELIVERY_METHOD_ID"))
     private Set<DeliveryMethod> deliveryMethods = new HashSet<DeliveryMethod>();
@@ -217,12 +226,38 @@ public class Warehouse extends AbstractEntity {
         this.latitude = latitude;
     }
 
-    public Set<MarketArea> getMarketAreas() {
-        return marketAreas;
+    public Set<WarehouseMarketAreaRel> getWarehouseMarketAreaRels() {
+        return warehouseMarketAreaRels;
     }
     
-    public void setMarketAreas(Set<MarketArea> marketAreas) {
-        this.marketAreas = marketAreas;
+    public List<MarketArea> getMarketAreas() {
+        List<WarehouseMarketAreaRel> sortedCatalogVirtualCategoryVirtualRels = null;
+        List<MarketArea> sortedMarketAreas = null;
+        if (warehouseMarketAreaRels != null 
+                && Hibernate.isInitialized(warehouseMarketAreaRels)) {
+            sortedCatalogVirtualCategoryVirtualRels = new LinkedList<WarehouseMarketAreaRel>(warehouseMarketAreaRels);
+            Collections.sort(sortedCatalogVirtualCategoryVirtualRels, new Comparator<WarehouseMarketAreaRel>() {
+                @Override
+                public int compare(WarehouseMarketAreaRel o1, WarehouseMarketAreaRel o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
+            if(sortedCatalogVirtualCategoryVirtualRels != null){
+                sortedMarketAreas = new LinkedList<MarketArea>();
+                for (Iterator<WarehouseMarketAreaRel> iterator = sortedCatalogVirtualCategoryVirtualRels.iterator(); iterator.hasNext();) {
+                    WarehouseMarketAreaRel warehouseMarketAreaRel = (WarehouseMarketAreaRel) iterator.next();
+                    sortedMarketAreas.add(warehouseMarketAreaRel.getMarketArea());
+                }
+            }
+        }
+        return sortedMarketAreas;
+    }
+    
+    public void setWarehouseMarketAreaRels(Set<WarehouseMarketAreaRel> warehouseMarketAreaRels) {
+        this.warehouseMarketAreaRels = warehouseMarketAreaRels;
     }
     
     public Set<DeliveryMethod> getDeliveryMethods() {

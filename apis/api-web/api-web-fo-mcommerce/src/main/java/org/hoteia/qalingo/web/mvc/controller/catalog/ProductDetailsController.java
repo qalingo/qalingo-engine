@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -59,10 +59,10 @@ public class ProductDetailsController extends AbstractMCommerceController {
 			 						   @ModelAttribute(ModelConstants.PRODUCT_COMMENT_FORM) ProductCommentForm productCommentForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PRODUCT_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
 
-		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), categoryCode);
+		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode);
 		ProductMarketing productMarketing = productService.getProductMarketingByCode(productMarketingCode);
+        ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
 		
 		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanCatalogCategory(requestUtil.getRequestData(request), catalogCategory);
 		model.addAttribute(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
@@ -88,7 +88,7 @@ public class ProductDetailsController extends AbstractMCommerceController {
 	        model.addAttribute(ModelConstants.PRODUCT_COMMENT_SUBMIT_URL, urlService.generateUrl(FoUrls.PRODUCT_COMMENT, requestData, productMarketing));
         }
         
-        requestUtil.addOrUpdateRecentProductToCookie(productMarketing.getId(), request, response);
+        requestUtil.addOrUpdateRecentProductSkuToCookie(productSku.getCode(), request, response);
         
         // SEO
         model.addAttribute(ModelConstants.PAGE_META_OG_TITLE, productMarketingViewBean.getI18nName() );

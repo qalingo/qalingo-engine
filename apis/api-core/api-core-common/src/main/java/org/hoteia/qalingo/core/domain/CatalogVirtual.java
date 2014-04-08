@@ -13,10 +13,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,10 +26,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -75,9 +76,13 @@ public class CatalogVirtual extends AbstractEntity {
     @JoinColumn(name = "MASTER_CATALOG_ID", insertable = true, updatable = true)
     private CatalogMaster catalogMaster;
 
-    @ManyToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "TECO_CATALOG_VIRTUAL_CATEGORY_VIRTUAL_REL", joinColumns = @JoinColumn(name = "VIRTUAL_CATALOG_ID"), inverseJoinColumns = @JoinColumn(name = "VIRTUAL_CATEGORY_ID"))
-    private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
+//    @ManyToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class, fetch = FetchType.LAZY)
+//    @JoinTable(name = "TECO_CATALOG_VIRTUAL_CATEGORY_VIRTUAL_REL", joinColumns = @JoinColumn(name = "VIRTUAL_CATALOG_ID"), inverseJoinColumns = @JoinColumn(name = "VIRTUAL_CATEGORY_ID"))
+//    private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "VIRTUAL_CATALOG_ID")
+    private Set<CatalogVirtualCategoryVirtualRel> catalogVirtualCategoryVirtualRels = new HashSet<CatalogVirtualCategoryVirtualRel>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -154,36 +159,62 @@ public class CatalogVirtual extends AbstractEntity {
         this.catalogMaster = catalogMaster;
     }
 
-    public Set<CatalogCategoryVirtual> getCatalogCategories() {
-        return catalogCategories;
+    public Set<CatalogVirtualCategoryVirtualRel> getCatalogVirtualCategoryVirtualRels() {
+        return catalogVirtualCategoryVirtualRels;
     }
 
-    public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
-        List<CatalogCategoryVirtual> sortedObjects = null;
-        if(catalogCategories != null
-                && Hibernate.isInitialized(catalogCategories)){
-            sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-            Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
+    public List<CatalogCategoryVirtual> getSortedCatalogCategories() {
+        List<CatalogVirtualCategoryVirtualRel> sortedCatalogVirtualCategoryVirtualRels = null;
+        List<CatalogCategoryVirtual> sortedCatalogCategories = null;
+        if (catalogVirtualCategoryVirtualRels != null 
+                && Hibernate.isInitialized(catalogVirtualCategoryVirtualRels)) {
+            sortedCatalogVirtualCategoryVirtualRels = new LinkedList<CatalogVirtualCategoryVirtualRel>(catalogVirtualCategoryVirtualRels);
+            Collections.sort(sortedCatalogVirtualCategoryVirtualRels, new Comparator<CatalogVirtualCategoryVirtualRel>() {
                 @Override
-                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-                    if (o1 != null && o2 != null) {
-                        Integer order1 = o1.getOrder(marketAreaId);
-                        Integer order2 = o2.getOrder(marketAreaId);
-                        if (order1 != null && order2 != null) {
-                            return order1.compareTo(order2);
-                        } else {
-                            return o1.getId().compareTo(o2.getId());
-                        }
+                public int compare(CatalogVirtualCategoryVirtualRel o1, CatalogVirtualCategoryVirtualRel o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
                     }
                     return 0;
                 }
             });
         }
-        return sortedObjects;
+        if(sortedCatalogVirtualCategoryVirtualRels != null){
+            sortedCatalogCategories = new LinkedList<CatalogCategoryVirtual>();
+            for (Iterator<CatalogVirtualCategoryVirtualRel> iterator = sortedCatalogVirtualCategoryVirtualRels.iterator(); iterator.hasNext();) {
+                CatalogVirtualCategoryVirtualRel catalogVirtualCategoryVirtualRel = (CatalogVirtualCategoryVirtualRel) iterator.next();
+                sortedCatalogCategories.add(catalogVirtualCategoryVirtualRel.getCatalogCategoryVirtual());
+            }
+        }
+        return sortedCatalogCategories;
     }
 
-    public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
-        this.catalogCategories = catalogCategories;
+//    public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
+//        List<CatalogCategoryVirtual> sortedObjects = null;
+//        if(catalogCategories != null
+//                && Hibernate.isInitialized(catalogCategories)){
+//            sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+//            Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
+//                @Override
+//                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+//                    if (o1 != null && o2 != null) {
+//                        Integer order1 = o1.getOrder(marketAreaId);
+//                        Integer order2 = o2.getOrder(marketAreaId);
+//                        if (order1 != null && order2 != null) {
+//                            return order1.compareTo(order2);
+//                        } else {
+//                            return o1.getId().compareTo(o2.getId());
+//                        }
+//                    }
+//                    return 0;
+//                }
+//            });
+//        }
+//        return sortedObjects;
+//    }
+
+    public void setCatalogVirtualCategoryVirtualRels(Set<CatalogVirtualCategoryVirtualRel> getCatalogVirtualCategoryVirtualRels) {
+        this.catalogVirtualCategoryVirtualRels = getCatalogVirtualCategoryVirtualRels;
     }
 
     public Date getDateCreate() {

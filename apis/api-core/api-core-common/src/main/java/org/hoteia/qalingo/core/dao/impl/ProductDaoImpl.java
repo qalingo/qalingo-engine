@@ -90,9 +90,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
-        criteria.createAlias("productBrand", "pb", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         
-        criteria.add(Restrictions.eq("pb.id", brandId));
+        criteria.add(Restrictions.eq("productBrand.id", brandId));
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -105,9 +105,9 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         handleSpecificProductMarketingFetchMode(criteria, params);
 
         criteria.setFetchMode("productBrand", FetchMode.JOIN);
-        criteria.createAlias("productBrand", "pb", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("productBrand", "productBrand", JoinType.LEFT_OUTER_JOIN);
         
-        criteria.add(Restrictions.eq("pb.code", brandCode));
+        criteria.add(Restrictions.eq("productBrand.code", brandCode));
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -119,10 +119,12 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
 
-        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
-        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("productSkus", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSku.defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("productSku.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
         
-        criteria.add(Restrictions.eq("dc.code", categoryCode));
+        criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
+        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -134,15 +136,13 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         Criteria criteria = getSession().createCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
 
-        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
-        criteria.createAlias("defaultCatalogCategory", "dc", JoinType.LEFT_OUTER_JOIN);
-
-        criteria.add(Restrictions.eq("dc.code", categoryCode));
-        if ("desc".equals(orderBy)) {
-            criteria.addOrder(Order.desc(sortBy));
-        } else {
-            criteria.addOrder(Order.asc(sortBy));
-        }
+        criteria.createAlias("productSkus", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSku.defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("productSku.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
+        
+        criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
+        
+        criteria.addOrder(Order.asc("id"));
 
         criteria.setFirstResult((pageNumber - 1) * pageSize);
         criteria.setMaxResults(pageSize);
@@ -443,12 +443,14 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         Criteria criteria = getSession().createCriteria(ProductBrand.class);
         handleSpecificProductBrandFetchMode(criteria, params);
         
-        criteria.setFetchMode("productMarketings", FetchMode.JOIN);
-        criteria.createAlias("productMarketings.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
-        criteria.setFetchMode("defaultCatalogCategory", FetchMode.JOIN);
-
+        criteria.createAlias("productMarketings", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("productMarketing.productSkus", "productSku", JoinType.LEFT_OUTER_JOIN);
+        criteria.setFetchMode("productSku.defaultCatalogCategory", FetchMode.JOIN);
+        criteria.createAlias("productSku.defaultCatalogCategory", "defaultCatalogCategory", JoinType.LEFT_OUTER_JOIN);
+        
         criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
 
+        
         @SuppressWarnings("unchecked")
         List<ProductBrand> productBrands = criteria.list();
         return productBrands;

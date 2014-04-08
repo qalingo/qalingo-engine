@@ -60,21 +60,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryMaster getMasterCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
-        
-        FetchPlan fetchPlan = handleSpecificFetchMasterCategoryMode(criteria, params);
-
-        criteria.add(Restrictions.eq("code", catalogCategoryCode));
-
-        CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) criteria.uniqueResult();
-        if(catalogCategory != null){
-            catalogCategory.setFetchPlan(fetchPlan);
-        }
-		return catalogCategory;
-	}
-	
-	public List<CatalogCategoryMaster> findRootCatalogCategories(Object... params) {
+	public List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
         handleSpecificFetchMasterCategoryMode(criteria, params);
         
@@ -86,7 +72,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(final Long marketAreaId, Object... params) {
+	public List<CatalogCategoryMaster> findMasterCategories(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
 
         handleSpecificFetchMasterCategoryMode(criteria, params);
@@ -161,26 +147,13 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return catalogCategory;
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final Long marketAreaId, final String catalogCategoryCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
-        
-        FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
-
-        criteria.add(Restrictions.eq("code", catalogCategoryCode));
-
-        CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) criteria.uniqueResult();
-        if(catalogCategory != null){
-            catalogCategory.setFetchPlan(fetchPlan);
-        }
-		return catalogCategory;
-	}
-	
-	public List<CatalogCategoryVirtual> findRootCatalogCategories(final Long marketAreaId, Object... params) {
+	public List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
         handleSpecificFetchVirtualCategoryMode(criteria, params);
         
         criteria.add(Restrictions.isNull("defaultParentCatalogCategory"));
+        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -188,7 +161,7 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategories(final Long marketAreaId, Object... params) {
+	public List<CatalogCategoryVirtual> findCatalogCategories(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         handleSpecificFetchVirtualCategoryMode(criteria, params);
@@ -200,13 +173,16 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 		return categories;
 	}
 	
-	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(final Long marketAreaId, final String productMarketingCode, Object... params) {
+	public List<CatalogCategoryVirtual> findCatalogCategoriesByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
 
         handleSpecificFetchVirtualCategoryMode(criteria, params);
         
-        criteria.createAlias("productMarketings", "productMarketing", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("productMarketing.code", productMarketingCode));
+        criteria.createAlias("catalogCategoryVirtualProductSkuRels", "catalogCategoryVirtualProductSkuRel", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("catalogCategoryVirtualProductSkuRel.pk.productSku.id", productSkuId));
+
+//        criteria.createAlias("productMarketings", "productMarketing", JoinType.LEFT_OUTER_JOIN);
+//        criteria.add(Restrictions.eq("productMarketing.code", productMarketingCode));
         
         criteria.addOrder(Order.asc("id"));
 

@@ -96,10 +96,6 @@ public class ProductMarketing extends AbstractEntity {
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
-    private CatalogCategoryVirtual defaultCatalogCategory;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -294,11 +290,29 @@ public class ProductMarketing extends AbstractEntity {
 	}
 	
 	public CatalogCategoryVirtual getDefaultCatalogCategory() {
-        return defaultCatalogCategory;
-    }
-	
-	public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
-        this.defaultCatalogCategory = defaultCatalogCategory;
+	    if(productSkus != null
+                && Hibernate.isInitialized(productSkus)){
+            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                if(productSku.isDefault()){
+                    if(productSku.getDefaultCatalogCategory() != null
+                            && Hibernate.isInitialized(productSku.getDefaultCatalogCategory())){
+                        // DEFAULT CATEGORY FOR THE DEFAULT SKU - BEST SOLUTION
+                        return productSku.getDefaultCatalogCategory();
+                    }
+                }
+            }
+            // NO DEFAULT CATEGORY FOR THE DEFAULT SKU - RETURN A FALLBACK VALUE
+            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                if(productSku.getDefaultCatalogCategory() != null
+                        && Hibernate.isInitialized(productSku.getDefaultCatalogCategory())){
+                    // DEFAULT CATEGORY FOR THE DEFAULT SKU - BEST SOLUTION
+                    return productSku.getDefaultCatalogCategory();
+                }
+            }
+	    }
+        return null;
     }
 	
 	public Date getDateCreate() {

@@ -75,6 +75,10 @@ public class ProductSku extends AbstractEntity {
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
+    private CatalogCategoryVirtual defaultCatalogCategory;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>();
@@ -155,11 +159,19 @@ public class ProductSku extends AbstractEntity {
 		this.description = description;
 	}
 	
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
-	
-	public Set<ProductSkuAttribute> getProductSkuAttributes() {
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public CatalogCategoryVirtual getDefaultCatalogCategory() {
+        return defaultCatalogCategory;
+    }
+
+    public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
+        this.defaultCatalogCategory = defaultCatalogCategory;
+    }
+
+    public Set<ProductSkuAttribute> getProductSkuAttributes() {
         return productSkuAttributes;
     }
 	

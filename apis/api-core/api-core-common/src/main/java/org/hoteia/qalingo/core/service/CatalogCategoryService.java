@@ -24,13 +24,11 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
+	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params);
 
-	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Long marketAreaId, Object... params);
+	List<CatalogCategoryMaster> findMasterCategories(Object... params);
 
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId, Object... params);
-
-	List<CatalogCategoryMaster> orderCategoryMasterList(Long marketAreaId, List<CatalogCategoryMaster> categories);
+	List<CatalogCategoryMaster> orderCategoryMasterList(List<CatalogCategoryMaster> categories);
 
 	void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 	
@@ -44,17 +42,15 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
-
-	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductMarketing(Long marketAreaId, String productMarketingCode, Object... params);
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductSkuId(Long productskuId, Object... params);
 	
-	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Long marketAreaId, Object... params);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params);
 
-	List<CatalogCategoryVirtual> findVirtualCategories(Long marketAreaId, Object... params);
+	List<CatalogCategoryVirtual> findVirtualCategories(Object... params);
 
-	List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long marketAreaId, String productMarketingCode, Object... params);
+	List<CatalogCategoryVirtual> findVirtualCategoriesByProductSkuId(Long productSkuId, Object... params);
 
-	List<CatalogCategoryVirtual> orderCategoryVirtualList(Long marketAreaId, List<CatalogCategoryVirtual> categories);
+	List<CatalogCategoryVirtual> orderCategoryVirtualList(List<CatalogCategoryVirtual> categories);
 
 	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 	

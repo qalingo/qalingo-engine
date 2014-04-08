@@ -234,7 +234,7 @@ public class CmsRestService {
             selectedMarketArea.setLocalizations(null);
             
             cmsCategories.setMarketArea(selectedMarketArea);
-            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getCatalogCategories();
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedCatalogCategories();
             for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
                 CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
                 catalogCategoryPojo.setCatalogCategoryGlobalAttributes(null);
@@ -244,9 +244,8 @@ public class CmsRestService {
             cmsCategories.setCatalogCategories(categories);
             
             CatalogPojo catalog = selectedMarketArea.getCatalog();
-            catalog.setCatalogCategories(null);
+            catalog.setSortedCatalogCategories(null);
             cmsCategories.setCatalog(catalog);
-
         }
 
         return cmsCategories;
@@ -266,7 +265,7 @@ public class CmsRestService {
             
             cmsProducts.setMarketArea(selectedMarketArea);
             
-            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getCatalogCategories();
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedCatalogCategories();
             for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
                 CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
                 if(catalogCategoryPojo.getCode().equals(categoryCode)){
@@ -284,7 +283,7 @@ public class CmsRestService {
             }
 
             CatalogPojo catalog = selectedMarketArea.getCatalog();
-            catalog.setCatalogCategories(null);
+            catalog.setSortedCatalogCategories(null);
             cmsProducts.setCatalog(catalog);
 
         }

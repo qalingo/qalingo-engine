@@ -409,8 +409,8 @@ public class BackofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implement
             }
 
             if (fullPopulate) {
-                if (catalogCategory.getCatalogCategories() != null) {
-                    catalogCategoryViewBean.setSubCategories(buildListViewBeanVirtualCatalogCategory(requestData, new ArrayList<CatalogCategoryVirtual>(catalogCategory.getCatalogCategories()), fullPopulate));
+                if (catalogCategory.getChildVirtualCategoryRels() != null) {
+                    catalogCategoryViewBean.setSubCategories(buildListViewBeanVirtualCatalogCategory(requestData, new ArrayList<CatalogCategoryVirtual>(catalogCategory.getSortedChildCatalogCategories()), fullPopulate));
                 }
 
                 List<CatalogCategoryVirtualAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();

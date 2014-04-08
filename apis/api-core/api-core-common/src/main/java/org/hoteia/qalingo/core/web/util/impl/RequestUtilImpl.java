@@ -1968,53 +1968,46 @@ public class RequestUtilImpl implements RequestUtil {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public List<String> getRecentProductIdsFromCookie(final HttpServletRequest request){
-		Cookie info=null;
+    public List<String> getRecentProductSkuCodesFromCookie(final HttpServletRequest request){
+		Cookie info = null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
         if(cookies !=  null){
-	        for(int i=0;i<cookies.length;i++)
-	        {
-	            info=cookies[i];
-	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
-	            {
+	        for(int i = 0; i < cookies.length; i++) {
+	            info = cookies[i];
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName())) {
 	                found = true;
 	                break;
 	            }
 	        }
         }   
-        List<String> listId = new ArrayList<String>();
+        List<String> productSkuCodes = new ArrayList<String>();
         if(found){
         	if(!info.getValue().isEmpty()){
-	        	String[] splits = info.getValue().split(" ");
+	        	String[] splits = info.getValue().split(Constants.SPACE);
 	        	if(splits.length >= 3){
 		        	for (int i = splits.length - 1; i >= splits.length - 3 ; i--) {
-		        		listId.add(splits[i]);
+		        	    productSkuCodes.add(splits[i]);
 		        	}
 	        	} else {
 	        		for (int i = splits.length - 1; i >= 0 ; i--) {
-	        			listId.add(splits[i]);
+	        		    productSkuCodes.add(splits[i]);
 					}
 	        	}
         	}
         } 
-        
-        return listId;
+        return productSkuCodes;
     }
     
-    @Override
-    public void addOrUpdateRecentProductToCookie(final Long productId, final HttpServletRequest request, final HttpServletResponse response)
-    		throws Exception {
+    public void addOrUpdateRecentProductSkuToCookie(final String productSkuCode, final HttpServletRequest request, 
+                                                    final HttpServletResponse response) throws Exception {
         Cookie info=null;
         Cookie[] cookies = request.getCookies();
         Boolean found = false;
         if(cookies !=  null){
-	        for(int i=0;i<cookies.length;i++)
-	        {
-	            info=cookies[i];
-	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName()))
-	            {
+	        for(int i=0; i < cookies.length; i++) {
+	            info = cookies[i];
+	            if(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME.equals(info.getName())) {
 	                found = true;
 	                break;
 	            }
@@ -2022,15 +2015,15 @@ public class RequestUtilImpl implements RequestUtil {
         }   
         if(found){
         	Boolean flag = false;
-        	String[] splits = info.getValue().split(" ");
+        	String[] splits = info.getValue().split(Constants.SPACE);
         	for(String value:splits){
-        		if(value.equals(Long.toString(productId))){
+        		if(value.equals(productSkuCode)){
         			flag = true;
         		} 
         	}
         	if(!flag){
         		String values = info.getValue();
-        		values += " "+ Long.toString(productId);
+        		values += Constants.SPACE + productSkuCode;
         		info.setValue(values);
         		info.setPath("/");
         		info.setMaxAge(Constants.COOKIES_LENGTH);
@@ -2038,11 +2031,12 @@ public class RequestUtilImpl implements RequestUtil {
     			response.addCookie(info);    			
         	} 
         } else {
-			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, Long.toString(productId));
+			info = new Cookie(Constants.COOKIE_RECENT_PRODUCT_COOKIE_NAME, productSkuCode);
+            info.setPath("/");
 			info.setMaxAge(Constants.COOKIES_LENGTH);
-			info.setPath("/");
 			info.setDomain(request.getServerName());
 			response.addCookie(info);
         }
     }
+
 }

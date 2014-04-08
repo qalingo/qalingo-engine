@@ -117,7 +117,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     }
 
     public String getSlideshowImage() {
-        return slideshowImage;
+        return handleString(slideshowImage);
     }
     
     public void setSlideshowImage(String slideshowImage) {
@@ -125,7 +125,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     }
     
     public String getIconImage() {
-        return iconImage;
+        return handleString(iconImage);
     }
 
     public void setIconImage(String iconImage) {

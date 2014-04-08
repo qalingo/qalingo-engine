@@ -10,9 +10,12 @@
 package org.hoteia.qalingo.core.domain;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -119,9 +122,9 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_RETAILER_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class)
-    @JoinTable(name = "TECO_MARKET_AREA_WAREHOUSE_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "WAREHOUSE_ID"))
-    private Set<Warehouse> warehouses = new HashSet<Warehouse>();
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "MARKET_AREA_ID")
+    private Set<WarehouseMarketAreaRel> warehouseMarketAreaRels = new HashSet<WarehouseMarketAreaRel>();
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Tax.class)
     @JoinTable(name = "TECO_MARKET_AREA_TAX_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "TAX_ID"))
@@ -334,26 +337,56 @@ public class MarketArea extends AbstractEntity {
         this.retailers = retailers;
     }
 
-    public Set<Warehouse> getWarehouses() {
-        return warehouses;
+    public Set<WarehouseMarketAreaRel> getWarehouseMarketAreaRels() {
+        return warehouseMarketAreaRels;
     }
     
-    public void setWarehouses(Set<Warehouse> warehouses) {
-        this.warehouses = warehouses;
+    public List<Warehouse> getWarehouses() {
+        List<WarehouseMarketAreaRel> sortedCatalogVirtualCategoryVirtualRels = null;
+        List<Warehouse> sortedWarehouses = null;
+        if (warehouseMarketAreaRels != null 
+                && Hibernate.isInitialized(warehouseMarketAreaRels)) {
+            sortedCatalogVirtualCategoryVirtualRels = new LinkedList<WarehouseMarketAreaRel>(warehouseMarketAreaRels);
+            Collections.sort(sortedCatalogVirtualCategoryVirtualRels, new Comparator<WarehouseMarketAreaRel>() {
+                @Override
+                public int compare(WarehouseMarketAreaRel o1, WarehouseMarketAreaRel o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
+            if(sortedCatalogVirtualCategoryVirtualRels != null){
+                sortedWarehouses = new LinkedList<Warehouse>();
+                for (Iterator<WarehouseMarketAreaRel> iterator = sortedCatalogVirtualCategoryVirtualRels.iterator(); iterator.hasNext();) {
+                    WarehouseMarketAreaRel warehouseMarketAreaRel = (WarehouseMarketAreaRel) iterator.next();
+                    sortedWarehouses.add(warehouseMarketAreaRel.getWarehouse());
+                }
+            }
+        }
+        return sortedWarehouses;
+    }
+    
+    public void setWarehouseMarketAreaRels(Set<WarehouseMarketAreaRel> warehouseMarketAreaRels) {
+        this.warehouseMarketAreaRels = warehouseMarketAreaRels;
     }
     
     public Set<DeliveryMethod> getDeliveryMethods() {
         Set<DeliveryMethod> deliveryMethods = null;
-        if(warehouses != null
-                && Hibernate.isInitialized(warehouses)){
+        if(warehouseMarketAreaRels != null
+                && Hibernate.isInitialized(warehouseMarketAreaRels)){
             deliveryMethods = new HashSet<DeliveryMethod>();
-            for (Iterator<Warehouse> iteratorWarehouse = warehouses.iterator(); iteratorWarehouse.hasNext();) {
-                Warehouse warehouse = (Warehouse) iteratorWarehouse.next();
-                if(warehouse.getDeliveryMethods() != null
-                        && Hibernate.isInitialized(warehouse.getDeliveryMethods())){
-                    for (Iterator<DeliveryMethod> iteratorDeliveryMethod = warehouse.getDeliveryMethods().iterator(); iteratorDeliveryMethod.hasNext();) {
-                        DeliveryMethod deliveryMethod = (DeliveryMethod) iteratorDeliveryMethod.next();
-                        deliveryMethods.add(deliveryMethod);
+            for (Iterator<WarehouseMarketAreaRel> iteratorWarehouse = warehouseMarketAreaRels.iterator(); iteratorWarehouse.hasNext();) {
+                WarehouseMarketAreaRel warehouseMarketArea = (WarehouseMarketAreaRel) iteratorWarehouse.next();
+                if(warehouseMarketAreaRels != null
+                        && Hibernate.isInitialized(warehouseMarketAreaRels)){
+                    Warehouse warehouse = warehouseMarketArea.getPk().getWarehouse();
+                    if(warehouse.getDeliveryMethods() != null
+                            && Hibernate.isInitialized(warehouse.getDeliveryMethods())){
+                        for (Iterator<DeliveryMethod> iteratorDeliveryMethod = warehouse.getDeliveryMethods().iterator(); iteratorDeliveryMethod.hasNext();) {
+                            DeliveryMethod deliveryMethod = (DeliveryMethod) iteratorDeliveryMethod.next();
+                            deliveryMethods.add(deliveryMethod);
+                        }
                     }
                 }
             }
@@ -545,11 +578,9 @@ public class MarketArea extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "MarketArea [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", isDefault=" + isDefault + ", isEcommerce=" + isEcommerce
-                + ", theme=" + theme + ", geolocCountryCode=" + geolocCountryCode + ", catalog=" + catalog + ", market=" + market + ", defaultCurrency=" + defaultCurrency + ", currencies="
-                + currencies + ", marketAreaAttributes=" + marketAreaAttributes + ", defaultLocalization=" + defaultLocalization + ", localizations=" + localizations + ", defaultRetailer="
-                + defaultRetailer + ", retailers=" + retailers + ", warehouses=" + warehouses + ", paymentGateways=" + paymentGateways + ", longitude=" + longitude + ", latitude=" + latitude
-                + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "MarketArea [id=" + id + ", version=" + version + ", code=" + code + ", name=" + name + ", description=" + description + ", isDefault=" + isDefault + ", isEcommerce=" + isEcommerce
+                + ", theme=" + theme + ", geolocCountryCode=" + geolocCountryCode + ", longitude=" + longitude + ", latitude=" + latitude + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + "]";
     }
 
 }

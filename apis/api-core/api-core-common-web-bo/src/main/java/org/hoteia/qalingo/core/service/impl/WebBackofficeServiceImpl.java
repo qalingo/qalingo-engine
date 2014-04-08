@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ import javax.persistence.PersistenceException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
@@ -48,6 +48,7 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
+import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.AttributeService;
@@ -214,7 +215,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(catalogCategory.getDefaultParentCatalogCategory() == null
 					|| (catalogCategory.getDefaultParentCatalogCategory() != null
 						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))) {
-				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryForm.getDefaultParentCategoryCode());
+				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
 				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
 			}
 		}
@@ -281,7 +282,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(catalogCategory.getDefaultParentCatalogCategory() == null
 					|| (catalogCategory.getDefaultParentCatalogCategory() != null
 						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))) {
-				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), catalogCategoryForm.getDefaultParentCategoryCode());
+				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
 				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
 			}
 		}
@@ -463,7 +464,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
             UUID uuid = UUID.randomUUID();
             String pathRetailerLogoImage = new StringBuilder(uuid.toString()).append(System.getProperty ("file.separator")).append(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toString();
 
-            String absoluteFilePath = retailerService.getRetailerLogoFilePath(retailer, pathRetailerLogoImage);
+            String absoluteFilePath = retailerService.buildRetailerLogoFilePath(retailer, pathRetailerLogoImage);
             String absoluteFolderPath = absoluteFilePath.replace(pathRetailerLogoImage, "");
             
             InputStream inputStream = multipartFile.getInputStream();
@@ -496,9 +497,11 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
     public void createOrUpdateWarehouse(final RequestData requestData, Warehouse warehouse, final WarehouseForm warehouseForm) {
         if (warehouse == null) {
             warehouse = new Warehouse();
-            Set<MarketArea> marketAreas = new HashSet<MarketArea>();
-            marketAreas.add(requestData.getMarketArea());
-            warehouse.setMarketAreas(marketAreas);
+            Set<WarehouseMarketAreaRel> warehouseMarketAreas = new HashSet<WarehouseMarketAreaRel>();
+            WarehouseMarketAreaRel warehouseMarketArea = new WarehouseMarketAreaRel();
+            warehouseMarketArea.setMarketArea(requestData.getMarketArea());
+            warehouseMarketAreas.add(warehouseMarketArea);
+            warehouse.setWarehouseMarketAreaRels(warehouseMarketAreas);
         }
         warehouse.setCode(warehouseForm.getCode());
         warehouse.setName(warehouseForm.getName());
@@ -536,6 +539,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         tax.setCode(taxForm.getCode());
         tax.setName(taxForm.getName());
         tax.setDescription(taxForm.getDescription());
+        tax.setPercent(new BigDecimal(taxForm.getPercent()));
 
         taxService.saveOrUpdateTax(tax);
     }

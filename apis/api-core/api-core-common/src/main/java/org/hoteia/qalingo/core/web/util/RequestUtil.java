@@ -24,7 +24,6 @@ import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
-import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.bean.clickstream.ClickstreamSession;
@@ -340,7 +339,7 @@ public interface RequestUtil {
      * @return
      * @throws Exception
      */
-    List<String> getRecentProductIdsFromCookie(HttpServletRequest request) throws Exception;
+    List<String> getRecentProductSkuCodesFromCookie(HttpServletRequest request) throws Exception;
     
     /**
      * Add/update recent viewed product to cookie
@@ -349,5 +348,6 @@ public interface RequestUtil {
      * @param response
      * @throws Exception
      */
-    void addOrUpdateRecentProductToCookie(Long productId, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    void addOrUpdateRecentProductSkuToCookie(String productSkuCode, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    
 }

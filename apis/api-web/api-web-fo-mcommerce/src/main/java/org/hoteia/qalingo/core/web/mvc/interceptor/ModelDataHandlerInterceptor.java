@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.EngineEcoSession;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.EngineSessionService;
 import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
@@ -42,32 +42,35 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     protected EngineSessionService engineSessionService;
     
     @Autowired
+    protected CatalogCategoryService catalogCategoryService;
+    
+    @Autowired
     protected GeolocService geolocService;
     
     @Override
-    public boolean preHandle(HttpServletRequest request, 
-                             HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, 
+                             final HttpServletResponse response, Object handler) throws Exception {
         // SAVE COOKIE VALUE FOR ENGINE SESSION GUID
-        EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            Cookie ecoEngineSessionGuid = null;
-            for (int i = 0; i < cookies.length; i++) {
-                Cookie cookie = cookies[i];
-                if (Constants.COOKIE_ECO_ENGINE_SESSION_ID.equals(cookie.getName())) {
-                    cookie.setValue(engineEcoSession.getEngineSessionGuid());
-                    break;
-                }
-            }
-            if(ecoEngineSessionGuid == null){
-                ecoEngineSessionGuid = new Cookie(Constants.COOKIE_ECO_ENGINE_SESSION_ID, engineEcoSession.getEngineSessionGuid());
-                ecoEngineSessionGuid.setMaxAge(Constants.COOKIES_LENGTH);
-                ecoEngineSessionGuid.setPath("/");
-                ecoEngineSessionGuid.setDomain("fo-mcommerce.dev.qalingo.com");
-                ecoEngineSessionGuid.setSecure(true);
-                response.addCookie(ecoEngineSessionGuid);
-            }
-        }
+//        EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            Cookie ecoEngineSessionGuid = null;
+//            for (int i = 0; i < cookies.length; i++) {
+//                Cookie cookie = cookies[i];
+//                if (Constants.COOKIE_ECO_ENGINE_SESSION_ID.equals(cookie.getName())) {
+//                    cookie.setValue(engineEcoSession.getEngineSessionGuid());
+//                    break;
+//                }
+//            }
+//            if(ecoEngineSessionGuid == null){
+//                ecoEngineSessionGuid = new Cookie(Constants.COOKIE_ECO_ENGINE_SESSION_ID, engineEcoSession.getEngineSessionGuid());
+//                ecoEngineSessionGuid.setMaxAge(Constants.COOKIES_LENGTH);
+//                ecoEngineSessionGuid.setPath("/");
+//                ecoEngineSessionGuid.setDomain("fo-mcommerce.dev.qalingo.com");
+//                ecoEngineSessionGuid.setSecure(true);
+//                response.addCookie(ecoEngineSessionGuid);
+//            }
+//        }
         return true;
     }
 
@@ -127,7 +130,8 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
 
-            final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanCatalogCategoryWhichIsRoot(requestUtil.getRequestData(request), currentMarketArea);
+            final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(FetchPlanGraphCategory.footerCatalogCategoryFetchPlan());
+            final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), categoryVirtuals);
             modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, catalogCategoryViewBeans);
 
             // GEOLOC

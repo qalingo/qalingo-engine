@@ -35,9 +35,9 @@ import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
-import org.hoteia.qalingo.core.domain.StoreBusinessHour;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -49,14 +49,12 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.OperationHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCityFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorCountryFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
@@ -120,23 +118,23 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 
         CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogbyMarketAreaId(marketArea.getId());
         if (catalogVirtual != null) {
-            final List<CatalogCategoryVirtual> catalogCategories = catalogVirtual.getCatalogCategories(marketArea.getId());
+            final List<CatalogCategoryVirtual> catalogCategories = catalogVirtual.getSortedCatalogCategories();
             if (catalogCategories != null) {
                 for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategory = catalogCategories.iterator(); iteratorCatalogCategory.hasNext();) {
                     final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
-                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode());
+                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                     
                     menu = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode);
                     menu.setName(seoCatalogCategoryName);
                     menu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_AXE, requestData, catalogCategoryReloaded));
 
-                    List<CatalogCategoryVirtual> subCatalogCategories = catalogCategoryReloaded.getCatalogCategories(marketArea.getId());
+                    List<CatalogCategoryVirtual> subCatalogCategories = catalogCategoryReloaded.getSortedChildCatalogCategories();
                     if (subCatalogCategories != null) {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
                         for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
-                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode());
+                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
                             subMenu.setName(seoSubCatalogCategoryName);
@@ -266,7 +264,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      * 
      */
     public SearchProductItemViewBean buildViewBeanSearchProductItem(final RequestData requestData, final ProductMarketingSolr productMarketingSolr) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
 
@@ -275,7 +272,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
         final String productSkuName = productSku.getI18nName(localeCode);
         
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
 
         final String productName = productMarketing.getCode();
         final String categoryName = catalogCategory.getI18nName(localeCode);
@@ -350,7 +347,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
      */
     public SearchFacetViewBean buildViewBeanCatalogSearchFacet(final RequestData requestData, final FacetField facetField) throws Exception {
         final SearchFacetViewBean searchFacetViewBean = new SearchFacetViewBean();
-        final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
         
@@ -359,7 +355,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
-                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(marketArea.getId(), count.getName());
+                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName());
                 ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");                
                 values.add(valueBean);
             }
@@ -492,16 +488,12 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
         return searchFacetViewBean;
     }
     
-    public List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception {
-        final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(marketArea.getId());
-
+    public List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> categoryVirtuals) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
-
         for (CatalogCategoryVirtual catalogCategoryVirtual : categoryVirtuals) {
             CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual);
             catalogCategoryViewBeans.add(catalogCategoryViewBean);
         }
-
         return catalogCategoryViewBeans;
     }
 
@@ -517,17 +509,17 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     }
     
     @Override
-    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listCode) throws Exception {
+    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listProductSkuCodes) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
-    	final MarketArea marketArea = requestData.getMarketArea();
-    	for (String value : listCode) {
+    	for (String productSkuCode : listProductSkuCodes) {
     		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
-    		ProductMarketing productMarketing = productService.getProductMarketingById(value);
-    		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductMarketing(marketArea.getId(), productMarketing.getCode());
+            final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode);
+            final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
+    		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId());
         	recentProductViewBean.setId(productMarketing.getId());
-    		recentProductViewBean.setCode(value);
+    		recentProductViewBean.setCode(productMarketing.getCode());
     		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
         	recentProductViewBean.setI18nName(productMarketing.getI18nName(localeCode));
         	recentProductViewBeans.add(recentProductViewBean);
@@ -541,7 +533,6 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
     public CatalogBreadcrumbViewBean buildViewBeanCatalogBreadcrumb(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
     	 final Localization localization =  requestData.getMarketAreaLocalization();
     	 final String localizationCode = localization.getCode();
-    	 final MarketArea currentMarketArea = requestData.getMarketArea();
     	 final CatalogBreadcrumbViewBean catalogBreadCumViewBean = new CatalogBreadcrumbViewBean();
     	 catalogBreadCumViewBean.setRoot(catalogCategory.isRoot());
     	 catalogBreadCumViewBean.setCode(catalogCategory.getCode());
@@ -554,7 +545,7 @@ public class FrontofficeViewBeanFactoryImpl extends ViewBeanFactoryImpl implemen
 		 }
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getDefaultParentCatalogCategory();
 		 if(!catalogCategory.isRoot() && parentCatalogCategoryVirtual != null){
-			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(currentMarketArea.getId(), parentCatalogCategoryVirtual.getCode());
+			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryVirtual.getCode());
 			catalogBreadCumViewBean.setDefaultParentCategory(buildViewBeanCatalogBreadcrumb(requestData,pareCatalogCategoryVirtualReload));
 		 }
 

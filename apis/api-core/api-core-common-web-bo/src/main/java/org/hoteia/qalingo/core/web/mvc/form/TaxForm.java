@@ -22,7 +22,8 @@ public class TaxForm {
 	private String code;
 	private String name;
 	private String description;
-
+    private String percent;
+    
     public String getId() {
 	    return id;
     }
@@ -65,4 +66,13 @@ public class TaxForm {
 		this.description = description;
 	}
 
+    @NotEmpty(message = "bo.tax.error_form_percent_empty")
+	public String getPercent() {
+        return percent;
+    }
+	
+	public void setPercent(String percent) {
+        this.percent = percent;
+    }
+	
 }

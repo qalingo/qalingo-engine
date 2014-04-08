@@ -100,20 +100,20 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         } else if("virtual".equals(catalogType)){
             final CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogById(currentMarketArea.getCatalog().getId());
 
-            Set<CatalogCategoryVirtual> rootCatalogCategories = new HashSet<CatalogCategoryVirtual>();
-            for (Iterator<CatalogCategoryVirtual> iterator = catalogVirtual.getCatalogCategories().iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtual categoryVirtual = (CatalogCategoryVirtual) iterator.next();
-                CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(categoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                Set<CatalogCategoryVirtual> catalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
-                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = reloadedCategoryVirtual.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-                    CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
-                    CatalogCategoryVirtual reloadedSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                    catalogCategoriesReload.add(reloadedSubCategory);
-                }
-                reloadedCategoryVirtual.setCatalogCategories(catalogCategoriesReload);
-                rootCatalogCategories.add(reloadedCategoryVirtual);
-            }
-            catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategories));
+//            Set<CatalogCategoryVirtual> rootCatalogCategories = new HashSet<CatalogCategoryVirtual>();
+//            for (Iterator<CatalogCategoryVirtual> iterator = catalogVirtual.getSortedCatalogCategories().iterator(); iterator.hasNext();) {
+//                CatalogCategoryVirtual categoryVirtual = (CatalogCategoryVirtual) iterator.next();
+//                CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(categoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
+//                Set<CatalogCategoryVirtual> catalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
+//                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = reloadedCategoryVirtual.getSortedChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+//                    CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
+//                    CatalogCategoryVirtual reloadedSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
+//                    catalogCategoriesReload.add(reloadedSubCategory);
+//                }
+//                reloadedCategoryVirtual.setSortedChildCatalogCategories(catalogCategoriesReload);
+//                rootCatalogCategories.add(reloadedCategoryVirtual);
+//            }
+//            catalogVirtual.setSortedCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategories));
             
             try {
                 catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
@@ -144,7 +144,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
             
         } else if("virtual".equals(catalogType)){
-            CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, FetchPlanGraphCategory.virtualCategoryWithProductsFetchPlan());
+            CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategoryVirtual);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             for (Iterator<ProductMarketing> iterator = reloadedCategoryVirtual.getProductMarketings().iterator(); iterator.hasNext();) {

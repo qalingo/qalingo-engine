@@ -363,6 +363,7 @@ public class BackofficeFormFactoryImpl implements BackofficeFormFactory {
             taxForm.setVersion(tax.getVersion());
             taxForm.setName(tax.getName());
             taxForm.setDescription(tax.getDescription());
+            taxForm.setPercent("" + tax.getPercent());
         }
         return taxForm;
     }

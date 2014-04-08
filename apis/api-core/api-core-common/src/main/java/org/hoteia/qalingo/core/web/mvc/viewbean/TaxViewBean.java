@@ -27,6 +27,7 @@ public class TaxViewBean extends AbstractViewBean implements Serializable {
 	protected String code;
 	protected String name;
 	protected String description;
+    protected String percent;
 	
 	protected String detailsUrl;
     protected String editUrl;
@@ -89,6 +90,14 @@ public class TaxViewBean extends AbstractViewBean implements Serializable {
 			}
 		}
 	    return shortDescription;
+    }
+	
+	public String getPercent() {
+        return percent;
+    }
+	
+	public void setPercent(String percent) {
+        this.percent = percent;
     }
 
     public String getDetailsUrl() {

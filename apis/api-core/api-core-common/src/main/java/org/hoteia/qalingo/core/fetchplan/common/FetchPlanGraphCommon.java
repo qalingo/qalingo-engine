@@ -10,7 +10,6 @@ import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 public class FetchPlanGraphCommon {
 
     public static FetchPlan defaultCartFetchPlan(){
-        
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
         fetchplans.add(new SpecificFetchMode("session"));
@@ -41,9 +40,11 @@ public class FetchPlanGraphCommon {
     
     public static FetchPlan defaultCatalogFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-
-        fetchplans.add(new SpecificFetchMode("catalogCategories"));
-        fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes", new SpecificAlias("catalogCategories.catalogCategoryAttributes")));
+        fetchplans.add(new SpecificFetchMode("catalogVirtualCategoryVirtualRels"));
+        fetchplans.add(new SpecificFetchMode("catalogVirtualCategoryVirtualRels.pk.catalogCategoryVirtual"));
+//        fetchplans.add(new SpecificFetchMode("catalogCategory", new SpecificAlias("catalogVirtualCategoryVirtualRels.pk.catalogCategoryVirtual")));
+        fetchplans.add(new SpecificFetchMode("catalogCategory.catalogCategoryAttributes"));
+        
         return new FetchPlan(fetchplans);
     }
     

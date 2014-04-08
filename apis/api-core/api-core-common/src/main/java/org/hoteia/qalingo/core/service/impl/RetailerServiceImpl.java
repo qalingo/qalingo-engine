@@ -105,7 +105,7 @@ public class RetailerServiceImpl implements RetailerService {
         retailerDao.deleteRetailer(retailer);
     }
     
-    public String getRetailerLogoFilePath(final Retailer retailer, final String logo) {
+    public String buildRetailerLogoFilePath(final Retailer retailer, final String logo) {
           String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
           if (assetfileRootPath.endsWith("/")) {
               assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
@@ -123,18 +123,18 @@ public class RetailerServiceImpl implements RetailerService {
           return FilenameUtils.separatorsToSystem(absoluteFilePath);
     }
     
-    public String getRetailerLogoWebPath(final String logo) throws Exception {
+    public String buildRetailerLogoWebPath(final String logo) throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
         String prefixPath = "";
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String retailerLogoWebPathPrefix = getRootAssetWebPath() + prefixPath + "/retailer-logo/";
+        String retailerLogoWebPathPrefix = buildRootAssetWebPath() + prefixPath + "/retailer-logo/";
         String retailerLogoWebPath = retailerLogoWebPathPrefix + logo;
         return retailerLogoWebPath;
     }
     
-    protected String getRootAssetWebPath() throws Exception {
+    protected String buildRootAssetWebPath() throws Exception {
         EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
         String prefixPath = "";
         if (engineSetting != null) {

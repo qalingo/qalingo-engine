@@ -14,8 +14,6 @@ import java.util.Locale;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
-import org.hoteia.qalingo.core.domain.MarketArea;
-import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
@@ -28,7 +26,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.StoreBusinessHourViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreLocatorFilterBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 
@@ -54,7 +51,7 @@ public interface FrontofficeViewBeanFactory extends ViewBeanFactory {
 
     SearchFacetViewBean buildViewBeanStoreSearchFacet(RequestData requestData, FacetField facetField) throws Exception;
 
-    List<CatalogCategoryViewBean> buildListViewBeanCatalogCategoryWhichIsRoot(RequestData requestData, MarketArea marketArea) throws Exception;
+    List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(RequestData requestData, List<CatalogCategoryVirtual> categoryVirtuals) throws Exception;
 
     List<ProductBrandViewBean> buildListViewBeanProductBrand(RequestData requestData, CatalogCategoryVirtual catalogCategoryVirtual) throws Exception;
 

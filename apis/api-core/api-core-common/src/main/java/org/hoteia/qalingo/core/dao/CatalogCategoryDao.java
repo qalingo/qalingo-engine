@@ -22,11 +22,9 @@ public interface CatalogCategoryDao {
 	
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
-
-	List<CatalogCategoryMaster> findRootCatalogCategories(Object... params);
+	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params);
 	
-	List<CatalogCategoryMaster> findMasterCategoriesByMarketIdAndRetailerId(Long marketAreaId, Object... params);
+	List<CatalogCategoryMaster> findMasterCategories(Object... params);
 	
 	CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
@@ -38,13 +36,11 @@ public interface CatalogCategoryDao {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(Long marketAreaId, String catalogCategoryCode, Object... params);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params);
 
-	List<CatalogCategoryVirtual> findRootCatalogCategories(Long marketAreaId, Object... params);
+	List<CatalogCategoryVirtual> findCatalogCategories(Object... params);
 
-	List<CatalogCategoryVirtual> findCatalogCategories(Long marketAreaId, Object... params);
-
-	List<CatalogCategoryVirtual> findCatalogCategoriesByProductMarketingCode(Long marketAreaId, String productMarketingCode, Object... params);
+	List<CatalogCategoryVirtual> findCatalogCategoriesByProductSkuId(Long productSkuId, Object... params);
 	
 	CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 

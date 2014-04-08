@@ -144,7 +144,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 			return displaySearch(request, response, modelMap);
 		}
 		
-		final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
+		final List<String> listId = requestUtil.getRecentProductSkuCodesFromCookie(request);
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId);
         modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
         
@@ -166,7 +166,7 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
 
-        final List<String> listId = requestUtil.getRecentProductIdsFromCookie(request);
+        final List<String> listId = requestUtil.getRecentProductSkuCodesFromCookie(request);
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId);
         modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
 

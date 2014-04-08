@@ -35,7 +35,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
     public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
+
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
         CatalogMaster catalogMaster = (CatalogMaster) criteria.uniqueResult();
@@ -47,7 +49,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     
     public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
+        
         handleSpecificFetchMode(criteria, params);
+        
         criteria.addOrder(Order.asc("id"));
 
         @SuppressWarnings("unchecked")
@@ -81,7 +85,9 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 
     public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
+        
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
@@ -93,10 +99,12 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     
 	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
+        
         FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
-        criteria.createAlias("marketArea", "ma", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("ma.id", marketAreaId));
+        criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
 
         CatalogVirtual catalogVirtual = (CatalogVirtual) criteria.uniqueResult();
         if(catalogVirtual != null){
