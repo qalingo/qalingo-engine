@@ -12,10 +12,12 @@ public class ProductMarketingPojo {
 
     private Long id;
     private int version;
+    private String code;
     private String name;
     private String description;
     private boolean isDefault;
-    private String code;
+    private int ranking;
+
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -45,6 +47,14 @@ public class ProductMarketingPojo {
         this.version = version;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public String getName() {
         return name;
     }
@@ -69,14 +79,14 @@ public class ProductMarketingPojo {
         isDefault = aDefault;
     }
 
-    public String getCode() {
-        return code;
+    public int getRanking() {
+        return ranking;
     }
-
-    public void setCode(String code) {
-        this.code = code;
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
-
+    
     public Date getDateCreate() {
         return dateCreate;
     }

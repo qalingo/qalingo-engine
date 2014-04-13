@@ -18,14 +18,14 @@
 
 <schema name="product-marketing" version="1.1">
 	<types>
-		<fieldtype name="string"  class="solr.StrField" sortMissingLast="true" omitNorms="true" />
-		<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-		<fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
-		<fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+		<fieldtype name="string"		class="solr.StrField" sortMissingLast="true" omitNorms="true" />
+		<fieldType name="boolean"		class="solr.BoolField" sortMissingLast="true"/>
+		<fieldType name="int"			class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="float"			class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="long"			class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="double"		class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="date"			class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="text_general"	class="solr.TextField" positionIncrementGap="100">
 			<analyzer type="index">
 				<tokenizer class="solr.StandardTokenizerFactory" />
 				<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
@@ -54,17 +54,21 @@
 
 	<fields>   
 		<!-- general -->
-		<field name="id"			type="long"   		indexed="true"  stored="true"  multiValued="false" required="true" />
-		<field name="code"			type="string"   	indexed="true"  stored="true" />
-		<field name="name"			type="text_general"       indexed="true"  stored="true"  multiValued="false" />
-		<field name="description"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
-		<field name="text"			type="text_general" indexed="true" 	stored="false" multiValued="true" />
-		<field name="_version_" 	type="long" 		indexed="true" 	stored="true"/>
-		<field name="datecreate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
-		<field name="dateupdate"	type="date"			indexed="true"  stored="true"  multiValued="false" />
-		<field name="price"			type="float"   		indexed="true"  stored="true"  multiValued="false" />
+		<field name="id"					type="long"   		indexed="true"  stored="true"  multiValued="false" required="true" />
+		<field name="code"					type="string"   	indexed="true"  stored="true" />
+		<field name="name"					type="text_general" indexed="true"  stored="true"  multiValued="false" />
+		<field name="description"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
+		<field name="catalogCode"			type="string"		indexed="true" 	stored="true"  multiValued="true" />
 		<field name="defaultCategoryCode"	type="string"   	indexed="true"  stored="true"  multiValued="false" />
-		<field name="catalogCategories"	type="string"   indexed="true"  stored="true"  multiValued="true" />
+		<field name="catalogCategories"		type="string"		indexed="true"  stored="true"  multiValued="true" />
+		
+		<field name="datecreate"			type="date"			indexed="true"  stored="true"  multiValued="false" />
+		<field name="dateupdate"			type="date"			indexed="true"  stored="true"  multiValued="false" />
+		
+		<field name="price"					type="float"   		indexed="true"  stored="true"  multiValued="false" />
+		
+		<field name="text"					type="text_general" indexed="true" 	stored="false" multiValued="true" />
+		<field name="_version_" 			type="long" 		indexed="true" 	stored="true"/>
 		<!-- 
 		<field name="price"			type="string"   	indexed="true"  stored="true"  multiValued="false" />
 		<field name="price_s"		type="priceclass"	indexed="true"  stored="true"  multiValued="false" />

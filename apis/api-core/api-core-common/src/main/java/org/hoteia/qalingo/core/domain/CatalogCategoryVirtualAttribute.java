@@ -76,9 +76,6 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
 	private int ordering;
 	
-	@Column(name="MARKET_AREA_ID")
-	private Long marketAreaId;
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="START_DATE")
 	private Date startDate;
@@ -194,14 +191,6 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
 		this.ordering = ordering;
 	}
 	
-	public Long getMarketAreaId() {
-		return marketAreaId;
-	}
-
-	public void setMarketAreaId(Long marketAreaId) {
-		this.marketAreaId = marketAreaId;
-	}
-
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -298,7 +287,7 @@ public class CatalogCategoryVirtualAttribute extends AbstractAttribute {
     public String toString() {
         return "CatalogCategoryVirtualAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
                 + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", isGlobal=" + isGlobal
-                + ", ordering=" + ordering + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+                + ", ordering=" + ordering + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	
 }

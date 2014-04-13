@@ -16,7 +16,8 @@ public class CatalogPojo {
     private Date dateCreate;
     private Date dateUpdate;
 
-    private List<CatalogCategoryPojo> sortedCatalogCategories = new ArrayList<CatalogCategoryPojo>();
+    private List<CatalogCategoryPojo> sortedAllCatalogCategories = new ArrayList<CatalogCategoryPojo>();
+    private List<CatalogCategoryPojo> sortedRootCatalogCategories = new ArrayList<CatalogCategoryPojo>();
 
     public Long getId() {
         return id;
@@ -90,12 +91,19 @@ public class CatalogPojo {
         this.dateUpdate = dateUpdate;
     }
 
-    public List<CatalogCategoryPojo> getSortedCatalogCategories() {
-        return sortedCatalogCategories;
+    public List<CatalogCategoryPojo> getSortedAllCatalogCategories() {
+        return sortedAllCatalogCategories;
     }
     
-    public void setSortedCatalogCategories(List<CatalogCategoryPojo> sortedCatalogCategories) {
-        this.sortedCatalogCategories = sortedCatalogCategories;
+    public void setSortedAllCatalogCategories(List<CatalogCategoryPojo> sortedAllCatalogCategories) {
+        this.sortedAllCatalogCategories = sortedAllCatalogCategories;
     }
     
+    public List<CatalogCategoryPojo> getSortedRootCatalogCategories() {
+        return sortedRootCatalogCategories;
+    }
+    
+    public void setSortedRootCatalogCategories(List<CatalogCategoryPojo> sortedRootCatalogCategories) {
+        this.sortedRootCatalogCategories = sortedRootCatalogCategories;
+    }
 }

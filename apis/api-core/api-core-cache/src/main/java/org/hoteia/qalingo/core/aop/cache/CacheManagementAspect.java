@@ -177,6 +177,9 @@ public class CacheManagementAspect {
                                             if(methodIt.getName().equals("getCode")){
                                                 codeValue = (String) methodIt.invoke(returnObject);
                                             }
+                                            if(newKey != null && codeValue != null){
+                                                break;
+                                            }
                                         }
                                     } catch (Exception e) {
                                         if(logger.isDebugEnabled()){
@@ -200,6 +203,7 @@ public class CacheManagementAspect {
                                     if(methodIt.getName().equals("getId")){
                                         Long id = (Long) methodIt.invoke(returnObject);
                                         newKey = classTarget.getName() + "_" + id;
+                                        break;
                                     }
                                 }
                                 
@@ -221,11 +225,13 @@ public class CacheManagementAspect {
                                 if (cacheEntityById.isKeyInCache(newKey)) {
                                     Element finalElement = cacheEntityById.get(newKey);
                                     if (finalElement != null && !finalElement.isExpired()) {
-                                        // WE TEST IF THE FETCH PLAN ARE EQUALS
+                                        // WE WILL TEST IF THE FETCH PLAN ARE EQUALS
                                         returnObject = finalElement.getObjectValue();
                                     }
+                                } else {
+                                    // WE RESET THE returnObject WHICH HAS THE LONG VALUE - THIS WILL TRIGGER THE LOAD BY DAO
+                                    returnObject = null;
                                 }
-
                             }
                         }
                     }
@@ -250,6 +256,7 @@ public class CacheManagementAspect {
                                 Long id = (Long) methodIt.invoke(returnObject);
                                 newKey = classTarget.getName() + "_" + id;
                                 value = id;
+                                break;
                             }
                         }
                         if (cacheEntityById != null) {
@@ -319,6 +326,7 @@ public class CacheManagementAspect {
                                                 Long id = (Long) methodIt.invoke(returnObject);
                                                 newKey = classTarget.getName() + "_" + id;
                                                 value = id;
+                                                break;
                                             }
                                         }
                                         if (cacheEntityById != null) {
@@ -332,9 +340,7 @@ public class CacheManagementAspect {
                                     }
                                 }
                             }
-                            
                         }
-                        
                     }
                 }
                 

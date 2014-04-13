@@ -9,12 +9,12 @@
  */
 package org.hoteia.qalingo.web.mvc.factory.impl;
 
-import org.hoteia.qalingo.core.web.mvc.factory.impl.FrontofficeViewBeanFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 
 /**
  * 
  */
-public class MCommerceViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
+public class MCommerceViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
 
 	
 }

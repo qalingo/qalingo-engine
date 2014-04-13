@@ -49,11 +49,7 @@ public class CustomerSolrServiceImpl extends AbstractSolrService implements Cust
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing customer " + customer.getId());
-            logger.debug("Indexing customer " + customer.getFirstname());
-            logger.debug("Indexing customer " + customer.getEmail());
-            logger.debug("Indexing customer " + customer.getGender());
-            logger.debug("Indexing customer " + customer.getTitle());
+            logger.debug("Indexing customer " + customer.getId() + " : " + customer.getCode() + " : " + customer.getFirstname() + " : " + customer.getLastname());
         }
         CustomerSolr customerSolr = new CustomerSolr();
         customerSolr.setId(customer.getId());

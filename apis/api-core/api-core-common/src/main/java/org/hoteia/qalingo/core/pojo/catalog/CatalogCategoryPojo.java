@@ -17,8 +17,11 @@ public class CatalogCategoryPojo {
     private String code;
     private String name;
     private String description;
+    
     private boolean isDefault;
     private boolean isRoot;
+    private int ranking;
+
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -27,7 +30,7 @@ public class CatalogCategoryPojo {
 
     private List<CatalogCategoryAttributePojo> catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryAttributePojo>();
     private List<CatalogCategoryAttributePojo> catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryAttributePojo>();
-    private List<CatalogCategoryPojo> catalogCategories = new ArrayList<CatalogCategoryPojo>();
+    private List<CatalogCategoryPojo> sortedChildCatalogCategories = new ArrayList<CatalogCategoryPojo>();
     private List<ProductMarketingPojo> productMarketings = new ArrayList<ProductMarketingPojo>();
     private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
     private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
@@ -88,6 +91,14 @@ public class CatalogCategoryPojo {
         this.isRoot = isRoot;
     }
 
+    public int getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -138,12 +149,12 @@ public class CatalogCategoryPojo {
     }
 
     @JsonManagedReference
-    public List<CatalogCategoryPojo> getCatalogCategories() {
-        return catalogCategories;
+    public List<CatalogCategoryPojo> getSortedChildCatalogCategories() {
+        return sortedChildCatalogCategories;
     }
-
-    public void setCatalogCategories(List<CatalogCategoryPojo> catalogCategories) {
-        this.catalogCategories = catalogCategories;
+    
+    public void setSortedChildCatalogCategories(List<CatalogCategoryPojo> sortedChildCatalogCategories) {
+        this.sortedChildCatalogCategories = sortedChildCatalogCategories;
     }
 
     public List<ProductMarketingPojo> getProductMarketings() {

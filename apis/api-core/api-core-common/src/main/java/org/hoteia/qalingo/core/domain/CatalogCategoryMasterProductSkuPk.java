@@ -6,30 +6,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class CatalogCategoryVirtualProductSkuPk extends AbstractEntity {
+public class CatalogCategoryMasterProductSkuPk extends AbstractEntity {
 
     /**
      * Generated UID
      */
     private static final long serialVersionUID = 8745893320688286668L;
 
-    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class)
-    @JoinColumn(name = "VIRTUAL_CATEGORY_ID")
-    private CatalogCategoryVirtual catalogCategoryVirtual;
+    @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
+    @JoinColumn(name = "MASTER_CATEGORY_ID")
+    private CatalogCategoryMaster catalogCategoryMaster;
     
     @ManyToOne(fetch = FetchType.LAZY,  targetEntity = org.hoteia.qalingo.core.domain.ProductSku.class)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private ProductSku productSku;
     
-    public CatalogCategoryVirtualProductSkuPk() {
+    public CatalogCategoryMasterProductSkuPk() {
     }
 
-    public CatalogCategoryVirtual getCatalogCategoryVirtual() {
-        return catalogCategoryVirtual;
+    public CatalogCategoryMaster getCatalogCategoryMaster() {
+        return catalogCategoryMaster;
     }
     
-    public void setCatalogCategoryVirtual(CatalogCategoryVirtual catalogCategoryVirtual) {
-        this.catalogCategoryVirtual = catalogCategoryVirtual;
+    public void setCatalogCategoryMaster(CatalogCategoryMaster catalogCategoryMaster) {
+        this.catalogCategoryMaster = catalogCategoryMaster;
     }
 
     public ProductSku getProductSku() {
@@ -44,7 +44,7 @@ public class CatalogCategoryVirtualProductSkuPk extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((catalogCategoryVirtual == null) ? 0 : catalogCategoryVirtual.hashCode());
+        result = prime * result + ((catalogCategoryMaster == null) ? 0 : catalogCategoryMaster.hashCode());
         result = prime * result + ((productSku == null) ? 0 : productSku.hashCode());
         return result;
     }
@@ -57,11 +57,11 @@ public class CatalogCategoryVirtualProductSkuPk extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CatalogCategoryVirtualProductSkuPk other = (CatalogCategoryVirtualProductSkuPk) obj;
-        if (catalogCategoryVirtual == null) {
-            if (other.catalogCategoryVirtual != null)
+        CatalogCategoryMasterProductSkuPk other = (CatalogCategoryMasterProductSkuPk) obj;
+        if (catalogCategoryMaster == null) {
+            if (other.catalogCategoryMaster != null)
                 return false;
-        } else if (!catalogCategoryVirtual.equals(other.catalogCategoryVirtual))
+        } else if (!catalogCategoryMaster.equals(other.catalogCategoryMaster))
             return false;
         if (productSku == null) {
             if (other.productSku != null)

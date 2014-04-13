@@ -234,7 +234,7 @@ public class CmsRestService {
             selectedMarketArea.setLocalizations(null);
             
             cmsCategories.setMarketArea(selectedMarketArea);
-            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedCatalogCategories();
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedRootCatalogCategories();
             for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
                 CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
                 catalogCategoryPojo.setCatalogCategoryGlobalAttributes(null);
@@ -244,7 +244,8 @@ public class CmsRestService {
             cmsCategories.setCatalogCategories(categories);
             
             CatalogPojo catalog = selectedMarketArea.getCatalog();
-            catalog.setSortedCatalogCategories(null);
+            catalog.setSortedRootCatalogCategories(null);
+            catalog.setSortedAllCatalogCategories(null);
             cmsCategories.setCatalog(catalog);
         }
 
@@ -265,7 +266,7 @@ public class CmsRestService {
             
             cmsProducts.setMarketArea(selectedMarketArea);
             
-            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedCatalogCategories();
+            List<CatalogCategoryPojo> categories = selectedMarketArea.getCatalog().getSortedRootCatalogCategories();
             for (Iterator<CatalogCategoryPojo> iterator = categories.iterator(); iterator.hasNext();) {
                 CatalogCategoryPojo catalogCategoryPojo = (CatalogCategoryPojo) iterator.next();
                 if(catalogCategoryPojo.getCode().equals(categoryCode)){
@@ -283,7 +284,7 @@ public class CmsRestService {
             }
 
             CatalogPojo catalog = selectedMarketArea.getCatalog();
-            catalog.setSortedCatalogCategories(null);
+            catalog.setSortedRootCatalogCategories(null);
             cmsProducts.setCatalog(catalog);
 
         }

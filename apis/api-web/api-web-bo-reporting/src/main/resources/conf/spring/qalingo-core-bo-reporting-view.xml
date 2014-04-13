@@ -19,8 +19,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
                             
-    <bean id="backofficeViewBeanFactory" class="org.hoteia.qalingo.web.mvc.factory.impl.BoReportingViewBeanFactoryImpl" />
+    <bean id="backofficeViewBeanFactory" class="org.hoteia.qalingo.web.mvc.factory.BoReportingViewBeanFactory" />
 
-    <bean id="backofficeFormFactory" class="org.hoteia.qalingo.web.mvc.factory.impl.BoReportingFormFactoryImpl" />
+    <bean id="backofficeFormFactory" class="org.hoteia.qalingo.web.mvc.factory.BoReportingFormFactory" />
 
 </beans>

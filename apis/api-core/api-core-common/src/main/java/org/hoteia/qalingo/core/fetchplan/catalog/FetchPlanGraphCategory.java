@@ -49,8 +49,8 @@ public class FetchPlanGraphCategory {
         
         fetchplans.add(new SpecificFetchMode("categoryMaster"));
         
-        fetchplans.add(new SpecificFetchMode("catalogCategoryVirtualProductSkuRels"));
-        fetchplans.add(new SpecificFetchMode("productSku", new SpecificAlias("catalogCategoryVirtualProductSkuRels.pk.productSku")));
+        fetchplans.add(new SpecificFetchMode("catalogCategoryProductSkuRels"));
+        fetchplans.add(new SpecificFetchMode("productSku", new SpecificAlias("catalogCategoryProductSkuRels.pk.productSku")));
 
         fetchplans.add(new SpecificFetchMode("assets"));
 
@@ -88,9 +88,7 @@ public class FetchPlanGraphCategory {
     protected static List<SpecificFetchMode> catalogCategoryWithSubCategoriesFetchPlan(){
         List<SpecificFetchMode> fetchplans = defaultCatalogCategoryFetchPlan();
         
-        fetchplans.add(new SpecificFetchMode("childVirtualCategoryRels"));
-        fetchplans.add(new SpecificFetchMode("childCatalogCategoryVirtual", new SpecificAlias("childVirtualCategoryRels.pk.childCatalogCategoryVirtual")));
-        fetchplans.add(new SpecificFetchMode("childCatalogCategoryAttributes", new SpecificAlias("childCatalogCategoryVirtual.catalogCategoryAttributes")));
+        fetchplans.add(new SpecificFetchMode("catalogCategories"));
 
         return fetchplans;
     }
@@ -98,7 +96,7 @@ public class FetchPlanGraphCategory {
     protected static List<SpecificFetchMode> defaultCatalogCategoryFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         
-        fetchplans.add(new SpecificFetchMode("defaultParentCatalogCategory"));
+        fetchplans.add(new SpecificFetchMode("parentCatalogCategory"));
         fetchplans.add(new SpecificFetchMode("catalogCategoryAttributes"));
         
 //        fetchplans.add(new SpecificFetchMode("childVirtualCategoryRels"));

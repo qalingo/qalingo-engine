@@ -1,17 +1,54 @@
 package org.hoteia.qalingo.core.service.pojo;
 
+import static org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil.mapAll;
+
 import java.util.List;
 
+import org.dozer.Mapper;
+import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
+import org.hoteia.qalingo.core.service.RetailerService;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface RetailerPojoService {
+@Service("retailerPojoService")
+@Transactional(readOnly = true)
+public class RetailerPojoService {
 
-    RetailerPojo getRetailerById(String retailerId);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    RetailerPojo getRetailerByCode(String retailerCode);
-
-    List<RetailerPojo> findAllRetailers();
+    @Autowired 
+    private Mapper dozerBeanMapper;
     
-    List<RetailerPojo> findRetailersByMarketAreaCode(String marketAreaCode);
+    @Autowired 
+    private RetailerService retailerService;
+
+    public RetailerPojo getRetailerById(final String retailerId) {
+        final Retailer retailer = retailerService.getRetailerById(retailerId);
+        logger.debug("Found {} retailer for id {}", retailer, retailerId);
+        return retailer == null ? null : dozerBeanMapper.map(retailer, RetailerPojo.class);
+    }
+    
+    public RetailerPojo getRetailerByCode(final String retailerCode) {
+        final Retailer retailer = retailerService.getRetailerByCode(retailerCode);
+        logger.debug("Found {} retailer for code {}", retailer, retailerCode);
+        return retailer == null ? null : dozerBeanMapper.map(retailer, RetailerPojo.class);
+    }
+    
+    public List<RetailerPojo> findAllRetailers() {
+        List<Retailer> allRetailers = retailerService.findAllRetailers();
+        logger.debug("Found {} retailers", allRetailers.size());
+        return mapAll(dozerBeanMapper, allRetailers, RetailerPojo.class);
+    }
+    
+    public List<RetailerPojo> findRetailersByMarketAreaCode(final String marketAreaCode) {
+        List<Retailer> retailersByMarketAreaCode = retailerService.findRetailersByMarketAreaCode(marketAreaCode);
+        logger.debug("Found {} retailers", retailersByMarketAreaCode.size());
+        return mapAll(dozerBeanMapper, retailersByMarketAreaCode, RetailerPojo.class);
+    }
 
 }

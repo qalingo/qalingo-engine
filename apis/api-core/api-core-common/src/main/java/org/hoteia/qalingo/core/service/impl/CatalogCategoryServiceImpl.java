@@ -47,8 +47,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
         return catalogCategoryDao.getMasterCatalogCategoryByCode(catalogCategoryCode, params);
     }
 
-    public List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params) {
-        List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootMasterCatalogCategories(params);
+    public List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(final String catalogCode, Object... params) {
+        List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootMasterCatalogCategoriesByCatalogCode(catalogCode, params);
         return orderCategoryMasterList(categories);
     }
 
@@ -125,8 +125,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
         return catalogCategoryVirtual;
     }
 
-    public List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params) {
-        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootVirtualCatalogCategories(params);
+    public List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(final String catalogCode, Object... params) {
+        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootVirtualCatalogCategoriesByCatalogCode(catalogCode, params);
         return orderCategoryVirtualList(categories);
     }
 

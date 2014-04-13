@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.solr.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -29,6 +31,12 @@ public class ProductSkuSolr {
     @Field
     private String name;
 
+    @Field
+    private String defaultCategoryCode;
+    
+    @Field
+    private List<String> catalogCode = new ArrayList<String>();
+    
     @Field
     private String price;
     
@@ -76,6 +84,22 @@ public class ProductSkuSolr {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getDefaultCategoryCode() {
+        return defaultCategoryCode;
+    }
+
+    public void setDefaultCategoryCode(String defaultCategoryCode) {
+        this.defaultCategoryCode = defaultCategoryCode;
+    }
+    
+    public List<String> getCatalogCode() {
+        return catalogCode;
+    }
+    
+    public void setCatalogCode(List<String> catalogCode) {
+        this.catalogCode = catalogCode;
     }
     
     public String getPrice() {

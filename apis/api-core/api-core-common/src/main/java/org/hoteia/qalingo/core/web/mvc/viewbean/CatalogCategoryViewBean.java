@@ -42,7 +42,9 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     private Map<String, String> globalAttributes = new HashMap<String, String>();
     private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 
+    protected int countSubCategories = 0;
     protected List<CatalogCategoryViewBean> subCategories = new ArrayList<CatalogCategoryViewBean>();
+    protected int countProductMarketings = 0;
     protected List<ProductMarketingViewBean> productMarketings = new ArrayList<ProductMarketingViewBean>();
     protected List<ProductMarketingViewBean> featuredProductMarketings = new ArrayList<ProductMarketingViewBean>();
 
@@ -172,6 +174,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.marketAreaAttributes = marketAreaAttributes;
     }
 
+    public int getCountSubCategories() {
+        return countSubCategories;
+    }
+    
+    public void setCountSubCategories(int countSubCategories) {
+        this.countSubCategories = countSubCategories;
+    }
+    
     public List<CatalogCategoryViewBean> getSubCategories() {
         return subCategories;
     }
@@ -180,6 +190,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.subCategories = subCategories;
     }
 
+    public int getCountProductMarketings() {
+        return countProductMarketings;
+    }
+    
+    public void setCountProductMarketings(int countProductMarketings) {
+        this.countProductMarketings = countProductMarketings;
+    }
+    
     public List<ProductMarketingViewBean> getProductMarketings() {
         return productMarketings;
     }
@@ -187,7 +205,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     public void setProductMarketings(List<ProductMarketingViewBean> productMarketings) {
         this.productMarketings = productMarketings;
     }
-
+    
     public List<ProductMarketingViewBean> getFeaturedProductMarketings() {
         return featuredProductMarketings;
     }

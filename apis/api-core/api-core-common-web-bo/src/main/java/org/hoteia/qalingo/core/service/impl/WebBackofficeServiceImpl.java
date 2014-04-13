@@ -159,7 +159,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
-		catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
+		catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 		
 		if(catalogCategoryForm != null
 				&& catalogCategoryForm.getMarketAreaAttributes() != null) {
@@ -212,11 +212,11 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())) {
-			if(catalogCategory.getDefaultParentCatalogCategory() == null
-					|| (catalogCategory.getDefaultParentCatalogCategory() != null
-						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))) {
+			if(catalogCategory.getParentCatalogCategory() == null
+					|| (catalogCategory.getParentCatalogCategory() != null
+						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getParentCatalogCategory().getCode()))) {
 				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
-				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
+				catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 			}
 		}
 
@@ -279,11 +279,11 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		if(StringUtils.isNotEmpty(catalogCategoryForm.getDefaultParentCategoryCode())) {
-			if(catalogCategory.getDefaultParentCatalogCategory() == null
-					|| (catalogCategory.getDefaultParentCatalogCategory() != null
-						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getDefaultParentCatalogCategory().getCode()))) {
+			if(catalogCategory.getParentCatalogCategory() == null
+					|| (catalogCategory.getParentCatalogCategory() != null
+						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getParentCatalogCategory().getCode()))) {
 				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
-				catalogCategory.setDefaultParentCatalogCategory(parentCatalogCategory);
+				catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 			}
 		}
 		
@@ -376,7 +376,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = new CatalogCategoryVirtualAttribute();
 		catalogCategoryVirtualAttribute.setAttributeDefinition(attributeDefinition);
 		catalogCategoryVirtualAttribute.setLocalizationCode(currentLocalization.getCode());
-		catalogCategoryVirtualAttribute.setMarketAreaId(currentMarketArea.getId());
+//		catalogCategoryVirtualAttribute.setMarketAreaId(currentMarketArea.getId());
 		catalogCategoryVirtualAttribute.setStartDate(new Date());
 	    catalogCategoryVirtualAttribute.setValue(attributeValue);
 	    

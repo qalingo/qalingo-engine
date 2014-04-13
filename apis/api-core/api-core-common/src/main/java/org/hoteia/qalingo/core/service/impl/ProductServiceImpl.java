@@ -181,8 +181,8 @@ public class ProductServiceImpl implements ProductService {
     }
     
     //TODO: Denis: should cache?
-    public CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(final Long productMarketingId) {
-    	Float avgRate = productDao.calculateProductMarketingCustomerRatesByProductCode(productMarketingId);
+    public CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductId(final Long productMarketingId) {
+    	Float avgRate = productDao.calculateProductMarketingCustomerRatesByProductId(productMarketingId);
     	CustomerProductRatesViewBean customerProductRatesViewBean = new CustomerProductRatesViewBean();
     	customerProductRatesViewBean.setAvgRate(avgRate);
     	return customerProductRatesViewBean;

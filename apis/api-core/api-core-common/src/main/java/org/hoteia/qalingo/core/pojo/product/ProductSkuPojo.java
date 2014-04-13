@@ -13,9 +13,9 @@ public class ProductSkuPojo {
 
     private Long id;
     private int version;
+    private String code;
     private String name;
     private String i18nName;
-    private Integer order;
     private Integer width;
     private Integer height;
     private Integer length;
@@ -26,7 +26,7 @@ public class ProductSkuPojo {
     private String priceWithStandardCurrencySign;
     private String description;
     private boolean isDefault;
-    private String code;
+    private int ranking;
     
     private Date dateCreate;
     private Date dateUpdate;
@@ -56,6 +56,14 @@ public class ProductSkuPojo {
     public void setVersion(int version) {
         this.version = version;
     }
+    
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getName() {
         return name;
@@ -71,14 +79,6 @@ public class ProductSkuPojo {
     
     public void setI18nName(String i18nName) {
         this.i18nName = i18nName;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public Integer getWidth() {
@@ -153,20 +153,20 @@ public class ProductSkuPojo {
         this.description = description;
     }
 
+    public int getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
     public boolean isDefault() {
         return isDefault;
     }
 
     public void setDefault(boolean aDefault) {
         isDefault = aDefault;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Date getDateCreate() {

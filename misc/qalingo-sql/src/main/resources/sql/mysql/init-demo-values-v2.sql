@@ -78,16 +78,16 @@ VALUES (1, 10);
 INSERT INTO teco_catalog_virtual 
 (id, description, code, is_default, name, version, master_catalog_id)
  VALUES 
-(100, 'Virtual Catalog description', 'V_CAT_INT', 0, 'Virtuel Catalog International', 1, 1),
-(101, 'Virtual Catalog description', 'V_CAT_FRA', 0, 'Virtuel Catalog France', 1, 1),
-(102, 'Virtual Catalog description', 'V_CAT_ESP', 0, 'Virtuel Catalog Espagne', 1, 1),
-(201, 'Virtual Catalog description', 'V_CAT_USA', 0, 'Virtuel Catalog United-States', 1, 1),
-(202, 'Virtual Catalog description', 'V_CAT_CAN', 0, 'Virtuel Catalog', 1, 1),
-(210, 'Virtual Catalog description', 'V_CAT_BRA', 0, 'Virtuel Catalog Brazil', 1, 1),
-(211, 'Virtual Catalog description', 'V_CAT_ARG', 0, 'Virtuel Catalog Argentina', 1, 1),
-(301, 'Virtual Catalog description', 'V_CAT_CHN', 0, 'Virtuel Catalog China', 1, 1),
-(302, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1),
-(303, 'Virtual Catalog description', 'V_CAT_VNM', 0, 'Virtuel Catalog Vietnam', 1, 1);
+( 1000, 'Virtual Catalog description', 'V_CAT_INT', 0, 'Virtuel Catalog International', 1, 1),
+( 2000, 'Virtual Catalog description', 'V_CAT_FRA', 0, 'Virtuel Catalog France', 1, 1),
+( 3000, 'Virtual Catalog description', 'V_CAT_ESP', 0, 'Virtuel Catalog Espagne', 1, 1),
+( 4000, 'Virtual Catalog description', 'V_CAT_USA', 0, 'Virtuel Catalog United-States', 1, 1),
+( 5000, 'Virtual Catalog description', 'V_CAT_CAN', 0, 'Virtuel Catalog Canada', 1, 1),
+( 6000, 'Virtual Catalog description', 'V_CAT_BRA', 0, 'Virtuel Catalog Brazil', 1, 1),
+( 7000, 'Virtual Catalog description', 'V_CAT_ARG', 0, 'Virtuel Catalog Argentina', 1, 1),
+( 8000, 'Virtual Catalog description', 'V_CAT_CHN', 0, 'Virtuel Catalog China', 1, 1),
+( 9000, 'Virtual Catalog description', 'V_CAT_JPN', 0, 'Virtuel Catalog Japan', 1, 1),
+(10000, 'Virtual Catalog description', 'V_CAT_VNM', 0, 'Virtuel Catalog Vietnam', 1, 1);
 
 update teco_catalog_virtual 
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
@@ -141,16 +141,16 @@ INSERT INTO teco_market
 INSERT INTO teco_market_area 
 (id, description, name, code, theme, geoloc_country_code, is_default, version, market_id, virtual_catalog_id, default_localization_id, default_retailer_id, default_currency_id, latitude, longitude)
  VALUES 
-(  1, 'Market INT description', 'market area 1 : INT', 'INT', null, null, 1, 1,  1, 100, 1, 1, 150, '-30.000', '45.000'),
-(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 'FR', 1, 1, 10, 101, 2, 1, 45, '48.480', '2.200'),	
-(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 'ES', 1, 1, 10, 102, 3, 1, 45, '40.260', '3.420'),	
-(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 'US', 1, 1, 20, 201, 1, 1, 150, '40.000', '-90.000'),
-(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 'CA', 0, 1, 20, 202, 1, 1, 27, '55.000', '-90.000'),
-(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 'BR', 1, 1, 21, 210, 8, 1, 21, '-22.570', '-43.120'),
-(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 'AR', 1, 1, 21, 211, 3, 1, 8, '-34.350', '-58.220'),
-(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 'CN', 0, 1, 30, 301, 9, 1, 31, '121.280', '31.100'),
-(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 'JP', 1, 1, 30, 302, 7, 1, 72, '35.400', '139.450'),
-(303, 'Market VNM description', 'market area 7 : VNM', 'VNM', null, 'VN', 0, 1, 30, 303, 13, 1, 154, '10.762622', '106.660172');
+(  1, 'Market INT description', 'market area 1 : INT', 'INT', null, null, 1, 1,  1,  1000, 1, 1, 150, '-30.000', '45.000'),
+(101, 'Market FRA description', 'market area 2 : FRA', 'FRA', null, 'FR', 1, 1, 10,  2000, 2, 1, 45, '48.480', '2.200'),	
+(102, 'Market ESP description', 'market area 3 : ESP', 'ESP', null, 'ES', 1, 1, 10,  3000, 3, 1, 45, '40.260', '3.420'),	
+(201, 'Market USA description', 'market area 4 : USA', 'USA', null, 'US', 1, 1, 20,  4000, 1, 1, 150, '40.000', '-90.000'),
+(202, 'Market CAN description', 'market area 4 : CAN', 'CAN', null, 'CA', 0, 1, 20,  5000, 1, 1, 27, '55.000', '-90.000'),
+(210, 'Market BRA description', 'market area 2 : BRA', 'BRA', null, 'BR', 1, 1, 21,  6000, 8, 1, 21, '-22.570', '-43.120'),
+(211, 'Market ARG description', 'market area 2 : ARG', 'ARG', null, 'AR', 1, 1, 21,  7000, 3, 1, 8, '-34.350', '-58.220'),
+(301, 'Market CHN description', 'market area 5 : CHN', 'CHN', null, 'CN', 0, 1, 30,  8000, 9, 1, 31, '121.280', '31.100'),
+(302, 'Market JPN description', 'market area 6 : JPN', 'JPN', null, 'JP', 1, 1, 30,  9000, 7, 1, 72, '35.400', '139.450'),
+(303, 'Market VNM description', 'market area 7 : VNM', 'VNM', null, 'VN', 0, 1, 30, 10000, 13, 1, 154, '10.762622', '106.660172');
 
 /*
 (510, 'BO_BUSINESS',  'bo-business.dev.qalingo.com', 1, 5),
@@ -687,178 +687,499 @@ INSERT INTO teco_product_brand
 
 update teco_product_brand 
 set description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
---
+
+-- MASTER CATALOG
 INSERT INTO teco_catalog_master_category 
-(id, description, code, is_default, name, version)
+(id, description, code, is_default, name, master_catalog_id, version)
  VALUES 
-(10, 'Category 1 description', 'CATE10', 1, 'Coffee', 1),
-(20, 'Category 2 description', 'CATE20', 0, 'Tea', 1),
-(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 1),
-(40, 'Category 4 description', 'CATE40', 0, 'Nouveautés', 1),
-(50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 1);
-
-INSERT INTO teco_catalog_virtual_category 
-(id, description, code, is_default, name, master_category_id, version)
- VALUES 
-(10, 'Category 1 description', 'CATE10', 1, 'Coffee', 10, 1),
-(20, 'Category 2 description', 'CATE20', 0, 'Tea', 20, 1),
-(30, 'Category 3 description', 'CATE30', 0, 'Essentials', 30, 1),
-(40, 'Category 4 description', 'CATE40', 0, 'Nouveautés', 20, 1),
-(50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 30, 1);
-
-INSERT INTO teco_catalog_master_category_master_rel 
-(master_catalog_id, master_category_id)
- VALUES 
-(1, 10),
-(1, 20),
-(1, 30),
-(1, 40),
-(1, 50);
-
-INSERT INTO teco_catalog_virtual_category_virtual_rel 
-(virtual_catalog_id, virtual_category_id)
- VALUES 
-(100, 10),
-(100, 20),
-(100, 30),
-(100, 40),
-(100, 50),
-(101, 10),
-(101, 20),
-(101, 30),
-(101, 40),
-(101, 50),
-(102, 10),
-(102, 20),
-(102, 30),
-(102, 40),
-(102, 50),
-(201, 10),
-(201, 20),
-(201, 30),
-(201, 40),
-(201, 50),
-(202, 10),
-(202, 20),
-(202, 30),
-(202, 40),
-(202, 50),
-(210, 10),
-(210, 20),
-(210, 30),
-(210, 40),
-(210, 50),
-(211, 10),
-(211, 20),
-(211, 30),
-(211, 40),
-(211, 50),
-(301, 10),
-(301, 20),
-(301, 30),
-(301, 40),
-(301, 50),
-(302, 10),
-(302, 20),
-(302, 30),
-(302, 40),
-(302, 50),
-(303, 10),
-(303, 20),
-(303, 30),
-(303, 40),
-(303, 50);
+(10, 'Category 1 description', 'CATE10', 1, 'Coffee',			1, 1),
+(20, 'Category 2 description', 'CATE20', 0, 'Tea',				1, 1),
+(30, 'Category 3 description', 'CATE30', 0, 'Essentials',		1, 1),
+(40, 'Category 4 description', 'CATE40', 0, 'Nouveautés',		1, 1),
+(50, 'Category 5 description', 'CATE50', 0, 'Idées de cadeaux', 1, 1);
 
 INSERT INTO teco_catalog_master_category 
-(id, description, code, is_default, name, version, default_parent_category_id)
+(id, description, code, is_default, name, version, parent_category_id, master_catalog_id)
  VALUES 
-(101, 'Category 1 sub category description', 'CATE101', 0, 'Just Brewed', 1, 10),
-(102, 'Category 1 sub category description', 'CATE102', 0, 'Light & Subtle', 1, 10),
-(103, 'Category 1 sub category description', 'CATE103', 0, 'Light & Distinctive', 1, 10),
-(104, 'Category 1 sub category description', 'CATE104', 0, 'Medium & Smooth', 1, 10),
-(105, 'Category 1 sub category description', 'CATE105', 0, 'Dark & Distincetive', 1, 10), 
-(201, 'Category 2 sub category description', 'CATE201', 0, 'Just Steeped', 1, 20),
-(202, 'Category 2 sub category description', 'CATE202', 0, 'Green', 1, 20), 
-(203, 'Category 2 sub category description', 'CATE203', 0, 'Herbal Infusion', 1, 20),
-(301, 'Category 3 sub category description', 'CATE301', 0, 'Powders', 1, 30), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 30),
-(401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 40), 
-(402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 40),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Fêtes des pères', 1, 50), 
-(502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères", 1, 50);
+(101, 'Category 1 sub category description', 'CATE101', 0, 'Just Brewed',			1, 10, 1),
+(102, 'Category 1 sub category description', 'CATE102', 0, 'Light & Subtle',		1, 10, 1),
+(103, 'Category 1 sub category description', 'CATE103', 0, 'Light & Distinctive',	1, 10, 1),
+(104, 'Category 1 sub category description', 'CATE104', 0, 'Medium & Smooth',		1, 10, 1),
+(105, 'Category 1 sub category description', 'CATE105', 0, 'Dark & Distincetive',	1, 10, 1), 
+(201, 'Category 2 sub category description', 'CATE201', 0, 'Just Steeped',			1, 20, 1),
+(202, 'Category 2 sub category description', 'CATE202', 0, 'Green',					1, 20, 1), 
+(203, 'Category 2 sub category description', 'CATE203', 0, 'Herbal Infusion',		1, 20, 1),
+(301, 'Category 3 sub category description', 'CATE301', 0, 'Powders',				1, 30, 1), 
+(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware',				1, 30, 1),
+(401, 'Category 4 sub category description', 'CATE401', 0, 'Tea',					1, 40, 1), 
+(402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee',				1, 40, 1),
+(501, 'Category 5 sub category description', 'CATE501', 0, 'Fêtes des pères',		1, 50, 1), 
+(502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères",		1, 50, 1);
+
+-- VIRTUAL CATALOG
+-- Root Virtual Categories
+
+-- V_CAT_INT
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(1010, 'Category 1 description', 'CATE1010', 1, 'Coffee',				10, 1000, 1),
+(1020, 'Category 2 description', 'CATE1020', 0, 'Tea',				20, 1000, 1),
+(1030, 'Category 3 description', 'CATE1030', 0, 'Essentials',			30, 1000, 1),
+(1040, 'Category 4 description', 'CATE1040', 0, 'Nouveautés',			20, 1000, 1),
+(1050, 'Category 5 description', 'CATE1050', 0, 'Idées de cadeaux',	30, 1000, 1);
 
 INSERT INTO teco_catalog_virtual_category 
-(id, description, code, is_default, name, version, master_category_id, default_parent_category_id)
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
  VALUES 
-(101, 'Category 1 sub category description', 'CATE101', 0, 'Just Brewed', 1, 101, 10),
-(102, 'Category 1 sub category description', 'CATE102', 0, 'Light & Subtle', 1, 102, 10),
-(103, 'Category 1 sub category description', 'CATE103', 0, 'Light & Distinctive', 1, 103, 10),
-(104, 'Category 1 sub category description', 'CATE104', 0, 'Medium & Smooth', 1, 104, 10),
-(105, 'Category 1 sub category description', 'CATE105', 0, 'Dark & Distincetive', 1, 105, 10), 
-(201, 'Category 2 sub category description', 'CATE201', 0, 'Just Steeped', 1, 201, 20),
-(202, 'Category 2 sub category description', 'CATE202', 0, 'Green', 1, 202, 20), 
-(203, 'Category 2 sub category description', 'CATE203', 0, 'Herbal Infusion', 1, 203, 20),
-(301, 'Category 3 sub category description', 'CATE301', 0, 'Powders', 1, 301, 30), 
-(302, 'Category 3 sub category description', 'CATE302', 0, 'Drinkware', 1, 302, 30),
-(401, 'Category 4 sub category description', 'CATE401', 0, 'Tea', 1, 401, 40), 
-(402, 'Category 4 sub category description', 'CATE402', 0, 'Coffee', 1, 402, 40),
-(501, 'Category 5 sub category description', 'CATE501', 0, 'Fêtes des pères', 1, 501, 50), 
-(502, 'Category 5 sub category description', 'CATE502', 0, "Fêtes des mères", 1, 502, 50);
+(10110, 'Category 1 sub category description', 'CATE10110', 0, 'Just Brewed',			1, 101, 1010, 1000),
+(10120, 'Category 1 sub category description', 'CATE10120', 0, 'Light & Subtle',		1, 102, 1010, 1000),
+(10130, 'Category 1 sub category description', 'CATE10130', 0, 'Light & Distinctive',	1, 103, 1010, 1000),
+(10140, 'Category 1 sub category description', 'CATE10140', 0, 'Medium & Smooth',		1, 104, 1010, 1000),
+(10150, 'Category 1 sub category description', 'CATE10150', 0, 'Dark & Distincetive',	1, 105, 1010, 1000), 
+(10210, 'Category 2 sub category description', 'CATE10210', 0, 'Just Steeped',			1, 201, 1020, 1000),
+(10220, 'Category 2 sub category description', 'CATE20', 0, 'Green',					1, 202, 1020, 1000), 
+(10230, 'Category 2 sub category description', 'CATE10230', 0, 'Herbal Infusion',		1, 203, 1020, 1000),
+(10310, 'Category 3 sub category description', 'CATE10310', 0, 'Powders',				1, 301, 1030, 1000), 
+(10320, 'Category 3 sub category description', 'CATE10320', 0, 'Drinkware',				1, 302, 1030, 1000),
+(10410, 'Category 4 sub category description', 'CATE10410', 0, 'Tea',					1, 401, 1040, 1000), 
+(10420, 'Category 4 sub category description', 'CATE10420', 0, 'Coffee',				1, 402, 1040, 1000),
+(10510, 'Category 5 sub category description', 'CATE10510', 0, 'Fêtes des pères',		1, 501, 1050, 1000), 
+(10520, 'Category 5 sub category description', 'CATE10520', 0, "Fêtes des mères",		1, 502, 1050, 1000);
+
 INSERT INTO teco_catalog_virtual_category_attribute 
-(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, virtual_category_id, attribute_definition_id, localization_code, market_area_id) 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
 VALUES 
-(1,  null, null, null, null, null, 'Just Brewed',  101, 1000, null, 1),
-(2,  null, null, null, null, null, 'Light & Subtle',  102, 1000, null, 1),
-(3,  null, null, null, null, null, 'Light & Distinctive',  103, 1000, null, 1),
-(4,  null, null, null, null, null, 'Medium & Smooth',  104, 1000, null, 1),
-(5,  null, null, null, null, null, 'Dark & Distincetive',  105, 1000, null, 1),
-(6,  null, null, null, null, null, 'Just Steeped',  201, 1000, null, 1),
-(7,  null, null, null, null, null, 'Green',  202, 1000, null, 1),
-(8,  null, null, null, null, null, 'Herbal Infusion',  203, 1000, null, 1),
-(9,  null, null, null, null, null, 'Powders',  301, 1000, null, 1),
-(10, null, null, null, null, null, 'Drinkware', 302, 1000, null, 1),
-(11,  null, null, null, null, null, 'Tea',  401, 1000, null, 1),
-(12,  null, null, null, null, null, 'Coffee',  402, 1000, null, 1),
-(13,  null, null, null, null, null, 'Feasts Fathers',  501, 1000, null, 1),
-(14, null, null, null, null, null, "Mother's Day", 502, 1000, null, 1);
+(10110, null, null, null, null, null, 'Just Brewed',  			10110, 1000, null),
+(10120, null, null, null, null, null, 'Light & Subtle', 		10120, 1000, null),
+(10130, null, null, null, null, null, 'Light & Distinctive', 	10130, 1000, null),
+(10140, null, null, null, null, null, 'Medium & Smooth', 		10140, 1000, null),
+(10150, null, null, null, null, null, 'Dark & Distincetive',	10150, 1000, null),
+(10210, null, null, null, null, null, 'Just Steeped',			10210, 1000, null),
+(10220, null, null, null, null, null, 'Green',					10220, 1000, null),
+(10230, null, null, null, null, null, 'Herbal Infusion',		10230, 1000, null),
+(10310, null, null, null, null, null, 'Powders',				10310, 1000, null),
+(10320, null, null, null, null, null, 'Drinkware',				10320, 1000, null),
+(10410, null, null, null, null, null, 'Tea',					10410, 1000, null),
+(10420, null, null, null, null, null, 'Coffee',					10420, 1000, null),
+(10510, null, null, null, null, null, 'Feasts Fathers',			10510, 1000, null),
+(10520, null, null, null, null, null, "Mother's Day",			10520, 1000, null);
 
-
-INSERT INTO teco_catalog_master_category_child_category_rel  
-(parent_master_catalog_category_id, child_master_catalog_category_id)
+-- V_CAT_FRA
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
  VALUES 
-(10, 101),
-(10, 102),
-(10, 103),
-(10, 104),
-(10, 105),
-(20, 201),
-(20, 202),
-(20, 203),
-(30, 301),
-(30, 302),
-(40, 401),
-(40, 402),
-(50, 501),
-(50, 502);
+(2010, 'Category 1 description', 'CATE2010', 1, 'Coffee',				10, 2000, 1),
+(2020, 'Category 2 description', 'CATE2020', 0, 'Tea',					20, 2000, 1),
+(2030, 'Category 3 description', 'CATE2030', 0, 'Essentials',			30, 2000, 1),
+(2040, 'Category 4 description', 'CATE2040', 0, 'Nouveautés',			20, 2000, 1),
+(2050, 'Category 5 description', 'CATE2050', 0, 'Idées de cadeaux',		30, 2000, 1);
 
-
-INSERT INTO teco_catalog_virtual_category_child_category_rel  
-(parent_virtual_catalog_category_id, child_virtual_catalog_category_id)
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
  VALUES 
-(10, 101),
-(10, 102),
-(10, 103),
-(10, 104),
-(10, 105),
-(20, 201),
-(20, 202),
-(20, 203),
-(30, 301),
-(30, 302),
-(40, 401),
-(40, 402),
-(50, 501),
-(50, 502);
+(20110, 'Category 1 sub category description', 'CATE20110', 0, 'Just Brewed',			1, 101, 2010, 2000),
+(20120, 'Category 1 sub category description', 'CATE20120', 0, 'Light & Subtle',		1, 102, 2010, 2000),
+(20130, 'Category 1 sub category description', 'CATE20130', 0, 'Light & Distinctive',	1, 103, 2010, 2000),
+(20140, 'Category 1 sub category description', 'CATE20140', 0, 'Medium & Smooth',		1, 104, 2010, 2000),
+(20150, 'Category 1 sub category description', 'CATE20150', 0, 'Dark & Distincetive',	1, 105, 2010, 2000), 
+(20210, 'Category 2 sub category description', 'CATE20210', 0, 'Just Steeped',			1, 201, 2020, 2000),
+(20220, 'Category 2 sub category description', 'CATE20220', 0, 'Green',					1, 202, 2020, 2000), 
+(20230, 'Category 2 sub category description', 'CATE20230', 0, 'Herbal Infusion',		1, 203, 2020, 2000),
+(20310, 'Category 3 sub category description', 'CATE20310', 0, 'Powders',				1, 301, 2030, 2000), 
+(20320, 'Category 3 sub category description', 'CATE20320', 0, 'Drinkware',				1, 302, 2030, 2000),
+(20410, 'Category 4 sub category description', 'CATE20410', 0, 'Tea',					1, 401, 2040, 2000), 
+(20420, 'Category 4 sub category description', 'CATE20420', 0, 'Coffee',				1, 402, 2040, 2000),
+(20510, 'Category 5 sub category description', 'CATE20510', 0, 'Fêtes des pères',		1, 501, 2050, 2000), 
+(20520, 'Category 5 sub category description', 'CATE20520', 0, "Fêtes des mères",		1, 502, 2050, 2000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(20110, null, null, null, null, null, 'Just Brewed',  			20110, 1000, null),
+(20120, null, null, null, null, null, 'Light & Subtle', 		20120, 1000, null),
+(20130, null, null, null, null, null, 'Light & Distinctive', 	20130, 1000, null),
+(20140, null, null, null, null, null, 'Medium & Smooth', 		20140, 1000, null),
+(20150, null, null, null, null, null, 'Dark & Distincetive',	20150, 1000, null),
+(20210, null, null, null, null, null, 'Just Steeped',			20210, 1000, null),
+(20220, null, null, null, null, null, 'Green',					20220, 1000, null),
+(20230, null, null, null, null, null, 'Herbal Infusion',		20230, 1000, null),
+(20310, null, null, null, null, null, 'Powders',				20310, 1000, null),
+(20320, null, null, null, null, null, 'Drinkware',				20320, 1000, null),
+(20410, null, null, null, null, null, 'Tea',					20410, 1000, null),
+(20420, null, null, null, null, null, 'Coffee',					20420, 1000, null),
+(20510, null, null, null, null, null, 'Feasts Fathers',			20510, 1000, null),
+(20520, null, null, null, null, null, "Mother's Day",			20520, 1000, null);
+
+-- V_CAT_ESP
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(3010, 'Category 1 description', 'CATE3010', 1, 'Coffee',				10, 3000, 1),
+(3020, 'Category 2 description', 'CATE3020', 0, 'Tea',					20, 3000, 1),
+(3030, 'Category 3 description', 'CATE3030', 0, 'Essentials',			30, 3000, 1),
+(3040, 'Category 4 description', 'CATE3040', 0, 'Nouveautés',			20, 3000, 1),
+(3050, 'Category 5 description', 'CATE3050', 0, 'Idées de cadeaux',		30, 3000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(30110, 'Category 1 sub category description', 'CATE30110', 0, 'Just Brewed',			1, 101, 3010, 3000),
+(30120, 'Category 1 sub category description', 'CATE30120', 0, 'Light & Subtle',		1, 102, 3010, 3000),
+(30130, 'Category 1 sub category description', 'CATE30130', 0, 'Light & Distinctive',	1, 103, 3010, 3000),
+(30140, 'Category 1 sub category description', 'CATE30140', 0, 'Medium & Smooth',		1, 104, 3010, 3000),
+(30150, 'Category 1 sub category description', 'CATE30150', 0, 'Dark & Distincetive',	1, 105, 3010, 3000), 
+(30210, 'Category 2 sub category description', 'CATE30210', 0, 'Just Steeped',			1, 201, 3020, 3000),
+(30220, 'Category 2 sub category description', 'CATE30220', 0, 'Green',					1, 202, 3020, 3000), 
+(30230, 'Category 2 sub category description', 'CATE30230', 0, 'Herbal Infusion',		1, 203, 3020, 3000),
+(30310, 'Category 3 sub category description', 'CATE30310', 0, 'Powders',				1, 301, 3030, 3000), 
+(30320, 'Category 3 sub category description', 'CATE30320', 0, 'Drinkware',				1, 302, 3030, 3000),
+(30410, 'Category 4 sub category description', 'CATE30410', 0, 'Tea',					1, 401, 3040, 3000), 
+(30420, 'Category 4 sub category description', 'CATE30420', 0, 'Coffee',				1, 402, 3040, 3000),
+(30510, 'Category 5 sub category description', 'CATE30510', 0, 'Fêtes des pères',		1, 501, 3050, 3000), 
+(30520, 'Category 5 sub category description', 'CATE30520', 0, "Fêtes des mères",		1, 502, 3050, 3000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(30110, null, null, null, null, null, 'Just Brewed',  			30110, 1000, null),
+(30120, null, null, null, null, null, 'Light & Subtle', 		30120, 1000, null),
+(30130, null, null, null, null, null, 'Light & Distinctive', 	30130, 1000, null),
+(30140, null, null, null, null, null, 'Medium & Smooth', 		30140, 1000, null),
+(30150, null, null, null, null, null, 'Dark & Distincetive',	30150, 1000, null),
+(30210, null, null, null, null, null, 'Just Steeped',			30210, 1000, null),
+(30220, null, null, null, null, null, 'Green',					30220, 1000, null),
+(30230, null, null, null, null, null, 'Herbal Infusion',		30230, 1000, null),
+(30310, null, null, null, null, null, 'Powders',				30310, 1000, null),
+(30320, null, null, null, null, null, 'Drinkware',				30320, 1000, null),
+(30410, null, null, null, null, null, 'Tea',					30410, 1000, null),
+(30420, null, null, null, null, null, 'Coffee',					30420, 1000, null),
+(30510, null, null, null, null, null, 'Feasts Fathers',			30510, 1000, null),
+(30520, null, null, null, null, null, "Mother's Day",			30520, 1000, null);
+
+-- V_CAT_USA
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(4010, 'Category 1 description', 'CATE4010', 1, 'Coffee',				10, 4000, 1),
+(4020, 'Category 2 description', 'CATE4020', 0, 'Tea',					20, 4000, 1),
+(4030, 'Category 3 description', 'CATE4030', 0, 'Essentials',			30, 4000, 1),
+(4040, 'Category 4 description', 'CATE4040', 0, 'Nouveautés',			20, 4000, 1),
+(4050, 'Category 5 description', 'CATE4050', 0, 'Idées de cadeaux',		30, 4000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(40110, 'Category 1 sub category description', 'CATE40110', 0, 'Just Brewed',			1, 101, 4010, 4000),
+(40120, 'Category 1 sub category description', 'CATE40120', 0, 'Light & Subtle',		1, 102, 4010, 4000),
+(40130, 'Category 1 sub category description', 'CATE40130', 0, 'Light & Distinctive',	1, 103, 4010, 4000),
+(40140, 'Category 1 sub category description', 'CATE40140', 0, 'Medium & Smooth',		1, 104, 4010, 4000),
+(40150, 'Category 1 sub category description', 'CATE40150', 0, 'Dark & Distincetive',	1, 105, 4010, 4000), 
+(40210, 'Category 2 sub category description', 'CATE40210', 0, 'Just Steeped',			1, 201, 4020, 4000),
+(40220, 'Category 2 sub category description', 'CATE40220', 0, 'Green',					1, 202, 4020, 4000), 
+(40230, 'Category 2 sub category description', 'CATE40230', 0, 'Herbal Infusion',		1, 203, 4020, 4000),
+(40310, 'Category 3 sub category description', 'CATE40310', 0, 'Powders',				1, 301, 4030, 4000), 
+(40320, 'Category 3 sub category description', 'CATE40320', 0, 'Drinkware',				1, 302, 4030, 4000),
+(40410, 'Category 4 sub category description', 'CATE40410', 0, 'Tea',					1, 401, 4040, 4000), 
+(40420, 'Category 4 sub category description', 'CATE40420', 0, 'Coffee',				1, 402, 4040, 4000),
+(40510, 'Category 5 sub category description', 'CATE40510', 0, 'Fêtes des pères',		1, 501, 4050, 4000), 
+(40520, 'Category 5 sub category description', 'CATE40520', 0, "Fêtes des mères",		1, 502, 4050, 4000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(40110, null, null, null, null, null, 'Just Brewed',  			40110, 1000, null),
+(40120, null, null, null, null, null, 'Light & Subtle', 		40120, 1000, null),
+(40130, null, null, null, null, null, 'Light & Distinctive', 	40130, 1000, null),
+(40140, null, null, null, null, null, 'Medium & Smooth', 		40140, 1000, null),
+(40150, null, null, null, null, null, 'Dark & Distincetive',	40150, 1000, null),
+(40210, null, null, null, null, null, 'Just Steeped',			40210, 1000, null),
+(40220, null, null, null, null, null, 'Green',					40220, 1000, null),
+(40230, null, null, null, null, null, 'Herbal Infusion',		40230, 1000, null),
+(40310, null, null, null, null, null, 'Powders',				40310, 1000, null),
+(40320, null, null, null, null, null, 'Drinkware',				40320, 1000, null),
+(40410, null, null, null, null, null, 'Tea',					40410, 1000, null),
+(40420, null, null, null, null, null, 'Coffee',					40420, 1000, null),
+(40510, null, null, null, null, null, 'Feasts Fathers',			40510, 1000, null),
+(40520, null, null, null, null, null, "Mother's Day",			40520, 1000, null);
+
+-- V_CAT_CAN
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(5010, 'Category 1 description', 'CATE5010', 1, 'Coffee',				10, 5000, 1),
+(5020, 'Category 2 description', 'CATE5020', 0, 'Tea',					20, 5000, 1),
+(5030, 'Category 3 description', 'CATE5030', 0, 'Essentials',			30, 5000, 1),
+(5040, 'Category 4 description', 'CATE5040', 0, 'Nouveautés',			20, 5000, 1),
+(5050, 'Category 5 description', 'CATE5050', 0, 'Idées de cadeaux',		30, 5000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(50110, 'Category 1 sub category description', 'CATE50110', 0, 'Just Brewed',			1, 101, 5010, 5000),
+(50120, 'Category 1 sub category description', 'CATE50120', 0, 'Light & Subtle',		1, 102, 5010, 5000),
+(50130, 'Category 1 sub category description', 'CATE50130', 0, 'Light & Distinctive',	1, 103, 5010, 5000),
+(50140, 'Category 1 sub category description', 'CATE50140', 0, 'Medium & Smooth',		1, 104, 5010, 5000),
+(50150, 'Category 1 sub category description', 'CATE50150', 0, 'Dark & Distincetive',	1, 105, 5010, 5000), 
+(50210, 'Category 2 sub category description', 'CATE50210', 0, 'Just Steeped',			1, 201, 5020, 5000),
+(50220, 'Category 2 sub category description', 'CATE50220', 0, 'Green',					1, 202, 5020, 5000), 
+(50230, 'Category 2 sub category description', 'CATE50230', 0, 'Herbal Infusion',		1, 203, 5020, 5000),
+(50310, 'Category 3 sub category description', 'CATE50310', 0, 'Powders',				1, 301, 5030, 5000), 
+(50320, 'Category 3 sub category description', 'CATE50320', 0, 'Drinkware',				1, 302, 5030, 5000),
+(50410, 'Category 4 sub category description', 'CATE50410', 0, 'Tea',					1, 501, 5040, 5000), 
+(50420, 'Category 4 sub category description', 'CATE50420', 0, 'Coffee',				1, 502, 5040, 5000),
+(50510, 'Category 5 sub category description', 'CATE50510', 0, 'Fêtes des pères',		1, 501, 5050, 5000), 
+(50520, 'Category 5 sub category description', 'CATE50520', 0, "Fêtes des mères",		1, 502, 5050, 5000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(50110, null, null, null, null, null, 'Just Brewed',  			50110, 1000, null),
+(50120, null, null, null, null, null, 'Light & Subtle', 		50120, 1000, null),
+(50130, null, null, null, null, null, 'Light & Distinctive', 	50130, 1000, null),
+(50140, null, null, null, null, null, 'Medium & Smooth', 		50140, 1000, null),
+(50150, null, null, null, null, null, 'Dark & Distincetive',	50150, 1000, null),
+(50210, null, null, null, null, null, 'Just Steeped',			50210, 1000, null),
+(50220, null, null, null, null, null, 'Green',					50220, 1000, null),
+(50230, null, null, null, null, null, 'Herbal Infusion',		50230, 1000, null),
+(50310, null, null, null, null, null, 'Powders',				50310, 1000, null),
+(50320, null, null, null, null, null, 'Drinkware',				50320, 1000, null),
+(50410, null, null, null, null, null, 'Tea',					50410, 1000, null),
+(50420, null, null, null, null, null, 'Coffee',					50420, 1000, null),
+(50510, null, null, null, null, null, 'Feasts Fathers',			50510, 1000, null),
+(50520, null, null, null, null, null, "Mother's Day",			50520, 1000, null);
+
+-- V_CAT_BRA
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(6010, 'Category 1 description', 'CATE6010', 1, 'Coffee',				10, 6000, 1),
+(6020, 'Category 2 description', 'CATE6020', 0, 'Tea',					20, 6000, 1),
+(6030, 'Category 3 description', 'CATE6030', 0, 'Essentials',			30, 6000, 1),
+(6040, 'Category 4 description', 'CATE6040', 0, 'Nouveautés',			20, 6000, 1),
+(6050, 'Category 5 description', 'CATE6050', 0, 'Idées de cadeaux',		30, 6000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(60110, 'Category 1 sub category description', 'CATE60110', 0, 'Just Brewed',			1, 101, 6010, 6000),
+(60120, 'Category 1 sub category description', 'CATE60120', 0, 'Light & Subtle',		1, 102, 6010, 6000),
+(60130, 'Category 1 sub category description', 'CATE60130', 0, 'Light & Distinctive',	1, 103, 6010, 6000),
+(60140, 'Category 1 sub category description', 'CATE60140', 0, 'Medium & Smooth',		1, 104, 6010, 6000),
+(60150, 'Category 1 sub category description', 'CATE60150', 0, 'Dark & Distincetive',	1, 105, 6010, 6000), 
+(60210, 'Category 2 sub category description', 'CATE60210', 0, 'Just Steeped',			1, 201, 6020, 6000),
+(60220, 'Category 2 sub category description', 'CATE60220', 0, 'Green',					1, 202, 6020, 6000), 
+(60230, 'Category 2 sub category description', 'CATE60230', 0, 'Herbal Infusion',		1, 203, 6020, 6000),
+(60310, 'Category 3 sub category description', 'CATE60310', 0, 'Powders',				1, 301, 6030, 6000), 
+(60320, 'Category 3 sub category description', 'CATE60320', 0, 'Drinkware',				1, 302, 6030, 6000),
+(60410, 'Category 4 sub category description', 'CATE60410', 0, 'Tea',					1, 601, 6040, 6000), 
+(60420, 'Category 4 sub category description', 'CATE60420', 0, 'Coffee',				1, 602, 6040, 6000),
+(60510, 'Category 5 sub category description', 'CATE60510', 0, 'Fêtes des pères',		1, 601, 6050, 6000), 
+(60520, 'Category 5 sub category description', 'CATE60520', 0, "Fêtes des mères",		1, 602, 6050, 6000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(60110, null, null, null, null, null, 'Just Brewed',  			60110, 1000, null),
+(60120, null, null, null, null, null, 'Light & Subtle', 		60120, 1000, null),
+(60130, null, null, null, null, null, 'Light & Distinctive', 	60130, 1000, null),
+(60140, null, null, null, null, null, 'Medium & Smooth', 		60140, 1000, null),
+(60150, null, null, null, null, null, 'Dark & Distincetive',	60150, 1000, null),
+(60210, null, null, null, null, null, 'Just Steeped',			60210, 1000, null),
+(60220, null, null, null, null, null, 'Green',					60220, 1000, null),
+(60230, null, null, null, null, null, 'Herbal Infusion',		60230, 1000, null),
+(60310, null, null, null, null, null, 'Powders',				60310, 1000, null),
+(60320, null, null, null, null, null, 'Drinkware',				60320, 1000, null),
+(60410, null, null, null, null, null, 'Tea',					60410, 1000, null),
+(60420, null, null, null, null, null, 'Coffee',					60420, 1000, null),
+(60510, null, null, null, null, null, 'Feasts Fathers',			60510, 1000, null),
+(60520, null, null, null, null, null, "Mother's Day",			60520, 1000, null);
+
+-- V_CAT_ARG
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(7010, 'Category 1 description', 'CATE7010', 1, 'Coffee',				10, 7000, 1),
+(7020, 'Category 2 description', 'CATE7020', 0, 'Tea',					20, 7000, 1),
+(7030, 'Category 3 description', 'CATE7030', 0, 'Essentials',			30, 7000, 1),
+(7040, 'Category 4 description', 'CATE7040', 0, 'Nouveautés',			20, 7000, 1),
+(7050, 'Category 5 description', 'CATE7050', 0, 'Idées de cadeaux',		30, 7000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(70110, 'Category 1 sub category description', 'CATE70110', 0, 'Just Brewed',			1, 101, 7010, 7000),
+(70120, 'Category 1 sub category description', 'CATE70120', 0, 'Light & Subtle',		1, 102, 7010, 7000),
+(70130, 'Category 1 sub category description', 'CATE70130', 0, 'Light & Distinctive',	1, 103, 7010, 7000),
+(70140, 'Category 1 sub category description', 'CATE70140', 0, 'Medium & Smooth',		1, 104, 7010, 7000),
+(70150, 'Category 1 sub category description', 'CATE70150', 0, 'Dark & Distincetive',	1, 105, 7010, 7000), 
+(70210, 'Category 2 sub category description', 'CATE70210', 0, 'Just Steeped',			1, 201, 7020, 7000),
+(70220, 'Category 2 sub category description', 'CATE70220', 0, 'Green',					1, 202, 7020, 7000), 
+(70230, 'Category 2 sub category description', 'CATE70230', 0, 'Herbal Infusion',		1, 203, 7020, 7000),
+(70310, 'Category 3 sub category description', 'CATE70310', 0, 'Powders',				1, 301, 7030, 7000), 
+(70320, 'Category 3 sub category description', 'CATE70320', 0, 'Drinkware',				1, 302, 7030, 7000),
+(70410, 'Category 4 sub category description', 'CATE70410', 0, 'Tea',					1, 701, 7040, 7000), 
+(70420, 'Category 4 sub category description', 'CATE70420', 0, 'Coffee',				1, 702, 7040, 7000),
+(70510, 'Category 5 sub category description', 'CATE70510', 0, 'Fêtes des pères',		1, 701, 7050, 7000), 
+(70520, 'Category 5 sub category description', 'CATE70520', 0, "Fêtes des mères",		1, 702, 7050, 7000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(70110, null, null, null, null, null, 'Just Brewed',  			70110, 1000, null),
+(70120, null, null, null, null, null, 'Light & Subtle', 		70120, 1000, null),
+(70130, null, null, null, null, null, 'Light & Distinctive', 	70130, 1000, null),
+(70140, null, null, null, null, null, 'Medium & Smooth', 		70140, 1000, null),
+(70150, null, null, null, null, null, 'Dark & Distincetive',	70150, 1000, null),
+(70210, null, null, null, null, null, 'Just Steeped',			70210, 1000, null),
+(70220, null, null, null, null, null, 'Green',					70220, 1000, null),
+(70230, null, null, null, null, null, 'Herbal Infusion',		70230, 1000, null),
+(70310, null, null, null, null, null, 'Powders',				70310, 1000, null),
+(70320, null, null, null, null, null, 'Drinkware',				70320, 1000, null),
+(70410, null, null, null, null, null, 'Tea',					70410, 1000, null),
+(70420, null, null, null, null, null, 'Coffee',					70420, 1000, null),
+(70510, null, null, null, null, null, 'Feasts Fathers',			70510, 1000, null),
+(70520, null, null, null, null, null, "Mother's Day",			70520, 1000, null);
+
+-- V_CAT_CHN
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(8010, 'Category 1 description', 'CATE8010', 1, 'Coffee',				10, 8000, 1),
+(8020, 'Category 2 description', 'CATE8020', 0, 'Tea',					20, 8000, 1),
+(8030, 'Category 3 description', 'CATE8030', 0, 'Essentials',			30, 8000, 1),
+(8040, 'Category 4 description', 'CATE8040', 0, 'Nouveautés',			20, 8000, 1),
+(8050, 'Category 5 description', 'CATE8050', 0, 'Idées de cadeaux',		30, 8000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(80110, 'Category 1 sub category description', 'CATE80110', 0, 'Just Brewed',			1, 101, 8010, 8000),
+(80120, 'Category 1 sub category description', 'CATE80120', 0, 'Light & Subtle',		1, 102, 8010, 8000),
+(80130, 'Category 1 sub category description', 'CATE80130', 0, 'Light & Distinctive',	1, 103, 8010, 8000),
+(80140, 'Category 1 sub category description', 'CATE80140', 0, 'Medium & Smooth',		1, 104, 8010, 8000),
+(80150, 'Category 1 sub category description', 'CATE80150', 0, 'Dark & Distincetive',	1, 105, 8010, 8000), 
+(80210, 'Category 2 sub category description', 'CATE80210', 0, 'Just Steeped',			1, 201, 8020, 8000),
+(80220, 'Category 2 sub category description', 'CATE80220', 0, 'Green',					1, 202, 8020, 8000), 
+(80230, 'Category 2 sub category description', 'CATE80230', 0, 'Herbal Infusion',		1, 203, 8020, 8000),
+(80310, 'Category 3 sub category description', 'CATE80310', 0, 'Powders',				1, 301, 8030, 8000), 
+(80320, 'Category 3 sub category description', 'CATE80320', 0, 'Drinkware',				1, 302, 8030, 8000),
+(80410, 'Category 4 sub category description', 'CATE80410', 0, 'Tea',					1, 701, 8040, 8000), 
+(80420, 'Category 4 sub category description', 'CATE80420', 0, 'Coffee',				1, 702, 8040, 8000),
+(80510, 'Category 5 sub category description', 'CATE80510', 0, 'Fêtes des pères',		1, 701, 8050, 8000), 
+(80520, 'Category 5 sub category description', 'CATE80520', 0, "Fêtes des mères",		1, 702, 8050, 8000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(80110, null, null, null, null, null, 'Just Brewed',  			80110, 1000, null),
+(80120, null, null, null, null, null, 'Light & Subtle', 		80120, 1000, null),
+(80130, null, null, null, null, null, 'Light & Distinctive', 	80130, 1000, null),
+(80140, null, null, null, null, null, 'Medium & Smooth', 		80140, 1000, null),
+(80150, null, null, null, null, null, 'Dark & Distincetive',	80150, 1000, null),
+(80210, null, null, null, null, null, 'Just Steeped',			80210, 1000, null),
+(80220, null, null, null, null, null, 'Green',					80220, 1000, null),
+(80230, null, null, null, null, null, 'Herbal Infusion',		80230, 1000, null),
+(80310, null, null, null, null, null, 'Powders',				80310, 1000, null),
+(80320, null, null, null, null, null, 'Drinkware',				80320, 1000, null),
+(80410, null, null, null, null, null, 'Tea',					80410, 1000, null),
+(80420, null, null, null, null, null, 'Coffee',					80420, 1000, null),
+(80510, null, null, null, null, null, 'Feasts Fathers',			80510, 1000, null),
+(80520, null, null, null, null, null, "Mother's Day",			80520, 1000, null);
+
+-- V_CAT_JPN
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(9010, 'Category 1 description', 'CATE9010', 1, 'Coffee',				10, 9000, 1),
+(9020, 'Category 2 description', 'CATE9020', 0, 'Tea',					20, 9000, 1),
+(9030, 'Category 3 description', 'CATE9030', 0, 'Essentials',			30, 9000, 1),
+(9040, 'Category 4 description', 'CATE9040', 0, 'Nouveautés',			20, 9000, 1),
+(9050, 'Category 5 description', 'CATE9050', 0, 'Idées de cadeaux',		30, 9000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(90110, 'Category 1 sub category description', 'CATE90110', 0, 'Just Brewed',			1, 101, 9010, 9000),
+(90120, 'Category 1 sub category description', 'CATE90120', 0, 'Light & Subtle',		1, 102, 9010, 9000),
+(90130, 'Category 1 sub category description', 'CATE90130', 0, 'Light & Distinctive',	1, 103, 9010, 9000),
+(90140, 'Category 1 sub category description', 'CATE90140', 0, 'Medium & Smooth',		1, 104, 9010, 9000),
+(90150, 'Category 1 sub category description', 'CATE90150', 0, 'Dark & Distincetive',	1, 105, 9010, 9000), 
+(90210, 'Category 2 sub category description', 'CATE90210', 0, 'Just Steeped',			1, 201, 9020, 9000),
+(90220, 'Category 2 sub category description', 'CATE90220', 0, 'Green',					1, 202, 9020, 9000), 
+(90230, 'Category 2 sub category description', 'CATE90230', 0, 'Herbal Infusion',		1, 203, 9020, 9000),
+(90310, 'Category 3 sub category description', 'CATE90310', 0, 'Powders',				1, 301, 9030, 9000), 
+(90320, 'Category 3 sub category description', 'CATE90320', 0, 'Drinkware',				1, 302, 9030, 9000),
+(90410, 'Category 4 sub category description', 'CATE90410', 0, 'Tea',					1, 701, 9040, 9000), 
+(90420, 'Category 4 sub category description', 'CATE90420', 0, 'Coffee',				1, 702, 9040, 9000),
+(90510, 'Category 5 sub category description', 'CATE90510', 0, 'Fêtes des pères',		1, 701, 9050, 9000), 
+(90520, 'Category 5 sub category description', 'CATE90520', 0, "Fêtes des mères",		1, 702, 9050, 9000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(90110, null, null, null, null, null, 'Just Brewed',  			90110, 1000, null),
+(90120, null, null, null, null, null, 'Light & Subtle', 		90120, 1000, null),
+(90130, null, null, null, null, null, 'Light & Distinctive', 	90130, 1000, null),
+(90140, null, null, null, null, null, 'Medium & Smooth', 		90140, 1000, null),
+(90150, null, null, null, null, null, 'Dark & Distincetive',	90150, 1000, null),
+(90210, null, null, null, null, null, 'Just Steeped',			90210, 1000, null),
+(90220, null, null, null, null, null, 'Green',					90220, 1000, null),
+(90230, null, null, null, null, null, 'Herbal Infusion',		90230, 1000, null),
+(90310, null, null, null, null, null, 'Powders',				90310, 1000, null),
+(90320, null, null, null, null, null, 'Drinkware',				90320, 1000, null),
+(90410, null, null, null, null, null, 'Tea',					90410, 1000, null),
+(90420, null, null, null, null, null, 'Coffee',					90420, 1000, null),
+(90510, null, null, null, null, null, 'Feasts Fathers',			90510, 1000, null),
+(90520, null, null, null, null, null, "Mother's Day",			90520, 1000, null);
+
+-- V_CAT_VNM
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, master_category_id, virtual_catalog_id, version)
+ VALUES 
+(10010, 'Category 1 description', 'CATE10010', 1, 'Coffee',				10, 10000, 1),
+(10020, 'Category 2 description', 'CATE10020', 0, 'Tea',				20, 10000, 1),
+(10030, 'Category 3 description', 'CATE10030', 0, 'Essentials',			30, 10000, 1),
+(10040, 'Category 4 description', 'CATE10040', 0, 'Nouveautés',			20, 10000, 1),
+(10050, 'Category 5 description', 'CATE10050', 0, 'Idées de cadeaux',	30, 10000, 1);
+
+INSERT INTO teco_catalog_virtual_category 
+(id, description, code, is_default, name, version, master_category_id, parent_category_id, virtual_catalog_id)
+ VALUES 
+(100110, 'Category 1 sub category description', 'CATE100110', 0, 'Just Brewed',			1, 101, 10010, 10000),
+(100120, 'Category 1 sub category description', 'CATE100120', 0, 'Light & Subtle',		1, 102, 10010, 10000),
+(100130, 'Category 1 sub category description', 'CATE100130', 0, 'Light & Distinctive',	1, 103, 10010, 10000),
+(100140, 'Category 1 sub category description', 'CATE100140', 0, 'Medium & Smooth',		1, 104, 10010, 10000),
+(100150, 'Category 1 sub category description', 'CATE100150', 0, 'Dark & Distincetive',	1, 105, 10010, 10000), 
+(100210, 'Category 2 sub category description', 'CATE100210', 0, 'Just Steeped',		1, 201, 10020, 10000),
+(100220, 'Category 2 sub category description', 'CATE100220', 0, 'Green',				1, 202, 10020, 10000), 
+(100230, 'Category 2 sub category description', 'CATE100230', 0, 'Herbal Infusion',		1, 203, 10020, 10000),
+(100310, 'Category 3 sub category description', 'CATE100310', 0, 'Powders',				1, 301, 10030, 10000), 
+(100320, 'Category 3 sub category description', 'CATE100320', 0, 'Drinkware',			1, 302, 10030, 10000),
+(100410, 'Category 4 sub category description', 'CATE100410', 0, 'Tea',					1, 701, 10040, 10000), 
+(100420, 'Category 4 sub category description', 'CATE100420', 0, 'Coffee',				1, 702, 10040, 10000),
+(100510, 'Category 5 sub category description', 'CATE100510', 0, 'Fêtes des pères',		1, 701, 10050, 10000), 
+(100520, 'Category 5 sub category description', 'CATE100520', 0, "Fêtes des mères",		1, 702, 10050, 10000);
+
+INSERT INTO teco_catalog_virtual_category_attribute 
+(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, category_id, attribute_definition_id, localization_code) 
+VALUES 
+(100110, null, null, null, null, null, 'Just Brewed',  			100110, 1000, null),
+(100120, null, null, null, null, null, 'Light & Subtle', 		100120, 1000, null),
+(100130, null, null, null, null, null, 'Light & Distinctive', 	100130, 1000, null),
+(100140, null, null, null, null, null, 'Medium & Smooth', 		100140, 1000, null),
+(100150, null, null, null, null, null, 'Dark & Distincetive',	100150, 1000, null),
+(100210, null, null, null, null, null, 'Just Steeped',			100210, 1000, null),
+(100220, null, null, null, null, null, 'Green',					100220, 1000, null),
+(100230, null, null, null, null, null, 'Herbal Infusion',		100230, 1000, null),
+(100310, null, null, null, null, null, 'Powders',				100310, 1000, null),
+(100320, null, null, null, null, null, 'Drinkware',				100320, 1000, null),
+(100410, null, null, null, null, null, 'Tea',					100410, 1000, null),
+(100420, null, null, null, null, null, 'Coffee',				100420, 1000, null),
+(100510, null, null, null, null, null, 'Feasts Fathers',		100510, 1000, null),
+(100520, null, null, null, null, null, "Mother's Day",			100520, 1000, null);
+
+-- PRODUCT MARKETING
 
 INSERT INTO teco_product_marketing 
 (id, description, code, is_default, name, version, brand_id)
@@ -1040,113 +1361,599 @@ INSERT INTO teco_product_sku
 update teco_product_sku
 set description = 'Lor23 ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
-INSERT INTO teco_catalog_master_category_product_marketing_rel  
-(master_category_id, product_marketing_id)
+INSERT INTO teco_catalog_master_category_product_sku_rel  
+(master_category_id, product_sku_id)
  VALUES 
-(101, 1), 
-(101, 2), 
-(101, 3),
-(102, 4),
-(102, 5),
-(102, 6),
-(102, 7),
-(103, 8),
-(104, 9),
-(104, 10),
-(104, 11),
-(104, 12),
-(104, 13),
-(104, 14),
-(104, 15),
-(104, 16),
-(104, 17),
-(104, 18),
-(104, 19),
-(104, 20), 
-(105, 21), 
-(105, 22),
-(105, 23),
-(105, 24),
-(105, 25),
-(105, 26),
-(105, 27),
-(105, 28),
-(105, 29),
-(105, 30),
-(105, 31),
-(105, 32),
-(201, 33),
-(201, 34),
-(201, 35),
-(201, 36),
-(201, 37),
-(202, 38),
-(202, 39),
-(202, 40),
-(202, 41),
-(203, 42),
-(203, 43),
-(203, 44),
-(301, 45),
-(301, 46),
-(302, 47),
-(302, 48),
-(302, 49),
-(302, 50);
+(10110, 1), 
+(10110, 2), 
+(10110, 3),
+(10120, 4),
+(10120, 5),
+(10120, 6),
+(10120, 7),
+(10130, 8),
+(10140, 9),
+(10140, 10),
+(10140, 11),
+(10140, 12),
+(10140, 13),
+(10140, 14),
+(10140, 15),
+(10140, 16),
+(10140, 17),
+(10140, 18),
+(10140, 19),
+(10140, 20), 
+(10150, 21), 
+(10150, 22),
+(10150, 23),
+(10150, 24),
+(10150, 25),
+(10150, 26),
+(10150, 27),
+(10150, 28),
+(10150, 29),
+(10150, 30),
+(10150, 31),
+(10150, 32),
+(10210, 33),
+(10210, 34),
+(10210, 35),
+(10210, 36),
+(10210, 37),
+(10220, 38),
+(10220, 39),
+(10220, 40),
+(10220, 41),
+(10230, 42),
+(10230, 43),
+(10230, 44),
+(10310, 45),
+(10310, 46),
+(10320, 47),
+(10320, 48),
+(10320, 49),
+(10320, 50);
 
 INSERT INTO teco_catalog_virtual_category_product_sku_rel  
 (virtual_category_id, product_sku_id)
  VALUES 
-(101, 1), 
-(101, 2), 
-(101, 3),
-(102, 4),
-(102, 5),
-(102, 7),
-(102, 9),
-(103, 10),
-(104, 11),
-(104, 12),
-(104, 14),
-(104, 15),
-(104, 16),
-(104, 17),
-(104, 18),
-(104, 19),
-(104, 20),
-(104, 21),
-(104, 22),
-(104, 23), 
-(105, 24),
-(105, 25),
-(105, 26),
-(105, 27),
-(105, 28),
-(105, 29),
-(105, 30),
-(105, 32),
-(105, 33),
-(105, 34),
-(105, 35),
-(105, 36),
-(201, 38),
-(201, 39),
-(201, 40),
-(201, 41),
-(201, 42),
-(202, 43),
-(202, 44),
-(202, 45),
-(202, 46),
-(203, 47),
-(203, 48),
-(203, 49),
-(301, 50),
-(301, 51),
-(302, 52),
-(302, 53),
-(302, 54),
-(302, 55);
+(10110, 1), 
+(10110, 2), 
+(10110, 3),
+(10120, 4),
+(10120, 5),
+(10120, 7),
+(10120, 9),
+(10130, 10),
+(10140, 11),
+(10140, 12),
+(10140, 14),
+(10140, 15),
+(10140, 16),
+(10140, 17),
+(10140, 18),
+(10140, 19),
+(10140, 20),
+(10140, 21),
+(10140, 22),
+(10140, 23), 
+(10150, 24),
+(10150, 25),
+(10150, 26),
+(10150, 27),
+(10150, 28),
+(10150, 29),
+(10150, 30),
+(10150, 32),
+(10150, 33),
+(10150, 34),
+(10150, 35),
+(10150, 36),
+(10210, 38),
+(10210, 39),
+(10210, 40),
+(10210, 41),
+(10210, 42),
+(10220, 43),
+(10220, 44),
+(10220, 45),
+(10220, 46),
+(10230, 47),
+(10230, 48),
+(10230, 49),
+(10310, 50),
+(10310, 51),
+(10320, 52),
+(10320, 53),
+(10320, 54),
+(10320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(20110, 1), 
+(20110, 2), 
+(20110, 3),
+(20120, 4),
+(20120, 5),
+(20120, 7),
+(20120, 9),
+(20130, 10),
+(20140, 11),
+(20140, 12),
+(20140, 14),
+(20140, 15),
+(20140, 16),
+(20140, 17),
+(20140, 18),
+(20140, 19),
+(20140, 20),
+(20140, 21),
+(20140, 22),
+(20140, 23), 
+(20150, 24),
+(20150, 25),
+(20150, 26),
+(20150, 27),
+(20150, 28),
+(20150, 29),
+(20150, 30),
+(20150, 32),
+(20150, 33),
+(20150, 34),
+(20150, 35),
+(20150, 36),
+(20210, 38),
+(20210, 39),
+(20210, 40),
+(20210, 41),
+(20210, 42),
+(20220, 43),
+(20220, 44),
+(20220, 45),
+(20220, 46),
+(20230, 47),
+(20230, 48),
+(20230, 49),
+(20310, 50),
+(20310, 51),
+(20320, 52),
+(20320, 53),
+(20320, 54),
+(20320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(30110, 1), 
+(30110, 2), 
+(30110, 3),
+(30120, 4),
+(30120, 5),
+(30120, 7),
+(30120, 9),
+(30130, 10),
+(30140, 11),
+(30140, 12),
+(30140, 14),
+(30140, 15),
+(30140, 16),
+(30140, 17),
+(30140, 18),
+(30140, 19),
+(30140, 20),
+(30140, 21),
+(30140, 22),
+(30140, 23), 
+(30150, 24),
+(30150, 25),
+(30150, 26),
+(30150, 27),
+(30150, 28),
+(30150, 29),
+(30150, 30),
+(30150, 32),
+(30150, 33),
+(30150, 34),
+(30150, 35),
+(30150, 36),
+(30210, 38),
+(30210, 39),
+(30210, 40),
+(30210, 41),
+(30210, 42),
+(30220, 43),
+(30220, 44),
+(30220, 45),
+(30220, 46),
+(30230, 47),
+(30230, 48),
+(30230, 49),
+(30310, 50),
+(30310, 51),
+(30320, 52),
+(30320, 53),
+(30320, 54),
+(30320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(40110, 1), 
+(40110, 2), 
+(40110, 3),
+(40120, 4),
+(40120, 5),
+(40120, 7),
+(40120, 9),
+(40130, 10),
+(40140, 11),
+(40140, 12),
+(40140, 14),
+(40140, 15),
+(40140, 16),
+(40140, 17),
+(40140, 18),
+(40140, 19),
+(40140, 20),
+(40140, 21),
+(40140, 22),
+(40140, 23), 
+(40150, 24),
+(40150, 25),
+(40150, 26),
+(40150, 27),
+(40150, 28),
+(40150, 29),
+(40150, 30),
+(40150, 32),
+(40150, 33),
+(40150, 34),
+(40150, 35),
+(40150, 36),
+(40210, 38),
+(40210, 39),
+(40210, 40),
+(40210, 41),
+(40210, 42),
+(40220, 43),
+(40220, 44),
+(40220, 45),
+(40220, 46),
+(40230, 47),
+(40230, 48),
+(40230, 49),
+(40310, 50),
+(40310, 51),
+(40320, 52),
+(40320, 53),
+(40320, 54),
+(40320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(50110, 1), 
+(50110, 2), 
+(50110, 3),
+(50120, 4),
+(50120, 5),
+(50120, 7),
+(50120, 9),
+(50130, 10),
+(50140, 11),
+(50140, 12),
+(50140, 14),
+(50140, 15),
+(50140, 16),
+(50140, 17),
+(50140, 18),
+(50140, 19),
+(50140, 20),
+(50140, 21),
+(50140, 22),
+(50140, 23), 
+(50150, 24),
+(50150, 25),
+(50150, 26),
+(50150, 27),
+(50150, 28),
+(50150, 29),
+(50150, 30),
+(50150, 32),
+(50150, 33),
+(50150, 34),
+(50150, 35),
+(50150, 36),
+(50210, 38),
+(50210, 39),
+(50210, 40),
+(50210, 41),
+(50210, 42),
+(50220, 43),
+(50220, 44),
+(50220, 45),
+(50220, 46),
+(50230, 47),
+(50230, 48),
+(50230, 49),
+(50310, 50),
+(50310, 51),
+(50320, 52),
+(50320, 53),
+(50320, 54),
+(50320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(60110, 1), 
+(60110, 2), 
+(60110, 3),
+(60120, 4),
+(60120, 5),
+(60120, 7),
+(60120, 9),
+(60130, 10),
+(60140, 11),
+(60140, 12),
+(60140, 14),
+(60140, 15),
+(60140, 16),
+(60140, 17),
+(60140, 18),
+(60140, 19),
+(60140, 20),
+(60140, 21),
+(60140, 22),
+(60140, 23), 
+(60150, 24),
+(60150, 25),
+(60150, 26),
+(60150, 27),
+(60150, 28),
+(60150, 29),
+(60150, 30),
+(60150, 32),
+(60150, 33),
+(60150, 34),
+(60150, 35),
+(60150, 36),
+(60210, 38),
+(60210, 39),
+(60210, 40),
+(60210, 41),
+(60210, 42),
+(60220, 43),
+(60220, 44),
+(60220, 45),
+(60220, 46),
+(60230, 47),
+(60230, 48),
+(60230, 49),
+(60310, 50),
+(60310, 51),
+(60320, 52),
+(60320, 53),
+(60320, 54),
+(60320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(70110, 1), 
+(70110, 2), 
+(70110, 3),
+(70120, 4),
+(70120, 5),
+(70120, 7),
+(70120, 9),
+(70130, 10),
+(70140, 11),
+(70140, 12),
+(70140, 14),
+(70140, 15),
+(70140, 16),
+(70140, 17),
+(70140, 18),
+(70140, 19),
+(70140, 20),
+(70140, 21),
+(70140, 22),
+(70140, 23), 
+(70150, 24),
+(70150, 25),
+(70150, 26),
+(70150, 27),
+(70150, 28),
+(70150, 29),
+(70150, 30),
+(70150, 32),
+(70150, 33),
+(70150, 34),
+(70150, 35),
+(70150, 36),
+(70210, 38),
+(70210, 39),
+(70210, 40),
+(70210, 41),
+(70210, 42),
+(70220, 43),
+(70220, 44),
+(70220, 45),
+(70220, 46),
+(70230, 47),
+(70230, 48),
+(70230, 49),
+(70310, 50),
+(70310, 51),
+(70320, 52),
+(70320, 53),
+(70320, 54),
+(70320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(80110, 1), 
+(80110, 2), 
+(80110, 3),
+(80120, 4),
+(80120, 5),
+(80120, 7),
+(80120, 9),
+(80130, 10),
+(80140, 11),
+(80140, 12),
+(80140, 14),
+(80140, 15),
+(80140, 16),
+(80140, 17),
+(80140, 18),
+(80140, 19),
+(80140, 20),
+(80140, 21),
+(80140, 22),
+(80140, 23), 
+(80150, 24),
+(80150, 25),
+(80150, 26),
+(80150, 27),
+(80150, 28),
+(80150, 29),
+(80150, 30),
+(80150, 32),
+(80150, 33),
+(80150, 34),
+(80150, 35),
+(80150, 36),
+(80210, 38),
+(80210, 39),
+(80210, 40),
+(80210, 41),
+(80210, 42),
+(80220, 43),
+(80220, 44),
+(80220, 45),
+(80220, 46),
+(80230, 47),
+(80230, 48),
+(80230, 49),
+(80310, 50),
+(80310, 51),
+(80320, 52),
+(80320, 53),
+(80320, 54),
+(80320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(90110, 1), 
+(90110, 2), 
+(90110, 3),
+(90120, 4),
+(90120, 5),
+(90120, 7),
+(90120, 9),
+(90130, 10),
+(90140, 11),
+(90140, 12),
+(90140, 14),
+(90140, 15),
+(90140, 16),
+(90140, 17),
+(90140, 18),
+(90140, 19),
+(90140, 20),
+(90140, 21),
+(90140, 22),
+(90140, 23), 
+(90150, 24),
+(90150, 25),
+(90150, 26),
+(90150, 27),
+(90150, 28),
+(90150, 29),
+(90150, 30),
+(90150, 32),
+(90150, 33),
+(90150, 34),
+(90150, 35),
+(90150, 36),
+(90210, 38),
+(90210, 39),
+(90210, 40),
+(90210, 41),
+(90210, 42),
+(90220, 43),
+(90220, 44),
+(90220, 45),
+(90220, 46),
+(90230, 47),
+(90230, 48),
+(90230, 49),
+(90310, 50),
+(90310, 51),
+(90320, 52),
+(90320, 53),
+(90320, 54),
+(90320, 55);
+
+INSERT INTO teco_catalog_virtual_category_product_sku_rel  
+(virtual_category_id, product_sku_id)
+ VALUES 
+(100110, 1), 
+(100110, 2), 
+(100110, 3),
+(100120, 4),
+(100120, 5),
+(100120, 7),
+(100120, 9),
+(100130, 10),
+(100140, 11),
+(100140, 12),
+(100140, 14),
+(100140, 15),
+(100140, 16),
+(100140, 17),
+(100140, 18),
+(100140, 19),
+(100140, 20),
+(100140, 21),
+(100140, 22),
+(100140, 23), 
+(100150, 24),
+(100150, 25),
+(100150, 26),
+(100150, 27),
+(100150, 28),
+(100150, 29),
+(100150, 30),
+(100150, 32),
+(100150, 33),
+(100150, 34),
+(100150, 35),
+(100150, 36),
+(100210, 38),
+(100210, 39),
+(100210, 40),
+(100210, 41),
+(100210, 42),
+(100220, 43),
+(100220, 44),
+(100220, 45),
+(100220, 46),
+(100230, 47),
+(100230, 48),
+(100230, 49),
+(100310, 50),
+(100310, 51),
+(100320, 52),
+(100320, 53),
+(100320, 54),
+(100320, 55);
 
 INSERT INTO teco_product_marketing_attribute
 (boolean_value,is_global,market_area_id,ordering,version,attribute_definition_id,product_marketing_id)

@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
-    <defaultCache eternal="false" maxElementsInMemory="100" overflowToDisk="false" statistics="false"/>
+    <defaultCache eternal="false" maxElementsInMemory="500" overflowToDisk="false" statistics="false"/>
 
-    <cache name="web_cache_common" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_common" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_common_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_common_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_common_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
-    </cache>
-
-    <cache name="web_cache_category" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
-    </cache>
-    <cache name="web_cache_category_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
-    </cache>
-    <cache name="web_cache_category_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_common_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
     </cache>
 
-    <cache name="web_cache_product_marketing" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_category" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_category_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_category_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="300" maxDepthExceededBehavior="abort"/>
+    </cache>
+
+    <cache name="web_cache_product_marketing" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_product_marketing_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_product_marketing_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_product_marketing_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_product_marketing_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
 
-    <cache name="web_cache_product_sku" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_product_sku" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_product_sku_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_product_sku_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_product_sku_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
-    </cache>
-
-    <cache name="web_cache_market" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
-    </cache>
-    <cache name="web_cache_market_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
-        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
-    </cache>
-    <cache name="web_cache_market_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_product_sku_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
 
-    <cache name="web_cache_retailer" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_market" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_retailer_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_market_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_retailer_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_market_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
 
-    <cache name="web_cache_cms_content" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="100">
+    <cache name="web_cache_retailer" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_retailer_link_code_id" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+    <cache name="web_cache_retailer_misc" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
+        <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
+    </cache>
+
+    <cache name="web_cache_cms_content" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="100" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_url" timeToLiveSeconds="600" timeToIdleSeconds="500" maxElementsInMemory="100">
+    <cache name="web_cache_url" timeToLiveSeconds="600" timeToIdleSeconds="500" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="500" maxDepthExceededBehavior="abort"/>
     </cache>
 	
     <cache name="web_cache_html" timeToIdleSeconds="14400" timeToLiveSeconds="86400" maxElementsInMemory="200" >
         <sizeOfPolicy maxDepth="200" maxDepthExceededBehavior="abort"/>
     </cache>
-    <cache name="web_cache_misc" timeToLiveSeconds="600" timeToIdleSeconds="500" maxElementsInMemory="100">
+    <cache name="web_cache_misc" timeToLiveSeconds="600" timeToIdleSeconds="500" maxElementsInMemory="500">
         <sizeOfPolicy maxDepth="400" maxDepthExceededBehavior="abort"/>
     </cache>
 

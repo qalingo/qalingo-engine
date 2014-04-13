@@ -22,7 +22,7 @@ public interface CatalogCategoryDao {
 	
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params);
+	List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
 	
 	List<CatalogCategoryMaster> findMasterCategories(Object... params);
 	
@@ -36,7 +36,7 @@ public interface CatalogCategoryDao {
 
 	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
 
 	List<CatalogCategoryVirtual> findCatalogCategories(Object... params);
 

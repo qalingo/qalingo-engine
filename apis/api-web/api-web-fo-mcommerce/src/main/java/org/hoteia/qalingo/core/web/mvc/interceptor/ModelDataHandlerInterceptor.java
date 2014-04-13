@@ -130,9 +130,9 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
 
-            final List<CatalogCategoryVirtual> categoryVirtuals = catalogCategoryService.findRootVirtualCatalogCategories(FetchPlanGraphCategory.footerCatalogCategoryFetchPlan());
-            final List<CatalogCategoryViewBean> catalogCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), categoryVirtuals);
-            modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, catalogCategoryViewBeans);
+            final List<CatalogCategoryVirtual> virtualRootCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(currentMarketArea.getCatalog().getCode(), FetchPlanGraphCategory.footerCatalogCategoryFetchPlan());
+            final List<CatalogCategoryViewBean> virtualRootCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), virtualRootCategories, true, false);
+            modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, virtualRootCategoryViewBeans);
 
             // GEOLOC
             if(requestData.getGeolocData() != null){

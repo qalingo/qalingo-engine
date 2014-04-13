@@ -49,11 +49,7 @@ public class CatalogCategorySolrServiceImpl extends AbstractSolrService implemen
             throw new IllegalArgumentException("Id cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing customer " + catalogCategoryMaster.getId());
-            logger.debug("Indexing customer " + catalogCategoryMaster.getCode());
-            logger.debug("Indexing customer " + catalogCategoryMaster.getName());
-            logger.debug("Indexing customer " + catalogCategoryMaster.getDateCreate());
-            logger.debug("Indexing customer " + catalogCategoryMaster.getDateUpdate());
+            logger.debug("Indexing customer " + catalogCategoryMaster.getId() + " : " + catalogCategoryMaster.getCode() + " : " + catalogCategoryMaster.getName());
         }
 
         CatalogCategorySolr categorySolr = new CatalogCategorySolr();

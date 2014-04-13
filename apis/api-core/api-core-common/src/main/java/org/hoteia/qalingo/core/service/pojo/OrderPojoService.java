@@ -1,10 +1,35 @@
+/**
+ * Most of the code in the Qalingo project is copyrighted Hoteia and licensed
+ * under the Apache License Version 2.0 (release version 0.7.0)
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *                   Copyright (c) Hoteia, 2012-2013
+ * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
+ *
+ */
 package org.hoteia.qalingo.core.service.pojo;
 
+import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
+import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface OrderPojoService {
+@Service("orderPojoService")
+@Transactional(readOnly = true)
+public class OrderPojoService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired 
+    private Mapper dozerBeanMapper;
     
-    OrderCustomerPojo handleOrderMapping(OrderCustomer order);
-
+    public OrderCustomerPojo handleOrderMapping(final OrderCustomer order) {
+        return order == null ? null : dozerBeanMapper.map(order, OrderCustomerPojo.class);
+    }
+    
 }

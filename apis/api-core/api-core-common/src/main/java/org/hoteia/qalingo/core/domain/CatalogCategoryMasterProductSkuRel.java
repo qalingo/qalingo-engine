@@ -10,52 +10,52 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY_CHILD_CATEGORY_REL")
+@Table(name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_SKU_REL")
 @AssociationOverrides({
-    @AssociationOverride(name = "pk.parentCatalogCategoryVirtual", joinColumns = @JoinColumn(name = "PARENT_VIRTUAL_CATALOG_CATEGORY_ID")),
-    @AssociationOverride(name = "pk.childCatalogCategoryVirtual", joinColumns = @JoinColumn(name = "CHILD_VIRTUAL_CATALOG_CATEGORY_ID")) })
-public class CatalogCategoryVirtualChildCategoryRel extends AbstractEntity {
+    @AssociationOverride(name = "pk.catalogCategoryMaster", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID")),
+    @AssociationOverride(name = "pk.productSku", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID")) })
+public class CatalogCategoryMasterProductSkuRel extends AbstractEntity {
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 8801997327038167002L;
+    private static final long serialVersionUID = 2322332601183745543L;
 
     @EmbeddedId
-    private CatalogCategoryVirtualChildCategoryPk pk;
+    private CatalogCategoryMasterProductSkuPk pk;
     
     @Column(name = "RANKING")
     private Integer ranking;
     
-    public CatalogCategoryVirtualChildCategoryRel() {
+    public CatalogCategoryMasterProductSkuRel() {
     }
 
-    public CatalogCategoryVirtualChildCategoryPk getPk() {
+    public CatalogCategoryMasterProductSkuPk getPk() {
         return pk;
     }
 
-    public void setPk(CatalogCategoryVirtualChildCategoryPk pk) {
+    public void setPk(CatalogCategoryMasterProductSkuPk pk) {
         this.pk = pk;
     }
 
     @Transient
-    public CatalogCategoryVirtual getParentCatalogCategoryVirtual() {
-        return getPk().getParentCatalogCategoryVirtual();
+    public CatalogCategoryMaster getCatalogCategoryMaster() {
+        return getPk().getCatalogCategoryMaster();
     }
 
-    public void setParentCatalogCategoryVirtual(final CatalogCategoryVirtual parentCatalogCategoryVirtual) {
-        pk.setParentCatalogCategoryVirtual(parentCatalogCategoryVirtual);
+    public void setCatalogCategoryMaster(final CatalogCategoryMaster catalogCategoryMaster) {
+        pk.setCatalogCategoryMaster(catalogCategoryMaster);
+    }
+
+    @Transient
+    public ProductSku getProductSku() {
+        return getPk().getProductSku();
+    }
+
+    public void setProductSku(final ProductSku productSku) {
+        pk.setProductSku(productSku);
     }
     
-    @Transient
-    public CatalogCategoryVirtual getChildCatalogCategoryVirtual() {
-        return getPk().getChildCatalogCategoryVirtual();
-    }
-
-    public void setChildCatalogCategoryVirtual(final CatalogCategoryVirtual childCatalogCategoryVirtual) {
-        pk.setChildCatalogCategoryVirtual(childCatalogCategoryVirtual);
-    }
-
     public Integer getRanking() {
         return ranking;
     }
@@ -81,7 +81,7 @@ public class CatalogCategoryVirtualChildCategoryRel extends AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CatalogCategoryVirtualChildCategoryRel other = (CatalogCategoryVirtualChildCategoryRel) obj;
+        CatalogCategoryMasterProductSkuRel other = (CatalogCategoryMasterProductSkuRel) obj;
         if (pk == null) {
             if (other.pk != null)
                 return false;

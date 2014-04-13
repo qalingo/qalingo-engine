@@ -30,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
@@ -96,6 +97,9 @@ public class ProductMarketing extends AbstractEntity {
     @JoinColumn(name = "PRODUCT_MARKETING_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
+    @Transient
+    private int ranking;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -233,7 +237,6 @@ public class ProductMarketing extends AbstractEntity {
 				defaultProductSku = (ProductSku) iterator.next();
 			}
 		}
-		
 		return defaultProductSku;
 	}
 	
@@ -313,6 +316,14 @@ public class ProductMarketing extends AbstractEntity {
             }
 	    }
         return null;
+    }
+	
+	public int getRanking() {
+        return ranking;
+    }
+	
+	public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 	
 	public Date getDateCreate() {

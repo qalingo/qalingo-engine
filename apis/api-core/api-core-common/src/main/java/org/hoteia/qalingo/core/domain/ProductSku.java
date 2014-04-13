@@ -32,13 +32,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
@@ -89,7 +89,6 @@ public class ProductSku extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    @OrderBy(clause = "ordering asc")
     private Set<Asset> assets = new HashSet<Asset>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -104,6 +103,9 @@ public class ProductSku extends AbstractEntity {
     @JoinTable(name = "TECO_PRODUCT_SKU_RETAILER_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
+    @Transient
+    private int ranking;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -297,7 +299,15 @@ public class ProductSku extends AbstractEntity {
 	public void setRetailers(Set<Retailer> retailers) {
 		this.retailers = retailers;
 	}
-	
+	   
+    public int getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
 	public Date getDateCreate() {
 		return dateCreate;
 	}

@@ -49,7 +49,7 @@ public interface ProductService {
     
     CustomerProductRatesViewBean getProductMarketingCustomerRateDetails(Long productMarketingId, Object... params);
     
-    CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
+    CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductId(Long productMarketingId);
     
     void saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     

@@ -17,7 +17,7 @@ import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.factory.impl.FrontofficeViewBeanFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.LocalizationViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
@@ -28,7 +28,7 @@ import org.springframework.beans.BeanUtils;
 /**
  * 
  */
-public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactoryImpl {
+public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
 
     @Override
     public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {

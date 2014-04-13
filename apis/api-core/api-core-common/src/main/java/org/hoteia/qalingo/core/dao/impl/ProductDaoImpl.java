@@ -193,7 +193,7 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return criteria.list();
     }
     
-    public Float calculateProductMarketingCustomerRatesByProductCode(final Long productMarketingId) {
+    public Float calculateProductMarketingCustomerRatesByProductId(final Long productMarketingId) {
         String sql = "select avg(rate) from ProductMarketingCustomerRate where productMarketingId=:productMarketingId";
         Query query = getSession().createQuery(sql);
         query.setLong("productMarketingId", productMarketingId);

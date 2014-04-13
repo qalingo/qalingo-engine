@@ -49,12 +49,7 @@ public class StoreSolrServiceImpl extends AbstractSolrService implements StoreSo
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing store " + store.getId());
-            logger.debug("Indexing store " + store.getName());
-            logger.debug("Indexing store " + store.getCity());
-            logger.debug("Indexing store " + store.getCountryCode());
-            logger.debug("Indexing store " + store.getPostalCode());
-            logger.debug("Indexing store " + store.getType());
+            logger.debug("Indexing store " + store.getId() + " : " + store.getName() + " : " + store.getCity());
         }
         StoreSolr storeSolr = new StoreSolr();
         storeSolr.setId(store.getId());

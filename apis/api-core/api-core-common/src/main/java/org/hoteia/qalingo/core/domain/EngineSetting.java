@@ -24,7 +24,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,7 +64,6 @@ public class EngineSetting extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
     @JoinColumn(name = "ENGINE_SETTING_ID")
-    @OrderBy("CONTEXT")
     private Set<EngineSettingValue> engineSettingValues = new HashSet<EngineSettingValue>();
 
     @Temporal(TemporalType.TIMESTAMP)

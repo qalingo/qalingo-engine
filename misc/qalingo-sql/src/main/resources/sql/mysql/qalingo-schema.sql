@@ -383,24 +383,24 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `RETAILER_ID` bigint(20) DEFAULT NULL,
   `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
   `STORE_ID` bigint(20) DEFAULT NULL,
-  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
+  `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
   KEY `FK475D66AE820B6ACF` (`PRODUCT_MARKETING_ID`),
   KEY `FK475D66AE4AAA0650` (`VIRTUAL_CATEGORY_ID`),
   KEY `FK475D66AEDBEE772F` (`PRODUCT_SKU_ID`),
   KEY `FK475D66AEE2E9A1E4` (`MASTER_CATEGORY_ID`),
-  KEY `FK475D66AE723F98E6` (`STORE_ID`),
   KEY `FK475D66AEC0E6A96E` (`RETAILER_ID`),
-  CONSTRAINT `FK475D66AEC0E6A96E` FOREIGN KEY (`RETAILER_ID`) REFERENCES `teco_retailer` (`ID`),
-  CONSTRAINT `FK475D66AE4AAA0650` FOREIGN KEY (`VIRTUAL_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`),
+  KEY `FK475D66AE723F98E6` (`STORE_ID`),
   CONSTRAINT `FK475D66AE723F98E6` FOREIGN KEY (`STORE_ID`) REFERENCES `teco_store` (`ID`),
+  CONSTRAINT `FK475D66AE4AAA0650` FOREIGN KEY (`VIRTUAL_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`),
   CONSTRAINT `FK475D66AE820B6ACF` FOREIGN KEY (`PRODUCT_MARKETING_ID`) REFERENCES `teco_product_marketing` (`ID`),
+  CONSTRAINT `FK475D66AEC0E6A96E` FOREIGN KEY (`RETAILER_ID`) REFERENCES `teco_retailer` (`ID`),
   CONSTRAINT `FK475D66AEDBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`),
   CONSTRAINT `FK475D66AEE2E9A1E4` FOREIGN KEY (`MASTER_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -568,15 +568,22 @@ CREATE TABLE `teco_catalog_master_category` (
   `DESCRIPTION` longtext,
   `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `NAME` varchar(255) DEFAULT NULL,
+  `RANKING` int(11) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
+  `MASTER_CATALOG_ID` bigint(20) DEFAULT NULL,
   `CATALOG_CATEGORY_TYPE_ID` bigint(20) DEFAULT NULL,
   `DEFAULT_PARENT_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `PARENT_CATEGORY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
+  KEY `FK67287653F2303BA5` (`MASTER_CATALOG_ID`),
+  KEY `FK67287653D904542C` (`PARENT_CATEGORY_ID`),
   KEY `FK67287653519672EA` (`DEFAULT_PARENT_CATEGORY_ID`),
   KEY `FK672876534ADDEF42` (`CATALOG_CATEGORY_TYPE_ID`),
   CONSTRAINT `FK672876534ADDEF42` FOREIGN KEY (`CATALOG_CATEGORY_TYPE_ID`) REFERENCES `teco_catalog_category_type` (`ID`),
-  CONSTRAINT `FK67287653519672EA` FOREIGN KEY (`DEFAULT_PARENT_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`)
+  CONSTRAINT `FK67287653519672EA` FOREIGN KEY (`DEFAULT_PARENT_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
+  CONSTRAINT `FK67287653D904542C` FOREIGN KEY (`PARENT_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
+  CONSTRAINT `FK67287653F2303BA5` FOREIGN KEY (`MASTER_CATALOG_ID`) REFERENCES `teco_catalog_master` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -615,57 +622,21 @@ CREATE TABLE `teco_catalog_master_category_attribute` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `teco_catalog_master_category_child_category_rel`
+-- Table structure for table `teco_catalog_master_category_product_sku_rel`
 --
 
-DROP TABLE IF EXISTS `teco_catalog_master_category_child_category_rel`;
+DROP TABLE IF EXISTS `teco_catalog_master_category_product_sku_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_catalog_master_category_child_category_rel` (
-  `PARENT_MASTER_CATALOG_CATEGORY_ID` bigint(20) NOT NULL,
-  `CHILD_MASTER_CATALOG_CATEGORY_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`PARENT_MASTER_CATALOG_CATEGORY_ID`,`CHILD_MASTER_CATALOG_CATEGORY_ID`),
-  KEY `FK32E6187D102C473` (`PARENT_MASTER_CATALOG_CATEGORY_ID`),
-  KEY `FK32E6187A4EBA0C1` (`CHILD_MASTER_CATALOG_CATEGORY_ID`),
-  CONSTRAINT `FK32E6187A4EBA0C1` FOREIGN KEY (`CHILD_MASTER_CATALOG_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
-  CONSTRAINT `FK32E6187D102C473` FOREIGN KEY (`PARENT_MASTER_CATALOG_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_catalog_master_category_master_rel`
---
-
-DROP TABLE IF EXISTS `teco_catalog_master_category_master_rel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_catalog_master_category_master_rel` (
-  `MASTER_CATALOG_ID` bigint(20) NOT NULL,
-  `MASTER_CATEGORY_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`MASTER_CATALOG_ID`,`MASTER_CATEGORY_ID`),
-  UNIQUE KEY `MASTER_CATEGORY_ID` (`MASTER_CATEGORY_ID`),
-  KEY `FK54FB4688F2303BA5` (`MASTER_CATALOG_ID`),
-  KEY `FK54FB4688E2E9A1E4` (`MASTER_CATEGORY_ID`),
-  CONSTRAINT `FK54FB4688E2E9A1E4` FOREIGN KEY (`MASTER_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
-  CONSTRAINT `FK54FB4688F2303BA5` FOREIGN KEY (`MASTER_CATALOG_ID`) REFERENCES `teco_catalog_master` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_catalog_master_category_product_marketing_rel`
---
-
-DROP TABLE IF EXISTS `teco_catalog_master_category_product_marketing_rel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_catalog_master_category_product_marketing_rel` (
-  `MASTER_CATEGORY_ID` bigint(20) NOT NULL,
-  `PRODUCT_MARKETING_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`MASTER_CATEGORY_ID`,`PRODUCT_MARKETING_ID`),
-  KEY `FK7DCCCE64820B6ACF` (`PRODUCT_MARKETING_ID`),
-  KEY `FK7DCCCE64E2E9A1E4` (`MASTER_CATEGORY_ID`),
-  CONSTRAINT `FK7DCCCE64E2E9A1E4` FOREIGN KEY (`MASTER_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
-  CONSTRAINT `FK7DCCCE64820B6ACF` FOREIGN KEY (`PRODUCT_MARKETING_ID`) REFERENCES `teco_product_marketing` (`ID`)
+CREATE TABLE `teco_catalog_master_category_product_sku_rel` (
+  `RANKING` int(11) DEFAULT NULL,
+  `MASTER_CATEGORY_ID` bigint(20) NOT NULL DEFAULT '0',
+  `PRODUCT_SKU_ID` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`MASTER_CATEGORY_ID`,`PRODUCT_SKU_ID`),
+  KEY `FK90926CDBDBEE772F` (`PRODUCT_SKU_ID`),
+  KEY `FK90926CDBE2E9A1E4` (`MASTER_CATEGORY_ID`),
+  CONSTRAINT `FK90926CDBE2E9A1E4` FOREIGN KEY (`MASTER_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
+  CONSTRAINT `FK90926CDBDBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -708,15 +679,19 @@ CREATE TABLE `teco_catalog_virtual_category` (
   `DESCRIPTION` longtext,
   `IS_DEFAULT` tinyint(1) NOT NULL DEFAULT '0',
   `NAME` varchar(255) DEFAULT NULL,
+  `RANKING` int(11) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
+  `VIRTUAL_CATALOG_ID` bigint(20) DEFAULT NULL,
   `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `DEFAULT_PARENT_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `PARENT_CATEGORY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
-  KEY `FK31CA6BA86E9982D` (`DEFAULT_PARENT_CATEGORY_ID`),
+  KEY `FK31CA6BA74A8201B` (`VIRTUAL_CATALOG_ID`),
+  KEY `FK31CA6BAE57796F` (`PARENT_CATEGORY_ID`),
   KEY `FK31CA6BAE2E9A1E4` (`MASTER_CATEGORY_ID`),
   CONSTRAINT `FK31CA6BAE2E9A1E4` FOREIGN KEY (`MASTER_CATEGORY_ID`) REFERENCES `teco_catalog_master_category` (`ID`),
-  CONSTRAINT `FK31CA6BA86E9982D` FOREIGN KEY (`DEFAULT_PARENT_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
+  CONSTRAINT `FK31CA6BA74A8201B` FOREIGN KEY (`VIRTUAL_CATALOG_ID`) REFERENCES `teco_catalog_virtual` (`ID`),
+  CONSTRAINT `FK31CA6BAE57796F` FOREIGN KEY (`PARENT_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -739,37 +714,17 @@ CREATE TABLE `teco_catalog_virtual_category_attribute` (
   `INTEGER_VALUE` int(11) DEFAULT NULL,
   `IS_GLOBAL` tinyint(1) NOT NULL DEFAULT '0',
   `LOCALIZATION_CODE` varchar(255) DEFAULT NULL,
-  `MARKET_AREA_ID` bigint(20) DEFAULT NULL,
   `ORDERING` int(11) NOT NULL DEFAULT '0',
   `START_DATE` datetime DEFAULT NULL,
   `STRING_VALUE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
   `ATTRIBUTE_DEFINITION_ID` bigint(20) DEFAULT NULL,
-  `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `CATEGORY_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `FK984FBB374AAA0650` (`VIRTUAL_CATEGORY_ID`),
+  KEY `FK984FBB379C09C184` (`CATEGORY_ID`),
   KEY `FK984FBB37E578C5FF` (`ATTRIBUTE_DEFINITION_ID`),
   CONSTRAINT `FK984FBB37E578C5FF` FOREIGN KEY (`ATTRIBUTE_DEFINITION_ID`) REFERENCES `teco_attribute_definition` (`ID`),
-  CONSTRAINT `FK984FBB374AAA0650` FOREIGN KEY (`VIRTUAL_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_catalog_virtual_category_child_category_rel`
---
-
-DROP TABLE IF EXISTS `teco_catalog_virtual_category_child_category_rel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_catalog_virtual_category_child_category_rel` (
-  `RANKING` int(11) DEFAULT NULL,
-  `CHILD_VIRTUAL_CATALOG_CATEGORY_ID` bigint(20) NOT NULL DEFAULT '0',
-  `PARENT_VIRTUAL_CATALOG_CATEGORY_ID` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`CHILD_VIRTUAL_CATALOG_CATEGORY_ID`,`PARENT_VIRTUAL_CATALOG_CATEGORY_ID`),
-  KEY `FK650971C063645D15` (`PARENT_VIRTUAL_CATALOG_CATEGORY_ID`),
-  KEY `FK650971C0C970A87` (`CHILD_VIRTUAL_CATALOG_CATEGORY_ID`),
-  CONSTRAINT `FK650971C0C970A87` FOREIGN KEY (`CHILD_VIRTUAL_CATALOG_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`),
-  CONSTRAINT `FK650971C063645D15` FOREIGN KEY (`PARENT_VIRTUAL_CATALOG_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
+  CONSTRAINT `FK984FBB379C09C184` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -789,25 +744,6 @@ CREATE TABLE `teco_catalog_virtual_category_product_sku_rel` (
   KEY `FK127EEF42DBEE772F` (`PRODUCT_SKU_ID`),
   CONSTRAINT `FK127EEF42DBEE772F` FOREIGN KEY (`PRODUCT_SKU_ID`) REFERENCES `teco_product_sku` (`ID`),
   CONSTRAINT `FK127EEF424AAA0650` FOREIGN KEY (`VIRTUAL_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teco_catalog_virtual_category_virtual_rel`
---
-
-DROP TABLE IF EXISTS `teco_catalog_virtual_category_virtual_rel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teco_catalog_virtual_category_virtual_rel` (
-  `RANKING` int(11) DEFAULT NULL,
-  `VIRTUAL_CATEGORY_ID` bigint(20) NOT NULL DEFAULT '0',
-  `VIRTUAL_CATALOG_ID` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`VIRTUAL_CATEGORY_ID`,`VIRTUAL_CATALOG_ID`),
-  KEY `FK9ABE672074A8201B` (`VIRTUAL_CATALOG_ID`),
-  KEY `FK9ABE67204AAA0650` (`VIRTUAL_CATEGORY_ID`),
-  CONSTRAINT `FK9ABE67204AAA0650` FOREIGN KEY (`VIRTUAL_CATEGORY_ID`) REFERENCES `teco_catalog_virtual_category` (`ID`),
-  CONSTRAINT `FK9ABE672074A8201B` FOREIGN KEY (`VIRTUAL_CATALOG_ID`) REFERENCES `teco_catalog_virtual` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1523,9 +1459,9 @@ DROP TABLE IF EXISTS `teco_market_area_payment_gateway_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market_area_payment_gateway_rel` (
-  `PAYMENT_GATEWAY_ID` bigint(20) NOT NULL,
   `MARKET_AREA_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`MARKET_AREA_ID`,`PAYMENT_GATEWAY_ID`),
+  `PAYMENT_GATEWAY_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PAYMENT_GATEWAY_ID`,`MARKET_AREA_ID`),
   KEY `FK61404D54D93FD4A7` (`MARKET_AREA_ID`),
   KEY `FK61404D54D3E07DA3` (`PAYMENT_GATEWAY_ID`),
   CONSTRAINT `FK61404D54D3E07DA3` FOREIGN KEY (`PAYMENT_GATEWAY_ID`) REFERENCES `teco_payment_gateway` (`ID`),
@@ -3091,9 +3027,9 @@ DROP TABLE IF EXISTS `teco_warehouse_delivery_method_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_warehouse_delivery_method_rel` (
-  `WAREHOUSE_ID` bigint(20) NOT NULL,
   `DELIVERY_METHOD_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`DELIVERY_METHOD_ID`,`WAREHOUSE_ID`),
+  `WAREHOUSE_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`WAREHOUSE_ID`,`DELIVERY_METHOD_ID`),
   KEY `FK20A34388CC4E6FA6` (`WAREHOUSE_ID`),
   KEY `FK20A343885CAFB757` (`DELIVERY_METHOD_ID`),
   CONSTRAINT `FK20A343885CAFB757` FOREIGN KEY (`DELIVERY_METHOD_ID`) REFERENCES `teco_delivery_method` (`ID`),
@@ -3110,4 +3046,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-08 16:59:55
+-- Dump completed on 2014-04-13 19:37:36

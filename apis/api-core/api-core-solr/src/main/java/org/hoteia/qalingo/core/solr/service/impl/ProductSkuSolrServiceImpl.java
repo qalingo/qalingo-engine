@@ -52,16 +52,20 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing productSku " + productSku.getId());
-            logger.debug("Indexing productSku " + productSku.getName());
-            logger.debug("Indexing productSku " + productSku.getDescription());
-            logger.debug("Indexing productSku " + productSku.getCode());
+            logger.debug("Indexing productSku " + productSku.getId() + " : " + productSku.getCode()+ " : " + productSku.getName());
         }
         ProductSkuSolr productSkuSolr = new ProductSkuSolr();
         productSkuSolr.setId(productSku.getId());
+        productSkuSolr.setCode(productSku.getCode());
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
-        productSkuSolr.setCode(productSku.getCode());
+
+        if(productSku.getDefaultCatalogCategory() != null){
+            productSkuSolr.setDefaultCategoryCode(productSku.getDefaultCatalogCategory().getCode());
+        }
+
+        productSkuSolr.getCatalogCode().add(marketArea.getCatalog().getCode());
+
         ProductSkuPrice productSkuPrice = productSku.getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
             BigDecimal salePrice = productSkuPrice.getSalePrice();

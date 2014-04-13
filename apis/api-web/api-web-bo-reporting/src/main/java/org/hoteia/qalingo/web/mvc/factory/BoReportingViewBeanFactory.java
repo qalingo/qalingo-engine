@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory.impl;
+package org.hoteia.qalingo.web.mvc.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,13 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.web.mvc.factory.impl.BackofficeViewBeanFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 
 /**
  * 
  */
-public class BoReportingViewBeanFactoryImpl extends BackofficeViewBeanFactoryImpl {
+public class BoReportingViewBeanFactory extends BackofficeViewBeanFactory {
 
 	/**
      * 

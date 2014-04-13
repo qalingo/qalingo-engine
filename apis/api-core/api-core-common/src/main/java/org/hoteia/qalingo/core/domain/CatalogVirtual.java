@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -40,7 +41,7 @@ import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "TECO_CATALOG_VIRTUAL", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
-public class CatalogVirtual extends AbstractEntity {
+public class CatalogVirtual extends AbstractCatalog<CatalogCategoryVirtual> {
 
     /**
      * Generated UID
@@ -82,8 +83,8 @@ public class CatalogVirtual extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "VIRTUAL_CATALOG_ID")
-    private Set<CatalogVirtualCategoryVirtualRel> catalogVirtualCategoryVirtualRels = new HashSet<CatalogVirtualCategoryVirtualRel>();
-
+    private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -159,19 +160,18 @@ public class CatalogVirtual extends AbstractEntity {
         this.catalogMaster = catalogMaster;
     }
 
-    public Set<CatalogVirtualCategoryVirtualRel> getCatalogVirtualCategoryVirtualRels() {
-        return catalogVirtualCategoryVirtualRels;
+    public Set<CatalogCategoryVirtual> getCatalogCategories() {
+        return catalogCategories;
     }
 
-    public List<CatalogCategoryVirtual> getSortedCatalogCategories() {
-        List<CatalogVirtualCategoryVirtualRel> sortedCatalogVirtualCategoryVirtualRels = null;
+    public List<CatalogCategoryVirtual> getSortedAllCatalogCategories() {
         List<CatalogCategoryVirtual> sortedCatalogCategories = null;
-        if (catalogVirtualCategoryVirtualRels != null 
-                && Hibernate.isInitialized(catalogVirtualCategoryVirtualRels)) {
-            sortedCatalogVirtualCategoryVirtualRels = new LinkedList<CatalogVirtualCategoryVirtualRel>(catalogVirtualCategoryVirtualRels);
-            Collections.sort(sortedCatalogVirtualCategoryVirtualRels, new Comparator<CatalogVirtualCategoryVirtualRel>() {
+        if (catalogCategories != null 
+                && Hibernate.isInitialized(catalogCategories)) {
+            sortedCatalogCategories = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
+            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryVirtual>() {
                 @Override
-                public int compare(CatalogVirtualCategoryVirtualRel o1, CatalogVirtualCategoryVirtualRel o2) {
+                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
                     if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
                         return o1.getRanking().compareTo(o2.getRanking());
                     }
@@ -179,44 +179,39 @@ public class CatalogVirtual extends AbstractEntity {
                 }
             });
         }
-        if(sortedCatalogVirtualCategoryVirtualRels != null){
-            sortedCatalogCategories = new LinkedList<CatalogCategoryVirtual>();
-            for (Iterator<CatalogVirtualCategoryVirtualRel> iterator = sortedCatalogVirtualCategoryVirtualRels.iterator(); iterator.hasNext();) {
-                CatalogVirtualCategoryVirtualRel catalogVirtualCategoryVirtualRel = (CatalogVirtualCategoryVirtualRel) iterator.next();
-                sortedCatalogCategories.add(catalogVirtualCategoryVirtualRel.getCatalogCategoryVirtual());
+        return sortedCatalogCategories;
+    }
+    
+    public List<CatalogCategoryVirtual> getSortedRootCatalogCategories() {
+        List<CatalogCategoryVirtual> rootCatalogCategories = null;
+        List<CatalogCategoryVirtual> sortedCatalogCategories = null;
+        if (catalogCategories != null 
+                && Hibernate.isInitialized(catalogCategories)) {
+            rootCatalogCategories = new ArrayList<CatalogCategoryVirtual>();
+            for (Iterator<CatalogCategoryVirtual> iterator = catalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
+                if(catalogCategoryVirtual.isRoot()){
+                    rootCatalogCategories.add(catalogCategoryVirtual);
+                }
             }
+            sortedCatalogCategories = new LinkedList<CatalogCategoryVirtual>(rootCatalogCategories);
+            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryVirtual>() {
+                @Override
+                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
         }
         return sortedCatalogCategories;
     }
 
-//    public List<CatalogCategoryVirtual> getCatalogCategories(final Long marketAreaId) {
-//        List<CatalogCategoryVirtual> sortedObjects = null;
-//        if(catalogCategories != null
-//                && Hibernate.isInitialized(catalogCategories)){
-//            sortedObjects = new LinkedList<CatalogCategoryVirtual>(catalogCategories);
-//            Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
-//                @Override
-//                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-//                    if (o1 != null && o2 != null) {
-//                        Integer order1 = o1.getOrder(marketAreaId);
-//                        Integer order2 = o2.getOrder(marketAreaId);
-//                        if (order1 != null && order2 != null) {
-//                            return order1.compareTo(order2);
-//                        } else {
-//                            return o1.getId().compareTo(o2.getId());
-//                        }
-//                    }
-//                    return 0;
-//                }
-//            });
-//        }
-//        return sortedObjects;
-//    }
-
-    public void setCatalogVirtualCategoryVirtualRels(Set<CatalogVirtualCategoryVirtualRel> getCatalogVirtualCategoryVirtualRels) {
-        this.catalogVirtualCategoryVirtualRels = getCatalogVirtualCategoryVirtualRels;
+    public void setCatalogCategories(Set<CatalogCategoryVirtual> catalogCategories) {
+        this.catalogCategories = catalogCategories;
     }
-
+    
     public Date getDateCreate() {
         return dateCreate;
     }

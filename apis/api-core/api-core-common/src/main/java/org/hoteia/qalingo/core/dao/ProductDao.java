@@ -44,7 +44,7 @@ public interface ProductDao {
 
     List<ProductMarketingCustomerRate> findProductMarketingCustomerRatesByProductCode(Long productMarketingId, String type, Object... params);
     
-    Float calculateProductMarketingCustomerRatesByProductCode(Long productMarketingId);
+    Float calculateProductMarketingCustomerRatesByProductId(Long productMarketingId);
     
     List<ProductMarketingCustomerComment> findProductMarketingCustomerCommentsByProductCode(Long productMarketingId, Object... params);
     

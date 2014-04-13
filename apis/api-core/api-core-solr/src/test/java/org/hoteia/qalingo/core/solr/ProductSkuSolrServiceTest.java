@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
@@ -35,13 +36,19 @@ public class ProductSkuSolrServiceTest {
 
 	protected ProductSkuResponseBean responseBean;
 
+    private CatalogVirtual virtualCatalog;
     private MarketArea marketArea;
     private Retailer retailer;
     
     @Before
     public void setUp() throws Exception {
+        virtualCatalog = new CatalogVirtual();
+        virtualCatalog.setId(new Long("1"));
+        virtualCatalog.setCode("V_CAT_XXX");
+        
         marketArea = new MarketArea();
         marketArea.setId(new Long("1"));
+        marketArea.setCatalog(virtualCatalog);
         
         retailer = new Retailer();
         retailer.setId(new Long("1"));

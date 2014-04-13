@@ -7,11 +7,11 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory.impl;
+package org.hoteia.qalingo.web.mvc.factory;
 
-import org.hoteia.qalingo.core.web.mvc.factory.impl.BackofficeFormFactoryImpl;
+import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 
-public class BoReportingFormFactoryImpl extends BackofficeFormFactoryImpl {
+public class BoTechnicalFormFactory extends BackofficeFormFactory {
 
 
 }

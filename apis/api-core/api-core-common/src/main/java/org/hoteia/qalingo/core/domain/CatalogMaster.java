@@ -21,7 +21,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -32,7 +31,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="TECO_CATALOG_MASTER", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
-public class CatalogMaster extends AbstractEntity {
+public class CatalogMaster extends AbstractCatalog<CatalogCategoryMaster> {
 
 	/**
 	 * Generated UID
@@ -61,18 +60,14 @@ public class CatalogMaster extends AbstractEntity {
 	@Column(name="IS_DEFAULT", nullable=false, columnDefinition="tinyint(1) default 0")
 	private boolean isDefault;
 	
-	@OneToMany(
-	        targetEntity=org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class,
-       		fetch = FetchType.LAZY,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_CATALOG_MASTER_CATEGORY_MASTER_REL",
-	        joinColumns=@JoinColumn(name="MASTER_CATALOG_ID"),
-	        inverseJoinColumns=@JoinColumn(name="MASTER_CATEGORY_ID")
-	    )
-	private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>(); 
+//    @OneToMany(targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class, fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+//    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_MASTER_REL", joinColumns = @JoinColumn(name = "MASTER_CATALOG_ID"), inverseJoinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"))
+//    private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
 	
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "MASTER_CATALOG_ID")
+    private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;

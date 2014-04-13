@@ -40,11 +40,8 @@ public class FetchPlanGraphCommon {
     
     public static FetchPlan defaultCatalogFetchPlan() {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("catalogVirtualCategoryVirtualRels"));
-        fetchplans.add(new SpecificFetchMode("catalogVirtualCategoryVirtualRels.pk.catalogCategoryVirtual"));
-//        fetchplans.add(new SpecificFetchMode("catalogCategory", new SpecificAlias("catalogVirtualCategoryVirtualRels.pk.catalogCategoryVirtual")));
-        fetchplans.add(new SpecificFetchMode("catalogCategory.catalogCategoryAttributes"));
-        
+        fetchplans.add(new SpecificFetchMode("catalogCategories"));
+        fetchplans.add(new SpecificFetchMode("catalogCategories.catalogCategoryAttributes"));
         return new FetchPlan(fetchplans);
     }
     

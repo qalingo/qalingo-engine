@@ -22,7 +22,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -54,20 +53,19 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Indexing productMarketing " + productMarketing.getId());
-            logger.debug("Indexing productMarketing " + productMarketing.getName());
-            logger.debug("Indexing productMarketing " + productMarketing.getDescription());
-            logger.debug("Indexing productMarketing " + productMarketing.getCode());
+            logger.debug("Indexing productMarketing " + productMarketing.getId() + " : " + productMarketing.getCode() + " : " + productMarketing.getName());
         }
         
         ProductMarketingSolr productSolr = new ProductMarketingSolr();
         productSolr.setId(productMarketing.getId());
+        productSolr.setCode(productMarketing.getCode());
         productSolr.setName(productMarketing.getName());
         productSolr.setDescription(productMarketing.getDescription());
-        productSolr.setCode(productMarketing.getCode());
+        
         if(productMarketing.getDefaultCatalogCategory() != null){
             productSolr.setDefaultCategoryCode(productMarketing.getDefaultCatalogCategory().getCode());
         }
+        
         ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());
         if(productSkuPrice != null){
             BigDecimal salePrice = productSkuPrice.getSalePrice();

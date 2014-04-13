@@ -28,7 +28,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -93,7 +92,6 @@ public class User extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
-    @OrderBy("LOGIN_DATE DESC")
     private Set<UserConnectionLog> connectionLogs = new HashSet<UserConnectionLog>();
 
     @Temporal(TemporalType.TIMESTAMP)

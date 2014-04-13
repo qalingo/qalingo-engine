@@ -24,7 +24,7 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
 
-	List<CatalogCategoryMaster> findRootMasterCatalogCategories(Object... params);
+	List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
 
 	List<CatalogCategoryMaster> findMasterCategories(Object... params);
 
@@ -44,7 +44,7 @@ public interface CatalogCategoryService {
 
 	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductSkuId(Long productskuId, Object... params);
 	
-	List<CatalogCategoryVirtual> findRootVirtualCatalogCategories(Object... params);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
 
 	List<CatalogCategoryVirtual> findVirtualCategories(Object... params);
 

@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,9 +29,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -41,13 +41,12 @@ import javax.persistence.Version;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.OrderBy;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
 @Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
-public class CatalogCategoryMaster extends AbstractEntity {
+public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster, CatalogCategoryMaster, CatalogCategoryMasterAttribute, CatalogCategoryMasterProductSkuRel> {
 
     /**
      * Generated UID
@@ -82,23 +81,37 @@ public class CatalogCategoryMaster extends AbstractEntity {
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
+    @Column(name = "RANKING")
+    private Integer ranking;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MASTER_CATALOG_ID", insertable = true, updatable = true)
+    private CatalogMaster catalog;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID", insertable = false, updatable = false)
-    private CatalogCategoryMaster defaultParentCatalogCategory;
+    private CatalogCategoryMaster parentCatalogCategory;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
-    @OrderBy(clause = "ordering asc")
     private Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryMasterAttribute>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
-    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL", joinColumns = @JoinColumn(name = "PARENT_MASTER_CATALOG_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "CHILD_MASTER_CATALOG_CATEGORY_ID"))
+//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
+//    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL", joinColumns = @JoinColumn(name = "PARENT_MASTER_CATALOG_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "CHILD_MASTER_CATALOG_CATEGORY_ID"))
+//    private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
+    @JoinColumn(name = "PARENT_CATEGORY_ID")
     private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
+    
+//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
+//    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"))
+//    private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
-    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"))
-    private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
-
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel.class)
+    @JoinColumn(name = "MASTER_CATEGORY_ID")
+    private Set<CatalogCategoryMasterProductSkuRel> catalogCategoryProductSkuRels = new HashSet<CatalogCategoryMasterProductSkuRel>();
+    
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
     private Set<Asset> assets = new HashSet<Asset>();
@@ -162,19 +175,35 @@ public class CatalogCategoryMaster extends AbstractEntity {
         this.isDefault = isDefault;
     }
 
+    public Integer getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+
+    public CatalogMaster getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(CatalogMaster catalog) {
+        this.catalog = catalog;
+    }
+    
     public boolean isRoot() {
-        if (getDefaultParentCatalogCategory() == null) {
+        if (getParentCatalogCategory() == null) {
             return false;
         }
         return true;
     }
 
-    public CatalogCategoryMaster getDefaultParentCatalogCategory() {
-        return defaultParentCatalogCategory;
+    public CatalogCategoryMaster getParentCatalogCategory() {
+        return parentCatalogCategory;
     }
-
-    public void setDefaultParentCatalogCategory(CatalogCategoryMaster defaultParentCatalogCategory) {
-        this.defaultParentCatalogCategory = defaultParentCatalogCategory;
+    
+    public void setParentCatalogCategory(CatalogCategoryMaster parentCatalogCategory) {
+        this.parentCatalogCategory = parentCatalogCategory;
     }
 
     public String getDescription() {
@@ -195,41 +224,33 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     public List<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
         List<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = null;
-//        try {
-            if (catalogCategoryAttributes != null
-                    && Hibernate.isInitialized(catalogCategoryAttributes)) {
-                catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
-                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
-                    CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (attributeDefinition != null && attributeDefinition.isGlobal()) {
-                        catalogCategoryGlobalAttributes.add(attribute);
-                    }
+        if (catalogCategoryAttributes != null
+                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+            catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null && attributeDefinition.isGlobal()) {
+                    catalogCategoryGlobalAttributes.add(attribute);
                 }
             }
-//        } catch (LazyInitializationException e) {
-//            logger.warn("LazyInitializationException on catalogCategoryAttributes");
-//        }
+        }
         return catalogCategoryGlobalAttributes;
     }
 
     public List<CatalogCategoryMasterAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
         List<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = null;
-//        try {
-            if (catalogCategoryAttributes != null
-                    && Hibernate.isInitialized(catalogCategoryAttributes)) {
-                catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
-                for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
-                    CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
-                    AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
-                    if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
-                        catalogCategoryMarketAreaAttributes.add(attribute);
-                    }
+        if (catalogCategoryAttributes != null
+                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+            catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
+                    catalogCategoryMarketAreaAttributes.add(attribute);
                 }
             }
-//        } catch (LazyInitializationException e) {
-//            logger.warn("LazyInitializationException on catalogCategoryAttributes");
-//        }
+        }
         return catalogCategoryMarketAreaAttributes;
     }
 
@@ -237,44 +258,64 @@ public class CatalogCategoryMaster extends AbstractEntity {
         return catalogCategories;
     }
 
-    public List<CatalogCategoryMaster> getCatalogCategories(final Long marketAreaId) {
-        List<CatalogCategoryMaster> sortedObjects = null;
-        if (catalogCategories != null
+    public List<CatalogCategoryMaster> getSortedChildCatalogCategories() {
+        List<CatalogCategoryMaster> sortedCatalogCategories = null;
+        if (catalogCategories != null 
                 && Hibernate.isInitialized(catalogCategories)) {
-//            try {
-                sortedObjects = new LinkedList<CatalogCategoryMaster>(catalogCategories);
-                Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
-                    @Override
-                    public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-                        if (o1 != null && o2 != null) {
-                            Integer order1 = o1.getOrder(marketAreaId);
-                            Integer order2 = o2.getOrder(marketAreaId);
-                            if (order1 != null && order2 != null) {
-                                return order1.compareTo(order2);
-                            } else {
-                                return o1.getId().compareTo(o2.getId());
-                            }
-                        }
-                        return 0;
+            sortedCatalogCategories = new LinkedList<CatalogCategoryMaster>(catalogCategories);
+            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryMaster>() {
+                @Override
+                public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
                     }
-                });
-//            } catch (LazyInitializationException e) {
-//                logger.warn("LazyInitializationException on catalogCategories");
-//            }
+                    return 0;
+                }
+            });
         }
-        return sortedObjects;
+        return sortedCatalogCategories;
     }
 
     public void setCatalogCategories(Set<CatalogCategoryMaster> catalogCategories) {
         this.catalogCategories = catalogCategories;
     }
 
-    public Set<ProductMarketing> getProductMarketings() {
-        return productMarketings;
+    public Set<CatalogCategoryMasterProductSkuRel> getCatalogCategoryProductSkuRels() {
+        return catalogCategoryProductSkuRels;
     }
-
-    public void setProductMarketings(Set<ProductMarketing> productMarketings) {
-        this.productMarketings = productMarketings;
+    
+    public void setCatalogCategoryProductSkuRels(Set<CatalogCategoryMasterProductSkuRel> catalogCategoryProductSkuRels) {
+        this.catalogCategoryProductSkuRels = catalogCategoryProductSkuRels;
+    }
+    
+    public List<ProductSku> getSortedProductSkus() {
+        List<ProductSku> productSkus = null;
+        if (catalogCategoryProductSkuRels != null
+                && Hibernate.isInitialized(catalogCategoryProductSkuRels)) {
+            productSkus = new ArrayList<ProductSku>();
+            for (Iterator<CatalogCategoryMasterProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryMasterProductSkuRel) iterator.next();
+                productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
+            }
+        }
+        return productSkus;
+    }
+    
+    public List<ProductMarketing> getSortedProductMarketings() {
+        List<ProductMarketing> productMarketings = null;
+        List<ProductSku> productSkus = getSortedProductSkus();
+        if (productSkus != null) {
+            Map<String, ProductMarketing> mapProductMarketing = new HashMap<String, ProductMarketing>();
+            for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+                ProductSku productSku = (ProductSku) iterator.next();
+                if (productSku.getProductMarketing() != null
+                        && Hibernate.isInitialized(productSku.getProductMarketing())) {
+                    mapProductMarketing.put(productSku.getProductMarketing().getCode(), productSku.getProductMarketing());
+                }
+            }
+            productMarketings = new ArrayList<ProductMarketing>(mapProductMarketing.values());
+        }
+        return productMarketings;
     }
 
     public Set<Asset> getAssets() {
@@ -462,6 +503,48 @@ public class CatalogCategoryMaster extends AbstractEntity {
 
     // ASSET
     
+    public Asset getDefaultBackgroundImage() {
+        Asset defaultProductImage = null;
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.BACKGROUND.equals(productImage.getType()) 
+                        && productImage.isDefault()) {
+                    defaultProductImage = productImage;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.BACKGROUND.equals(productImage.getType())) {
+                    defaultProductImage = productImage;
+                }
+            }
+        }
+        return defaultProductImage;
+    }
+    
+    public Asset getDefaultSlideshowImage() {
+        Asset defaultProductImage = null;
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.SLIDESHOW.equals(productImage.getType()) 
+                        && productImage.isDefault()) {
+                    defaultProductImage = productImage;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.SLIDESHOW.equals(productImage.getType())) {
+                    defaultProductImage = productImage;
+                }
+            }
+        }
+        return defaultProductImage;
+    }
+    
     public Asset getDefaultPaskshotImage(String size) {
         Asset defaultProductImage = null;
         List<Asset> assetsIsGlobal = new ArrayList<Asset>();
@@ -479,27 +562,6 @@ public class CatalogCategoryMaster extends AbstractEntity {
                 Asset productImage = (Asset) iterator.next();
                 if (AssetType.PACKSHOT.equals(productImage.getType()) 
                         && size.equals(productImage.getSize().name())) {
-                    defaultProductImage = productImage;
-                }
-            }
-        }
-        return defaultProductImage;
-    }
-
-    public Asset getDefaultBackgroundImage() {
-        Asset defaultProductImage = null;
-        List<Asset> assetsIsGlobal = new ArrayList<Asset>();
-        if (assetsIsGlobal != null) {
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType()) 
-                        && productImage.isDefault()) {
-                    defaultProductImage = productImage;
-                }
-            }
-            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-                Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType())) {
                     defaultProductImage = productImage;
                 }
             }
