@@ -110,6 +110,14 @@ public class RequestData implements Serializable {
         this.marketPlace = marketPlace;
     }
 
+    public String getMasterCatalogCode() {
+        if(marketPlace != null
+                && marketPlace.getMasterCatalog() != null){
+            return marketPlace.getMasterCatalog().getCode();
+        }
+        return null;
+    }
+    
     public Market getMarket() {
         return market;
     }
@@ -120,6 +128,14 @@ public class RequestData implements Serializable {
 
     public MarketArea getMarketArea() {
         return marketArea;
+    }
+    
+    public String getVirtualCatalogCode() {
+        if(marketArea != null
+                && marketArea.getCatalog() != null){
+            return marketArea.getCatalog().getCode();
+        }
+        return null;
     }
 
     public void setMarketArea(MarketArea marketArea) {

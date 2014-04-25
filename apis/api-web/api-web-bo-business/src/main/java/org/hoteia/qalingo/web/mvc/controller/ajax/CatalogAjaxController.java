@@ -36,7 +36,7 @@ import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
+import org.hoteia.qalingo.core.service.pojo.CatalogPojoFactory;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     protected CatalogService catalogService;
 
     @Autowired
-    private CatalogPojoService catalogPojoService;
+    private CatalogPojoFactory catalogPojoService;
 
     @Autowired
     protected ProductService productService;
@@ -81,13 +81,13 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             for (Iterator<CatalogCategoryMaster> iterator = catalogMaster.getCatalogCategories().iterator(); iterator.hasNext();) {
                 CatalogCategoryMaster categoryMaster = (CatalogCategoryMaster) iterator.next();
                 CatalogCategoryMaster reloadedCategoryMaster = catalogCategoryService.getMasterCatalogCategoryById(categoryMaster.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-                Set<CatalogCategoryMaster> catalogCategoriesReload = new HashSet<CatalogCategoryMaster>();
+                Set<CatalogCategoryMaster> reloadedSubCategories = new HashSet<CatalogCategoryMaster>();
                 for (Iterator<CatalogCategoryMaster> iteratorSubCategories = reloadedCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
                     CatalogCategoryMaster subCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
                     CatalogCategoryMaster reloadedSubCategory = catalogCategoryService.getMasterCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-                    catalogCategoriesReload.add(reloadedSubCategory);
+                    reloadedSubCategories.add(reloadedSubCategory);
                 }
-                reloadedCategoryMaster.setCatalogCategories(catalogCategoriesReload);
+                reloadedCategoryMaster.setCatalogCategories(reloadedSubCategories);
                 catalogCategories.add(reloadedCategoryMaster);
             }
             catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(catalogCategories));
@@ -105,12 +105,13 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             for (Iterator<CatalogCategoryVirtual> iterator = catalogVirtual.getCatalogCategories().iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtual categoryVirtual = (CatalogCategoryVirtual) iterator.next();
                 CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(categoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                Set<CatalogCategoryVirtual> catalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
+                Set<CatalogCategoryVirtual> reloadedSubCategories = new HashSet<CatalogCategoryVirtual>();
                 for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = reloadedCategoryVirtual.getSortedChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
                     CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
                     CatalogCategoryVirtual reloadedSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                    catalogCategoriesReload.add(reloadedSubCategory);
+                    reloadedSubCategories.add(reloadedSubCategory);
                 }
+                reloadedCategoryVirtual.setCatalogCategories(reloadedSubCategories);
                 catalogCategories.add(reloadedCategoryVirtual);
             }
             catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(catalogCategories));
@@ -128,12 +129,13 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public BoCatalogCategoryPojo getCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
         final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
         final String catalogType = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_TYPE);
 
         BoCatalogCategoryPojo catalogCategoryPojo = new BoCatalogCategoryPojo();
         if("master".equals(catalogType)){
-            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, FetchPlanGraphCategory.masterCategoryWithProductsFetchPlan());
+            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), FetchPlanGraphCategory.masterCategoryWithProductsFetchPlan());
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();
@@ -146,7 +148,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
             
         } else if("virtual".equals(catalogType)){
-            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();

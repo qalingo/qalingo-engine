@@ -12,11 +12,12 @@ package org.hoteia.qalingo.core.service;
 import java.util.List;
 
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
+import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerProductRatesViewBean;
 
 public interface ProductService {
@@ -28,6 +29,10 @@ public interface ProductService {
     ProductMarketing getProductMarketingById(String productMarketingId, Object... params);
 
 	ProductMarketing getProductMarketingByCode(String productMarketingCode, Object... params);
+	
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategory(ProductMarketing productMarketing, List<CatalogCategoryVirtual> catalogCategories, boolean withFallback);
+	
+	CatalogCategoryVirtual getDefaultVirtualCatalogCategory(ProductSku productSku, List<CatalogCategoryVirtual> catalogCategories, boolean withFallback);
 	
 	List<ProductMarketing> findProductMarketings(Long marketAreaId, Object... params);
 	

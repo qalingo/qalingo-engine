@@ -48,8 +48,11 @@ public class MarketAttribute extends AbstractAttribute {
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
-	@Column(name="STRING_VALUE")
-	private String stringValue;
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
+
+    @Column(name = "LONG_STRING_VALUE")
+    private String longStringValue;
 	
 	@Column(name="INTEGER_VALUE")
 	private Integer integerValue;
@@ -64,14 +67,17 @@ public class MarketAttribute extends AbstractAttribute {
 	@Lob
 	private byte[] blobValue;
 	
-	@Column(name="BOOLEAN_VALUE")
-	private Boolean booleanValue;
+    @Column(name = "BOOLEAN_VALUE")
+    private Boolean booleanValue;
+
+    @Column(name = "LOCALIZATION_CODE")
+    private String localizationCode;
 	
 	@Column(name="CONTEXT")
 	private String context;
 	
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+//	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+//	private Integer ordering;
 	
 	@Column(name="MARKET_ID")
 	private Long marketId;
@@ -119,13 +125,21 @@ public class MarketAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public String getShortStringValue() {
+        return shortStringValue;
+    }
+    
+    public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+    
+    public String getLongStringValue() {
+        return longStringValue;
+    }
+    
+    public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
+    }
 
 	public Integer getIntegerValue() {
 		return integerValue;
@@ -159,13 +173,21 @@ public class MarketAttribute extends AbstractAttribute {
 		this.blobValue = blobValue;
 	}
 
-	public Boolean getBooleanValue() {
-		return booleanValue;
-	}
-	
-	public void setBooleanValue(Boolean booleanValue) {
-		this.booleanValue = booleanValue;
-	}
+    public Boolean getBooleanValue() {
+        return booleanValue;
+    }
+    
+    public void setBooleanValue(Boolean booleanValue) {
+        this.booleanValue = booleanValue;
+    }
+
+    public String getLocalizationCode() {
+        return localizationCode;
+    }
+
+    public void setLocalizationCode(String localizationCode) {
+        this.localizationCode = localizationCode;
+    }
 
 	public String getContext() {
 	    return context;
@@ -175,13 +197,13 @@ public class MarketAttribute extends AbstractAttribute {
 	    this.context = context;
     }
 	
-	public Integer getOrdering() {
-		return ordering;
-	}
-	
-	public void setOrdering(Integer ordering) {
-		this.ordering = ordering;
-	}
+//	public Integer getOrdering() {
+//		return ordering;
+//	}
+//	
+//	public void setOrdering(Integer ordering) {
+//		this.ordering = ordering;
+//	}
 	
 	public Long getMarketId() {
         return marketId;
@@ -256,8 +278,8 @@ public class MarketAttribute extends AbstractAttribute {
 
     @Override
     public String toString() {
-        return "MarketAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue
-                + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", context=" + context + ", ordering=" + ordering + ", marketId=" + marketId + ", startDate="
+        return "MarketAttribute [id=" + id + ", version=" + version + ", shortStringValue=" + shortStringValue + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue=" + floatValue
+                + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", context=" + context + ", marketId=" + marketId + ", startDate="
                 + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
-import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class RetailerRestService {
 
     @Autowired
-    private RetailerPojoService retailerService;
+    private RetailerPojoFactory retailerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

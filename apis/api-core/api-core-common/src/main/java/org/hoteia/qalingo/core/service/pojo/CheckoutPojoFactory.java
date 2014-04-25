@@ -27,7 +27,7 @@ import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
+import org.hoteia.qalingo.core.service.pojo.CheckoutPojoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("checkoutPojoService")
 @Transactional(readOnly = true)
-public class CheckoutPojoService {
+public class CheckoutPojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -49,7 +49,7 @@ public class CheckoutPojoService {
     @Autowired 
     private Mapper dozerBeanMapper;
     
-    public CartPojo handleCartMapping(final Cart cart) {
+    public CartPojo handleCartMapping(final Cart cart, final String catalogVirtualCode, final String catalogMasterCode) {
         if(cart != null){
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
@@ -63,7 +63,7 @@ public class CheckoutPojoService {
                     cartItem.setProductMarketing(productMarketing);
                 }
                 if(cartItem.getCatalogCategory() == null){
-                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode());
+                    final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode(), catalogVirtualCode, catalogMasterCode);
                     cartItem.setCatalogCategory(catalogCategory);
                 }
             }

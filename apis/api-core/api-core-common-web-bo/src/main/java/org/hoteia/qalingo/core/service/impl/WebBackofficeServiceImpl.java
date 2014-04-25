@@ -154,7 +154,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
         customerService.saveOrUpdateCustomer(customer);
     }
     
-	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentCatalogCategory, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
+	public void createCatalogCategory(final RequestData requestData, final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryMaster parentCatalogCategory, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
 		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
@@ -168,7 +168,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				String attributeKey = (String) iterator.next();
 				String value = attributes.get(attributeKey);
 				if(StringUtils.isNotEmpty(value)) {
-					catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+					catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 				}
 			}
 		}
@@ -180,7 +180,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				String attributeKey = (String) iterator.next();
 				String value = attributes.get(attributeKey);
 				if(StringUtils.isNotEmpty(value)) {
-					catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+					catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 				}
 			}
 		}
@@ -191,7 +191,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(parentCatalogCategory != null) {
 				if(!parentCatalogCategory.getCatalogCategories().contains(catalogCategory)) {
 					// PARENT DOESN'T CONTAIN THE NEW CATEGORY - ADD IT IN THE MANY TO MANY
-					CatalogCategoryMaster reloadedCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode);
+					CatalogCategoryMaster reloadedCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
 					parentCatalogCategory.getCatalogCategories().add(reloadedCatalogCategory);
 					catalogCategoryService.saveOrUpdateCatalogCategory(parentCatalogCategory);
 				}
@@ -207,7 +207,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		
 	}
 	
-	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
+	public void updateCatalogCategory(final RequestData requestData, final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
 		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
@@ -215,7 +215,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(catalogCategory.getParentCatalogCategory() == null
 					|| (catalogCategory.getParentCatalogCategory() != null
 						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getParentCatalogCategory().getCode()))) {
-				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
+				final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
 				catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 			}
 		}
@@ -226,7 +226,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
+				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
 					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryGlobalAttributes.next();
 					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
 					    catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
@@ -236,7 +236,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				if(doesntExist) {
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+						catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 					}
 				}
 			}
@@ -248,7 +248,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryMarketAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
+				for (Iterator<CatalogCategoryMasterAttribute> iteratorCategoryMarketAttributes = catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
 					CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iteratorCategoryMarketAttributes.next();
 					if(catalogCategoryMasterAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
 					    catalogCategoryMasterAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
@@ -258,7 +258,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				if(doesntExist) {
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+						catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryMasterAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 					}
 				}
 			}
@@ -267,14 +267,14 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 	
-	public void createCatalogCategory(final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
+	public void createCatalogCategory(final RequestData requestData, final MarketArea currentMarketArea, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
 		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 		catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 	
-	public void updateCatalogCategory(final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
+	public void updateCatalogCategory(final RequestData requestData, final MarketArea currentMarketArea, final Retailer currentRetailer, final Localization currentLocalization, final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
 		catalogCategory.setName(catalogCategoryForm.getName());
 		catalogCategory.setCode(catalogCategoryForm.getCode());
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
@@ -282,7 +282,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			if(catalogCategory.getParentCatalogCategory() == null
 					|| (catalogCategory.getParentCatalogCategory() != null
 						&& !catalogCategoryForm.getDefaultParentCategoryCode().equalsIgnoreCase(catalogCategory.getParentCatalogCategory().getCode()))) {
-				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode());
+				final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryForm.getDefaultParentCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
 				catalogCategory.setParentCatalogCategory(parentCatalogCategory);
 			}
 		}
@@ -313,7 +313,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
+				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryGlobalAttributes = catalogCategory.getGlobalAttributes().iterator(); iteratorCategoryGlobalAttributes.hasNext();) {
 					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryGlobalAttributes.next();
 					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
 					    catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getGlobalAttributes().get(attributeKey));
@@ -323,7 +323,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				if(doesntExist) {
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
+						catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, true));
 					}
 				}
 			}
@@ -335,7 +335,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 			boolean doesntExist = true;
 			for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
 				String attributeKey = (String) iterator.next();
-				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryMarketAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
+				for (Iterator<CatalogCategoryVirtualAttribute> iteratorCategoryMarketAttributes = catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).iterator(); iteratorCategoryMarketAttributes.hasNext();) {
 					CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = (CatalogCategoryVirtualAttribute) iteratorCategoryMarketAttributes.next();
 					if(catalogCategoryVirtualAttribute.getAttributeDefinition().getCode().equals(attributeKey)) {
 					    catalogCategoryVirtualAttribute.setValue(catalogCategoryForm.getMarketAreaAttributes().get(attributeKey));
@@ -345,7 +345,7 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 				if(doesntExist) {
 					String value = attributes.get(attributeKey);
 					if(StringUtils.isNotEmpty(value)) {
-						catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
+						catalogCategory.getMarketAreaAttributes(currentMarketArea.getId()).add(buildCatalogCategoryVirtualAttribute(currentMarketArea, currentLocalization, attributeKey, value, false));
 					}
 				}
 			}

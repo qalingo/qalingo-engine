@@ -22,11 +22,11 @@ import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.pojo.CustomerPojoService;
+import org.hoteia.qalingo.core.service.pojo.CustomerPojoFactory;
 
 @Service("customerPojoService")
 @Transactional(readOnly = true)
-public class CustomerPojoService {
+public class CustomerPojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

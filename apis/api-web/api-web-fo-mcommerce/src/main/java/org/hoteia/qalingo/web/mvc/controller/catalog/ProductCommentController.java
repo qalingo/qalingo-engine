@@ -206,8 +206,7 @@ public class ProductCommentController extends AbstractMCommerceController {
 		
 		addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.PRODUCT_MARKETING, "comment_form_success_message",  locale));
 		
-		final String urlRedirect = urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestUtil.getRequestData(request), 
-														product.getDefaultCatalogCategory(), product, product.getDefaultProductSku());
+		final String urlRedirect = requestUtil.getLastProductDetailsRequestUrl(request);
         return new ModelAndView(new RedirectView(urlRedirect));
 	}
 	

@@ -9,8 +9,14 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -28,6 +34,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_CATALOG_MASTER", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
@@ -131,6 +139,50 @@ public class CatalogMaster extends AbstractCatalog<CatalogCategoryMaster> {
 		return catalogCategories;
 	}
 	
+    public List<CatalogCategoryMaster> getSortedAllCatalogCategories() {
+        List<CatalogCategoryMaster> sortedCatalogCategories = null;
+        if (catalogCategories != null 
+                && Hibernate.isInitialized(catalogCategories)) {
+            sortedCatalogCategories = new LinkedList<CatalogCategoryMaster>(catalogCategories);
+            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryMaster>() {
+                @Override
+                public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
+        }
+        return sortedCatalogCategories;
+    }
+    
+    public List<CatalogCategoryMaster> getSortedRootCatalogCategories() {
+        List<CatalogCategoryMaster> rootCatalogCategories = null;
+        List<CatalogCategoryMaster> sortedCatalogCategories = null;
+        if (catalogCategories != null 
+                && Hibernate.isInitialized(catalogCategories)) {
+            rootCatalogCategories = new ArrayList<CatalogCategoryMaster>();
+            for (Iterator<CatalogCategoryMaster> iterator = catalogCategories.iterator(); iterator.hasNext();) {
+                CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
+                if(catalogCategoryMaster.isRoot()){
+                    rootCatalogCategories.add(catalogCategoryMaster);
+                }
+            }
+            sortedCatalogCategories = new LinkedList<CatalogCategoryMaster>(rootCatalogCategories);
+            Collections.sort(sortedCatalogCategories, new Comparator<CatalogCategoryMaster>() {
+                @Override
+                public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+                    if (o1 != null && o1.getRanking() != null && o2 != null && o2.getRanking() != null) {
+                        return o1.getRanking().compareTo(o2.getRanking());
+                    }
+                    return 0;
+                }
+            });
+        }
+        return sortedCatalogCategories;
+    }
+    
 	public void setCatalogCategories(Set<CatalogCategoryMaster> catalogCategories) {
 		this.catalogCategories = catalogCategories;
 	}

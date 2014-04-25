@@ -11,12 +11,15 @@ package org.hoteia.qalingo.core.service.impl;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
@@ -54,7 +57,31 @@ public class ProductServiceImpl implements ProductService {
     public ProductMarketing getProductMarketingByCode(final String productMarketingCode, Object... params) {
         return productDao.getProductMarketingByCode(productMarketingCode, params);
     }
+    
+    public CatalogCategoryVirtual getDefaultVirtualCatalogCategory(final ProductMarketing productMarketing, final List<CatalogCategoryVirtual> catalogCategories, boolean withFallback) {
+        return getDefaultVirtualCatalogCategory(productMarketing.getDefaultProductSku(), catalogCategories, withFallback);
+    }
 
+    public CatalogCategoryVirtual getDefaultVirtualCatalogCategory(final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, boolean withFallback) {
+        if(catalogCategories != null){
+            for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategoryVirtual = catalogCategories.iterator(); iteratorCatalogCategoryVirtual.hasNext();) {
+                CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) iteratorCatalogCategoryVirtual.next();
+                for (Iterator<CatalogCategoryVirtualProductSkuRel> iteratorCatalogCategoryProductSkuRel = catalogCategoryVirtual.getCatalogCategoryProductSkuRels().iterator(); iteratorCatalogCategoryProductSkuRel.hasNext();) {
+                    CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iteratorCatalogCategoryProductSkuRel.next();
+                    if(productSku.getCode().equals(catalogCategoryVirtualProductSkuRel.getProductSku().getCode()) 
+                            && catalogCategoryVirtualProductSkuRel.isDefaultCategory()){
+                        return catalogCategoryVirtual;
+                    }
+                }
+            }
+            if(withFallback
+                    && catalogCategories.size() > 0){
+                return catalogCategories.iterator().next();
+            }
+        }
+        return null;
+    }
+    
     public List<ProductMarketing> findProductMarketings(final Long marketAreaId, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(params);
         return orderProductMarketingList(marketAreaId, productMarketings);
@@ -88,28 +115,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     protected List<ProductMarketing> orderProductMarketingList(final Long marketAreaId, final List<ProductMarketing> productMarketings) {
-        if (productMarketings != null) {
-            List<ProductMarketing> sortedObjects = new LinkedList<ProductMarketing>(productMarketings);
-            if (marketAreaId != null) {
-                Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
-                    @Override
-                    public int compare(ProductMarketing o1, ProductMarketing o2) {
-                        if (o1 != null && o2 != null) {
-                            Integer order1 = o1.getOrder(marketAreaId);
-                            Integer order2 = o2.getOrder(marketAreaId);
-                            if (order1 != null && order2 != null) {
-                                return order1.compareTo(order2);
-                            } else {
-                                return o1.getId().compareTo(o2.getId());
-                            }
-                        }
-                        return 0;
-                    }
-                });
-            }
-            return sortedObjects;
-        }
-        return null;
+//        if (productMarketings != null) {
+//            List<ProductMarketing> sortedObjects = new LinkedList<ProductMarketing>(productMarketings);
+//            if (marketAreaId != null) {
+//                Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
+//                    @Override
+//                    public int compare(ProductMarketing o1, ProductMarketing o2) {
+//                        if (o1 != null && o2 != null) {
+//                            Integer order1 = o1.getOrder(marketAreaId);
+//                            Integer order2 = o2.getOrder(marketAreaId);
+//                            if (order1 != null && order2 != null) {
+//                                return order1.compareTo(order2);
+//                            } else {
+//                                return o1.getId().compareTo(o2.getId());
+//                            }
+//                        }
+//                        return 0;
+//                    }
+//                });
+//            }
+//            return sortedObjects;
+//        }
+//        return null;
+        return productMarketings;
     }
     
     // PRODUCT MARKETING COMMENT/RATE
@@ -255,28 +283,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     protected List<ProductSku> orderProductSkuList(final Long marketAreaId, final List<ProductSku> skus) {
-        if (skus != null) {
-            List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
-            if (marketAreaId != null) {
-                Collections.sort(sortedObjects, new Comparator<ProductSku>() {
-                    @Override
-                    public int compare(ProductSku o1, ProductSku o2) {
-                        if (o1 != null && o2 != null) {
-                            Integer order1 = o1.getOrder(marketAreaId);
-                            Integer order2 = o2.getOrder(marketAreaId);
-                            if (order1 != null && order2 != null) {
-                                return order1.compareTo(order2);
-                            } else {
-                                return o1.getId().compareTo(o2.getId());
-                            }
-                        }
-                        return 0;
-                    }
-                });
-            }
-            return sortedObjects;
-        }
-        return null;
+//        if (skus != null) {
+//            List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
+//            if (marketAreaId != null) {
+//                Collections.sort(sortedObjects, new Comparator<ProductSku>() {
+//                    @Override
+//                    public int compare(ProductSku o1, ProductSku o2) {
+//                        if (o1 != null && o2 != null) {
+//                            Integer order1 = o1.getOrder(marketAreaId);
+//                            Integer order2 = o2.getOrder(marketAreaId);
+//                            if (order1 != null && order2 != null) {
+//                                return order1.compareTo(order2);
+//                            } else {
+//                                return o1.getId().compareTo(o2.getId());
+//                            }
+//                        }
+//                        return 0;
+//                    }
+//                });
+//            }
+//            return sortedObjects;
+//        }
+//        return null;
+        return skus;
     }
 
     // PRODUCT SKU ASSET

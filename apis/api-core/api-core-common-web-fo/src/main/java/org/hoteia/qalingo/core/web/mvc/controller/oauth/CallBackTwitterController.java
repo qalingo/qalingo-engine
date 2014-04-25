@@ -171,7 +171,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 					}
 				}
 				screenName = screenName + firstName;
-				attribute.setStringValue(screenName);
+				attribute.setShortStringValue(screenName);
 				customer.getAttributes().add(attribute);
 				
 				if(StringUtils.isNotEmpty(locale)){

@@ -67,11 +67,6 @@
 			<artifactId>cxf-rt-rs-security-cors</artifactId>
 		</dependency>
 
-		<!-- JACKSON Libs : JSON 
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-		</dependency>-->
     </dependencies>
 
 </project>

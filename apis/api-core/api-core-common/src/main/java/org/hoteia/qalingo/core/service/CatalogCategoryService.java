@@ -22,17 +22,23 @@ public interface CatalogCategoryService {
 
     CatalogCategoryMaster getMasterCatalogCategoryById(String catalogCategoryId, Object... params);
 
-	CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, Object... params);
+    CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, String catalogMasterCode, Object... params);
 
-	List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
+    List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(String catalogMasterCode, Object... params);
 
-	List<CatalogCategoryMaster> findMasterCategories(Object... params);
+    List<CatalogCategoryMaster> findAllMasterCatalogCategoriesByCatalogCode(String catalogMasterCode, Object... params);
 
-	List<CatalogCategoryMaster> orderCategoryMasterList(List<CatalogCategoryMaster> categories);
+//    List<CatalogCategoryMaster> findMasterCategories(Object... params);
 
-	void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
-	
-	void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
+    List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(Long productSkuId, Object... params);
+
+//    List<CatalogCategoryMaster> findMasterCategoriesByProductMarketingId(Long productMarketingId, Object... params);
+
+    List<CatalogCategoryMaster> orderCategoryMasterList(List<CatalogCategoryMaster> categories);
+
+    void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
+
+    void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
 
 	// VIRTUAL
 	
@@ -40,15 +46,19 @@ public interface CatalogCategoryService {
     
 	CatalogCategoryVirtual getVirtualCatalogCategoryById(String catalogCategoryId, Object... params);
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, Object... params);
+	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, String catalogVirtualCode, String catalogMasterCode, Object... params);
 
 	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductSkuId(Long productskuId, Object... params);
 	
-	List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(String catalogCode, Object... params);
+	List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(String catalogVirtualCode, Object... params);
 
-	List<CatalogCategoryVirtual> findVirtualCategories(Object... params);
+    List<CatalogCategoryVirtual> findAllVirtualCatalogCategoriesByCatalogCode(String catalogVirtualCode, Object... params);
+
+//	List<CatalogCategoryVirtual> findVirtualCategories(Object... params);
 
 	List<CatalogCategoryVirtual> findVirtualCategoriesByProductSkuId(Long productSkuId, Object... params);
+
+//    List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long productMarketingId, Object... params);
 
 	List<CatalogCategoryVirtual> orderCategoryVirtualList(List<CatalogCategoryVirtual> categories);
 

@@ -23,28 +23,56 @@ public interface AttributeService {
 	
 	List<AttributeDefinition> findAttributeDefinitions();
 
-    List<AttributeDefinition> findMarketAreaAttributeDefinitions();
-
     void saveOrUpdateAttributeDefinition(AttributeDefinition attributeDefinition);
     
     void deleteAttributeDefinition(AttributeDefinition attributeDefinition);
 
     // SPECIFIC
+
+    List<AttributeDefinition> findCatalogCategoryAllAttributeDefinitions();
     
-	List<AttributeDefinition> findCatalogCategoryAttributeDefinitions();
+    List<AttributeDefinition> findCatalogCategoryGlobalAttributeDefinitions();
 
-    List<AttributeDefinition> findProductMarketingAttributeDefinitions();
+    List<AttributeDefinition> findCatalogCategoryMarketAreaAttributeDefinitions();
 
-	List<AttributeDefinition> findProductSkuAttributeDefinitions();
+    List<AttributeDefinition> findProductMarketingAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findProductMarketingGlobalAttributeDefinitions();
 
-	List<AttributeDefinition> findCustomerAttributeDefinitions();
+    List<AttributeDefinition> findProductMarketingMarketAreaAttributeDefinitions();
 
-    List<AttributeDefinition> findStoreDefinitions();
+    List<AttributeDefinition> findProductSkuAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findProductSkuGlobalAttributeDefinitions();
 
+    List<AttributeDefinition> findProductSkuMarketAreaAttributeDefinitions();
+
+    List<AttributeDefinition> findCustomerAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findCustomerGlobalAttributeDefinitions();
+
+    List<AttributeDefinition> findCustomerMarketAreaAttributeDefinitions();
+
+    List<AttributeDefinition> findStoreAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findStoreGlobalAttributeDefinitions();
+
+    List<AttributeDefinition> findStoreMarketAreaAttributeDefinitions();
+
+    List<AttributeDefinition> findPaymentGatewayAllAttributeDefinitions();
+    
     List<AttributeDefinition> findPaymentGatewayGlobalAttributeDefinitions();
     
     List<AttributeDefinition> findPaymentGatewayMarketAreaAttributeDefinitions();
 
-    List<AttributeDefinition> findTaxDefinitions();
+    List<AttributeDefinition> findMarketAreaAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findMarketAreaGlobalAttributeDefinitions();
+    
+    List<AttributeDefinition> findTaxAllAttributeDefinitions();
+    
+    List<AttributeDefinition> findTaxGlobalAttributeDefinitions();
+
+    List<AttributeDefinition> findTaxMarketAreaAttributeDefinitions();
 
 }

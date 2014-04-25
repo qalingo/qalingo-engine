@@ -37,10 +37,12 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String iconImage;
     protected boolean isRoot;
     protected int countProduct;
+    
+    protected CatalogCategoryViewBean masterCategory;
     protected CatalogCategoryViewBean defaultParentCategory;
 
-    private Map<String, String> globalAttributes = new HashMap<String, String>();
-    private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
+    private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
 
     protected int countSubCategories = 0;
     protected List<CatalogCategoryViewBean> subCategories = new ArrayList<CatalogCategoryViewBean>();
@@ -150,6 +152,21 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.countProduct = countProduct;
     }
 
+    public CatalogCategoryViewBean getMasterCategory() {
+        return masterCategory;
+    }
+    
+    public boolean isWithMasterCategory() {
+        if(masterCategory != null){
+            return true;
+        }
+        return false;
+    }
+    
+    public void setMasterCategory(CatalogCategoryViewBean masterCategory) {
+        this.masterCategory = masterCategory;
+    }
+    
     public CatalogCategoryViewBean getDefaultParentCategory() {
         return defaultParentCategory;
     }
@@ -158,19 +175,39 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
         this.defaultParentCategory = defaultParentCategory;
     }
 
-    public Map<String, String> getGlobalAttributes() {
+    public Map<String, AttributeValueViewBean> getGlobalAttributes() {
         return globalAttributes;
     }
     
-    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+    public AttributeValueViewBean getGlobalAttribute(String code) {
+        if(globalAttributes != null){
+            AttributeValueViewBean attributeValue = globalAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setGlobalAttributes(Map<String, AttributeValueViewBean> globalAttributes) {
         this.globalAttributes = globalAttributes;
     }
     
-    public Map<String, String> getMarketAreaAttributes() {
+    public Map<String, AttributeValueViewBean> getMarketAreaAttributes() {
         return marketAreaAttributes;
     }
     
-    public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+    public AttributeValueViewBean getMarketAreaAttribute(String code) {
+        if(marketAreaAttributes != null){
+            AttributeValueViewBean attributeValue = marketAreaAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, AttributeValueViewBean> marketAreaAttributes) {
         this.marketAreaAttributes = marketAreaAttributes;
     }
 

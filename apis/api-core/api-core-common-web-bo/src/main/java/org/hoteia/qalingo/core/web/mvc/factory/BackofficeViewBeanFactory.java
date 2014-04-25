@@ -22,13 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.AbstractAttribute;
 import org.hoteia.qalingo.core.domain.AbstractCatalog;
+import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.BatchProcessObject;
-import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
@@ -54,8 +56,6 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
@@ -64,6 +64,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AssetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeDefinitionViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.AttributeValueViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
@@ -456,6 +457,34 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 //        return catalogCategoryViewBean;
 //    }
 
+    /**
+     * 
+     */
+    @Override
+    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory, boolean withSubCategories, boolean withProducts)
+            throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanMasterCatalogCategory(requestData, catalogCategory, withSubCategories, withProducts);
+
+        catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory));
+        catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, catalogCategory));
+        
+        return catalogCategoryViewBean;
+    }
+    
+    /**
+     * 
+     */
+    @Override
+    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, boolean withSubCategories, boolean withProducts)
+            throws Exception {
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanVirtualCatalogCategory(requestData, catalogCategory, withSubCategories, withProducts);
+
+        catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategory));
+        catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, catalogCategory));
+            
+        return catalogCategoryViewBean;
+    }
+    
     public List<ProductMarketingViewBean> buildListViewBeanProductMarketing(final RequestData requestData, final AbstractCatalogCategory catalogCategory, final List<ProductMarketing> productMarketings, boolean withDependency) throws Exception {
         List<ProductMarketingViewBean> products = new ArrayList<ProductMarketingViewBean>();
         for (Iterator<ProductMarketing> iterator = productMarketings.iterator(); iterator.hasNext();) {
@@ -488,24 +517,21 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return products;
     }
     
-    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, ProductMarketing productMarketing) throws Exception {
-        AbstractCatalogCategory catalogCategory = null;
-        if(!Hibernate.isInitialized(productMarketing.getDefaultCatalogCategory())){
-            productMarketing = productService.getProductMarketingById(productMarketing.getId(), FetchPlanGraphProduct.productMarketingBackofficeCatalogueViewFetchPlan());
-        }
-        if(!Hibernate.isInitialized(productMarketing.getDefaultCatalogCategory().getCategoryMaster())){
-            CatalogCategoryVirtual categoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(productMarketing.getDefaultCatalogCategory().getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-            catalogCategory = catalogCategoryService.getMasterCatalogCategoryById(categoryVirtual.getCategoryMaster().getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-        } else {
-            catalogCategory = catalogCategoryService.getMasterCatalogCategoryById(productMarketing.getDefaultCatalogCategory().getCategoryMaster().getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-        }
-        final ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
-        return productMarketingViewBean;
-    }
+//    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, ProductMarketing productMarketing) throws Exception {
+//        AbstractCatalogCategory catalogCategory = null;
+//        if(!Hibernate.isInitialized(productMarketing.getDefaultCatalogCategory().getCategoryMaster())){
+//            CatalogCategoryVirtual categoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(productMarketing.getDefaultCatalogCategory().getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
+//            catalogCategory = catalogCategoryService.getMasterCatalogCategoryById(categoryVirtual.getCategoryMaster().getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
+//        } else {
+//            catalogCategory = catalogCategoryService.getMasterCatalogCategoryById(productMarketing.getDefaultCatalogCategory().getCategoryMaster().getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
+//        }
+//        final ProductMarketingViewBean productMarketingViewBean = buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
+//        return productMarketingViewBean;
+//    }
 
     @Override
-    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final AbstractCatalogCategory catalogCategory, final ProductMarketing productMarketing) throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
+    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
+        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, productMarketing);
 
         productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
         productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
@@ -513,16 +539,6 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return productMarketingViewBean;
     }
     
-    @Override
-    public ProductMarketingViewBean buildViewBeanProductMarketing(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final ProductMarketing productMarketing) throws Exception {
-        final ProductMarketingViewBean productMarketingViewBean = super.buildViewBeanProductMarketing(requestData, catalogCategory, productMarketing);
-
-        productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
-        productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
-
-        return productMarketingViewBean;
-    }
-
     public ProductAssociationLinkViewBean buildProductAssociationLinkViewBean(final RequestData requestData, final ProductAssociationLink productAssociationLink) throws Exception {
         final ProductAssociationLinkViewBean productAssociationLinkViewBean = new ProductAssociationLinkViewBean();
 
@@ -553,9 +569,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 //    }
 
      @Override
-     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final AbstractCatalogCategory catalogCategory, 
-                                                      final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
-        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
+     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, productSku);
 
         productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
         productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
@@ -563,20 +578,20 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return productSkuViewBean;
     }
      
-    /**
-     * @throws Exception
-     * 
-     */
-     @Override
-     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, 
-                                                      final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
-        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
-
-        productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
-        productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
-
-        return productSkuViewBean;
-    }
+//    /**
+//     * @throws Exception
+//     * 
+//     */
+//     @Override
+//     public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, 
+//                                                      final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
+//        final ProductSkuViewBean productSkuViewBean = super.buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
+//
+//        productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
+//        productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
+//
+//        return productSkuViewBean;
+//    }
 
 //    /**
 //     * 
@@ -1066,21 +1081,27 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             }
 
             List<PaymentGatewayAttribute> globalAttributes = paymentGateway.getGlobalAttributes();
-            for (Iterator<PaymentGatewayAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
-                paymentGatewayViewBean.getGlobaAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+            if(globalAttributes != null){
+                for (Iterator<PaymentGatewayAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+                    PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                    paymentGatewayViewBean.getGlobalAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+                }
             }
 
             List<PaymentGatewayAttribute> marketAreaAttributes = paymentGateway.getMarketAreaAttributes(marketArea.getId());
-            for (Iterator<PaymentGatewayAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
-                paymentGatewayViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+            if(marketAreaAttributes != null){
+                for (Iterator<PaymentGatewayAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+                    PaymentGatewayAttribute attribute = (PaymentGatewayAttribute) iterator.next();
+                    paymentGatewayViewBean.getMarketAreaAttributes().put(attribute.getAttributeDefinition().getCode(), attribute.getValueAsString());
+                }
             }
             
             Set<PaymentGatewayOption> options = paymentGateway.getOptions();
-            for (Iterator<PaymentGatewayOption> iterator = options.iterator(); iterator.hasNext();) {
-                PaymentGatewayOption option = (PaymentGatewayOption) iterator.next();
-                paymentGatewayViewBean.getOptions().put(option.getCode(), option.getOptionValue());
+            if(options != null){
+                for (Iterator<PaymentGatewayOption> iterator = options.iterator(); iterator.hasNext();) {
+                    PaymentGatewayOption option = (PaymentGatewayOption) iterator.next();
+                    paymentGatewayViewBean.getOptions().put(option.getCode(), option.getOptionValue());
+                }
             }
             
             DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -1105,6 +1126,17 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return paymentGatewayViewBean;
     }
 
+    public List<AttributeValueViewBean> buildListViewBeanAttributeValue(final RequestData requestData, final List<AbstractAttribute> attributes) throws Exception {
+        final List<AttributeValueViewBean> attributeValueViewBeans = new ArrayList<AttributeValueViewBean>();
+        if (attributes != null) {
+            for (Iterator<AbstractAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                AbstractAttribute attribute = (AbstractAttribute) iterator.next();
+                attributeValueViewBeans.add(buildViewBeanAttributeValue(requestData, attribute));
+            }
+        }
+        return attributeValueViewBeans;
+    }
+    
     /**
      * 
      */
@@ -1117,38 +1149,6 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             }
         }
         return attributeDefinitionViewBeans;
-    }
-    
-    /**
-     * 
-     */
-    public AttributeDefinitionViewBean buildViewBeanAttributeDefinition(final RequestData requestData, final AttributeDefinition attributeDefinition) throws Exception {
-        final AttributeDefinitionViewBean attributeDefinitionViewBean = new AttributeDefinitionViewBean();
-        if (attributeDefinition != null) {
-            attributeDefinitionViewBean.setName(attributeDefinition.getName());
-            attributeDefinitionViewBean.setDescription(attributeDefinition.getDescription());
-            attributeDefinitionViewBean.setCode(attributeDefinition.getCode());
-
-            attributeDefinitionViewBean.setAttributeType(attributeDefinition.getAttributeType(attributeDefinition.getAttributeType()));
-            attributeDefinitionViewBean.setObjectType(attributeDefinition.getObjectType(attributeDefinition.getObjectType()));
-            
-            DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
-            Date dateCreate = attributeDefinition.getDateCreate();
-            if (dateCreate != null) {
-                attributeDefinitionViewBean.setDateCreate(dateFormat.format(dateCreate));
-            } else {
-                attributeDefinitionViewBean.setDateCreate(Constants.NOT_AVAILABLE);
-            }
-
-            Date dateUpdate = attributeDefinition.getDateUpdate();
-            if (dateUpdate != null) {
-                attributeDefinitionViewBean.setDateUpdate(dateFormat.format(dateUpdate));
-            } else {
-                attributeDefinitionViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
-            }
-
-        }
-        return attributeDefinitionViewBean;
     }
     
     protected String getSpecificMessage(ScopeWebMessage scope, String key, Locale locale) {

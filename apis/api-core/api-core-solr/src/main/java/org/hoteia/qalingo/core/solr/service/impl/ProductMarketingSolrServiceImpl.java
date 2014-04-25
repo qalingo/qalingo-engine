@@ -27,6 +27,7 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductMarketingSolrService;
@@ -45,6 +46,9 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
     @Autowired
     public SolrServer productMarketingSolrServer;
     
+    @Autowired
+    protected ProductService productService;
+    
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.ProductMarketingSolrService#addOrUpdateProductMarketing(fr.hoteia.qalingo.core.domain.ProductMarketing)
 	 */
@@ -62,8 +66,10 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         productSolr.setName(productMarketing.getName());
         productSolr.setDescription(productMarketing.getDescription());
         
-        if(productMarketing.getDefaultCatalogCategory() != null){
-            productSolr.setDefaultCategoryCode(productMarketing.getDefaultCatalogCategory().getCode());
+        CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productMarketing, catalogCategories, true);
+
+        if(defaultVirtualCatalogCategory != null){
+            productSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
         }
         
         ProductSkuPrice productSkuPrice = productMarketing.getDefaultProductSku().getPrice(marketArea.getId(), retailer.getId());

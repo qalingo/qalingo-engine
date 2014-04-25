@@ -83,7 +83,7 @@ public abstract class AbstractOpenIdFrontofficeController extends AbstractFronto
 				}
 			}
 			screenName = screenName + auth.getFirstname();
-			attribute.setStringValue(screenName);
+			attribute.setShortStringValue(screenName);
 			customer.getAttributes().add(attribute);
 			
 			CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);

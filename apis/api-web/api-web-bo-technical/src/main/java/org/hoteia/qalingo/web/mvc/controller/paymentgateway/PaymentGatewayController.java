@@ -117,9 +117,9 @@ public class PaymentGatewayController extends AbstractTechnicalBackofficeControl
             PaymentGatewayViewBean paymentGatewayViewBean = backofficeViewBeanFactory.buildViewBeanPaymentGateway(requestData, paymentGateway);
             request.setAttribute(ModelConstants.PAYMENT_GATEWAY_VIEW_BEAN, paymentGatewayViewBean);
 
-            modelAndView.addObject("availablePaymentGatewayGlobaleAttributeDefinitions", attributeService.findPaymentGatewayGlobalAttributeDefinitions());
-            modelAndView.addObject("availablePaymentGatewayMarketAreaAttributeDefinitions", attributeService.findPaymentGatewayMarketAreaAttributeDefinitions());
-            modelAndView.addObject("availablePaymentGatewayOptions", paymentGatewayService.findPaymentGatewayOptions());
+            modelAndView.addObject("availableGlobaleAttributeDefinitions", attributeService.findPaymentGatewayGlobalAttributeDefinitions());
+            modelAndView.addObject("availableMarketAreaAttributeDefinitions", attributeService.findPaymentGatewayMarketAreaAttributeDefinitions());
+            modelAndView.addObject("availableOptions", paymentGatewayService.findPaymentGatewayOptions());
 
             Object[] params = {paymentGateway.getName() + " (" + paymentGateway.getCode() + ")"};
             initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PAYMENT_GATEWAY_EDIT.getKey(), params);

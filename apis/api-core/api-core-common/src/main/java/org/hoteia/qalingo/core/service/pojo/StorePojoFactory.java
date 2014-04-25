@@ -23,12 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.pojo.store.StorePojo;
 import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.service.pojo.StorePojoService;
+import org.hoteia.qalingo.core.service.pojo.StorePojoFactory;
 
 
 @Service("storePojoService")
 @Transactional(readOnly = true)
-public class StorePojoService {
+public class StorePojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

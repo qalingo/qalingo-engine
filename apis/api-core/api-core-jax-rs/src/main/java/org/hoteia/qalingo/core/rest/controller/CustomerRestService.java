@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import org.hoteia.qalingo.core.service.pojo.CustomerPojoService;
+import org.hoteia.qalingo.core.service.pojo.CustomerPojoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class CustomerRestService {
 
     @Autowired
-    private CustomerPojoService customerService;
+    private CustomerPojoFactory customerService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

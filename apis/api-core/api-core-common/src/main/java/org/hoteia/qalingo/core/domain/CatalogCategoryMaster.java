@@ -35,7 +35,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -45,7 +44,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name = "TECO_CATALOG_MASTER_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
+@Table(name = "TECO_CATALOG_MASTER_CATEGORY")
 public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster, CatalogCategoryMaster, CatalogCategoryMasterAttribute, CatalogCategoryMasterProductSkuRel> {
 
     /**
@@ -89,25 +88,17 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     private CatalogMaster catalog;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_PARENT_CATEGORY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "PARENT_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryMaster parentCatalogCategory;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "MASTER_CATEGORY_ID")
+    @JoinColumn(name = "CATEGORY_ID")
     private Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryMasterAttribute>();
-
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
-//    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_CHILD_CATEGORY_REL", joinColumns = @JoinColumn(name = "PARENT_MASTER_CATALOG_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "CHILD_MASTER_CATALOG_CATEGORY_ID"))
-//    private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
     @JoinColumn(name = "PARENT_CATEGORY_ID")
     private Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
     
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
-//    @JoinTable(name = "TECO_CATALOG_MASTER_CATEGORY_PRODUCT_MARKETING_REL", joinColumns = @JoinColumn(name = "MASTER_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"))
-//    private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
-
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel.class)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
     private Set<CatalogCategoryMasterProductSkuRel> catalogCategoryProductSkuRels = new HashSet<CatalogCategoryMasterProductSkuRel>();
@@ -193,9 +184,9 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     
     public boolean isRoot() {
         if (getParentCatalogCategory() == null) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public CatalogCategoryMaster getParentCatalogCategory() {
@@ -214,7 +205,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         this.description = description;
     }
 
-    public Set<CatalogCategoryMasterAttribute> getCatalogCategoryAttributes() {
+    public Set<CatalogCategoryMasterAttribute> getAttributes() {
         return catalogCategoryAttributes;
     }
 
@@ -222,7 +213,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         this.catalogCategoryAttributes = catalogCategoryAttributes;
     }
 
-    public List<CatalogCategoryMasterAttribute> getCatalogCategoryGlobalAttributes() {
+    public List<CatalogCategoryMasterAttribute> getGlobalAttributes() {
         List<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = null;
         if (catalogCategoryAttributes != null
                 && Hibernate.isInitialized(catalogCategoryAttributes)) {
@@ -238,7 +229,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         return catalogCategoryGlobalAttributes;
     }
 
-    public List<CatalogCategoryMasterAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
+    public List<CatalogCategoryMasterAttribute> getMarketAreaAttributes(Long marketAreaId) {
         List<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = null;
         if (catalogCategoryAttributes != null
                 && Hibernate.isInitialized(catalogCategoryAttributes)) {
@@ -347,20 +338,16 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
 
     public List<Asset> getAssetsByMarketArea() {
         List<Asset> assetsByMarketArea = null;
-//        try {
-            if (assets != null
-                    && Hibernate.isInitialized(assets)) {
-                assetsByMarketArea = new ArrayList<Asset>();
-                for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
-                    Asset asset = (Asset) iterator.next();
-                    if (asset != null && !asset.isGlobal()) {
-                        assetsByMarketArea.add(asset);
-                    }
+        if (assets != null
+                && Hibernate.isInitialized(assets)) {
+            assetsByMarketArea = new ArrayList<Asset>();
+            for (Iterator<Asset> iterator = assets.iterator(); iterator.hasNext();) {
+                Asset asset = (Asset) iterator.next();
+                if (asset != null && !asset.isGlobal()) {
+                    assetsByMarketArea.add(asset);
                 }
             }
-//        } catch (LazyInitializationException e) {
-//            logger.warn("LazyInitializationException on assets");
-//        }
+        }
         return assetsByMarketArea;
     }
 
@@ -398,10 +385,10 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
         CatalogCategoryMasterAttribute catalogCategoryAttributeToReturn = null;
 
         // 1: GET THE GLOBAL VALUE
-        CatalogCategoryMasterAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getCatalogCategoryGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
+        CatalogCategoryMasterAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
         // 2: GET THE MARKET AREA VALUE
-        CatalogCategoryMasterAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getCatalogCategoryMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
+        CatalogCategoryMasterAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
                 localizationCode);
 
         if (catalogCategoryMarketAreaAttribute != null) {
@@ -454,7 +441,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
 
                     // NOT ANY CategoryAttributes FOR THIS LOCALIZATION CODE -
                     // GET A FALLBACK
-                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getCatalogCategoryMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext();) {
+                    for (Iterator<CatalogCategoryMasterAttribute> iterator = getMarketAreaAttributes(marketAreaId).iterator(); iterator.hasNext();) {
                         CatalogCategoryMasterAttribute catalogCategoryAttribute = (CatalogCategoryMasterAttribute) iterator.next();
 
                         // TODO : get a default locale code from setting
@@ -495,10 +482,6 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
             i18nName = getName();
         }
         return i18nName;
-    }
-
-    public Integer getOrder(Long marketAreaId) {
-        return (Integer) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
     }
 
     // ASSET

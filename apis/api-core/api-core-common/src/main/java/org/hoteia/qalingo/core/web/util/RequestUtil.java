@@ -752,6 +752,33 @@ public class RequestUtil {
     public String getLastRequestUrl(final HttpServletRequest request) throws Exception {
         return getRequestUrl(request, new ArrayList<String>(), 1);
     }
+    
+    /**
+     * 
+     */
+    public String getLastProductDetailsRequestUrl(final HttpServletRequest request) throws Exception {
+        String url = Constants.EMPTY;
+        ClickstreamSession clickstreamSession = getClickstreamSession(request);
+        final List<ClickstreamRequest> clickstreams = clickstreamSession.getRequests();
+        if (clickstreams != null && !clickstreams.isEmpty()) {
+            Iterator<ClickstreamRequest> it = clickstreams.iterator();
+            while (it.hasNext()) {
+                ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
+                String uri = clickstream.getRequestURI();
+                if (uri.endsWith(".html")) {
+                    // TEST IF THE URL MATCH
+                    if (uri.contains(FoUrls.PRODUCT_DETAILS.getUrlWithoutWildcard())) {
+                        url = uri;
+                    }
+                }
+            }
+        }
+        // CLEAN CONTEXT FROM URL
+        if (StringUtils.isNotEmpty(url) && !isLocalHostMode(request) && url.contains(request.getContextPath())) {
+            url = url.replace(request.getContextPath(), "");
+        }
+        return handleUrl(url);
+    }
 
     /**
      * 
@@ -763,48 +790,46 @@ public class RequestUtil {
         final List<ClickstreamRequest> clickstreams = clickstreamSession.getRequests();
 
         if (clickstreams != null && !clickstreams.isEmpty()) {
-            if (clickstreams != null && !clickstreams.isEmpty()) {
-                // Clean not html values or exluded patterns
-                List<ClickstreamRequest> cleanClickstreams = new ArrayList<ClickstreamRequest>();
-                Iterator<ClickstreamRequest> it = clickstreams.iterator();
-                while (it.hasNext()) {
-                    ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
-                    String uri = clickstream.getRequestURI();
-                    if (uri.endsWith(".html")) {
-                        // TEST IF THE URL IS EXCLUDE
-                        CharSequence[] excludedPatternsCharSequence = excludedPatterns.toArray(new CharSequence[excludedPatterns.size()]);
-                        boolean isExclude = false;
-                        for (int i = 0; i < excludedPatternsCharSequence.length; i++) {
-                            CharSequence string = excludedPatternsCharSequence[i];
-                            if (uri.contains(string)) {
-                                isExclude = true;
-                            }
+            // Clean not html values or exluded patterns
+            List<ClickstreamRequest> cleanClickstreams = new ArrayList<ClickstreamRequest>();
+            Iterator<ClickstreamRequest> it = clickstreams.iterator();
+            while (it.hasNext()) {
+                ClickstreamRequest clickstream = (ClickstreamRequest) it.next();
+                String uri = clickstream.getRequestURI();
+                if (uri.endsWith(".html")) {
+                    // TEST IF THE URL IS EXCLUDE
+                    CharSequence[] excludedPatternsCharSequence = excludedPatterns.toArray(new CharSequence[excludedPatterns.size()]);
+                    boolean isExclude = false;
+                    for (int i = 0; i < excludedPatternsCharSequence.length; i++) {
+                        CharSequence string = excludedPatternsCharSequence[i];
+                        if (uri.contains(string)) {
+                            isExclude = true;
                         }
-                        if (BooleanUtils.negate(isExclude)) {
-                            cleanClickstreams.add(clickstream);
-                        }
+                    }
+                    if (BooleanUtils.negate(isExclude)) {
+                        cleanClickstreams.add(clickstream);
                     }
                 }
+            }
 
-                if (cleanClickstreams.size() == 1) {
-                    Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
-                    while (itCleanClickstreams.hasNext()) {
-                        ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-                        String uri = clickstream.getRequestURI();
+            if (cleanClickstreams.size() == 1) {
+                Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
+                while (itCleanClickstreams.hasNext()) {
+                    ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
+                    String uri = clickstream.getRequestURI();
+                    url = uri;
+                }
+            } else {
+                Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
+                int countCleanClickstream = 1;
+                while (itCleanClickstreams.hasNext()) {
+                    ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
+                    String uri = clickstream.getRequestURI();
+                    // The last url is the current URI, so we need to get the url previous the last
+                    if (countCleanClickstream == (cleanClickstreams.size() - position)) {
                         url = uri;
                     }
-                } else {
-                    Iterator<ClickstreamRequest> itCleanClickstreams = cleanClickstreams.iterator();
-                    int countCleanClickstream = 1;
-                    while (itCleanClickstreams.hasNext()) {
-                        ClickstreamRequest clickstream = (ClickstreamRequest) itCleanClickstreams.next();
-                        String uri = clickstream.getRequestURI();
-                        // The last url is the current URI, so we need to get the url previous the last
-                        if (countCleanClickstream == (cleanClickstreams.size() - position)) {
-                            url = uri;
-                        }
-                        countCleanClickstream++;
-                    }
+                    countCleanClickstream++;
                 }
             }
         }
@@ -1196,12 +1221,16 @@ public class RequestUtil {
         if (localization != null) {
             if (requestData.isBackoffice()) {
                 EngineBoSession engineBoSession = getCurrentBoSession(request);
-                engineBoSession.setCurrentBackofficeLocalization(localization);
-                updateCurrentBoSession(request, engineBoSession);
+                if(engineBoSession != null){
+                    engineBoSession.setCurrentBackofficeLocalization(localization);
+                    updateCurrentBoSession(request, engineBoSession);
+                }
             } else {
                 EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-                engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
-                updateCurrentEcoSession(request, engineEcoSession);
+                if(engineEcoSession != null){
+                    engineEcoSession = (EngineEcoSession) setSessionMarketAreaLocalization(engineEcoSession, localization);
+                    updateCurrentEcoSession(request, engineEcoSession);
+                }
             }
         }
     }
@@ -1374,7 +1403,9 @@ public class RequestUtil {
     public void updateCurrentUser(final HttpServletRequest request, final User user) throws Exception {
         if (user != null) {
             final EngineBoSession engineBoSession = getCurrentBoSession(request);
-            engineBoSession.setCurrentUser(user);
+            if(engineBoSession != null){
+                engineBoSession.setCurrentUser(user);
+            }
             updateCurrentCompany(request, user.getCompany());
             updateCurrentBoSession(request, engineBoSession);
         }
@@ -1385,7 +1416,9 @@ public class RequestUtil {
      */
     public void cleanCurrentUser(final HttpServletRequest request) throws Exception {
         final EngineBoSession engineBoSession = getCurrentBoSession(request);
-        engineBoSession.setCurrentUser(null);
+        if(engineBoSession != null){
+            engineBoSession.setCurrentUser(null);
+        }
         updateCurrentBoSession(request, engineBoSession);
     }
 
@@ -1400,9 +1433,11 @@ public class RequestUtil {
     public void updateCurrentCompany(final HttpServletRequest request, final Company company) throws Exception {
         if (company != null) {
             final EngineBoSession engineBoSession = getCurrentBoSession(request);
-            Company reloadedCompany = userService.getCompanyById(company.getId().toString());
-            engineBoSession.setCurrentCompany(reloadedCompany);
-            updateCurrentBoSession(request, engineBoSession);
+            if(engineBoSession != null){
+                Company reloadedCompany = userService.getCompanyById(company.getId().toString());
+                engineBoSession.setCurrentCompany(reloadedCompany);
+                updateCurrentBoSession(request, engineBoSession);
+            }
         }
     }
     

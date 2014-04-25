@@ -51,15 +51,15 @@ public interface WebBackofficeService {
 
     void createOrUpdateCustomer(Customer customer, CustomerForm customerForm) throws Exception;
 
-    void createCatalogCategory(MarketArea marketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
+    void createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
                                CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
 
-    void updateCatalogCategory(MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
+    void updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
                                throws UniqueConstraintCodeCategoryException;
 
-    void createCatalogCategory(MarketArea marketArea, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    void createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
-    void updateCatalogCategory(MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    void updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
     void createOrUpdateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
 

@@ -35,7 +35,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -45,7 +44,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "CODE" }) })
+@Table(name = "TECO_CATALOG_VIRTUAL_CATEGORY")
 public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtual, CatalogCategoryVirtual, CatalogCategoryVirtualAttribute, CatalogCategoryVirtualProductSkuRel> {
 
     /**
@@ -80,9 +79,6 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     @Column(name = "RANKING")
     private Integer ranking;
     
-//    @Column(name = "PARENT_CATEGORY_ID")
-//    private Long parentCategoryId;
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VIRTUAL_CATALOG_ID", insertable = true, updatable = true)
     private CatalogVirtual catalog;
@@ -97,19 +93,11 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
-    private Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryVirtualAttribute>();
-
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class)
-//    @JoinTable(name = "TECO_CATALOG_VIRTUAL_CATEGORY_CHILD_CATEGORY_REL", joinColumns = @JoinColumn(name = "PARENT_VIRTUAL_CATALOG_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "CHILD_VIRTUAL_CATALOG_CATEGORY_ID"))
-//    private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
+    private Set<CatalogCategoryVirtualAttribute> attributes = new HashSet<CatalogCategoryVirtualAttribute>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtual.class)
     @JoinColumn(name = "PARENT_CATEGORY_ID")
     private Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
-
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductMarketing.class)
-//    @JoinTable(name = "TECO_CATALOG_VIRTUAL_CATEGORY_PRODUCT_MARKETING_REL", joinColumns = @JoinColumn(name = "VIRTUAL_CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_MARKETING_ID"))
-//    private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel.class)
     @JoinColumn(name = "VIRTUAL_CATEGORY_ID")
@@ -147,6 +135,10 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     }
 
     public String getCode() {
+        if(Hibernate.isInitialized(categoryMaster) 
+                && categoryMaster != null){
+            return categoryMaster.getCode();
+        }
         return code;
     }
 
@@ -194,14 +186,6 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         this.ranking = ranking;
     }
 
-//    public Long getParentCategoryId() {
-//        return parentCategoryId;
-//    }
-//    
-//    public void setParentCategoryId(Long parentCategoryId) {
-//        this.parentCategoryId = parentCategoryId;
-//    }
-//    
     public CatalogVirtual getCatalog() {
         return catalog;
     }
@@ -233,20 +217,20 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         this.categoryMaster = categoryMaster;
     }
 
-    public Set<CatalogCategoryVirtualAttribute> getCatalogCategoryAttributes() {
-        return catalogCategoryAttributes;
+    public Set<CatalogCategoryVirtualAttribute> getAttributes() {
+        return attributes;
     }
 
-    public void setCatalogCategoryAttributes(Set<CatalogCategoryVirtualAttribute> catalogCategoryAttributes) {
-        this.catalogCategoryAttributes = catalogCategoryAttributes;
+    public void setAttributes(Set<CatalogCategoryVirtualAttribute> attributes) {
+        this.attributes = attributes;
     }
 
-    public List<CatalogCategoryVirtualAttribute> getCatalogCategoryGlobalAttributes() {
+    public List<CatalogCategoryVirtualAttribute> getGlobalAttributes() {
         List<CatalogCategoryVirtualAttribute> catalogCategoryGlobalAttributes = null;
-        if (catalogCategoryAttributes != null
-                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-            for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<CatalogCategoryVirtualAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.isGlobal()) {
@@ -257,12 +241,12 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         return catalogCategoryGlobalAttributes;
     }
 
-    public List<CatalogCategoryVirtualAttribute> getCatalogCategoryMarketAreaAttributes(Long marketAreaId) {
+    public List<CatalogCategoryVirtualAttribute> getMarketAreaAttributes(Long marketAreaId) {
         List<CatalogCategoryVirtualAttribute> catalogCategoryMarketAreaAttributes = null;
-        if (catalogCategoryAttributes != null
-                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryVirtualAttribute>();
-            for (Iterator<CatalogCategoryVirtualAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<CatalogCategoryVirtualAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualAttribute attribute = (CatalogCategoryVirtualAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && !attributeDefinition.isGlobal()) {
@@ -431,10 +415,10 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         CatalogCategoryVirtualAttribute catalogCategoryAttributeToReturn = null;
 
         // 1: GET THE GLOBAL VALUE
-        CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getCatalogCategoryGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
+        CatalogCategoryVirtualAttribute catalogCategoryGlobalAttribute = getCatalogCategoryAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
         // 2: GET THE MARKET AREA VALUE
-        CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getCatalogCategoryMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
+        CatalogCategoryVirtualAttribute catalogCategoryMarketAreaAttribute = getCatalogCategoryAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId,
                 localizationCode);
 
         if (catalogCategoryMarketAreaAttribute != null) {
@@ -526,10 +510,6 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
             i18nName = getName();
         }
         return i18nName;
-    }
-
-    public Integer getOrder(Long marketAreaId) {
-        return (Integer) getValue(CatalogCategoryVirtualAttribute.CATALOG_CATEGORY_ATTRIBUTE_ORDER, marketAreaId, null);
     }
 
     // ASSET

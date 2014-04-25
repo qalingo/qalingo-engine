@@ -48,8 +48,12 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
-	@Column(name="STRING_VALUE")
-	private String stringValue;
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
+
+    @Column(name = "LONG_STRING_VALUE")
+    @Lob
+    private String longStringValue;
 	
 	@Column(name="INTEGER_VALUE")
 	private Integer integerValue;
@@ -70,8 +74,8 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private int ordering;
+//	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+//	private int ordering;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="START_DATE")
@@ -116,13 +120,21 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public String getShortStringValue() {
+        return shortStringValue;
+    }
+    
+    public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+    
+    public String getLongStringValue() {
+        return longStringValue;
+    }
+    
+    public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
+    }
 
 	public Integer getIntegerValue() {
 		return integerValue;
@@ -172,13 +184,13 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
-	public int getOrdering() {
-		return ordering;
-	}
-	
-	public void setOrdering(int ordering) {
-		this.ordering = ordering;
-	}
+//	public int getOrdering() {
+//		return ordering;
+//	}
+//	
+//	public void setOrdering(int ordering) {
+//		this.ordering = ordering;
+//	}
 	
 	public Date getStartDate() {
 		return startDate;
@@ -210,35 +222,6 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 
 	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
-	}
-
-	public String getValueAsString() {
-		if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING){
-			if(getStringValue() != null){
-				return getStringValue();
-			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE){
-			if(getDoubleValue() != null){
-				return getDoubleValue().toString();
-			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_FLOAT){
-			if(getFloatValue() != null){
-				return getFloatValue().toString();
-			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_INTEGER){
-			if(getIntegerValue() != null){
-				return getIntegerValue().toString();
-			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BLOB){
-			if(getBlobValue() != null){
-				return getBlobValue().toString();
-			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_BOOLEAN){
-			if(getBooleanValue() != null){
-				return getBooleanValue().toString();
-			}
-		}
-		return null;
 	}
 
     @Override
@@ -274,8 +257,8 @@ public class CatalogCategoryTypeAttribute extends AbstractAttribute {
 
     @Override
     public String toString() {
-        return "CatalogCategoryTypeAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue="
-                + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", ordering=" + ordering + ", startDate="
+        return "CatalogCategoryTypeAttribute [id=" + id + ", version=" + version + ", shortStringValue=" + shortStringValue + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue="
+                + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", startDate="
                 + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

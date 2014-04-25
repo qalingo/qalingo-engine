@@ -16,7 +16,7 @@ public class PaymentGatewayViewBean extends AbstractViewBean implements Serializ
     private String description;
     private boolean active;
     
-    private Map<String, String> globaAttributes = new HashMap<String, String>();
+    private Map<String, String> globalAttributes = new HashMap<String, String>();
     private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
     private Map<String, String> options = new HashMap<String, String>();
 
@@ -55,12 +55,12 @@ public class PaymentGatewayViewBean extends AbstractViewBean implements Serializ
         this.active = active;
     }
     
-    public Map<String, String> getGlobaAttributes() {
-        return globaAttributes;
+    public Map<String, String> getGlobalAttributes() {
+        return globalAttributes;
     }
 
-    public void setGlobaAttributes(Map<String, String> globaAttributes) {
-        this.globaAttributes = globaAttributes;
+    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+        this.globalAttributes = globalAttributes;
     }
 
     public Map<String, String> getMarketAreaAttributes() {

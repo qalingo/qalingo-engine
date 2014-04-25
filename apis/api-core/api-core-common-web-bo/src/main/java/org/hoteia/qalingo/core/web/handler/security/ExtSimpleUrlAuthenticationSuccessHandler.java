@@ -17,22 +17,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.domain.User;
+import org.hoteia.qalingo.core.domain.UserConnectionLog;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.service.BackofficeUrlService;
+import org.hoteia.qalingo.core.service.UserConnectionLogService;
+import org.hoteia.qalingo.core.service.UserService;
+import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.UserConnectionLog;
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.service.BackofficeUrlService;
-import org.hoteia.qalingo.core.service.UserConnectionLogService;
-import org.hoteia.qalingo.core.service.UserService;
-import org.hoteia.qalingo.core.web.util.RequestUtil;
 
 @Component(value="extSimpleUrlAuthenticationSuccessHandler")
 public class ExtSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

@@ -19,7 +19,6 @@ import java.util.List;
 import org.hoteia.qalingo.core.dao.AttributeDao;
 import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingViewBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,60 +52,143 @@ public class AttributeServiceImpl implements AttributeService {
         return attributeDao.findAttributeDefinitions();
     }
 
-    public List<AttributeDefinition> findCatalogCategoryAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CATALOG_CATEGORY);
+    // CATALOG CATEGORY
+    public List<AttributeDefinition> findCatalogCategoryAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CATALOG_CATEGORY);
+        return sortAttributes(allAttributeDefinitions);
     }
 
-    public List<AttributeDefinition> findProductMarketingAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
+    public List<AttributeDefinition> findCatalogCategoryGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findCatalogCategoryAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
     }
 
-    public List<AttributeDefinition> findProductSkuAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
+    public List<AttributeDefinition> findCatalogCategoryMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findCatalogCategoryAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // PRODUCT MARKETING
+    public List<AttributeDefinition> findProductMarketingAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_MARKETING);
+        return sortAttributes(allAttributeDefinitions);
     }
 
-    public List<AttributeDefinition> findCustomerAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CUSTOMER);
+    public List<AttributeDefinition> findProductMarketingGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findProductMarketingAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
     }
 
-    public List<AttributeDefinition> findStoreDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_STORE);
+    public List<AttributeDefinition> findProductMarketingMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findProductMarketingAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // PRODUCT SKU
+    public List<AttributeDefinition> findProductSkuAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PRODUCT_SKU);
+        return sortAttributes(allAttributeDefinitions);
     }
 
-    public List<AttributeDefinition> findPaymentGatewayDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PAYMENT_GATEWAY);
+    public List<AttributeDefinition> findProductSkuGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findProductSkuAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+
+    public List<AttributeDefinition> findProductSkuMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findProductSkuAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // CUSTOMER
+    public List<AttributeDefinition> findCustomerAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_CUSTOMER);
+        return sortAttributes(allAttributeDefinitions);
+    }
+    
+    public List<AttributeDefinition> findCustomerGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findCustomerAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+
+    public List<AttributeDefinition> findCustomerMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findCustomerAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+
+    // STORE
+    public List<AttributeDefinition> findStoreAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_STORE);
+        return sortAttributes(allAttributeDefinitions);
+    }
+    
+    public List<AttributeDefinition> findStoreGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findStoreAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+
+    public List<AttributeDefinition> findStoreMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findStoreAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // RETAILER
+    public List<AttributeDefinition> findRetailerAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_RETAILER);
+        return sortAttributes(allAttributeDefinitions);
+    }
+    
+    public List<AttributeDefinition> findRetailerGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findRetailerAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+
+    public List<AttributeDefinition> findRetailerMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findRetailerAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // PAYMENT GATEWAY
+    public List<AttributeDefinition> findPaymentGatewayAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PAYMENT_GATEWAY);
+        return sortAttributes(allAttributeDefinitions);
     }
     
     public List<AttributeDefinition> findPaymentGatewayGlobalAttributeDefinitions() {
-        List<AttributeDefinition> allPaymentGatewayAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PAYMENT_GATEWAY);
-        List<AttributeDefinition> globalAttributeDefinitions = new ArrayList<AttributeDefinition>();
-        for (Iterator<AttributeDefinition> iterator = allPaymentGatewayAttributeDefinitions.iterator(); iterator.hasNext();) {
-            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
-            if(attributeDefinition.isGlobal()){
-                globalAttributeDefinitions.add(attributeDefinition);
-            }
-        }
-        return sortAttributes(globalAttributeDefinitions);
+        List<AttributeDefinition> allAttributeDefinitions = findPaymentGatewayAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
     }
     
     public List<AttributeDefinition> findPaymentGatewayMarketAreaAttributeDefinitions() {
-        List<AttributeDefinition> allPaymentGatewayAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_PAYMENT_GATEWAY);
-        List<AttributeDefinition> marketAreaAttributeDefinitions = new ArrayList<AttributeDefinition>();
-        for (Iterator<AttributeDefinition> iterator = allPaymentGatewayAttributeDefinitions.iterator(); iterator.hasNext();) {
-            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
-            if(!attributeDefinition.isGlobal()){
-                marketAreaAttributeDefinitions.add(attributeDefinition);
-            }
-        }
-        return sortAttributes(marketAreaAttributeDefinitions);
+        List<AttributeDefinition> allAttributeDefinitions = findPaymentGatewayAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
     }
-
-    public List<AttributeDefinition> findMarketAreaAttributeDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_MARKET_AREA);
+    
+    // MARKET AREA
+    public List<AttributeDefinition> findMarketAreaAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_MARKET_AREA);
+        return sortAttributes(allAttributeDefinitions);
     }
-
-    public List<AttributeDefinition> findTaxDefinitions() {
-        return attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_TAX);
+    
+    public List<AttributeDefinition> findMarketAreaGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findMarketAreaAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    // TAX 
+    public List<AttributeDefinition> findTaxAllAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = attributeDao.findAttributeDefinitionsByObjectType(AttributeDefinition.OBJECT_TYPE_TAX);
+        return sortAttributes(allAttributeDefinitions);
+    }
+    
+    public List<AttributeDefinition> findTaxGlobalAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findTaxAllAttributeDefinitions();
+        return sortAttributes(getGlobalAttributeDefinitions(allAttributeDefinitions));
+    }
+    
+    public List<AttributeDefinition> findTaxMarketAreaAttributeDefinitions() {
+        List<AttributeDefinition> allAttributeDefinitions = findTaxAllAttributeDefinitions();
+        return sortAttributes(getMarketAreaAttributeDefinitions(allAttributeDefinitions));
     }
 
     public void saveOrUpdateAttributeDefinition(final AttributeDefinition attributeDefinition) {
@@ -117,6 +199,28 @@ public class AttributeServiceImpl implements AttributeService {
         attributeDao.deleteAttributeDefinition(attributeDefinition);
     }
     
+    protected List<AttributeDefinition> getGlobalAttributeDefinitions(final List<AttributeDefinition> allAttributeDefinitions) {
+        List<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
+        for (Iterator<AttributeDefinition> iterator = allAttributeDefinitions.iterator(); iterator.hasNext();) {
+            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
+            if(attributeDefinition.isGlobal()){
+                attributeDefinitions.add(attributeDefinition);
+            }
+        }
+        return sortAttributes(attributeDefinitions);
+    }
+    
+    protected List<AttributeDefinition> getMarketAreaAttributeDefinitions(final List<AttributeDefinition> allAttributeDefinitions) {
+        List<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
+        for (Iterator<AttributeDefinition> iterator = allAttributeDefinitions.iterator(); iterator.hasNext();) {
+            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
+            if(!attributeDefinition.isGlobal()){
+                attributeDefinitions.add(attributeDefinition);
+            }
+        }
+        return sortAttributes(attributeDefinitions);
+    }
+    
     protected List<AttributeDefinition> sortAttributes(List<AttributeDefinition> attributeDefinitions){
         if (attributeDefinitions != null) {
             List<AttributeDefinition> sortedObjects = new LinkedList<AttributeDefinition>(attributeDefinitions);
@@ -124,6 +228,10 @@ public class AttributeServiceImpl implements AttributeService {
                     @Override
                     public int compare(AttributeDefinition o1, AttributeDefinition o2) {
                         if (o1 != null && o2 != null) {
+                            int compare = o1.getOrdering().compareTo(o2.getOrdering());
+                            if(compare != 0){
+                                return compare;
+                            }
                             return o1.getCode().compareTo(o2.getCode());
                         }
                         return 0;

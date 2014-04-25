@@ -44,7 +44,7 @@ import org.hoteia.qalingo.core.service.DocumentService;
 import org.hoteia.qalingo.core.service.EngineSettingService;
 import org.hoteia.qalingo.core.service.LocalizationService;
 import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
+import org.hoteia.qalingo.core.service.pojo.OrderPojoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +68,7 @@ public class DocumentServiceImpl implements DocumentService {
     protected CoreMessageSource coreMessageSource;
     
     @Autowired
-    protected OrderPojoService orderPojoService;
+    protected OrderPojoFactory orderPojoService;
     
     // ORDER CONFIRMATION CONFIRMATION
     

@@ -406,7 +406,7 @@ public class Store extends AbstractEntity {
     }
 
     public String getI18nCity(Localization localization) {
-        return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY, null, localization.getCode());
+        return (String) getValue(StoreAttribute.STORE_ATTRIBUTE_I18N_CITY_NAME, null, localization.getCode());
     }
     
     // ASSET

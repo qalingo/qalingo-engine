@@ -53,7 +53,7 @@ public class BackofficePojoEventListener implements DozerEventListener {
     @Override
     public void postWritingDestinationValue(DozerEvent event) {
         if(event.getDestinationObject() instanceof BoCatalogPojo){
-            if(event.getFieldMap().getDestFieldName().equals("code")){
+            if(event.getFieldMap().getDestFieldName().equals("id")){
                 // INJECT BACKOFFICE URLS
                 BoCatalogPojo catalogPojo = (BoCatalogPojo) event.getDestinationObject();
                 try {
@@ -71,21 +71,21 @@ public class BackofficePojoEventListener implements DozerEventListener {
                 }
             }
         } else if(event.getDestinationObject() instanceof BoCatalogCategoryPojo){
-            if(event.getFieldMap().getDestFieldName().equals("code")){
+            if(event.getFieldMap().getDestFieldName().equals("id")){
                 // INJECT BACKOFFICE URLS
                 BoCatalogCategoryPojo catalogCategoryPojo = (BoCatalogCategoryPojo) event.getDestinationObject();
                 try {
                     RequestData requestData = requestUtil.getRequestData(httpServletRequest);
                     
                     if(event.getSourceObject() instanceof CatalogCategoryMaster){
-                        catalogCategoryPojo.setAddChildCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, (CatalogCategoryMaster) event.getSourceObject()));
-                        catalogCategoryPojo.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, (CatalogCategoryMaster) event.getSourceObject()));
-                        catalogCategoryPojo.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData, (CatalogCategoryMaster) event.getSourceObject()));
+                        catalogCategoryPojo.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, (CatalogCategoryMaster) event.getSourceObject()));
+                        catalogCategoryPojo.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, (CatalogCategoryMaster) event.getSourceObject()));
+                        catalogCategoryPojo.setAddChildCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData, (CatalogCategoryMaster) event.getSourceObject()));
                         
                     } else if(event.getSourceObject() instanceof CatalogCategoryVirtual){
-                        catalogCategoryPojo.setAddChildCategoryUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
-                        catalogCategoryPojo.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
-                        catalogCategoryPojo.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_ADD, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
+                        catalogCategoryPojo.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
+                        catalogCategoryPojo.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
+                        catalogCategoryPojo.setAddChildCategoryUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_ADD, requestData, (CatalogCategoryVirtual) event.getSourceObject()));
                         
                     }
                 } catch (Exception e) {
@@ -93,7 +93,7 @@ public class BackofficePojoEventListener implements DozerEventListener {
                 }
             }
         } else if(event.getDestinationObject() instanceof BoProductMarketingPojo){
-            if(event.getFieldMap().getDestFieldName().equals("code")){
+            if(event.getFieldMap().getDestFieldName().equals("id")){
                 
                 // INJECT BACKOFFICE URLS
                 BoProductMarketingPojo productMarketingPojo = (BoProductMarketingPojo) event.getDestinationObject();
@@ -106,7 +106,7 @@ public class BackofficePojoEventListener implements DozerEventListener {
                 }
             }
         } else if(event.getDestinationObject() instanceof BoProductSkuPojo){
-            if(event.getFieldMap().getDestFieldName().equals("code")){
+            if(event.getFieldMap().getDestFieldName().equals("id")){
                 // INJECT BACKOFFICE URLS
                 BoProductSkuPojo productSkuPojo = (BoProductSkuPojo) event.getDestinationObject();
                 try {

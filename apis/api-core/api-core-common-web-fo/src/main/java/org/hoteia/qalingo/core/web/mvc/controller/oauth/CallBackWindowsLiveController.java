@@ -172,7 +172,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 					}
 				}
 				screenName = screenName + firstName;
-				attribute.setStringValue(screenName);
+				attribute.setShortStringValue(screenName);
 				customer.getAttributes().add(attribute);
 				
 				if(StringUtils.isNotEmpty(locale)){

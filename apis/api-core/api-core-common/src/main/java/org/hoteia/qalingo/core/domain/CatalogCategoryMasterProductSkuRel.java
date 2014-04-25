@@ -27,6 +27,12 @@ public class CatalogCategoryMasterProductSkuRel extends AbstractEntity {
     @Column(name = "RANKING")
     private Integer ranking;
     
+    @Column(name = "IS_DEFAULT_CATEGORY", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefaultCategory;
+
+    @Column(name = "IS_DEFAULT_SKU", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean isDefaultSku;
+    
     public CatalogCategoryMasterProductSkuRel() {
     }
 
@@ -64,6 +70,22 @@ public class CatalogCategoryMasterProductSkuRel extends AbstractEntity {
         this.ranking = ranking;
     }
 
+    public boolean isDefaultCategory() {
+        return isDefaultCategory;
+    }
+
+    public void setDefaultCategory(boolean isDefaultCategory) {
+        this.isDefaultCategory = isDefaultCategory;
+    }
+
+    public boolean isDefaultSku() {
+        return isDefaultSku;
+    }
+
+    public void setDefaultSku(boolean isDefaultSku) {
+        this.isDefaultSku = isDefaultSku;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

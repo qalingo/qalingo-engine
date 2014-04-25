@@ -48,18 +48,25 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
-	@Column(name="STRING_VALUE")
-	private String stringValue;
-	
-	@Column(name="INTEGER_VALUE")
-	private Integer integerValue;
-	
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
+
+    @Column(name = "LONG_STRING_VALUE")
+    @Lob
+    private String longStringValue;
+
+    @Column(name = "INTEGER_VALUE")
+    private Integer integerValue;
+
 	@Column(name="DOUBLE_VALUE")
 	private Double doubleValue;
 	
 	@Column(name="FLOAT_VALUE")
 	private Float floatValue;
-	
+
+    @Column(name = "DATE_VALUE")
+    private Date dateValue;
+
 	@Column(name="BLOB_VALUE")
 	@Lob
 	private byte[] blobValue;
@@ -70,11 +77,11 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
-	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isGlobal;
-	
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private int ordering;
+//	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
+//	private boolean isGlobal;
+//	
+//	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+//	private int ordering;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -122,13 +129,21 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
+	public String getShortStringValue() {
+        return shortStringValue;
+    }
+	
+	public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+	
+	public String getLongStringValue() {
+        return longStringValue;
+    }
+	
+	public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
+    }
 
 	public Integer getIntegerValue() {
 		return integerValue;
@@ -154,6 +169,14 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 		this.floatValue = floatValue;
 	}
 
+	public Date getDateValue() {
+        return dateValue;
+    }
+	
+	public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
+    }
+	
 	public byte[] getBlobValue() {
 		return blobValue;
 	}
@@ -178,22 +201,22 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
-	public boolean isGlobal() {
-		return isGlobal;
-	}
-
-	public void setGlobal(boolean isGlobal) {
-		this.isGlobal = isGlobal;
-	}
-	
-	public int getOrdering() {
-		return ordering;
-	}
-	
-	public void setOrdering(int ordering) {
-		this.ordering = ordering;
-	}
-	
+//	public boolean isGlobal() {
+//		return isGlobal;
+//	}
+//
+//	public void setGlobal(boolean isGlobal) {
+//		this.isGlobal = isGlobal;
+//	}
+//	
+//	public int getOrdering() {
+//		return ordering;
+//	}
+//	
+//	public void setOrdering(int ordering) {
+//		this.ordering = ordering;
+//	}
+//	
 	public Long getMarketAreaId() {
 		return marketAreaId;
 	}
@@ -235,11 +258,15 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 	}
 	
 	public String getValueAsString() {
-		if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING){
-			if(getStringValue() != null){
-				return getStringValue();
+		if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_SHORT_STRING){
+			if(getShortStringValue() != null){
+				return getShortStringValue();
 			}
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE){
+		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_LONG_STRING){
+            if(getLongStringValue() != null){
+                return getLongStringValue();
+            }
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE){
 			if(getDoubleValue() != null){
 				return getDoubleValue().toString();
 			}
@@ -296,9 +323,8 @@ public class CatalogCategoryMasterAttribute extends AbstractAttribute {
 
     @Override
     public String toString() {
-        return "CatalogCategoryMasterAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
-                + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", isGlobal=" + isGlobal
-                + ", ordering=" + ordering + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "CatalogCategoryMasterAttribute [id=" + id + ", version=" + version + ", shortStringValue=" + shortStringValue + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
+                + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 
 }

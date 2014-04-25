@@ -22,9 +22,9 @@ import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
-import org.hoteia.qalingo.core.service.pojo.LocalizationPojoService;
-import org.hoteia.qalingo.core.service.pojo.MarketPojoService;
-import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
+import org.hoteia.qalingo.core.service.pojo.LocalizationPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.MarketPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +34,13 @@ import org.springframework.stereotype.Component;
 public class CmsRestService {
 
     @Autowired
-    private MarketPojoService marketPojoService;
+    private MarketPojoFactory marketPojoService;
 
     @Autowired
-    private RetailerPojoService retailerPojoService;
+    private RetailerPojoFactory retailerPojoService;
 
     @Autowired
-    private LocalizationPojoService localizationPojoService;
+    private LocalizationPojoFactory localizationPojoService;
     
     @GET
     @Path("marketplaces")

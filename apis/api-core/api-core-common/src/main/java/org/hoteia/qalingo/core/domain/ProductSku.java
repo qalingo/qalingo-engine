@@ -75,13 +75,13 @@ public class ProductSku extends AbstractEntity {
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
-    private CatalogCategoryVirtual defaultCatalogCategory;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
+//    private CatalogCategoryVirtual defaultCatalogCategory;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_ID")
-    private Set<ProductSkuAttribute> productSkuAttributes = new HashSet<ProductSkuAttribute>();
+    private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
@@ -149,44 +149,44 @@ public class ProductSku extends AbstractEntity {
 		this.name = name;
 	}
 
-	public boolean isDefault() {
-		return isDefault;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
+    public boolean isDefault() {
+        return isDefault;
+    }
+
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
     }
+    
+//    public CatalogCategoryVirtual getDefaultCatalogCategory() {
+//        return defaultCatalogCategory;
+//    }
+//
+//    public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
+//        this.defaultCatalogCategory = defaultCatalogCategory;
+//    }
 
-    public CatalogCategoryVirtual getDefaultCatalogCategory() {
-        return defaultCatalogCategory;
-    }
-
-    public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
-        this.defaultCatalogCategory = defaultCatalogCategory;
-    }
-
-    public Set<ProductSkuAttribute> getProductSkuAttributes() {
-        return productSkuAttributes;
+    public Set<ProductSkuAttribute> getAttributes() {
+        return attributes;
     }
 	
-	public void setProductSkuAttributes(Set<ProductSkuAttribute> productSkuAttributes) {
-        this.productSkuAttributes = productSkuAttributes;
+	public void setAttributes(Set<ProductSkuAttribute> attributes) {
+        this.attributes = attributes;
     }
 	
-	public List<ProductSkuAttribute> getProductSkuGlobalAttributes() {
+	public List<ProductSkuAttribute> getGlobalAttributes() {
         List<ProductSkuAttribute> productSkuGlobalAttributes = null;
-        if (productSkuAttributes != null
-                && Hibernate.isInitialized(productSkuAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             productSkuGlobalAttributes = new ArrayList<ProductSkuAttribute>();
-            for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null 
@@ -198,12 +198,12 @@ public class ProductSku extends AbstractEntity {
         return productSkuGlobalAttributes;
 	}
 
-	public List<ProductSkuAttribute> getProductSkuMarketAreaAttributes(Long marketAreaId) {
+	public List<ProductSkuAttribute> getMarketAreaAttributes(Long marketAreaId) {
         List<ProductSkuAttribute> productSkuMarketAreaAttributes = null;
-        if (productSkuAttributes != null
-                && Hibernate.isInitialized(productSkuAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             productSkuMarketAreaAttributes = new ArrayList<ProductSkuAttribute>();
-            for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute attribute = (ProductSkuAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null 
@@ -342,10 +342,10 @@ public class ProductSku extends AbstractEntity {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
 
 		// 1: GET THE GLOBAL VALUE
-		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(getProductSkuGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
+		ProductSkuAttribute productSkuGlobalAttribute = getProductSkuAttribute(getGlobalAttributes(), attributeCode, marketAreaId, localizationCode);
 
 		// 2: GET THE MARKET AREA VALUE
-		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(getProductSkuMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
+		ProductSkuAttribute productSkuMarketAreaAttribute = getProductSkuAttribute(getMarketAreaAttributes(marketAreaId), attributeCode, marketAreaId, localizationCode);
 		
 		if(productSkuMarketAreaAttribute != null){
 			productSkuAttributeToReturn = productSkuMarketAreaAttribute;
@@ -356,22 +356,22 @@ public class ProductSku extends AbstractEntity {
 		return productSkuAttributeToReturn;
 	}
 	
-	private ProductSkuAttribute getProductSkuAttribute(List<ProductSkuAttribute> productSkuAttributes, String attributeCode, Long marketAreaId, String localizationCode) {
+	private ProductSkuAttribute getProductSkuAttribute(List<ProductSkuAttribute> attributes, String attributeCode, Long marketAreaId, String localizationCode) {
 		ProductSkuAttribute productSkuAttributeToReturn = null;
-		List<ProductSkuAttribute> productSkuAttributesFilter = new ArrayList<ProductSkuAttribute>();
-		if(productSkuAttributes != null) {
-			// GET ALL ProductSkuAttributes FOR THIS ATTRIBUTE
-			for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+		List<ProductSkuAttribute> attributesFilter = new ArrayList<ProductSkuAttribute>();
+		if(attributes != null) {
+			// GET ALL attributes FOR THIS ATTRIBUTE
+			for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
 				ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 				AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
 				if(attributeDefinition != null
 						&& attributeDefinition.getCode().equalsIgnoreCase(attributeCode)) {
-					productSkuAttributesFilter.add(productSkuAttribute);
+					attributesFilter.add(productSkuAttribute);
 				}
 			}
-			// REMOVE ALL ProductSkuAttributes NOT ON THIS MARKET AREA
+			// REMOVE ALL attributes NOT ON THIS MARKET AREA
 			if(marketAreaId != null) {
-				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
+				for (Iterator<ProductSkuAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 					AttributeDefinition attributeDefinition = productSkuAttribute.getAttributeDefinition();
 					if(BooleanUtils.negate(attributeDefinition.isGlobal())) {
@@ -382,9 +382,9 @@ public class ProductSku extends AbstractEntity {
 					}
 				}
 			}
-			// FINALLY RETAIN ONLY ProductSkuAttributes FOR THIS LOCALIZATION CODE
+			// FINALLY RETAIN ONLY attributes FOR THIS LOCALIZATION CODE
 			if(StringUtils.isNotEmpty(localizationCode)) {
-				for (Iterator<ProductSkuAttribute> iterator = productSkuAttributesFilter.iterator(); iterator.hasNext();) {
+				for (Iterator<ProductSkuAttribute> iterator = attributesFilter.iterator(); iterator.hasNext();) {
 					ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 					String attributeLocalizationCode = productSkuAttribute.getLocalizationCode();
 					if(StringUtils.isNotEmpty(attributeLocalizationCode)
@@ -392,11 +392,11 @@ public class ProductSku extends AbstractEntity {
 						iterator.remove();
 					}
 				}
-				if(productSkuAttributesFilter.size() == 0){
+				if(attributesFilter.size() == 0){
 					// TODO : warning ?
 
-					// NOT ANY ProductSkuAttributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
-					for (Iterator<ProductSkuAttribute> iterator = productSkuAttributes.iterator(); iterator.hasNext();) {
+					// NOT ANY attributes FOR THIS LOCALIZATION CODE - GET A FALLBACK
+					for (Iterator<ProductSkuAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
 						ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
 						
 						// TODO : get a default locale code from setting database ?
@@ -409,8 +409,8 @@ public class ProductSku extends AbstractEntity {
 			}
 		}
 		
-		if(productSkuAttributesFilter.size() == 1){
-			productSkuAttributeToReturn = productSkuAttributesFilter.get(0);
+		if(attributesFilter.size() == 1){
+			productSkuAttributeToReturn = attributesFilter.get(0);
 		} else {
 			// TODO : throw error ?
 		}
@@ -432,10 +432,6 @@ public class ProductSku extends AbstractEntity {
 			i18nName = getName();
 		}
 		return i18nName;
-	}
-	
-	public Integer getOrder(Long marketAreaId) {
-		return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_ORDER, marketAreaId, null);
 	}
 	
     public Integer getWidth() {

@@ -48,8 +48,12 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute {
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
-	@Column(name="STRING_VALUE")
-	private String stringValue;
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
+
+    @Column(name = "LONG_STRING_VALUE")
+    @Lob
+    private String longStringValue;
 	
 	@Column(name="INTEGER_VALUE")
 	private Integer integerValue;
@@ -113,13 +117,21 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public String getShortStringValue() {
+        return shortStringValue;
+    }
+    
+    public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+    
+    public String getLongStringValue() {
+        return longStringValue;
+    }
+    
+    public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
+    }
 
 	public Integer getIntegerValue() {
 		return integerValue;
@@ -234,7 +246,7 @@ public class ProductMarketingTypeAttribute extends AbstractAttribute {
 
     @Override
     public String toString() {
-        return "ProductMarketingTypeAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
+        return "ProductMarketingTypeAttribute [id=" + id + ", version=" + version + ", shortStringValue=" + shortStringValue + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue
                 + ", floatValue=" + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", startDate=" + startDate
                 + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }

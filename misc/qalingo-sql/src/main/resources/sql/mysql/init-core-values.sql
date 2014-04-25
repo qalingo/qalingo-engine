@@ -21,15 +21,15 @@
 INSERT INTO teco_localization
 (id, code, country, language, name, description)
  VALUES 
-(1, 'en', 'en', 'en', 'English', 'Default english localization.'), 
-(2, 'fr', 'fr', 'fr', 'French', 'Default french localization.'), 
-(3, 'es', 'es', 'es', 'Spanish', 'Default spanish localization.'), 
-(4, 'it', 'it', 'it', 'Italian', 'Default italian localization.'), 
-(5, 'de', 'de', 'de', 'German', 'Default german localization.'), 
-(6, 'nl', 'nl', 'nl', 'Dutch', 'Default dutch localization.'), 
-(7, 'jp', 'jp', 'jp', 'Japan', 'Default japan localization.'), 
-(8, 'pt', 'pt', 'pt', 'Portuguese', 'Default portuguese localization.'), 
-(9, 'zh-cn', 'CN', 'zh', 'Chinese - China', 'Default chinese localization.'), 
+(1,  'en',    'en', 'en', 'English', 'Default english localization.'), 
+(2,  'fr',    'fr', 'fr', 'French', 'Default french localization.'), 
+(3,  'es',    'es', 'es', 'Spanish', 'Default spanish localization.'), 
+(4,  'it',    'it', 'it', 'Italian', 'Default italian localization.'), 
+(5,  'de',    'de', 'de', 'German', 'Default german localization.'), 
+(6,  'nl',    'nl', 'nl', 'Dutch', 'Default dutch localization.'), 
+(7,  'jp',    'jp', 'jp', 'Japan', 'Default japan localization.'), 
+(8,  'pt',    'pt', 'pt', 'Portuguese', 'Default portuguese localization.'), 
+(9,  'zh-cn', 'CN', 'zh', 'Chinese - China', 'Default chinese localization.'), 
 (10, 'zh-hk', 'HK', 'zh', 'Chinese - Hong Kong', 'Chinese localization for Hong Kong.'), 
 (11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'Chinese localization for Singapore.'), 
 (12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'Chinese localization for Taiwan.'),
@@ -66,48 +66,56 @@ INSERT INTO tbo_group_role_rel VALUES
 
 -- ATTRIBUTES : CATALOG CATEGORY
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(1000, 'Catalog Category attribute name', 'Catalog Category attribute name', 'CATALOG_CATEGORY_I18N_NAME', 1, 1, 1, 1, 0, 1),
-(1010, 'Catalog Category attribute order', 'Catalog Category attribute order', 'CATALOG_CATEGORY_ORDER', 4, 1, 0, 0, 0, 1);
+(1000, 'Catalog Category attribute name', 'Catalog Category attribute name', 'CATALOG_CATEGORY_I18N_NAME',                      1, 1, 1, 1, 0, 1, 1),
+(1010, 'Catalog Category attribute description', 'Catalog Category attribute description', 'CATALOG_CATEGORY_I18N_DESCRIPTION', 2, 1, 1, 1, 0, 1, 2);
 
 -- ATTRIBUTES : PRODUCT MARKETING
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(2000, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_I18N_NAME', 1, 2, 1, 1, 0, 1),
-(2010, 'Product Marketing attribute order', 'Product Marketing attribute order', 'PRODUCT_MARKETING_ORDER', 4, 2, 0, 0, 0, 1),
-(2020, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED', 6, 2, 0, 1, 0, 1);
+(2000, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_I18N_NAME',                      1, 2, 1, 1, 0, 1, 1),
+(2010, 'Product Marketing attribute description', 'Product Marketing attribute description', 'PRODUCT_MARKETING_I18N_DESCRIPTION', 2, 2, 1, 1, 0, 1, 2),
+(2020, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED',               7, 2, 1, 0, 0, 1, 3);
 
 -- ATTRIBUTES : PRODUCT SKU
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(3000, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_I18N_NAME', 1, 3, 1, 1, 0, 1),
-(3010, 'Product Sku attribute order', 'Product Sku attribute order', 'PRODUCT_SKU_ORDER', 4, 3, 0, 0, 0, 1),
-(3020, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_WIDTH', 4, 3, 0, 1, 0, 1),
-(3030, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_HEIGHT', 4, 3, 1, 0, 0, 1),
-(3040, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_LENGTH', 4, 3, 1, 0, 0, 1),
-(3050, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_WEIGHT', 4, 3, 1, 0, 0, 1);
+(3000, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_I18N_NAME',                      1, 3, 1, 1, 0, 1, 1),
+(3010, 'Product Sku attribute description', 'Product Sku attribute description', 'PRODUCT_SKU_I18N_DESCRIPTION', 2, 3, 1, 1, 0, 1, 2),
+(3020, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_WIDTH',                        5, 3, 0, 1, 0, 1, 3),
+(3030, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_HEIGHT',                     5, 3, 0, 1, 0, 1, 4),
+(3040, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_LENGTH',                     5, 3, 0, 1, 0, 1, 5),
+(3050, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_WEIGHT',                     5, 3, 0, 1, 0, 1, 6);
 
 -- ATTRIBUTES : CUSTOMER
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(4000, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_SCREENNAME', 1, 4, 1, 1, 0, 1);
+(4000, 'Customer attribute screen name', 'Customer attribute screen name', 'CUSTOMER_SCREENNAME', 1, 4, 0, 1, 0, 1, 1);
 
 -- ATTRIBUTES : STORE
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(5000, 'Store attribute order', 'Store attribute order', 'STORE_ORDER', 4, 5, 0, 0, 0, 1),
-(5010, 'Store attribute city name', 'Store attribute city name', 'STORE_I18N_CITY', 1, 5, 0, 0, 0, 1);
+(5000, 'Store attribute name', 'Store attribute name', 'STORE_I18N_NAME',                      1, 5, 1, 1, 0, 1, 1),
+(5010, 'Store attribute description', 'Store attribute description', 'STORE_I18N_DESCRIPTION', 2, 5, 1, 1, 0, 1, 2),
+(5020, 'Store attribute city name', 'Store attribute city name', 'STORE_I18N_CITY_NAME',       1, 5, 1, 1, 0, 1, 3);
+
+-- ATTRIBUTES : RETAILER
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
+VALUES 
+(10000, 'Retailer attribute name', 'Retailer attribute name', 'RETAILER_I18N_NAME',                      1, 10, 1, 1, 0, 1, 1),
+(10010, 'Retailer attribute description', 'Retailer attribute description', 'RETAILER_I18N_DESCRIPTION', 2, 10, 1, 1, 0, 1, 1);
 
 -- ATTRIBUTES : PAYMENT GATEWAY
 INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(6000, 'Payment Gateway client id', 'Payment Gateway client id', 'PAYMENT_GATEWAY_CLIENT_TOKEN', 1, 6, 0, 0, 0, 1);
+(6000, 'Payment Gateway client id', 'Payment Gateway client id', 'PAYMENT_GATEWAY_CLIENT_TOKEN', 1, 6, 1, 0, 0, 1, 1);
 
 -- ATTRIBUTES : MARKET AREA
 INSERT INTO teco_attribute_definition 
@@ -120,7 +128,7 @@ VALUES
 (3, 'Market Area Email Contact (To)', 'Market Area Email Contact (To)', 'MARKET_AREA_EMAIL_CONTACT', 1, 8, 0, 0, 0, 1),
 (5, 'Market Area Domaine name', 'Market Area Domaine name', 'MARKET_AREA_DOMAIN_NAME', 1, 8, 0, 0, 0, 1),
 (6, 'Market Area Share Option', 'Market Area Share Option', 'MARKET_AREA_SHARE_OPTIONS', 1, 8, 0, 0, 0, 1),
-(7, 'Market Area Save Payment informations', 'Market Area Save Payment informations', 'MARKET_AREA_SAVE_PAYMENT_INFORMATION', 6, 8, 0, 0, 0, 1),
+(7, 'Market Area Save Payment informations', 'Market Area Save Payment informations', 'MARKET_AREA_SAVE_PAYMENT_INFORMATION', 7, 8, 0, 0, 0, 1),
 (8, 'Market Area Order confirmation template file path', 'Market Area Order confirmation template file path', 'MARKET_AREA_ORDER_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
 (9, 'Market Area Shipping confirmation template file path', 'Market Area Shipping confirmation template file path', 'MARKET_AREA_SHIPPING_CONFIRMATION_TEMPLATE', 1, 8, 0, 0, 0, 1),
 (10, 'Market Area Invoice template file path', 'Market Area Invoice template file path', 'MARKET_AREA_INVOICE_TEMPLATE', 1, 8, 0, 0, 0, 1);
@@ -129,7 +137,7 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
 VALUES 
-(9000, 'Tax alias name', 'Tax alias name', 'TAX_ALIAS_NAME', 1, 9, 0, 0, 0, 1);
+(9000, 'Tax alias name', 'Tax alias name', 'TAX_ALIAS_NAME', 1, 9, 1, 1, 0, 1);
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting
@@ -517,7 +525,7 @@ VALUES
 (40, 'FRENCH_VAT_SPECIFIC', 'TVA Française, taux particulier', 'La taxe sur la valeur ajoutée (TVA) a un taux particulier fixé à 2,1 % (art. 281 quater et suivants du CGI) est réservé aux médicaments remboursables par la sécurité sociale, aux ventes d’animaux vivants de boucherie et de charcuterie à des non assujettis, à la redevance télévision, à certains spectacles et aux publications de presse inscrites à la Commission paritaire des publications et agences de presse.', 2.10);
 
 INSERT INTO teco_tax_attribute 
-(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, tax_id, attribute_definition_id, localization_code, market_area_id)
+(id, blob_value, boolean_value, double_value, float_value, integer_value, short_string_value, tax_id, attribute_definition_id, localization_code, market_area_id)
 VALUES 
 (10, null, null, null, null, null, 'TVA', 10, 9000, null, null),
 (20, null, null, null, null, null, 'TVA', 20, 9000, null, null),
@@ -575,7 +583,7 @@ INSERT INTO teco_payment_gateway
 (10, 'paymentGatewayFake', 'PGF', 'Fake Payment Gateway', 'Payment Gateway with no provider, just for tests');
 
 INSERT INTO teco_payment_gateway_attribute 
-(id, blob_value, boolean_value, double_value, float_value, integer_value, string_value, payment_gateway_id, attribute_definition_id, market_area_id)
+(id, blob_value, boolean_value, double_value, float_value, integer_value, short_string_value, payment_gateway_id, attribute_definition_id, market_area_id)
 VALUES (1, null, null, null, null, null, 'YOUR_GATEWAY_TOKEN', 10, 6000, null);
 
 INSERT INTO teco_payment_gateway_option  

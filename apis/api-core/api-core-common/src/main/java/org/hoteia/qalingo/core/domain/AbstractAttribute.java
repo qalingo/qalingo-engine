@@ -31,34 +31,38 @@ public abstract class AbstractAttribute extends AbstractEntity {
 
 	public final static String CUSTOMER_ATTRIBUTE_SCREENAME = "CUSTOMER_SCREENNAME";
 
-	public final static String STORE_ATTRIBUTE_I18N_CITY = "STORE_I18N_CITY";
-	public final static String STORE_ATTRIBUTE_ORDER = "STORE_ORDER";
-
 	public final static String CATALOG_CATEGORY_ATTRIBUTE_I18N_NAME = "CATALOG_CATEGORY_I18N_NAME";
-	public final static String CATALOG_CATEGORY_ATTRIBUTE_ORDER = "CATALOG_CATEGORY_ORDER";
 	
-	public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME = "PRODUCT_MARKETING_I18N_NAME";
-	public final static String PRODUCT_MARKETING_ATTRIBUTE_ORDER = "PRODUCT_MARKETING_ORDER";
-    public final static String PRODUCT_MARKETING_ATTRIBUTE_FEATURED = "PRODUCT_MARKETING_FEATURED";
-    
-	public final static String PRODUCT_SKU_ATTRIBUTE_I18N_NAME = "PRODUCT_SKU_I18N_NAME";
-	public final static String PRODUCT_SKU_ATTRIBUTE_ORDER = "PRODUCT_SKU_ORDER";
-    public final static String PRODUCT_SKU_ATTRIBUTE_WIDTH = "PRODUCT_SKU_WIDTH";
-    public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT = "PRODUCT_SKU_HEIGHT";
-    public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH = "PRODUCT_SKU_LENGTH";
-    public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT = "PRODUCT_SKU_WEIGHT";
+    public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_NAME        = "PRODUCT_MARKETING_I18N_NAME";
+    public final static String PRODUCT_MARKETING_ATTRIBUTE_I18N_DESCRIPTION = "PRODUCT_MARKETING_I18N_DESCRIPTION";
+    public final static String PRODUCT_MARKETING_ATTRIBUTE_FEATURED         = "PRODUCT_MARKETING_FEATURED";
 
-	public final static String RETAILER_ATTRIBUTE_I18N_NAME = "RETAILER_I18N_NAME";
-	public final static String RETAILER_ATTRIBUTE_ORDER = "RETAILER_ORDER";
+    public final static String PRODUCT_SKU_ATTRIBUTE_I18N_NAME          = "PRODUCT_SKU_I18N_NAME";
+    public final static String PRODUCT_SKU_ATTRIBUTE_I18N_DESCRIPTION   = "PRODUCT_SKU_I18N_DESCRIPTION";
+    public final static String PRODUCT_SKU_ATTRIBUTE_WIDTH              = "PRODUCT_SKU_WIDTH";
+    public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT             = "PRODUCT_SKU_HEIGHT";
+    public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH             = "PRODUCT_SKU_LENGTH";
+    public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT             = "PRODUCT_SKU_WEIGHT";
+
+	public final static String RETAILER_ATTRIBUTE_I18N_NAME        = "RETAILER_I18N_NAME";
+    public final static String RETAILER_ATTRIBUTE_I18N_DESCRIPTION = "RETAILER_I18N_DESCRIPTION";
+
+    public final static String STORE_ATTRIBUTE_I18N_NAME        = "STORE_I18N_NAME";
+    public final static String STORE_ATTRIBUTE_I18N_DESCRIPTION = "STORE_I18N_DESCRIPTION";
+    public final static String STORE_ATTRIBUTE_I18N_CITY_NAME   = "STORE_I18N_CITY_NAME";
 
     public final static String PAYMENT_GATEWAY_ATTRIBUTE_CLIENT_TOKEN = "PAYMENT_GATEWAY_CLIENT_TOKEN";
 
     public abstract AttributeDefinition getAttributeDefinition();
 
-    public abstract String getStringValue();
+    public abstract String getShortStringValue();
 
-    public abstract void setStringValue(String value);
+    public abstract void setShortStringValue(String value);
 
+    public abstract String getLongStringValue();
+    
+    public abstract void setLongStringValue(String longStringValue);
+    
     public abstract Integer getIntegerValue();
 
     public abstract void setIntegerValue(Integer value);
@@ -79,11 +83,17 @@ public abstract class AbstractAttribute extends AbstractEntity {
 
     public abstract void setBooleanValue(Boolean value);
 
+    public abstract String getLocalizationCode();
+
+    public abstract void setLocalizationCode(String localizationCode);
+    
 	public Object getValue() {
 		AttributeDefinition attributeDefinition = getAttributeDefinition();
-		if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING) {
-			return (Object) getStringValue();
-		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE) {
+		if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_SHORT_STRING) {
+			return (Object) getShortStringValue();
+		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_LONG_STRING) {
+            return (Object) getLongStringValue();
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE) {
 			return (Object) getDoubleValue();
 		} else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_FLOAT) {
 			return (Object) getFloatValue();
@@ -98,11 +108,15 @@ public abstract class AbstractAttribute extends AbstractEntity {
 	}
 	
 	public String getValueAsString() {
-		if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING){
-			if(getStringValue() != null){
-				return getStringValue();
+		if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_SHORT_STRING){
+			if(getShortStringValue() != null){
+				return getShortStringValue();
 			}
-		} else if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE){
+		} else if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_LONG_STRING){
+            if(getLongStringValue() != null){
+                return getLongStringValue();
+            }
+        } else if(getAttributeDefinition().getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE){
 			if(getDoubleValue() != null){
 				return getDoubleValue().toString();
 			}
@@ -128,8 +142,10 @@ public abstract class AbstractAttribute extends AbstractEntity {
 	
     public void setValue(String value) {
         AttributeDefinition attributeDefinition = getAttributeDefinition();
-        if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_STRING) {
-            setStringValue(value);
+        if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_SHORT_STRING) {
+            setShortStringValue(value);
+        } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_LONG_STRING) {
+            setLongStringValue(value);
         } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_DOUBLE) {
             setDoubleValue(new Double(value));
         } else if(attributeDefinition.getAttributeType() == AttributeDefinition.ATTRIBUTE_TYPE_FLOAT) {

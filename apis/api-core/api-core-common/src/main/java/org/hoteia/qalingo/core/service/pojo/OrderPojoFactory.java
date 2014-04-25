@@ -12,7 +12,7 @@ package org.hoteia.qalingo.core.service.pojo;
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
-import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
+import org.hoteia.qalingo.core.service.pojo.OrderPojoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("orderPojoService")
 @Transactional(readOnly = true)
-public class OrderPojoService {
+public class OrderPojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

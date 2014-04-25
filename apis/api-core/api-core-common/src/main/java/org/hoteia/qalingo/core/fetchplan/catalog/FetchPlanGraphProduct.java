@@ -13,7 +13,7 @@ public class FetchPlanGraphProduct {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("productBrand"));
         fetchplans.add(new SpecificFetchMode("productMarketingType"));
-        fetchplans.add(new SpecificFetchMode("productMarketingAttributes"));
+        fetchplans.add(new SpecificFetchMode("attributes"));
         fetchplans.add(new SpecificFetchMode("productSkus"));
         fetchplans.add(new SpecificFetchMode("prices", new SpecificAlias("productSkus.prices")));
         fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("productSkus.prices.currency")));
@@ -27,7 +27,7 @@ public class FetchPlanGraphProduct {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode("productBrand"));
         fetchplans.add(new SpecificFetchMode("productMarketingType"));
-        fetchplans.add(new SpecificFetchMode("productMarketingAttributes"));
+        fetchplans.add(new SpecificFetchMode("attributes"));
         fetchplans.add(new SpecificFetchMode("productSkus"));
         fetchplans.add(new SpecificFetchMode("prices", new SpecificAlias("productSkus.prices")));
         fetchplans.add(new SpecificFetchMode("currency", new SpecificAlias("productSkus.prices.currency")));
@@ -48,7 +48,7 @@ public class FetchPlanGraphProduct {
     
     public static FetchPlan productSkuDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        fetchplans.add(new SpecificFetchMode("productSkuAttributes"));
+        fetchplans.add(new SpecificFetchMode("attributes"));
         fetchplans.add(new SpecificFetchMode("productMarketing"));
         fetchplans.add(new SpecificFetchMode("assets"));
         fetchplans.add(new SpecificFetchMode("prices"));

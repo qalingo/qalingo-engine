@@ -154,8 +154,9 @@ public final class ModelConstants {
     public static final String CART_FORM                    = "cartForm";
     public static final String PAYMENT_FORM                 = "paymentForm";
     public static final String CREATE_ACCOUNT_FORM          = "createAccountForm";
-    public static final String PRODUCT_SKU_FORM             = "productSkuForm";
+    public static final String CATALOG_CATEGORY_FORM        = "catalogCategoryForm";
     public static final String PRODUCT_MARKETING_FORM       = "productMarketingForm";
+    public static final String PRODUCT_SKU_FORM             = "productSkuForm";
     public static final String PRODUCT_COMMENT_FORM         = "productCommentForm";
     public static final String CONTACT_FORM                 = "contactForm";
 

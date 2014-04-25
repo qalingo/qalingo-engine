@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CartItemTax;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
@@ -195,11 +197,14 @@ public class WebManagementServiceImpl implements WebManagementService {
 
                 cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
                 cartItem.setQuantity(quantity);
+                
                 if(StringUtils.isNotEmpty(catalogCategoryCode)){
                     cartItem.setCatalogCategoryCode(catalogCategoryCode);
                 } else {
                     final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-                    cartItem.setCatalogCategoryCode(reloadedProductMarketing.getDefaultCatalogCategory().getCode());
+                    final List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId());
+                    final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(reloadedProductMarketing, catalogCategories, true);
+                    cartItem.setCatalogCategoryCode(defaultVirtualCatalogCategory.getCode());
                 }
                 cart.getCartItems().add(cartItem);
             } else {

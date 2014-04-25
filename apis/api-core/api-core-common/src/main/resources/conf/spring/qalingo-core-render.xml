@@ -77,6 +77,8 @@
 				<entry key="velocimacro.context.localscope"><value>${velocity.velocimacro.context.localscope}</value></entry>
 				<entry key="velocimacro.messages.on"><value>${velocity.velocimacro.messages.on}</value></entry>
 
+                <entry key="directive.set.null.allowed"><value>${velocity.directive.set.null.allowed}</value></entry>
+
 				<entry key="template.encoding"><value>${velocity.template.encoding}</value></entry>
 				<entry key="input.encoding"><value>${velocity.input.encoding}</value></entry>
 				<entry key="output.encoding"><value>${velocity.output.encoding}</value></entry>

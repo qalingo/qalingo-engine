@@ -19,16 +19,44 @@
 							http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
+    <import resource="classpath:conf/spring/qalingo-core-persistence.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-local-ds.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-dao.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-render.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-email.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-i18n.xml" />
+    <import resource="classpath:conf/spring/qalingo-core-service.xml" />
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:common-qalingo-solr.properties</value>
+                <value>classpath:common-qalingo-test-config.properties</value>
+                <value>classpath:common-qalingo-test-jdbc.properties</value>
+                <value>classpath:common-qalingo-test-mail.properties</value>
+                <value>classpath:common-qalingo-test-solr.properties</value>
+                <value>classpath:common-qalingo-test-velocity.properties</value>
 			</list>
 		</property>
 	</bean>
+    
+    <!-- Application Message Bundle -->
+    <bean id="messageSource" class="org.hoteia.qalingo.core.i18n.message.ExtReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:qalingo-fo-wording</value>
+                <value>classpath:qalingo-email-wording</value>
+                <value>classpath:qalingo-common-wording</value>
+                <value>classpath:qalingo-countries</value>
+                <value>classpath:qalingo-languages</value>
+                <value>classpath:qalingo-titles</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="cacheSeconds" value="${reloadable.resource.bundle.message.source.cache.seconds}" />
+    </bean>
+    
+	<context:component-scan base-package="org.hoteia.qalingo.core.solr" />
 
 	<bean id="multiCore" class="org.apache.solr.core.CoreContainer">
 		<constructor-arg>

@@ -31,23 +31,25 @@ public class AttributeDefinition extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -9192631267286418164L;
 	
-	// TODO : ENUM this
-	public static int ATTRIBUTE_TYPE_STRING = 1;
-	public static int ATTRIBUTE_TYPE_DOUBLE = 2;
-	public static int ATTRIBUTE_TYPE_FLOAT = 3;
-	public static int ATTRIBUTE_TYPE_INTEGER = 4;
-	public static int ATTRIBUTE_TYPE_BLOB = 5;
-	public static int ATTRIBUTE_TYPE_BOOLEAN = 6;
+    // TODO : ENUM this
+    public static int ATTRIBUTE_TYPE_SHORT_STRING   = 1;
+    public static int ATTRIBUTE_TYPE_LONG_STRING    = 2;
+    public static int ATTRIBUTE_TYPE_DOUBLE         = 3;
+    public static int ATTRIBUTE_TYPE_FLOAT          = 4;
+    public static int ATTRIBUTE_TYPE_INTEGER        = 5;
+    public static int ATTRIBUTE_TYPE_BLOB           = 6;
+    public static int ATTRIBUTE_TYPE_BOOLEAN        = 7;
 
-	public static int OBJECT_TYPE_CATALOG_CATEGORY = 1;
-	public static int OBJECT_TYPE_PRODUCT_MARKETING = 2;
-	public static int OBJECT_TYPE_PRODUCT_SKU = 3;
-	public static int OBJECT_TYPE_CUSTOMER = 4;
-	public static int OBJECT_TYPE_STORE = 5;
-	public static int OBJECT_TYPE_PAYMENT_GATEWAY = 6;
-	public static int OBJECT_TYPE_RULE_REFERENTIAL = 7;
-	public static int OBJECT_TYPE_MARKET_AREA = 8;
-    public static int OBJECT_TYPE_TAX = 9;
+    public static int OBJECT_TYPE_CATALOG_CATEGORY  = 1;
+    public static int OBJECT_TYPE_PRODUCT_MARKETING = 2;
+    public static int OBJECT_TYPE_PRODUCT_SKU       = 3;
+    public static int OBJECT_TYPE_CUSTOMER          = 4;
+    public static int OBJECT_TYPE_STORE             = 5;
+    public static int OBJECT_TYPE_PAYMENT_GATEWAY   = 6;
+    public static int OBJECT_TYPE_RULE_REFERENTIAL  = 7;
+    public static int OBJECT_TYPE_MARKET_AREA       = 8;
+    public static int OBJECT_TYPE_TAX               = 9;
+    public static int OBJECT_TYPE_RETAILER          = 10;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,6 +76,12 @@ public class AttributeDefinition extends AbstractEntity {
     @Column(name = "OBJECT_TYPE")
     private int objectType;
 
+    @Column(name = "ENABLED", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean enabled;
+    
+    @Column(name = "MANDATORY", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private boolean mandatory;
+    
     @Column(name = "LOCALIZABLE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean localizable;
 
@@ -86,6 +94,9 @@ public class AttributeDefinition extends AbstractEntity {
     @Column(name = "WITH_PLANNER", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean withPlanner;
 
+    @Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+    private Integer ordering;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
     private Date dateCreate;
@@ -142,7 +153,7 @@ public class AttributeDefinition extends AbstractEntity {
 	}
 
     public String getAttributeType(int type) {
-        if (type == ATTRIBUTE_TYPE_STRING) {
+        if (type == ATTRIBUTE_TYPE_SHORT_STRING) {
             return "STRING";
         } else if (type == ATTRIBUTE_TYPE_DOUBLE) {
             return "DOUBLE";
@@ -193,7 +204,23 @@ public class AttributeDefinition extends AbstractEntity {
 		this.objectType = objectType;
 	}
 
-	public boolean isLocalizable() {
+	public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public boolean isLocalizable() {
 		return localizable;
 	}
 
@@ -217,17 +244,25 @@ public class AttributeDefinition extends AbstractEntity {
 		this.multiValue = multiValue;
 	}
 
-	public boolean isWithPlanner() {
+    public boolean isWithPlanner() {
         return withPlanner;
     }
-	
-	public void setWithPlanner(boolean withPlanner) {
+
+    public void setWithPlanner(boolean withPlanner) {
         this.withPlanner = withPlanner;
     }
 
-	public Date getDateCreate() {
-		return dateCreate;
-	}
+    public Integer getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(Integer ordering) {
+        this.ordering = ordering;
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
 
 	public void setDateCreate(Date dateCreate) {
 		this.dateCreate = dateCreate;

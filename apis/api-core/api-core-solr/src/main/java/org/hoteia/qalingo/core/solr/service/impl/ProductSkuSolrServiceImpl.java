@@ -22,10 +22,12 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.solr.bean.ProductSkuSolr;
 import org.hoteia.qalingo.core.solr.response.ProductSkuResponseBean;
 import org.hoteia.qalingo.core.solr.service.ProductSkuSolrService;
@@ -44,10 +46,13 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
     @Autowired
     public SolrServer productSkuSolrServer;
     
+    @Autowired
+    protected ProductService productService;
+    
 	/* (non-Javadoc)
 	 * @see fr.hoteia.qalingo.core.solr.service.ProductSkuSolrService#addOrUpdateProductSku(fr.hoteia.qalingo.core.domain.ProductSku)
 	 */
-    public void addOrUpdateProductSku(final ProductSku productSku, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
+    public void addOrUpdateProductSku(final ProductSku productSku, final List<CatalogCategoryVirtual> catalogCategories, final MarketArea marketArea, final Retailer retailer) throws SolrServerException, IOException {
         if (productSku.getId() == null) {
             throw new IllegalArgumentException("Id  cannot be blank or null.");
         }
@@ -60,8 +65,10 @@ public class ProductSkuSolrServiceImpl extends AbstractSolrService implements Pr
         productSkuSolr.setName(productSku.getName());
         productSkuSolr.setDescription(productSku.getDescription());
 
-        if(productSku.getDefaultCatalogCategory() != null){
-            productSkuSolr.setDefaultCategoryCode(productSku.getDefaultCatalogCategory().getCode());
+        CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productSku, catalogCategories, true);
+
+        if(defaultVirtualCatalogCategory != null){
+            productSkuSolr.setDefaultCategoryCode(defaultVirtualCatalogCategory.getCode());
         }
 
         productSkuSolr.getCatalogCode().add(marketArea.getCatalog().getCode());

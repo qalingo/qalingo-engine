@@ -8,7 +8,7 @@ import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.pojo.LocalizationPojo;
 import org.hoteia.qalingo.core.service.LocalizationService;
-import org.hoteia.qalingo.core.service.pojo.LocalizationPojoService;
+import org.hoteia.qalingo.core.service.pojo.LocalizationPojoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("localizationPojoService")
 @Transactional(readOnly = true)
-public class LocalizationPojoService {
+public class LocalizationPojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

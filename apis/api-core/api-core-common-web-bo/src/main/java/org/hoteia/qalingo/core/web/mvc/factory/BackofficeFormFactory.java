@@ -16,9 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
-import org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
@@ -38,9 +36,7 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.AttributeService;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
-import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
@@ -77,8 +73,8 @@ public class BackofficeFormFactory {
     @Autowired
     protected BackofficeUrlService backofficeUrlService;
     
-    @Autowired
-    protected AttributeService attributeService;
+//    @Autowired
+//    protected AttributeService attributeService;
 
     public EngineSettingForm buildEngineSettingForm(final RequestData requestData, final EngineSetting engineSetting) throws Exception {
         final EngineSettingForm engineSettingForm = new EngineSettingForm();
@@ -149,62 +145,50 @@ public class BackofficeFormFactory {
 
     public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = new CatalogCategoryForm();
-        List<AttributeDefinition> attributeDefinitions = attributeService.findCatalogCategoryAttributeDefinitions();
-        for (Iterator<AttributeDefinition> iterator = attributeDefinitions.iterator(); iterator.hasNext();) {
-            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
-            if(attributeDefinition.isGlobal()){
-                catalogCategoryForm.getGlobalAttributes().put(attributeDefinition.getCode(), "");
-            } else {
-                catalogCategoryForm.getMarketAreaAttributes().put(attributeDefinition.getCode(), "");
-            }
-        }
+//        List<AttributeDefinition> attributeDefinitions = attributeService.findCatalogCategoryGlobalAttributeDefinitions();
+//        for (Iterator<AttributeDefinition> iterator = attributeDefinitions.iterator(); iterator.hasNext();) {
+//            AttributeDefinition attributeDefinition = (AttributeDefinition) iterator.next();
+//            if(attributeDefinition.isGlobal()){
+//                catalogCategoryForm.getGlobalAttributes().put(attributeDefinition.getCode(), "");
+//            } else {
+//                catalogCategoryForm.getMarketAreaAttributes().put(attributeDefinition.getCode(), "");
+//            }
+//        }
         return catalogCategoryForm;
     }
 
-    public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData, final CatalogCategoryMaster catalogCategory) throws Exception {
-        CatalogCategoryMaster parentProductCategory = catalogCategory.getParentCatalogCategory();
-        return buildCatalogCategoryForm(requestData, parentProductCategory, catalogCategory);
-    }
-
-    public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
-        final MarketArea currentMarketArea = requestData.getMarketArea();
-        
+    public CatalogCategoryForm buildCatalogMasterCategoryForm(final RequestData requestData, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(requestData);
         if(parentProductCategory != null){
-            catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
+            catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getCode());
+        } else {
+            if(catalogCategory != null
+                    && catalogCategory.getParentCatalogCategory() != null){
+                catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getParentCatalogCategory().getCode());
+            }
         }
+        
         if(catalogCategory != null){
             catalogCategoryForm.setId(catalogCategory.getId().toString());
             catalogCategoryForm.setCatalogCode(catalogCategory.getName());
             catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setCode(catalogCategory.getCode());
             catalogCategoryForm.setDescription(catalogCategory.getDescription());
-            
-            List<CatalogCategoryMasterAttribute> globalAttributes = catalogCategory.getCatalogCategoryGlobalAttributes();
-            for (Iterator<CatalogCategoryMasterAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
-                CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-                catalogCategoryForm.getGlobalAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
-            }
-            
-            List<CatalogCategoryMasterAttribute> marketAreaAttributes = catalogCategory.getCatalogCategoryMarketAreaAttributes(currentMarketArea.getId());
-            for (Iterator<CatalogCategoryMasterAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
-                CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = (CatalogCategoryMasterAttribute) iterator.next();
-                catalogCategoryForm.getMarketAreaAttributes().put(catalogCategoryMasterAttribute.getAttributeDefinition().getCode(), catalogCategoryMasterAttribute.getValueAsString());
-            }
         }
         return catalogCategoryForm;
     }
     
-    public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData, final CatalogCategoryVirtual catalogCategory) throws Exception {
-        CatalogCategoryVirtual parentProductCategory = catalogCategory.getParentCatalogCategory();
-        return buildCatalogCategoryForm(requestData, parentProductCategory, parentProductCategory);
-    }
-    
-    public CatalogCategoryForm buildCatalogCategoryForm(final RequestData requestData, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
+    public CatalogCategoryForm buildCatalogVirtualCategoryForm(final RequestData requestData, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(requestData);
         if(parentProductCategory != null){
             catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
+        } else {
+            if(catalogCategory != null
+                    && catalogCategory.getParentCatalogCategory() != null){
+                catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getParentCatalogCategory().getCode());
+            }
         }
+        
         if(catalogCategory != null){
             catalogCategoryForm.setId(catalogCategory.getId().toString());
             catalogCategoryForm.setCatalogCode(catalogCategory.getName());
@@ -225,13 +209,13 @@ public class BackofficeFormFactory {
             productMarketingForm.setCode(productMarketing.getCode());
             productMarketingForm.setDescription(productMarketing.getDescription());
             
-            List<ProductMarketingAttribute> globalAttributes = productMarketing.getProductMarketingGlobalAttributes();
+            List<ProductMarketingAttribute> globalAttributes = productMarketing.getGlobalAttributes();
             for (Iterator<ProductMarketingAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
                 productMarketingForm.getGlobalAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
             }
             
-            List<ProductMarketingAttribute> marketAreaAttributes = productMarketing.getProductMarketingMarketAreaAttributes(currentMarketArea.getId());
+            List<ProductMarketingAttribute> marketAreaAttributes = productMarketing.getMarketAreaAttributes(currentMarketArea.getId());
             for (Iterator<ProductMarketingAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                 ProductMarketingAttribute productMarketingAttribute = (ProductMarketingAttribute) iterator.next();
                 productMarketingForm.getMarketAreaAttributes().put(productMarketingAttribute.getAttributeDefinition().getCode(), productMarketingAttribute.getValueAsString());
@@ -267,13 +251,13 @@ public class BackofficeFormFactory {
             productSkuForm.setDescription(productSku.getDescription());
 
             
-            List<ProductSkuAttribute> globalAttributes = productSku.getProductSkuGlobalAttributes();
+            List<ProductSkuAttribute> globalAttributes = productSku.getGlobalAttributes();
             for (Iterator<ProductSkuAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
                 productSkuForm.getGlobalAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());
             }
             
-            List<ProductSkuAttribute> marketAreaAttributes = productSku.getProductSkuMarketAreaAttributes(currentMarketArea.getId());
+            List<ProductSkuAttribute> marketAreaAttributes = productSku.getMarketAreaAttributes(currentMarketArea.getId());
             for (Iterator<ProductSkuAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
                 productSkuForm.getMarketAreaAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());

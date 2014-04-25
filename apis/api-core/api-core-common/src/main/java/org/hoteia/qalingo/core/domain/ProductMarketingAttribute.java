@@ -48,8 +48,12 @@ public class ProductMarketingAttribute extends AbstractAttribute {
     @JoinColumn(name="ATTRIBUTE_DEFINITION_ID", insertable = true, updatable = true)
 	private AttributeDefinition attributeDefinition;
 	
-	@Column(name="STRING_VALUE")
-	private String stringValue;
+    @Column(name = "SHORT_STRING_VALUE")
+    private String shortStringValue;
+
+    @Column(name = "LONG_STRING_VALUE")
+    @Lob
+    private String longStringValue;
 	
 	@Column(name="INTEGER_VALUE")
 	private Integer integerValue;
@@ -70,11 +74,11 @@ public class ProductMarketingAttribute extends AbstractAttribute {
 	@Column(name="LOCALIZATION_CODE")
 	private String localizationCode;
 	
-	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
-	private boolean isGlobal;
-	
-	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
-	private Integer ordering;
+//	@Column(name="IS_GLOBAL", nullable=false, columnDefinition="tinyint(1) default 0")
+//	private boolean isGlobal;
+//	
+//	@Column(name="ORDERING", nullable=false, columnDefinition="int(11) default 0")
+//	private Integer ordering;
 	
 	@Column(name="MARKET_AREA_ID")
 	private Long marketAreaId;
@@ -122,13 +126,21 @@ public class ProductMarketingAttribute extends AbstractAttribute {
 		this.attributeDefinition = attributeDefinition;
 	}
 
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public String getShortStringValue() {
+        return shortStringValue;
+    }
+    
+    public void setShortStringValue(String shortStringValue) {
+        this.shortStringValue = shortStringValue;
+    }
+    
+    public String getLongStringValue() {
+        return longStringValue;
+    }
+    
+    public void setLongStringValue(String longStringValue) {
+        this.longStringValue = longStringValue;
+    }
 
 	public Integer getIntegerValue() {
 		return integerValue;
@@ -178,21 +190,21 @@ public class ProductMarketingAttribute extends AbstractAttribute {
 		this.localizationCode = localizationCode;
 	}
 
-	public boolean isGlobal() {
-		return isGlobal;
-	}
-
-	public void setGlobal(boolean isGlobal) {
-		this.isGlobal = isGlobal;
-	}
-	
-	public Integer getOrdering() {
-		return ordering;
-	}
-	
-	public void setOrdering(Integer ordering) {
-		this.ordering = ordering;
-	}
+//	public boolean isGlobal() {
+//		return isGlobal;
+//	}
+//
+//	public void setGlobal(boolean isGlobal) {
+//		this.isGlobal = isGlobal;
+//	}
+//	
+//	public Integer getOrdering() {
+//		return ordering;
+//	}
+//	
+//	public void setOrdering(Integer ordering) {
+//		this.ordering = ordering;
+//	}
 	
 	public Long getMarketAreaId() {
 		return marketAreaId;
@@ -267,9 +279,8 @@ public class ProductMarketingAttribute extends AbstractAttribute {
 
     @Override
     public String toString() {
-        return "ProductMarketingAttribute [id=" + id + ", version=" + version + ", stringValue=" + stringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue="
-                + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", isGlobal=" + isGlobal + ", ordering="
-                + ordering + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "ProductMarketingAttribute [id=" + id + ", version=" + version + ", shortStringValue=" + shortStringValue + ", longStringValue=" + longStringValue + ", integerValue=" + integerValue + ", doubleValue=" + doubleValue + ", floatValue="
+                + floatValue + ", blobValue=" + Arrays.toString(blobValue) + ", booleanValue=" + booleanValue + ", localizationCode=" + localizationCode + ", marketAreaId=" + marketAreaId + ", startDate=" + startDate + ", endDate=" + endDate + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 	
 }

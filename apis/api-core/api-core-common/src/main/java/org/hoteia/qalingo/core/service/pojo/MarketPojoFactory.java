@@ -11,7 +11,7 @@ import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
 import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.pojo.MarketPojoService;
+import org.hoteia.qalingo.core.service.pojo.MarketPojoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("marketPojoService")
 @Transactional(readOnly = true)
-public class MarketPojoService {
+public class MarketPojoFactory {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

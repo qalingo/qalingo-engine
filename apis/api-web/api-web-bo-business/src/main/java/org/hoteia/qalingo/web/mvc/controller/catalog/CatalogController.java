@@ -29,12 +29,12 @@ import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
+import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
-import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -44,8 +44,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,9 +60,6 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-    @Autowired
-    private CatalogPojoService catalogPojoService;
-	   
 	@Autowired
 	protected CatalogService catalogService;
 	
@@ -73,95 +72,22 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 	@RequestMapping(value = BoUrls.MASTER_CATALOG_URL, method = RequestMethod.GET)
 	public ModelAndView manageMasterCatalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MASTER_CATALOG.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
-
-		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
 
 	    modelAndView.addObject("catalogType", "master");
 
-//		final CatalogMaster catalog = catalogService.getMasterCatalogById(currentMarketArea.getCatalog().getCatalogMaster().getId());
-//		List<CatalogCategoryMaster> rootCatalogCategories = catalogCategoryService.findRootMasterCatalogCategoriesByCatalogCode(catalog.getCode(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-//		CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanCatalog(requestData, catalog, new ArrayList<AbstractCatalogCategory>(rootCatalogCategories));
-//		modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATALOG.getKey(), null);
 
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            // TODO : Denis : temporary hack - need a good recursive fetch with criteria
-//            for (Iterator<CatalogCategoryMaster> iterator = rootCatalogCategories.iterator(); iterator.hasNext();) {
-//                CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
-//                Set<CatalogCategoryMaster> catalogCategoriesReload = new HashSet<CatalogCategoryMaster>();
-//                for (Iterator<CatalogCategoryMaster> iteratorSubCategories = catalogCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-//                    CatalogCategoryMaster catalogCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
-//                    CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-//                    catalogCategoriesReload.add(reloadedCategory);
-//                }
-//                catalogCategoryMaster.setCatalogCategories(catalogCategoriesReload);
-//            }
-//            catalog.setCatalogCategories(new HashSet<CatalogCategoryMaster>(rootCatalogCategories));
-//            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalog);
-//            String catalogJson = mapper.writeValueAsString(catalogPojo);
-//            modelAndView.addObject("catalogJson", catalogJson);
-//            
-//        } catch (JsonGenerationException e) {
-//            logger.error(e.getMessage());
-//        } catch (JsonMappingException e) {
-//            logger.error(e.getMessage());
-//        } catch (IOException e) {
-//            logger.error(e.getMessage());
-//        }
-		
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.VIRTUAL_CATALOG_URL, method = RequestMethod.GET)
 	public ModelAndView manageVirtualCatalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATALOG.getVelocityPage());
-        final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
 		
-		final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-
         modelAndView.addObject("catalogType", "virtual");
 
-//        CatalogVirtual catalog = catalogService.getVirtualCatalogbyMarketAreaId(currentMarketArea.getId());
-//        List<CatalogCategoryVirtual> rootCatalogCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(catalog.getCode(),
-//                FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-//        CatalogViewBean catalogViewBean = backofficeViewBeanFactory.buildViewBeanCatalog(requestData, catalog, new ArrayList<AbstractCatalogCategory>(rootCatalogCategories));
-//        modelAndView.addObject(ModelConstants.CATALOG_VIEW_BEAN, catalogViewBean);
-		
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-////            // TODO : Denis : temporary hack - need a good recursive fetch with criteria
-////            Set<CatalogCategoryVirtual> rootCatalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
-////            for (Iterator<CatalogCategoryVirtual> iterator = rootCatalogCategories.iterator(); iterator.hasNext();) {
-////                CatalogCategoryVirtual rootCatalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
-////                Set<CatalogCategoryVirtual> subCatalogCategoriesReload = new HashSet<CatalogCategoryVirtual>();
-////                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = rootCatalogCategoryVirtual.getChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-////                    CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
-////                    CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-////                    subCatalogCategoriesReload.add(subCatalogCategoryReloaded);
-////                }
-////                rootCatalogCategoryVirtual.setChildCatalogCategories(subCatalogCategoriesReload);
-////                rootCatalogCategoriesReload.add(rootCatalogCategoryVirtual);
-////            }
-////            catalogVirtual.setChildCatalogCategories(new HashSet<CatalogCategoryVirtual>(rootCatalogCategoriesReload));
-//            
-//            CatalogPojo catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalog);
-//            String catalogJson = mapper.writeValueAsString(catalogPojo);
-//            modelAndView.addObject("catalogJson", catalogJson);
-//            
-//        } catch (JsonGenerationException e) {
-//            logger.error(e.getMessage(), e);
-//        } catch (JsonMappingException e) {
-//            logger.error(e.getMessage(), e);
-//        } catch (IOException e) {
-//            logger.error(e.getMessage(), e);
-//        }
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATALOG.getKey(), null);
+
         return modelAndView;
 	}
 	
@@ -169,32 +95,46 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 	public ModelAndView catalogCategoryDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MASTER_CATEGORY_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final Locale locale = requestData.getLocale();
         
 		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 
-		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode);
+		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getMasterCatalogCode());
 
-		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
+		// SANITY CHECK 
+		if(catalogCategory == null){
+            final String url = backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData);
+            return new ModelAndView(new RedirectView(url));
+		}
 		
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
+
+		modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData));
+
 		initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
 		
+        Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_DETAILS.getKey(), params);
+
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.MASTER_CATEGORY_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView editMasterCatalogCategory(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView editMasterCatalogCategory(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MASTER_CATEGORY_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
-        final Locale locale = requestData.getLocale();
         
 		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
-		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode);
+		final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getMasterCatalogCode());
 
-		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
+	      // SANITY CHECK 
+        if(catalogCategory == null){
+            final String url = backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData);
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+		List<CatalogCategoryMaster> categories = catalogCategoryService.findAllMasterCatalogCategoriesByCatalogCode(requestData.getVirtualCatalogCode());
 		for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
 			CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
 			if(catalogCategoryMaster.getCode().equalsIgnoreCase(catalogCategoryCode)){
@@ -212,18 +152,22 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		});
 		modelAndView.addObject("categories", categories);
 
-		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-		
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
+
+        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData));
+
 		initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
-		modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData, catalogCategory));
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogMasterCategoryForm(requestData, null, catalogCategory));
+
+        Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_EDIT.getKey(), params);
 
 		return modelAndView;
 	}
 
 	@RequestMapping(value = BoUrls.MASTER_CATEGORY_ADD_URL, method = RequestMethod.GET)
-	public ModelAndView addMasterCatalogCategory(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView addMasterCatalogCategory(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.MASTER_CATEGORY_ADD.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
@@ -231,7 +175,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		
-		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
+		List<CatalogCategoryMaster> categories = catalogCategoryService.findAllMasterCatalogCategoriesByCatalogCode(requestData.getVirtualCatalogCode());
 		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
 			@Override
 			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
@@ -243,8 +187,11 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		});
 		modelAndView.addObject("categories", categories);
 		
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
+
 		if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
-			final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode);
+			final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getMasterCatalogCode());
 			if(parentCatalogCategory != null){
 				// Child category: We have parent informations - we prepare the child category IHM
 				final String pageKey = BoUrls.MASTER_CATALOG_KEY;
@@ -252,25 +199,25 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 				overrideSeoTitle(request, modelAndView, title);
 				
 				initProductMasterCategoryModelAndView(request, modelAndView, parentCatalogCategory);
-				modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData, parentCatalogCategory, null));
+				modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogMasterCategoryForm(requestData, parentCatalogCategory, null));
 				return modelAndView;
 			}
 		}
 
 		// No parent informations - we prepare the root category IHM
 		
-		final String pageKey = BoUrls.MASTER_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-		
+        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData));
+
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_ADD.getKey(), null);
+
 		initProductMasterCategoryModelAndView(request, modelAndView, null);
-		modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData));
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogMasterCategoryForm(requestData, null, null));
 
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.MASTER_CATEGORY_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView masterCatalogCategoryForm(final HttpServletRequest request, final HttpServletResponse response, @Valid CatalogCategoryForm catalogCategoryForm,
+	public ModelAndView masterCatalogCategoryForm(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm,
 												  BindingResult result, ModelMap modelMap) throws Exception {
 		
 		// TODO : Denis : refactoring, clean
@@ -287,26 +234,14 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 
 		if(StringUtils.isNotEmpty(catalogCategoryId)){
 			final String catalogCategoryCode = catalogCategoryForm.getCode();
-			final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode);
+			final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getMasterCatalogCode());
 
-			List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
-			for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
-				CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
-				if(catalogCategoryMaster.getCode().equalsIgnoreCase(catalogCategoryCode)){
-					iterator.remove();
-				}
-			}
-			Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
-				@Override
-				public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-					if(o1 != null && o2 != null){
-						return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
-					}
-					return 0;
-				}
-			});
-			modelAndView.addObject("categories", categories);
-			
+		     // SANITY CHECK 
+	        if(catalogCategory == null){
+	            final String url = backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData);
+	            return new ModelAndView(new RedirectView(url));
+	        }
+	        
 			// UPDATE CATEORY
 			if (result.hasErrors()) {
 				final String pageKey = BoUrls.MASTER_CATALOG_KEY;
@@ -315,7 +250,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 				
 				if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
 					// CHIELD CATEGORY
-					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode);
+					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getMasterCatalogCode());
 					initProductMasterCategoryModelAndView(request, modelAndView, parentCatalogCategory);
 					return modelAndView;
 					
@@ -329,10 +264,10 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 			// UPDATE CATEGORY
 			try {
 //				CatalogCategoryMaster catalogCategoryMaster = new CatalogCategoryMaster();
-				webBackofficeService.updateCatalogCategory(currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
+				webBackofficeService.updateCatalogCategory(requestData, currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
 				addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
 				
-				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestUtil.getRequestData(request), catalogCategory);;
+				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory);;
 				return new ModelAndView(new RedirectView(urlRedirect));
 				
 			} catch (UniqueConstraintCodeCategoryException e) {
@@ -344,7 +279,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 				
 				if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
 					// CHIELD CATEGORY
-					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode);
+					final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getMasterCatalogCode());
 					initProductMasterCategoryModelAndView(request, modelAndView, parentCatalogCategory);
 					return modelAndView;
 					
@@ -357,20 +292,8 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 			}
 
 		} else {
-			final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode);
+			final CatalogCategoryMaster parentCatalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getMasterCatalogCode());
 
-			List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
-			Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
-				@Override
-				public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-					if(o1 != null && o2 != null){
-						return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
-					}
-					return 0;
-				}
-			});
-			modelAndView.addObject("categories", categories);
-			
 			// CREATE A NEW CATEORY
 			if (result.hasErrors()) {
 				final String pageKey = BoUrls.MASTER_CATALOG_KEY;
@@ -392,10 +315,10 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 			// SAVE CATEGORY
 			try {
 				CatalogCategoryMaster catalogCategoryMaster = new CatalogCategoryMaster();
-				webBackofficeService.createCatalogCategory(currentMarketArea, currentLocalization, parentCatalogCategory, catalogCategoryMaster, catalogCategoryForm);
+				webBackofficeService.createCatalogCategory(requestData, currentMarketArea, currentLocalization, parentCatalogCategory, catalogCategoryMaster, catalogCategoryForm);
 				addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
 				
-				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestUtil.getRequestData(request), catalogCategoryMaster);
+				final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategoryMaster);
 				return new ModelAndView(new RedirectView(urlRedirect));
 				
 			} catch (UniqueConstraintCodeCategoryException e) {
@@ -424,42 +347,54 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 	public ModelAndView productVirtualCategoryDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATEGORY_DETAILS.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-		final Locale locale = requestData.getLocale();
 
 		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
 
-		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
+	    // SANITY CHECK 
+        if(catalogCategory == null){
+            final String url = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData);
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
 
-		final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-		
+        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
+
+        Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_DETAILS.getKey(), params);
+        
 		initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
 		
         return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.VIRTUAL_CATEGORY_EDIT_URL, method = RequestMethod.GET)
-	public ModelAndView editVirtualCatalogCategory(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView editVirtualCatalogCategory(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATEGORY_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
-        final Locale locale = requestData.getLocale();
 
 		final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
-		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
 
-		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
-		for (Iterator<CatalogCategoryMaster> iterator = categories.iterator(); iterator.hasNext();) {
-			CatalogCategoryMaster catalogCategoryMaster = (CatalogCategoryMaster) iterator.next();
-			if(catalogCategoryMaster.getCode().equalsIgnoreCase(catalogCategoryCode)){
+        // SANITY CHECK 
+        if(catalogCategory == null){
+            final String url = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData);
+            return new ModelAndView(new RedirectView(url));
+        }
+        
+		List<CatalogCategoryVirtual> categories = catalogCategoryService.findAllVirtualCatalogCategoriesByCatalogCode(requestData.getVirtualCatalogCode());
+		for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {
+		    CatalogCategoryVirtual catalogCategoryVirtual = (CatalogCategoryVirtual) iterator.next();
+			if(catalogCategoryVirtual.getCode().equalsIgnoreCase(catalogCategoryCode)){
 				iterator.remove();
 			}
 		}
-		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
+		Collections.sort(categories, new Comparator<CatalogCategoryVirtual>() {
 			@Override
-			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -468,30 +403,33 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		});
 		modelAndView.addObject("categories", categories);
 
-		final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
-		
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
+
+        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
+
+        Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_EDIT.getKey(), params);
+        
 		initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
-		modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData, catalogCategory));
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogVirtualCategoryForm(requestData, null, catalogCategory));
 
 		return modelAndView;
 	}
 
 	@RequestMapping(value = BoUrls.VIRTUAL_CATEGORY_ADD_URL, method = RequestMethod.GET)
-	public ModelAndView addVirtualCatalogCategory(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView addVirtualCatalogCategory(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATEGORY_ADD.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
-        final MarketArea currentMarketArea = requestData.getMarketArea();
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
 
 		final String parentCatalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		
-		List<CatalogCategoryMaster> categories = catalogCategoryService.findMasterCategories();
-		Collections.sort(categories, new Comparator<CatalogCategoryMaster>() {
+        List<CatalogCategoryVirtual> categories = catalogCategoryService.findAllVirtualCatalogCategoriesByCatalogCode(requestData.getVirtualCatalogCode());
+		Collections.sort(categories, new Comparator<CatalogCategoryVirtual>() {
 			@Override
-			public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
+			public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
 				if(o1 != null && o2 != null){
 					return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));	
 				}
@@ -500,15 +438,20 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		});
 		modelAndView.addObject("categories", categories);
 		
+        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryGlobalAttributeDefinitions()));
+        modelAndView.addObject("availableMarketAreaAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findCatalogCategoryMarketAreaAttributeDefinitions()));
+
+        modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
+
 		if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
-			final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryCode);
+			final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
 			if(parentCatalogCategory != null){
 				final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
 				final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
 				overrideSeoTitle(request, modelAndView, title);
 				
 				initProductVirtualCategoryModelAndView(request, modelAndView, parentCatalogCategory);
-				modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData, parentCatalogCategory, null));
+				modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogVirtualCategoryForm(requestData, parentCatalogCategory, null));
 				return modelAndView;
 			}
 		}
@@ -517,13 +460,15 @@ public class CatalogController extends AbstractBusinessBackofficeController {
 		final String title = getSpecificMessage(ScopeWebMessage.CATALOG_CATEGORY, getMessageTitleKey(pageKey), locale);
 		overrideSeoTitle(request, modelAndView, title);
 		
+        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_ADD.getKey(), null);
+
 		initProductVirtualCategoryModelAndView(request, modelAndView, null);
-		modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData));
+		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_FORM, backofficeFormFactory.buildCatalogVirtualCategoryForm(requestData, null, null));
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = BoUrls.VIRTUAL_CATEGORY_EDIT_URL, method = RequestMethod.POST)
-	public ModelAndView editVirtualCatalogCategory(final HttpServletRequest request, final HttpServletResponse response, @Valid CatalogCategoryForm catalogCategoryForm,
+	public ModelAndView editVirtualCatalogCategory(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CATALOG_CATEGORY_FORM) CatalogCategoryForm catalogCategoryForm,
 												   BindingResult result, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.VIRTUAL_CATEGORY_EDIT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
@@ -532,41 +477,139 @@ public class CatalogController extends AbstractBusinessBackofficeController {
         final Localization currentLocalization = requestData.getMarketAreaLocalization();
 		final Locale locale = requestData.getLocale();
 		
-		final String catalogCategoryCode = catalogCategoryForm.getCode();
+        final String catalogCategoryId = catalogCategoryForm.getId();
+        final String parentCatalogCategoryCode = catalogCategoryForm.getDefaultParentCategoryCode();
 
-		final String pageKey = BoUrls.VIRTUAL_CATALOG_KEY;
-		final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
-		overrideSeoTitle(request, modelAndView, title);
+        if(StringUtils.isNotEmpty(catalogCategoryId)){
+            final String catalogCategoryCode = catalogCategoryForm.getCode();
+            final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
 
-		if(StringUtils.isNotEmpty(catalogCategoryCode)){
-			if (result.hasErrors()) {
-				final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
-				initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
-				modelAndView.addObject("catalogCategoryForm", backofficeFormFactory.buildCatalogCategoryForm(requestData, null, catalogCategory));
-				return modelAndView;
-			}
+             // SANITY CHECK 
+            if(catalogCategory == null){
+                final String url = backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestData);
+                return new ModelAndView(new RedirectView(url));
+            }
+            
+            model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategory));
 
-			// SANITY CHECK
-			final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode);
-			if(catalogCategory != null){
-				// UPDATE PRODUCT MARKETING
-				webBackofficeService.updateCatalogCategory(currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
-				
-			} else {
-				// CREATE PRODUCT MARKETING
-				webBackofficeService.createCatalogCategory(currentMarketArea, currentLocalization, catalogCategory, catalogCategoryForm);
-			}
-		}
-		
-		final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATALOG, requestUtil.getRequestData(request));
-        return new ModelAndView(new RedirectView(urlRedirect));
+            // UPDATE CATEORY
+            if (result.hasErrors()) {
+                final String pageKey = BoUrls.MASTER_CATALOG_KEY;
+                final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+                overrideSeoTitle(request, modelAndView, title);
+                
+                if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
+                    // CHIELD CATEGORY
+                    final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+                    initProductVirtualCategoryModelAndView(request, modelAndView, parentCatalogCategory);
+                    return modelAndView;
+                    
+                } else {
+                    // ROOT CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
+                    return modelAndView;
+                }
+            }
+            
+            // UPDATE CATEGORY
+            try {
+//              CatalogCategoryVirtual catalogCategoryVirtual = new CatalogCategoryVirtual();
+                webBackofficeService.updateCatalogCategory(requestData, currentMarketArea, currentRetailer, currentLocalization, catalogCategory, catalogCategoryForm);
+                addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.success.message", locale));
+                
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory);;
+                return new ModelAndView(new RedirectView(urlRedirect));
+                
+            } catch (UniqueConstraintCodeCategoryException e) {
+                addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.edit.error.message",  locale));
+
+                final String pageKey = BoUrls.MASTER_CATALOG_KEY;
+                final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+                overrideSeoTitle(request, modelAndView, title);
+                
+                if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
+                    // CHIELD CATEGORY
+                    final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+                    initProductVirtualCategoryModelAndView(request, modelAndView, parentCatalogCategory);
+                    return modelAndView;
+                    
+                } else {
+                    // ROOT CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
+                    return modelAndView;
+                }
+                
+            }
+
+        } else {
+            final CatalogCategoryVirtual parentCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+
+            List<CatalogCategoryVirtual> categories = catalogCategoryService.findAllVirtualCatalogCategoriesByCatalogCode(requestData.getVirtualCatalogCode());
+            Collections.sort(categories, new Comparator<CatalogCategoryVirtual>() {
+                @Override
+                public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
+                    if(o1 != null && o2 != null){
+                        return o1.getI18nName(currentLocalization.getCode()).compareTo(o2.getI18nName(currentLocalization.getCode()));  
+                    }
+                    return 0;
+                }
+            });
+            modelAndView.addObject("categories", categories);
+            
+            // CREATE A NEW CATEORY
+            if (result.hasErrors()) {
+                final String pageKey = BoUrls.MASTER_CATALOG_KEY;
+                final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+                overrideSeoTitle(request, modelAndView, title);
+                
+                if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
+                    // CHIELD CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, null);
+                    return modelAndView;
+                    
+                } else {
+                    // ROOT CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, null);
+                    return modelAndView;
+                }
+            }
+            
+            // SAVE CATEGORY
+            try {
+                CatalogCategoryVirtual catalogCategoryVirtual = new CatalogCategoryVirtual();
+//                webBackofficeService.createCatalogCategory(currentMarketArea, currentLocalization, parentCatalogCategory, catalogCategoryVirtual, catalogCategoryForm);
+                addSuccessMessage(request, coreMessageSource.getMessage("business.catalog.category.add.success.message", locale));
+                
+                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategoryVirtual);
+                return new ModelAndView(new RedirectView(urlRedirect));
+                
+            } catch (UniqueConstraintCodeCategoryException e) {
+                addErrorMessage(request, coreMessageSource.getMessage("business.catalog.category.add.error.message", locale));
+                
+                final String pageKey = BoUrls.MASTER_CATALOG_KEY;
+                final String title = getSpecificMessage(ScopeWebMessage.SEO, getMessageTitleKey(pageKey), locale);
+                overrideSeoTitle(request, modelAndView, title);
+                
+                if(StringUtils.isNotEmpty(parentCatalogCategoryCode)){
+                    // CHIELD CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, null);
+                    return modelAndView;
+                    
+                } else {
+                    // ROOT CATEGORY
+                    initProductVirtualCategoryModelAndView(request, modelAndView, null);
+                    return modelAndView;
+                }
+                
+            }
+        }
 	}
 	
 	/**
      * 
      */
 	protected void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster catalogCategory) throws Exception {
-		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, false);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, false);
 		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	
@@ -574,7 +617,7 @@ public class CatalogController extends AbstractBusinessBackofficeController {
      * 
      */
 	protected void initProductVirtualCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryVirtual catalogCategory) throws Exception {
-		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, false);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, false);
 		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	

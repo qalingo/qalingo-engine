@@ -37,6 +37,7 @@ public class ProductMarketingSolrServiceTest {
 	protected ProductMarketingSolrService productMarketingSolrService; 
 
 	protected ProductMarketing productMarketing;
+    private List<CatalogCategoryVirtual> catalogCategories;
 
 	protected ProductMarketingResponseBean responseBean;
 
@@ -57,6 +58,8 @@ public class ProductMarketingSolrServiceTest {
         retailer = new Retailer();
         retailer.setId(new Long("1"));
         
+        catalogCategories = new ArrayList<CatalogCategoryVirtual>();
+
         productMarketing = new ProductMarketing();
         productMarketing.setId(new Long("1"));
         productMarketing.setName("Product Marketing");
@@ -82,7 +85,6 @@ public class ProductMarketingSolrServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIndexDataWithBlankID() throws SolrServerException, IOException {
         productMarketing.setId(null);
-        List<CatalogCategoryVirtual> catalogCategories = new ArrayList<CatalogCategoryVirtual>();
         productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
         logger.debug("--------------->testFirstIndexData()");
     }
@@ -93,7 +95,6 @@ public class ProductMarketingSolrServiceTest {
     @Test
     public void testIndexData() throws SolrServerException, IOException {
         logger.debug("--------------->testIndexData");
-        List<CatalogCategoryVirtual> catalogCategories = new ArrayList<CatalogCategoryVirtual>();
         productMarketingSolrService.addOrUpdateProductMarketing(productMarketing, catalogCategories, marketArea, retailer);
     }
     

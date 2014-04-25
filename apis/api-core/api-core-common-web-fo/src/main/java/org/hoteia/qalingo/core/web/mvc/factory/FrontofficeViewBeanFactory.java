@@ -122,7 +122,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             if (catalogCategories != null) {
                 for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategory = catalogCategories.iterator(); iteratorCatalogCategory.hasNext();) {
                     final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
-                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                     
                     menu = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode);
@@ -134,7 +134,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
                         for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
-                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
                             subMenu.setName(seoSubCatalogCategoryName);
@@ -355,7 +355,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             List<ValueBean> values = new ArrayList<ValueBean>();
             for (Iterator<Count> iterator = facetField.getValues().iterator(); iterator.hasNext();) {
                 Count count = (Count) iterator.next();
-                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName());
+                final CatalogCategoryMaster catalogCategoryMaster = catalogCategoryService.getMasterCatalogCategoryByCode(count.getName(), requestData.getMasterCatalogCode());
                 ValueBean valueBean = new ValueBean(catalogCategoryMaster.getCode(), catalogCategoryMaster.getI18nName(localeCode) + "(" + count.getCount() + ")");                
                 values.add(valueBean);
             }
@@ -491,7 +491,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     public List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, boolean withSubCategories, boolean withProducts) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
-            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual, withSubCategories, withProducts);
+            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanVirtualCatalogCategory(requestData, catalogCategoryVirtual, withSubCategories, withProducts);
             catalogCategoryViewBeans.add(catalogCategoryViewBean);
         }
         return catalogCategoryViewBeans;
@@ -544,7 +544,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 		 }
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getParentCatalogCategory();
 		 if(!catalogCategory.isRoot() && parentCatalogCategoryVirtual != null){
-			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryVirtual.getCode());
+			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryVirtual.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
 			catalogBreadCumViewBean.setDefaultParentCategory(buildViewBeanCatalogBreadcrumb(requestData,pareCatalogCategoryVirtualReload));
 		 }
 
