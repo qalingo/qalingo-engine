@@ -1317,7 +1317,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 if (withSubCategories) {
                     for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
                         final CatalogCategoryVirtual subcatalogCategoryVirtual = (CatalogCategoryVirtual) iteratorSubcatalogCategoryVirtual.next();
-                        final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(subcatalogCategoryVirtual.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+                        final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
                         subcatalogCategoryVirtualViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, reloadedSubCatalogCategory, withSubCategories, withProducts));
                     }
                 }
@@ -1912,7 +1912,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
         final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(cartItem.getCatalogCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
         
         cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
 

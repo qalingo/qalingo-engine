@@ -102,8 +102,8 @@ public class ProductLineController extends AbstractMCommerceController {
 		model.addAttribute("mode",mode);
 		model.addAttribute("totalPage", productList.getPageCount());
 		
-		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), catalogCategory);
-		model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
+//		final List<ProductBrandViewBean> productBrandViewBeans = frontofficeViewBeanFactory.buildListViewBeanProductBrand(requestUtil.getRequestData(request), catalogCategory);
+//		model.addAttribute(ModelConstants.PRODUCT_BRANDS_VIEW_BEAN, productBrandViewBeans);
 		
 		final List<String> listProductSkuCodes = requestUtil.getRecentProductSkuCodesFromCookie(request);
         List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listProductSkuCodes);

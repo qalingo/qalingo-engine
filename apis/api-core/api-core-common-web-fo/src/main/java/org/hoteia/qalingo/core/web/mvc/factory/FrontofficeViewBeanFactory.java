@@ -44,13 +44,11 @@ import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
 import org.hoteia.qalingo.core.solr.bean.StoreSolr;
 import org.hoteia.qalingo.core.solr.response.ProductMarketingResponseBean;
 import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
-import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MenuViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchFacetViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchProductItemViewBean;
@@ -122,7 +120,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             if (catalogCategories != null) {
                 for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategory = catalogCategories.iterator(); iteratorCatalogCategory.hasNext();) {
                     final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
-                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategory.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                     
                     menu = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode);
@@ -134,11 +132,11 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
                         for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
-                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryByCode(subCatalogCategory.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
                             subMenu.setName(seoSubCatalogCategoryName);
-                            subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, subCatalogCategory));
+                            subMenu.setUrl(urlService.generateUrl(FoUrls.CATEGORY_AS_LINE, requestData, subCatalogCategoryReloaded));
                             subMenus.add(subMenu);
                         }
                         menu.setSubMenus(subMenus);
@@ -544,8 +542,8 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
 		 }
 		 final CatalogCategoryVirtual parentCatalogCategoryVirtual = catalogCategory.getParentCatalogCategory();
 		 if(!catalogCategory.isRoot() && parentCatalogCategoryVirtual != null){
-			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryByCode(parentCatalogCategoryVirtual.getCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
-			catalogBreadCumViewBean.setDefaultParentCategory(buildViewBeanCatalogBreadcrumb(requestData,pareCatalogCategoryVirtualReload));
+			 final CatalogCategoryVirtual pareCatalogCategoryVirtualReload = catalogCategoryService.getVirtualCatalogCategoryById(parentCatalogCategoryVirtual.getId());
+			catalogBreadCumViewBean.setDefaultParentCategory(buildViewBeanCatalogBreadcrumb(requestData, pareCatalogCategoryVirtualReload));
 		 }
 
     	return catalogBreadCumViewBean;
