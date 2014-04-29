@@ -12,16 +12,6 @@ public class FetchPlanGraphCategory {
 
     // MASTER
     
-    public static FetchPlan masterCategoriesWithoutProductsAndAssetsFetchPlan(){
-        List<SpecificFetchMode> fetchplans = categoriesWithoutProductsAndAssetsFetchPlan();
-        return new FetchPlan(fetchplans);
-    }
-    
-    public static FetchPlan masterCategoryWithProductsFetchPlan(){
-        List<SpecificFetchMode> fetchplans = defaultCatalogCategoryFetchModes();
-        return new FetchPlan(fetchplans);
-    }
-    
     public static FetchPlan defaultMasterCatalogCategoryFetchPlan(){
         List<SpecificFetchMode> fetchplans = defaultCatalogCategoryFetchModes();
         return new FetchPlan(fetchplans);
@@ -29,7 +19,7 @@ public class FetchPlanGraphCategory {
     
     // VIRTUAL
     
-    public static FetchPlan virtualCategoriesWithoutProductsAndAssetsFetchPlan(){
+    public static FetchPlan virtualCategoryWithoutProductsAndAssetsFetchPlan(){
         List<SpecificFetchMode> fetchplans = defaultVirtualCatalogCategoryFetchModes();
         fetchplans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
         return new FetchPlan(fetchplans);

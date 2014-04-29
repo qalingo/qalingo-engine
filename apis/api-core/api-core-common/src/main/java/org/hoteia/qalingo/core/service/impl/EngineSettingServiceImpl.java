@@ -51,8 +51,8 @@ public class EngineSettingServiceImpl implements EngineSettingService {
         return engineSettingDao.findEngineSettings(params);
     }
 
-    public void saveOrUpdateEngineSetting(final EngineSetting engineSetting) {
-        engineSettingDao.saveEngineSetting(engineSetting);
+    public EngineSetting saveOrUpdateEngineSetting(final EngineSetting engineSetting) {
+        return engineSettingDao.saveEngineSetting(engineSetting);
     }
 
     public void deleteEngineSetting(final EngineSetting engineSetting) {
@@ -75,8 +75,8 @@ public class EngineSettingServiceImpl implements EngineSettingService {
         return getEngineSettingValueById(engineSettingValueId, params);
     }
 
-    public void saveOrUpdateEngineSettingValue(final EngineSettingValue engineSettingValue) {
-        engineSettingDao.saveOrUpdateEngineSettingValue(engineSettingValue);
+    public EngineSettingValue saveOrUpdateEngineSettingValue(final EngineSettingValue engineSettingValue) {
+        return engineSettingDao.saveOrUpdateEngineSettingValue(engineSettingValue);
     }
 
     public String getEngineSettingValueByCode(final String engineSettingCode, final String engineSettingValueCode) {

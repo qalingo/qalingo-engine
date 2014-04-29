@@ -12,9 +12,11 @@ package org.hoteia.qalingo.core.web.mvc.factory;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
+import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractAttribute;
 import org.hoteia.qalingo.core.domain.AbstractCatalog;
 import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
@@ -56,6 +59,7 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
@@ -535,6 +539,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         productMarketingViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
         productMarketingViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_EDIT, requestData, productMarketing));
+        productMarketingViewBean.setAddSkuUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productMarketing));
 
         return productMarketingViewBean;
     }
@@ -567,6 +572,17 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 //        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, catalogCategory, productMarketing, productSku);
 //        return productSkuViewBean;
 //    }
+    
+    @Override
+    public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final AbstractCatalogCategory catalogCategory, 
+                                                      final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
+        final ProductSkuViewBean productSkuViewBean = buildViewBeanProductSku(requestData, productSku);
+
+        productSkuViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
+        productSkuViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_EDIT, requestData, productSku));
+
+        return productSkuViewBean;
+    }
 
      @Override
      public ProductSkuViewBean buildViewBeanProductSku(final RequestData requestData, final ProductSku productSku) throws Exception {

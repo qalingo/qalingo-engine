@@ -135,18 +135,16 @@ public class CustomerController extends AbstractBusinessBackofficeController {
 		
         try {
             // CREATE OR UPDATE CUSTOMER
-            webBackofficeService.createOrUpdateCustomer(customer, customerForm);
+            Customer savedCustomer = webBackofficeService.createOrUpdateCustomer(customer, customerForm);
             
             if(customer == null){
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.CUSTOMER, "create_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestUtil.getRequestData(request));
-                return new ModelAndView(new RedirectView(urlRedirect));
                 
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.CUSTOMER, "update_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestUtil.getRequestData(request), customer);
-                return new ModelAndView(new RedirectView(urlRedirect));
             }
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestUtil.getRequestData(request), savedCustomer);
+            return new ModelAndView(new RedirectView(urlRedirect));
             
         } catch (Exception e) {
             addMessageError(result, null, "login", "login", getSpecificMessage(ScopeWebMessage.CUSTOMER, "create_or_update_message", locale));

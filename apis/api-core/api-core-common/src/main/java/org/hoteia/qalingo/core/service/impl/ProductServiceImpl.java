@@ -9,10 +9,7 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.hoteia.qalingo.core.Constants;
@@ -106,8 +103,8 @@ public class ProductServiceImpl implements ProductService {
     	return orderProductMarketingList(marketAreaId, productMarketings);
     }
 
-    public void saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
-        productDao.saveOrUpdateProductMarketing(productMarketing);
+    public ProductMarketing saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
+        return productDao.saveOrUpdateProductMarketing(productMarketing);
     }
 
     public void deleteProductMarketing(final ProductMarketing productMarketing) {
@@ -142,16 +139,16 @@ public class ProductServiceImpl implements ProductService {
     
     // PRODUCT MARKETING COMMENT/RATE
     
-    public void saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
-        productDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
+    public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
+        return productDao.saveOrUpdateProductMarketingCustomerRate(productMarketingCustomerRate);
     }
 
     public void deleteProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
         productDao.deleteProductMarketingCustomerRate(productMarketingCustomerRate);
     }
     
-    public void saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
-        productDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
+    public ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
+        return productDao.saveOrUpdateProductMarketingCustomerComment(productMarketingCustomerRate);
     }
 
     public void deleteProductMarketingCustomerComment(final ProductMarketingCustomerComment productMarketingCustomerRate) {
@@ -236,8 +233,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getProductMarketingAssetByCode(assetCode, params);
     }
 
-    public void saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
-        productDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
+    public Asset saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
+        return productDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
     }
 
     public void deleteProductMarketingAsset(final Asset productMarketingAsset) {
@@ -274,8 +271,8 @@ public class ProductServiceImpl implements ProductService {
         return orderProductSkuList(marketAreaId, skus);
     }
 
-    public void saveOrUpdateProductSku(final ProductSku productSku) {
-        productDao.saveOrUpdateProductSku(productSku);
+    public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
+        return productDao.saveOrUpdateProductSku(productSku);
     }
 
     public void deleteProductSku(final ProductSku productSku) {
@@ -328,8 +325,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getProductSkuAssetByCode(assetCode, params);
     }
 
-    public void saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {
-        productDao.saveOrUpdateProductSkuAsset(productSkuAsset);
+    public Asset saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {
+        return productDao.saveOrUpdateProductSkuAsset(productSkuAsset);
     }
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
@@ -360,8 +357,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.findProductBrandsByCatalogCategoryCode(categoryCode, params);
     }
 
-    public void saveOrUpdateProductBrand(final ProductBrand productBrand) {
-        productDao.saveOrUpdateProductBrand(productBrand);
+    public ProductBrand saveOrUpdateProductBrand(final ProductBrand productBrand) {
+        return productDao.saveOrUpdateProductBrand(productBrand);
     }
 
     public void deleteProductBrand(final ProductBrand productBrand) {

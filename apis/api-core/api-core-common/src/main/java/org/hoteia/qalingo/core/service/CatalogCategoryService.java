@@ -36,7 +36,7 @@ public interface CatalogCategoryService {
 
     List<CatalogCategoryMaster> orderCategoryMasterList(List<CatalogCategoryMaster> categories);
 
-    void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
+    CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
     void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
 
@@ -62,7 +62,7 @@ public interface CatalogCategoryService {
 
 	List<CatalogCategoryVirtual> orderCategoryVirtualList(List<CatalogCategoryVirtual> categories);
 
-	void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
+	CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
 	
 	void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory);
 

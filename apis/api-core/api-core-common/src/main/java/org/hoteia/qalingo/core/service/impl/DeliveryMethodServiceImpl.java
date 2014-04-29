@@ -55,8 +55,8 @@ public class DeliveryMethodServiceImpl implements DeliveryMethodService {
         return deliveryMethodDao.findDeliveryMethodsByMarketAreaId(marketAreaId, params);
     }
 
-    public void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
-        deliveryMethodDao.saveOrUpdateDeliveryMethod(deliveryMethod);
+    public DeliveryMethod saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
+        return deliveryMethodDao.saveOrUpdateDeliveryMethod(deliveryMethod);
     }
 
     public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {

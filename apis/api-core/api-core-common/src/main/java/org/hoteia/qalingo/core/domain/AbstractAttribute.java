@@ -43,6 +43,7 @@ public abstract class AbstractAttribute extends AbstractEntity {
     public final static String PRODUCT_SKU_ATTRIBUTE_HEIGHT             = "PRODUCT_SKU_HEIGHT";
     public final static String PRODUCT_SKU_ATTRIBUTE_LENGTH             = "PRODUCT_SKU_LENGTH";
     public final static String PRODUCT_SKU_ATTRIBUTE_WEIGHT             = "PRODUCT_SKU_WEIGHT";
+    public final static String PRODUCT_SKU_ATTRIBUTE_IS_SALABLE         = "PRODUCT_SKU_IS_SALABLE";
 
 	public final static String RETAILER_ATTRIBUTE_I18N_NAME        = "RETAILER_I18N_NAME";
     public final static String RETAILER_ATTRIBUTE_I18N_DESCRIPTION = "RETAILER_I18N_DESCRIPTION";

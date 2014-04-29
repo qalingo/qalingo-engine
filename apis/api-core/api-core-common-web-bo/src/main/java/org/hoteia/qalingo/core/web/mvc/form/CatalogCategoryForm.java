@@ -21,12 +21,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class CatalogCategoryForm {
 	
     private String id;
-	private String catalogCode;
-	private String name;
-	private String defaultParentCategoryCode;
 	private String code;
+    private String name;
 	private String description;
-
+    private String ranking;
+    private String catalogCode;
+    private String defaultParentCategoryId;
+    private String masterCategoryId;
+    
 	private Map<String, String> globalAttributes = new HashMap<String, String>();
 	private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 
@@ -41,19 +43,20 @@ public class CatalogCategoryForm {
 		this.id = id;
 	}
     
-    public String getCatalogCode() {
-		if(catalogCode == null){
-			return "";
-		}
-		return catalogCode;
-	}
+    @NotEmpty(message = "bo.catalog_category.error_form_code_is_empty")
+    public String getCode() {
+        if(code == null){
+            return "";
+        }
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
     
-    public void setCatalogCode(String catalogCode) {
-		this.catalogCode = catalogCode;
-	}
-    
-	@NotEmpty(message = "error.form.product.category.name.is.empty")
-	public String getName() {
+    @NotEmpty(message = "bo.catalog_category.error_form_name_is_empty")
+    public String getName() {
 		if(name == null){
 			return "";
 		}
@@ -62,25 +65,6 @@ public class CatalogCategoryForm {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDefaultParentCategoryCode() {
-		return defaultParentCategoryCode;
-	}
-	
-	public void setDefaultParentCategoryCode(String defaultParentCategoryCode) {
-		this.defaultParentCategoryCode = defaultParentCategoryCode;
-	}
-	
-	public String getCode() {
-		if(code == null){
-			return "";
-		}
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 	
 	public String getDescription() {
@@ -94,6 +78,44 @@ public class CatalogCategoryForm {
 		this.description = description;
 	}
 	
+	public String getRanking() {
+	    if(ranking == null){
+	        return "0";
+	    }
+        return ranking;
+    }
+	
+	public void setRanking(String ranking) {
+        this.ranking = ranking;
+    }
+	
+    public String getCatalogCode() {
+        if(catalogCode == null){
+            return "";
+        }
+        return catalogCode;
+    }
+    
+    public void setCatalogCode(String catalogCode) {
+        this.catalogCode = catalogCode;
+    }
+
+    public String getDefaultParentCategoryId() {
+        return defaultParentCategoryId;
+    }
+    
+    public void setDefaultParentCategoryId(String defaultParentCategoryId) {
+        this.defaultParentCategoryId = defaultParentCategoryId;
+    }
+    
+    public String getMasterCategoryId() {
+        return masterCategoryId;
+    }
+    
+    public void setMasterCategoryId(String masterCategoryId) {
+        this.masterCategoryId = masterCategoryId;
+    }
+    
 	public Map<String, String> getGlobalAttributes() {
 		return globalAttributes;
 	}

@@ -26,7 +26,7 @@ public interface PaymentGatewayService {
 
     List<PaymentGatewayOption> findPaymentGatewayOptions();
 
-    void saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
+    AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
 
     void deletePaymentGateway(AbstractPaymentGateway paymentGateway);
 

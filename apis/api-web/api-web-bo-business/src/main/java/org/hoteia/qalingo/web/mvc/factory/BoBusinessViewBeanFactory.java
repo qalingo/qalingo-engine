@@ -51,12 +51,16 @@ public class BoBusinessViewBeanFactory extends BackofficeViewBeanFactory {
         catalogManagementUrls.add(BoUrls.MASTER_CATALOG.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.VIRTUAL_CATALOG.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_DETAILS.getUrlWithoutWildcard());
+        catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_ADD.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.MASTER_CATEGORY_EDIT.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_DETAILS.getUrlWithoutWildcard());
+        catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_ADD.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.VIRTUAL_CATEGORY_EDIT.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_DETAILS.getUrlWithoutWildcard());
+        catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_ADD.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.PRODUCT_MARKETING_EDIT.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.PRODUCT_SKU_DETAILS.getUrlWithoutWildcard());
+        catalogManagementUrls.add(BoUrls.PRODUCT_SKU_ADD.getUrlWithoutWildcard());
         catalogManagementUrls.add(BoUrls.PRODUCT_SKU_EDIT.getUrlWithoutWildcard());
 	        
 		menu = new MenuViewBean();

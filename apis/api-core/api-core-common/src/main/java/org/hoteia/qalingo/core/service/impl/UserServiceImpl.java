@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
 		return userDao.findUsers(params);
 	}
 
-	public void saveOrUpdateUser(User user) {
-		userDao.saveOrUpdateUser(user);
+	public User saveOrUpdateUser(User user) {
+	    return userDao.saveOrUpdateUser(user);
 	}
 
 	public void deleteUser(User user) {
@@ -82,8 +82,8 @@ public class UserServiceImpl implements UserService {
         return userDao.findCompanies(params);
     }
 
-    public void saveOrUpdateCompany(Company company) {
-        userDao.saveOrUpdateCompany(company);
+    public Company saveOrUpdateCompany(Company company) {
+        return userDao.saveOrUpdateCompany(company);
     }
 
     public void deleteCompany(Company company) {

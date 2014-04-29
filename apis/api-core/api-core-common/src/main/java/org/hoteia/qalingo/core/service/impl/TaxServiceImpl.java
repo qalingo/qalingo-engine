@@ -51,8 +51,8 @@ public class TaxServiceImpl implements TaxService {
         return taxDao.findTaxesByMarketAreaId(marketAreaId, params);
     }
     
-    public void saveOrUpdateTax(Tax tax) {
-        taxDao.saveOrUpdateTax(tax);
+    public Tax saveOrUpdateTax(Tax tax) {
+        return taxDao.saveOrUpdateTax(tax);
     }
 
     public void deleteTax(Tax tax) {

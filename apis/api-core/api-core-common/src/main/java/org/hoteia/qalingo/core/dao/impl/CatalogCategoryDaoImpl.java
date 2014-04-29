@@ -182,16 +182,13 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         return catalogCategory;
 	}
 	
-	public CatalogCategoryVirtual getVirtualCatalogCategoryByVirtualCategoryCode(final String catalogCategoryCode, final String catalogVirtualCode, final String catalogMasterCode, Object... params) {
+	public CatalogCategoryVirtual getVirtualCatalogCategoryByVirtualCategoryCode(final String catalogCategoryCode, final String catalogVirtualCode, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryVirtual.class);
         
         FetchPlan fetchPlan = handleSpecificFetchVirtualCategoryMode(criteria, params);
 
         criteria.createAlias("catalog", "catalog", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("catalog.code", catalogVirtualCode));
-        
-        criteria.createAlias("categoryMaster.catalog", "catalogMaster", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("catalogMaster.code", catalogMasterCode));
         
         criteria.add(Restrictions.eq("code", catalogCategoryCode));
 

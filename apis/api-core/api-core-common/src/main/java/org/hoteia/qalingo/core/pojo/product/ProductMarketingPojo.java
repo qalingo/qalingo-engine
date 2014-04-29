@@ -31,6 +31,8 @@ public class ProductMarketingPojo {
     private List<AssetPojo> assetsIsGlobal = new ArrayList<AssetPojo>();
     private List<AssetPojo> assetsByMarketArea = new ArrayList<AssetPojo>();
 
+    private String detailsUrl;
+
     public Long getId() {
         return id;
     }
@@ -167,6 +169,14 @@ public class ProductMarketingPojo {
 
     public void setAssetsByMarketArea(List<AssetPojo> assetsByMarketArea) {
         this.assetsByMarketArea = assetsByMarketArea;
+    }
+    
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+    
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
     }
     
 }

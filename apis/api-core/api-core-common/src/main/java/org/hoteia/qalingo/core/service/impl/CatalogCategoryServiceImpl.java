@@ -93,8 +93,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 //        return sortedObjects;
 //    }
 
-    public void saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
-        catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
+    public CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
+        return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
     }
 
     public void deleteCatalogCategory(CatalogCategoryMaster catalogCategory) {
@@ -122,7 +122,7 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
         CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByMasterCategoryCode(catalogCategoryCode, catalogVirtualCode, catalogMasterCode, params);
         if(catalogCategoryVirtual == null){
             // TRY TO FIND VIRTUAL CATAGORY WITH HIS OWN CODE
-            catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByVirtualCategoryCode(catalogCategoryCode, catalogVirtualCode, catalogMasterCode, params);
+            catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByVirtualCategoryCode(catalogCategoryCode, catalogVirtualCode, params);
         }
         return catalogCategoryVirtual;
     }
@@ -191,8 +191,8 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
 //        return sortedObjects;
 //    }
 
-    public void saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
-        catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
+    public CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+        return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
     }
 
     public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {

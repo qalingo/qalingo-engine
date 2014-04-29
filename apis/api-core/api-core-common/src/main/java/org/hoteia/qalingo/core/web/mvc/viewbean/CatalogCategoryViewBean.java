@@ -27,6 +27,7 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
     protected String code;
     protected String name;
     protected String description;
+    protected String ranking;
 
     protected String i18nName;
     protected String i18nDescription;
@@ -80,6 +81,14 @@ public class CatalogCategoryViewBean extends AbstractViewBean implements Seriali
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getRanking() {
+        return ranking;
+    }
+    
+    public void setRanking(String ranking) {
+        this.ranking = ranking;
     }
     
     public String getI18nName() {

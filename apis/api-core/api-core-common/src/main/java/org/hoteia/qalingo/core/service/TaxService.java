@@ -25,7 +25,7 @@ public interface TaxService {
 
     List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params);
 
-    void saveOrUpdateTax(Tax tax);
+    Tax saveOrUpdateTax(Tax tax);
 
     void deleteTax(Tax tax);
 

@@ -28,7 +28,7 @@ public interface UserService {
 
 	List<User> findUsers(Object... params);
 	
-	void saveOrUpdateUser(User user);
+	User saveOrUpdateUser(User user);
 	
 	void deleteUser(User user);
 	
@@ -40,7 +40,7 @@ public interface UserService {
 
     List<Company> findCompanies(Object... params);
 
-    void saveOrUpdateCompany(Company company);
+    Company saveOrUpdateCompany(Company company);
 
     void deleteCompany(Company company);
 

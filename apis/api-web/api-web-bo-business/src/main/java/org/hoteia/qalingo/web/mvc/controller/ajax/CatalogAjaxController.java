@@ -20,15 +20,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.catalog.BoCatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
@@ -66,6 +72,31 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     @Autowired
     protected CatalogCategoryService catalogCategoryService;
 
+    protected List<SpecificFetchMode> categoryMasterFetchPlans = new ArrayList<SpecificFetchMode>();
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
+    protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
+    
+    public CatalogAjaxController() {
+        categoryMasterFetchPlans.add(new SpecificFetchMode(CatalogCategoryMaster_.catalogCategories.getName()));
+        categoryMasterFetchPlans.add(new SpecificFetchMode(CatalogCategoryMaster_.parentCatalogCategory.getName()));
+        categoryMasterFetchPlans.add(new SpecificFetchMode(CatalogCategoryMaster_.attributes.getName()));
+        categoryMasterFetchPlans.add(new SpecificFetchMode(CatalogCategoryMaster_.catalogCategoryType.getName()));
+        
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName() + "." + CatalogCategoryVirtual_.categoryMaster.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
+        
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+    }
+    
     @RequestMapping(value = BoUrls.GET_CATALOG_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
     public CatalogPojo getCatalog(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -78,17 +109,21 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             final CatalogMaster catalogMaster = catalogService.getMasterCatalogById(currentMarketArea.getCatalog().getCatalogMaster().getId());
 
             Set<CatalogCategoryMaster> catalogCategories = new HashSet<CatalogCategoryMaster>();
-            for (Iterator<CatalogCategoryMaster> iterator = catalogMaster.getCatalogCategories().iterator(); iterator.hasNext();) {
-                CatalogCategoryMaster categoryMaster = (CatalogCategoryMaster) iterator.next();
-                CatalogCategoryMaster reloadedCategoryMaster = catalogCategoryService.getMasterCatalogCategoryById(categoryMaster.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-                Set<CatalogCategoryMaster> reloadedSubCategories = new HashSet<CatalogCategoryMaster>();
-                for (Iterator<CatalogCategoryMaster> iteratorSubCategories = reloadedCategoryMaster.getCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-                    CatalogCategoryMaster subCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
-                    CatalogCategoryMaster reloadedSubCategory = catalogCategoryService.getMasterCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.masterCategoriesWithoutProductsAndAssetsFetchPlan());
-                    reloadedSubCategories.add(reloadedSubCategory);
+            if(catalogMaster.getCatalogCategories() != null){
+                for (Iterator<CatalogCategoryMaster> iterator = catalogMaster.getCatalogCategories().iterator(); iterator.hasNext();) {
+                    CatalogCategoryMaster categoryMaster = (CatalogCategoryMaster) iterator.next();
+                    CatalogCategoryMaster reloadedCategoryMaster = catalogCategoryService.getMasterCatalogCategoryById(categoryMaster.getId(), new FetchPlan(categoryMasterFetchPlans));
+                    Set<CatalogCategoryMaster> reloadedSubCategories = new HashSet<CatalogCategoryMaster>();
+                    if(reloadedCategoryMaster.getSortedChildCatalogCategories() != null){
+                        for (Iterator<CatalogCategoryMaster> iteratorSubCategories = reloadedCategoryMaster.getSortedChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+                            CatalogCategoryMaster subCategory = (CatalogCategoryMaster) iteratorSubCategories.next();
+                            CatalogCategoryMaster reloadedSubCategory = catalogCategoryService.getMasterCatalogCategoryById(subCategory.getId(), new FetchPlan(categoryMasterFetchPlans));
+                            reloadedSubCategories.add(reloadedSubCategory);
+                        }
+                    }
+                    reloadedCategoryMaster.setCatalogCategories(reloadedSubCategories);
+                    catalogCategories.add(reloadedCategoryMaster);
                 }
-                reloadedCategoryMaster.setCatalogCategories(reloadedSubCategories);
-                catalogCategories.add(reloadedCategoryMaster);
             }
             catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(catalogCategories));
             
@@ -102,17 +137,21 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             final CatalogVirtual catalogVirtual = catalogService.getVirtualCatalogById(currentMarketArea.getCatalog().getId());
 
             Set<CatalogCategoryVirtual> catalogCategories = new HashSet<CatalogCategoryVirtual>();
-            for (Iterator<CatalogCategoryVirtual> iterator = catalogVirtual.getCatalogCategories().iterator(); iterator.hasNext();) {
-                CatalogCategoryVirtual categoryVirtual = (CatalogCategoryVirtual) iterator.next();
-                CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(categoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                Set<CatalogCategoryVirtual> reloadedSubCategories = new HashSet<CatalogCategoryVirtual>();
-                for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = reloadedCategoryVirtual.getSortedChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
-                    CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
-                    CatalogCategoryVirtual reloadedSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(subCategory.getId(), FetchPlanGraphCategory.virtualCategoriesWithoutProductsAndAssetsFetchPlan());
-                    reloadedSubCategories.add(reloadedSubCategory);
+            if(catalogVirtual.getCatalogCategories() != null){
+                for (Iterator<CatalogCategoryVirtual> iterator = catalogVirtual.getCatalogCategories().iterator(); iterator.hasNext();) {
+                    CatalogCategoryVirtual categoryVirtual = (CatalogCategoryVirtual) iterator.next();
+                    CatalogCategoryVirtual reloadedCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryById(categoryVirtual.getId(), new FetchPlan(categoryVirtualFetchPlans));
+                    Set<CatalogCategoryVirtual> reloadedSubCategories = new HashSet<CatalogCategoryVirtual>();
+                    if(reloadedCategoryVirtual.getSortedChildCatalogCategories() != null){
+                        for (Iterator<CatalogCategoryVirtual> iteratorSubCategories = reloadedCategoryVirtual.getSortedChildCatalogCategories().iterator(); iteratorSubCategories.hasNext();) {
+                            CatalogCategoryVirtual subCategory = (CatalogCategoryVirtual) iteratorSubCategories.next();
+                            CatalogCategoryVirtual reloadedSubCategory = catalogCategoryService.getVirtualCatalogCategoryById(subCategory.getId(), new FetchPlan(categoryVirtualFetchPlans));
+                            reloadedSubCategories.add(reloadedSubCategory);
+                        }
+                    }
+                    reloadedCategoryVirtual.setCatalogCategories(reloadedSubCategories);
+                    catalogCategories.add(reloadedCategoryVirtual);
                 }
-                reloadedCategoryVirtual.setCatalogCategories(reloadedSubCategories);
-                catalogCategories.add(reloadedCategoryVirtual);
             }
             catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(catalogCategories));
             
@@ -135,15 +174,22 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
 
         BoCatalogCategoryPojo catalogCategoryPojo = new BoCatalogCategoryPojo();
         if("master".equals(catalogType)){
-            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), FetchPlanGraphCategory.masterCategoryWithProductsFetchPlan());
+            FetchPlan fetchPlanWithProducts = new FetchPlan(categoryMasterFetchPlans);
+            fetchPlanWithProducts.getFetchModes().add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
+            fetchPlanWithProducts.getFetchModes().add(new SpecificFetchMode("catalogCategoryProductSkuRels.pk.productSku"));
+            fetchPlanWithProducts.getFetchModes().add(new SpecificFetchMode(CatalogCategoryVirtual_.assets.getName()));
+            
+            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), fetchPlanWithProducts);
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();
-            for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
-                final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
-                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
-                relodedProductMarketings.add(catalogPojoService.buildProductMarketing(productMarketing));
+            if(productSkus != null){
+                for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
+                    final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
+                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
+                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
+                    relodedProductMarketings.add(catalogPojoService.buildProductMarketing(productMarketing));
+                }
             }
             catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
             
@@ -152,13 +198,15 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();
-            for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
-                final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
-                final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
-                ProductMarketing reloadedProduct = productService.getProductMarketingById(productMarketing.getId(), FetchPlanGraphProduct.productMarketingBackofficeCatalogueManagementFetchPlan());
-                ProductMarketingPojo productMarketingPojo = catalogPojoService.buildProductMarketing(reloadedProduct);
-                relodedProductMarketings.add(productMarketingPojo);
+            if(productSkus != null){
+                for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
+                    final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
+                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
+                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
+                    ProductMarketing reloadedProduct = productService.getProductMarketingById(productMarketing.getId(), new FetchPlan(productMarketingFetchPlans));
+                    ProductMarketingPojo productMarketingPojo = catalogPojoService.buildProductMarketing(reloadedProduct);
+                    relodedProductMarketings.add(productMarketingPojo);
+                }
             }
             catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
         }

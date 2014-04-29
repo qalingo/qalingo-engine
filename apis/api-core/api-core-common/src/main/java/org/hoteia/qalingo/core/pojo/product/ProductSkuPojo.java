@@ -41,6 +41,8 @@ public class ProductSkuPojo {
     private List<ProductSkuStockPojo> stocks = new ArrayList<ProductSkuStockPojo>();
     private List<RetailerPojo> retailers = new ArrayList<RetailerPojo>();
 
+    private String detailsUrl;
+
     public Long getId() {
         return id;
     }
@@ -248,6 +250,14 @@ public class ProductSkuPojo {
 
     public void setRetailers(List<RetailerPojo> retailers) {
         this.retailers = retailers;
+    }
+    
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+    
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
     }
     
 }

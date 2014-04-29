@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -110,10 +111,17 @@ public class RequestData implements Serializable {
         this.marketPlace = marketPlace;
     }
 
-    public String getMasterCatalogCode() {
+    public CatalogMaster getMasterCatalog() {
         if(marketPlace != null
                 && marketPlace.getMasterCatalog() != null){
-            return marketPlace.getMasterCatalog().getCode();
+            return marketPlace.getMasterCatalog();
+        }
+        return null;
+    }
+    
+    public String getMasterCatalogCode() {
+        if(getMasterCatalog() != null){
+            return getMasterCatalog().getCode();
         }
         return null;
     }

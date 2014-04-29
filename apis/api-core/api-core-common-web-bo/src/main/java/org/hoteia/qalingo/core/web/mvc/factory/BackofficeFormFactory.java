@@ -160,11 +160,11 @@ public class BackofficeFormFactory {
     public CatalogCategoryForm buildCatalogMasterCategoryForm(final RequestData requestData, final CatalogCategoryMaster parentProductCategory, final CatalogCategoryMaster catalogCategory) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(requestData);
         if(parentProductCategory != null){
-            catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getCode());
+            catalogCategoryForm.setDefaultParentCategoryId("" + catalogCategory.getId());
         } else {
             if(catalogCategory != null
                     && catalogCategory.getParentCatalogCategory() != null){
-                catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getParentCatalogCategory().getCode());
+                catalogCategoryForm.setDefaultParentCategoryId("" + catalogCategory.getParentCatalogCategory().getId());
             }
         }
         
@@ -174,6 +174,9 @@ public class BackofficeFormFactory {
             catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setCode(catalogCategory.getCode());
             catalogCategoryForm.setDescription(catalogCategory.getDescription());
+            if(catalogCategory.getRanking() != null){
+                catalogCategoryForm.setRanking("" + catalogCategory.getRanking());
+            }
         }
         return catalogCategoryForm;
     }
@@ -181,20 +184,25 @@ public class BackofficeFormFactory {
     public CatalogCategoryForm buildCatalogVirtualCategoryForm(final RequestData requestData, final CatalogCategoryVirtual parentProductCategory, final CatalogCategoryVirtual catalogCategory) throws Exception {
         final CatalogCategoryForm catalogCategoryForm = buildCatalogCategoryForm(requestData);
         if(parentProductCategory != null){
-            catalogCategoryForm.setDefaultParentCategoryCode(parentProductCategory.getCode());
+            catalogCategoryForm.setDefaultParentCategoryId("" + parentProductCategory.getId());
         } else {
             if(catalogCategory != null
                     && catalogCategory.getParentCatalogCategory() != null){
-                catalogCategoryForm.setDefaultParentCategoryCode(catalogCategory.getParentCatalogCategory().getCode());
+                catalogCategoryForm.setDefaultParentCategoryId("" + catalogCategory.getParentCatalogCategory().getId());
             }
         }
         
         if(catalogCategory != null){
             catalogCategoryForm.setId(catalogCategory.getId().toString());
-            catalogCategoryForm.setCatalogCode(catalogCategory.getName());
-            catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setCode(catalogCategory.getCode());
+            catalogCategoryForm.setName(catalogCategory.getName());
             catalogCategoryForm.setDescription(catalogCategory.getDescription());
+            if(catalogCategory.getRanking() != null){
+                catalogCategoryForm.setRanking("" + catalogCategory.getRanking());
+            }
+            catalogCategoryForm.setCatalogCode(catalogCategory.getName());
+            CatalogCategoryMaster catalogCategoryMaster = catalogCategory.getCategoryMaster();
+            catalogCategoryForm.setMasterCategoryId("" + catalogCategoryMaster.getId());
         }
         return catalogCategoryForm;
     }
@@ -239,7 +247,7 @@ public class BackofficeFormFactory {
         return assetForm;
     }
     
-    public ProductSkuForm buildProductSkuForm(final RequestData requestData, final ProductSku productSku) throws Exception {
+    public ProductSkuForm buildProductSkuForm(final RequestData requestData, final ProductMarketing productMarketing, final ProductSku productSku) throws Exception {
         final MarketArea currentMarketArea = requestData.getMarketArea();
         
         final ProductSkuForm productSkuForm = new ProductSkuForm();
@@ -250,7 +258,6 @@ public class BackofficeFormFactory {
             productSkuForm.setCode(productSku.getCode());
             productSkuForm.setDescription(productSku.getDescription());
 
-            
             List<ProductSkuAttribute> globalAttributes = productSku.getGlobalAttributes();
             for (Iterator<ProductSkuAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
                 ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
@@ -262,6 +269,9 @@ public class BackofficeFormFactory {
                 ProductSkuAttribute productSkuAttribute = (ProductSkuAttribute) iterator.next();
                 productSkuForm.getMarketAreaAttributes().put(productSkuAttribute.getAttributeDefinition().getCode(), productSkuAttribute.getValueAsString());
             }
+        }
+        if(productMarketing != null){
+            productSkuForm.setProductMarketingId("" + productMarketing.getId());
         }
         return productSkuForm;
     }

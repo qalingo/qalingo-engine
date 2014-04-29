@@ -52,8 +52,8 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
         return paymentGatewayDao.findPaymentGatewayOptions();
     }
 
-    public void saveOrUpdatePaymentGateway(final AbstractPaymentGateway paymentGateway) {
-        paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);
+    public AbstractPaymentGateway saveOrUpdatePaymentGateway(final AbstractPaymentGateway paymentGateway) {
+        return paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);
     }
 
     public void deletePaymentGateway(final AbstractPaymentGateway paymentGateway) {

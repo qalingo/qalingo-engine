@@ -30,25 +30,26 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_MARKET_AREA_RETAILER_CODE  = "market-area-retailer-code";
     public static final String REQUEST_PARAMETER_MARKET_AREA_CURRENCY_CODE  = "market-area-currency-code";
 	
-    public static final String REQUEST_PARAMETER_CATALOG_CODE               = "catalog-code";
-    public static final String REQUEST_PARAMETER_CATALOG_TYPE               = "catalog-type";
-    public static final String REQUEST_PARAMETER_CATALOG_CATEGORY_CODE      = "category-code";
-    public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE     = "product-code";
-    public static final String REQUEST_PARAMETER_PRODUCT_SKU_CODE           = "product-sku-code";
-    public static final String REQUEST_PARAMETER_ASSET_CODE                 = "asset-code";
-    public static final String REQUEST_PARAMETER_BRAND_CODE                 = "brand-code";
-    public static final String REQUEST_PARAMETER_LOCALE_CODE                = "locale-code";
-    public static final String REQUEST_PARAMETER_CUSTOMER_CODE              = "customer-code";
-    public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK         = "customer-permalink";
-    public static final String REQUEST_PARAMETER_ORDER_NUM                  = "order-num";
-    public static final String REQUEST_PARAMETER_RULE_CODE                  = "rule-code";
-    public static final String REQUEST_PARAMETER_WAREHOUSE_CODE             = "warehouse-code";
-    public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE       = "delivery-method-code";
-    public static final String REQUEST_PARAMETER_TAX_CODE                   = "tax-code";
-    public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE        = "engine-setting-code";
-    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE       = "payment-gateway-code";
-    public static final String REQUEST_PARAMETER_RETAILER_CODE              = "retailer-code";
-    public static final String REQUEST_PARAMETER_STORE_CODE                 = "store-code";
+    public static final String REQUEST_PARAMETER_CATALOG_CODE                   = "catalog-code";
+    public static final String REQUEST_PARAMETER_CATALOG_TYPE                   = "catalog-type";
+    public static final String REQUEST_PARAMETER_PARENT_CATALOG_CATEGORY_CODE   = "parent-category-code";
+    public static final String REQUEST_PARAMETER_CATALOG_CATEGORY_CODE          = "category-code";
+    public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE         = "product-code";
+    public static final String REQUEST_PARAMETER_PRODUCT_SKU_CODE               = "product-sku-code";
+    public static final String REQUEST_PARAMETER_ASSET_CODE                     = "asset-code";
+    public static final String REQUEST_PARAMETER_BRAND_CODE                     = "brand-code";
+    public static final String REQUEST_PARAMETER_LOCALE_CODE                    = "locale-code";
+    public static final String REQUEST_PARAMETER_CUSTOMER_CODE                  = "customer-code";
+    public static final String REQUEST_PARAMETER_CUSTOMER_PERMALINK             = "customer-permalink";
+    public static final String REQUEST_PARAMETER_ORDER_NUM                      = "order-num";
+    public static final String REQUEST_PARAMETER_RULE_CODE                      = "rule-code";
+    public static final String REQUEST_PARAMETER_WAREHOUSE_CODE                 = "warehouse-code";
+    public static final String REQUEST_PARAMETER_DELIVERY_METHOD_CODE           = "delivery-method-code";
+    public static final String REQUEST_PARAMETER_TAX_CODE                       = "tax-code";
+    public static final String REQUEST_PARAMETER_ENGINE_SETTING_CODE            = "engine-setting-code";
+    public static final String REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE           = "payment-gateway-code";
+    public static final String REQUEST_PARAMETER_RETAILER_CODE                  = "retailer-code";
+    public static final String REQUEST_PARAMETER_STORE_CODE                     = "store-code";
 
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_CONTEXT   = "engine-setting-value-context";
 

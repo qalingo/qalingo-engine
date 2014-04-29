@@ -22,19 +22,19 @@ import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
  */
 public class BoProductMarketingPojo extends ProductMarketingPojo {
 	
-	private String detailsUrl;
+    private String addUrl;
 	private String editUrl;
 
 	public BoProductMarketingPojo() {
 	}
 	
-	public String getDetailsUrl() {
-		return detailsUrl;
-	}
+	public String getAddUrl() {
+        return addUrl;
+    }
 	
-	public void setDetailsUrl(String detailsUrl) {
-		this.detailsUrl = detailsUrl;
-	}
+	public void setAddUrl(String addUrl) {
+        this.addUrl = addUrl;
+    }
 	
 	public String getEditUrl() {
 		return editUrl;

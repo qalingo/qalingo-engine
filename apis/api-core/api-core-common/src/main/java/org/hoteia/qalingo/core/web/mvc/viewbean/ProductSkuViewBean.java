@@ -34,9 +34,10 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
     
     protected int positionItem;
     protected boolean isDefault;
-
-    protected Map<String, String> globalAttributes = new HashMap<String, String>();
-    protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    protected boolean isSalable;
+    
+    private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
+    private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
     
     protected ProductMarketingViewBean productMarketing;
     protected List<AssetViewBean> assets = new ArrayList<AssetViewBean>();
@@ -134,20 +135,48 @@ public class ProductSkuViewBean extends AbstractViewBean implements Serializable
     public void setDefault(boolean isDefault) {
         this.isDefault = isDefault;
     }
+    
+    public boolean isSalable() {
+        return isSalable;
+    }
 
-    public Map<String, String> getGlobalAttributes() {
+    public void setSalable(boolean isSalable) {
+        this.isSalable = isSalable;
+    }
+
+    public Map<String, AttributeValueViewBean> getGlobalAttributes() {
         return globalAttributes;
     }
     
-    public void setGlobalAttributes(Map<String, String> globalAttributes) {
+    public AttributeValueViewBean getGlobalAttribute(String code) {
+        if(globalAttributes != null){
+            AttributeValueViewBean attributeValue = globalAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setGlobalAttributes(Map<String, AttributeValueViewBean> globalAttributes) {
         this.globalAttributes = globalAttributes;
     }
     
-    public Map<String, String> getMarketAreaAttributes() {
+    public Map<String, AttributeValueViewBean> getMarketAreaAttributes() {
         return marketAreaAttributes;
     }
     
-    public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
+    public AttributeValueViewBean getMarketAreaAttribute(String code) {
+        if(marketAreaAttributes != null){
+            AttributeValueViewBean attributeValue = marketAreaAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, AttributeValueViewBean> marketAreaAttributes) {
         this.marketAreaAttributes = marketAreaAttributes;
     }
     

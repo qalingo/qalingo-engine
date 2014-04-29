@@ -28,12 +28,12 @@ public interface CustomerService {
 
 	List<Customer> findCustomers(Object... params);
 	
-	void saveOrUpdateCustomer(Customer customer) throws Exception;
+	Customer saveOrUpdateCustomer(Customer customer) throws Exception;
 	
 	void deleteCustomer(Customer customer);
 	
 	// CREDENTIAL
 	
-	void saveOrUpdateCustomerCredential(CustomerCredential customerCredential) throws Exception;
+	CustomerCredential saveOrUpdateCustomerCredential(CustomerCredential customerCredential) throws Exception;
 	
 }

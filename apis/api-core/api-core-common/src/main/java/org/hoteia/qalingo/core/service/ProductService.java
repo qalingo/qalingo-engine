@@ -46,7 +46,7 @@ public interface ProductService {
     
     List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode, Object... params);
     
-	void saveOrUpdateProductMarketing(ProductMarketing productMarketing);
+    ProductMarketing saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 	
 	void deleteProductMarketing(ProductMarketing productMarketing);
 
@@ -56,11 +56,11 @@ public interface ProductService {
     
     CustomerProductRatesViewBean calculateProductMarketingCustomerRatesByProductId(Long productMarketingId);
     
-    void saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
+    ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
     void deleteProductMarketingCustomerRate(ProductMarketingCustomerRate productMarketingCustomerRate);
     
-    void saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
+    ProductMarketingCustomerComment saveOrUpdateProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
     void deleteProductMarketingCustomerComment(ProductMarketingCustomerComment productMarketingCustomerComment);
     
@@ -72,7 +72,7 @@ public interface ProductService {
 
 	Asset getProductMarketingAssetByCode(String assetCode, Object... params);
 
-	void saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
+	Asset saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
 	void deleteProductMarketingAsset(Asset productMarketingAsset);
 
@@ -88,7 +88,7 @@ public interface ProductService {
     
     List<ProductSku> findProductSkus(Long marketAreaId, String text, Object... params);
 
-    void saveOrUpdateProductSku(ProductSku productSku);
+    ProductSku saveOrUpdateProductSku(ProductSku productSku);
     
     void deleteProductSku(ProductSku productSku);
     
@@ -100,7 +100,7 @@ public interface ProductService {
 
     Asset getProductSkuAssetByCode(String assetCode, Object... params);
 
-    void saveOrUpdateProductSkuAsset(Asset productSkuAsset);
+    Asset saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     
     void deleteProductSkuAsset(Asset productSkuAsset);
     
@@ -112,7 +112,7 @@ public interface ProductService {
 
     ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode, Object... params);
 
-    void saveOrUpdateProductBrand(ProductBrand productBrand);
+    ProductBrand saveOrUpdateProductBrand(ProductBrand productBrand);
 
     void deleteProductBrand(ProductBrand productBrand);
 

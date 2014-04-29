@@ -75,20 +75,21 @@ VALUES
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(2000, 'Product Marketing attribute name', 'Product Marketing attribute name', 'PRODUCT_MARKETING_I18N_NAME',                      1, 2, 1, 1, 0, 1, 1),
-(2010, 'Product Marketing attribute description', 'Product Marketing attribute description', 'PRODUCT_MARKETING_I18N_DESCRIPTION', 2, 2, 1, 1, 0, 1, 2),
-(2020, 'Product Marketing featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED',               7, 2, 1, 0, 0, 1, 3);
+(2000, 'Product Marketing: attribute name', 'Product Marketing: attribute name', 'PRODUCT_MARKETING_I18N_NAME',                      1, 2, 1, 1, 0, 1, 1),
+(2010, 'Product Marketing: attribute description', 'Product Marketing: attribute description', 'PRODUCT_MARKETING_I18N_DESCRIPTION', 2, 2, 1, 1, 0, 1, 2),
+(2020, 'Product Marketing: featured product', 'Product Marketing: is featured product', 'PRODUCT_MARKETING_FEATURED',                7, 2, 0, 1, 0, 1, 3);
 
 -- ATTRIBUTES : PRODUCT SKU
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
-(3000, 'Product Sku attribute name', 'Product Sku attribute name', 'PRODUCT_SKU_I18N_NAME',                      1, 3, 1, 1, 0, 1, 1),
-(3010, 'Product Sku attribute description', 'Product Sku attribute description', 'PRODUCT_SKU_I18N_DESCRIPTION', 2, 3, 1, 1, 0, 1, 2),
-(3020, 'Product Sku attribute width', 'Product Sku attribute width', 'PRODUCT_SKU_WIDTH',                        5, 3, 0, 1, 0, 1, 3),
-(3030, 'Product Sku attribute height', 'Product Sku attribute height', 'PRODUCT_SKU_HEIGHT',                     5, 3, 0, 1, 0, 1, 4),
-(3040, 'Product Sku attribute length', 'Product Sku attribute length', 'PRODUCT_SKU_LENGTH',                     5, 3, 0, 1, 0, 1, 5),
-(3050, 'Product Sku attribute weight', 'Product Sku attribute weight', 'PRODUCT_SKU_WEIGHT',                     5, 3, 0, 1, 0, 1, 6);
+(3000, 'Product Sku: attribute name', 'Product Sku: attribute name', 'PRODUCT_SKU_I18N_NAME',                      1, 3, 1, 1, 0, 1, 1),
+(3010, 'Product Sku: attribute description', 'Product Sku: attribute description', 'PRODUCT_SKU_I18N_DESCRIPTION', 2, 3, 1, 1, 0, 1, 2),
+(3020, 'Product Sku: attribute width', 'Product Sku: attribute width', 'PRODUCT_SKU_WIDTH',                        5, 3, 0, 1, 0, 1, 3),
+(3030, 'Product Sku: attribute height', 'Product Sku: attribute height', 'PRODUCT_SKU_HEIGHT',                     5, 3, 0, 1, 0, 1, 4),
+(3040, 'Product Sku: attribute length', 'Product Sku: attribute length', 'PRODUCT_SKU_LENGTH',                     5, 3, 0, 1, 0, 1, 5),
+(3050, 'Product Sku: attribute weight', 'Product Sku: attribute weight', 'PRODUCT_SKU_WEIGHT',                     5, 3, 0, 1, 0, 1, 6),
+(3060, 'Product Sku: attribute salable', 'Product Sku: attribute salable', 'PRODUCT_SKU_IS_SALABLE',               7, 3, 0, 0, 0, 1, 7);
 
 -- ATTRIBUTES : CUSTOMER
 INSERT INTO teco_attribute_definition 
@@ -546,7 +547,7 @@ VALUES
 INSERT INTO teco_group_role_rel VALUES 
 (10, 10);
 
--- ECO CATALOGUE
+-- ECO CATALOG
 
 INSERT INTO teco_catalog_master 
 (id, description, code, is_default, name)

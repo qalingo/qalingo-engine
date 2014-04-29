@@ -158,17 +158,15 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 
 		try {
     		// CREATE OR UPDATE DELIVERY METHOD
-    		webBackofficeService.createOrUpdateDeliveryMethod(deliveryMethod, deliveryMethodForm);
+		    DeliveryMethod savedDeliveryMethod = webBackofficeService.createOrUpdateDeliveryMethod(deliveryMethod, deliveryMethodForm);
     		
             if (deliveryMethod == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestUtil.getRequestData(request));
-                return new ModelAndView(new RedirectView(urlRedirect));
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "update_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestUtil.getRequestData(request), deliveryMethod);
-                return new ModelAndView(new RedirectView(urlRedirect));
             }
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestUtil.getRequestData(request), savedDeliveryMethod);
+            return new ModelAndView(new RedirectView(urlRedirect));
  
         } catch (Exception e) {
             addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.DELIVERY_METHOD, "create_or_update_message", locale));

@@ -21,8 +21,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ProductMarketingForm {
 	
     private String id;
+    private String code;
 	private String name;
-	private String code;
 	private String description;
     
 	private Map<String, String> globalAttributes = new HashMap<String, String>();
@@ -39,7 +39,19 @@ public class ProductMarketingForm {
 		this.id = id;
 	}
     
-	@NotEmpty(message = "error.form.product.marketing.name.is.empty")
+    @NotEmpty(message = "bo.product_marketing.error_form_code_is_empty")
+    public String getCode() {
+        if(code == null){
+            return "";
+        }
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+	@NotEmpty(message = "bo.product_marketing.error_form_name_is_empty")
 	public String getName() {
 		if(name == null){
 			return "";
@@ -51,17 +63,6 @@ public class ProductMarketingForm {
 		this.name = name;
 	}
 	
-	public String getCode() {
-		if(code == null){
-			return "";
-		}
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public String getDescription() {
 		if(description == null){
 			return "";

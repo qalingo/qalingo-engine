@@ -163,17 +163,15 @@ public class WarehouseController extends AbstractBusinessBackofficeController {
 
         try {
             // CREATE OR UPDATE WAREHOUSE
-            webBackofficeService.createOrUpdateWarehouse(requestData, warehouse, warehouseForm);
+            Warehouse savedWarehouse = webBackofficeService.createOrUpdateWarehouse(requestData, warehouse, warehouseForm);
             
             if (warehouse == null) {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "create_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_LIST, requestData);
-                return new ModelAndView(new RedirectView(urlRedirect));
             } else {
                 addSuccessMessage(request, getSpecificMessage(ScopeWebMessage.WAREHOUSE, "update_success_message", locale));
-                final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, warehouse);
-                return new ModelAndView(new RedirectView(urlRedirect));
             }
+            final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.WAREHOUSE_DETAILS, requestData, savedWarehouse);
+            return new ModelAndView(new RedirectView(urlRedirect));
             
         } catch (Exception e) {
             addMessageError(result, null, "code", "code", getSpecificMessage(ScopeWebMessage.WAREHOUSE, "create_or_update_message", locale));

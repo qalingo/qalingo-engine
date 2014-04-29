@@ -135,8 +135,8 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     }
 
     public String getCode() {
-        if(Hibernate.isInitialized(categoryMaster) 
-                && categoryMaster != null){
+        if(categoryMaster != null 
+                && Hibernate.isInitialized(categoryMaster)){
             return categoryMaster.getCode();
         }
         return code;
@@ -147,7 +147,7 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     }
 
     public CatalogCategoryType getCatalogCategoryType() {
-        if(Hibernate.isInitialized(categoryMaster)
+        if(categoryMaster != null && Hibernate.isInitialized(categoryMaster)
                 && Hibernate.isInitialized(categoryMaster.getCatalogCategoryType())){
             return categoryMaster.getCatalogCategoryType();
         }
@@ -299,6 +299,8 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
             productSkus = new ArrayList<ProductSku>();
             for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
+                ProductSku productSku = catalogCategoryVirtualProductSkuRel.getProductSku();
+                productSku.setRanking(catalogCategoryVirtualProductSkuRel.getRanking());
                 productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
             }
             sortedProductSkus = new LinkedList<ProductSku>(productSkus);

@@ -450,6 +450,15 @@ public class ProductSku extends AbstractEntity {
         return (Integer) getValue(ProductSkuAttribute.PRODUCT_SKU_ATTRIBUTE_WEIGHT, null, null);
     }
 
+    public Boolean isSalable(final Long marketAreaId){
+        Boolean isSalable = (Boolean) getValue(ProductMarketingAttribute.PRODUCT_SKU_ATTRIBUTE_IS_SALABLE, marketAreaId, null);
+         if (isSalable == null) {
+             return Boolean.FALSE;
+         } else {
+             return isSalable;
+         }
+     }
+    
 	// ASSET
     
 	public Asset getDefaultPaskshotImage(String size) {

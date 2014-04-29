@@ -45,43 +45,44 @@ import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
 
 public interface WebBackofficeService {
 
-    void createOrUpdatePersonalUser(User user, UserForm userForm);
+    User createOrUpdatePersonalUser(User user, UserForm userForm);
 
-    void createOrUpdateUser(User user, UserForm userForm);
+    User createOrUpdateUser(User user, UserForm userForm);
 
-    void createOrUpdateCustomer(Customer customer, CustomerForm customerForm) throws Exception;
+    Customer createOrUpdateCustomer(Customer customer, CustomerForm customerForm) throws Exception;
 
-    void createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization currentLocalization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
+    CatalogCategoryMaster createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization localization, CatalogCategoryMaster parentCatalogCategory, CatalogCategoryMaster catalogCategory,
                                CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
 
-    void updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
+    CatalogCategoryMaster updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer retailer, Localization localization, CatalogCategoryMaster catalogCategory, CatalogCategoryForm catalogCategoryForm)
                                throws UniqueConstraintCodeCategoryException;
 
-    void createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    CatalogCategoryVirtual createCatalogCategory(RequestData requestData, MarketArea marketArea, Localization localization, CatalogCategoryVirtual parentCatalogCategory, CatalogCategoryVirtual catalogCategory, 
+                               CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException;
 
-    void updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer currentRetailer, Localization currentLocalization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
+    CatalogCategoryVirtual updateCatalogCategory(RequestData requestData, MarketArea marketArea, Retailer retailer, Localization localization, CatalogCategoryVirtual catalogCategory, CatalogCategoryForm catalogCategoryForm);
 
-    void createOrUpdateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
+    ProductMarketing createOrUpdateProductMarketing(ProductMarketing productMarketing, ProductMarketingForm productMarketingForm);
 
-    void createOrUpdateProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
+    ProductSku createOrUpdateProductSku(ProductSku productSku, ProductSkuForm productSkuForm);
 
-    void createOrUpdateProductMarketingAsset(Asset asset, AssetForm assetForm);
+    Asset createOrUpdateProductMarketingAsset(Asset asset, AssetForm assetForm);
 
-    void createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm) throws Exception;
+    Retailer createOrUpdateRetailer(Retailer retailer, RetailerForm retailerForm) throws Exception;
 
-    void createOrUpdateWarehouse(RequestData requestData, Warehouse warehouse, WarehouseForm warehouseForm);
+    Warehouse createOrUpdateWarehouse(RequestData requestData, Warehouse warehouse, WarehouseForm warehouseForm);
     
-    void createOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod, DeliveryMethodForm deliveryMethodForm);
+    DeliveryMethod createOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod, DeliveryMethodForm deliveryMethodForm);
 
-    void createOrUpdateTax(Tax tax, TaxForm taxForm);
+    Tax createOrUpdateTax(Tax tax, TaxForm taxForm);
 
-    void updateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
+    EngineSettingValue updateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
 
-    void createOrUpdatePaymentGateway(MarketArea marketArea, AbstractPaymentGateway paymentGateway, PaymentGatewayForm paymentGatewayForm);
+    AbstractPaymentGateway createOrUpdatePaymentGateway(MarketArea marketArea, AbstractPaymentGateway paymentGateway, PaymentGatewayForm paymentGatewayForm);
 
-    void createOrUpdateEngineSetting(EngineSetting engineSetting, EngineSettingForm engineSettingForm);
+    EngineSetting createOrUpdateEngineSetting(EngineSetting engineSetting, EngineSettingForm engineSettingForm);
     
-    void createOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
+    EngineSettingValue createOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue, EngineSettingValueForm engineSettingValueForm);
     
-    void createOrUpdateStore(Retailer retailer, Store store, StoreForm storeForm) throws Exception;
+    Store createOrUpdateStore(Retailer retailer, Store store, StoreForm storeForm) throws Exception;
 }

@@ -40,7 +40,7 @@ public interface CatalogCategoryDao {
 	
     CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId, Object... params);
 
-    CatalogCategoryVirtual getVirtualCatalogCategoryByVirtualCategoryCode(String catalogCategoryCode, String catalogVirtualCode, String catalogMasterCode, Object... params);
+    CatalogCategoryVirtual getVirtualCatalogCategoryByVirtualCategoryCode(String catalogCategoryCode, String catalogVirtualCode, Object... params);
 
     CatalogCategoryVirtual getVirtualCatalogCategoryByMasterCategoryCode(String catalogCategoryCode, String catalogVirtualCode, String catalogMasterCode, Object... params);
 

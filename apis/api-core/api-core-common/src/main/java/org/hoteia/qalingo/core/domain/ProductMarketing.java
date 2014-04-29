@@ -472,7 +472,7 @@ public class ProductMarketing extends AbstractEntity {
             return isFeatured;
         }
     }
-
+  
 	// ASSET
    
 	public Asset getDefaultPaskshotImage(String size) {

@@ -27,7 +27,7 @@ public interface DeliveryMethodService {
     
     List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params);
 
-    void saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
+    DeliveryMethod saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
 
     void deleteDeliveryMethod(DeliveryMethod deliveryMethod);
 

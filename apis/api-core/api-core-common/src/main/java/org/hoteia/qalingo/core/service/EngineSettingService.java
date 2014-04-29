@@ -99,7 +99,7 @@ public interface EngineSettingService {
 
     List<EngineSetting> findEngineSettings(Object... params);
 
-    void saveOrUpdateEngineSetting(EngineSetting engineSetting);
+    EngineSetting saveOrUpdateEngineSetting(EngineSetting engineSetting);
 
     void deleteEngineSetting(EngineSetting engineSetting);
 
@@ -109,7 +109,7 @@ public interface EngineSettingService {
 
     EngineSettingValue getEngineSettingValueById(String engineSettingValueId, Object... params);
 
-    void saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
+    EngineSettingValue saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
 
     String getEngineSettingValueByCode(String engineSettingCode, String engineSettingValueCode);
 

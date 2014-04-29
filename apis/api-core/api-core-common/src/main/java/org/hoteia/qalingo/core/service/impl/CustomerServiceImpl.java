@@ -56,8 +56,8 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.findCustomers(params);
     }
 
-    public void saveOrUpdateCustomer(final Customer customer) throws Exception {
-        customerDao.saveOrUpdateCustomer(customer);
+    public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {
+        return customerDao.saveOrUpdateCustomer(customer);
     }
 
     public void deleteCustomer(final Customer customer) {
@@ -66,8 +66,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     // CREDENTIAL
 
-    public void saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
-        customerDao.saveOrUpdateCustomerCredential(customerCredential);
+    public CustomerCredential saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+        return customerDao.saveOrUpdateCustomerCredential(customerCredential);
     }
 
 }

@@ -18,8 +18,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-public class ProductMarketingViewBean extends AbstractViewBean implements
-		Serializable {
+public class ProductMarketingViewBean extends AbstractViewBean implements Serializable {
 
 	/**
 	 * Generated UID
@@ -45,8 +44,8 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	protected ProductBrandViewBean brand;
 
-	protected Map<String, String> globalAttributes = new HashMap<String, String>();
-	protected Map<String, String> marketAreaAttributes = new HashMap<String, String>();
+    private Map<String, AttributeValueViewBean> globalAttributes = new HashMap<String, AttributeValueViewBean>();
+    private Map<String, AttributeValueViewBean> marketAreaAttributes = new HashMap<String, AttributeValueViewBean>();
 
     protected List<ProductSkuViewBean> productSkus = new ArrayList<ProductSkuViewBean>();
     protected List<ProductAssociationLinkViewBean> productAssociationLinks = new ArrayList<ProductAssociationLinkViewBean>();
@@ -54,10 +53,13 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
     protected CustomerProductRatesViewBean customerProductRates;
 
-    protected String brandDetailsUrl;
-    protected String brandLineDetailsUrl;
     protected String detailsUrl;
     protected String editUrl;
+
+    protected String brandDetailsUrl;
+    protected String brandLineDetailsUrl;
+
+    protected String addSkuUrl;
 
 	public Long getId() {
 		return id;
@@ -153,7 +155,19 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		this.isDefault = isDefault;
 	}
 
-	public boolean isFeatured() {
+	public boolean isSalable() {
+	    if(productSkus != null){
+	        for (Iterator<ProductSkuViewBean> iterator = productSkus.iterator(); iterator.hasNext();) {
+	            ProductSkuViewBean productSkuViewBean = (ProductSkuViewBean) iterator.next();
+	            if(productSkuViewBean.isSalable){
+	                return true;
+	            }
+	        }
+	    }
+        return false;
+    }
+
+    public boolean isFeatured() {
 		return featured;
 	}
 
@@ -169,21 +183,41 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		this.brand = brand;
 	}
 
-	public Map<String, String> getGlobalAttributes() {
-		return globalAttributes;
-	}
-
-	public void setGlobalAttributes(Map<String, String> globalAttributes) {
-		this.globalAttributes = globalAttributes;
-	}
-
-	public Map<String, String> getMarketAreaAttributes() {
-		return marketAreaAttributes;
-	}
-
-	public void setMarketAreaAttributes(Map<String, String> marketAreaAttributes) {
-		this.marketAreaAttributes = marketAreaAttributes;
-	}
+    public Map<String, AttributeValueViewBean> getGlobalAttributes() {
+        return globalAttributes;
+    }
+    
+    public AttributeValueViewBean getGlobalAttribute(String code) {
+        if(globalAttributes != null){
+            AttributeValueViewBean attributeValue = globalAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setGlobalAttributes(Map<String, AttributeValueViewBean> globalAttributes) {
+        this.globalAttributes = globalAttributes;
+    }
+    
+    public Map<String, AttributeValueViewBean> getMarketAreaAttributes() {
+        return marketAreaAttributes;
+    }
+    
+    public AttributeValueViewBean getMarketAreaAttribute(String code) {
+        if(marketAreaAttributes != null){
+            AttributeValueViewBean attributeValue = marketAreaAttributes.get(code);
+            if(attributeValue != null){
+                return attributeValue;
+            }
+        }
+        return null;
+    }
+    
+    public void setMarketAreaAttributes(Map<String, AttributeValueViewBean> marketAreaAttributes) {
+        this.marketAreaAttributes = marketAreaAttributes;
+    }
 
 	public List<ProductSkuViewBean> getProductSkus() {
 		return productSkus;
@@ -208,22 +242,6 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 
 	public void setAssets(List<AssetViewBean> assets) {
 		this.assets = assets;
-	}
-
-	public String getBrandDetailsUrl() {
-		return brandDetailsUrl;
-	}
-
-	public void setBrandDetailsUrl(String brandDetailsUrl) {
-		this.brandDetailsUrl = brandDetailsUrl;
-	}
-
-	public String getBrandLineDetailsUrl() {
-		return brandLineDetailsUrl;
-	}
-
-	public void setBrandLineDetailsUrl(String brandLineDetailsUrl) {
-		this.brandLineDetailsUrl = brandLineDetailsUrl;
 	}
 
 	public String getAddToCartUrl() {
@@ -321,8 +339,32 @@ public class ProductMarketingViewBean extends AbstractViewBean implements
 		return editUrl;
 	}
 
-	public void setEditUrl(String editUrl) {
-		this.editUrl = editUrl;
-	}
+    public void setEditUrl(String editUrl) {
+        this.editUrl = editUrl;
+    }
+
+    public String getBrandDetailsUrl() {
+        return brandDetailsUrl;
+    }
+
+    public void setBrandDetailsUrl(String brandDetailsUrl) {
+        this.brandDetailsUrl = brandDetailsUrl;
+    }
+
+    public String getBrandLineDetailsUrl() {
+        return brandLineDetailsUrl;
+    }
+
+    public void setBrandLineDetailsUrl(String brandLineDetailsUrl) {
+        this.brandLineDetailsUrl = brandLineDetailsUrl;
+    }
+
+    public String getAddSkuUrl() {
+        return addSkuUrl;
+    }
+
+    public void setAddSkuUrl(String addSkuUrl) {
+        this.addSkuUrl = addSkuUrl;
+    }
 
 }

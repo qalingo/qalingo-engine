@@ -67,7 +67,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATALOG_CATEGORY_TYPE_ID", insertable = true, updatable = true)
+    @JoinColumn(name = "CATEGORY_TYPE_ID", insertable = true, updatable = true)
     private CatalogCategoryType catalogCategoryType;
 
     @Column(name = "NAME")
@@ -93,7 +93,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CATEGORY_ID")
-    private Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes = new HashSet<CatalogCategoryMasterAttribute>();
+    private Set<CatalogCategoryMasterAttribute> attributes = new HashSet<CatalogCategoryMasterAttribute>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMaster.class)
     @JoinColumn(name = "PARENT_CATEGORY_ID")
@@ -206,19 +206,19 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     }
 
     public Set<CatalogCategoryMasterAttribute> getAttributes() {
-        return catalogCategoryAttributes;
+        return attributes;
     }
 
-    public void setCatalogCategoryAttributes(Set<CatalogCategoryMasterAttribute> catalogCategoryAttributes) {
-        this.catalogCategoryAttributes = catalogCategoryAttributes;
+    public void setAttributes(Set<CatalogCategoryMasterAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public List<CatalogCategoryMasterAttribute> getGlobalAttributes() {
         List<CatalogCategoryMasterAttribute> catalogCategoryGlobalAttributes = null;
-        if (catalogCategoryAttributes != null
-                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             catalogCategoryGlobalAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
-            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && attributeDefinition.isGlobal()) {
@@ -231,10 +231,10 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
 
     public List<CatalogCategoryMasterAttribute> getMarketAreaAttributes(Long marketAreaId) {
         List<CatalogCategoryMasterAttribute> catalogCategoryMarketAreaAttributes = null;
-        if (catalogCategoryAttributes != null
-                && Hibernate.isInitialized(catalogCategoryAttributes)) {
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
             catalogCategoryMarketAreaAttributes = new ArrayList<CatalogCategoryMasterAttribute>();
-            for (Iterator<CatalogCategoryMasterAttribute> iterator = catalogCategoryAttributes.iterator(); iterator.hasNext();) {
+            for (Iterator<CatalogCategoryMasterAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterAttribute attribute = (CatalogCategoryMasterAttribute) iterator.next();
                 AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
                 if (attributeDefinition != null && !attributeDefinition.isGlobal()) {

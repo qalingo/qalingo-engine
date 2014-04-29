@@ -21,10 +21,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ProductSkuForm {
 	
     private String id;
+    private String code;
 	private String name;
-	private String code;
 	private String description;
-	
+
+    private String productMarketingId;
+
 	private Map<String, String> globalAttributes = new HashMap<String, String>();
 	private Map<String, String> marketAreaAttributes = new HashMap<String, String>();
 	
@@ -38,8 +40,20 @@ public class ProductSkuForm {
     public void setId(String id) {
 		this.id = id;
 	}
-    
-	@NotEmpty(message = "error.form.product.sku.name.is.empty")
+
+    @NotEmpty(message = "bo.product_marketing.error_form_code_is_empty")
+    public String getCode() {
+        if(code == null){
+            return "";
+        }
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+	@NotEmpty(message = "bo.product_marketing.error_form_name_is_empty")
 	public String getName() {
 		if(name == null){
 			return "";
@@ -49,17 +63,6 @@ public class ProductSkuForm {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCode() {
-		if(code == null){
-			return "";
-		}
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getDescription() {
@@ -72,6 +75,15 @@ public class ProductSkuForm {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+    @NotEmpty(message = "bo.product_marketing.error_form_product_marketing_is_empty")
+    public String getProductMarketingId() {
+        return productMarketingId;
+    }
+	
+	public void setProductMarketingId(String productMarketingId) {
+        this.productMarketingId = productMarketingId;
+    }
 	
 	public Map<String, String> getGlobalAttributes() {
 		return globalAttributes;
