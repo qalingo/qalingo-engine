@@ -286,7 +286,11 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
             productSkus = new ArrayList<ProductSku>();
             for (Iterator<CatalogCategoryMasterProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
                 CatalogCategoryMasterProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryMasterProductSkuRel) iterator.next();
-                productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
+                ProductSku productSku = catalogCategoryVirtualProductSkuRel.getProductSku();
+                if(productSku != null){
+                    productSku.setRanking(catalogCategoryVirtualProductSkuRel.getRanking());
+                    productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
+                }
             }
         }
         return productSkus;

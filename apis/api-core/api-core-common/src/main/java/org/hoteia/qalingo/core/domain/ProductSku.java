@@ -104,7 +104,7 @@ public class ProductSku extends AbstractEntity {
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
     @Transient
-    private int ranking;
+    private Integer ranking;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -300,11 +300,14 @@ public class ProductSku extends AbstractEntity {
 		this.retailers = retailers;
 	}
 	   
-    public int getRanking() {
+    public Integer getRanking() {
+        if(ranking == null){
+            return new Integer(0);
+        }
         return ranking;
     }
     
-    public void setRanking(int ranking) {
+    public void setRanking(Integer ranking) {
         this.ranking = ranking;
     }
     

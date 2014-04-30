@@ -300,8 +300,10 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
             for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
                 CatalogCategoryVirtualProductSkuRel catalogCategoryVirtualProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
                 ProductSku productSku = catalogCategoryVirtualProductSkuRel.getProductSku();
-                productSku.setRanking(catalogCategoryVirtualProductSkuRel.getRanking());
-                productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
+                if(productSku != null){
+                    productSku.setRanking(catalogCategoryVirtualProductSkuRel.getRanking());
+                    productSkus.add(catalogCategoryVirtualProductSkuRel.getProductSku());
+                }
             }
             sortedProductSkus = new LinkedList<ProductSku>(productSkus);
             Collections.sort(sortedProductSkus, new Comparator<ProductSku>() {
