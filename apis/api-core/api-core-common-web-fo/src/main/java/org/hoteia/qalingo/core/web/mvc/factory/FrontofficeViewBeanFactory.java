@@ -99,8 +99,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
     /**
      * 
      */
-    @Override
-    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
+    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData, final FetchPlan categoryFetchPlan) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -121,7 +120,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
             if (catalogCategories != null) {
                 for (Iterator<CatalogCategoryVirtual> iteratorCatalogCategory = catalogCategories.iterator(); iteratorCatalogCategory.hasNext();) {
                     final CatalogCategoryVirtual catalogCategory = (CatalogCategoryVirtual) iteratorCatalogCategory.next();
-                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                    final CatalogCategoryVirtual catalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(catalogCategory.getId(), categoryFetchPlan);
                     
                     menu = new MenuViewBean();
                     final String seoCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode);
@@ -133,7 +132,7 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
                         List<MenuViewBean> subMenus = new ArrayList<MenuViewBean>();
                         for (Iterator<CatalogCategoryVirtual> iteratorSubCatalogCategory = subCatalogCategories.iterator(); iteratorSubCatalogCategory.hasNext();) {
                             final CatalogCategoryVirtual subCatalogCategory = (CatalogCategoryVirtual) iteratorSubCatalogCategory.next();
-                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), FetchPlanGraphCategory.menuCatalogCategoryFetchPlan());
+                            final CatalogCategoryVirtual subCatalogCategoryReloaded = catalogCategoryService.getVirtualCatalogCategoryById(subCatalogCategory.getId(), categoryFetchPlan);
                             final MenuViewBean subMenu = new MenuViewBean();
                             final String seoSubCatalogCategoryName = catalogCategoryReloaded.getI18nName(localeCode) + " " + subCatalogCategoryReloaded.getI18nName(localeCode);
                             subMenu.setName(seoSubCatalogCategoryName);

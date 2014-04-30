@@ -16,12 +16,8 @@ import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
-import org.hoteia.qalingo.core.domain.ProductMarketing_;
-import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
-import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.EngineSessionService;
@@ -142,12 +138,12 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.MARKET_AREA_CURRENCIES_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanCurrenciesByMarketArea(requestData));
 
             // HEADER
-            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMenu(requestData));
+            modelAndView.getModelMap().put(ModelConstants.MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildListViewBeanMenu(requestData, new FetchPlan(categoryVirtualFetchPlans)));
             
             // FOOTER
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
 
-            final List<CatalogCategoryVirtual> virtualRootCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(currentMarketArea.getCatalog().getCode(), FetchPlanGraphCategory.footerCatalogCategoryFetchPlan());
+            final List<CatalogCategoryVirtual> virtualRootCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(currentMarketArea.getCatalog().getCode(), new FetchPlan(categoryVirtualFetchPlans));
             final List<CatalogCategoryViewBean> virtualRootCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), virtualRootCategories, new FetchPlan(categoryVirtualFetchPlans), null, null);
             modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, virtualRootCategoryViewBeans);
 

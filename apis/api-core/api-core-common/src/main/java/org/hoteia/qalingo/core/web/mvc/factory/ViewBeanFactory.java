@@ -252,15 +252,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
-        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
-
-        return menuViewBeans;
-    }
-
-    /**
-     * 
-     */
     public List<FooterMenuViewBean> buildViewBeanFooterMenu(final RequestData requestData) throws Exception {
         final Locale locale = requestData.getLocale();
         List<FooterMenuViewBean> footerMenuViewBeans = new ArrayList<FooterMenuViewBean>();
@@ -1319,7 +1310,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 if (categoryFetchPlan != null) {
                     for (Iterator<AbstractCatalogCategory> iteratorSubcatalogCategoryVirtual = subCategories.iterator(); iteratorSubcatalogCategoryVirtual.hasNext();) {
                         final CatalogCategoryVirtual subcatalogCategoryVirtual = (CatalogCategoryVirtual) iteratorSubcatalogCategoryVirtual.next();
-                        final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+                        final CatalogCategoryVirtual reloadedSubCatalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(subcatalogCategoryVirtual.getId(), categoryFetchPlan);
                         subcatalogCategoryVirtualViewBeans.add(buildViewBeanVirtualCatalogCategory(requestData, reloadedSubCatalogCategory, categoryFetchPlan, productFetchPlan, skuFetchPlan));
                     }
                 }

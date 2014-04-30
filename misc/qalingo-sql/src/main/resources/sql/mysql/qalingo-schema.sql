@@ -383,12 +383,12 @@ CREATE TABLE `teco_asset` (
   `SIZE` varchar(255) DEFAULT NULL,
   `TYPE` varchar(255) DEFAULT NULL,
   `VERSION` int(11) NOT NULL DEFAULT '1',
-  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
-  `RETAILER_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_SKU_ID` bigint(20) DEFAULT NULL,
-  `STORE_ID` bigint(20) DEFAULT NULL,
+  `RETAILER_ID` bigint(20) DEFAULT NULL,
+  `VIRTUAL_CATEGORY_ID` bigint(20) DEFAULT NULL,
   `PRODUCT_MARKETING_ID` bigint(20) DEFAULT NULL,
+  `MASTER_CATEGORY_ID` bigint(20) DEFAULT NULL,
+  `STORE_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CODE` (`CODE`),
   KEY `FK475D66AE820B6ACF` (`PRODUCT_MARKETING_ID`),
@@ -1462,9 +1462,9 @@ DROP TABLE IF EXISTS `teco_market_area_payment_gateway_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market_area_payment_gateway_rel` (
-  `PAYMENT_GATEWAY_ID` bigint(20) NOT NULL,
   `MARKET_AREA_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`MARKET_AREA_ID`,`PAYMENT_GATEWAY_ID`),
+  `PAYMENT_GATEWAY_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`PAYMENT_GATEWAY_ID`,`MARKET_AREA_ID`),
   KEY `FK61404D54D93FD4A7` (`MARKET_AREA_ID`),
   KEY `FK61404D54D3E07DA3` (`PAYMENT_GATEWAY_ID`),
   CONSTRAINT `FK61404D54D3E07DA3` FOREIGN KEY (`PAYMENT_GATEWAY_ID`) REFERENCES `teco_payment_gateway` (`ID`),
@@ -1498,9 +1498,9 @@ DROP TABLE IF EXISTS `teco_market_area_tax_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teco_market_area_tax_rel` (
-  `TAX_ID` bigint(20) NOT NULL,
   `MARKET_AREA_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`MARKET_AREA_ID`,`TAX_ID`),
+  `TAX_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`TAX_ID`,`MARKET_AREA_ID`),
   KEY `FKC4ADFE94D93FD4A7` (`MARKET_AREA_ID`),
   KEY `FKC4ADFE94575EEFA6` (`TAX_ID`),
   CONSTRAINT `FKC4ADFE94575EEFA6` FOREIGN KEY (`TAX_ID`) REFERENCES `teco_tax` (`ID`),
@@ -3054,4 +3054,4 @@ CREATE TABLE `teco_warehouse_delivery_method_rel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-28 15:47:16
+-- Dump completed on 2014-04-30 17:57:12

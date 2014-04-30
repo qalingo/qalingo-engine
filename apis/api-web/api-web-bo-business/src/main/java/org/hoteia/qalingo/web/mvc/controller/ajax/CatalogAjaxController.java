@@ -22,6 +22,7 @@ import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
@@ -34,7 +35,6 @@ import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.catalog.BoCatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
@@ -194,7 +194,12 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
             
         } else if("virtual".equals(catalogType)){
-            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+            
+            List<SpecificFetchMode> categoryVirtualFetchPlansWithProducts = new ArrayList<SpecificFetchMode>(categoryVirtualFetchPlans);
+            categoryVirtualFetchPlansWithProducts.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
+            categoryVirtualFetchPlansWithProducts.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() +  "." + org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_.productSku.getName()));
+
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), categoryVirtualFetchPlansWithProducts);
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
             List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();

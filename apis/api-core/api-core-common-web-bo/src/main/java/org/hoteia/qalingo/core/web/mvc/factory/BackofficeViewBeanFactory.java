@@ -121,6 +121,11 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return commonViewBean;
     }
     
+    public List<MenuViewBean> buildListViewBeanMenu(final RequestData requestData) throws Exception {
+        List<MenuViewBean> menuViewBeans = new ArrayList<MenuViewBean>();
+        return menuViewBeans;
+    }
+    
     public List<MenuViewBean> buildListViewBeanMorePageMenu(final RequestData requestData) throws Exception {
         final User currentUser = requestData.getUser();
         final Locale locale = requestData.getLocale();
