@@ -70,8 +70,6 @@ public interface ProductService {
     
 	Asset getProductMarketingAssetById(String assetId, Object... params);
 
-	Asset getProductMarketingAssetByCode(String assetCode, Object... params);
-
 	Asset saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
 	void deleteProductMarketingAsset(Asset productMarketingAsset);
@@ -97,8 +95,6 @@ public interface ProductService {
     Asset getProductSkuAssetById(Long assetId, Object... params);
     
     Asset getProductSkuAssetById(String assetId, Object... params);
-
-    Asset getProductSkuAssetByCode(String assetCode, Object... params);
 
     Asset saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     

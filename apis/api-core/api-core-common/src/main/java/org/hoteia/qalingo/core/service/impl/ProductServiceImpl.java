@@ -229,10 +229,6 @@ public class ProductServiceImpl implements ProductService {
         return getProductMarketingAssetById(assetId, params);
     }
 
-    public Asset getProductMarketingAssetByCode(final String assetCode, Object... params) {
-        return productDao.getProductMarketingAssetByCode(assetCode, params);
-    }
-
     public Asset saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
         return productDao.saveOrUpdateProductMarketingAsset(productMarketingAsset);
     }
@@ -319,10 +315,6 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException(e);
         }
         return getProductSkuAssetById(assetId);
-    }
-
-    public Asset getProductSkuAssetByCode(final String assetCode, Object... params) {
-        return productDao.getProductSkuAssetByCode(assetCode, params);
     }
 
     public Asset saveOrUpdateProductSkuAsset(final Asset productSkuAsset) {

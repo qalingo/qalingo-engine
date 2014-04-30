@@ -37,6 +37,7 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_PRODUCT_MARKETING_CODE         = "product-code";
     public static final String REQUEST_PARAMETER_PRODUCT_SKU_CODE               = "product-sku-code";
     public static final String REQUEST_PARAMETER_ASSET_CODE                     = "asset-code";
+    public static final String REQUEST_PARAMETER_ASSET_ID                       = "asset-id";
     public static final String REQUEST_PARAMETER_BRAND_CODE                     = "brand-code";
     public static final String REQUEST_PARAMETER_LOCALE_CODE                    = "locale-code";
     public static final String REQUEST_PARAMETER_CUSTOMER_CODE                  = "customer-code";

@@ -259,13 +259,6 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
         return productMarketingAsset;
 	}
 
-	public Asset getProductMarketingAssetByCode(final String assetCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(ProductMarketing.class);
-        criteria.add(Restrictions.eq("code", assetCode));
-        Asset productMarketingAsset = (Asset) criteria.uniqueResult();
-		return productMarketingAsset;
-	}
-	
 	public Asset saveOrUpdateProductMarketingAsset(final Asset productMarketingAsset) {
 		if(productMarketingAsset.getDateCreate() == null){
 			productMarketingAsset.setDateCreate(new Date());
@@ -382,13 +375,6 @@ public class ProductDaoImpl extends AbstractGenericDaoImpl implements ProductDao
     public Asset getProductSkuAssetById(final Long productSkuAssetId, Object... params) {
         Criteria criteria = createDefaultCriteria(Asset.class);
         criteria.add(Restrictions.eq("id", productSkuAssetId));
-        Asset productSkuAsset = (Asset) criteria.uniqueResult();
-        return productSkuAsset;
-    }
-
-    public Asset getProductSkuAssetByCode(final String assetCode, Object... params) {
-        Criteria criteria = createDefaultCriteria(ProductSku.class);
-        criteria.add(Restrictions.eq("code", assetCode));
         Asset productSkuAsset = (Asset) criteria.uniqueResult();
         return productSkuAsset;
     }

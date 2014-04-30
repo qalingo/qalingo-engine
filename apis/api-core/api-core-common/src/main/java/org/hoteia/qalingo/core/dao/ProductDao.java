@@ -60,8 +60,6 @@ public interface ProductDao {
 	
 	Asset getProductMarketingAssetById(Long productMarketingId, Object... params);
 
-	Asset getProductMarketingAssetByCode(String assetCode, Object... params);
-
 	Asset saveOrUpdateProductMarketingAsset(Asset productMarketingAsset);
 	
 	void deleteProductMarketingAsset(Asset productMarketingAsset);
@@ -83,8 +81,6 @@ public interface ProductDao {
    // PRODUCT SKU ASSET
     
     Asset getProductSkuAssetById(Long productSkuId, Object... params);
-
-    Asset getProductSkuAssetByCode(String assetCode, Object... params);
 
     Asset saveOrUpdateProductSkuAsset(Asset productSkuAsset);
     

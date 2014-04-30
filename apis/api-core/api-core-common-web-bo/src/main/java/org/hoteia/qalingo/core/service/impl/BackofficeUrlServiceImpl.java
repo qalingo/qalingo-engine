@@ -113,7 +113,7 @@ public class BackofficeUrlServiceImpl extends AbstractUrlServiceImpl implements 
                         break;
                     } else if (param instanceof Asset) {
                         Asset asset = (Asset) param;
-                        getParams.put(RequestConstants.REQUEST_PARAMETER_ASSET_CODE, handleParamValue(asset.getCode().toString()));
+                        getParams.put(RequestConstants.REQUEST_PARAMETER_ASSET_ID, handleParamValue(asset.getId().toString()));
                         break;
                     } else if (param instanceof AbstractRuleReferential) {
                         AbstractRuleReferential rule = (AbstractRuleReferential) param;

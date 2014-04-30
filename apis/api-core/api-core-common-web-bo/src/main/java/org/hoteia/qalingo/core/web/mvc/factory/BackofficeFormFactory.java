@@ -232,17 +232,16 @@ public class BackofficeFormFactory {
         return productMarketingForm;
     }
     
-    public AssetForm buildProductMarketingAssetForm(final RequestData requestData, final Asset productMarketingAsset) throws Exception {
+    public AssetForm buildProductMarketingAssetForm(final RequestData requestData, final Asset asset) throws Exception {
         final AssetForm assetForm = new AssetForm();
-        if(productMarketingAsset != null){
-            assetForm.setId(productMarketingAsset.getId().toString());
-            assetForm.setName(productMarketingAsset.getName());
-            assetForm.setCode(productMarketingAsset.getCode());
-            assetForm.setDescription(productMarketingAsset.getDescription());
-            assetForm.setDefault(productMarketingAsset.isDefault());
-            assetForm.setPath(productMarketingAsset.getPath());
-            assetForm.setType(productMarketingAsset.getType().getPropertyKey());
-            assetForm.setSize(productMarketingAsset.getSize().getPropertyKey());
+        if(asset != null){
+            assetForm.setId(asset.getId().toString());
+            assetForm.setName(asset.getName());
+            assetForm.setDescription(asset.getDescription());
+            assetForm.setDefault(asset.isDefault());
+            assetForm.setPath(asset.getPath());
+            assetForm.setType(asset.getType().getPropertyKey());
+            assetForm.setSize(asset.getSize().getPropertyKey());
         }
         return assetForm;
     }

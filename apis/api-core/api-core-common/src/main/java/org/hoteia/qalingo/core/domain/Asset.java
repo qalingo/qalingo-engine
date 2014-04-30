@@ -22,7 +22,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.AssetScope;
@@ -30,7 +29,7 @@ import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
-@Table(name="TECO_ASSET", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TECO_ASSET")
 public class Asset extends AbstractEntity {
 
 	/**
@@ -46,9 +45,6 @@ public class Asset extends AbstractEntity {
     @Version
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
-
-    @Column(name = "CODE", nullable = false)
-    private String code;
 
     @Column(name = "NAME")
     private String name;
@@ -114,14 +110,6 @@ public class Asset extends AbstractEntity {
 		this.version = version;
 	}
 	
-    public String getCode() {
-        return code;
-    }
-    
-    public void setCode(String code) {
-        this.code = code;
-    }
-
 	public String getName() {
 		return name;
 	}
@@ -230,7 +218,6 @@ public class Asset extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((code == null) ? 0 : code.hashCode());
         result = prime * result + ((dateCreate == null) ? 0 : dateCreate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
@@ -245,11 +232,6 @@ public class Asset extends AbstractEntity {
         if (getClass() != obj.getClass())
             return false;
         Asset other = (Asset) obj;
-        if (code == null) {
-            if (other.code != null)
-                return false;
-        } else if (!code.equals(other.code))
-            return false;
         if (dateCreate == null) {
             if (other.dateCreate != null)
                 return false;
@@ -265,7 +247,7 @@ public class Asset extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Asset [id=" + id + ", version=" + version + ", name=" + name + ", code=" + code + ", description=" + description + ", path=" + path + ", scope=" + scope + ", type=" + type + ", size="
+        return "Asset [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", path=" + path + ", scope=" + scope + ", type=" + type + ", size="
                 + size + ", fileSize=" + fileSize + ", isDefault=" + isDefault + ", isGlobal=" + isGlobal + ", ordering=" + ordering + ", marketAreaId=" + marketAreaId + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }

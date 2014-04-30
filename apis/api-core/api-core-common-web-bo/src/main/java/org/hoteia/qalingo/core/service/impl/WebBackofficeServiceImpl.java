@@ -507,7 +507,6 @@ public class WebBackofficeServiceImpl implements WebBackofficeService {
 	
 	public Asset createOrUpdateProductMarketingAsset(final Asset asset, final AssetForm assetForm) {
 		asset.setName(assetForm.getName());
-		asset.setCode(assetForm.getCode());
 		asset.setDescription(assetForm.getDescription());
 
 //		asset.setType(assetForm.getType);

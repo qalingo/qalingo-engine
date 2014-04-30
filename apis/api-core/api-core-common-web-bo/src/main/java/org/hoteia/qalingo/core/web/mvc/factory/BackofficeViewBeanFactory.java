@@ -630,12 +630,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     public AssetViewBean buildViewBeanAsset(final RequestData requestData, final Asset asset) throws Exception {
-        final String assetCode = asset.getCode();
-
         AssetViewBean assetViewBean = new AssetViewBean();
-
         assetViewBean.setName(asset.getName());
-        assetViewBean.setCode(assetCode);
         assetViewBean.setDescription(asset.getDescription());
         assetViewBean.setPath(asset.getPath());
         if (asset.getScope() != null) {

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Asset;
@@ -57,8 +56,8 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	public ModelAndView assetDetails(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_DETAILS.getVelocityPage());
 
-		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_CODE);
-		final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
+		final String currentAssetId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_ID);
+		final Asset asset = productMarketingService.getProductMarketingAssetById(currentAssetId);
 		
 		if(asset != null){
 			initRuleDetailsPage(request, response, modelAndView, asset);
@@ -74,9 +73,9 @@ public class AssetController extends AbstractBusinessBackofficeController {
 	public ModelAndView display(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.ASSET_EDIT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final String currentAssetCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_CODE);
-		if(StringUtils.isNotEmpty(currentAssetCode)){
-			final Asset asset = productMarketingService.getProductMarketingAssetByCode(currentAssetCode);
+		final String currentAssetId = request.getParameter(RequestConstants.REQUEST_PARAMETER_ASSET_ID);
+		if(StringUtils.isNotEmpty(currentAssetId)){
+			final Asset asset = productMarketingService.getProductMarketingAssetById(currentAssetId);
 
 			modelAndView.addObject(ModelConstants.ASSET_VIEW_BEAN, backofficeViewBeanFactory.buildViewBeanAsset(requestUtil.getRequestData(request), asset));
 			modelAndView.addObject(ModelConstants.ASSET_FORM, backofficeFormFactory.buildProductMarketingAssetForm(requestData, asset));
@@ -97,7 +96,6 @@ public class AssetController extends AbstractBusinessBackofficeController {
 		
 		final String currentAssetId = assetForm.getId();
 		final Asset asset = productMarketingService.getProductMarketingAssetById(currentAssetId);
-		final String currentAssetCode = asset.getCode();
 		
 		MultipartFile multipartFile = assetForm.getFile();
 		if(multipartFile != null){

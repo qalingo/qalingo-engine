@@ -38,7 +38,6 @@ import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.solr.bean.ProductMarketingSolr;
@@ -506,15 +505,15 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return productBrandViewBeans;
     }
     
-    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listProductSkuCodes) throws Exception {
+    public List<RecentProductViewBean> buildListViewBeanRecentProduct(final RequestData requestData, final List<String> listProductSkuCodes, FetchPlan categoryVirtualFetchPlans, FetchPlan productMarketingFetchPlans, FetchPlan productSkuFetchPlans) throws Exception {
     	final List<RecentProductViewBean> recentProductViewBeans = new ArrayList<RecentProductViewBean>(); 
     	final Localization localization = requestData.getMarketAreaLocalization();
         final String localeCode = localization.getCode();
     	for (String productSkuCode : listProductSkuCodes) {
     		RecentProductViewBean recentProductViewBean = new RecentProductViewBean();
-            final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode);
-            final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
-    		CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId());
+            final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSkuCode, productSkuFetchPlans);
+            final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode(), productMarketingFetchPlans);
+            final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(reloadedProductSku.getId(), categoryVirtualFetchPlans);
         	recentProductViewBean.setId(productMarketing.getId());
     		recentProductViewBean.setCode(productMarketing.getCode());
     		recentProductViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productMarketing.getDefaultProductSku()));	
