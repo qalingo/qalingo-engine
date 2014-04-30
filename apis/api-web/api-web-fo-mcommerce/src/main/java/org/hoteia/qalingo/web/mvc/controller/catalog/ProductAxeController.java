@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
@@ -73,6 +74,8 @@ public class ProductAxeController extends AbstractMCommerceController {
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName() + "." + CatalogCategoryVirtual_.categoryMaster.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
         categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.assets.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() +  "." + org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_.productSku.getName()));
     }
     
 	@RequestMapping(FoUrls.CATEGORY_AS_AXE_URL)
