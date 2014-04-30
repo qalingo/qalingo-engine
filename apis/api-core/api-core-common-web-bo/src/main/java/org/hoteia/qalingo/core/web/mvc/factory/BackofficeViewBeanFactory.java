@@ -12,11 +12,9 @@ package org.hoteia.qalingo.core.web.mvc.factory;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hoteia.qalingo.core.Constants;
-import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.AbstractAttribute;
 import org.hoteia.qalingo.core.domain.AbstractCatalog;
 import org.hoteia.qalingo.core.domain.AbstractCatalogCategory;
@@ -59,7 +56,7 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
@@ -270,7 +267,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 //        return catalogViewBean;
 //    }
 
-    public CatalogViewBean buildViewBeanCatalog(final RequestData requestData, final AbstractCatalog catalog, final List<AbstractCatalogCategory> catalogCategories) throws Exception {
+    public CatalogViewBean buildViewBeanCatalog(final RequestData requestData, final AbstractCatalog catalog, final List<AbstractCatalogCategory> catalogCategories, final FetchPlan categoryFetchPlan) throws Exception {
         final CatalogViewBean catalogViewBean = new CatalogViewBean();
         catalogViewBean.setName(catalog.getName());
         catalogViewBean.setCode(catalog.getCode());
@@ -278,7 +275,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         if (catalogCategories != null) {
             final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
             for (AbstractCatalogCategory catalogCategoryVirtual : catalogCategories) {
-                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual, true, false);
+                CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanCatalogCategory(requestData, catalogCategoryVirtual, categoryFetchPlan, null, null);
                 catalogCategoryViewBeans.add(catalogCategoryViewBean);
             }
             catalogViewBean.setCategories(catalogCategoryViewBeans);
@@ -465,9 +462,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     @Override
-    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory, boolean withSubCategories, boolean withProducts)
+    public CatalogCategoryViewBean buildViewBeanMasterCatalogCategory(final RequestData requestData, final CatalogCategoryMaster catalogCategory, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan)
             throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanMasterCatalogCategory(requestData, catalogCategory, withSubCategories, withProducts);
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanMasterCatalogCategory(requestData, catalogCategory, categoryFetchPlan, productFetchPlan, skuFetchPlan);
 
         catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_DETAILS, requestData, catalogCategory));
         catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.MASTER_CATEGORY_EDIT, requestData, catalogCategory));
@@ -479,9 +476,9 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     @Override
-    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, boolean withSubCategories, boolean withProducts)
+    public CatalogCategoryViewBean buildViewBeanVirtualCatalogCategory(final RequestData requestData, final CatalogCategoryVirtual catalogCategory, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan)
             throws Exception {
-        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanVirtualCatalogCategory(requestData, catalogCategory, withSubCategories, withProducts);
+        final CatalogCategoryViewBean catalogCategoryViewBean = super.buildViewBeanVirtualCatalogCategory(requestData, catalogCategory, categoryFetchPlan, productFetchPlan, skuFetchPlan);
 
         catalogCategoryViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_DETAILS, requestData, catalogCategory));
         catalogCategoryViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATEGORY_EDIT, requestData, catalogCategory));
@@ -497,7 +494,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             // TODO : Denis : fetch optim - cache
             ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
             
-            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing));
+            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing, null));
 //            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
         return products;
@@ -515,7 +512,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             // TODO : Denis : fetch optim - cache
             ProductMarketing reloadedProductMarketing = (ProductMarketing) productService.getProductMarketingById(productMarketing.getId());
             
-            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing));
+            products.add(buildViewBeanProductMarketing(requestData, catalogCategory, reloadedProductMarketing, null));
 //            products.add(buildProductMarketingViewBean(requestData, reloadedProductMarketing, withDependency));
         }
         return products;

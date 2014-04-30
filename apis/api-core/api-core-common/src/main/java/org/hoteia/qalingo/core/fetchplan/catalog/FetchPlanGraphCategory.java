@@ -29,7 +29,7 @@ public class FetchPlanGraphCategory {
         List<SpecificFetchMode> fetchplans = defaultVirtualCatalogCategoryFetchModes();
         fetchplans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
         fetchplans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
-        fetchplans.add(new SpecificFetchMode("productSku", new SpecificAlias("catalogCategoryProductSkuRels.pk.productSku")));
+        fetchplans.add(new SpecificFetchMode("catalogCategoryProductSkuRels.pk.productSku"));
 
         fetchplans.add(new SpecificFetchMode(CatalogCategoryVirtual_.assets.getName()));
 

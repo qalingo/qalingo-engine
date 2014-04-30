@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.web.mvc.controller.catalog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,16 +18,21 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogBreadcrumbViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.ProductBrandViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ProductMarketingViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
@@ -50,16 +56,46 @@ public class ProductLineController extends AbstractMCommerceController {
 	
 	@Autowired
 	protected ProductService productService;
-	
+
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();;
+    protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+
+    public ProductLineController() {
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+        
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productBrand.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productMarketingType.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.attributes.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productAssociationLinks.getName()));
+        productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.assets.getName()));
+        
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName() + "." + CatalogCategoryVirtual_.categoryMaster.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.assets.getName()));
+    }
+    
 	@RequestMapping(FoUrls.CATEGORY_AS_LINE_URL)
 	public ModelAndView productLine(final HttpServletRequest request, final Model model, @PathVariable(RequestConstants.URL_PATTERN_CATEGORY_CODE) final String categoryCode) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATEGORY_AS_LINE.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
         
-		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), FetchPlanGraphCategory.virtualCategoryWithProductsAndAssetsFetchPlan());
+		final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
 		
-		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, true);
+		final CatalogCategoryViewBean catalogCategoryViewBean = frontofficeViewBeanFactory.buildViewBeanVirtualCatalogCategory(requestUtil.getRequestData(request), catalogCategory, 
+		                                                                                   new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
 
 		String sortBy = request.getParameter("sortBy");
         String orderBy = request.getParameter("orderBy");

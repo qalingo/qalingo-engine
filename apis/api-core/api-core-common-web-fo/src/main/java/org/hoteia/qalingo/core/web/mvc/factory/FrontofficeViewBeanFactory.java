@@ -37,6 +37,7 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Store;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -486,10 +487,10 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         return searchFacetViewBean;
     }
     
-    public List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, boolean withSubCategories, boolean withProducts) throws Exception {
+    public List<CatalogCategoryViewBean> buildListViewBeanRootCatalogCategory(final RequestData requestData, final List<CatalogCategoryVirtual> catalogCategories, final FetchPlan categoryFetchPlan, final FetchPlan productFetchPlan, final FetchPlan skuFetchPlan) throws Exception {
         final List<CatalogCategoryViewBean> catalogCategoryViewBeans = new ArrayList<CatalogCategoryViewBean>();
         for (CatalogCategoryVirtual catalogCategoryVirtual : catalogCategories) {
-            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanVirtualCatalogCategory(requestData, catalogCategoryVirtual, withSubCategories, withProducts);
+            CatalogCategoryViewBean catalogCategoryViewBean = buildViewBeanVirtualCatalogCategory(requestData, catalogCategoryVirtual, categoryFetchPlan, productFetchPlan, skuFetchPlan);
             catalogCategoryViewBeans.add(catalogCategoryViewBean);
         }
         return catalogCategoryViewBeans;

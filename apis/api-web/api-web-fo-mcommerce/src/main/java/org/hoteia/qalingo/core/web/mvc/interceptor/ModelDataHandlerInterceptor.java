@@ -8,12 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.domain.ProductMarketing_;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphCategory;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
@@ -46,6 +53,16 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     
     @Autowired
     protected GeolocService geolocService;
+    
+    protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();;
+
+    public ModelDataHandlerInterceptor() {
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategories.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.parentCatalogCategory.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.attributes.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName()));
+        categoryVirtualFetchPlans.add(new SpecificFetchMode(CatalogCategoryVirtual_.categoryMaster.getName() + "." + CatalogCategoryMaster_.catalogCategoryType.getName()));
+    }
     
     @Override
     public boolean preHandle(final HttpServletRequest request, 
@@ -131,7 +148,7 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
             modelAndView.getModelMap().put(ModelConstants.FOOTER_MENUS_VIEW_BEAN, frontofficeViewBeanFactory.buildViewBeanFooterMenu(requestData));
 
             final List<CatalogCategoryVirtual> virtualRootCategories = catalogCategoryService.findRootVirtualCatalogCategoriesByCatalogCode(currentMarketArea.getCatalog().getCode(), FetchPlanGraphCategory.footerCatalogCategoryFetchPlan());
-            final List<CatalogCategoryViewBean> virtualRootCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), virtualRootCategories, true, false);
+            final List<CatalogCategoryViewBean> virtualRootCategoryViewBeans = frontofficeViewBeanFactory.buildListViewBeanRootCatalogCategory(requestUtil.getRequestData(request), virtualRootCategories, new FetchPlan(categoryVirtualFetchPlans), null, null);
             modelAndView.getModelMap().put(ModelConstants.CATALOG_CATEGORIES_VIEW_BEAN, virtualRootCategoryViewBeans);
 
             // GEOLOC

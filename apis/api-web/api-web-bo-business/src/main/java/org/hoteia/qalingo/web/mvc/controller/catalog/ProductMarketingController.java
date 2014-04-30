@@ -89,7 +89,7 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
         
         final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productSku, catalogCategories, true);
         
-        ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), defaultVirtualCatalogCategory, productMarketing);
+        ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), defaultVirtualCatalogCategory, productMarketing, productSku);
         modelAndView.addObject(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 
         modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findProductMarketingGlobalAttributeDefinitions()));
@@ -117,7 +117,7 @@ public class ProductMarketingController extends AbstractBusinessBackofficeContro
 	        final List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId());
 	        final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(productMarketing, catalogCategories, true);
 	        
-	        ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), defaultVirtualCatalogCategory, productMarketing);
+	        ProductMarketingViewBean productMarketingViewBean = backofficeViewBeanFactory.buildViewBeanProductMarketing(requestUtil.getRequestData(request), defaultVirtualCatalogCategory, productMarketing, productSku);
 	        modelAndView.addObject(ModelConstants.PRODUCT_MARKETING_VIEW_BEAN, productMarketingViewBean);
 	        
 	        modelAndView.addObject("availableGlobaleAttributeDefinitions", backofficeViewBeanFactory.buildListViewBeanAttributeDefinition(requestData, attributeService.findProductMarketingGlobalAttributeDefinitions()));

@@ -283,7 +283,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
      * 
      */
 	protected void initProductMasterCategoryModelAndView(final HttpServletRequest request, final ModelAndView modelAndView, final CatalogCategoryMaster catalogCategory) throws Exception {
-		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalogCategory(requestUtil.getRequestData(request), catalogCategory, true, false);
+		CatalogCategoryViewBean catalogCategoryViewBean = backofficeViewBeanFactory.buildViewBeanMasterCatalogCategory(requestUtil.getRequestData(request), catalogCategory, new FetchPlan(categoryMasterFetchPlans), null, null);
 		modelAndView.addObject(ModelConstants.CATALOG_CATEGORY_VIEW_BEAN, catalogCategoryViewBean);
 	}
 	
