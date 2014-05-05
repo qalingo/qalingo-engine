@@ -159,6 +159,7 @@ public final class ModelConstants {
     public static final String PRODUCT_SKU_FORM             = "productSkuForm";
     public static final String PRODUCT_COMMENT_FORM         = "productCommentForm";
     public static final String CONTACT_FORM                 = "contactForm";
+    public static final String SEARCH_FORM                  = "searchForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

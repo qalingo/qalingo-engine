@@ -41,7 +41,6 @@ import org.hoteia.qalingo.core.solr.response.StoreResponseBean;
 import org.hoteia.qalingo.core.solr.service.StoreSolrService;
 import org.hoteia.qalingo.core.solr.service.impl.AbstractSolrService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CartViewBean;
-import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
@@ -53,8 +52,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -105,19 +104,15 @@ public class StoreSearchController extends AbstractMCommerceController {
     }
     
 	@RequestMapping(value = FoUrls.STORE_SEARCH_URL, method = RequestMethod.GET)
-	public ModelAndView search(final HttpServletRequest request, final HttpServletResponse response, @Valid SearchForm searchForm,
-	                           BindingResult result, ModelMap modelMap) throws Exception {
+	public ModelAndView search(final HttpServletRequest request, final Model model, @Valid SearchForm searchForm) throws Exception {
 		
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-		if (result.hasErrors()) {
-			return displaySearch(request, response, modelMap);
+		if (StringUtils.isEmpty(searchForm.getText())) {
+			return displaySearch(request, model);
 		}
 
-//		final SearchViewBean search = frontofficeViewBeanFactory.buildViewBeanSearch(requestData);
-//		modelAndView.addObject("search", search);
-		
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_ProductMarketing_" + request.getSession().getId();
@@ -181,12 +176,10 @@ public class StoreSearchController extends AbstractMCommerceController {
 			
 		} catch (Exception e) {
 			logger.error("SOLR Error", e);
-			return displaySearch(request, response, modelMap);
+			return displaySearch(request, model);
 		}
 		
-		final List<String> listId = requestUtil.getRecentProductSkuCodesFromCookie(request);
-        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
-        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+		loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
         
         final Cart currentCart = requestData.getCart();
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
@@ -197,18 +190,13 @@ public class StoreSearchController extends AbstractMCommerceController {
         return modelAndView;
 	}
 
-    protected ModelAndView displaySearch(final HttpServletRequest request, final HttpServletResponse response, ModelMap modelMap) throws Exception {
+    protected ModelAndView displaySearch(final HttpServletRequest request, final Model model) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.STORE_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
-//        final SearchViewBean search = frontofficeViewBeanFactory.buildViewBeanSearch(requestData);
-//        modelAndView.addObject("search", search);
+        modelAndView.addObject(ModelConstants.SEARCH_FORM, formFactory.buildSearchForm(requestData));
 
-        modelAndView.addObject("searchForm", formFactory.buildSearchForm(requestData));
-
-        final List<String> listId = requestUtil.getRecentProductSkuCodesFromCookie(request);
-        List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listId, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
-        modelAndView.addObject(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+        loadRecentProducts(request, requestData, model, new FetchPlan(categoryVirtualFetchPlans), new FetchPlan(productMarketingFetchPlans), new FetchPlan(productSkuFetchPlans));
 
         final Cart currentCart = requestData.getCart();
         final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);

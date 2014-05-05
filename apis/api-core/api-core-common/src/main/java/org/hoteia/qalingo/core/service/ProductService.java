@@ -34,17 +34,17 @@ public interface ProductService {
 	
 	CatalogCategoryVirtual getDefaultVirtualCatalogCategory(ProductSku productSku, List<CatalogCategoryVirtual> catalogCategories, boolean withFallback);
 	
-	List<ProductMarketing> findProductMarketings(Long marketAreaId, Object... params);
+	List<ProductMarketing> findProductMarketings(Object... params);
 	
-	List<ProductMarketing> findProductMarketings(Long marketAreaId, String text, Object... params);
+	List<ProductMarketing> findProductMarketings(String text, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandId(Long marketAreaId, Long brandId, Object... params);
+    List<ProductMarketing> findProductMarketingsByBrandId(Long brandId, Object... params);
 
-    List<ProductMarketing> findProductMarketingsByBrandCode(Long marketAreaId, String brandCode, Object... params);
+    List<ProductMarketing> findProductMarketingsByBrandCode(String brandCode, Object... params);
     
-    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(Long marketAreaId,String categoryCode, Object... params);
+    List<ProductMarketing> findProductMarketingsByVirtualCatalogCategoryId(Long categoryId, Object... params);
     
-    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode, Object... params);
+    List<ProductMarketing> findProductMarketingsNotInThisVirtualCatalogCategoryId(Long categoryId, Object... params);
     
     ProductMarketing saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 	
@@ -82,10 +82,20 @@ public interface ProductService {
     
     ProductSku getProductSkuByCode(String skuCode, Object... params);
     
-    List<ProductSku> findProductSkusByproductMarketingId(Long marketAreaId, Long productMarketingId, Object... params);
+    List<ProductSku> findProductSkusByProductMarketingId(Long productMarketingId, Object... params);
     
-    List<ProductSku> findProductSkus(Long marketAreaId, String text, Object... params);
+    List<ProductSku> findProductSkus(String text, Object... params);
 
+    List<ProductSku> findProductSkusByMasterCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductSku> findProductSkusNotInThisMasterCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductSku> findProductSkusByVirtualCatalogCategoryId(Long categoryId, Object... params);
+    
+    List<ProductSku> findProductSkusNotInThisVirtualCatalogCategoryId(Long categoryId, Object... params);
+    
+    List<Long> getProductIds(List<ProductSku> productSkus);
+    
     ProductSku saveOrUpdateProductSku(ProductSku productSku);
     
     void deleteProductSku(ProductSku productSku);
@@ -107,6 +117,8 @@ public interface ProductService {
     ProductBrand getProductBrandById(String productBrandId, Object... params);
 
     ProductBrand getProductBrandByCode(Long marketAreaId, String productBrandCode, Object... params);
+
+    List<ProductBrand> findProductBrandsByCatalogCategoryCode(String categoryCode, Object... params);
 
     ProductBrand saveOrUpdateProductBrand(ProductBrand productBrand);
 

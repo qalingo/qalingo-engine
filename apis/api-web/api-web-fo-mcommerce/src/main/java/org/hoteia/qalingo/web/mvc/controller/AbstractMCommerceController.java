@@ -9,12 +9,21 @@
  */
 package org.hoteia.qalingo.web.mvc.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.hoteia.qalingo.core.ModelConstants;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
+import org.hoteia.qalingo.core.web.mvc.viewbean.RecentProductViewBean;
 import org.hoteia.qalingo.web.mvc.factory.FormFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
 /**
  * 
@@ -35,4 +44,14 @@ public abstract class AbstractMCommerceController extends AbstractFrontofficeQal
 	@Autowired
     protected FormFactory formFactory;
 	
+    protected void loadRecentProducts(final HttpServletRequest request, final RequestData requestData, final Model model, FetchPlan categoryVirtualFetchPlans, FetchPlan productMarketingFetchPlans, FetchPlan productSkuFetchPlans){
+        try {
+            final List<String> listProductSkuCodes = requestUtil.getRecentProductSkuCodesFromCookie(request);
+            List<RecentProductViewBean> recentProductViewBeans = frontofficeViewBeanFactory.buildListViewBeanRecentProduct(requestData, listProductSkuCodes, categoryVirtualFetchPlans, productMarketingFetchPlans, productSkuFetchPlans);
+            model.addAttribute(ModelConstants.RECENT_PPRODUCT_MARKETING_VIEW_BEAN, recentProductViewBeans);
+            
+        } catch (Exception e) {
+            logger.error("Can't load recent products", e);
+        }
+    }
 }

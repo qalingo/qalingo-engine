@@ -57,42 +57,14 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
         return orderCategoryMasterList(categories);
     }
 
-//    public List<CatalogCategoryMaster> findMasterCategories(Object... params) {
-//        return catalogCategoryDao.findMasterCategories(params);
-//    }
-    
     public List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(final Long productSkuId, Object... params) {
         return catalogCategoryDao.findMasterCategoriesByProductSkuId(productSkuId, params);
     }
     
-//    public List<CatalogCategoryMaster> findMasterCategoriesByProductMarketingId(final Long productMarketingId, Object... params) {
-//        return catalogCategoryDao.findMasterCategoriesByProductMarketingId(productMarketingId, params);
-//    }
-
     public List<CatalogCategoryMaster> orderCategoryMasterList(final List<CatalogCategoryMaster> categories) {
         return categories;
     }
     
-//    public List<CatalogCategoryMaster> orderCategoryMasterList(final Long marketAreaId, final List<CatalogCategoryMaster> categories) {
-//        List<CatalogCategoryMaster> sortedObjects = new LinkedList<CatalogCategoryMaster>(categories);
-//        Collections.sort(sortedObjects, new Comparator<CatalogCategoryMaster>() {
-//            @Override
-//            public int compare(CatalogCategoryMaster o1, CatalogCategoryMaster o2) {
-//                if (o1 != null && o2 != null) {
-//                    Integer order1 = o1.getOrder(marketAreaId);
-//                    Integer order2 = o2.getOrder(marketAreaId);
-//                    if (order1 != null && order2 != null) {
-//                        return order1.compareTo(order2);
-//                    } else {
-//                        return o1.getId().compareTo(o2.getId());
-//                    }
-//                }
-//                return 0;
-//            }
-//        });
-//        return sortedObjects;
-//    }
-
     public CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
         return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
     }
@@ -154,42 +126,13 @@ public class CatalogCategoryServiceImpl implements CatalogCategoryService {
         return orderCategoryVirtualList(categories);
     }
     
-//    public List<CatalogCategoryVirtual> findVirtualCategories(Object... params) {
-//        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findVirtualCategories(params);
-//        return orderCategoryVirtualList(categories);
-//    }
-
     public List<CatalogCategoryVirtual> findVirtualCategoriesByProductSkuId(final Long productSkuId, Object... params) {
         return catalogCategoryDao.findVirtualCategoriesByProductSkuId(productSkuId, params);
     }
     
-//    public List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(final Long productMarketingId, Object... params) {
-//        return catalogCategoryDao.findVirtualCategoriesByProductMarketingId(productMarketingId, params);
-//    }
-
     public List<CatalogCategoryVirtual> orderCategoryVirtualList(final List<CatalogCategoryVirtual> categories) {
         return categories;
     }
-    
-//    public List<CatalogCategoryVirtual> orderCategoryVirtualList(final Long marketAreaId, final List<CatalogCategoryVirtual> categories) {
-//        List<CatalogCategoryVirtual> sortedObjects = new LinkedList<CatalogCategoryVirtual>(categories);
-//        Collections.sort(sortedObjects, new Comparator<CatalogCategoryVirtual>() {
-//            @Override
-//            public int compare(CatalogCategoryVirtual o1, CatalogCategoryVirtual o2) {
-//                if (o1 != null && o2 != null) {
-//                    Integer order1 = o1.getOrder(marketAreaId);
-//                    Integer order2 = o2.getOrder(marketAreaId);
-//                    if (order1 != null && order2 != null) {
-//                        return order1.compareTo(order2);
-//                    } else {
-//                        return o1.getId().compareTo(o2.getId());
-//                    }
-//                }
-//                return 0;
-//            }
-//        });
-//        return sortedObjects;
-//    }
 
     public CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
         return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);

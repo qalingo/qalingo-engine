@@ -54,6 +54,18 @@ public class ContextController extends AbstractBackofficeQalingoController {
         url.setMethod("GET");
         context.getUrls().add(url);
 
+        url = new UrlPojo();
+        url.setCode(BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX.name());
+        url.setUrl(backofficeUrlService.generateUrl(BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX, requestData));
+        url.setMethod("GET");
+        context.getUrls().add(url);
+        
+        url = new UrlPojo();
+        url.setCode(BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX.name());
+        url.setUrl(backofficeUrlService.generateUrl(BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX, requestData));
+        url.setMethod("GET");
+        context.getUrls().add(url);
+        
         ObjectMapper mapper = new ObjectMapper();
         try {
             String contextJson = mapper.writeValueAsString(context);

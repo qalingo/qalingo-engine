@@ -30,7 +30,11 @@ public abstract class AbstractGenericDaoImpl {
     }
     
     protected Criteria createDefaultCriteria(Class<?> entityClass) {
-        Criteria criteria = getSession().createCriteria(entityClass);
+        return createDefaultCriteria(entityClass, null);
+    }
+    
+    protected Criteria createDefaultCriteria(Class<?> entityClass, String alias) {
+        Criteria criteria = getSession().createCriteria(entityClass, alias);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria;
     }

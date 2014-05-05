@@ -154,7 +154,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
 
         List<ProductMarketingSolr> ProductMarketingSolrList = response.getBeans(ProductMarketingSolr.class);
 
-        logger.debug(" ProductMarketingSolrList: " + ProductMarketingSolrList);
+        logger.debug("ProductMarketingSolrList: " + ProductMarketingSolrList);
 
         ProductMarketingResponseBean productMarketingResponseBean = new ProductMarketingResponseBean();
         productMarketingResponseBean.setProductMarketingSolrList(ProductMarketingSolrList);
@@ -168,7 +168,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
 
             productMarketingResponseBean.setProductMarketingSolrFacetFieldList(productSolrFacetFieldList);
 
-            logger.debug(" ProductFacetFileList Add sucessflly in productResponseBeen  ");
+            logger.debug("ProductFacetFileList was successfully added in productResponseBeen  ");
         }
         return productMarketingResponseBean;
     }
@@ -192,7 +192,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         
         List<ProductMarketingSolr> productMarketingSolrList = response.getBeans(ProductMarketingSolr.class);
         
-        logger.debug(" ProductMarketingSolrList: " + productMarketingSolrList);
+        logger.debug("ProductMarketingSolrList: " + productMarketingSolrList);
         
         List<FacetField> productSolrFacetFieldList = response.getFacetFields();
         
@@ -202,7 +202,7 @@ public class ProductMarketingSolrServiceImpl extends AbstractSolrService impleme
         productMarketingResponseBean.setProductMarketingSolrList(productMarketingSolrList);
         productMarketingResponseBean.setProductMarketingSolrFacetFieldList(productSolrFacetFieldList);
         
-        logger.debug("ProductMarketingSolrList  And ProductFacetFileList Add sucessflly in productResponseBeen");
+        logger.debug("ProductMarketingSolrList And ProductFacetFileList was successfully added in productResponseBeen");
         
         return productMarketingResponseBean;
     }

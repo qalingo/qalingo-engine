@@ -26,12 +26,8 @@ public interface CatalogCategoryDao {
 	
     List<CatalogCategoryMaster> findAllMasterCatalogCategoriesByCatalogCode(String catalogMasterCode, Object... params);
 
-//    List<CatalogCategoryMaster> findMasterCategories(Object... params);
-
     List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(Long productSkuId, Object... params);
     
-//    List<CatalogCategoryMaster> findMasterCategoriesByProductMarketingId(Long productMarketingId, Object... params);
-
 	CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
 
 	void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);

@@ -19,7 +19,7 @@ public class CatalogCategoryVirtualProductSkuRel extends AbstractEntity {
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = 2322332601183745543L;
+    private static final long serialVersionUID = 4855688011096134933L;
 
     @EmbeddedId
     private CatalogCategoryVirtualProductSkuPk pk;
@@ -34,6 +34,10 @@ public class CatalogCategoryVirtualProductSkuRel extends AbstractEntity {
     private boolean isDefaultSku;
 
     public CatalogCategoryVirtualProductSkuRel() {
+    }
+    
+    public CatalogCategoryVirtualProductSkuRel(final CatalogCategoryVirtual catalogCategoryVirtual, final ProductSku productSku) {
+        this.pk = new CatalogCategoryVirtualProductSkuPk(catalogCategoryVirtual, productSku);
     }
 
     public CatalogCategoryVirtualProductSkuPk getPk() {

@@ -23,6 +23,11 @@ public class CatalogCategoryMasterProductSkuPk extends AbstractEntity {
     
     public CatalogCategoryMasterProductSkuPk() {
     }
+    
+    public CatalogCategoryMasterProductSkuPk(final CatalogCategoryMaster catalogCategoryMaster, final ProductSku productSku) {
+        this.catalogCategoryMaster = catalogCategoryMaster;
+        this.productSku = productSku;
+    }
 
     public CatalogCategoryMaster getCatalogCategoryMaster() {
         return catalogCategoryMaster;

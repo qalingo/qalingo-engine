@@ -10,18 +10,26 @@
 package org.hoteia.qalingo.web.mvc.controller.ajax;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
+import org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel_;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual_;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
@@ -39,6 +47,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.catalog.BoCatalogCategoryPojo;
 import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.pojo.product.ProductMarketingPojo;
+import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.ProductService;
@@ -75,6 +84,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     protected List<SpecificFetchMode> categoryMasterFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> categoryVirtualFetchPlans = new ArrayList<SpecificFetchMode>();
     protected List<SpecificFetchMode> productMarketingFetchPlans = new ArrayList<SpecificFetchMode>();
+    protected List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
     
     public CatalogAjaxController() {
         categoryMasterFetchPlans.add(new SpecificFetchMode(CatalogCategoryMaster_.catalogCategories.getName()));
@@ -95,6 +105,9 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName()));
         productMarketingFetchPlans.add(new SpecificFetchMode(ProductMarketing_.productSkus.getName() + "." + ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
     }
     
     @RequestMapping(value = BoUrls.GET_CATALOG_AJAX_URL, method = RequestMethod.GET)
@@ -167,7 +180,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     
     @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_AJAX_URL, method = RequestMethod.GET)
     @ResponseBody
-    public BoCatalogCategoryPojo getCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public BoCatalogCategoryPojo getProductListByCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
         final String catalogType = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_TYPE);
@@ -181,41 +194,137 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             
             CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), fetchPlanWithProducts);
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
-            List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();
-            if(productSkus != null){
-                for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
-                    final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
-                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
-                    relodedProductMarketings.add(catalogPojoService.buildProductMarketing(productMarketing));
-                }
-            }
-            catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
+            catalogCategoryPojo.setProductMarketings(buildSortedProduct(productSkus));
             
         } else if("virtual".equals(catalogType)){
-            
-            List<SpecificFetchMode> categoryVirtualFetchPlansWithProducts = new ArrayList<SpecificFetchMode>(categoryVirtualFetchPlans);
-            categoryVirtualFetchPlansWithProducts.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
-            categoryVirtualFetchPlansWithProducts.add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() +  "." + org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_.productSku.getName()));
+            FetchPlan fetchPlanWithProducts = new FetchPlan(categoryVirtualFetchPlans);
+            fetchPlanWithProducts.getFetchModes().add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName()));
+            fetchPlanWithProducts.getFetchModes().add(new SpecificFetchMode(CatalogCategoryVirtual_.catalogCategoryProductSkuRels.getName() + "." + CatalogCategoryVirtualProductSkuRel_.pk.getName() +  "." + org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuPk_.productSku.getName()));
 
-            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), categoryVirtualFetchPlansWithProducts);
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), fetchPlanWithProducts);
             catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
-            List<ProductMarketingPojo> relodedProductMarketings = new ArrayList<ProductMarketingPojo>();
             final List<ProductSku> productSkus = reloadedCategory.getSortedProductSkus();
-            if(productSkus != null){
-                for (Iterator<ProductSku> iteratorProductMarketing = productSkus.iterator(); iteratorProductMarketing.hasNext();) {
-                    final ProductSku productSku = (ProductSku) iteratorProductMarketing.next();
-                    final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode());
-                    final ProductMarketing productMarketing = productService.getProductMarketingByCode(reloadedProductSku.getProductMarketing().getCode());
-                    ProductMarketing reloadedProduct = productService.getProductMarketingById(productMarketing.getId(), new FetchPlan(productMarketingFetchPlans));
-                    ProductMarketingPojo productMarketingPojo = catalogPojoService.buildProductMarketing(reloadedProduct);
-                    relodedProductMarketings.add(productMarketingPojo);
-                }
-            }
-            catalogCategoryPojo.setProductMarketings(relodedProductMarketings);
+            catalogCategoryPojo.setProductMarketings(buildSortedProduct(productSkus));
         }
         return catalogCategoryPojo;
+    }
+    
+    @RequestMapping(value = BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public BoCatalogCategoryPojo getProductListForCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        final String catalogType = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_TYPE);
+
+        BoCatalogCategoryPojo catalogCategoryPojo = new BoCatalogCategoryPojo();
+        if("master".equals(catalogType)){
+            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), new FetchPlan(categoryMasterFetchPlans));
+            catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
+            
+            List<ProductSku> productSkus = productService.findProductSkusNotInThisMasterCatalogCategoryId(reloadedCategory.getId(), new FetchPlan(productSkuFetchPlans));
+            catalogCategoryPojo.setProductMarketings(buildSortedProduct(productSkus));
+            
+        } else if("virtual".equals(catalogType)){
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+            catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
+            
+            List<ProductSku> productSkus = productService.findProductSkusNotInThisVirtualCatalogCategoryId(reloadedCategory.getId(), new FetchPlan(productSkuFetchPlans));
+            catalogCategoryPojo.setProductMarketings(buildSortedProduct(productSkus));
+        }
+        return catalogCategoryPojo;
+    }
+    
+    @RequestMapping(value = BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public BoCatalogCategoryPojo setProductListForCategory(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        final String categoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
+        final String catalogType = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_TYPE);
+        final String skuCodes = request.getParameter(RequestConstants.REQUEST_PARAMETER_SKU_CODE_LIST);
+
+        BoCatalogCategoryPojo catalogCategoryPojo = new BoCatalogCategoryPojo();
+
+        if("master".equals(catalogType)){
+            CatalogCategoryMaster reloadedCategory = catalogCategoryService.getMasterCatalogCategoryByCode(categoryCode, requestData.getMasterCatalogCode(), new FetchPlan(categoryMasterFetchPlans));
+            
+            if(StringUtils.isNotEmpty(skuCodes)){
+                List<String> productSkuCodes = reloadedCategory.getProductSkuCodes();
+                String[] skuCodesSplit = skuCodes.split(";");
+                for (int i = 0; i < skuCodesSplit.length; i++) {
+                    String skuCode = skuCodesSplit[i];
+                    if(productSkuCodes != null
+                            && !productSkuCodes.contains(skuCode)){
+                        final ProductSku reloadedProductSku = productService.getProductSkuByCode(skuCode, new FetchPlan(productSkuFetchPlans));
+                        if(reloadedProductSku != null){
+                            reloadedCategory.getCatalogCategoryProductSkuRels().add(new CatalogCategoryMasterProductSkuRel(reloadedCategory, reloadedProductSku));
+                            reloadedCategory = catalogCategoryService.saveOrUpdateCatalogCategory(reloadedCategory);
+                        }
+                    }
+                }
+            }
+            catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
+            
+        } else if("virtual".equals(catalogType)){
+            CatalogCategoryVirtual reloadedCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
+            
+            if(StringUtils.isNotEmpty(skuCodes)){
+                List<String> productSkuCodes = reloadedCategory.getProductSkuCodes();
+                String[] skuCodesSplit = skuCodes.split(";");
+                for (int i = 0; i < skuCodesSplit.length; i++) {
+                    String skuCode = skuCodesSplit[i];
+                    if(productSkuCodes != null
+                            && !productSkuCodes.contains(skuCode)){
+                        final ProductSku reloadedProductSku = productService.getProductSkuByCode(skuCode, new FetchPlan(productSkuFetchPlans));
+                        if(reloadedProductSku != null){
+                            reloadedCategory.getCatalogCategoryProductSkuRels().add(new CatalogCategoryVirtualProductSkuRel(reloadedCategory, reloadedProductSku));
+                            reloadedCategory = catalogCategoryService.saveOrUpdateCatalogCategory(reloadedCategory);
+                        }
+                    }
+                }
+            }
+            catalogCategoryPojo = (BoCatalogCategoryPojo) catalogPojoService.buildCatalogCategory(reloadedCategory);
+        }
+        
+        return catalogCategoryPojo;
+    }
+    
+    protected List<ProductMarketingPojo> buildSortedProduct(List<ProductSku> productSkus){
+        List<Long> productSkuIds = new ArrayList<Long>();
+        for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+            ProductSku productSku = (ProductSku) iterator.next();
+            productSkuIds.add(productSku.getId());
+        }
+        
+        Map<String, ProductMarketingPojo> productMarketingMap = new HashMap<String, ProductMarketingPojo>();
+        for (Iterator<ProductSku> iteratorProductSku = productSkus.iterator(); iteratorProductSku.hasNext();) {
+            final ProductSku productSku = (ProductSku) iteratorProductSku.next();
+            final ProductSku reloadedProductSku = productService.getProductSkuByCode(productSku.getCode(), new FetchPlan(productSkuFetchPlans));
+            final ProductMarketing reloadedProductMarketing = productService.getProductMarketingById(reloadedProductSku.getProductMarketing().getId(), new FetchPlan(productMarketingFetchPlans));
+            ProductMarketingPojo productMarketingPojo = catalogPojoService.buildProductMarketing(reloadedProductMarketing);
+            
+            // CLEAN NOT AVAILABLE SKU
+            List<ProductSkuPojo> productSkuPojos = new ArrayList<ProductSkuPojo>(productMarketingPojo.getProductSkus());
+            for (Iterator<ProductSkuPojo> iterator = productSkuPojos.iterator(); iterator.hasNext();) {
+                ProductSkuPojo productSkuPojo = (ProductSkuPojo) iterator.next();
+                if(!productSkuIds.contains(productSkuPojo.getId())){
+                    productMarketingPojo.getProductSkus().remove(productSkuPojo);
+                }
+            }
+            productMarketingMap.put(productMarketingPojo.getCode(), productMarketingPojo);
+        }
+        
+        List<ProductMarketingPojo> sortedProductMarketings = new LinkedList<ProductMarketingPojo>(productMarketingMap.values());
+        Collections.sort(sortedProductMarketings, new Comparator<ProductMarketingPojo>() {
+            @Override
+            public int compare(ProductMarketingPojo o1, ProductMarketingPojo o2) {
+                if (o1 != null && o2 != null) {
+                    return o1.getCode().compareTo(o2.getCode());
+                }
+                return 0;
+            }
+        });
+        return sortedProductMarketings;
     }
 
 }

@@ -11,6 +11,11 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -33,9 +38,15 @@ public interface ProductDao {
     List<ProductMarketing> findProductMarketingsByBrandId(Long brandId, Object... params);
 
     List<ProductMarketing> findProductMarketingsByBrandCode(String brandCode, Object... params);
-    
-    List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(String categoryCode, Object... params);
-    
+
+    List<ProductMarketing> findProductMarketingsByMasterCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductMarketing> findProductMarketingsNotInThisMasterCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductMarketing> findProductMarketingsByVirtualCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductMarketing> findProductMarketingsNotInThisVirtualCatalogCategoryId(Long categoryId, Object... params);
+
     ProductMarketing saveOrUpdateProductMarketing(ProductMarketing productMarketing);
 
 	void deleteProductMarketing(ProductMarketing productMarketing);
@@ -73,6 +84,14 @@ public interface ProductDao {
     List<ProductSku> findProductSkusByproductMarketingId(Long productMarkettingId, Object... params);
     
     List<ProductSku> findProductSkus(String text, Object... params);
+
+    List<ProductSku> findProductSkusByMasterCatalogCategoryId(Long categoryId, Object... params);
+    
+    List<ProductSku> findProductSkusNotInThisMasterCatalogCategoryId(Long categoryId, Object... params);
+
+    List<ProductSku> findProductSkusByVirtualCatalogCategoryId(Long categoryId, Object... params);
+    
+    List<ProductSku> findProductSkusNotInThisVirtualCatalogCategoryId(Long categoryId, Object... params);
     
     ProductSku saveOrUpdateProductSku(ProductSku productSku);
 

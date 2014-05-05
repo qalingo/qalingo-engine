@@ -89,18 +89,6 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         List<CatalogCategoryMaster> categories = criteria.list();
         return categories;
     }
-    
-//	public List<CatalogCategoryMaster> findMasterCategories(Object... params) {
-//        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
-//
-//        handleSpecificFetchMasterCategoryMode(criteria, params);
-//        
-//        criteria.addOrder(Order.asc("id"));
-//
-//        @SuppressWarnings("unchecked")
-//        List<CatalogCategoryMaster> categories = criteria.list();
-//		return categories;
-//	}
 	
     public List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(final Long productSkuId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
@@ -116,22 +104,6 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
         List<CatalogCategoryMaster> categories = criteria.list();
         return categories;
     }
-    
-//    public List<CatalogCategoryMaster> findMasterCategoriesByProductMarketingId(final Long productMarketingId, Object... params) {
-//        Criteria criteria = createDefaultCriteria(CatalogCategoryMaster.class);
-//
-//        handleSpecificFetchVirtualCategoryMode(criteria, params);
-//
-//        criteria.createAlias("catalogCategoryProductSkuRels", "catalogCategoryProductSkuRel", JoinType.LEFT_OUTER_JOIN);
-//        criteria.createAlias("productSku", "catalogCategoryProductSkuRel.pk.productSku", JoinType.LEFT_OUTER_JOIN);
-//        criteria.add(Restrictions.eq("productSku.productMarketing.id", productMarketingId));
-//
-//        criteria.addOrder(Order.asc("id"));
-//
-//        @SuppressWarnings("unchecked")
-//        List<CatalogCategoryMaster> categories = criteria.list();
-//        return categories;
-//    }
     
 	public CatalogCategoryMaster saveOrUpdateCatalogCategory(final CatalogCategoryMaster catalogCategory) {
 		

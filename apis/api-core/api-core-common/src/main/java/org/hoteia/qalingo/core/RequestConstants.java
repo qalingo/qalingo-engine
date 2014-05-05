@@ -52,6 +52,8 @@ public final class RequestConstants {
     public static final String REQUEST_PARAMETER_RETAILER_CODE                  = "retailer-code";
     public static final String REQUEST_PARAMETER_STORE_CODE                     = "store-code";
 
+    public static final String REQUEST_PARAMETER_SKU_CODE_LIST                  = "sku-codes";
+
     public static final String REQUEST_PARAMETER_ENGINE_SETTING_VALUE_CONTEXT   = "engine-setting-value-context";
 
 	public static final String REQUEST_PARAMETER_GLOBAL_SEARCH_TXT			= "global-search-txt";

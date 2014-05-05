@@ -902,7 +902,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             globalSearchViewBeans.add(globalSearchViewBean);
         }
 
-        final List<ProductSku> productSkus = productService.findProductSkus(currentMarketArea.getId(), searchText);
+        final List<ProductSku> productSkus = productService.findProductSkus(searchText);
         for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
             ProductSku productSku = (ProductSku) iterator.next();
 

@@ -67,6 +67,8 @@ public enum BoUrls {
 
     GET_CATALOG_AJAX(BoUrls.GET_CATALOG_AJAX_URL, BoUrls.GET_CATALOG_AJAX_KEY, null, false),
     GET_PRODUCT_LIST_AJAX(BoUrls.GET_PRODUCT_LIST_AJAX_URL, BoUrls.GET_PRODUCT_LIST_AJAX_KEY, null, false),
+    GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX(BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, BoUrls.GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_KEY, null, false),
+    SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX(BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL, BoUrls.SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_KEY, null, false),
 
     RETAILER_LIST(BoUrls.RETAILER_LIST_URL, BoUrls.RETAILER_LIST_KEY, BoUrls.RETAILER_LIST_VELOCITY_PAGE, true),
     RETAILER_DETAILS(BoUrls.RETAILER_DETAILS_URL, BoUrls.RETAILER_DETAILS_KEY, BoUrls.RETAILER_DETAILS_VELOCITY_PAGE, true),
@@ -329,7 +331,13 @@ public enum BoUrls {
 
     public static final String GET_PRODUCT_LIST_AJAX_KEY        = "get-product-list-ajax";
     public static final String GET_PRODUCT_LIST_AJAX_URL        = "/**/get-product-list.ajax";
-    
+
+    public static final String GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_KEY   = "get-product-list-for-catalog-category-ajax";
+    public static final String GET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL   = "/**/get-product-list-for-catalog-category-ajax.ajax";
+
+    public static final String SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_KEY   = "set-product-list-for-catalog-category-ajax";
+    public static final String SET_PRODUCT_LIST_FOR_CATALOG_CATEGORY_AJAX_URL   = "/**/set-product-list-for-catalog-category-ajax.ajax";
+
 	// CUSTOMER
 	public static final String CUSTOMER_LIST_KEY           = "customer-list";
 	public static final String CUSTOMER_LIST_URL           = "/**/customer-list.html";

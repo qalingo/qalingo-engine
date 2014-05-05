@@ -291,6 +291,22 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
         this.catalogCategoryProductSkuRels = catalogCategoryProductSkuRels;
     }
     
+    public List<String> getProductSkuCodes() {
+        List<String> productSkuCodes = null;
+        if (catalogCategoryProductSkuRels != null
+                && Hibernate.isInitialized(catalogCategoryProductSkuRels)) {
+            productSkuCodes = new ArrayList<String>();
+            for (Iterator<CatalogCategoryVirtualProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtualProductSkuRel catalogCategoryProductSkuRel = (CatalogCategoryVirtualProductSkuRel) iterator.next();
+                ProductSku productSku = catalogCategoryProductSkuRel.getProductSku();
+                if(productSku != null){
+                    productSkuCodes.add(catalogCategoryProductSkuRel.getProductSku().getCode());
+                }
+            }
+        }
+        return productSkuCodes;
+    }
+    
     public List<ProductSku> getSortedProductSkus() {
         List<ProductSku> productSkus = null;
         List<ProductSku> sortedProductSkus = null;

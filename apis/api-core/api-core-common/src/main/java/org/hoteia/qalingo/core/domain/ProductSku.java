@@ -75,10 +75,6 @@ public class ProductSku extends AbstractEntity {
     @Column(name = "IS_DEFAULT", nullable = false, columnDefinition = "tinyint(1) default 0")
     private boolean isDefault;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "DEFAULT_CATALOG_CATEGORY_ID", insertable = false, updatable = false)
-//    private CatalogCategoryVirtual defaultCatalogCategory;
-    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
@@ -103,6 +99,14 @@ public class ProductSku extends AbstractEntity {
     @JoinTable(name = "TECO_PRODUCT_SKU_RETAILER_REL", joinColumns = @JoinColumn(name = "PRODUCT_SKU_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterProductSkuRel.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<CatalogCategoryMasterProductSkuRel> catalogCategoryMasterProductSkuRels = new HashSet<CatalogCategoryMasterProductSkuRel>();
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel.class)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<CatalogCategoryVirtualProductSkuRel> catalogCategoryVirtualProductSkuRels = new HashSet<CatalogCategoryVirtualProductSkuRel>();
+    
     @Transient
     private Integer ranking;
     
@@ -165,14 +169,6 @@ public class ProductSku extends AbstractEntity {
         this.isDefault = isDefault;
     }
     
-//    public CatalogCategoryVirtual getDefaultCatalogCategory() {
-//        return defaultCatalogCategory;
-//    }
-//
-//    public void setDefaultCatalogCategory(CatalogCategoryVirtual defaultCatalogCategory) {
-//        this.defaultCatalogCategory = defaultCatalogCategory;
-//    }
-
     public Set<ProductSkuAttribute> getAttributes() {
         return attributes;
     }
@@ -299,6 +295,22 @@ public class ProductSku extends AbstractEntity {
 	public void setRetailers(Set<Retailer> retailers) {
 		this.retailers = retailers;
 	}
+	
+	public Set<CatalogCategoryMasterProductSkuRel> getCatalogCategoryMasterProductSkuRels() {
+        return catalogCategoryMasterProductSkuRels;
+    }
+	
+	public void setCatalogCategoryMasterProductSkuRels(Set<CatalogCategoryMasterProductSkuRel> catalogCategoryMasterProductSkuRels) {
+        this.catalogCategoryMasterProductSkuRels = catalogCategoryMasterProductSkuRels;
+    }
+	
+	public Set<CatalogCategoryVirtualProductSkuRel> getCatalogCategoryVirtualProductSkuRels() {
+        return catalogCategoryVirtualProductSkuRels;
+    }
+	
+	public void setCatalogCategoryVirtualProductSkuRels(Set<CatalogCategoryVirtualProductSkuRel> catalogCategoryVirtualProductSkuRels) {
+        this.catalogCategoryVirtualProductSkuRels = catalogCategoryVirtualProductSkuRels;
+    }
 	   
     public Integer getRanking() {
         if(ranking == null){

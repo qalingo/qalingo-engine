@@ -9,6 +9,7 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -79,28 +80,44 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
     
-    public List<ProductMarketing> findProductMarketings(final Long marketAreaId, Object... params) {
+    public List<ProductMarketing> findProductMarketings(Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(params);
-        return orderProductMarketingList(marketAreaId, productMarketings);
+        return productMarketings;
     }
 
-    public List<ProductMarketing> findProductMarketings(final Long marketAreaId, final String text, Object... params) {
+    public List<ProductMarketing> findProductMarketings(final String text, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketings(text, params);
-        return orderProductMarketingList(marketAreaId, productMarketings);
+        return productMarketings;
     }
 
-    public List<ProductMarketing> findProductMarketingsByBrandId(final Long marketAreaId, final Long brandId, Object... params) {
+    public List<ProductMarketing> findProductMarketingsByBrandId(final Long brandId, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketingsByBrandId(brandId, params);
-        return orderProductMarketingList(marketAreaId, productMarketings);
+        return productMarketings;
     }
 
-    public List<ProductMarketing> findProductMarketingsByBrandCode(final Long marketAreaId, final String brandCode, Object... params) {
+    public List<ProductMarketing> findProductMarketingsByBrandCode(final String brandCode, Object... params) {
         List<ProductMarketing> productMarketings = productDao.findProductMarketingsByBrandCode(brandCode, params);
-        return orderProductMarketingList(marketAreaId, productMarketings);
+        return productMarketings;
     }
-    public List<ProductMarketing> findProductMarketingsByCatalogCategoryCode(final Long marketAreaId, final String categoryCode, Object... params){
-    	List<ProductMarketing> productMarketings = productDao.findProductMarketingsByCatalogCategoryCode(categoryCode, params);
-    	return orderProductMarketingList(marketAreaId, productMarketings);
+    
+    public List<ProductMarketing> findProductMarketingsNotInThisMasterCatalogCategoryId(final Long categoryId, Object... params){
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsNotInThisMasterCatalogCategoryId(categoryId, params);
+        return productMarketings;
+    }
+    
+    public List<ProductMarketing> findProductMarketingsByMasterCatalogCategoryId(final Long categoryId, Object... params){
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsByMasterCatalogCategoryId(categoryId, params);
+        return productMarketings;
+    }
+    
+    public List<ProductMarketing> findProductMarketingsNotInThisVirtualCatalogCategoryId(final Long categoryId, Object... params){
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsNotInThisVirtualCatalogCategoryId(categoryId, params);
+        return productMarketings;
+    }
+    
+    public List<ProductMarketing> findProductMarketingsByVirtualCatalogCategoryId(final Long categoryId, Object... params){
+    	List<ProductMarketing> productMarketings = productDao.findProductMarketingsByVirtualCatalogCategoryId(categoryId, params);
+    	return productMarketings;
     }
 
     public ProductMarketing saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
@@ -111,32 +128,6 @@ public class ProductServiceImpl implements ProductService {
         productDao.deleteProductMarketing(productMarketing);
     }
 
-    protected List<ProductMarketing> orderProductMarketingList(final Long marketAreaId, final List<ProductMarketing> productMarketings) {
-//        if (productMarketings != null) {
-//            List<ProductMarketing> sortedObjects = new LinkedList<ProductMarketing>(productMarketings);
-//            if (marketAreaId != null) {
-//                Collections.sort(sortedObjects, new Comparator<ProductMarketing>() {
-//                    @Override
-//                    public int compare(ProductMarketing o1, ProductMarketing o2) {
-//                        if (o1 != null && o2 != null) {
-//                            Integer order1 = o1.getOrder(marketAreaId);
-//                            Integer order2 = o2.getOrder(marketAreaId);
-//                            if (order1 != null && order2 != null) {
-//                                return order1.compareTo(order2);
-//                            } else {
-//                                return o1.getId().compareTo(o2.getId());
-//                            }
-//                        }
-//                        return 0;
-//                    }
-//                });
-//            }
-//            return sortedObjects;
-//        }
-//        return null;
-        return productMarketings;
-    }
-    
     // PRODUCT MARKETING COMMENT/RATE
     
     public ProductMarketingCustomerRate saveOrUpdateProductMarketingCustomerRate(final ProductMarketingCustomerRate productMarketingCustomerRate) {
@@ -257,14 +248,43 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getProductSkuByCode(skuCode, params);
     }
 
-    public List<ProductSku> findProductSkusByproductMarketingId(final Long marketAreaId, final Long productMarketing, Object... params) {
+    public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketing, Object... params) {
         List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketing, params);
-        return orderProductSkuList(marketAreaId, skus);
+        return skus;
     }
 
-    public List<ProductSku> findProductSkus(final Long marketAreaId, final String text, Object... params) {
+    public List<ProductSku> findProductSkus(final String text, Object... params) {
         List<ProductSku> skus = productDao.findProductSkus(text, params);
-        return orderProductSkuList(marketAreaId, skus);
+        return skus;
+    }
+
+    public List<ProductSku> findProductSkusByMasterCatalogCategoryId(Long categoryId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusByMasterCatalogCategoryId(categoryId, params);
+        return skus;
+    }
+    
+    public List<ProductSku> findProductSkusNotInThisMasterCatalogCategoryId(Long categoryId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusNotInThisMasterCatalogCategoryId(categoryId, params);
+        return skus;
+    }
+    
+    public List<ProductSku> findProductSkusByVirtualCatalogCategoryId(Long categoryId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusByVirtualCatalogCategoryId(categoryId, params);
+        return skus;
+    }
+    
+    public List<ProductSku> findProductSkusNotInThisVirtualCatalogCategoryId(Long categoryId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusNotInThisVirtualCatalogCategoryId(categoryId, params);
+        return skus;
+    }
+
+    public List<Long> getProductIds(List<ProductSku> productSkus) {
+        List<Long> productSkuIds = new ArrayList<Long>();
+        for (Iterator<ProductSku> iterator = productSkus.iterator(); iterator.hasNext();) {
+            ProductSku productSku = (ProductSku) iterator.next();
+            productSkuIds.add(productSku.getId());
+        }
+        return productSkuIds;
     }
 
     public ProductSku saveOrUpdateProductSku(final ProductSku productSku) {
@@ -273,32 +293,6 @@ public class ProductServiceImpl implements ProductService {
 
     public void deleteProductSku(final ProductSku productSku) {
         productDao.deleteProductSku(productSku);
-    }
-
-    protected List<ProductSku> orderProductSkuList(final Long marketAreaId, final List<ProductSku> skus) {
-//        if (skus != null) {
-//            List<ProductSku> sortedObjects = new LinkedList<ProductSku>(skus);
-//            if (marketAreaId != null) {
-//                Collections.sort(sortedObjects, new Comparator<ProductSku>() {
-//                    @Override
-//                    public int compare(ProductSku o1, ProductSku o2) {
-//                        if (o1 != null && o2 != null) {
-//                            Integer order1 = o1.getOrder(marketAreaId);
-//                            Integer order2 = o2.getOrder(marketAreaId);
-//                            if (order1 != null && order2 != null) {
-//                                return order1.compareTo(order2);
-//                            } else {
-//                                return o1.getId().compareTo(o2.getId());
-//                            }
-//                        }
-//                        return 0;
-//                    }
-//                });
-//            }
-//            return sortedObjects;
-//        }
-//        return null;
-        return skus;
     }
 
     // PRODUCT SKU ASSET

@@ -269,19 +269,21 @@ public class FrontofficeViewBeanFactory extends ViewBeanFactory {
         final ProductSku productSku = productService.getProductSkuByCode(productMarketing.getDefaultProductSku().getCode());
         final String productSkuName = productSku.getI18nName(localeCode);
         
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
-
-        final String productName = productMarketing.getCode();
-        final String categoryName = catalogCategory.getI18nName(localeCode);
-
         final SearchProductItemViewBean searchItemViewBean = new SearchProductItemViewBean();
+        
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getDefaultVirtualCatalogCategoryByProductSkuId(productSku.getId());
+        String categoryName = "";
+        if(catalogCategory != null){
+            categoryName = catalogCategory.getI18nName(localeCode);
+            searchItemViewBean.setCategoryCode(catalogCategory.getCode());
+            searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
+        }
+        final String productName = productMarketing.getCode();
+
         searchItemViewBean.setName(categoryName + " " + productName + " " + productSkuName);
         searchItemViewBean.setDescription(productMarketing.getDescription());
         searchItemViewBean.setCode(productCode);
         searchItemViewBean.setCategoryName(categoryName);
-        searchItemViewBean.setCategoryCode(catalogCategory.getCode());
-
-        searchItemViewBean.setDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, productSku));
 
         Map<String, String> getParams = new HashMap<String, String>();
         getParams.put(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE, productSku.getCode());

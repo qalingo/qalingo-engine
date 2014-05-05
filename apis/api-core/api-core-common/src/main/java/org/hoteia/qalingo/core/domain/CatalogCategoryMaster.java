@@ -91,7 +91,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     @JoinColumn(name = "PARENT_CATEGORY_ID", insertable = false, updatable = false)
     private CatalogCategoryMaster parentCatalogCategory;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.CatalogCategoryMasterAttribute.class)
     @JoinColumn(name = "CATEGORY_ID")
     private Set<CatalogCategoryMasterAttribute> attributes = new HashSet<CatalogCategoryMasterAttribute>();
 
@@ -103,7 +103,7 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     @JoinColumn(name = "MASTER_CATEGORY_ID")
     private Set<CatalogCategoryMasterProductSkuRel> catalogCategoryProductSkuRels = new HashSet<CatalogCategoryMasterProductSkuRel>();
     
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Asset.class)
     @JoinColumn(name = "MASTER_CATEGORY_ID")
     private Set<Asset> assets = new HashSet<Asset>();
 
@@ -277,6 +277,22 @@ public class CatalogCategoryMaster extends AbstractCatalogCategory<CatalogMaster
     
     public void setCatalogCategoryProductSkuRels(Set<CatalogCategoryMasterProductSkuRel> catalogCategoryProductSkuRels) {
         this.catalogCategoryProductSkuRels = catalogCategoryProductSkuRels;
+    }
+    
+    public List<String> getProductSkuCodes() {
+        List<String> productSkuCodes = null;
+        if (catalogCategoryProductSkuRels != null
+                && Hibernate.isInitialized(catalogCategoryProductSkuRels)) {
+            productSkuCodes = new ArrayList<String>();
+            for (Iterator<CatalogCategoryMasterProductSkuRel> iterator = catalogCategoryProductSkuRels.iterator(); iterator.hasNext();) {
+                CatalogCategoryMasterProductSkuRel catalogCategoryProductSkuRel = (CatalogCategoryMasterProductSkuRel) iterator.next();
+                ProductSku productSku = catalogCategoryProductSkuRel.getProductSku();
+                if(productSku != null){
+                    productSkuCodes.add(catalogCategoryProductSkuRel.getProductSku().getCode());
+                }
+            }
+        }
+        return productSkuCodes;
     }
     
     public List<ProductSku> getSortedProductSkus() {

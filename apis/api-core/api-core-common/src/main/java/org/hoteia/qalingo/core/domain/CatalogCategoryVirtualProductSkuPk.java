@@ -23,7 +23,12 @@ public class CatalogCategoryVirtualProductSkuPk extends AbstractEntity {
     
     public CatalogCategoryVirtualProductSkuPk() {
     }
-
+    
+    public CatalogCategoryVirtualProductSkuPk(final CatalogCategoryVirtual catalogCategoryVirtual, final ProductSku productSku) {
+        this.catalogCategoryVirtual = catalogCategoryVirtual;
+        this.productSku = productSku;
+    }
+    
     public CatalogCategoryVirtual getCatalogCategoryVirtual() {
         return catalogCategoryVirtual;
     }
