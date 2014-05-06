@@ -152,7 +152,7 @@
 							<skip>${skip-setup-mysql}</skip>
 							<autocommit>true</autocommit>
 							<srcFiles>
-								<srcFile>src/main/resources/sql/${database.type}/init-demo-values-v2.sql</srcFile>
+								<srcFile>src/main/resources/sql/${database.type}/init-demo-values-coffee.sql</srcFile>
 							</srcFiles>
 							<!-- ignore error when database is not avaiable -->
 							<onError>continue</onError>
