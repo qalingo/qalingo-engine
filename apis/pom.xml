@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.hoteia.qalingo</groupId>
 		<artifactId>qalingo-engine</artifactId>
-		<version>0.8.0</version>
+		<version>0.8.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>qalingo-apis</artifactId>
 	<packaging>pom</packaging>
