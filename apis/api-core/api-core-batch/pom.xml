@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.hoteia.qalingo</groupId>
 		<artifactId>qalingo-api-core</artifactId>
-		<version>0.7.1-SNAPSHOT</version>
+		<version>0.8.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>qalingo-api-core-batch</artifactId>
 	<packaging>jar</packaging>
