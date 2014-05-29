@@ -2765,12 +2765,12 @@ INSERT INTO teco_market_area_warehouse_rel
 INSERT INTO teco_delivery_method  
 (id, code, name, description, version)
  VALUES 
-(10, 'UPS_FR', 'UPS', 'UPS', 1), 
-(20, 'CHONOPOST', 'Chronopost', 'Chronopost', 1), 
-(30, 'COLISSIMO', 'Collisimo', 'Collisimo', 1),
-(40, 'UPS_US', 'UPS', 'UPS', 1), 
-(50, 'FEDEX_US', 'Fedex', 'Fedex', 1), 
-(60, 'US_POSTAL', 'US Postal', 'US Postal', 1),
+(10, 'UPS_FR',          'UPS',               'UPS', 1), 
+(20, 'CHONOPOST',       'Chronopost',        'Chronopost', 1), 
+(30, 'COLISSIMO',       'Collisimo',         'Collisimo', 1),
+(40, 'UPS_US',          'UPS',               'UPS', 1), 
+(50, 'FEDEX_US',        'Fedex',             'Fedex', 1), 
+(60, 'US_POSTAL',       'US Postal',         'US Postal', 1),
 (70, 'GLOBAL_DELIVERY', 'Worlwide Delivery', 'Worlwide Delivery', 1);
 
 INSERT INTO teco_warehouse_delivery_method_rel  
@@ -2787,12 +2787,20 @@ INSERT INTO teco_warehouse_delivery_method_rel
 INSERT INTO teco_delivery_method_price  
 (id, price, currency_id, delivery_method_id)
 VALUES 
-(10, 14.35, 45, 10),
-(20, 15.35, 45, 20),
-(30, 16.35, 45, 30),
-(40, 14.35, 150, 40),
-(50, 15.35, 150, 50),
-(60, 16.35, 150, 60);
+(100, 14.35, 45, 10),
+(200, 15.35, 45, 20),
+(300, 16.35, 45, 30),
+(400, 14.35, 45, 40),
+(500, 15.35, 45, 50),
+(600, 16.35, 45, 60),
+(700, 16.35, 45, 70),
+(110, 14.35, 150, 10),
+(210, 15.35, 150, 20),
+(310, 16.35, 150, 30),
+(410, 14.35, 150, 40),
+(510, 15.35, 150, 50),
+(610, 16.35, 150, 60);
+(710, 16.35, 150, 70);
 
 -- TAX
 INSERT INTO teco_market_area_tax_rel  

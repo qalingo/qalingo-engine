@@ -71,14 +71,20 @@ public class CheckoutPojoFactory {
         return cart == null ? null : dozerBeanMapper.map(cart, CartPojo.class);
     }
     
-    public List<DeliveryMethodPojo> getAvailableDeliveryMethods(final MarketArea marketArea) {
+    public List<DeliveryMethodPojo> getAvailableDeliveryMethodsByMarketArea(final MarketArea marketArea) {
         if(marketArea != null 
                 && marketArea.getDeliveryMethods() != null){
-            final List<DeliveryMethod> deliveryMethods = new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods());
+            return getAvailableDeliveryMethods(new ArrayList<DeliveryMethod>(marketArea.getDeliveryMethods()));
+        }
+        return null;
+    }
+    
+    public List<DeliveryMethodPojo> getAvailableDeliveryMethods(final List<DeliveryMethod> deliveryMethods) {
+        if(deliveryMethods != null){
             logger.debug("Found {} deliveryMethods", deliveryMethods.size());
             return PojoUtil.mapAll(dozerBeanMapper, deliveryMethods, DeliveryMethodPojo.class);
         }
         return null;
     }
-
+    
 }

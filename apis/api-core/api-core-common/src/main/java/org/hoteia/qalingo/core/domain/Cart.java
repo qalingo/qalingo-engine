@@ -251,9 +251,11 @@ public class Cart extends AbstractEntity {
                 && Hibernate.isInitialized(deliveryMethods)) {
             for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                 final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                BigDecimal price = deliveryMethod.getPrice(getMarketAreaId(), getRetailerId());
-                if (price != null) {
-                    cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
+                if(deliveryMethod != null){
+                    BigDecimal price = deliveryMethod.getPrice(getMarketAreaId(), getRetailerId());
+                    if (price != null) {
+                        cartDeliveryMethodTotal = cartDeliveryMethodTotal.add(price);
+                    }
                 }
             }
         }

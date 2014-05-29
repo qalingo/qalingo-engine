@@ -88,9 +88,8 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
         handleSpecificFetchMode(criteria, params);
 
         criteria.createAlias("warehouses", "warehouse", JoinType.LEFT_OUTER_JOIN);
-
-        criteria.createAlias("warehouse.marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
-        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+        criteria.createAlias("warehouse.warehouseMarketAreaRels", "warehouseMarketAreaRel", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("warehouseMarketAreaRel.pk.marketArea.id", marketAreaId));
 
         criteria.addOrder(Order.asc("id"));
 

@@ -46,6 +46,13 @@ public class CartDetailsController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Cart currentCart = requestData.getCart();
         
+        // SANITY CHECK
+        if (currentCart != null && currentCart.getTotalCartItems() == 0) {
+            String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request));
+            String lastUrl = requestUtil.getLastRequestForEmptyCartUrl(request, fallbackUrl);
+            return new ModelAndView(new RedirectView(lastUrl));
+        }
+        
 		final CartViewBean cartViewBean = frontofficeViewBeanFactory.buildViewBeanCart(requestUtil.getRequestData(request), currentCart);
 		modelAndView.addObject(ModelConstants.CART_VIEW_BEAN, cartViewBean);
 

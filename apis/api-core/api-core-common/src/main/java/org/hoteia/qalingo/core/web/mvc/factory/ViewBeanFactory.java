@@ -60,6 +60,8 @@ import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.ProductSkuAttribute;
 import org.hoteia.qalingo.core.domain.ProductSkuPrice;
+import org.hoteia.qalingo.core.domain.ProductSkuPrice_;
+import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerAddress;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
@@ -72,6 +74,7 @@ import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 import org.hoteia.qalingo.core.domain.enumtype.OAuthType;
 import org.hoteia.qalingo.core.domain.enumtype.ProductAssociationLinkType;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
@@ -1637,6 +1640,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = requestData.getLocale();
         
+        List<SpecificFetchMode> productSkuFetchPlans = new ArrayList<SpecificFetchMode>();
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.prices.getName() + "." + ProductSkuPrice_.currency.getName()));
+        productSkuFetchPlans.add(new SpecificFetchMode(ProductSku_.assets.getName()));
+        FetchPlan productSkuFetchPlan = new FetchPlan(productSkuFetchPlans);
+        
         final CartViewBean cartViewBean = new CartViewBean();
         cartViewBean.setWithPromoCode(true);
         cartViewBean.setWithItemQuantityActions(true);
@@ -1655,7 +1666,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             Set<CartItem> cartItems = cart.getCartItems();
             for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
                 final CartItem cartItem = (CartItem) iterator.next();
-                cartItemViewBeans.add(buildViewBeanCartItem(requestData, cartItem));
+                cartItemViewBeans.add(buildViewBeanCartItem(requestData, cartItem, productSkuFetchPlan));
             }
             cartViewBean.setCartItems(cartItemViewBeans);
 
@@ -1665,12 +1676,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             if (deliveryMethods != null) {
                 for (Iterator<DeliveryMethod> iterator = deliveryMethods.iterator(); iterator.hasNext();) {
                     final DeliveryMethod deliveryMethod = (DeliveryMethod) iterator.next();
-                    final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
-                    cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
-                    cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
-                    Object[] params = { deliveryMethod.getName() };
-                    cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
-                    cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
+                    if(deliveryMethod != null){
+                        final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
+                        cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
+                        cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+                        Object[] params = { deliveryMethod.getName() };
+                        cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
+                        cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
+                    }
                 }
                 cartViewBean.setCartDeliveryMethods(cartDeliveryMethodViewBeans);
             }
@@ -1707,7 +1720,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     /**
      * 
      */
-    protected CartItemViewBean buildViewBeanCartItem(final RequestData requestData, final CartItem cartItem) throws Exception {
+    protected CartItemViewBean buildViewBeanCartItem(final RequestData requestData, final CartItem cartItem, final FetchPlan productSkuFetchPlan) throws Exception {
         final MarketArea marketArea = requestData.getMarketArea();
         final Retailer retailer = requestData.getMarketAreaRetailer();
         final Localization localization = requestData.getMarketAreaLocalization();
@@ -1716,7 +1729,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         final CartItemViewBean cartItemViewBean = new CartItemViewBean();
 
         cartItemViewBean.setSkuCode(cartItem.getProductSkuCode());
-        final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode());
+        final ProductSku productSku = productService.getProductSkuByCode(cartItem.getProductSkuCode(), productSkuFetchPlan);
         cartItem.setProductSku(productSku);
         
         cartItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
@@ -1745,7 +1758,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.setDeleteUrl(urlService.generateUrl(FoUrls.CART_REMOVE_ITEM, requestData, getParams));
 
         final ProductMarketing productMarketing = productService.getProductMarketingByCode(cartItem.getProductMarketingCode());
-        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryById(cartItem.getCatalogCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
+        final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(cartItem.getCatalogCategoryCode(), requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode());
         
         cartItemViewBean.setProductDetailsUrl(urlService.generateUrl(FoUrls.PRODUCT_DETAILS, requestData, catalogCategory, productMarketing, cartItem.getProductSku()));
 

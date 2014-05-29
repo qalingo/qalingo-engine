@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>qalingo-engine</name>
 	<description>{Q} Commerce Solution Project</description>
-	<url>http://www.hoteia.com</url>
+	<url>http://www.qalingo.com</url>
 	<inceptionYear>2012-2014</inceptionYear>
 	<organization>
 		<name>Hoteia</name>

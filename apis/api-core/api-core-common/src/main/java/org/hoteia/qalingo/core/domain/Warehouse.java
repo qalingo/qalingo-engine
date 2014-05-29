@@ -96,7 +96,7 @@ public class Warehouse extends AbstractEntity {
     @Column(name = "LATITUDE")
     private String latitude;
     
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel.class)
     @JoinColumn(name = "WAREHOUSE_ID")
     private Set<WarehouseMarketAreaRel> warehouseMarketAreaRels = new HashSet<WarehouseMarketAreaRel>();
  

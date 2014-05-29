@@ -122,7 +122,7 @@ public class MarketArea extends AbstractEntity {
     @JoinTable(name = "TECO_MARKET_AREA_RETAILER_REL", joinColumns = @JoinColumn(name = "MARKET_AREA_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
     private Set<Retailer> retailers = new HashSet<Retailer>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity = org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel.class)
     @JoinColumn(name = "MARKET_AREA_ID")
     private Set<WarehouseMarketAreaRel> warehouseMarketAreaRels = new HashSet<WarehouseMarketAreaRel>();
 

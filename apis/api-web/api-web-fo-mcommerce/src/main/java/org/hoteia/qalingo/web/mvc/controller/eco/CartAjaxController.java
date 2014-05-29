@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -35,6 +36,7 @@ import org.hoteia.qalingo.core.pojo.cart.FoCheckoutPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoDeliveryMethodInformationPojo;
 import org.hoteia.qalingo.core.pojo.cart.FoMessagePojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
+import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
 import org.hoteia.qalingo.core.service.pojo.CatalogPojoFactory;
@@ -58,6 +60,9 @@ public class CartAjaxController extends AbstractMCommerceController {
 
     @Autowired
     protected ProductService productService;
+    
+    @Autowired
+    private DeliveryMethodService deliveryMethodService;
     
     @Autowired
     protected CheckoutPojoFactory checkoutPojoService;
@@ -302,13 +307,12 @@ public class CartAjaxController extends AbstractMCommerceController {
         final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_DELIVERY_METHOD_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            final MarketArea marketArea = requestData.getMarketArea();
             final Cart cart = requestData.getCart();
             if(cart.getDeliveryMethods().isEmpty()){
-                cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+                cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
             } else {
                 cart.getDeliveryMethods().clear();
-                cart.getDeliveryMethods().add(marketArea.getDeliveryMethod(deliveryMethodCode));
+                cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
             }
             requestUtil.updateCurrentCart(request, cart);
             
@@ -331,7 +335,9 @@ public class CartAjaxController extends AbstractMCommerceController {
             checkout.setCart(cart);
 
             MarketArea marketArea = marketService.getMarketAreaByCode(requestData.getMarketArea().getCode(), FetchPlanGraphMarket.specificMarketAreaFetchPlanWithCheckoutData());
-            List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(marketArea);
+            
+            final List<DeliveryMethod> deliveryMethods = deliveryMethodService.findDeliveryMethodsByMarketAreaId(marketArea.getId());
+            List<DeliveryMethodPojo> availableDeliveryMethods = checkoutPojoService.getAvailableDeliveryMethods(deliveryMethods);
             
             // TODO : SPLIT availableDeliveryMethods by items which matchs : drools ? and display deliveyMethods group by items : customer will choose 2 or more deliveyMethod
             FoDeliveryMethodInformationPojo deliveryMethodInformation = new FoDeliveryMethodInformationPojo();
