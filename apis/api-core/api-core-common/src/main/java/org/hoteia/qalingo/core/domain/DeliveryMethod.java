@@ -148,33 +148,29 @@ public class DeliveryMethod extends AbstractEntity {
         return prices;
     }
 
-    public DeliveryMethodPrice getDeliveryMethodPrice(final Long marketAreaId, final Long retailerId){
+    public DeliveryMethodPrice getDeliveryMethodPrice(final Long currencyId){
         if(prices != null
                 && Hibernate.isInitialized(prices)){
             for (DeliveryMethodPrice deliveryMethodPrice : prices) {
-                
-                // TODO : denis : fix the context
-                
-//                if(deliveryMethodPrice.getMarketAreaId().equals(marketAreaId) 
-//                        && deliveryMethodPrice.getRetailerId().equals(retailerId)) {
-//                    return deliveryMethodPrice;
-//                }
-                return deliveryMethodPrice;
+                if(deliveryMethodPrice.getCurrency() != null
+                        && deliveryMethodPrice.getCurrency().getId().equals(currencyId) ) {
+                    return deliveryMethodPrice;
+                }
             }    
         }
         return null;
     }
     
-    public BigDecimal getPrice(final Long marketAreaId, final Long retailerId){
-        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
+    public BigDecimal getPrice(final Long currencyId){
+        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(currencyId);
         if(deliveryMethodPrice != null){
             return deliveryMethodPrice.getPrice(); 
         }
         return null;
     }
     
-    public String getPriceWithStandardCurrencySign(final Long marketAreaId, final Long retailerId){
-        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(marketAreaId, retailerId);
+    public String getPriceWithStandardCurrencySign(final Long currencyId){
+        DeliveryMethodPrice deliveryMethodPrice = getDeliveryMethodPrice(currencyId);
         if(deliveryMethodPrice != null){
             return deliveryMethodPrice.getPriceWithStandardCurrencySign(); 
         }

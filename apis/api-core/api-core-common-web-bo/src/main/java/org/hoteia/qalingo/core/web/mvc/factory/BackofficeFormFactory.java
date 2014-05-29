@@ -9,8 +9,10 @@
  */
 package org.hoteia.qalingo.core.web.mvc.factory;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
@@ -20,6 +22,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.MarketArea;
@@ -333,9 +336,6 @@ public class BackofficeFormFactory {
     }
     
     public DeliveryMethodForm buildDeliveryMethodForm(final RequestData requestData, final DeliveryMethod deliveryMethod) throws Exception {
-        final MarketArea marketArea = requestData.getMarketArea();
-        final Retailer retailer = requestData.getMarketAreaRetailer();
-        
         final DeliveryMethodForm deliveryMethodForm = new DeliveryMethodForm();
         if(deliveryMethod != null){
             deliveryMethodForm.setId(deliveryMethod.getId().toString());
@@ -343,7 +343,12 @@ public class BackofficeFormFactory {
             deliveryMethodForm.setCode(deliveryMethod.getCode());
             deliveryMethodForm.setName(deliveryMethod.getName());
             deliveryMethodForm.setDescription(deliveryMethod.getDescription());
-            deliveryMethodForm.setPrice(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
+            
+            Map<String, String> prices = new HashMap<String, String>();
+            for (Iterator<DeliveryMethodPrice> iterator = deliveryMethod.getPrices().iterator(); iterator.hasNext();) {
+                DeliveryMethodPrice deliveryMethodPrice = (DeliveryMethodPrice) iterator.next();
+                deliveryMethodForm.getPrices().put(deliveryMethodPrice.getCurrency().getCode(), deliveryMethodPrice.getPrice().toString());
+            }
         }
         return deliveryMethodForm;
     }

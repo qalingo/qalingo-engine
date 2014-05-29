@@ -752,7 +752,7 @@ public class WebManagementServiceImpl implements WebManagementService {
                 orderShipment.setName(deliveryMethod.getName());
                 orderShipment.setExpectedDeliveryDate(null);
                 orderShipment.setDeliveryMethodId(deliveryMethod.getId());
-                orderShipment.setPrice(deliveryMethod.getPrice(cart.getMarketAreaId(), cart.getRetailerId()));
+                orderShipment.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
                 
                 Set<CartItem> cartItems = cart.getCartItems();
                 Set<OrderItem> orderItems = new HashSet<OrderItem>();

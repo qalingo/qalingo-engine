@@ -130,13 +130,11 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                 FoDeliveryMethodPojo deliveryMethodPojo = (FoDeliveryMethodPojo) event.getDestinationObject();
                 try {
                     final RequestData requestData = requestUtil.getRequestData(httpServletRequest);
-                    final MarketArea marketArea = requestData.getMarketArea();
-                    final Retailer retailer = requestData.getMarketAreaRetailer();
                     final Cart cart = requestData.getCart();
                     
                     deliveryMethodPojo.setArrivalTime("??");
-                    deliveryMethodPojo.setPrice(deliveryMethod.getPrice(marketArea.getId(), retailer.getId()));
-                    deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+                    deliveryMethodPojo.setPrice(deliveryMethod.getPrice(cart.getCurrency().getId()));
+                    deliveryMethodPojo.setPriceWithStandardCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
 
                     if(cart != null
                             && cart.getDeliveryMethods().contains(deliveryMethod)){

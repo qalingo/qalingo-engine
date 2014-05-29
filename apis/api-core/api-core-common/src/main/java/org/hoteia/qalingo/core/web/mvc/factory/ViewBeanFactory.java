@@ -1679,7 +1679,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                     if(deliveryMethod != null){
                         final CartDeliveryMethodViewBean cartDeliveryMethodViewBean = new CartDeliveryMethodViewBean();
                         cartDeliveryMethodViewBean.setLabel(deliveryMethod.getName());
-                        cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(marketArea.getId(), retailer.getId()));
+                        cartDeliveryMethodViewBean.setAmountWithCurrencySign(deliveryMethod.getPriceWithStandardCurrencySign(cart.getCurrency().getId()));
                         Object[] params = { deliveryMethod.getName() };
                         cartDeliveryMethodViewBean.setLabel(getSpecificMessage(ScopeWebMessage.COMMON, "shoppingcart.amount.deliveryMethods", params, locale));
                         cartDeliveryMethodViewBeans.add(cartDeliveryMethodViewBean);
