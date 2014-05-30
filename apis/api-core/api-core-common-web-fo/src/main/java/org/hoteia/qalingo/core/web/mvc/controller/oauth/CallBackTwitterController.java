@@ -157,7 +157,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				customer = setCommonCustomerInformation(request, customer);
 
 				customer.setLogin(email);
-				customer.setPassword(securityUtil.generateAndEncodePassword());
+				customer.setPassword(securityUtil.generatePassword());
 				customer.setEmail(email);
 				customer.setFirstname(firstName);
 				customer.setLastname(lastName);

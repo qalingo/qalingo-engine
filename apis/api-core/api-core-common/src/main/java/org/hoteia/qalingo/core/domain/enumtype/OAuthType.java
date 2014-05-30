@@ -22,7 +22,7 @@ public enum OAuthType {
 	/**
 	 * 
 	 */
-	GOOGLE_CONTACT("google-contact"),
+	GOOGLE_ACCOUNT("google-account"),
 	
 	/**
 	 * 

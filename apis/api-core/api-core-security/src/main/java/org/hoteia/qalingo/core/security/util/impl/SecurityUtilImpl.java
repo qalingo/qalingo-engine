@@ -112,7 +112,7 @@ public class SecurityUtilImpl implements SecurityUtil {
 
 		// TODO : setting in database
 		
-		return new String(generatePswd(6, 6, 1, 1, 1));
+		return new String(generatePswd(8, 8, 1, 1, 1));
 	}
 	
 	public static char[] generatePswd(int minLen, int maxLen, int noOfCAPSAlpha, int noOfDigits, int noOfSplChars) {

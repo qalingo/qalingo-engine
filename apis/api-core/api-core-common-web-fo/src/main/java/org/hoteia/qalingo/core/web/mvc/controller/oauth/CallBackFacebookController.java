@@ -156,7 +156,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 				customer = setCommonCustomerInformation(request, customer);
 				
 				customer.setLogin(email);
-				customer.setPassword(securityUtil.generateAndEncodePassword());
+				customer.setPassword(securityUtil.generatePassword());
 				customer.setEmail(email);
 				customer.setFirstname(firstName);
 				customer.setLastname(lastName);

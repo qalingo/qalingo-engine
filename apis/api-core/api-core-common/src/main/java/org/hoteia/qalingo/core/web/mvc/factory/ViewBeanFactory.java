@@ -385,7 +385,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
 
         security.getUrls().put(OAuthType.FACEBOOK.name() + "_CONNECT", urlService.buildOAuthConnectUrl(requestData, OAuthType.FACEBOOK.getPropertyKey()));
         security.getUrls().put(OAuthType.WINDOWS_LIVE.name() + "_CONNECT", urlService.buildOAuthConnectUrl(requestData, OAuthType.WINDOWS_LIVE.getPropertyKey()));
-        security.getUrls().put(OpenProvider.GOOGLE_ACCOUNT.name() + "_CONNECT", urlService.buildOpenIdConnectUrl(requestData, OpenProvider.GOOGLE_ACCOUNT.getPropertyKey()));
+        security.getUrls().put(OpenProvider.GOOGLE_ACCOUNT.name() + "_CONNECT", urlService.buildOAuthConnectUrl(requestData, OAuthType.GOOGLE_ACCOUNT.getPropertyKey()));
         security.getUrls().put(OpenProvider.YAHOO.name() + "_CONNECT", urlService.buildOpenIdConnectUrl(requestData, OpenProvider.YAHOO.getPropertyKey()));
 
         return security;
