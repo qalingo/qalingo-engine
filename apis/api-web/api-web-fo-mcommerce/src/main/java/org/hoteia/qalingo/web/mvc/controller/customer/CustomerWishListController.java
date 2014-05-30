@@ -11,13 +11,6 @@ package org.hoteia.qalingo.web.mvc.controller.customer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -26,6 +19,12 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerWishlistViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -48,6 +47,9 @@ public class CustomerWishListController extends AbstractCustomerController {
 		
 		final CustomerWishlistViewBean customerWishListViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerWishlist(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_WISHLIST_VIEW_BEAN, customerWishListViewBean);
+
+        Object[] params = { customer.getLastname(), customer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_WISHLIST.getKey(), params);
 
         return modelAndView;
 	}

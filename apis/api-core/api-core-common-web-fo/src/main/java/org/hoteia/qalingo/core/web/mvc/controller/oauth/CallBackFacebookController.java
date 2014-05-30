@@ -88,14 +88,14 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 					final String clientSecret = clientSecretEngineSettingValue.getValue();
 					final String permissions = permissionsEngineSettingValue.getValue();
 
-					final String windowsLiveCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
+					final String facebookCallBackURL = urlService.buildAbsoluteUrl(requestData, urlService.buildOAuthCallBackUrl(requestData, OAuthType.FACEBOOK.getPropertyKey().toLowerCase()));
 
 				    OAuthService service = new ServiceBuilder()
                     .provider(FacebookApi.class)
                     .apiKey(clientId)
                     .apiSecret(clientSecret)
                     .scope(permissions)
-                    .callback(windowsLiveCallBackURL)
+                    .callback(facebookCallBackURL)
                     .build();
 				    
 					final String code = request.getParameter("code");
@@ -153,7 +153,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 			if(customer == null){
 				// CREATE A NEW CUSTOMER
 				customer = new Customer();
-				setCommonCustomerInformation(request, customer);
+				customer = setCommonCustomerInformation(request, customer);
 				
 				customer.setLogin(email);
 				customer.setPassword(securityUtil.generateAndEncodePassword());
@@ -194,7 +194,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 				customerService.saveOrUpdateCustomer(customer);
 			}
 
-			// Redirect to the details page
+			// Redirect to the edit page
 			if(StringUtils.isNotEmpty(customer.getEmail())){
 				
 				// Login the new customer
@@ -203,7 +203,7 @@ public class CallBackFacebookController extends AbstractOAuthFrontofficeControll
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
 			}
 			
 		}

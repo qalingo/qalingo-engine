@@ -46,13 +46,15 @@ public interface WebManagementService {
 
 	void resetCustomerCredential(RequestData requestData, Customer customer, ResetPasswordForm resetPasswordForm) throws Exception;
 
-	Customer buildAndSaveNewCustomer(RequestData requestData, Market market, MarketArea marketMode, CreateAccountForm createAccountForm) throws Exception;
-	
-	Customer updateCurrentCustomer(RequestData requestData, Market market, MarketArea marketMode, CustomerEditForm customerEditForm) throws Exception;
+	Customer buildAndSaveNewCustomer(RequestData requestData, Market market, MarketArea marketArea, CreateAccountForm createAccountForm) throws Exception;
+
+	Customer buildAndSaveNewCustomer(RequestData requestData, Market market, MarketArea marketArea, Customer customer) throws Exception;
+
+	Customer updateCurrentCustomer(RequestData requestData, Market market, MarketArea marketArea, CustomerEditForm customerEditForm) throws Exception;
 
 	Customer activeNewCustomer(RequestData requestData, Customer customer) throws Exception;
 
-	Customer updateOrSaveAddressCustomer(RequestData requestData, Market market, MarketArea marketMode, CustomerAddressForm customerAddressForm) throws Exception;
+	Customer updateOrSaveAddressCustomer(RequestData requestData, Market market, MarketArea marketArea, CustomerAddressForm customerAddressForm) throws Exception;
 	
 	Customer deleteAddressCustomer(RequestData requestData, String customerAddressId) throws Exception;
 	

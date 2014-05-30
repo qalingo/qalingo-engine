@@ -56,14 +56,22 @@ public class CustomerDetailsController extends AbstractCustomerController {
 		final CustomerViewBean customerView = frontofficeViewBeanFactory.buildViewBeanCustomer(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute(ModelConstants.CUSTOMER_DETAILS_VIEW_BEAN, customerView);
 		
+		Object[] params = { customer.getLastname(), customer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CUSTOMER_DETAILS.getKey(), params);
+
         return modelAndView;
 	}
 	
 	@RequestMapping(value = FoUrls.PERSONAL_DETAILS_URL, method = RequestMethod.GET)
 	public ModelAndView personalDetails(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.PERSONAL_DETAILS.getVelocityPage());
+		final RequestData requestData = requestUtil.getRequestData(request);
+        final Customer currentCustomer = requestData.getCustomer();
 		
 		// Customer is already set by the abstract
+
+		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -83,6 +91,10 @@ public class CustomerDetailsController extends AbstractCustomerController {
 			customerEditForm = formFactory.buildCustomerEditForm(requestData, reloadedCustomer);
 			model.addAttribute("customerEditForm", customerEditForm);
 		}
+		
+		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_EDIT.getKey(), params);
+
 		
         return modelAndView;
 	}

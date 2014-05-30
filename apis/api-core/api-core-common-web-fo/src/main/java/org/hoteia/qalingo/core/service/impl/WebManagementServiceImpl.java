@@ -47,6 +47,7 @@ import org.hoteia.qalingo.core.domain.OrderTax;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
+import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.domain.enumtype.OrderStatus;
 import org.hoteia.qalingo.core.email.bean.ContactEmailBean;
@@ -569,22 +570,25 @@ public class WebManagementServiceImpl implements WebManagementService {
             customer.setPermalink(permalink);
         }
         
+        customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD);
+
         customer.setDefaultLocale(marketArea.getDefaultLocalization().getCode());
         customer.setActive(true);
         customer.setDateCreate(new Date());
         customer.setDateUpdate(new Date());
 
+        // WE SAVE A FIRST TIME TO EVICT DETACH ENTITY ISSUE WITH CUSTOMERGROUP - NOT THE BEST WAY
         customerService.saveOrUpdateCustomer(customer);
         
         CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         customer.getGroups().add(customerGroup);
         
-        customerService.saveOrUpdateCustomer(customer);
+        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
-        customer = customerService.getCustomerByLoginOrEmail(customer.getLogin());
-        requestUtil.updateCurrentCustomer(request, customer);
+        Customer reloadedCustomer = customerService.getCustomerById(savedCustomer.getId());
+        requestUtil.updateCurrentCustomer(request, reloadedCustomer);
         
-        return customer;
+        return reloadedCustomer;
     }
     
     public Customer updateCurrentCustomer(final RequestData requestData, Customer customer) throws Exception {

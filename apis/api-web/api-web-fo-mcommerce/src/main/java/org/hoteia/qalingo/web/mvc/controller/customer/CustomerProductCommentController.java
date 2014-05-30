@@ -42,6 +42,9 @@ public class CustomerProductCommentController extends AbstractCustomerController
 		final CustomerProductCommentsViewBean customerProductCommentsViewBean = frontofficeViewBeanFactory.buildViewBeanCustomerProductComments(requestUtil.getRequestData(request), reloadedCustomer);
 		model.addAttribute("customerProductComments", customerProductCommentsViewBean);
 
+        Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_PRODUCT_COMMENT_LIST.getKey(), params);
+        
         return modelAndView;
 	}
 

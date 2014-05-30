@@ -152,7 +152,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 			if(customer == null){
 				// CREATE A NEW CUSTOMER
 				customer = new Customer();
-				setCommonCustomerInformation(request, customer);
+				customer = setCommonCustomerInformation(request, customer);
 
 				customer.setLogin(email);
 				customer.setPassword(securityUtil.generateAndEncodePassword());
@@ -191,7 +191,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 				customerService.saveOrUpdateCustomer(customer);
 			}
 
-			// Redirect to the details page
+			// Redirect to the edit page
 			if(StringUtils.isNotEmpty(customer.getEmail())){
 				
 				// Login the new customer
@@ -200,7 +200,7 @@ public class CallBackWindowsLiveController extends AbstractOAuthFrontofficeContr
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
 			}
 			
 		}

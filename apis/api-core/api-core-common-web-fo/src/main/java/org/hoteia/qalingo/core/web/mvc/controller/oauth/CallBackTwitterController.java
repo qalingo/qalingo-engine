@@ -154,7 +154,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 			if(customer == null){
 				// CREATE A NEW CUSTOMER
 				customer = new Customer();
-				setCommonCustomerInformation(request, customer);
+				customer = setCommonCustomerInformation(request, customer);
 
 				customer.setLogin(email);
 				customer.setPassword(securityUtil.generateAndEncodePassword());
@@ -190,7 +190,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				customerService.saveOrUpdateCustomer(customer);
 			}
 
-			// Redirect to the details page
+			// Redirect to the edit page
 			if(StringUtils.isNotEmpty(customer.getEmail())){
 				
 				// Login the new customer
@@ -199,7 +199,7 @@ public class CallBackTwitterController extends AbstractOAuthFrontofficeControlle
 				// Update the customer session
 				requestUtil.updateCurrentCustomer(request, customer);
 
-				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestData));
+				response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestData));
 			}
 			
 		}

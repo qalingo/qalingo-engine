@@ -14,15 +14,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.RequestConstants;
 import org.hoteia.qalingo.core.domain.Customer;
@@ -33,6 +24,14 @@ import org.hoteia.qalingo.core.service.OrderCustomerService;
 import org.hoteia.qalingo.core.web.mvc.viewbean.OrderViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -86,6 +85,9 @@ public class CustomerOrderController extends AbstractCustomerController {
 			model.addAttribute(Constants.PAGINATION_PAGE_URL, url);
 			model.addAttribute(Constants.PAGINATION_PAGE_PAGED_LIST_HOLDER, orderViewBeanPagedListHolder);
 		}
+		
+		Object[] params = { currentCustomer.getLastname(), currentCustomer.getFirstname() };
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.PERSONAL_ORDER_LIST.getKey(), params);
 		
         return modelAndView;
 	}

@@ -16,12 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.Market;
+import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
+import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.service.GroupRoleService;
+import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.service.openid.OpenIdException;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
 import org.scribe.model.Token;
@@ -45,8 +48,11 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	@Autowired
 	protected CustomerService customerService;
 	
+    @Autowired
+    protected GroupRoleService customerGroupService;
+    
 	@Autowired
-	protected GroupRoleService customerGroupService;
+	protected WebManagementService webManagementService;
 	
 	@Autowired
 	protected AttributeService attributeService;
@@ -65,11 +71,12 @@ public abstract class AbstractOAuthFrontofficeController extends AbstractFrontof
 	
 	protected static final String REQUEST_PARAM_OAUTH_VERIFIER = "oauth_verifier";
 	
-	protected void setCommonCustomerInformation(final HttpServletRequest request, final Customer customer) throws Exception {
-		customer.setPlatformOrigin(CustomerPlatformOrigin.STANDARD);
-
-		CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
-		customer.getGroups().add(customerGroup);
+	protected Customer setCommonCustomerInformation(final HttpServletRequest request, final Customer customer) throws Exception {
+	    final RequestData requestData = requestUtil.getRequestData(request);
+	    final Market market = requestData.getMarket();
+        final MarketArea marketArea = requestData.getMarketArea();
+        Customer savedCustomer = webManagementService.buildAndSaveNewCustomer(requestData, market, marketArea, customer);
+        return savedCustomer;
 	}
 	   
     void checkNonce(String nonce) {

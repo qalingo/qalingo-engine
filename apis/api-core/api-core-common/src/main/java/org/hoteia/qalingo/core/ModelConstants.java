@@ -133,6 +133,7 @@ public final class ModelConstants {
     public static final String CUSTOMER_DETAILS_LINKS_VIEW_BEAN = "customerLinks";
     public static final String CUSTOMER_DETAILS_VIEW_BEAN       = "customerDetails";
     public static final String CUSTOMER_WISHLIST_VIEW_BEAN      = "customerWishlist";
+    public static final String CUSTOMER_ADDRESSES_VIEW_BEAN     = "customerAddresses";
 
     public static final String USER_VIEW_BEAN                   = "user";
     public static final String AUTHENTICATED_USER_VIEW_BEAN     = "authenticatedUser";

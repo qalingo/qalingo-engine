@@ -42,10 +42,10 @@ public class CallBackOpenIdController extends AbstractOpenIdFrontofficeControlle
 				String alias = (String) request.getSession().getAttribute(Utils.ATTR_ALIAS);
 				OpenIdAuthentication authentication = openIdService.getAuthentication(request, mac_key, alias);
 				handleAuthenticationData(request, authentication);
-		    	response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_DETAILS, requestUtil.getRequestData(request)));
+		    	response.sendRedirect(urlService.generateUrl(FoUrls.PERSONAL_EDIT, requestUtil.getRequestData(request)));
 
 			} catch (Exception e) {
-				logger.error("Callback With " + OAuthType.YAHOO.getPropertyKey() + " failed!");
+				logger.error("Callback With openid failed!");
 			}
 		}
 		

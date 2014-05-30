@@ -104,7 +104,6 @@ public class ModelDataHandlerInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, 
                            Object handler, ModelAndView modelAndView) throws Exception {
-        
         try {
             final RequestData requestData = requestUtil.getRequestData(request);
             
