@@ -22,7 +22,7 @@
     </properties>
 
     <build>
-		<finalName>qalingo-api-core-xml-binding</finalName>
+		<finalName>qalingo-api-core-jax-ws</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
