@@ -53,6 +53,8 @@ public class ContactController extends AbstractMCommerceController {
 		
 		modelAndView.addObject(ModelConstants.URL_BACK, urlService.generateUrl(FoUrls.HOME, requestUtil.getRequestData(request)));
 		
+        modelAndView.addObject("withMap", true);
+		
         overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, FoUrls.CONTACT.getKey());
 
         return modelAndView;
