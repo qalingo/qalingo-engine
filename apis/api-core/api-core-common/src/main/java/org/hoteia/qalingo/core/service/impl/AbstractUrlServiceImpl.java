@@ -133,7 +133,7 @@ public abstract class AbstractUrlServiceImpl {
         final Localization localization = requestData.getMarketAreaLocalization();
         final Retailer retailer = requestData.getMarketAreaRetailer();
         final Locale locale = localization.getLocale();
-        String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketModePrefixUrl(marketArea)
+        String seoPrefixUrl = buildContextPath(requestData) + "/" + getMarketPlacePrefixUrl(marketPlace) + getMarketPrefixUrl(market) + getMarketAreaPrefixUrl(marketArea)
                 + getLocalizationPrefixUrl(localization) + getRetailerPrefixUrl(retailer);
 
         String seoSegmentMain = getSeoSegmentMain(locale);
@@ -162,7 +162,7 @@ public abstract class AbstractUrlServiceImpl {
         return marketPrefixUrl;
     }
 
-    protected String getMarketModePrefixUrl(final MarketArea marketArea) throws Exception {
+    protected String getMarketAreaPrefixUrl(final MarketArea marketArea) throws Exception {
         String marketAreaPrefixUrl = marketArea.getCode().toLowerCase() + "/";
         return marketAreaPrefixUrl;
     }
