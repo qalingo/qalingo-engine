@@ -48,7 +48,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
         return new ModelAndView(redirectView);
 	}
 	
-	private String getTargetUrl(final RequestData requestData) throws Exception{
+	protected String getTargetUrl(final RequestData requestData) throws Exception{
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
         List<String> excludedPatterns = requestUtil.getCommonExcludedPatterns();
@@ -65,7 +65,7 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
         String seoSegmentMain = urlService.getSeoSegmentMain(locale);
         if(StringUtils.isNotEmpty(seoSegmentMain)){
             // ALSO REMOVE DEFAULT SEO SEGMENT
-            uriSegmentCount = 5;
+            uriSegmentCount++;
         }
         if (uriSegments.length > uriSegmentCount) {
             // SEO URL : Keep the last part
