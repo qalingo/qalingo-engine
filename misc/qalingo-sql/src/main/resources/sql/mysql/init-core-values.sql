@@ -23,19 +23,20 @@
 INSERT INTO teco_localization
 (id, code, country, language, name, description)
  VALUES 
-(1,  'en',    'en', 'en', 'English', 'Default english localization.'), 
-(2,  'fr',    'fr', 'fr', 'French', 'Default french localization.'), 
-(3,  'es',    'es', 'es', 'Spanish', 'Default spanish localization.'), 
-(4,  'it',    'it', 'it', 'Italian', 'Default italian localization.'), 
-(5,  'de',    'de', 'de', 'German', 'Default german localization.'), 
-(6,  'nl',    'nl', 'nl', 'Dutch', 'Default dutch localization.'), 
-(7,  'jp',    'jp', 'jp', 'Japan', 'Default japan localization.'), 
-(8,  'pt',    'pt', 'pt', 'Portuguese', 'Default portuguese localization.'), 
+(1,  'en',    'EN', 'en', 'English', 'Default english localization.'), 
+(2,  'fr',    'Fr', 'fr', 'French', 'Default french localization.'), 
+(3,  'es',    'ES', 'es', 'Spanish', 'Default spanish localization.'), 
+(4,  'it',    'IT', 'it', 'Italian', 'Default italian localization.'), 
+(5,  'de',    'DE', 'de', 'German', 'Default german localization.'), 
+(6,  'nl',    'NL', 'nl', 'Dutch', 'Default dutch localization.'), 
+(7,  'jp',    'JP', 'jp', 'Japan', 'Default japan localization.'), 
+(8,  'pt',    'PT', 'pt', 'Portuguese', 'Default portuguese localization.'), 
 (9,  'zh-cn', 'CN', 'zh', 'Chinese - China', 'Default chinese localization.'), 
 (10, 'zh-hk', 'HK', 'zh', 'Chinese - Hong Kong', 'Chinese localization for Hong Kong.'), 
 (11, 'zh-sg', 'SG', 'zh', 'Chinese - Singapore', 'Chinese localization for Singapore.'), 
 (12, 'zh-tw', 'TW', 'zh', 'Chinese - Taiwan', 'Chinese localization for Taiwan.'),
-(13, 'vi-VN', 'VN', 'vi', 'Vietnamese', 'Vietnamese localization for Vietnam.');
+(13, 'vi-VN', 'VN', 'vi', 'Vietnamese', 'Vietnamese localization for Vietnam.'),
+(14, 'ru',    'RU', 'ru', 'Russian', 'Russian localization for Russie.');
 
 INSERT INTO tbo_group 
 (id, name, description, code, version)
