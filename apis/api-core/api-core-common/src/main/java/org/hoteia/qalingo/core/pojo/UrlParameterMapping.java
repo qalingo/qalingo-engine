@@ -11,6 +11,8 @@ package org.hoteia.qalingo.core.pojo;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class UrlParameterMapping implements Serializable {
 
     /**
@@ -33,7 +35,7 @@ public class UrlParameterMapping implements Serializable {
     }
 	
 	public void setMarketPlaceCode(String marketPlaceCode) {
-        this.marketPlaceCode = marketPlaceCode;
+        this.marketPlaceCode = handleCode(marketPlaceCode);
     }
 
     public String getMarketCode() {
@@ -41,7 +43,7 @@ public class UrlParameterMapping implements Serializable {
     }
 
     public void setMarketCode(String marketCode) {
-        this.marketCode = marketCode;
+        this.marketCode = handleCode(marketCode);
     }
 
     public String getMarketAreaCode() {
@@ -49,7 +51,7 @@ public class UrlParameterMapping implements Serializable {
     }
 
     public void setMarketAreaCode(String marketAreaCode) {
-        this.marketAreaCode = marketAreaCode;
+        this.marketAreaCode = handleCode(marketAreaCode);
     }
 
     public String getLocalizationCode() {
@@ -57,7 +59,7 @@ public class UrlParameterMapping implements Serializable {
     }
 
     public void setLocalizationCode(String localizationCode) {
-        this.localizationCode = localizationCode;
+        this.localizationCode = handleCode(localizationCode);
     }
 
     public String getRetailerCode() {
@@ -65,7 +67,7 @@ public class UrlParameterMapping implements Serializable {
     }
 
     public void setRetailerCode(String retailerCode) {
-        this.retailerCode = retailerCode;
+        this.retailerCode = handleCode(retailerCode);
     }
 
     public String getCurrencyCode() {
@@ -73,7 +75,15 @@ public class UrlParameterMapping implements Serializable {
     }
 
     public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
+        this.currencyCode = handleCode(currencyCode);
+    }
+    
+    protected String handleCode(String code){
+        if(StringUtils.isNotEmpty(code)){
+            code = code.replace("-", "_");
+            code = code.toUpperCase();
+        }
+        return code;
     }
 	
 }
