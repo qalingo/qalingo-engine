@@ -110,6 +110,11 @@ public class CatalogSearchController extends AbstractMCommerceController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CATALOG_SEARCH.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
 
+        if (StringUtils.isEmpty(searchForm.getText())
+                && searchForm.getPage() == 0) {
+            return displaySearch(request, model);
+        }
+        
 		String url = requestUtil.getCurrentRequestUrl(request);
 		
 		String sessionKey = "PagedListHolder_Search_List_ProductMarketing_" + request.getSession().getId();
