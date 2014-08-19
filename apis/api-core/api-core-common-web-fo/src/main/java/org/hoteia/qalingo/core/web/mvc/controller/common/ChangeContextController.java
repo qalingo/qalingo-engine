@@ -9,8 +9,6 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.common;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,10 +49,8 @@ public class ChangeContextController extends AbstractFrontofficeQalingoControlle
 	protected String getTargetUrl(final RequestData requestData) throws Exception{
 	    final HttpServletRequest request = requestData.getRequest();
 	    final Locale locale = requestData.getLocale();
-        List<String> excludedPatterns = requestUtil.getCommonExcludedPatterns();
-        excludedPatterns.add(FoUrls.CHANGE_LANGUAGE.getUrlWithoutWildcard());
         String fallbackUrl = urlService.generateUrl(FoUrls.HOME, requestData);
-        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
+        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, fallbackUrl);
         String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");
         if (lastRequestUri.startsWith("/")) {
             lastRequestUri = lastRequestUri.substring(1, lastRequestUri.length());

@@ -429,6 +429,13 @@ public enum FoUrls {
         }
         return url;
     }
+    
+    public String getUrlPatternKey() {
+        if (StringUtils.isNotEmpty(url)) {
+            return url.replace("/**/", "").replace(".html", "");
+        }
+        return url;
+    }
 
     public String getKey() {
         return this.key;

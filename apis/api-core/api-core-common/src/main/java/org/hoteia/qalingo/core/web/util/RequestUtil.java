@@ -711,19 +711,26 @@ public class RequestUtil {
     /**
      * 
      */
-    protected List<String> getCommonUrlExcludedPatterns() throws Exception {
+    public List<String> getCommonUrlExcludedPatterns() throws Exception {
         final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add("login");
-        excludedPatterns.add("auth");
-        excludedPatterns.add("logout");
-        excludedPatterns.add("timeout");
-        excludedPatterns.add("forbidden");
-        excludedPatterns.add("500");
-        excludedPatterns.add("400");
-        excludedPatterns.add("403");
-        excludedPatterns.add("404");
-        excludedPatterns.add("edit");
+        excludedPatterns.add(FoUrls.ERROR_400.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.ERROR_403.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.ERROR_404.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.ERROR_500.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.CHANGE_CONTEXT.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.CHANGE_LANGUAGE.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.FORBIDDEN.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.LOGIN.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.LOGOUT.getUrlPatternKey());
+        excludedPatterns.add(FoUrls.TIMEOUT.getUrlPatternKey());
         return excludedPatterns;
+    }
+    
+    /**
+     * 
+     */
+    public String getLastRequestUrl(final HttpServletRequest request, String fallbackUrl) throws Exception {
+        return getLastRequestUrl(request, new ArrayList<String>(), fallbackUrl);
     }
     
     /**
@@ -839,18 +846,6 @@ public class RequestUtil {
             url = url.replace(request.getContextPath(), "");
         }
         return handleUrl(url);
-    }
-
-    /**
-     * 
-     */
-    public List<String> getCommonExcludedPatterns() throws Exception {
-        final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add(FoUrls.ERROR_400.getUrlWithoutWildcard());
-        excludedPatterns.add(FoUrls.ERROR_403.getUrlWithoutWildcard());
-        excludedPatterns.add(FoUrls.ERROR_404.getUrlWithoutWildcard());
-        excludedPatterns.add(FoUrls.ERROR_500.getUrlWithoutWildcard());
-        return excludedPatterns;
     }
     
     /**
