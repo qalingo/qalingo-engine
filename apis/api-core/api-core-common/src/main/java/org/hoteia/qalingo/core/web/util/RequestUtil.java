@@ -1179,22 +1179,6 @@ public class RequestUtil {
     /**
      * 
      */
-    protected Localization getCurrentMarketLocalization(final RequestData requestData) throws Exception {
-        Localization localization = null;
-        final HttpServletRequest request = requestData.getRequest();
-        if (requestData.isBackoffice()) {
-            EngineBoSession engineBoSession = getCurrentBoSession(request);
-            localization = engineBoSession.getCurrentMarketAreaLocalization();
-        } else {
-            EngineEcoSession engineEcoSession = getCurrentEcoSession(request);
-            localization = engineEcoSession.getCurrentMarketAreaLocalization();
-        }
-        return localization;
-    }
-
-    /**
-     * 
-     */
     protected Localization getCurrentMarketAreaLocalization(final RequestData requestData) throws Exception {
         Localization localization = null;
         final HttpServletRequest request = requestData.getRequest();
@@ -1274,6 +1258,19 @@ public class RequestUtil {
         return currencyReferential;
     }
 
+    /**
+     * 
+     */
+    protected Localization getCurrentBackofficeLocalization(final RequestData requestData) throws Exception {
+        Localization localization = null;
+        final HttpServletRequest request = requestData.getRequest();
+        if (requestData.isBackoffice()) {
+            EngineBoSession engineBoSession = getCurrentBoSession(request);
+            localization = engineBoSession.getCurrentBackofficeLocalization();
+        }
+        return localization;
+    }
+    
     /**
      * 
      */
@@ -1545,7 +1542,7 @@ public class RequestUtil {
         requestData.setMarketAreaLocalization(getCurrentMarketAreaLocalization(requestData));
         requestData.setMarketAreaRetailer(getCurrentMarketAreaRetailer(requestData));
         requestData.setMarketAreaCurrency(getCurrentMarketAreaCurrency(requestData));
-
+        
         // SPECIFIC BACKOFFICE
         if (requestData.isBackoffice()) {
             User user = getCurrentUser(request);
@@ -1557,6 +1554,8 @@ public class RequestUtil {
             if (company != null) {
                 requestData.setCompany(company);
             }
+
+            requestData.setBackofficeLocalization(getCurrentBackofficeLocalization(requestData));
 
         } else {
             // SPECIFIC FRONTOFFICE

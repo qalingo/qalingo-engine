@@ -627,6 +627,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
         requestDataChangecontext.setMarketAreaLocalization(localization);
         localizationViewBean.setChangeContextUrl(urlService.buildChangeLanguageUrl(requestDataChangecontext));
+        localizationViewBean.setChangeBackofficeLanguageUrl(urlService.buildChangeBackofficeLanguageUrl(requestDataChangecontext, localization));
         localizationViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestDataChangecontext));
 
         return localizationViewBean;

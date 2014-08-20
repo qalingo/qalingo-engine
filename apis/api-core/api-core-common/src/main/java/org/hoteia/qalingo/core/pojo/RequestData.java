@@ -49,7 +49,7 @@ public class RequestData implements Serializable {
     private CurrencyReferential marketAreaCurrency;
     private Cart cart;
 
-    private Localization backoffcieLocalization;
+    private Localization backofficeLocalization;
 
 	private Customer customer;
     private User user;
@@ -191,20 +191,20 @@ public class RequestData implements Serializable {
         this.cart = cart;
     }
 
-    public Localization getBackoffcieLocalization() {
-        return backoffcieLocalization;
+    public Localization getBackofficeLocalization() {
+        return backofficeLocalization;
     }
 
-    public void setBackoffcieLocalization(Localization backoffcieLocalization) {
-        this.backoffcieLocalization = backoffcieLocalization;
+    public void setBackofficeLocalization(Localization backofficeLocalization) {
+        this.backofficeLocalization = backofficeLocalization;
     }
 
     public Locale getLocale(){
         Locale locale = new Locale ("en");
         try {
             if(isBackoffice()){
-                if(backoffcieLocalization != null){
-                    locale = backoffcieLocalization.getLocale();
+                if(backofficeLocalization != null){
+                    locale = backofficeLocalization.getLocale();
                 } 
             } else {
                 locale = marketAreaLocalization.getLocale();

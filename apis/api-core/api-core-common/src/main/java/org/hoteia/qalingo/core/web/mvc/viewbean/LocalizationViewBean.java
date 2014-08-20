@@ -29,6 +29,7 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
     // MENU
     protected String img;
     protected String changeContextUrl;
+    protected String changeBackofficeLanguageUrl;
     protected String homeUrl;
     
     public String getCode() {
@@ -95,6 +96,14 @@ public class LocalizationViewBean extends AbstractViewBean implements Serializab
         this.changeContextUrl = changeContextUrl;
     }
 
+    public String getChangeBackofficeLanguageUrl() {
+        return changeBackofficeLanguageUrl;
+    }
+    
+    public void setChangeBackofficeLanguageUrl(String changeBackofficeLanguageUrl) {
+        this.changeBackofficeLanguageUrl = changeBackofficeLanguageUrl;
+    }
+    
     public String getHomeUrl() {
         return homeUrl;
     }
