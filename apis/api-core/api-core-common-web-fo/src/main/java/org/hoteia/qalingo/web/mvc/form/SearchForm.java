@@ -21,6 +21,7 @@ import org.hoteia.qalingo.core.Constants;
  * 
  */
 public class SearchForm implements Serializable {
+    
 	private static final long serialVersionUID = -1243393136279082685L;
 
 	private String text;

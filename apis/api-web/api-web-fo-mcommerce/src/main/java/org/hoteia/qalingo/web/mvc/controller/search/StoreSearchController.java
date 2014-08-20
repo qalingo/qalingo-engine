@@ -45,6 +45,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.SearchStoreItemViewBean;
 import org.hoteia.qalingo.core.web.servlet.ModelAndViewThemeDevice;
 import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
+import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
 import org.hoteia.qalingo.web.mvc.form.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -125,14 +127,14 @@ public class StoreSearchController extends AbstractMCommerceController {
         List<String> cityList = new ArrayList<String>();
         if (StringUtils.isEmpty(cities)) {
         	cityList = null;
-		}else{
+		} else{
 			String[] arr = cities.split(",");
 			cityList = Arrays.asList(arr);
 		}       
         List<String> countryList = new ArrayList<String>();
         if (StringUtils.isEmpty(countries)) {
         	countryList = null;
-		}else{
+		} else{
 			String[] arr = countries.split(",");
 			countryList = Arrays.asList(arr);
 		}
@@ -141,17 +143,20 @@ public class StoreSearchController extends AbstractMCommerceController {
         String order = searchForm.getOrder();
 		
 		try {
-			StoreResponseBean storeResponseBean = null;
-			List<String> facetFields = Arrays.asList(StoreResponseBean.STORE_DEFAULT_FACET_FIELD,StoreResponseBean.STORE_SECOND_FACET_FIELD);
-			storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields,
-					 cityList,countryList);
-			StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields);
-			
-			modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter));
-	        
-			PagedListHolder<SearchStoreItemViewBean> storesViewBeanPagedListHolder;
+            PagedListHolder<SearchStoreItemViewBean> storesViewBeanPagedListHolder;
+			if(searchForm.getPage() == 0){
+	            StoreResponseBean storeResponseBean = null;
+	            List<String> facetFields = Arrays.asList(StoreResponseBean.STORE_DEFAULT_FACET_FIELD,StoreResponseBean.STORE_SECOND_FACET_FIELD);
+	            storeResponseBean = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields, cityList,countryList);
+	            StoreResponseBean storeResponBeanNonFilter = storeSolrService.searchStore(StoreResponseBean.STORE_DEFAULT_SEARCH_FIELD, searchForm.getText(), facetFields);
+	            
+	            modelAndView.addObject(AbstractSolrService.SEARCH_FACET_FIELD_LIST, frontofficeViewBeanFactory.buildListViewBeanStoreSearchFacet(requestData, storeResponBeanNonFilter));
 
-			storesViewBeanPagedListHolder = initList(request, sessionKey, storeResponseBean, new PagedListHolder<SearchStoreItemViewBean>(), searchForm);
+	            storesViewBeanPagedListHolder = initList(request, sessionKey, storeResponseBean, new PagedListHolder<SearchStoreItemViewBean>(), searchForm);
+			    
+			} else {
+			    storesViewBeanPagedListHolder = (PagedListHolder<SearchStoreItemViewBean>) request.getSession().getAttribute(sessionKey);
+			}
 	        
 	        int pageCurrent = storesViewBeanPagedListHolder.getPage();
 	        if (pageCurrent < page) { 
@@ -204,6 +209,29 @@ public class StoreSearchController extends AbstractMCommerceController {
 
         return modelAndView;
     }
+    
+    /**
+     * 
+     */
+    @ModelAttribute("searchForm")
+    protected SearchForm getSearchForm(final HttpServletRequest request, final Model model) throws Exception {
+        final RequestData requestData = requestUtil.getRequestData(request);
+        return formFactory.buildSearchForm(requestData);
+    }
+	
+	private PagedListHolder<SearchStoreItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final StoreResponseBean storeResponseBean,
+			PagedListHolder<SearchStoreItemViewBean> storesViewBeanPagedListHolder, final SearchForm searchForm) throws Exception{
+		int pageSize = searchForm.getPageSize();
+		String sortBy = searchForm.getSortBy();
+        String order = searchForm.getOrder();
+		List<SearchStoreItemViewBean> searchtItems = frontofficeViewBeanFactory.buildListViewBeanSearchStoreItem(requestUtil.getRequestData(request), storeResponseBean);
+		storesViewBeanPagedListHolder = new PagedListHolder<SearchStoreItemViewBean>(searchtItems);
+		storesViewBeanPagedListHolder.setPageSize(pageSize);
+		storesViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
+		storesViewBeanPagedListHolder.resort();
+        request.getSession().setAttribute(sessionKey, storesViewBeanPagedListHolder);
+        return storesViewBeanPagedListHolder;
+	}
 	
     // TODO : Temporary
     
@@ -223,23 +251,9 @@ public class StoreSearchController extends AbstractMCommerceController {
                 Store store = (Store) iterator.next();
                 storeSolrService.addOrUpdateStore(store, marketArea);
             }
-		}
+        }
 
         return new ModelAndView(new RedirectView(urlService.generateUrl(FoUrls.STORE_SEARCH, requestUtil.getRequestData(request))));
     }
-	
-	private PagedListHolder<SearchStoreItemViewBean> initList(final HttpServletRequest request, final String sessionKey, final StoreResponseBean storeResponseBean,
-			PagedListHolder<SearchStoreItemViewBean> storesViewBeanPagedListHolder, final SearchForm searchForm) throws Exception{
-		int pageSize = searchForm.getPageSize();
-		String sortBy = searchForm.getSortBy();
-        String order = searchForm.getOrder();
-		List<SearchStoreItemViewBean> searchtItems = frontofficeViewBeanFactory.buildListViewBeanSearchStoreItem(requestUtil.getRequestData(request), storeResponseBean);
-		storesViewBeanPagedListHolder = new PagedListHolder<SearchStoreItemViewBean>(searchtItems);
-		storesViewBeanPagedListHolder.setPageSize(pageSize);
-		storesViewBeanPagedListHolder.setSort(new MutableSortDefinition(sortBy, true, Constants.PAGE_ORDER_ASC.equalsIgnoreCase(order)));
-		storesViewBeanPagedListHolder.resort();
-        request.getSession().setAttribute(sessionKey, searchtItems);
-        return storesViewBeanPagedListHolder;
-	}
-	
+    
 }
