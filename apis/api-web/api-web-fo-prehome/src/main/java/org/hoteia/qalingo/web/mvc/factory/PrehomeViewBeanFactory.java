@@ -7,14 +7,13 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory.impl;
+package org.hoteia.qalingo.web.mvc.factory;
 
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.Retailer;
-import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
@@ -23,12 +22,13 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.MarketAreaViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketPlaceViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.MarketViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.RetailerViewBean;
+import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.springframework.beans.BeanUtils;
 
 /**
  * 
  */
-public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
+public class PrehomeViewBeanFactory extends FrontofficeViewBeanFactory {
 
     @Override
     public RetailerViewBean buildViewBeanRetailer(final RequestData requestData, final Retailer retailer) throws Exception {
@@ -37,8 +37,7 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
         // CLONE THE CURRENT REQUEST DATE TO BUILD THE CHANGE CONTEXT URL (MENU)
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        String contextNameValue = EngineSettingWebAppContext.valueOf("FO_MCOMMERCE").getPropertyKey();
-        requestDataChangecontext.setContextNameValue(contextNameValue);
+        requestDataChangecontext.setContextNameValue(PropertiesUtil.getWebappContextKey("FO_MCOMMERCE"));
         
         retailerViewBean.setHomeUrl(urlService.buildAbsoluteUrl(requestDataChangecontext, urlService.generateUrl(FoUrls.HOME, requestDataChangecontext)));
         return retailerViewBean;
@@ -50,8 +49,7 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        String contextNameValue = EngineSettingWebAppContext.valueOf("FO_MCOMMERCE").getPropertyKey();
-        requestDataChangecontext.setContextNameValue(contextNameValue);
+        requestDataChangecontext.setContextNameValue(PropertiesUtil.getWebappContextKey("FO_MCOMMERCE"));
         
         marketPlaceViewBean.setHomeUrl(urlService.buildAbsoluteUrl(requestDataChangecontext, urlService.generateUrl(FoUrls.HOME, requestDataChangecontext)));
         return marketPlaceViewBean;
@@ -63,8 +61,7 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        String contextNameValue = EngineSettingWebAppContext.valueOf("FO_MCOMMERCE").getPropertyKey();
-        requestDataChangecontext.setContextNameValue(contextNameValue);
+        requestDataChangecontext.setContextNameValue(PropertiesUtil.getWebappContextKey("FO_MCOMMERCE"));
         
         marketViewBean.setHomeUrl(urlService.buildAbsoluteUrl(requestDataChangecontext, urlService.generateUrl(FoUrls.HOME, requestDataChangecontext)));
         return marketViewBean;
@@ -76,8 +73,7 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        String contextNameValue = EngineSettingWebAppContext.valueOf("FO_MCOMMERCE").getPropertyKey();
-        requestDataChangecontext.setContextNameValue(contextNameValue);
+        requestDataChangecontext.setContextNameValue(PropertiesUtil.getWebappContextKey("FO_MCOMMERCE"));
         
         marketAreaViewBean.setHomeUrl(urlService.buildAbsoluteUrl(requestDataChangecontext, urlService.generateUrl(FoUrls.HOME, requestDataChangecontext)));
         return marketAreaViewBean;
@@ -89,8 +85,7 @@ public class PrehomeViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
         
         RequestData requestDataChangecontext = new RequestData();
         BeanUtils.copyProperties(requestData, requestDataChangecontext);
-        String contextNameValue = EngineSettingWebAppContext.valueOf("FO_MCOMMERCE").getPropertyKey();
-        requestDataChangecontext.setContextNameValue(contextNameValue);
+        requestDataChangecontext.setContextNameValue(PropertiesUtil.getWebappContextKey("FO_MCOMMERCE"));
         
         localizationViewBean.setHomeUrl(urlService.buildAbsoluteUrl(requestDataChangecontext, urlService.generateUrl(FoUrls.HOME, requestDataChangecontext)));
         return localizationViewBean;

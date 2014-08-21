@@ -9,78 +9,294 @@
  */
 package org.hoteia.qalingo.core.i18n.message;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeDocumentMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeEmailMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
-import org.springframework.context.MessageSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.stereotype.Service;
 
-public interface CoreMessageSource extends MessageSource {
+@Service("coreMessageSource")
+public class CoreMessageSource {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private ExtReloadableResourceBundleMessageSource messageSource;
 
     /**
      * Common-Message
      */
-    String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale);
+    public String getCommonMessage(final ScopeCommonMessage scope, String key, final Locale locale) {
+        return getMessage(buildCommonFullKey(scope, key), locale);
+    }
 
-    String getCommonMessage(ScopeCommonMessage scope, String key, Object[] params, Locale locale);
+    public String getCommonMessage(final ScopeCommonMessage scope, String key, final Object[] params, final Locale locale) {
+        return getMessage(buildCommonFullKey(scope, key), params, locale);
+    }
 
     /**
      * Email-Message
      */
-    String getEmailMessage(ScopeEmailMessage scope, String key, Locale locale);
+    public String getEmailMessage(final ScopeEmailMessage scope, String key, final Locale locale) {
+        return getMessage(buildEmailFullKey(scope, key), locale);
+    }
 
-    String getEmailMessage(ScopeEmailMessage scope, String key, Object[] params, Locale locale);
-
+    public String getEmailMessage(final ScopeEmailMessage scope, String key, final Object[] params, final Locale locale) {
+        return getMessage(buildEmailFullKey(scope, key), params, locale);
+    }
+    
     /**
      * Document-Message
      */
-    String getDocumentMessage(ScopeDocumentMessage scope, String key, Locale locale);
+    public String getDocumentMessage(final ScopeDocumentMessage scope, String key, final Locale locale) {
+        return getMessage(buildDocumentFullKey(scope, key), locale);
+    }
 
-    String getDocumentMessage(ScopeDocumentMessage scope, String key, Object[] params, Locale locale);
+    public String getDocumentMessage(final ScopeDocumentMessage scope, String key, final Object[] params, final Locale locale) {
+        return getMessage(buildDocumentFullKey(scope, key), params, locale);
+    }
 
     /**
      * Specific
      */
-    String getSpecificMessage(I18nKeyValueUniverse universe, ScopeWebMessage scope, String key, Locale locale);
+    public String getSpecificMessage(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key, final Locale locale) {
+        return getMessage(buildSpecificFullKey(universe, scope, key), locale);
+    }
 
-    String getSpecificMessage(I18nKeyValueUniverse universe, ScopeWebMessage scope, String key, Object[] params, Locale locale);
+    public String getSpecificMessage(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key, final Object[] params, final Locale locale) {
+        return getMessage(buildSpecificFullKey(universe, scope, key), params, locale);
+    }
 
     /**
      * ReferenceData
      */
-    String getReferenceData(ScopeReferenceDataMessage scope, String key, Locale locale);
+    public String getReferenceData(final ScopeReferenceDataMessage scope, String key, final Locale locale) {
+        return getMessage(buildReferenceDataFullKey(scope, key), locale);
+    }
 
-    String getReferenceData(ScopeReferenceDataMessage scope, String key, Object[] params, Locale locale);
+    public String getReferenceData(final ScopeReferenceDataMessage scope, String key, final Object[] params, final Locale locale) {
+        return getMessage(buildReferenceDataFullKey(scope, key), params, locale);
+    }
 
-    /**
-     * Load all wording key/value by webappUnivers and univers/group
+//    /*
+//     * (non-Javadoc)
+//     * 
+//     * @see
+//     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(org
+//     * .hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext,
+//     * java.lang.String, java.util.Locale)
+//     */
+//    public Map<String, String> loadWording(final EngineSettingWebAppContext context, final String group, final Locale locale) {
+//        final Map<String, String> wordingKeyValues = loadWording(context, locale);
+//        final Map<String, String> wordingFilteredKeyValues = new HashMap<String, String>();
+//        for (Iterator<String> iterator = wordingKeyValues.keySet().iterator(); iterator.hasNext();) {
+//            String key = (String) iterator.next();
+//            if (key.contains(group)) {
+//                wordingFilteredKeyValues.put(key, wordingKeyValues.get(key));
+//            }
+//        }
+//        return wordingFilteredKeyValues;
+//    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext, java.util.Locale)
      */
-    Map<String, String> loadWording(EngineSettingWebAppContext context, String group, Locale locale);
+//    public Map<String, String> loadWording(final EngineSettingWebAppContext context, final Locale locale) {
+//        final Map<String, String> wordingKeyValues = new HashMap<String, String>();
+//        if (context != null) {
+//            String[] contextSplit = context.getPropertyKey().split("_");
+//            String prefix = contextSplit[0].toLowerCase() + "-";
+//            wordingKeyValues.putAll(loadWording(prefix, locale));
+//        }
+//        return wordingKeyValues;
+//    }
 
-    /**
-     * Load all wording key/value by webappUnivers
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWordingByContext(java.util.String, java.util.Locale)
      */
-    Map<String, String> loadWording(EngineSettingWebAppContext context, Locale locale);
+    public Map<String, String> loadWordingByContext(final String context, final Locale locale) {
+        final Map<String, String> wordingKeyValues = new HashMap<String, String>();
+        if (context != null) {
+            String[] contextSplit = context.split("_");
+            String prefix = contextSplit[0].toLowerCase() + "-";
+            wordingKeyValues.putAll(loadWording(prefix, locale));
+        }
+        return wordingKeyValues;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext, java.lang.String, java.util.Locale)
+     */
+    public Map<String, String> loadWording(final String context, final String group, final Locale locale) {
+        final Map<String, String> wordingKeyValues = loadWording(context, locale);
+        final Map<String, String> wordingFilteredKeyValues = new HashMap<String, String>();
+        for (Iterator<String> iterator = wordingKeyValues.keySet().iterator(); iterator.hasNext();) {
+            String key = (String) iterator.next();
+            if (key.contains(group)) {
+                wordingFilteredKeyValues.put(key, wordingKeyValues.get(key));
+            }
+        }
+        return wordingFilteredKeyValues;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#loadWording(java.util.String, java.util.Locale)
+     */
+    public Map<String, String> loadWording(final String pattern, final Locale locale) {
+        final Map<String, String> wordingKeyValues = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(pattern)) {
+            List<String> allFileNames = messageSource.getFileBasenames();
+            for (Iterator<String> iterator = allFileNames.iterator(); iterator.hasNext();) {
+                String fileName = (String) iterator.next();
+                if (fileName.contains("wording") && (fileName.contains("common-") || fileName.contains(pattern))) {
+                    wordingKeyValues.putAll(messageSource.getWordingProperties(fileName, locale));
+                }
+            }
+        }
+        return wordingKeyValues;
+    }
 
-    Map<String, String> loadWording(String pattern, Locale locale);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#getMessage(java
+     * .lang.String, java.lang.String, java.util.Locale)
+     */
+    public String getMessage(final String code, final String defaultMessage, final Locale locale) {
+        Object args[] = {};
+        return getMessage(code, args, defaultMessage, locale);
+    }
 
-    String getMessage(String code, String defaultMessage, Locale locale);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#getMessage(java
+     * .lang.String, java.lang.Object[], java.lang.String, java.util.Locale)
+     */
+    public String getMessage(final String code, final Object args[], final String defaultMessage, final Locale locale) {
+        try {
+            return messageSource.getMessage(code, args, defaultMessage, locale);
+        } catch (Exception e) {
+            if (code != null && code.contains("javax")) {
+                logger.info("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+            } else {
+                logger.info("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+            }
+            if (BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))) {
+                return getMessage(code, args, defaultMessage, new Locale(Constants.DEFAULT_LOCALE_CODE));
+            }
+        }
+        return null;
+    }
 
-    String getMessage(String code, Object args[], String defaultMessage, Locale locale);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#getMessage(java
+     * .lang.String, java.util.Locale)
+     */
+    public String getMessage(final String code, final Locale locale) throws NoSuchMessageException {
+        Object args[] = {};
+        return getMessage(code, args, locale);
+    }
 
-    String getMessage(String code, Locale locale) throws NoSuchMessageException;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#getMessage(java
+     * .lang.String, java.lang.Object[], java.util.Locale)
+     */
+    public String getMessage(final String code, final Object args[], final Locale locale) throws NoSuchMessageException {
+        try {
+            return messageSource.getMessage(code, args, locale);
+        } catch (Exception e) {
+            logger.info("This message key doesn't exist: " + code + ", for this locale: " + locale.toString());
+            if (BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))) {
+                return getMessage(code, args, new Locale(Constants.DEFAULT_LOCALE_CODE));
+            }
+        }
+        return null;
+    }
 
-    String getMessage(String code, Object args[], Locale locale) throws NoSuchMessageException;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.hoteia.qalingo.core.i18n.message.CoreMessageSource#getMessage(org
+     * .springframework.context.MessageSourceResolvable, java.util.Locale)
+     */
+    public String getMessage(final MessageSourceResolvable resolvable, final Locale locale) throws NoSuchMessageException {
+        try {
+            return messageSource.getMessage(resolvable, locale);
+        } catch (Exception e) {
+            logger.info("This message key doesn't exist: " + resolvable.getCodes() + ", for this locale: " + locale.toString());
+            if (BooleanUtils.negate(locale.toString().equalsIgnoreCase(Constants.DEFAULT_LOCALE_CODE))) {
+                return getMessage(resolvable, new Locale(Constants.DEFAULT_LOCALE_CODE));
+            }
+        }
+        return null;
+    }
 
-    String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException;
+    public void clearCache() {
+        messageSource.clearCache();
+    }
 
-    void clearCache();
+    private String buildCommonFullKey(final ScopeCommonMessage scope, String key) {
+        return I18nKeyValueUniverse.COMMON.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    }
+
+    private String buildEmailFullKey(final ScopeEmailMessage scope, String key) {
+        return I18nKeyValueUniverse.EMAIL.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    }
+
+    private String buildDocumentFullKey(final ScopeDocumentMessage scope, String key) {
+        return I18nKeyValueUniverse.DOCUMENT.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    }
+
+    private String buildSpecificFullKey(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key) {
+        return universe.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    }
+
+    private String buildReferenceDataFullKey(final ScopeReferenceDataMessage scope, String key) {
+        return scope.getPropertyKey() + "." + handleKey(key);
+    }
+
+    private String handleKey(String key) {
+        key = key.replaceAll("\\.", "_");
+        key = key.replaceAll("\\-", "_");
+        return key;
+    }
+
 }

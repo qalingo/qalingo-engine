@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.ModelConstants;
-import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.i18n.FoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
@@ -26,6 +25,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.CustomerService;
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 import org.hoteia.qalingo.core.web.mvc.viewbean.FollowUsViewBean;
+import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,8 +189,8 @@ public abstract class AbstractFrontofficeQalingoController extends AbstractQalin
 	        final RequestData requestData = requestUtil.getRequestData(request);
 	        final Locale locale = requestData.getLocale();
 			String contextName = requestUtil.getContextName();
-			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
-			return coreMessageSource.loadWording(contextValue, locale);
+			String contextValue = PropertiesUtil.getWebappContextKey(contextName);
+			return coreMessageSource.loadWordingByContext(contextValue, locale);
 	        
         } catch (Exception e) {
         	logger.error("Failed to load wording map.", e);

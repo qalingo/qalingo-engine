@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.i18n.BoMessageKey;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -31,6 +30,7 @@ import org.hoteia.qalingo.core.service.UserService;
 import org.hoteia.qalingo.core.service.WebBackofficeService;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeFormFactory;
 import org.hoteia.qalingo.core.web.mvc.factory.BackofficeViewBeanFactory;
+import org.hoteia.qalingo.core.web.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,8 +151,8 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
         final Locale locale = requestData.getLocale();
 		String contextName = requestUtil.getContextName();
 		try {
-			EngineSettingWebAppContext contextValue = EngineSettingWebAppContext.valueOf(contextName);
-			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWording(contextValue, locale));
+			String contextValue = PropertiesUtil.getWebappContextKey(contextName);
+			model.addAttribute(ModelConstants.WORDING, coreMessageSource.loadWordingByContext(contextValue, locale));
 	        
         } catch (Exception e) {
         	logger.error("Context name, " + contextName + " can't be resolve by EngineSettingWebAppContext class.", e);

@@ -43,7 +43,6 @@ import org.hoteia.qalingo.core.domain.MarketPlace;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.User;
-import org.hoteia.qalingo.core.domain.enumtype.EngineSettingWebAppContext;
 import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -981,7 +980,7 @@ public class RequestUtil {
      * 
      */
     public String getCurrentContextNameValue(final HttpServletRequest request) throws Exception {
-        return EngineSettingWebAppContext.valueOf(getContextName()).getPropertyKey();
+        return PropertiesUtil.getWebappContextKey(getContextName());
     }
 
     /**
