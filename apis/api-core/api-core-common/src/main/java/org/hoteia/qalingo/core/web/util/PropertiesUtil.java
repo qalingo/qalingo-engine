@@ -9,11 +9,13 @@
  */
 package org.hoteia.qalingo.core.web.util;
 
-import java.util.ResourceBundle;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 public class PropertiesUtil extends org.springframework.beans.BeanUtils { 
     
@@ -24,7 +26,15 @@ public class PropertiesUtil extends org.springframework.beans.BeanUtils {
         try {
             if(StringUtils.isNotEmpty(contextName)){
                 String keySuffix = contextName.replace("_", ".").toLowerCase();
-                webappContextKey = ResourceBundle.getBundle("engine-setting-webapp-context-qalingo").getString("engine.setting.webapp.context." + keySuffix);
+                PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+                Resource resources[] = resolver.getResources("classpath*:engine-setting-webapp-context*");
+                for (int i = 0; i < resources.length; i++) {
+                    Resource resource = resources[i];
+                    String key = "engine.setting.webapp.context." + keySuffix;
+                    Properties prop = new Properties();
+                    prop.load(resource.getInputStream());
+                    webappContextKey = prop.getProperty(key);
+                }
             }
             
         } catch (Exception e) {
