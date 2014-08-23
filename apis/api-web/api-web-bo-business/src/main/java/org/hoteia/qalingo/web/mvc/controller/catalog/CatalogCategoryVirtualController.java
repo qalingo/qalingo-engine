@@ -110,7 +110,7 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData));
 
         Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_DETAILS.getKey(), params);
         
 		initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
 		
@@ -129,13 +129,13 @@ public class CatalogCategoryVirtualController extends AbstractBusinessBackoffice
             final CatalogCategoryVirtual catalogCategory = catalogCategoryService.getVirtualCatalogCategoryByCode(catalogCategoryCode, requestData.getVirtualCatalogCode(), requestData.getMasterCatalogCode(), new FetchPlan(categoryVirtualFetchPlans));
             
             Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_EDIT.getKey(), params);
             
             initProductVirtualCategoryModelAndView(request, modelAndView, catalogCategory);
             
         } else {
             // ADD/CREATE MODE
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_ADD.getKey(), null);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.VIRTUAL_CATEGORY_ADD.getKey(), null);
         }
         
         modelAndView.addObject("masterCategories", buildAllMasterCategories(requestData));

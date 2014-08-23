@@ -35,6 +35,7 @@ import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualAttribute;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
@@ -49,19 +50,12 @@ import org.hoteia.qalingo.core.domain.Tax;
 import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
+import org.hoteia.qalingo.core.email.bean.UserNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
-import org.hoteia.qalingo.core.service.AttributeService;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.DeliveryMethodService;
-import org.hoteia.qalingo.core.service.EngineSettingService;
-import org.hoteia.qalingo.core.service.PaymentGatewayService;
-import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.service.TaxService;
-import org.hoteia.qalingo.core.service.UserService;
-import org.hoteia.qalingo.core.service.WarehouseService;
+import org.hoteia.qalingo.core.security.util.SecurityUtil;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
@@ -76,6 +70,7 @@ import org.hoteia.qalingo.core.web.mvc.form.StoreForm;
 import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,6 +113,15 @@ public class WebBackofficeService {
     @Autowired
     protected PaymentGatewayService paymentGatewayService;
 
+    @Autowired
+    protected EmailService emailService;
+    
+    @Autowired
+    protected BackofficeUrlService backofficeUrlService;
+    
+    @Autowired
+    protected SecurityUtil securityUtil;
+    
     public User createOrUpdatePersonalUser(User user, final UserForm userForm) {
         if(user == null){
             user = new User();
@@ -140,6 +144,18 @@ public class WebBackofficeService {
 		user.setActive(userForm.isActive());
 		return userService.saveOrUpdateUser(user);
 	}
+	
+    /**
+     * 
+     */
+    public User buildAndRegisterNewCustomer(final RequestData requestData, final UserForm userForm) throws Exception {
+        User user = new User();
+        
+        user.setPassword(securityUtil.encodePassword(userForm.getPassword()));
+        user.setActive(true);
+        
+        return createOrUpdatePersonalUser(user, userForm);
+    }
 	
     public Customer createOrUpdateCustomer(Customer customer, final CustomerForm customerForm) throws Exception {
         if(customer == null){
@@ -744,6 +760,37 @@ public class WebBackofficeService {
     	}
 		
     	return retailerService.saveOrUpdateStore(store);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveUserNewAccountMail(final RequestData requestData, final UserForm userForm) throws Exception {
+        final MarketArea marketArea = requestData.getMarketArea();
+        final String contextNameValue = requestData.getContextNameValue();
+
+        final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean = new UserNewAccountConfirmationEmailBean();
+        BeanUtils.copyProperties(userForm, userNewAccountConfirmationEmailBean);
+        userNewAccountConfirmationEmailBean.setFromAddress(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
+        userNewAccountConfirmationEmailBean.setFromName(marketArea.getEmailFromName(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
+        userNewAccountConfirmationEmailBean.setReplyToEmail(marketArea.getEmailFromAddress(contextNameValue, Email.EMAIl_TYPE_NEW_ACCOUNT_CONFIRMATION));
+        userNewAccountConfirmationEmailBean.setToEmail(userForm.getEmail());
+
+        userNewAccountConfirmationEmailBean.setTitle(userForm.getTitle());
+        userNewAccountConfirmationEmailBean.setFirstname(userForm.getFirstname());
+        userNewAccountConfirmationEmailBean.setLastname(userForm.getLastname());
+        userNewAccountConfirmationEmailBean.setEmail(userForm.getEmail());
+        
+        userNewAccountConfirmationEmailBean.setUserDetailsUrl(backofficeUrlService.buildAbsoluteUrl(requestData, backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData)));
+        
+        buildAndSaveUserNewAccountMail(requestData, userNewAccountConfirmationEmailBean);
+    }
+    
+    /**
+     * 
+     */
+    public void buildAndSaveUserNewAccountMail(final RequestData requestData, final UserNewAccountConfirmationEmailBean userNewAccountConfirmationEmailBean) throws Exception {
+        emailService.buildAndSaveUserNewAccountMail(requestData, requestData.getVelocityEmailPrefix(), userNewAccountConfirmationEmailBean);
     }
     
 }

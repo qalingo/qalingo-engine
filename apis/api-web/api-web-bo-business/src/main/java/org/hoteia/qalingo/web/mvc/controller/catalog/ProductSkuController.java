@@ -93,7 +93,7 @@ public class ProductSkuController extends AbstractBusinessBackofficeController {
         modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productSku.getProductMarketing()));
         
         Object[] params = {productSku.getName() + " (" + productSku.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_DETAILS.getKey(), params);
 		
         return modelAndView;
 	}
@@ -114,7 +114,7 @@ public class ProductSkuController extends AbstractBusinessBackofficeController {
             modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_SKU_DETAILS, requestData, productSku));
 
             Object[] params = { productSku.getName() + " (" + productSku.getCode() + ")" };
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
 
         } else {
             // ADD/CREATE MODE
@@ -125,7 +125,7 @@ public class ProductSkuController extends AbstractBusinessBackofficeController {
                 modelAndView.addObject(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PRODUCT_MARKETING_DETAILS, requestData, productMarketing));
 
                 Object[] params = { "New Sku" };
-                initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
+                overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.PRODUCT_SKU_EDIT.getKey(), params);
                 
             } else {
                 final String urlRedirect = backofficeUrlService.generateUrl(BoUrls.VIRTUAL_CATALOG, requestData);

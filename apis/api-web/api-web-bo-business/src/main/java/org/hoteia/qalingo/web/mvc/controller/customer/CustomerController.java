@@ -58,7 +58,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
         
 		displayList(request, model, requestData);
 		
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_LIST.getKey(), null);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_LIST.getKey(), null);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.CUSTOMER_ADD, requestData));
 
@@ -85,7 +85,7 @@ public class CustomerController extends AbstractBusinessBackofficeController {
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
 		
         Object[] params = {customer.getLastname() + " " + customer.getFirstname()};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -104,13 +104,13 @@ public class CustomerController extends AbstractBusinessBackofficeController {
             request.setAttribute(ModelConstants.CUSTOMER_VIEW_BEAN, customerViewBean);
 
             Object[] params = {customer.getLastname() + " " + customer.getFirstname()};
-            initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.CUSTOMER_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.CUSTOMER_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.CUSTOMER_DETAILS, requestData, customer));
         } else {
             // ADD MODE
 
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_ADD.getKey(), null);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.CUSTOMER_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.CUSTOMER_LIST, requestData));
         }

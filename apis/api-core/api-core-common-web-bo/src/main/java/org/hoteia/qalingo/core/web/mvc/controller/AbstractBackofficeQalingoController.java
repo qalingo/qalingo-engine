@@ -172,7 +172,14 @@ public abstract class AbstractBackofficeQalingoController extends AbstractQaling
     /**
      * 
      */
-    protected void initPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
+    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey) throws Exception {
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, titleKey, null);
+    }
+    
+    /**
+     * 
+     */
+    protected void overrideDefaultSeoPageTitleAndMainContentTitle(final HttpServletRequest request, final ModelAndView modelAndView, final String titleKey, Object[] params) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Locale locale = requestData.getLocale();
         String pageTitleKey = titleKey;

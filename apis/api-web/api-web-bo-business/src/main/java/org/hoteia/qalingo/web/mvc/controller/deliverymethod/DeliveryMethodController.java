@@ -67,7 +67,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
 		displayList(request, model, requestData);
 		
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_LIST.getKey() + ".by.market.area", params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_ADD, requestData));
         
@@ -108,7 +108,7 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
 		
         Object[] params = {deliveryMethod.getName() + " (" + deliveryMethod.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -127,13 +127,13 @@ public class DeliveryMethodController extends AbstractBusinessBackofficeControll
             request.setAttribute(ModelConstants.DELIVERY_METHOD_VIEW_BEAN, deliveryMethodViewBean);
 
             Object[] params = {deliveryMethod.getName() + " (" + deliveryMethod.getCode() + ")"};
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_DETAILS, requestData, deliveryMethod));
         } else {
             // ADD MODE
 
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_ADD.getKey(), null);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.DELIVERY_METHOD_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.DELIVERY_METHOD_LIST, requestData));
         }

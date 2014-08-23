@@ -53,7 +53,7 @@ public class UserController extends AbstractBackofficeQalingoController {
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_LIST.getKey() + "", params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_LIST.getKey() + "", params);
 
         return modelAndView;
     }
@@ -78,7 +78,7 @@ public class UserController extends AbstractBackofficeQalingoController {
         request.setAttribute(ModelConstants.USER_VIEW_BEAN, userViewBean);
         
         Object[] params = {user.getLastname() + " " + user.getFirstname() + " (" + user.getLogin() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -103,7 +103,7 @@ public class UserController extends AbstractBackofficeQalingoController {
         request.setAttribute(ModelConstants.USER_VIEW_BEAN, userViewBean);
         
         Object[] params = {user.getLastname() + " " + user.getFirstname() + " (" + user.getLogin() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.USER_DETAILS.getKey(), params);
 
         return modelAndView;
     }

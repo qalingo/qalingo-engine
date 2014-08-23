@@ -46,7 +46,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         // User is already set by the abstract
 
         Object[] params = {currentUser.getLastname() + " " + currentUser.getFirstname() + " (" + currentUser.getLogin() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_DETAILS.getKey(), params);
 
         List<String> excludedPatterns = new ArrayList<String>();
         excludedPatterns.add(BoUrls.PERSONAL_DETAILS_URL);
@@ -66,7 +66,7 @@ public class UserPersonalController extends AbstractBackofficeQalingoController 
         // User is already set by the abstract
 
         Object[] params = {currentUser.getLastname() + " " + currentUser.getFirstname() + " (" + currentUser.getLogin() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_EDIT.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView,  BoUrls.PERSONAL_EDIT.getKey(), params);
         
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.PERSONAL_DETAILS, requestData, currentUser));
 

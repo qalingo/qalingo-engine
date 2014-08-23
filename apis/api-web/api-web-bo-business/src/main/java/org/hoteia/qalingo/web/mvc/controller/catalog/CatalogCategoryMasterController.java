@@ -103,7 +103,7 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
 		initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
 		
         Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_DETAILS.getKey(), params);
 
         return modelAndView;
 	}
@@ -121,13 +121,13 @@ public class CatalogCategoryMasterController extends AbstractBusinessBackofficeC
             final CatalogCategoryMaster catalogCategory = catalogCategoryService.getMasterCatalogCategoryByCode(catalogCategoryCode, requestData.getMasterCatalogCode(), new FetchPlan(categoryMasterFetchPlans));
             
             Object[] params = {catalogCategory.getName() + " (" + catalogCategory.getCode() + ")"};
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_EDIT.getKey(), params);
             
             initProductMasterCategoryModelAndView(request, modelAndView, catalogCategory);
             
         } else {
             // ADD/CREATE MODE
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_ADD.getKey(), null);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.MASTER_CATEGORY_ADD.getKey(), null);
         }
         
 		modelAndView.addObject("categories", buildCategories(requestData, catalogCategoryCode));

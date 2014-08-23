@@ -23,6 +23,7 @@ public class UserForm {
     private int version;
     private String code;
 	private String login;
+    private String password;
     private String title;
 	private String firstname;
 	private String lastname;
@@ -79,6 +80,14 @@ public class UserForm {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
+	public String getPassword() {
+        return password;
+    }
+	
+	public void setPassword(String password) {
+        this.password = password;
+    }
 	
 	public String getTitle() {
         return title;

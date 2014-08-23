@@ -61,7 +61,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_LIST.getKey() + ".by.market.area", params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_LIST.getKey() + ".by.market.area", params);
 
         model.addAttribute(ModelConstants.URL_ADD, backofficeUrlService.generateUrl(BoUrls.TAX_ADD, requestData));
 
@@ -87,7 +87,7 @@ public class TaxController extends AbstractBusinessBackofficeController {
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData));
         
         Object[] params = {tax.getName() + " (" + tax.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -106,13 +106,13 @@ public class TaxController extends AbstractBusinessBackofficeController {
             request.setAttribute(ModelConstants.TAX_VIEW_BEAN, taxViewBean);
 
             Object[] params = {tax.getName() + " (" + tax.getCode() + ")"};
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_DETAILS, requestData, tax));
         } else {
             // ADD MODE
 
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_ADD.getKey(), null);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.TAX_ADD.getKey(), null);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.TAX_LIST, requestData));
         }

@@ -63,7 +63,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         displayList(request, model, requestData);
         
         Object[] params = {marketArea.getName() + " (" + marketArea.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_LIST.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_LIST.getKey(), params);
 
         return modelAndView;
     }
@@ -94,7 +94,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
         model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_LIST, requestData));
         
         Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
-        initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_DETAILS.getKey(), params);
+        overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_DETAILS.getKey(), params);
 
         return modelAndView;
     }
@@ -113,7 +113,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
             request.setAttribute(ModelConstants.ENGINE_SETTING_VIEW_BEAN, engineSettingViewBean);
 
             Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
-            initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
+            overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
 
             model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
         } else {
@@ -180,7 +180,7 @@ public class EngineSettingController extends AbstractTechnicalBackofficeControll
                     model.addAttribute(ModelConstants.URL_BACK, backofficeUrlService.generateUrl(BoUrls.ENGINE_SETTING_DETAILS, requestData, engineSetting));
 
                     Object[] params = {engineSetting.getName() + " (" + engineSetting.getCode() + ")"};
-                    initPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
+                    overrideDefaultSeoPageTitleAndMainContentTitle(request, modelAndView, BoUrls.ENGINE_SETTING_EDIT.getKey(), params);
 
                     return modelAndView;
                 } else {

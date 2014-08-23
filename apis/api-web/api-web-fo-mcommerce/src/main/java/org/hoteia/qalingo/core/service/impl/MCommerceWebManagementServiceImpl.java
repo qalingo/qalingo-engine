@@ -9,7 +9,9 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
-public class MCommerceWebManagementServiceImpl extends WebManagementServiceImpl {
+import org.hoteia.qalingo.core.service.WebManagementService;
+
+public class MCommerceWebManagementServiceImpl extends WebManagementService {
 
     // HERE YOUR SPECIFIC OVERRIDE
     
