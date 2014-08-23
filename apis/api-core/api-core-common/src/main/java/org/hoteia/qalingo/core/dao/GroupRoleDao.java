@@ -10,6 +10,7 @@
 package org.hoteia.qalingo.core.dao;
 
 import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.UserGroup;
 
 public interface GroupRoleDao {
 
@@ -21,4 +22,11 @@ public interface GroupRoleDao {
 
 	void deleteCustomerGroup(CustomerGroup customerGroup);
 
+    UserGroup getUserGroupById(Long userGroupId, Object... params);
+    
+    UserGroup getUserGroupByCode(String code, Object... params);
+    
+    UserGroup saveOrUpdateUserGroup(UserGroup userGroup);
+    
+    void deleteUserGroup(UserGroup userGroup);
 }

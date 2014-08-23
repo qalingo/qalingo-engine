@@ -15,6 +15,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.dao.GroupRoleDao;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.UserGroup;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.customer.FetchPlanGraphCustomer;
 import org.slf4j.Logger;
@@ -26,10 +27,12 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	// CUSTOMER GROUP
+	
 	public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificCustomerGroupFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", customerGroupId));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
@@ -42,7 +45,7 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 	public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(CustomerGroup.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificCustomerGroupFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("code", code));
         CustomerGroup customerGroup = (CustomerGroup) criteria.uniqueResult();
@@ -74,12 +77,69 @@ public class GroupRoleDaoImpl extends AbstractGenericDaoImpl implements GroupRol
 		em.remove(customerGroup);
 	}
 	
-    @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificCustomerGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+        }
+    }
+    
+    // USER GROUP
+    
+    public UserGroup getUserGroupById(final Long userGroupId, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserGroup.class);
+        
+        FetchPlan fetchPlan = handleSpecificUserGroupFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("id", userGroupId));
+        UserGroup userGroup = (UserGroup) criteria.uniqueResult();
+        if(userGroup != null){
+            userGroup.setFetchPlan(fetchPlan);
+        }
+        return userGroup;
+    }
+    
+    public UserGroup getUserGroupByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserGroup.class);
+        
+        FetchPlan fetchPlan = handleSpecificUserGroupFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("code", code));
+        UserGroup userGroup = (UserGroup) criteria.uniqueResult();
+        if(userGroup != null){
+            userGroup.setFetchPlan(fetchPlan);
+        }
+        return userGroup;
+    }
+    
+    public UserGroup saveOrUpdateUserGroup(UserGroup userGroup) {
+        if(userGroup.getDateCreate() == null){
+            userGroup.setDateCreate(new Date());
+        }
+        userGroup.setDateUpdate(new Date());
+        if (userGroup.getId() != null) {
+            if(em.contains(userGroup)){
+                em.refresh(userGroup);
+            }
+            UserGroup mergedUserGroup = em.merge(userGroup);
+            em.flush();
+            return mergedUserGroup;
+        } else {
+            em.persist(userGroup);
+            return userGroup;
+        }
+    }
+
+    public void deleteUserGroup(UserGroup userGroup) {
+        em.remove(userGroup);
+    }
+    
+    protected FetchPlan handleSpecificUserGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
         }
     }
 

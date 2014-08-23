@@ -132,9 +132,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 
     protected FetchPlan handleSpecificFetchMasterCategoryMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultMasterCatalogCategoryFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCategory.defaultMasterCatalogCategoryFetchPlan());
         }
     }
 
@@ -290,9 +290,9 @@ public class CatalogCategoryDaoImpl extends AbstractGenericDaoImpl implements Ca
 	
 	protected FetchPlan handleSpecificFetchVirtualCategoryMode(Criteria criteria, Object... params){
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultVirtualCatalogCategoryFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCategory.defaultVirtualCatalogCategoryFetchPlan());
         }
 	}
 	

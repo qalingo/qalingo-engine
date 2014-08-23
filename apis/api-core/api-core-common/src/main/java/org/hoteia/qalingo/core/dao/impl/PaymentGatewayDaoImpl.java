@@ -32,7 +32,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", paymentGatewayId));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
@@ -45,7 +45,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
     public AbstractPaymentGateway getPaymentGatewayByCode(final String paymentGatewayCode, Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", paymentGatewayCode));
         AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
@@ -58,7 +58,7 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
         Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
 
@@ -100,11 +100,11 @@ public class PaymentGatewayDaoImpl extends AbstractGenericDaoImpl implements Pay
 	}
 	
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultPaymentGatewayFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultPaymentGatewayFetchPlan());
         }
     }
 

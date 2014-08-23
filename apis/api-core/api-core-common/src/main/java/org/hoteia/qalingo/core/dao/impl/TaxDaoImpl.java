@@ -31,7 +31,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 	public Tax getTaxById(final Long taxId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", taxId));
         Tax tax = (Tax) criteria.uniqueResult();
@@ -44,7 +44,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
     public Tax getTaxByCode(final String taxCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", taxCode));
         Tax tax = (Tax) criteria.uniqueResult();
@@ -57,7 +57,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
     public List<Tax> findTaxes(Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -69,7 +69,7 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
     public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
@@ -100,11 +100,11 @@ public class TaxDaoImpl extends AbstractGenericDaoImpl implements TaxDao {
 	}
 
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
         }
     }
     

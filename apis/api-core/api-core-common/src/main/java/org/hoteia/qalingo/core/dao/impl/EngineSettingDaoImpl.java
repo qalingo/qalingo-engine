@@ -35,7 +35,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("id", engineSettingId));
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
         if(engineSetting != null){
@@ -48,7 +48,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("code", code));
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
         if(engineSetting != null){
@@ -60,7 +60,7 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
 	public List<EngineSetting> findEngineSettings(Object... params) {
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
 
@@ -120,11 +120,11 @@ public class EngineSettingDaoImpl extends AbstractGenericDaoImpl implements Engi
     }
 
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
         }
     }
 }

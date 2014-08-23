@@ -724,7 +724,7 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             userViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        final Set<UserGroup> userGroups = user.getUserGroups();
+        final Set<UserGroup> userGroups = user.getGroups();
         for (Iterator<UserGroup> iteratorUserGroup = userGroups.iterator(); iteratorUserGroup.hasNext();) {
             UserGroup userGroup = (UserGroup) iteratorUserGroup.next();
             String keyUserGroup = userGroup.getCode();

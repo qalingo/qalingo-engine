@@ -352,17 +352,17 @@ public class RetailerDaoImpl extends AbstractGenericDaoImpl implements RetailerD
 	
     protected FetchPlan handleSpecificRetailerFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphRetailer.defaultRetailerFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphRetailer.defaultRetailerFetchPlan());
         }
     }
     
     protected FetchPlan handleSpecificStoreFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphRetailer.defaultStoreFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphRetailer.defaultStoreFetchPlan());
         }
     }
 

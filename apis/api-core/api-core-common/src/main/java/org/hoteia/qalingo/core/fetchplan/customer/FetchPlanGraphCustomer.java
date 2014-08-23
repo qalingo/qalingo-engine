@@ -46,4 +46,10 @@ public class FetchPlanGraphCustomer {
         return new FetchPlan(fetchplans);
     }
     
+    public static FetchPlan defaultUserGroupFetchPlan() {
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode("roles"));
+        return new FetchPlan(fetchplans);
+    }
+    
 }

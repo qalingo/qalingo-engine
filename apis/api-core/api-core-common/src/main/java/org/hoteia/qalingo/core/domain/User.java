@@ -112,7 +112,7 @@ public class User extends AbstractEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserGroup.class)
     @JoinTable(name = "TBO_USER_GROUP_REL", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "GROUP_ID"))
-    private Set<UserGroup> userGroups = new HashSet<UserGroup>();
+    private Set<UserGroup> groups = new HashSet<UserGroup>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
@@ -289,17 +289,17 @@ public class User extends AbstractEntity {
         this.company = company;
     }
 
-    public Set<UserGroup> getUserGroups() {
-        return userGroups;
+    public Set<UserGroup> getGroups() {
+        return groups;
     }
 
-    public void setUserGroups(Set<UserGroup> userGroups) {
-        this.userGroups = userGroups;
+    public void setGroups(Set<UserGroup> groups) {
+        this.groups = groups;
     }
 
     public List<UserRole> getRoles() {
         List<UserRole> roles = null;
-        Set<UserGroup> userGroups = getUserGroups();
+        Set<UserGroup> userGroups = getGroups();
         if(userGroups != null 
                 && Hibernate.isInitialized(userGroups)){
             roles = new ArrayList<UserRole>();
@@ -314,7 +314,7 @@ public class User extends AbstractEntity {
 
     public List<UserPermission> getPermissions() {
         List<UserPermission> permission = null;
-        Set<UserGroup> userGroups = getUserGroups();
+        Set<UserGroup> userGroups = getGroups();
         if(userGroups != null 
                 && Hibernate.isInitialized(userGroups)){
             permission = new ArrayList<UserPermission>();
@@ -396,7 +396,7 @@ public class User extends AbstractEntity {
     @Override
     public String toString() {
         return "User [id=" + id + ", version=" + version + ", code=" + code + ", login=" + login + ", title=" + title + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-                + ", password=" + password + ", active=" + active + ", defaultLocalization=" + defaultLocalization + ", company=" + company + ", userGroups=" + userGroups + ", connectionLogs="
+                + ", password=" + password + ", active=" + active + ", defaultLocalization=" + defaultLocalization + ", company=" + company + ", userGroups=" + groups + ", connectionLogs="
                 + connectionLogs + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
     }
 

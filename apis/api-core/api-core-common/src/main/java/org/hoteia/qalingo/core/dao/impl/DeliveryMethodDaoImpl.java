@@ -32,7 +32,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", deliveryMethodId));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
@@ -45,7 +45,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	public DeliveryMethod getDeliveryMethodByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         DeliveryMethod deliveryMethod = (DeliveryMethod) criteria.uniqueResult();
@@ -58,7 +58,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	public List<DeliveryMethod> findDeliveryMethods(Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
         
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -70,7 +70,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
     public List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.createAlias("warehouses", "warehouse", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("warehouse.id", warehouseId));
@@ -85,7 +85,7 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
     public List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(DeliveryMethod.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.createAlias("warehouses", "warehouse", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("warehouse.warehouseMarketAreaRels", "warehouseMarketAreaRel", JoinType.LEFT_OUTER_JOIN);
@@ -121,11 +121,11 @@ public class DeliveryMethodDaoImpl extends AbstractGenericDaoImpl implements Del
 	}
 
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphDeliveryMethod.defaultDeliveryMethodFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphDeliveryMethod.defaultDeliveryMethodFetchPlan());
         }
     }
 	

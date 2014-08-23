@@ -36,7 +36,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
@@ -50,7 +50,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
         
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -86,7 +86,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
     public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
@@ -100,7 +100,7 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
         criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
@@ -114,11 +114,11 @@ public class CatalogDaoImpl extends AbstractGenericDaoImpl implements CatalogDao
 	}
 	
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCatalogFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCatalogFetchPlan());
         }
     }
 }

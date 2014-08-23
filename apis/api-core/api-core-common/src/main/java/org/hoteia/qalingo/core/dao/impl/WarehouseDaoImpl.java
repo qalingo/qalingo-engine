@@ -37,7 +37,7 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     public Warehouse getWarehouseById(final Long warehouseId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", warehouseId));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
@@ -50,7 +50,7 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     public Warehouse getWarehouseByCode(final String warehouseCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", warehouseCode));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
@@ -63,7 +63,7 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     public List<Warehouse> findWarehouses(Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -76,7 +76,7 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     public List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.createAlias("warehouseMarketAreaRels", "warehouseMarketAreaRel", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("warehouseMarketAreaRel.pk.marketArea.id", marketAreaId));
@@ -91,7 +91,7 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     public List<Warehouse> findWarehousesByDeliveryMethodId(Long deliveryMethodId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.createAlias("deliveryMethods", "deliveryMethod", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("deliveryMethod.id", deliveryMethodId));
@@ -130,11 +130,11 @@ public class WarehouseDaoImpl extends AbstractGenericDaoImpl implements Warehous
     }
 
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultWarehouseFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultWarehouseFetchPlan());
         }
     }
 	    

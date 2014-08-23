@@ -29,7 +29,7 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	public Cart getCartById(final Long cartId, Object... params) {
         Criteria criteria = createDefaultCriteria(Cart.class);
         
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria);
         
         criteria.add(Restrictions.eq("id", cartId));
         Cart cart = (Cart) criteria.uniqueResult();
@@ -68,11 +68,11 @@ public class CartDaoImpl extends AbstractGenericDaoImpl implements CartDao {
 	}
 	
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
         }
     }
 	   

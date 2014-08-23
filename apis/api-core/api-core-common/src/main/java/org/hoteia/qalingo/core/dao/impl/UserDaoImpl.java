@@ -35,7 +35,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     
     public User getUserById(final Long userId, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", userId));
         User user = (User) criteria.uniqueResult();
         if(user != null){
@@ -46,7 +46,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     
     public User getUserByCode(final String userCode, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", userCode));
         User user = (User) criteria.uniqueResult();
         if(user != null){
@@ -57,7 +57,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
     public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         User user = (User) criteria.uniqueResult();
@@ -69,7 +69,7 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
     public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
         @SuppressWarnings("unchecked")
@@ -105,11 +105,11 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     }
     
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
         }
     }
     
@@ -138,9 +138,9 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
 
     protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
         }
     }
     

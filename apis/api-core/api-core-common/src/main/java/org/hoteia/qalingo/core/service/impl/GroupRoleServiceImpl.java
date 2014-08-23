@@ -9,13 +9,13 @@
  */
 package org.hoteia.qalingo.core.service.impl;
 
+import org.hoteia.qalingo.core.dao.GroupRoleDao;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
+import org.hoteia.qalingo.core.domain.UserGroup;
+import org.hoteia.qalingo.core.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.dao.GroupRoleDao;
-import org.hoteia.qalingo.core.domain.CustomerGroup;
-import org.hoteia.qalingo.core.service.GroupRoleService;
 
 @Service("groupRoleService")
 @Transactional
@@ -24,6 +24,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Autowired
     private GroupRoleDao groupRoleDao;
 
+    // CUSTOMER GROUP
+    
     public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
         return groupRoleDao.getCustomerGroupById(customerGroupId, params);
     }
@@ -50,4 +52,32 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         groupRoleDao.deleteCustomerGroup(customerGroup);
     }
 
+    // USER GROUP
+    
+    public UserGroup getUserGroupById(final Long userGroupId, Object... params) {
+        return groupRoleDao.getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupById(final String rawUserGroupId, Object... params) {
+        long userGroupId = -1;
+        try {
+            userGroupId = Long.parseLong(rawUserGroupId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupByCode(final String code, Object... params) {
+        return groupRoleDao.getUserGroupByCode(code, params);
+    }
+
+    public void saveOrUpdateUserGroup(final UserGroup userGroup) {
+        groupRoleDao.saveOrUpdateUserGroup(userGroup);
+    }
+
+    public void deleteUserGroup(final UserGroup userGroup) {
+        groupRoleDao.deleteUserGroup(userGroup);
+    }
+    
 }

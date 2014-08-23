@@ -37,7 +37,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan =  handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
@@ -50,7 +50,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
@@ -63,7 +63,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     public List<OrderCustomer> findOrders(Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("dateCreate"));
 
@@ -76,7 +76,7 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     public List<OrderCustomer> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificFetchMode(criteria, params);
+        handleSpecificGroupFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -174,11 +174,11 @@ public class OrderCustomerDaoImpl extends AbstractGenericDaoImpl implements Orde
     }
 
     @Override
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificFetchMode(criteria, params);
+            return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
         }
     }
     

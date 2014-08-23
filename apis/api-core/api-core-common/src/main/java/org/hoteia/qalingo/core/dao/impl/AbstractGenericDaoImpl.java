@@ -39,7 +39,7 @@ public abstract class AbstractGenericDaoImpl {
         return criteria;
     }
     
-    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params){
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params){
         if (params != null) {
             FetchPlan globalFetchPlan = new FetchPlan(new ArrayList<SpecificFetchMode>());
             for (Object param : params) {

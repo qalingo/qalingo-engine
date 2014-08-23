@@ -69,6 +69,7 @@ import org.hoteia.qalingo.core.web.mvc.form.StoreForm;
 import org.hoteia.qalingo.core.web.mvc.form.TaxForm;
 import org.hoteia.qalingo.core.web.mvc.form.UserForm;
 import org.hoteia.qalingo.core.web.mvc.form.WarehouseForm;
+import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,6 +118,9 @@ public class WebBackofficeService {
     
     @Autowired
     protected BackofficeUrlService backofficeUrlService;
+    
+    @Autowired
+    protected RequestUtil requestUtil;
     
     @Autowired
     protected SecurityUtil securityUtil;
