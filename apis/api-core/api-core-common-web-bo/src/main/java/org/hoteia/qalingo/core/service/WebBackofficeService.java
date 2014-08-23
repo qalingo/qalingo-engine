@@ -140,8 +140,9 @@ public class WebBackofficeService {
             while(checkUserLogin != null){
                 login = userForm.getFirstname().substring(0, 1) + userForm.getLastname() + i;
                 checkUserLogin = userService.getUserByLoginOrEmail(login);
+                i++;
             }
-            user.setLogin(login);
+            user.setLogin(login.toLowerCase());
         }
         
         user.setLastname(userForm.getLastname());

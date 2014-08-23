@@ -578,12 +578,12 @@ public class WebManagementService {
         customer.setDateUpdate(new Date());
 
         // WE SAVE A FIRST TIME TO EVICT DETACH ENTITY ISSUE WITH CUSTOMERGROUP - NOT THE BEST WAY
-        customerService.saveOrUpdateCustomer(customer);
+        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         CustomerGroup customerGroup = customerGroupService.getCustomerGroupByCode(CustomerGroup.GROUP_FO_CUSTOMER);
         customer.getGroups().add(customerGroup);
         
-        Customer savedCustomer = customerService.saveOrUpdateCustomer(customer);
+        savedCustomer = customerService.saveOrUpdateCustomer(customer);
         
         Customer reloadedCustomer = customerService.getCustomerById(savedCustomer.getId());
         requestUtil.updateCurrentCustomer(request, reloadedCustomer);
