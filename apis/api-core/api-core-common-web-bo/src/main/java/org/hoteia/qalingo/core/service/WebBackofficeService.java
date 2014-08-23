@@ -129,7 +129,21 @@ public class WebBackofficeService {
         if(user == null){
             user = new User();
         }
-        user.setLogin(userForm.getLogin());
+        user.setTitle(userForm.getTitle());
+        
+        if(StringUtils.isNotEmpty(userForm.getLogin())){
+            user.setLogin(userForm.getLogin());
+        } else {
+            String login = userForm.getFirstname().substring(0, 1) + userForm.getLastname();
+            User checkUserLogin = userService.getUserByLoginOrEmail(login);
+            int i = 1;
+            while(checkUserLogin != null){
+                login = userForm.getFirstname().substring(0, 1) + userForm.getLastname() + i;
+                checkUserLogin = userService.getUserByLoginOrEmail(login);
+            }
+            user.setLogin(login);
+        }
+        
         user.setLastname(userForm.getLastname());
         user.setFirstname(userForm.getFirstname());
         user.setEmail(userForm.getEmail());

@@ -56,6 +56,7 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -693,6 +694,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         security.setLoginUrl(backofficeUrlService.generateUrl(BoUrls.LOGIN, requestData));
         security.setSubmitLoginUrl(backofficeUrlService.buildSpringSecurityCheckUrl(requestData));
         security.setForgottenPasswordUrl(backofficeUrlService.generateUrl(BoUrls.FORGOTTEN_PASSWORD, requestData));
+        security.setResetPasswordUrl(backofficeUrlService.generateUrl(BoUrls.RESET_PASSWORD, requestData));
+        security.setCreateAccountUrl(backofficeUrlService.generateUrl(BoUrls.USER_CREATE_ACCOUNT, requestData));
         return security;
     }
 

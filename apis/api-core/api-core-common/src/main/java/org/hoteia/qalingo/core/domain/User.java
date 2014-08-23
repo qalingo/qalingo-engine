@@ -37,7 +37,7 @@ import javax.persistence.Version;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint(columnNames = { "LOGIN", "CODE", "EMAIL" }) })
+@Table(name = "TBO_USER", uniqueConstraints = { @UniqueConstraint("LOGIN"), @UniqueConstraint("CODE"), @UniqueConstraint("EMAIL") })
 public class User extends AbstractEntity {
 
     /**

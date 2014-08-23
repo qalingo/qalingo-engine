@@ -129,6 +129,7 @@ public enum BoUrls {
     USER_LIST(BoUrls.USER_LIST_URL, BoUrls.USER_LIST_KEY, BoUrls.USER_LIST_VELOCITY_PAGE, true),
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
+    USER_CREATE_ACCOUNT(BoUrls.USER_CREATE_ACCOUNT_URL, BoUrls.USER_CREATE_ACCOUNT_KEY, BoUrls.USER_CREATE_ACCOUNT_VELOCITY_PAGE, true),
     
     CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false),
 
@@ -475,6 +476,10 @@ public enum BoUrls {
     public static final String USER_EDIT_URL                = "/**/user-edit.html";
     public static final String USER_EDIT_VELOCITY_PAGE      = "user/user-edit";
     
+    public static final String USER_CREATE_ACCOUNT_KEY              = "user-create-account";
+    public static final String USER_CREATE_ACCOUNT_URL              = "/**/user-create-account.html";
+    public static final String USER_CREATE_ACCOUNT_VELOCITY_PAGE    = "user/user-create-account";
+
     public static final String CONTEXT_KEY            = "context";
     public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache
     public static final String CONTEXT_VELOCITY_PAGE  = "context/context";
