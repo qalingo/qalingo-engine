@@ -29,13 +29,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name="TECO_ORDER_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"ORDER_NUM", "PREFIX_HASH_FOLDER"})})
+@Table(name="TECO_ORDER_CUSTOMER")
 public class OrderCustomer extends AbstractEntity {
 
 	/**
@@ -55,10 +54,10 @@ public class OrderCustomer extends AbstractEntity {
 	@Column(name="STATUS")
 	private String status;
 
-	@Column(name="ORDER_NUM")
+	@Column(name="ORDER_NUM", unique = true)
 	private String orderNum;
 	
-    @Column(name = "PREFIX_HASH_FOLDER")
+    @Column(name = "PREFIX_HASH_FOLDER", unique = true)
     private String prefixHashFolder;
 	   
     @Column(name = "MARKET_AREA_ID")

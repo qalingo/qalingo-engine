@@ -28,7 +28,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
@@ -36,7 +35,7 @@ import org.hoteia.qalingo.core.domain.enumtype.EnvironmentType;
 import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 
 @Entity
-@Table(name = "TECO_ENGINE_SESSION", uniqueConstraints = { @UniqueConstraint(columnNames = { "JSESSION_ID", "ENGINE_SESSION_GUID" }) })
+@Table(name = "TECO_ENGINE_SESSION")
 public class EngineEcoSession extends AbstractEngineSession {
 
     /**
@@ -53,10 +52,10 @@ public class EngineEcoSession extends AbstractEngineSession {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "JSESSION_ID")
+    @Column(name = "JSESSION_ID", unique = true)
     private String jSessionId;
 
-    @Column(name = "ENGINE_SESSION_GUID")
+    @Column(name = "ENGINE_SESSION_GUID", unique = true)
     private String engineSessionGuid;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })

@@ -36,7 +36,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -47,7 +46,7 @@ import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 
 @Entity
-@Table(name="TECO_CUSTOMER", uniqueConstraints = {@UniqueConstraint(columnNames= {"LOGIN", "CODE", "EMAIL"})})
+@Table(name="TECO_CUSTOMER")
 public class Customer extends AbstractEntity {
 
 	/**
@@ -64,10 +63,10 @@ public class Customer extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE", nullable = false)
+    @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
-    @Column(name = "LOGIN")
+    @Column(name = "LOGIN", unique = true)
     private String login;
 
     @Column(name = "AVATAR_IMG")
@@ -88,7 +87,7 @@ public class Customer extends AbstractEntity {
     @Column(name = "LASTNAME")
     private String lastname;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true)
     private String email;
 
     @Column(name = "PASSWORD")

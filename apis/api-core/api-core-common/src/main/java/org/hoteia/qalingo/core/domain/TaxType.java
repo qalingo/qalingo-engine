@@ -20,11 +20,10 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_TAX_TYPE", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TECO_TAX_TYPE")
 public class TaxType extends AbstractEntity {
 
 	/**
@@ -48,7 +47,7 @@ public class TaxType extends AbstractEntity {
     @Lob
 	private String description;
 	
-	@Column(name="CODE", nullable = false)
+	@Column(name="CODE", unique = true, nullable = false)
 	private String code;
 	
 	@Temporal(TemporalType.TIMESTAMP)

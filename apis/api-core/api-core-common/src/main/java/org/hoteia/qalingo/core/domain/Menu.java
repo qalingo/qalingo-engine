@@ -27,11 +27,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_MENU", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TBO_MENU")
 public class Menu extends AbstractEntity {
 
 	/**
@@ -48,7 +47,7 @@ public class Menu extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE", nullable = false)
+    @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
     @Column(name = "NAME")

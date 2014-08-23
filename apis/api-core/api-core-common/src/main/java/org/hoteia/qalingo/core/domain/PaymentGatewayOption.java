@@ -20,11 +20,10 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TECO_PAYMENT_GATEWAY_OPTION", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TECO_PAYMENT_GATEWAY_OPTION")
 public class PaymentGatewayOption extends AbstractEntity {
 
     /**
@@ -41,7 +40,7 @@ public class PaymentGatewayOption extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE", nullable = false)
+    @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
     @Column(name = "NAME")

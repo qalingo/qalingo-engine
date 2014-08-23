@@ -20,11 +20,10 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="TBO_PERMISSION", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TBO_PERMISSION")
 public class UserPermission extends AbstractEntity {
 
 	/**
@@ -48,7 +47,7 @@ public class UserPermission extends AbstractEntity {
     @Lob
 	private String description;
 	
-	@Column(name="CODE", nullable = false)
+	@Column(name="CODE", unique = true, nullable = false)
 	private String code;
 	
 	@Temporal(TemporalType.TIMESTAMP)

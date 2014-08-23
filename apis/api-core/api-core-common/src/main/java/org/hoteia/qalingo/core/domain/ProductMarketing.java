@@ -31,7 +31,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -41,7 +40,7 @@ import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.domain.enumtype.AssetType;
 
 @Entity
-@Table(name="TECO_PRODUCT_MARKETING", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TECO_PRODUCT_MARKETING")
 public class ProductMarketing extends AbstractEntity {
 
 	/**
@@ -60,7 +59,7 @@ public class ProductMarketing extends AbstractEntity {
     @Column(name = "VERSION", nullable = false, columnDefinition = "int(11) default 1")
     private int version;
 
-    @Column(name = "CODE", nullable = false)
+    @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
     @Column(name = "NAME")

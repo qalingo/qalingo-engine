@@ -20,10 +20,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="TECO_RETAILER_TAG", uniqueConstraints = {@UniqueConstraint(columnNames= {"CODE"})})
+@Table(name="TECO_RETAILER_TAG")
 public class RetailerTag extends AbstractEntity {
 
 	/**
@@ -36,7 +35,7 @@ public class RetailerTag extends AbstractEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "CODE", nullable = false)
+    @Column(name = "CODE", unique = true, nullable = false)
     private String code;
 
     @Column(name = "NAME")
