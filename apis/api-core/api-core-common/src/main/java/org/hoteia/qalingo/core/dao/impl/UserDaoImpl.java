@@ -80,7 +80,6 @@ public class UserDaoImpl extends AbstractGenericDaoImpl implements UserDao {
     public User saveOrUpdateUser(final User user) {
         if(user.getDateCreate() == null){
             user.setDateCreate(new Date());
-            user.setActive(true);
         }
         user.setDateUpdate(new Date());
         if(StringUtils.isEmpty(user.getCode())){

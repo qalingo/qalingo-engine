@@ -98,8 +98,6 @@ public class CustomerDaoImpl extends AbstractGenericDaoImpl implements CustomerD
 	public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {
 		if(customer.getDateCreate() == null){
 			customer.setDateCreate(new Date());
-			customer.setActive(true);
-			customer.setValidated(false);
 		}
 		customer.setDateUpdate(new Date());
         if(StringUtils.isEmpty(customer.getCode())){
