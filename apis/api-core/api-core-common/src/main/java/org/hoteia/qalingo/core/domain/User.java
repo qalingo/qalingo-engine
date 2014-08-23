@@ -78,6 +78,30 @@ public class User extends AbstractEntity {
     @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
     private boolean active;
 
+    @Column(name = "ADDRESS1")
+    private String address1;
+
+    @Column(name = "ADDRESS2")
+    private String address2;
+
+    @Column(name = "ADDITIONAL_INFORMATION")
+    private String addressAdditionalInformation;
+
+    @Column(name = "POSTAL_CODE")
+    private String postalCode;
+
+    @Column(name = "CITY")
+    private String city;
+
+    @Column(name = "STATE_CODE")
+    private String stateCode;
+
+    @Column(name = "AREA_CODE")
+    private String areaCode;
+
+    @Column(name = "COUNTRY_CODE")
+    private String countryCode;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_LOCALIZATION_ID", insertable = true, updatable = true)
     private Localization defaultLocalization;
@@ -183,6 +207,70 @@ public class User extends AbstractEntity {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getAddressAdditionalInformation() {
+        return addressAdditionalInformation;
+    }
+
+    public void setAddressAdditionalInformation(String addressAdditionalInformation) {
+        this.addressAdditionalInformation = addressAdditionalInformation;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public Localization getDefaultLocalization() {

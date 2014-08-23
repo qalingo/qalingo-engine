@@ -51,7 +51,6 @@ import org.hoteia.qalingo.core.domain.User;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.WarehouseMarketAreaRel;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.email.bean.CustomerNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.UserNewAccountConfirmationEmailBean;
 import org.hoteia.qalingo.core.exception.UniqueConstraintCodeCategoryException;
 import org.hoteia.qalingo.core.pojo.RequestData;
@@ -141,7 +140,17 @@ public class WebBackofficeService {
 		user.setLastname(userForm.getLastname());
 		user.setFirstname(userForm.getFirstname());
 		user.setEmail(userForm.getEmail());
+		  
+		user.setAddress1(userForm.getAddress1());
+		user.setAddress2(userForm.getAddress2());
+		user.setPostalCode(userForm.getPostalCode());
+		user.setCity(userForm.getCity());
+		user.setStateCode(userForm.getStateCode());
+		user.setAreaCode(userForm.getAreaCode());
+		user.setCountryCode(userForm.getCountryCode());
+	    
 		user.setActive(userForm.isActive());
+		
 		return userService.saveOrUpdateUser(user);
 	}
 	
@@ -156,7 +165,7 @@ public class WebBackofficeService {
         
         return createOrUpdatePersonalUser(user, userForm);
     }
-	
+    
     public Customer createOrUpdateCustomer(Customer customer, final CustomerForm customerForm) throws Exception {
         if(customer == null){
             customer = new Customer();

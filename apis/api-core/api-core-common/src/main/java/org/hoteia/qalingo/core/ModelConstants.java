@@ -139,28 +139,29 @@ public final class ModelConstants {
     public static final String AUTHENTICATED_USER_VIEW_BEAN     = "authenticatedUser";
     
     // SPRING FORM
-    public static final String ASSET_FORM                   = "assetForm";
-    public static final String RULE_FORM                    = "ruleForm";
-    public static final String ORDER_FORM                   = "orderForm";
-    public static final String WAREHOUSE_FORM               = "warehouseForm";
-    public static final String DELIVERY_METHOD_FORM         = "deliveryMethodForm";
-    public static final String TAX_FORM                     = "taxForm";
-    public static final String RETAILER_FORM                = "retailerForm";
-    public static final String STORE_FORM                   = "storeForm";
-    public static final String PAYMENT_GATEWAY_FORM         = "paymentGatewayForm";
-    public static final String ENGINE_SETTING_FORM          = "engineSettingForm";
-    public static final String ENGINE_SETTING_VALUE_FORM    = "engineSettingValueForm";
-    public static final String CUSTOMER_FORM                = "customerForm";
-    public static final String USER_FORM                    = "userForm";
-    public static final String CART_FORM                    = "cartForm";
-    public static final String PAYMENT_FORM                 = "paymentForm";
-    public static final String CREATE_ACCOUNT_FORM          = "createAccountForm";
-    public static final String CATALOG_CATEGORY_FORM        = "catalogCategoryForm";
-    public static final String PRODUCT_MARKETING_FORM       = "productMarketingForm";
-    public static final String PRODUCT_SKU_FORM             = "productSkuForm";
-    public static final String PRODUCT_COMMENT_FORM         = "productCommentForm";
-    public static final String CONTACT_FORM                 = "contactForm";
-    public static final String SEARCH_FORM                  = "searchForm";
+    public static final String ASSET_FORM                       = "assetForm";
+    public static final String RULE_FORM                        = "ruleForm";
+    public static final String ORDER_FORM                       = "orderForm";
+    public static final String WAREHOUSE_FORM                   = "warehouseForm";
+    public static final String DELIVERY_METHOD_FORM             = "deliveryMethodForm";
+    public static final String TAX_FORM                         = "taxForm";
+    public static final String RETAILER_FORM                    = "retailerForm";
+    public static final String STORE_FORM                       = "storeForm";
+    public static final String PAYMENT_GATEWAY_FORM             = "paymentGatewayForm";
+    public static final String ENGINE_SETTING_FORM              = "engineSettingForm";
+    public static final String ENGINE_SETTING_VALUE_FORM        = "engineSettingValueForm";
+    public static final String CUSTOMER_FORM                    = "customerForm";
+    public static final String USER_FORM                        = "userForm";
+    public static final String CART_FORM                        = "cartForm";
+    public static final String PAYMENT_FORM                     = "paymentForm";
+    public static final String FRONTOFFICE_CREATE_ACCOUNT_FORM  = "createAccountForm";
+    public static final String CATALOG_CATEGORY_FORM            = "catalogCategoryForm";
+    public static final String PRODUCT_MARKETING_FORM           = "productMarketingForm";
+    public static final String PRODUCT_SKU_FORM                 = "productSkuForm";
+    public static final String PRODUCT_COMMENT_FORM             = "productCommentForm";
+    public static final String CONTACT_FORM                     = "contactForm";
+    public static final String SEARCH_FORM                      = "searchForm";
+    public static final String BACKOFFICE_CREATE_ACCOUNT_FORM   = "createAccountForm";
 
     // AUTH
     public static final String AUTH_HAS_FAIL        = "authHasFail";

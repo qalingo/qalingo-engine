@@ -52,7 +52,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     protected SecurityUtil securityUtil;
 	
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
-	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
+	public ModelAndView displayCustomerCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
 		// SANITY CHECK: Customer logged
@@ -72,7 +72,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	}
 
 	@RequestMapping(value = FoUrls.CUSTOMER_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
-	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
+	public ModelAndView customerCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
 								BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market currentMarket = requestData.getMarket();
@@ -113,7 +113,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 	}
 	
     @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.GET)
-    public ModelAndView displayCheckoutCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
+    public ModelAndView displayCheckoutCreateAccount(final HttpServletRequest request, final Model model, @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm) throws Exception {
         ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CUSTOMER_CREATE_ACCOUNT.getVelocityPage());
         final RequestData requestData = requestUtil.getRequestData(request);
         // SANITY CHECK: Customer logged
@@ -134,7 +134,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
     }
 
     @RequestMapping(value = FoUrls.CART_CREATE_ACCOUNT_URL, method = RequestMethod.POST)
-    public ModelAndView checkoutCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
+    public ModelAndView checkoutCreateAccount(final HttpServletRequest request, final Model model, @Valid @ModelAttribute(ModelConstants.FRONTOFFICE_CREATE_ACCOUNT_FORM) CreateAccountForm createAccountForm,
                                 BindingResult result) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Market currentMarket = requestData.getMarket();
