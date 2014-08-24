@@ -125,65 +125,90 @@ public class WebBackofficeService {
     @Autowired
     protected SecurityUtil securityUtil;
     
+    // USER
+    
     public User createOrUpdatePersonalUser(User user, final UserForm userForm) {
-        if(user == null){
+        if (user == null) {
+            user = new User();
+        }
+        user = handleUserForm(user, userForm);
+        return userService.saveOrUpdateUser(user);
+    }
+
+    public User createOrUpdateUser(User user, final UserForm userForm) {
+        if (user == null) {
+            user = new User();
+        }
+        user = handleUserForm(user, userForm);
+        return userService.saveOrUpdateUser(user);
+    }
+
+    /**
+     * 
+     */
+    public User buildNewUser(final UserForm userForm) throws Exception {
+        User user = new User();
+        user = handleUserForm(user, userForm);
+        return user;
+    }
+
+    /**
+     * 
+     */
+    public User buildAndRegisterNewActiveUser(final RequestData requestData, final UserForm userForm) throws Exception {
+        User user = buildNewUser(userForm);
+        // FORCE TO ACTIVE A REGISTER USER
+        user.setActive(true);
+        return user;
+    }
+    
+    protected User handleUserForm(User user, final UserForm userForm) {
+        if (user == null) {
             user = new User();
         }
         user.setTitle(userForm.getTitle());
-        
-        if(StringUtils.isNotEmpty(userForm.getLogin())){
+        user.setLastname(userForm.getLastname());
+        user.setFirstname(userForm.getFirstname());
+        user.setEmail(userForm.getEmail());
+
+        if (StringUtils.isNotEmpty(userForm.getLogin())) {
             user.setLogin(userForm.getLogin());
         } else {
             String login = userForm.getFirstname().substring(0, 1) + userForm.getLastname();
             User checkUserLogin = userService.getUserByLoginOrEmail(login);
             int i = 1;
-            while(checkUserLogin != null){
+            while (checkUserLogin != null) {
                 login = userForm.getFirstname().substring(0, 1) + userForm.getLastname() + i;
                 checkUserLogin = userService.getUserByLoginOrEmail(login);
                 i++;
             }
             user.setLogin(login.toLowerCase());
         }
-        
-        user.setLastname(userForm.getLastname());
-        user.setFirstname(userForm.getFirstname());
-        user.setEmail(userForm.getEmail());
-        return userService.saveOrUpdateUser(user);
+        if (StringUtils.isNotEmpty(userForm.getPassword())) {
+            // UPDATE PASSWORD
+            user.setPassword(userForm.getPassword());
+
+        } else {
+            if (StringUtils.isEmpty(user.getPassword())) {
+                // SET A DEFAULT PASSWORD
+                user.setPassword(securityUtil.encodePassword(userForm.getPassword()));
+            }
+        }
+
+        user.setAddress1(userForm.getAddress1());
+        user.setAddress2(userForm.getAddress2());
+        user.setPostalCode(userForm.getPostalCode());
+        user.setCity(userForm.getCity());
+        user.setStateCode(userForm.getStateCode());
+        user.setAreaCode(userForm.getAreaCode());
+        user.setCountryCode(userForm.getCountryCode());
+
+        user.setActive(userForm.isActive());
+
+        return user;
     }
     
-	public User createOrUpdateUser(User user, final UserForm userForm) {
-	    if(user == null){
-	        user = new User();
-	    }
-		user.setLogin(userForm.getLogin());
-		user.setLastname(userForm.getLastname());
-		user.setFirstname(userForm.getFirstname());
-		user.setEmail(userForm.getEmail());
-		  
-		user.setAddress1(userForm.getAddress1());
-		user.setAddress2(userForm.getAddress2());
-		user.setPostalCode(userForm.getPostalCode());
-		user.setCity(userForm.getCity());
-		user.setStateCode(userForm.getStateCode());
-		user.setAreaCode(userForm.getAreaCode());
-		user.setCountryCode(userForm.getCountryCode());
-	    
-		user.setActive(userForm.isActive());
-		
-		return userService.saveOrUpdateUser(user);
-	}
-	
-    /**
-     * 
-     */
-    public User buildAndRegisterNewCustomer(final RequestData requestData, final UserForm userForm) throws Exception {
-        User user = new User();
-        
-        user.setPassword(securityUtil.encodePassword(userForm.getPassword()));
-        user.setActive(true);
-        
-        return createOrUpdatePersonalUser(user, userForm);
-    }
+    // CUSTOMER
     
     public Customer createOrUpdateCustomer(Customer customer, final CustomerForm customerForm) throws Exception {
         if(customer == null){
@@ -196,6 +221,8 @@ public class WebBackofficeService {
         customer.setActive(customerForm.isActive());
         return customerService.saveOrUpdateCustomer(customer);
     }
+    
+    // CATALOG
     
 	public CatalogCategoryMaster createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryMaster parentCatalogCategory, 
 	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {

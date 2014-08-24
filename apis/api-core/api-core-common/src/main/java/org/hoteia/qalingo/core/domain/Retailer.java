@@ -93,7 +93,7 @@ public class Retailer extends AbstractEntity {
     @Column(name = "RATIO_QUALITY_PRICE", nullable = false, columnDefinition = "tinyint(1) default 0")
     private int ratioQualityPrice;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Warehouse.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "WAREHOUSE_ID")
     private Warehouse warehouse;
 

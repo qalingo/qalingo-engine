@@ -64,16 +64,8 @@ public class CustomerRole extends AbstractEntity {
     @Column(name = "DATE_UPDATE")
     private Date dateUpdate;
 
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.CustomerPermission.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TECO_ROLE_PERMISSION_REL",
-	        joinColumns=@JoinColumn(name="ROLE_ID"),
-	        inverseJoinColumns=@JoinColumn(name="PERMISSION_ID")
-	    )
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.CustomerPermission.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TECO_ROLE_PERMISSION_REL", joinColumns = @JoinColumn(name = "ROLE_ID"), inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID"))
 	private Set<CustomerPermission> permissions;
 	
 	public CustomerRole(){

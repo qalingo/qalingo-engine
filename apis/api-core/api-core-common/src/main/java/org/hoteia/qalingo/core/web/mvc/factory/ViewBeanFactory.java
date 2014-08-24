@@ -486,19 +486,28 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             // TODO : why : SET A RELOAD OBJECT MARKET -> event
             // LazyInitializationException: could not initialize proxy - no Session
             final Market marketNavigationReloaded = marketService.getMarketById(marketNavigation.getId().toString());
-            // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
-            final MarketArea defaultMarketArea = marketService.getMarketAreaByCode(marketNavigationReloaded.getDefaultMarketArea().getCode());
-            final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
-            final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
             
-            RequestData requestDataForThisMarket = new RequestData();
-            BeanUtils.copyProperties(requestData, requestDataForThisMarket);
-            requestDataForThisMarket.setMarket(marketNavigationReloaded);
-            requestDataForThisMarket.setMarketArea(defaultMarketArea);
-            requestDataForThisMarket.setMarketAreaLocalization(defaultLocalization);
-            requestDataForThisMarket.setMarketAreaRetailer(defaultRetailer);
+            if(marketNavigationReloaded.getDefaultMarketArea() != null){
+                logger.warn("This market, " + marketNavigation.getCode() + ", doesn't have a default MarketArea! This a mandatory value!");
+                
+                // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
+                final MarketArea defaultMarketArea = marketService.getMarketAreaByCode(marketNavigationReloaded.getDefaultMarketArea().getCode());
+                final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
+                final Retailer defaultRetailer = defaultMarketArea.getDefaultRetailer();
 
-            marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
+                RequestData requestDataForThisMarket = new RequestData();
+                BeanUtils.copyProperties(requestData, requestDataForThisMarket);
+                requestDataForThisMarket.setMarket(marketNavigationReloaded);
+                requestDataForThisMarket.setMarketArea(defaultMarketArea);
+                requestDataForThisMarket.setMarketAreaLocalization(defaultLocalization);
+                requestDataForThisMarket.setMarketAreaRetailer(defaultRetailer);
+
+                marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
+                
+            } else {
+                marketViewBeans.add(buildViewBeanMarket(requestData, marketNavigationReloaded));
+            }
+            
         }
         return marketViewBeans;
     }
@@ -523,29 +532,32 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<MarketAreaViewBean> buildListViewBeanMarketArea(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
-        for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
-            final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
-            
-            // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
-            final Market reloadedMarket = marketService.getMarketByCode(marketArea.getMarket().getCode());
-            // RELOAD THE MARKETPLACE TO KEEP AN ENTITY WITH RIGHT FETCHS
-            final MarketPlace reloadedMarketPlace = marketService.getMarketPlaceByCode(reloadedMarket.getMarketPlace().getCode());
-            
-            final MarketArea reloadedMarketArea = marketService.getMarketAreaByCode(marketArea.getCode());
-            final Localization defaultLocalization = reloadedMarketArea.getDefaultLocalization();
-            final Retailer defaultRetailer = reloadedMarketArea.getDefaultRetailer();
-            final CurrencyReferential defaultCurrency = reloadedMarketArea.getDefaultCurrency();
+        if(marketAreas!= null
+                && !marketAreas.isEmpty()){
+            for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
+                final MarketArea marketArea = (MarketArea) iteratorMarketArea.next();
+                
+                // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
+                final Market reloadedMarket = marketService.getMarketByCode(marketArea.getMarket().getCode());
+                // RELOAD THE MARKETPLACE TO KEEP AN ENTITY WITH RIGHT FETCHS
+                final MarketPlace reloadedMarketPlace = marketService.getMarketPlaceByCode(reloadedMarket.getMarketPlace().getCode());
+                
+                final MarketArea reloadedMarketArea = marketService.getMarketAreaByCode(marketArea.getCode());
+                final Localization defaultLocalization = reloadedMarketArea.getDefaultLocalization();
+                final Retailer defaultRetailer = reloadedMarketArea.getDefaultRetailer();
+                final CurrencyReferential defaultCurrency = reloadedMarketArea.getDefaultCurrency();
 
-            RequestData requestDataForThisMarketArea = new RequestData();
-            BeanUtils.copyProperties(requestData, requestDataForThisMarketArea);
-            requestDataForThisMarketArea.setMarketPlace(reloadedMarketPlace);
-            requestDataForThisMarketArea.setMarket(reloadedMarket);
-            requestDataForThisMarketArea.setMarketArea(reloadedMarketArea);
-            requestDataForThisMarketArea.setMarketAreaLocalization(defaultLocalization);
-            requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
-            requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
-            
-            marketAreaViewBeans.add(buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea));
+                RequestData requestDataForThisMarketArea = new RequestData();
+                BeanUtils.copyProperties(requestData, requestDataForThisMarketArea);
+                requestDataForThisMarketArea.setMarketPlace(reloadedMarketPlace);
+                requestDataForThisMarketArea.setMarket(reloadedMarket);
+                requestDataForThisMarketArea.setMarketArea(reloadedMarketArea);
+                requestDataForThisMarketArea.setMarketAreaLocalization(defaultLocalization);
+                requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
+                requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
+                
+                marketAreaViewBeans.add(buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea));
+            }
         }
         return marketAreaViewBeans;
     }

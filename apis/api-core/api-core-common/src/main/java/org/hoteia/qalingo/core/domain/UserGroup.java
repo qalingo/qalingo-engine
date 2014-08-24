@@ -65,17 +65,9 @@ public class UserGroup extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.UserRole.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TBO_GROUP_ROLE_REL",
-	        joinColumns=@JoinColumn(name="GROUP_ID"),
-	        inverseJoinColumns=@JoinColumn(name="ROLE_ID")
-	    )	
-	private Set<UserRole> groupRoles = new HashSet<UserRole>(); 
+    @ManyToMany(fetch = FetchType.LAZY,targetEntity = org.hoteia.qalingo.core.domain.UserRole.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TBO_GROUP_ROLE_REL", joinColumns = @JoinColumn(name = "GROUP_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))	
+	private Set<UserRole> roles = new HashSet<UserRole>(); 
 	
 	public UserGroup(){
 	}
@@ -136,12 +128,12 @@ public class UserGroup extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 	
-    public Set<UserRole> getGroupRoles() {
-        return groupRoles;
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 	
-	public void setGroupRoles(Set<UserRole> groupRoles) {
-		this.groupRoles = groupRoles;
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
 	}
 
     @Override

@@ -305,7 +305,7 @@ public class User extends AbstractEntity {
             Iterator<UserGroup> it = userGroups.iterator();
             while (it.hasNext()) {
                 UserGroup userGroup = (UserGroup) it.next();
-                roles.addAll(userGroup.getGroupRoles());
+                roles.addAll(userGroup.getRoles());
             }
         }
         return roles;
@@ -321,10 +321,10 @@ public class User extends AbstractEntity {
             while (itUserGroup.hasNext()) {
                 UserGroup userGroup = (UserGroup) itUserGroup.next();
 
-                Iterator<UserRole> itUserRole = userGroup.getGroupRoles().iterator();
+                Iterator<UserRole> itUserRole = userGroup.getRoles().iterator();
                 while (itUserRole.hasNext()) {
                     UserRole userRole = (UserRole) itUserRole.next();
-                    permission.addAll(userRole.getRolePermissions());
+                    permission.addAll(userRole.getPermissions());
                 }
             }
         }

@@ -116,8 +116,8 @@ public class FetchPlanGraphCommon {
         fetchplans.add(new SpecificFetchMode("defaultLocalization"));
         fetchplans.add(new SpecificFetchMode("company"));
         fetchplans.add(new SpecificFetchMode("groups"));
-        fetchplans.add(new SpecificFetchMode("roles", new SpecificAlias("groups.groupRoles")));
-        fetchplans.add(new SpecificFetchMode("rolePermissions", new SpecificAlias("groups.groupRoles.rolePermissions")));
+        fetchplans.add(new SpecificFetchMode("roles", new SpecificAlias("groups.roles")));
+        fetchplans.add(new SpecificFetchMode("permissions", new SpecificAlias("groups.roles.permissions")));
         fetchplans.add(new SpecificFetchMode("connectionLogs"));
         return new FetchPlan(fetchplans);
     }

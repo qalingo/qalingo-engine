@@ -90,7 +90,7 @@ public class Store extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
     @JoinColumn(name = "RETAILER_ID", insertable = true, updatable = true)
     private Retailer retailer;
 

@@ -64,17 +64,9 @@ public class UserRole extends AbstractEntity {
 	@Column(name="DATE_UPDATE")
 	private Date dateUpdate;
 
-	@ManyToMany(
-			fetch = FetchType.LAZY,
-	        targetEntity=org.hoteia.qalingo.core.domain.UserPermission.class,
-	        cascade={CascadeType.PERSIST, CascadeType.MERGE}
-	    )
-    @JoinTable(
-	        name="TBO_ROLE_PERMISSION_REL",
-	        joinColumns=@JoinColumn(name="ROLE_ID"),
-	        inverseJoinColumns=@JoinColumn(name="PERMISSION_ID")
-	    )
-	private Set<UserPermission> rolePermissions;
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.UserPermission.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "TBO_ROLE_PERMISSION_REL", joinColumns = @JoinColumn(name = "ROLE_ID"), inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID"))
+	private Set<UserPermission> permissions;
 	
 	public UserRole(){
 	}
@@ -135,12 +127,12 @@ public class UserRole extends AbstractEntity {
 		this.dateUpdate = dateUpdate;
 	}
 
-    public Set<UserPermission> getRolePermissions() {
-        return rolePermissions;
+    public Set<UserPermission> getPermissions() {
+        return permissions;
     }
 	
-	public void setRolePermissions(Set<UserPermission> rolePermissions) {
-		this.rolePermissions = rolePermissions;
+	public void setPermissions(Set<UserPermission> permissions) {
+		this.permissions = permissions;
 	}
 
     @Override
