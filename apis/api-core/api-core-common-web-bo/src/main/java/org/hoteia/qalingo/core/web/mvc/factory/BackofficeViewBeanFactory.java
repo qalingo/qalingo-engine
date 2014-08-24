@@ -56,7 +56,6 @@ import org.hoteia.qalingo.core.domain.UserPermission;
 import org.hoteia.qalingo.core.domain.UserRole;
 import org.hoteia.qalingo.core.domain.Warehouse;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
@@ -727,25 +726,25 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             userViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
 
-        final Set<UserGroup> userGroups = user.getGroups();
-        for (Iterator<UserGroup> iteratorUserGroup = userGroups.iterator(); iteratorUserGroup.hasNext();) {
-            UserGroup userGroup = (UserGroup) iteratorUserGroup.next();
-            String keyUserGroup = userGroup.getCode();
-            String valueUserGroup = userGroup.getName();
+        final Set<UserGroup> groups = user.getGroups();
+        for (Iterator<UserGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
+            UserGroup group = (UserGroup) iteratorGroup.next();
+            String keyUserGroup = group.getCode();
+            String valueUserGroup = group.getName();
             userViewBean.getUserGroups().put(keyUserGroup, valueUserGroup);
 
-            final Set<UserRole> userRoles = userGroup.getRoles();
-            for (Iterator<UserRole> iteratorUserRole = userRoles.iterator(); iteratorUserRole.hasNext();) {
-                UserRole userRole = (UserRole) iteratorUserRole.next();
-                String keyUserRole = userRole.getCode() + " (" + userGroup.getCode() + ")";
-                String valueUserRole = userRole.getName();
+            final Set<UserRole> roles = group.getRoles();
+            for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
+                UserRole role = (UserRole) iteratorRole.next();
+                String keyUserRole = role.getCode() + " (" + group.getCode() + ")";
+                String valueUserRole = role.getName();
                 userViewBean.getUserRoles().put(keyUserRole, valueUserRole);
 
-                final Set<UserPermission> rolePermissions = userRole.getPermissions();
-                for (Iterator<UserPermission> iteratorUserPermission = rolePermissions.iterator(); iteratorUserPermission.hasNext();) {
-                    UserPermission userPermission = (UserPermission) iteratorUserPermission.next();
-                    String keyUserPermission = userPermission.getCode() + " (" + userRole.getCode() + ")";
-                    String valueUserPermission = userPermission.getName();
+                final Set<UserPermission> permissions = role.getPermissions();
+                for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
+                    UserPermission permission = (UserPermission) iteratorPermission.next();
+                    String keyUserPermission = permission.getCode() + " (" + role.getCode() + ")";
+                    String valueUserPermission = permission.getName();
                     userViewBean.getUserPermissions().put(keyUserPermission, valueUserPermission);
                 }
             }
@@ -753,20 +752,20 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
 
         final Set<UserConnectionLog> connectionLogs = user.getConnectionLogs();
         for (Iterator<UserConnectionLog> iteratorUserConnectionLog = connectionLogs.iterator(); iteratorUserConnectionLog.hasNext();) {
-            UserConnectionLog userConnectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
+            UserConnectionLog connectionLog = (UserConnectionLog) iteratorUserConnectionLog.next();
             UserConnectionLogValueBean userConnectionLogValueBean = new UserConnectionLogValueBean();
-            userConnectionLogValueBean.setDate(dateFormat.format(userConnectionLog.getLoginDate()));
+            userConnectionLogValueBean.setDate(dateFormat.format(connectionLog.getLoginDate()));
             userConnectionLogValueBean.setHost(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(userConnectionLog.getHost())) {
-                userConnectionLogValueBean.setHost(userConnectionLog.getHost());
+            if (StringUtils.isNotEmpty(connectionLog.getHost())) {
+                userConnectionLogValueBean.setHost(connectionLog.getHost());
             }
             userConnectionLogValueBean.setPublicAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(userConnectionLog.getPublicAddress())) {
-                userConnectionLogValueBean.setPublicAddress(userConnectionLog.getPublicAddress());
+            if (StringUtils.isNotEmpty(connectionLog.getPublicAddress())) {
+                userConnectionLogValueBean.setPublicAddress(connectionLog.getPublicAddress());
             }
             userConnectionLogValueBean.setPrivateAddress(Constants.NOT_AVAILABLE);
-            if (StringUtils.isNotEmpty(userConnectionLog.getPrivateAddress())) {
-                userConnectionLogValueBean.setPublicAddress(userConnectionLog.getPrivateAddress());
+            if (StringUtils.isNotEmpty(connectionLog.getPrivateAddress())) {
+                userConnectionLogValueBean.setPublicAddress(connectionLog.getPrivateAddress());
             }
             userViewBean.getUserConnectionLogs().add(userConnectionLogValueBean);
         }

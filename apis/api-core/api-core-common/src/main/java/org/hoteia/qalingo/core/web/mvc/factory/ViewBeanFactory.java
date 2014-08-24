@@ -488,8 +488,6 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
             final Market marketNavigationReloaded = marketService.getMarketById(marketNavigation.getId().toString());
             
             if(marketNavigationReloaded.getDefaultMarketArea() != null){
-                logger.warn("This market, " + marketNavigation.getCode() + ", doesn't have a default MarketArea! This a mandatory value!");
-                
                 // RELOAD THE MARKET TO KEEP AN ENTITY WITH RIGHT FETCHS
                 final MarketArea defaultMarketArea = marketService.getMarketAreaByCode(marketNavigationReloaded.getDefaultMarketArea().getCode());
                 final Localization defaultLocalization = defaultMarketArea.getDefaultLocalization();
@@ -505,6 +503,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 marketViewBeans.add(buildViewBeanMarket(requestDataForThisMarket, marketNavigationReloaded));
                 
             } else {
+                logger.warn("This market, " + marketNavigation.getCode() + ", doesn't have a default MarketArea! This a mandatory value!");
                 marketViewBeans.add(buildViewBeanMarket(requestData, marketNavigationReloaded));
             }
             

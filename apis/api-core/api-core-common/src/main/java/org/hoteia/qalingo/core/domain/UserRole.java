@@ -174,7 +174,8 @@ public class UserRole extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "UserRole [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + "]";
+        return "UserRole [id=" + id + ", version=" + version + ", name=" + name + ", description=" + description + ", code=" + code + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate
+                + ", permissions=" + permissions + "]";
     }
 
 }

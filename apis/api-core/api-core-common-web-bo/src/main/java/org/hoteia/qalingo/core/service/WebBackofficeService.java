@@ -186,12 +186,12 @@ public class WebBackofficeService {
         }
         if (StringUtils.isNotEmpty(userForm.getPassword())) {
             // UPDATE PASSWORD
-            user.setPassword(userForm.getPassword());
+            user.setPassword(securityUtil.encodePassword(userForm.getPassword()));
 
         } else {
             if (StringUtils.isEmpty(user.getPassword())) {
                 // SET A DEFAULT PASSWORD
-                user.setPassword(securityUtil.encodePassword(userForm.getPassword()));
+                user.setPassword(securityUtil.generatePassword());
             }
         }
 
