@@ -96,7 +96,7 @@ public class CustomerCreateAccountController extends AbstractCustomerController 
 		if(customer != null){
 			final String forgottenPasswordUrl = urlService.generateUrl(FoUrls.FORGOTTEN_PASSWORD, requestUtil.getRequestData(request));
 			final Object[] objects = {forgottenPasswordUrl};
-			result.rejectValue("email", "fo.customer.error_form_create_account_account_already_exist", objects,"This email customer account already exist! Go on this <a href=\"{0}\" alt=\"\">page</a> to get a new password.");
+			result.rejectValue("email", "fo.customer.error_form_create_account_account_already_exist", objects,"This email customer account already exist! Go on this <a href=\"forgotten-password.html\" alt=\"\">page</a> to get a new password.");
 			return displayCustomerCreateAccount(request, model, createAccountForm);
 		}
 

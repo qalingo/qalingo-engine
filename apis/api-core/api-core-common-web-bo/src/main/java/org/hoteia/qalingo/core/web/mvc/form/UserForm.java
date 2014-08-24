@@ -29,6 +29,8 @@ public class UserForm {
 	private String lastname;
 	private String email;
 	
+    private String userType;
+    
     private String address1;
     private String address2;
     private String postalCode;
@@ -123,6 +125,14 @@ public class UserForm {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getUserType() {
+        return userType;
+    }
+	
+	public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
 	public String getAddress1() {
         return address1;
