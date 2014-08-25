@@ -11,7 +11,7 @@ package org.hoteia.qalingo.core;
 
 import java.util.Date;
 
-public final class Constants {
+public class Constants {
 
 	public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 

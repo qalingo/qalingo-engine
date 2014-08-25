@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core;
 
-public final class RequestConstants {
+public class RequestConstants {
 
 	public static final String NAMESPACE_URI = "http://ws.qalingo.com/schemas/ws/eco";
 

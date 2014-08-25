@@ -33,7 +33,7 @@
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="bq-persistence" />
+		<property name="persistenceUnitName" value="qalingo-persistence" />
 		<property name="jpaVendorAdapter">
 			<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="${hibernate.generateddl}" />
@@ -41,6 +41,11 @@
 				<property name="databasePlatform" value="${hibernate.dialect}" />
 			</bean>
 		</property>
+        <property name="packagesToScan">
+            <list>
+                <value>org.hoteia.qalingo.core.domain</value> 
+            </list>
+        </property>
         <!--   
 		<property name="jpaProperties">
 			<props>  

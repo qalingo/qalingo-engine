@@ -9,7 +9,7 @@
  */
 package org.hoteia.qalingo.core;
 
-public final class ModelConstants {
+public class ModelConstants {
 
     // GLOBAL
     public static final String APP_NAME         = "appName";
