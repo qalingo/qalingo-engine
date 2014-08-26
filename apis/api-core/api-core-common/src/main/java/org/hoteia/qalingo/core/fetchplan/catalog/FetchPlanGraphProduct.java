@@ -12,6 +12,7 @@ package org.hoteia.qalingo.core.fetchplan.catalog;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hoteia.qalingo.core.domain.ProductBrand_;
 import org.hoteia.qalingo.core.domain.ProductMarketing_;
 import org.hoteia.qalingo.core.domain.ProductSku_;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -31,6 +32,12 @@ public class FetchPlanGraphProduct {
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductSku_.attributes.getName()));
         fetchplans.add(new SpecificFetchMode(ProductSku_.productMarketing.getName()));
+        return new FetchPlan(fetchplans);
+    }
+    
+    public static FetchPlan productBrandDefaultFetchPlan(){
+        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
+        fetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));
         return new FetchPlan(fetchplans);
     }
     

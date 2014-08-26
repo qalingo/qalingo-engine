@@ -97,6 +97,7 @@ public class ModelConstants {
     public static final String PRODUCT_MARKETING_VIEW_BEAN          = "productMarketing";
     public static final String PRODUCT_SKU_VIEW_BEAN                = "productSku";
     public static final String PRODUCT_BRANDS_VIEW_BEAN             = "productBrands";
+    public static final String PRODUCT_BRAND_VIEW_BEAN              = "productBrand";
     public static final String RECENT_PPRODUCT_MARKETING_VIEW_BEAN  = "recentProducts";
     public static final String RELATED_PPRODUCT_MARKETING_VIEW_BEAN = "relatedProductMarketings";
     public static final String CUSTOMER_PRODUCT_RATES_VIEW_BEAN     = "customerProductRates";
@@ -156,6 +157,7 @@ public class ModelConstants {
     public static final String PAYMENT_FORM                     = "paymentForm";
     public static final String FRONTOFFICE_CREATE_ACCOUNT_FORM  = "createAccountForm";
     public static final String CATALOG_CATEGORY_FORM            = "catalogCategoryForm";
+    public static final String PRODUCT_BRAND_FORM               = "productBrandForm";
     public static final String PRODUCT_MARKETING_FORM           = "productMarketingForm";
     public static final String PRODUCT_SKU_FORM                 = "productSkuForm";
     public static final String PRODUCT_COMMENT_FORM             = "productCommentForm";

@@ -9,8 +9,11 @@
  */
 package org.hoteia.qalingo.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,6 +30,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name="TECO_PRODUCT_BRAND")
@@ -56,6 +61,10 @@ public class ProductBrand extends AbstractEntity {
     @Lob
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_BRAND_ID")
+    private Set<ProductBrandAttribute> attributes = new HashSet<ProductBrandAttribute>();
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_BRAND_ID")
     private Set<ProductMarketing> productMarketings = new HashSet<ProductMarketing>();
@@ -111,6 +120,48 @@ public class ProductBrand extends AbstractEntity {
 		this.description = description;
 	}
 	
+    public Set<ProductBrandAttribute> getAttributes() {
+        return attributes;
+    }
+    
+    public void setAttributes(Set<ProductBrandAttribute> attributes) {
+        this.attributes = attributes;
+    }
+    
+    public List<ProductBrandAttribute> getGlobalAttributes() {
+        List<ProductBrandAttribute> productBrandGlobalAttributes = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            productBrandGlobalAttributes = new ArrayList<ProductBrandAttribute>();
+            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && attributeDefinition.isGlobal()) {
+                    productBrandGlobalAttributes.add(attribute);
+                }
+            }
+        }        
+        return productBrandGlobalAttributes;
+    }
+
+    public List<ProductBrandAttribute> getMarketAreaAttributes(Long marketAreaId) {
+        List<ProductBrandAttribute> productBrandMarketAreaAttributes = null;
+        if (attributes != null
+                && Hibernate.isInitialized(attributes)) {
+            productBrandMarketAreaAttributes = new ArrayList<ProductBrandAttribute>();
+            for (Iterator<ProductBrandAttribute> iterator = attributes.iterator(); iterator.hasNext();) {
+                ProductBrandAttribute attribute = (ProductBrandAttribute) iterator.next();
+                AttributeDefinition attributeDefinition = attribute.getAttributeDefinition();
+                if (attributeDefinition != null 
+                        && !attributeDefinition.isGlobal()) {
+                    productBrandMarketAreaAttributes.add(attribute);
+                }
+            }
+        }        
+        return productBrandMarketAreaAttributes;
+    }
+    
 	public Set<ProductMarketing> getProductMarketings() {
         return productMarketings;
     }

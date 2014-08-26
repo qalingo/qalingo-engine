@@ -27,6 +27,8 @@ import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingAttribute;
 import org.hoteia.qalingo.core.domain.ProductSku;
@@ -48,6 +50,7 @@ import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.OrderForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
+import org.hoteia.qalingo.core.web.mvc.form.ProductBrandForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.QuickSearchForm;
@@ -208,6 +211,31 @@ public class BackofficeFormFactory {
             catalogCategoryForm.setMasterCategoryId("" + catalogCategoryMaster.getId());
         }
         return catalogCategoryForm;
+    }
+    
+    public ProductBrandForm buildProductBrandForm(final RequestData requestData, final ProductBrand productBrand) throws Exception {
+        final MarketArea currentMarketArea = requestData.getMarketArea();
+        
+        final ProductBrandForm productBrandForm = new ProductBrandForm();
+        if(productBrand != null){
+            productBrandForm.setId(productBrand.getId().toString());
+            productBrandForm.setName(productBrand.getName());
+            productBrandForm.setCode(productBrand.getCode());
+            productBrandForm.setDescription(productBrand.getDescription());
+            
+            List<ProductBrandAttribute> globalAttributes = productBrand.getGlobalAttributes();
+            for (Iterator<ProductBrandAttribute> iterator = globalAttributes.iterator(); iterator.hasNext();) {
+                ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
+                productBrandForm.getGlobalAttributes().put(productBrandAttribute.getAttributeDefinition().getCode(), productBrandAttribute.getValueAsString());
+            }
+            
+            List<ProductBrandAttribute> marketAreaAttributes = productBrand.getMarketAreaAttributes(currentMarketArea.getId());
+            for (Iterator<ProductBrandAttribute> iterator = marketAreaAttributes.iterator(); iterator.hasNext();) {
+                ProductBrandAttribute productBrandAttribute = (ProductBrandAttribute) iterator.next();
+                productBrandForm.getMarketAreaAttributes().put(productBrandAttribute.getAttributeDefinition().getCode(), productBrandAttribute.getValueAsString());
+            }
+        }
+        return productBrandForm;
     }
     
     public ProductMarketingForm buildProductMarketingForm(final RequestData requestData, final ProductMarketing productMarketing) throws Exception {
