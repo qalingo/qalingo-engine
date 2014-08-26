@@ -292,20 +292,47 @@ public class User extends AbstractEntity {
         return groups;
     }
 
+    public boolean hasGroup(String groupCode) {
+        if(groups != null 
+                && Hibernate.isInitialized(groups)){
+            for (Iterator<UserGroup> iterator = groups.iterator(); iterator.hasNext();) {
+                UserGroup group = (UserGroup) iterator.next();
+                if(group.getCode().equalsIgnoreCase(groupCode)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean hasRole(String roleCode) {
+        if(groups != null 
+                && Hibernate.isInitialized(groups)){
+            for (Iterator<UserGroup> iteratorUserGroup = groups.iterator(); iteratorUserGroup.hasNext();) {
+                UserGroup group = (UserGroup) iteratorUserGroup.next();
+                for (Iterator<UserRole> iteratorUserRole = group.getRoles().iterator(); iteratorUserRole.hasNext();) {
+                    UserRole role = (UserRole) iteratorUserRole.next();
+                    if (role.getCode().equalsIgnoreCase(roleCode)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
     public void setGroups(Set<UserGroup> groups) {
         this.groups = groups;
     }
 
     public List<UserRole> getRoles() {
         List<UserRole> roles = null;
-        Set<UserGroup> userGroups = getGroups();
-        if(userGroups != null 
-                && Hibernate.isInitialized(userGroups)){
+        if(groups != null 
+                && Hibernate.isInitialized(groups)){
             roles = new ArrayList<UserRole>();
-            Iterator<UserGroup> it = userGroups.iterator();
-            while (it.hasNext()) {
-                UserGroup userGroup = (UserGroup) it.next();
-                roles.addAll(userGroup.getRoles());
+            for (Iterator<UserGroup> iterator = groups.iterator(); iterator.hasNext();) {
+                UserGroup group = (UserGroup) iterator.next();
+                roles.addAll(group.getRoles());
             }
         }
         return roles;
@@ -313,18 +340,14 @@ public class User extends AbstractEntity {
 
     public List<UserPermission> getPermissions() {
         List<UserPermission> permission = null;
-        Set<UserGroup> userGroups = getGroups();
-        if(userGroups != null 
-                && Hibernate.isInitialized(userGroups)){
+        if(groups != null 
+                && Hibernate.isInitialized(groups)){
             permission = new ArrayList<UserPermission>();
-            Iterator<UserGroup> itUserGroup = userGroups.iterator();
-            while (itUserGroup.hasNext()) {
-                UserGroup userGroup = (UserGroup) itUserGroup.next();
-
-                Iterator<UserRole> itUserRole = userGroup.getRoles().iterator();
-                while (itUserRole.hasNext()) {
-                    UserRole userRole = (UserRole) itUserRole.next();
-                    permission.addAll(userRole.getPermissions());
+            for (Iterator<UserGroup> iteratorUserGroup = groups.iterator(); iteratorUserGroup.hasNext();) {
+                UserGroup group = (UserGroup) iteratorUserGroup.next();
+                for (Iterator<UserRole> iteratorUserRole = group.getRoles().iterator(); iteratorUserRole.hasNext();) {
+                    UserRole role = (UserRole) iteratorUserRole.next();
+                    permission.addAll(role.getPermissions());
                 }
             }
         }

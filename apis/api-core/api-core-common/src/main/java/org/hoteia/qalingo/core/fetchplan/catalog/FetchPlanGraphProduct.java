@@ -41,9 +41,4 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan defaultProductBrandFetchPlan(){
-        List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
-        return new FetchPlan(fetchplans);
-    }
-
 }

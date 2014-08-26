@@ -335,8 +335,8 @@ public class ProductService {
         return getProductBrandById(productBrandId, params);
     }
 
-    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode, Object... params) {
-        return productDao.getProductBrandByCode(marketAreaId, productBrandCode, params);
+    public ProductBrand getProductBrandByCode(final String productBrandCode, Object... params) {
+        return productDao.getProductBrandByCode(productBrandCode, params);
     }
 
     public List<ProductBrand> findAllProductBrands(Object... params) {

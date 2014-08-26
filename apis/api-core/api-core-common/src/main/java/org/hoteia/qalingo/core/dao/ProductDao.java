@@ -23,7 +23,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.dao.impl.AbstractGenericDaoImpl;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
@@ -514,7 +513,7 @@ public class ProductDao extends AbstractGenericDaoImpl {
         return productBrand;
     }
 
-    public ProductBrand getProductBrandByCode(final Long marketAreaId, final String productBrandCode, Object... params) {
+    public ProductBrand getProductBrandByCode(final String productBrandCode, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
         FetchPlan fetchPlan = handleSpecificProductBrandFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", productBrandCode));
@@ -577,7 +576,7 @@ public class ProductDao extends AbstractGenericDaoImpl {
         if (params != null && params.length > 0) {
             return super.handleSpecificGroupFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphProduct.defaultProductBrandFetchPlan());
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
         }
     }
     
