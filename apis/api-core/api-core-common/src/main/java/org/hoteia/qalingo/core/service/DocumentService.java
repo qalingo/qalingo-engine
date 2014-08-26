@@ -111,7 +111,7 @@ public class DocumentService {
             parameters.put("RECORD_DELIMITER", "\r\n");
             parameters.put("order", orderCustomerPojo);
             Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
-            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.ORDER_CONFIRMATION, "header_order_informations", orderInformationsParams, locale));
+            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.ORDER_CONFIRMATION.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
             parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
             parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
             parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());
@@ -199,7 +199,7 @@ public class DocumentService {
             parameters.put("RECORD_DELIMITER", "\r\n");
             parameters.put("order", orderCustomerPojo);
             Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
-            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.SHIPPING_CONFIRMATION, "header_order_informations", orderInformationsParams, locale));
+            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.SHIPPING_CONFIRMATION.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
             parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
             parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
             parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());
@@ -287,7 +287,7 @@ public class DocumentService {
             parameters.put("RECORD_DELIMITER", "\r\n");
             parameters.put("order", orderCustomerPojo);
             Object[] orderInformationsParams = { orderCustomerPojo.getOrderNum() };
-            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.INVOICE, "header_order_informations", orderInformationsParams, locale));
+            parameters.put("orderInformations", coreMessageSource.getDocumentMessage(ScopeDocumentMessage.INVOICE.getPropertyKey(), "header_order_informations", orderInformationsParams, locale));
             parameters.put("date", orderCustomerPojo.getDateUpdate().toString());
             parameters.put("billingAddress", orderCustomerPojo.getBillingAddress());
             parameters.put("shippingAddress", orderCustomerPojo.getShippingAddress());

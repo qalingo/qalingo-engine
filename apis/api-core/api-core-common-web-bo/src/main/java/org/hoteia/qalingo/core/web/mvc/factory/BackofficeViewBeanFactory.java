@@ -1168,10 +1168,18 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
     }
     
     protected String getSpecificMessage(ScopeWebMessage scope, String key, Locale locale) {
-        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, locale);
+        return getSpecificMessage(scope.getPropertyKey(), key, locale);
     }
 
     protected String getSpecificMessage(ScopeWebMessage scope, String key, Object[] params, Locale locale) {
+        return getSpecificMessage(scope.getPropertyKey(), key, params, locale);
+    }
+    
+    protected String getSpecificMessage(String scope, String key, Locale locale) {
+        return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, locale);
+    }
+
+    protected String getSpecificMessage(String scope, String key, Object[] params, Locale locale) {
         return coreMessageSource.getSpecificMessage(I18nKeyValueUniverse.BO, scope, key, params, locale);
     }
     

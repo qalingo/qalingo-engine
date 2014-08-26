@@ -19,11 +19,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.Constants;
 import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeCommonMessage;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeDocumentMessage;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeEmailMessage;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeReferenceDataMessage;
-import org.hoteia.qalingo.core.i18n.enumtype.ScopeWebMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,55 +37,55 @@ public class CoreMessageSource {
     /**
      * Common-Message
      */
-    public String getCommonMessage(final ScopeCommonMessage scope, String key, final Locale locale) {
+    public String getCommonMessage(final String scope, String key, final Locale locale) {
         return getMessage(buildCommonFullKey(scope, key), locale);
     }
 
-    public String getCommonMessage(final ScopeCommonMessage scope, String key, final Object[] params, final Locale locale) {
+    public String getCommonMessage(final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildCommonFullKey(scope, key), params, locale);
     }
 
     /**
      * Email-Message
      */
-    public String getEmailMessage(final ScopeEmailMessage scope, String key, final Locale locale) {
+    public String getEmailMessage(final String scope, String key, final Locale locale) {
         return getMessage(buildEmailFullKey(scope, key), locale);
     }
 
-    public String getEmailMessage(final ScopeEmailMessage scope, String key, final Object[] params, final Locale locale) {
+    public String getEmailMessage(final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildEmailFullKey(scope, key), params, locale);
     }
     
     /**
      * Document-Message
      */
-    public String getDocumentMessage(final ScopeDocumentMessage scope, String key, final Locale locale) {
+    public String getDocumentMessage(final String scope, String key, final Locale locale) {
         return getMessage(buildDocumentFullKey(scope, key), locale);
     }
 
-    public String getDocumentMessage(final ScopeDocumentMessage scope, String key, final Object[] params, final Locale locale) {
+    public String getDocumentMessage(final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildDocumentFullKey(scope, key), params, locale);
     }
 
     /**
      * Specific
      */
-    public String getSpecificMessage(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key, final Locale locale) {
+    public String getSpecificMessage(final I18nKeyValueUniverse universe, final String scope, String key, final Locale locale) {
         return getMessage(buildSpecificFullKey(universe, scope, key), locale);
     }
 
-    public String getSpecificMessage(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key, final Object[] params, final Locale locale) {
+    public String getSpecificMessage(final I18nKeyValueUniverse universe, final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildSpecificFullKey(universe, scope, key), params, locale);
     }
 
     /**
      * ReferenceData
      */
-    public String getReferenceData(final ScopeReferenceDataMessage scope, String key, final Locale locale) {
+    public String getReferenceData(final String scope, String key, final Locale locale) {
         return getMessage(buildReferenceDataFullKey(scope, key), locale);
     }
 
-    public String getReferenceData(final ScopeReferenceDataMessage scope, String key, final Object[] params, final Locale locale) {
+    public String getReferenceData(final String scope, String key, final Object[] params, final Locale locale) {
         return getMessage(buildReferenceDataFullKey(scope, key), params, locale);
     }
 
@@ -273,24 +268,24 @@ public class CoreMessageSource {
         messageSource.clearCache();
     }
 
-    private String buildCommonFullKey(final ScopeCommonMessage scope, String key) {
-        return I18nKeyValueUniverse.COMMON.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    private String buildCommonFullKey(final String scope, String key) {
+        return I18nKeyValueUniverse.COMMON.getPropertyKey() + "." + scope + "." + handleKey(key);
     }
 
-    private String buildEmailFullKey(final ScopeEmailMessage scope, String key) {
-        return I18nKeyValueUniverse.EMAIL.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    private String buildEmailFullKey(final String scope, String key) {
+        return I18nKeyValueUniverse.EMAIL.getPropertyKey() + "." + scope + "." + handleKey(key);
     }
 
-    private String buildDocumentFullKey(final ScopeDocumentMessage scope, String key) {
-        return I18nKeyValueUniverse.DOCUMENT.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    private String buildDocumentFullKey(final String scope, String key) {
+        return I18nKeyValueUniverse.DOCUMENT.getPropertyKey() + "." + scope + "." + handleKey(key);
     }
 
-    private String buildSpecificFullKey(final I18nKeyValueUniverse universe, final ScopeWebMessage scope, String key) {
-        return universe.getPropertyKey() + "." + scope.getPropertyKey() + "." + handleKey(key);
+    private String buildSpecificFullKey(final I18nKeyValueUniverse universe, final String scope, String key) {
+        return universe.getPropertyKey() + "." + scope + "." + handleKey(key);
     }
 
-    private String buildReferenceDataFullKey(final ScopeReferenceDataMessage scope, String key) {
-        return scope.getPropertyKey() + "." + handleKey(key);
+    private String buildReferenceDataFullKey(final String scope, String key) {
+        return scope + "." + handleKey(key);
     }
 
     private String handleKey(String key) {

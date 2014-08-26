@@ -2044,9 +2044,16 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
     protected boolean menuIsActive(String currentUrl, List<String> scopeUrls){
         for (Iterator<String> iterator = scopeUrls.iterator(); iterator.hasNext();) {
             String scopeUrl = (String) iterator.next();
-            if(currentUrl.contains(scopeUrl)){
+            if(menuIsActive(currentUrl, scopeUrl)){
                 return true;
             }
+        }
+        return false;
+    }
+    
+    protected boolean menuIsActive(String currentUrl, String scopeUrl){
+        if(currentUrl.contains(scopeUrl)){
+            return true;
         }
         return false;
     }

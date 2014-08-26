@@ -211,21 +211,37 @@ public abstract class AbstractQalingoController {
 	protected void addSuccessMessage(HttpServletRequest request, String message) throws Exception {
 		request.getSession().setAttribute(Constants.SUCCESS_MESSAGE, message);
 	}
-	
-	protected String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale){
-		return coreMessageSource.getCommonMessage(scope, key, locale);
-	}
-	
-	protected String getCommonMessage(ScopeCommonMessage scope, String key, Object[] params, Locale locale){
-		return coreMessageSource.getCommonMessage(scope, key, params, locale);
-	}
-	
-	protected String getReferenceData(ScopeReferenceDataMessage scope, String key, Locale locale){
-		return coreMessageSource.getReferenceData(scope, key, locale);
-	}
-	
-	protected String getReferenceData(ScopeReferenceDataMessage scope, String key, Object[] params, Locale locale){
-		return coreMessageSource.getReferenceData(scope, key, params, locale);
-	}
-	
+
+    protected String getCommonMessage(ScopeCommonMessage scope, String key, Locale locale) {
+        return getCommonMessage(scope.getPropertyKey(), key, locale);
+    }
+
+    protected String getCommonMessage(ScopeCommonMessage scope, String key, Object[] params, Locale locale) {
+        return getCommonMessage(scope.getPropertyKey(), key, params, locale);
+    }
+
+    protected String getCommonMessage(String scope, String key, Locale locale) {
+        return coreMessageSource.getCommonMessage(scope, key, locale);
+    }
+
+    protected String getCommonMessage(String scope, String key, Object[] params, Locale locale) {
+        return coreMessageSource.getCommonMessage(scope, key, params, locale);
+    }
+
+    protected String getReferenceData(ScopeReferenceDataMessage scope, String key, Locale locale) {
+        return getReferenceData(scope.getPropertyKey(), key, locale);
+    }
+
+    protected String getReferenceData(ScopeReferenceDataMessage scope, String key, Object[] params, Locale locale) {
+        return getReferenceData(scope.getPropertyKey(), key, params, locale);
+    }
+
+    protected String getReferenceData(String scope, String key, Locale locale) {
+        return coreMessageSource.getReferenceData(scope, key, locale);
+    }
+
+    protected String getReferenceData(String scope, String key, Object[] params, Locale locale) {
+        return coreMessageSource.getReferenceData(scope, key, params, locale);
+    }
+
 }
