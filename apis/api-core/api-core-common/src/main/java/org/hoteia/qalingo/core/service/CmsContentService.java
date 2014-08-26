@@ -9,16 +9,39 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.hoteia.qalingo.core.dao.CmsContentDao;
 import org.hoteia.qalingo.core.domain.CmsContent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CmsContentService {
+@Service("cmsContentService")
+@Transactional
+public class CmsContentService {
 
-    CmsContent getCmsContentById(Long cmsContentId, Object... params);
-    
-	CmsContent getCmsContentById(String cmsContentId, Object... params);
-	
-	void saveOrUpdateCmsContent(CmsContent cmsContent);
-	
-	void deleteCmsContent(CmsContent cmsContent);
+    @Autowired
+    private CmsContentDao cmsContentDao;
+
+    public CmsContent getCmsContentById(final Long cmsContentId, Object... params) {
+        return cmsContentDao.getCmsContentById(cmsContentId, params);
+    }
+
+    public CmsContent getCmsContentById(final String rawCmsContentId, Object... params) {
+        long cmsContentId = -1;
+        try {
+            cmsContentId = Long.parseLong(rawCmsContentId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCmsContentById(cmsContentId, params);
+    }
+
+    public void saveOrUpdateCmsContent(CmsContent cmsContent) {
+        cmsContentDao.saveOrUpdateCmsContent(cmsContent);
+    }
+
+    public void deleteCmsContent(CmsContent cmsContent) {
+        cmsContentDao.deleteCmsContent(cmsContent);
+    }
 
 }

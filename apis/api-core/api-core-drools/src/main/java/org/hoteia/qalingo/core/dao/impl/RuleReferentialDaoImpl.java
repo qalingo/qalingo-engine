@@ -19,12 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.hoteia.qalingo.core.dao.AbstractGenericDao;
 import org.hoteia.qalingo.core.dao.RuleReferentialDao;
 import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 
 @Transactional
 @Repository("ruleReferentialDao")
-public class RuleReferentialDaoImpl extends AbstractGenericDaoImpl implements RuleReferentialDao {
+public class RuleReferentialDaoImpl extends AbstractGenericDao implements RuleReferentialDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

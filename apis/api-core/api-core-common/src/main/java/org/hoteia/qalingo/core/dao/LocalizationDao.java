@@ -9,22 +9,73 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Localization;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface LocalizationDao {
+@Repository("localizationDao")
+public class LocalizationDao extends AbstractGenericDao {
 
-	Localization getLocalizationById(Long localizationId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	Localization getLocalizationByCode(String code, Object... params);
+	public Localization getLocalizationById(final Long localizationId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Localization.class);
+        criteria.add(Restrictions.eq("id", localizationId));
+        Localization localization = (Localization) criteria.uniqueResult();
+        return localization;
+	}
 
-	List<Localization> findLocalizations(Object... params);
+	public Localization getLocalizationByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(Localization.class);
+        criteria.add(Restrictions.eq("code", code));
+        Localization localization = (Localization) criteria.uniqueResult();
+        return localization;
+	}
 	
-	List<Localization> findLocalizationsByMarketAreaCode(String marketAreaCode, Object... params);
-	
-	Localization saveOrUpdateLocalization(Localization localization);
+	public List<Localization> findLocalizations(Object... params) {
+        Criteria criteria = createDefaultCriteria(Localization.class);
+        
+        criteria.addOrder(Order.asc("language"));
 
-	void deleteLocalization(Localization localization);
+        @SuppressWarnings("unchecked")
+        List<Localization> localizations = criteria.list();
+		return localizations;
+	}
+	
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+        
+        criteria.add(Restrictions.eq("code", marketAreaCode));
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+
+        List<Localization> localizations = new ArrayList<Localization>(marketArea.getLocalizations());
+        return localizations;
+    }
+	
+	public Localization saveOrUpdateLocalization(Localization localization) {
+        if (localization.getId() != null) {
+            if(em.contains(localization)){
+                em.refresh(localization);
+            }
+            Localization mergedLocalization = em.merge(localization);
+            em.flush();
+            return mergedLocalization;
+        } else {
+            em.persist(localization);
+            return localization;
+        }
+	}
+
+	public void deleteLocalization(Localization localization) {
+		em.remove(localization);
+	}
 
 }

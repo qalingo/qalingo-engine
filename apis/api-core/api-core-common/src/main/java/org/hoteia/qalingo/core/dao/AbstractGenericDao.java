@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.dao.impl;
+package org.hoteia.qalingo.core.dao;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import org.hibernate.Session;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.SpecificFetchMode;
 
-public abstract class AbstractGenericDaoImpl {  
+public abstract class AbstractGenericDao {  
 
 	@PersistenceContext
 	protected EntityManager em;

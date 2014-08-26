@@ -9,37 +9,114 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.dozer.Mapper;
+import org.hoteia.qalingo.core.dao.EngineSessionDao;
 import org.hoteia.qalingo.core.domain.EngineBoSession;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface EngineSessionService {
+@Service("engineSessionService")
+@Transactional
+public class EngineSessionService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+    @Autowired
+    private EngineSessionDao engineSessionDao;
+
+    @Autowired 
+    private Mapper dozerBeanMapper;
 
     // ECO SESSION
-
-    EngineEcoSession updateAndSynchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues) throws Exception;
     
-    void synchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues, String ecoEngineSessionGuid) throws Exception;
+    /**
+     * 
+     */
+    public EngineEcoSession updateAndSynchronizeEngineEcoSession(EngineEcoSession engineEcoSessionWithTransientValues) throws Exception {
+        saveOrUpdateEngineEcoSession(engineEcoSessionWithTransientValues);
+        // RELOAD ENGINE SESSION - NOT A GOOD WAY FOR PERF - BUT A GOOD WAY TO ALWAYS KEEP RIGHT ENGINE SESSION DATAS LIKE TRANSIENT
+        EngineEcoSession engineEcoSession = getEngineEcoSessionById(engineEcoSessionWithTransientValues.getId());
+        synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, engineEcoSession);
+        return engineEcoSessionWithTransientValues;
+    }
+    
+    /**
+     * 
+     */
+    private void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSessionWithTransientValues, final EngineEcoSession engineEcoSession) throws Exception {
+        try {
+            dozerBeanMapper.map(engineEcoSession, engineEcoSessionWithTransientValues);
+        } catch (BeansException e) {
+            logger.error("", e);
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void synchronizeEngineEcoSession(final EngineEcoSession engineEcoSessionWithTransientValues, final String ecoEngineSessionGuid) throws Exception {
+        EngineEcoSession engineEcoSession =  getEngineEcoSessionByEngineSessionGuid(ecoEngineSessionGuid);
+        synchronizeEngineEcoSession(engineEcoSessionWithTransientValues, engineEcoSession);
+    }
+    
+    
+    public EngineEcoSession getEngineEcoSessionById(final Long engineSessionId, Object... params) {
+        return engineSessionDao.getEngineEcoSessionById(engineSessionId, params);
+    }
 
-    EngineEcoSession getEngineEcoSessionById(Long engineEcoSessionId, Object... params);
+    public EngineEcoSession getEngineEcoSessionById(final String rawEngineSessionId, Object... params) {
+        long engineSessionId = -1;
+        try {
+            engineSessionId = Long.parseLong(rawEngineSessionId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getEngineEcoSessionById(engineSessionId, params);
+    }
+    
+    public EngineEcoSession getEngineEcoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
+        return engineSessionDao.getEngineEcoSessionByEngineSessionGuid(engineSessionGuid, params);
+    }
 
-    EngineEcoSession getEngineEcoSessionById(String engineEcoSessionId, Object... params);
+    public EngineEcoSession saveOrUpdateEngineEcoSession(final EngineEcoSession engineEcoSession) {
+        return engineSessionDao.saveOrUpdateEngineEcoSession(engineEcoSession);
+    }
 
-    EngineEcoSession getEngineEcoSessionByEngineSessionGuid(String jSessionId, Object... params);
-
-    EngineEcoSession saveOrUpdateEngineEcoSession(EngineEcoSession engineEcoSession);
-
-    void deleteEngineEcoSession(EngineEcoSession engineEcoSession);
+    public void deleteEngineEcoSession(final EngineEcoSession engineEcoSession) {
+        engineSessionDao.deleteEngineEcoSession(engineEcoSession);
+    }
 
     // BO SESSION
 
-    EngineBoSession getEngineBoSessionById(Long engineBoSessionId, Object... params);
+    public EngineBoSession getEngineBoSessionById(final Long engineSessionId, Object... params) {
+        return engineSessionDao.getEngineBoSessionById(engineSessionId, params);
+    }
 
-    EngineBoSession getEngineBoSessionById(String engineBoSessionId, Object... params);
+    public EngineBoSession getEngineBoSessionById(final String rawEngineSessionId, Object... params) {
+        long engineSessionId = -1;
+        try {
+            engineSessionId = Long.parseLong(rawEngineSessionId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getEngineBoSessionById(engineSessionId, params);
+    }
+    
+    public EngineBoSession getEngineBoSessionByEngineSessionGuid(final String engineSessionGuid, Object... params) {
+        return engineSessionDao.getEngineBoSessionByEngineSessionGuid(engineSessionGuid, params);
+    }
 
-    EngineBoSession getEngineBoSessionByEngineSessionGuid(String jSessionId, Object... params);
+    public EngineBoSession saveOrUpdateEngineBoSession(final EngineBoSession engineBoSession) {
+        return engineSessionDao.saveOrUpdateEngineBoSession(engineBoSession);
+    }
 
-    EngineBoSession saveOrUpdateEngineBoSession(EngineBoSession engineBoSession);
-
-    void deleteEngineBoSession(EngineBoSession engineBoSession);
-
+    public void deleteEngineBoSession(final EngineBoSession engineBoSession) {
+        engineSessionDao.deleteEngineBoSession(engineBoSession);
+    }
+    
 }

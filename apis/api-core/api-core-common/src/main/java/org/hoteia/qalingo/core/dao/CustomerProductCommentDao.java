@@ -9,20 +9,71 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerProductCommentDao {
+@Repository("customerProductCommentDao")
+public class CustomerProductCommentDao extends AbstractGenericDao {
 
-	CustomerProductComment getCustomerProductCommentById(Long customerProductCommentId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	List<CustomerProductComment> findCustomerProductCommentByCustomerId(Long customerId, Object... params);
+	public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
+        criteria.add(Restrictions.eq("id", customerProductCommentId));
+        CustomerProductComment customerProductComments = (CustomerProductComment) criteria.uniqueResult();
+        return customerProductComments;
+	}
 	
-	List<CustomerProductComment> findCustomerProductCommentByProductSkuId(Long productSkuId, Object... params);
-	
-	CustomerProductComment saveOrUpdateCustomerProductComment(CustomerProductComment customerProductComment);
+	public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
 
-	void deleteCustomerProductComment(CustomerProductComment customerProductComment);
+        criteria.addOrder(Order.asc("id"));
+        
+        @SuppressWarnings("unchecked")
+        List<CustomerProductComment> customerProductComments = criteria.list();
+		return customerProductComments;
+	}
+	
+	public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerProductComment.class);
+        criteria.add(Restrictions.eq("productSkuId", productSkuId));
+
+        criteria.addOrder(Order.asc("id"));
+
+        @SuppressWarnings("unchecked")
+        List<CustomerProductComment> customerProductComments = criteria.list();
+		return customerProductComments;
+	}
+
+	public CustomerProductComment saveOrUpdateCustomerProductComment(final CustomerProductComment customerProductComment) {
+		if(customerProductComment.getDateCreate() == null){
+			customerProductComment.setDateCreate(new Date());
+		}
+		customerProductComment.setDateUpdate(new Date());
+        if (customerProductComment.getId() != null) {
+            if(em.contains(customerProductComment)){
+                em.refresh(customerProductComment);
+            }
+            CustomerProductComment mergedCustomerProductComment = em.merge(customerProductComment);
+            em.flush();
+            return mergedCustomerProductComment;
+        } else {
+            em.persist(customerProductComment);
+            return customerProductComment;
+        }
+	}
+
+	public void deleteCustomerProductComment(final CustomerProductComment customerProductComment) {
+		em.remove(customerProductComment);
+	}
 
 }

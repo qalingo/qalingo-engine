@@ -9,14 +9,47 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.CmsContent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface CmsContentDao {
+@Repository("cmsContentDao")
+public class CmsContentDao extends AbstractGenericDao {
 
-	CmsContent getCmsContentById(Long cmsContentId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	CmsContent saveOrUpdateCmsContent(CmsContent cmsContent);
+	public CmsContent getCmsContentById(final Long cmsContentId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CmsContent.class);
+        criteria.add(Restrictions.eq("id", cmsContentId));
+        CmsContent cmsContent = (CmsContent) criteria.uniqueResult();
+        return cmsContent;
+	}
 
-	void deleteCmsContent(CmsContent cmsContent);
+	public CmsContent saveOrUpdateCmsContent(final CmsContent cmsContent) {
+		if(cmsContent.getDateCreate() == null){
+			cmsContent.setDateCreate(new Date());
+		}
+		cmsContent.setDateUpdate(new Date());
+        if (cmsContent.getId() != null) {
+            if(em.contains(cmsContent)){
+                em.refresh(cmsContent);
+            }
+            CmsContent mergedCmsContent = em.merge(cmsContent);
+            em.flush();
+            return mergedCmsContent;
+        } else {
+            em.persist(cmsContent);
+            return cmsContent;
+        }
+	}
+
+	public void deleteCmsContent(final CmsContent cmsContent) {
+		em.remove(cmsContent);
+	}
 
 }

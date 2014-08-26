@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.service.impl;
+package org.hoteia.qalingo.core.service;
 
 import java.net.URLEncoder;
 import java.util.Locale;

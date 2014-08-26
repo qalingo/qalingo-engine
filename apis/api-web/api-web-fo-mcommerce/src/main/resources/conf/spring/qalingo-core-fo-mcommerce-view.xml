@@ -19,8 +19,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <bean id="frontofficeViewBeanFactory" class="org.hoteia.qalingo.web.mvc.factory.impl.MCommerceViewBeanFactoryImpl" />
+    <bean id="frontofficeViewBeanFactory" class="org.hoteia.qalingo.web.mvc.factory.MCommerceViewBeanFactory" />
 
-    <bean id="webManagementService" class="org.hoteia.qalingo.core.service.impl.MCommerceWebManagementServiceImpl" />
+    <bean id="webManagementService" class="org.hoteia.qalingo.core.service.MCommerceWebManagementService" />
 
 </beans>

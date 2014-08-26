@@ -11,24 +11,58 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.NotificationDao;
 import org.hoteia.qalingo.core.domain.Notification;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface NotificationService {
+@Service("notificationService")
+@Transactional
+public class NotificationService {
 
-    Notification getNotificationById(Long id, Object... params);
-    
-	Notification getNotificationById(String id, Object... params);
-	
-	List<Notification> findNotifications(Object... params);
+    @Autowired
+    private NotificationDao notificationDao;
 
-	List<Notification> findNotificationByCustomerId(String customerId, Object... params);
+    public Notification getNotificationById(final Long notificationId, Object... params) {
+        return notificationDao.getNotificationById(notificationId, params);
+    }
 
-	List<Notification> findNewNotificationByCustomerId(String customerId, Object... params);
+    public Notification getNotificationById(final String rawNotificationId, Object... params) {
+        long notificationId = -1;
+        try {
+            notificationId = Long.parseLong(rawNotificationId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getNotificationById(notificationId, params);
+    }
 
-	 void flagAsReadAllNewNotification(String customerId);
-	 
-	void saveOrUpdateNotification(Notification notification);
-	
-	void deleteNotification(Notification notification);
+    public List<Notification> findNotifications(Object... params) {
+        return notificationDao.findNotifications(params);
+    }
+
+    public List<Notification> findNotificationByCustomerId(final String customerId, Object... params) {
+        Long id = new Long(customerId);
+        return notificationDao.findNotificationByCustomerId(id, params);
+    }
+
+    public List<Notification> findNewNotificationByCustomerId(final String customerId, Object... params) {
+        Long id = new Long(customerId);
+        return notificationDao.findNewNotificationByCustomerId(id, params);
+    }
+
+    public void flagAsReadAllNewNotification(final String customerId) {
+        Long id = new Long(customerId);
+        notificationDao.flagAsReadAllNewNotification(id);
+    }
+
+    public void saveOrUpdateNotification(final Notification notification) {
+        notificationDao.saveOrUpdateNotification(notification);
+    }
+
+    public void deleteNotification(final Notification notification) {
+        notificationDao.deleteNotification(notification);
+    }
 
 }

@@ -9,14 +9,48 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.hoteia.qalingo.core.dao.CustomerWishlistDao;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerWishlistDao {
+@Repository("customerWishlistDao")
+public class CustomerWishlistDao extends AbstractGenericDao {
 
-	CustomerWishlist getCustomerWishlistById(Long customerWishlistId, Object... params);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	CustomerWishlist saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerWishlist.class);
+        criteria.add(Restrictions.eq("id", customerWishlistId));
+        CustomerWishlist customerWishlist = (CustomerWishlist) criteria.uniqueResult();
+        return customerWishlist;
+    }
 
-	void deleteCustomerWishlist(CustomerWishlist customerWishlist);
+    public CustomerWishlist saveOrUpdateCustomerWishlist(final CustomerWishlist customerWishlist) {
+        if (customerWishlist.getDateCreate() == null) {
+            customerWishlist.setDateCreate(new Date());
+        }
+        customerWishlist.setDateUpdate(new Date());
+        if (customerWishlist.getId() != null) {
+            if(em.contains(customerWishlist)){
+                em.refresh(customerWishlist);
+            }
+            CustomerWishlist mergedCustomerWishlist = em.merge(customerWishlist);
+            em.flush();
+            return mergedCustomerWishlist;
+        } else {
+            em.persist(customerWishlist);
+            return customerWishlist;
+        }
+    }
+
+    public void deleteCustomerWishlist(final CustomerWishlist customerWishlist) {
+        em.remove(customerWishlist);
+    }
 
 }

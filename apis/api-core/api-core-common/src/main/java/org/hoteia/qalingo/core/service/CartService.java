@@ -9,22 +9,54 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.hoteia.qalingo.core.dao.CartDao;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CartService {
+@Service("cartService")
+@Transactional
+public class CartService {
 
-    Cart addToCart(Cart cart);
+    @Autowired
+    private CartDao cartDao;
 
-    Cart updateToCart(Cart cart);
+    public Cart addToCart(final Cart cart) {
+        saveOrUpdateCart(cart);
+        return cart;
+    }
 
-    Cart deleteToCart(Cart cart);
-    
-    Cart getCartById(Long cartId, Object... params);
+    public Cart updateToCart(final Cart cart) {
+        saveOrUpdateCart(cart);
+        return cart;
+    }
 
-	Cart getCartById(String cartId, Object... params);
-	
-	void saveOrUpdateCart(Cart cart);
-	
-	void deleteCart(Cart cart);
+    public Cart deleteToCart(final Cart cart) {
+        saveOrUpdateCart(cart);
+        return cart;
+    }
+
+    public Cart getCartById(final Long cartId, Object... params) {
+        return cartDao.getCartById(cartId, params);
+    }
+
+    public Cart getCartById(final String rawCartId, Object... params) {
+        long cartId = -1;
+        try {
+            cartId = Long.parseLong(rawCartId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCartById(cartId, params);
+    }
+
+    public void saveOrUpdateCart(Cart cart) {
+        cartDao.saveOrUpdateCart(cart);
+    }
+
+    public void deleteCart(Cart cart) {
+        cartDao.deleteCart(cart);
+    }
 
 }

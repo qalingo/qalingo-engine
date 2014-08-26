@@ -11,23 +11,52 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.PaymentGatewayDao;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface PaymentGatewayService {
+@Service("paymentGatewayService")
+@Transactional
+public class PaymentGatewayService {
 
-    AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId, Object... params);
+    @Autowired
+    private PaymentGatewayDao paymentGatewayDao;
 
-    AbstractPaymentGateway getPaymentGatewayById(String paymentGatewayId, Object... params);
+    public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
+        return paymentGatewayDao.getPaymentGatewayById(paymentGatewayId, params);
+    }
 
-    AbstractPaymentGateway getPaymentGatewayByCode(String paymentGatewayCode, Object... params);
+    public AbstractPaymentGateway getPaymentGatewayById(final String rawPaymentGatewayId, Object... params) {
+        long paymentGatewayId = -1;
+        try {
+            paymentGatewayId = Long.parseLong(rawPaymentGatewayId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getPaymentGatewayById(paymentGatewayId, params);
+    }
+    
+    public AbstractPaymentGateway getPaymentGatewayByCode(final String paymentGatewayCode, Object... params) {
+        return paymentGatewayDao.getPaymentGatewayByCode(paymentGatewayCode, params);
+    }
 
-    List<AbstractPaymentGateway> findPaymentGateways(Object... params);
+    public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
+        return paymentGatewayDao.findPaymentGateways(params);
+    }
+    
+    public List<PaymentGatewayOption> findPaymentGatewayOptions() {
+        return paymentGatewayDao.findPaymentGatewayOptions();
+    }
 
-    List<PaymentGatewayOption> findPaymentGatewayOptions();
+    public AbstractPaymentGateway saveOrUpdatePaymentGateway(final AbstractPaymentGateway paymentGateway) {
+        return paymentGatewayDao.saveOrUpdatePaymentGateway(paymentGateway);
+    }
 
-    AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
-
-    void deletePaymentGateway(AbstractPaymentGateway paymentGateway);
+    public void deletePaymentGateway(final AbstractPaymentGateway paymentGateway) {
+        paymentGatewayDao.deletePaymentGateway(paymentGateway);
+    }
 
 }

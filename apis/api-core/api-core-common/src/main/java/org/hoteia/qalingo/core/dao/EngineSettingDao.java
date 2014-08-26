@@ -9,30 +9,121 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.EngineSettingValue;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface EngineSettingDao {
+@Repository("engineSettingDao")
+public class EngineSettingDao extends AbstractGenericDao {
 
-    // Engine Setting
-    
-    EngineSetting getEngineSettingById(Long id, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    EngineSetting getEngineSettingByCode(String code, Object... params);
+	// Engine Setting
+	
+	public EngineSetting getEngineSettingById(final Long engineSettingId, Object... params) {
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
+        criteria.add(Restrictions.eq("id", engineSettingId));
+        
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        
+        EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
+        if(engineSetting != null){
+            engineSetting.setFetchPlan(fetchPlan);
+        }
+        return engineSetting;
+	}
+	
+	public EngineSetting getEngineSettingByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
+        criteria.add(Restrictions.eq("code", code));
+        
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        
+        EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
+        if(engineSetting != null){
+            engineSetting.setFetchPlan(fetchPlan);
+        }
+		return engineSetting;
+	}
+	
+	public List<EngineSetting> findEngineSettings(Object... params) {
+        Criteria criteria = createDefaultCriteria(EngineSetting.class);
+        
+        handleSpecificGroupFetchMode(criteria, params);
+        
+        criteria.addOrder(Order.asc("code"));
 
-    List<EngineSetting> findEngineSettings(Object... params);
+        @SuppressWarnings("unchecked")
+        List<EngineSetting> engineSettings = criteria.list();
+		return engineSettings;
+	}
+	
+	public EngineSetting saveEngineSetting(EngineSetting engineSetting) {
+		if(engineSetting.getDateCreate() == null){
+			engineSetting.setDateCreate(new Date());
+		}
+		engineSetting.setDateUpdate(new Date());
+        if (engineSetting.getId() != null) {
+            if(em.contains(engineSetting)){
+                em.refresh(engineSetting);
+            }
+            EngineSetting mergedEngineSetting = em.merge(engineSetting);
+            em.flush();
+            return mergedEngineSetting;
+        } else {
+            em.persist(engineSetting);
+            return engineSetting;
+        }
+	}
 
-    EngineSetting saveEngineSetting(EngineSetting engineSetting);
+	public void deleteEngineSetting(EngineSetting engineSetting) {
+		em.remove(engineSetting);
+	}
 
-    void deleteEngineSetting(EngineSetting engineSetting);
+	// Engine Setting Value
+	
+	public EngineSettingValue getEngineSettingValueById(Long id, Object... params) {
+		return em.find(EngineSettingValue.class, id);
+	}
+	
+	public EngineSettingValue saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue) {
+		if(engineSettingValue.getDateCreate() == null){
+			engineSettingValue.setDateCreate(new Date());
+		}
+		engineSettingValue.setDateUpdate(new Date());
+        if (engineSettingValue.getId() != null) {
+            if(em.contains(engineSettingValue)){
+                em.refresh(engineSettingValue);
+            }
+            EngineSettingValue mergedEngineSettingValue = em.merge(engineSettingValue);
+            em.flush();
+            return mergedEngineSettingValue;
+        } else {
+            em.persist(engineSettingValue);
+            return engineSettingValue;
+        }
+	}
+	
+    public void deleteEngineSettingValue(EngineSettingValue engineSettingValue) {
+        em.remove(engineSettingValue);
+    }
 
-    // Engine Setting Value
-    
-    EngineSettingValue getEngineSettingValueById(Long id, Object... params);
-
-    EngineSettingValue saveOrUpdateEngineSettingValue(EngineSettingValue engineSettingValue);
-
-    void deleteEngineSettingValue(EngineSettingValue engineSettingValue);
+    @Override
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
+        }
+    }
 }

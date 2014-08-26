@@ -11,25 +11,66 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.CatalogDao;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CatalogService {
+@Service("catalogService")
+@Transactional
+public class CatalogService {
 
-    CatalogMaster getMasterCatalogById(Long masterCatalogId, Object... params);
+    @Autowired
+    private CatalogDao catalogDao;
+
+    // MASTER CATALOG
     
-	CatalogMaster getMasterCatalogById(String masterCatalogId, Object... params);
+    public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
+        return catalogDao.getMasterCatalogById(masterCatalogId, params);
+    }
 
-	CatalogVirtual getVirtualCatalogById(Long virtualCatalogId, Object... params);
+    public CatalogMaster getMasterCatalogById(final String rawMasterCatalogId, Object... params) {
+        long masterCatalogId = -1;
+        try {
+            masterCatalogId = Long.parseLong(rawMasterCatalogId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMasterCatalogById(masterCatalogId, params);
+    }
     
-	CatalogVirtual getVirtualCatalogById(String virtualCatalogId, Object... params);
+    public List<CatalogMaster> findAllCatalogMasters(Object... params) {
+        return catalogDao.findAllCatalogMasters(params);
+    }
 
-	CatalogVirtual getVirtualCatalogbyMarketAreaId(Long marketAreaId, Object... params);
+    public void saveOrUpdateCatalogMaster(final CatalogMaster catalogMaster) {
+        catalogDao.saveOrUpdateCatalogMaster(catalogMaster);
+    }
 
-    List<CatalogMaster> findAllCatalogMasters(Object... params);
+    public void deleteCatalogMaster(final CatalogMaster catalogMaster) {
+        catalogDao.deleteCatalogMaster(catalogMaster);
+    }
+    
+    // VIRTUAL CATALOG
+    
+    public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
+        return catalogDao.getVirtualCatalogById(virtualCatalogId, params);
+    }
 
-	void saveOrUpdateCatalogMaster(CatalogMaster masterCatalog);
-	
-	void deleteCatalogMaster(CatalogMaster masterCatalog);
+    public CatalogVirtual getVirtualCatalogById(final String rawVirtualCatalogId, Object... params) {
+        long virtualCatalogId = -1;
+        try {
+            virtualCatalogId = Long.parseLong(rawVirtualCatalogId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getVirtualCatalogById(virtualCatalogId, params);
+    }
+
+    public CatalogVirtual getVirtualCatalogbyMarketAreaId(final Long marketAreaId, Object... params) {
+        return catalogDao.getVirtualCatalogByMarketAreaId(marketAreaId, params);
+    }
 
 }

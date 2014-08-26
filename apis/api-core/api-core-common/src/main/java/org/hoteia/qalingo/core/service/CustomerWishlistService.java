@@ -9,16 +9,39 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.hoteia.qalingo.core.dao.CustomerWishlistDao;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CustomerWishlistService {
+@Service("customerWishlistService")
+@Transactional
+public class CustomerWishlistService {
 
-    CustomerWishlist getCustomerWishlistById(Long customerWishlistId, Object... params);
+    @Autowired
+    private CustomerWishlistDao customerWishlistDao;
 
-	CustomerWishlist getCustomerWishlistById(String customerWishlistId, Object... params);
-	
-	void saveOrUpdateCustomerWishlist(CustomerWishlist customerWishlist);
-	
-	void deleteCustomerWishlist(CustomerWishlist customerWishlist);
+    public CustomerWishlist getCustomerWishlistById(final Long customerWishlistId, Object... params) {
+        return customerWishlistDao.getCustomerWishlistById(customerWishlistId, params);
+    }
+
+    public CustomerWishlist getCustomerWishlistById(final String rawCustomerWishlistId, Object... params) {
+        long customerWishlistId = -1;
+        try {
+            customerWishlistId = Long.parseLong(rawCustomerWishlistId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerWishlistById(customerWishlistId, params);
+    }
+
+    public void saveOrUpdateCustomerWishlist(final CustomerWishlist customerWishlist) {
+        customerWishlistDao.saveOrUpdateCustomerWishlist(customerWishlist);
+    }
+
+    public void deleteCustomerWishlist(final CustomerWishlist customerWishlist) {
+        customerWishlistDao.deleteCustomerWishlist(customerWishlist);
+    }
 
 }

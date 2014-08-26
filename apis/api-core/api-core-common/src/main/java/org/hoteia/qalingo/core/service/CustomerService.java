@@ -11,29 +11,61 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CustomerService {
+@Transactional
+@Service("customerService")
+public class CustomerService {
 
-    Customer getCustomerById(Long customerId, Object... params);
-    
-	Customer getCustomerById(String customerId, Object... params);
+    @Autowired private CustomerDao customerDao;
 
-	Customer getCustomerByCode(String code, Object... params);
+    public Customer getCustomerById(final Long customerId, Object... params) {
+        return customerDao.getCustomerById(customerId, params);
+    }
 
-	Customer getCustomerByPermalink(String permalink, Object... params);
+    public Customer getCustomerById(final String rawCustomerId, Object... params) {
+        long customerId = -1;
+        try {
+            customerId = Long.parseLong(rawCustomerId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerById(customerId, params);
+    }
 
-	Customer getCustomerByLoginOrEmail(String loginOrEmail, Object... params);
+    public Customer getCustomerByCode(final String code, Object... params) {
+        return customerDao.getCustomerByCode(code, params);
+    }
 
-	List<Customer> findCustomers(Object... params);
-	
-	Customer saveOrUpdateCustomer(Customer customer) throws Exception;
-	
-	void deleteCustomer(Customer customer);
-	
-	// CREDENTIAL
-	
-	CustomerCredential saveOrUpdateCustomerCredential(CustomerCredential customerCredential) throws Exception;
-	
+    public Customer getCustomerByPermalink(final String permalink, Object... params) {
+        return customerDao.getCustomerByPermalink(permalink, params);
+    }
+
+    public Customer getCustomerByLoginOrEmail(final String usernameOrEmail, Object... params) {
+        return customerDao.getCustomerByLoginOrEmail(usernameOrEmail, params);
+    }
+
+    public List<Customer> findCustomers(Object... params) {
+        return customerDao.findCustomers(params);
+    }
+
+    public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {
+        return customerDao.saveOrUpdateCustomer(customer);
+    }
+
+    public void deleteCustomer(final Customer customer) {
+        customerDao.deleteCustomer(customer);
+    }
+
+    // CREDENTIAL
+
+    public CustomerCredential saveOrUpdateCustomerCredential(final CustomerCredential customerCredential) throws Exception {
+        return customerDao.saveOrUpdateCustomerCredential(customerCredential);
+    }
+
 }

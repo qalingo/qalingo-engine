@@ -11,21 +11,48 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.BatchProcessObjectDao;
 import org.hoteia.qalingo.core.domain.BatchProcessObject;
 import org.hoteia.qalingo.core.domain.enumtype.BatchProcessObjectType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface BatchProcessObjectService {
+@Service("batchProcessObjectService")
+@Transactional
+public class BatchProcessObjectService {
 
-    BatchProcessObject getBatchProcessObjectById(Long batchProcessObjectId, Object... params);
-    
-	BatchProcessObject getBatchProcessObjectById(String batchProcessObjectId, Object... params);
-	
-	List<BatchProcessObject> findBatchProcessObjects(Object... params);
+    @Autowired
+    private BatchProcessObjectDao batchProcessObjectDao;
 
-	List<BatchProcessObject> findBatchProcessObjectsByTypeObject(BatchProcessObjectType typeObject, Object... params);
-	
-	void saveOrUpdateBatchProcessObject(BatchProcessObject batchProcessObject);
-	
-	void deleteBatchProcessObject(BatchProcessObject batchProcessObject);
+    public BatchProcessObject getBatchProcessObjectById(final Long batchProcessObjectId, Object... params) {
+        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId, params);
+    }
+
+    public BatchProcessObject getBatchProcessObjectById(final String rawBatchProcessObjectId, Object... params) {
+        long batchProcessObjectId = -1;
+        try {
+            batchProcessObjectId = Long.parseLong(rawBatchProcessObjectId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return batchProcessObjectDao.getBatchProcessObjectById(batchProcessObjectId, params);
+    }
+
+    public List<BatchProcessObject> findBatchProcessObjects(Object... params) {
+        return batchProcessObjectDao.findBatchProcessObjects(params);
+    }
+
+    public List<BatchProcessObject> findBatchProcessObjectsByTypeObject(final BatchProcessObjectType typeObject, Object... params) {
+        return batchProcessObjectDao.findBatchProcessObjectsByTypeObject(typeObject, params);
+    }
+
+    public void saveOrUpdateBatchProcessObject(final BatchProcessObject batchProcessObject) {
+        batchProcessObjectDao.saveOrUpdateBatchProcessObject(batchProcessObject);
+    }
+
+    public void deleteBatchProcessObject(final BatchProcessObject batchProcessObject) {
+        batchProcessObjectDao.deleteBatchProcessObject(batchProcessObject);
+    }
 
 }

@@ -9,77 +9,197 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+import org.hoteia.qalingo.core.dao.RetailerDao;
+import org.hoteia.qalingo.core.domain.EngineSetting;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.RetailerCustomerComment;
 import org.hoteia.qalingo.core.domain.RetailerCustomerRate;
 import org.hoteia.qalingo.core.domain.Store;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface RetailerService {
+@Service("retailerService")
+@Transactional
+public class RetailerService {
 
-	// RETAILER
-	
-    Retailer getRetailerById(Long retailerId, Object... params);
+    @Autowired
+    private RetailerDao retailerDao;
+
+    @Autowired
+    private EngineSettingService engineSettingService;
     
-	Retailer getRetailerById(String retailerId, Object... params);
+    // RETAILER
 
-    Retailer getRetailerByCode(String retailerCode, Object... params);
+    public Retailer getRetailerById(final Long retailerId, Object... params) {
+        return retailerDao.getRetailerById(retailerId, params);
+    }
 
-    Retailer getRetailerByCode(Long marketAreaId, Long retailerId, String retailerCode, Object... params);
+    public Retailer getRetailerById(final String rawRetailerId, Object... params) {
+        long retailerId = -1;
+        try {
+            retailerId = Long.parseLong(rawRetailerId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return retailerDao.getRetailerById(retailerId, params);
+    }
 
-    List<Retailer> findAllRetailers(Object... params);
+    public Retailer getRetailerByCode(final String retailerCode, Object... params) {
+        return retailerDao.getRetailerByCode(retailerCode, params);
+    }
 
-	List<Retailer> findRetailers(Long marketAreaId, Long retailerId, Object... params);
+    public Retailer getRetailerByCode(final Long marketAreaId, final Long retailerId, final String retailerCode, Object... params) {
+        return retailerDao.getRetailerByCode(marketAreaId, retailerId, retailerCode, params);
+    }
 
-    List<Retailer> findRetailersByMarketAreaCode(String marketAreaCode, Object... params);
+    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
+        return retailerDao.findRetailers(marketAreaId, retailerId, params);
+    }
 
-	List<Retailer> findRetailersByTag(Long marketAreaId, Long retailerId, String tag, Object... params);
+    public List<Retailer> findAllRetailers(Object... params) {
+        return retailerDao.findAllRetailers(params);
+    }
 
-	List<Retailer> findRetailersByTags(Long marketAreaId, Long retailerId, List<String> tags, Object... params);
+    public List<Retailer> findRetailersByMarketAreaCode(final String marketAreaCode, Object... params) {
+        return retailerDao.findRetailersByMarketAreaCode(marketAreaCode, params);
+    }
 
-	List<Retailer> findLastRetailers(Long marketAreaId, Long retailerId, int maxResults, Object... params);
-	
-	List<Retailer> findBestRetailersByQualityOfService(Long marketAreaId, Long retailerId, int maxResults, Object... params);
-	
-	List<Retailer> findBestRetailersByQualityPrice(Long marketAreaId, Long retailerId, int maxResults, Object... params);
+    public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag, Object... params) {
+        List<String> tags = new ArrayList<String>();
+        tags.add(tag);
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
+    }
 
-	List<Retailer> findRetailersByText(Long marketAreaId, Long retailerId, String searchTxt, Object... params);
+    public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags, Object... params) {
+        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
+    }
 
-	Retailer saveOrUpdateRetailer(Retailer retailer);
-	
-	void deleteRetailer(Retailer retailer);
-	
-	String buildRetailerLogoFilePath(Retailer retailer, String logo);
-	
-	String buildRetailerLogoWebPath(String logo) throws Exception;
-	
+    public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults, params);
+    }
+
+    public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults, params);
+    }
+
+    public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults, params);
+    }
+
+    public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt, Object... params) {
+        return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt, params);
+    }
+
+    public Retailer saveOrUpdateRetailer(final Retailer retailer) {
+        return retailerDao.saveOrUpdateRetailer(retailer);
+    }
+
+    public void deleteRetailer(final Retailer retailer) {
+        retailerDao.deleteRetailer(retailer);
+    }
+    
+    public String buildRetailerLogoFilePath(final Retailer retailer, final String logo) {
+          String assetfileRootPath = engineSettingService.getAssetFileRootPath().getDefaultValue();
+          if (assetfileRootPath.endsWith("/")) {
+              assetfileRootPath = assetfileRootPath.substring(0, assetfileRootPath.length() - 1);
+          }
+          
+          String retailerLogoFilePath = engineSettingService.getAssetRetailerAndStoreFilePath().getDefaultValue();
+          if (retailerLogoFilePath.endsWith("/")) {
+              retailerLogoFilePath = retailerLogoFilePath.substring(0, retailerLogoFilePath.length() - 1);
+          }
+          if (!retailerLogoFilePath.startsWith("/")) {
+              retailerLogoFilePath = "/" + retailerLogoFilePath;
+          }
+          String absoluteFolderPath = new StringBuilder(assetfileRootPath).append(retailerLogoFilePath).append("/retailer-logo/").append(retailer.getCode()).append("/").toString();
+          String absoluteFilePath = new StringBuilder(absoluteFolderPath).append(logo).toString();
+          return FilenameUtils.separatorsToSystem(absoluteFilePath);
+    }
+    
+    public String buildRetailerLogoWebPath(final String logo) throws Exception {
+        EngineSetting engineSetting = engineSettingService.getAssetRetailerAndStoreFilePath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        String retailerLogoWebPathPrefix = buildRootAssetWebPath() + prefixPath + "/retailer-logo/";
+        String retailerLogoWebPath = retailerLogoWebPathPrefix + logo;
+        return retailerLogoWebPath;
+    }
+    
+    protected String buildRootAssetWebPath() throws Exception {
+        EngineSetting engineSetting = engineSettingService.getAssetWebRootPath();
+        String prefixPath = "";
+        if (engineSetting != null) {
+            prefixPath = engineSetting.getDefaultValue();
+        }
+        if (prefixPath.endsWith("/")) {
+            prefixPath = prefixPath.substring(0, prefixPath.length() - 1);
+        }
+        return prefixPath;
+    }
+    
     // RETAILER COMMENT/RATE
-	
-	RetailerCustomerRate saveOrUpdateRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
-	
-	void deleteRetailerCustomerRate(RetailerCustomerRate retailerCustomerRate);
-	
-	RetailerCustomerComment saveOrUpdateRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
-	
-	void deleteRetailerCustomerComment(RetailerCustomerComment retailerCustomerComment);
-	
-	// STORE
-	
-    Store getStoreById(Long storeId, Object... params);
+
+    public RetailerCustomerRate saveOrUpdateRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        return retailerDao.saveOrUpdateRetailerCustomerRate(retailerCustomerRate);
+    }
+
+    public void deleteRetailerCustomerRate(final RetailerCustomerRate retailerCustomerRate) {
+        retailerDao.deleteRetailerCustomerRate(retailerCustomerRate);
+    }
+
+    public RetailerCustomerComment saveOrUpdateRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+        return retailerDao.saveOrUpdateRetailerCustomerComment(retailerCustomerComment);
+    }
+
+    public void deleteRetailerCustomerComment(final RetailerCustomerComment retailerCustomerComment) {
+        retailerDao.deleteRetailerCustomerComment(retailerCustomerComment);
+    }
+
+    // STORE
+
+    public Store getStoreById(final Long storeId, Object... params) {
+        return retailerDao.getStoreById(storeId, params);
+    }
     
-	Store getStoreById(String storeId, Object... params);
+    public Store getStoreById(final String rawStoreId, Object... params) {
+        long storeId = -1;
+        try {
+            storeId = Long.parseLong(rawStoreId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getStoreById(storeId, params);
+    }
 
-	Store getStoreByCode(String storeCode, Object... params);
+    public Store getStoreByCode(final String storeCode, Object... params) {
+        return retailerDao.getStoreByCode(storeCode, params);
+    }
 
-	List<Store> findStores(Object... params);
-	
-	List<Store> findStoresByRetailerId(Long retailerId, Object... params);
+    public List<Store> findStores(Object... params) {
+        return retailerDao.findStores(params);
+    }
+    
+    public List<Store> findStoresByRetailerId(final Long retailerId, Object... params) {
+        return retailerDao.findStoresByRetailerId(retailerId, params);
+    }
+    
+    public List<Store> findStoresByRetailerCode(final String retailerCode, Object... params) {
+        return retailerDao.findStoresByRetailerCode(retailerCode, params);
+    }
 
-    List<Store> findStoresByRetailerCode(String retailerCode, Object... params);
+    public Store saveOrUpdateStore(final Store store) {
+        return retailerDao.saveOrUpdateStore(store);
+    }
 
-    Store saveOrUpdateStore(Store store);
-	
-	void deleteStore(Store store);
+    public void deleteStore(final Store store) {
+        retailerDao.deleteStore(store);
+    }
 
 }

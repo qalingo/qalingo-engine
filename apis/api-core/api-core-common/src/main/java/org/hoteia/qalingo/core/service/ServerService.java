@@ -12,24 +12,55 @@ package org.hoteia.qalingo.core.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.ServerDao;
 import org.hoteia.qalingo.core.domain.ServerStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface ServerService {
+@Service("serverService")
+@Transactional
+public class ServerService {
 
-    ServerStatus getServerStatusById(Long serverStatusId, Object... params);
-    
-    ServerStatus getServerStatusById(String rawServerStatusId, Object... params);
-	
-    List<ServerStatus> findServerStatus(String serverName, Object... params);
-    
-    List<ServerStatus> findServerStatus(Object... params);
-    
-    List<ServerStatus> findServerList(Object... params);
-    
-    void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException;
+    @Autowired
+    private ServerDao serverStatusDao;
 
-	void saveOrUpdateServerStatus(ServerStatus serverStatus);
-	
-	void deleteServerStatus(ServerStatus serverStatus);
+    public ServerStatus getServerStatusById(Long serverStatusId, Object... params) {
+        return serverStatusDao.getServerStatusById(serverStatusId, params);
+    }
+
+    public ServerStatus getServerStatusById(String rawServerStatusId, Object... params) {
+        long serverStatusId = -1;
+        try {
+            serverStatusId = Long.parseLong(rawServerStatusId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getServerStatusById(serverStatusId, params);
+    }
+
+    public List<ServerStatus> findServerStatus(String serverName, Object... params) {
+        return serverStatusDao.findServerStatus(serverName, params);
+    }
+    
+    public List<ServerStatus> findServerStatus(Object... params) {
+        return serverStatusDao.findServerStatus(params);
+    }
+    
+    public List<ServerStatus> findServerList(Object... params) {
+        return serverStatusDao.findServerList(params);
+    }
+    
+    public void saveOrUpdateServerStatus(ServerStatus serverStatus, String message) throws IOException {
+        serverStatusDao.saveOrUpdateServerStatus(serverStatus, message);
+    }
+
+    public void saveOrUpdateServerStatus(ServerStatus serverStatus) {
+        serverStatusDao.saveOrUpdateServerStatus(serverStatus);
+    }
+
+    public void deleteServerStatus(ServerStatus serverStatus) {
+        serverStatusDao.deleteServerStatus(serverStatus);
+    }
 
 }

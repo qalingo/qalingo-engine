@@ -11,20 +11,100 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Tax;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface TaxDao {
+@Repository("taxDao")
+public class TaxDao extends AbstractGenericDao {
 
-    Tax getTaxById(Long taxId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    Tax getTaxByCode(String taxCode, Object... params);
+	public Tax getTaxById(final Long taxId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+        
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        
+        criteria.add(Restrictions.eq("id", taxId));
+        Tax tax = (Tax) criteria.uniqueResult();
+        if(tax != null){
+            tax.setFetchPlan(fetchPlan);
+        }
+        return tax;
+	}
 
-    List<Tax> findTaxes(Object... params);
+    public Tax getTaxByCode(final String taxCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
 
-    List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
-    Tax saveOrUpdateTax(Tax tax);
+        criteria.add(Restrictions.eq("code", taxCode));
+        Tax tax = (Tax) criteria.uniqueResult();
+        if(tax != null){
+            tax.setFetchPlan(fetchPlan);
+        }
+        return tax;
+    }
+    
+    public List<Tax> findTaxes(Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
 
-    void deleteTax(Tax tax);
+        handleSpecificGroupFetchMode(criteria, params);
 
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Tax> taxes = criteria.list();
+        return taxes;
+    }
+    
+    public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Tax.class);
+
+        handleSpecificGroupFetchMode(criteria, params);
+
+        criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
+        criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Tax> taxes = criteria.list();
+        return taxes;
+    }
+    
+	public Tax saveOrUpdateTax(final Tax tax) {
+        if (tax.getId() != null) {
+            if(em.contains(tax)){
+                em.refresh(tax);
+            }
+            Tax mergedTax = em.merge(tax);
+            em.flush();
+            return mergedTax;
+        } else {
+            em.persist(tax);
+            return tax;
+        }
+	}
+
+	public void deleteTax(final Tax tax) {
+		em.remove(tax);
+	}
+
+    @Override
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
+        }
+    }
+    
 }

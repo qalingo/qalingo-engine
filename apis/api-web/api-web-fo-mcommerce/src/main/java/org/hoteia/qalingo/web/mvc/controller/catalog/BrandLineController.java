@@ -45,7 +45,7 @@ public class BrandLineController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final MarketArea currentMarketArea = requestData.getMarketArea();
         
-		final ProductBrand productBrand = productService.getProductBrandByCode(currentMarketArea.getId(), brandCode);
+		final ProductBrand productBrand = productService.getProductBrandByCode(brandCode);
 		
 		List<ProductMarketing>  productMarketings = productService.findProductMarketingsByBrandId(currentMarketArea.getId(), productBrand.getId());
 		final ProductBrandViewBean productBrandViewBean = frontofficeViewBeanFactory.buildViewBeanProductBrand(requestUtil.getRequestData(request), productBrand, productMarketings);

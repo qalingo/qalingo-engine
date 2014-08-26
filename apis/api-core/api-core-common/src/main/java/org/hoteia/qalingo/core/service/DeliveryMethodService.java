@@ -11,24 +11,55 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.DeliveryMethodDao;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface DeliveryMethodService {
+@Service("deliveryMethodService")
+@Transactional
+public class DeliveryMethodService {
 
-    DeliveryMethod getDeliveryMethodById(Long deliveryMethodId, Object... params);
+    @Autowired
+    private DeliveryMethodDao deliveryMethodDao;
 
-    DeliveryMethod getDeliveryMethodById(String deliveryMethodId, Object... params);
+    public DeliveryMethod getDeliveryMethodById(final Long deliveryMethodId, Object... params) {
+        return deliveryMethodDao.getDeliveryMethodById(deliveryMethodId, params);
+    }
 
-    DeliveryMethod getDeliveryMethodByCode(String code, Object... params);
+    public DeliveryMethod getDeliveryMethodById(final String rawDeliveryMethodId, Object... params) {
+        long deliveryMethodId = -1;
+        try {
+            deliveryMethodId = Long.parseLong(rawDeliveryMethodId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getDeliveryMethodById(deliveryMethodId, params);
+    }
 
-    List<DeliveryMethod> findDeliveryMethods(Object... params);
+    public DeliveryMethod getDeliveryMethodByCode(final String code, Object... params) {
+        return deliveryMethodDao.getDeliveryMethodByCode(code, params);
+    }
 
-    List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params);
-    
-    List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params);
+    public List<DeliveryMethod> findDeliveryMethods(Object... params) {
+        return deliveryMethodDao.findDeliveryMethods(params);
+    } 
 
-    DeliveryMethod saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod);
+    public List<DeliveryMethod> findDeliveryMethodsByWarehouseId(Long warehouseId, Object... params) {
+        return deliveryMethodDao.findDeliveryMethodsByWarehouseId(warehouseId, params);
+    }
 
-    void deleteDeliveryMethod(DeliveryMethod deliveryMethod);
+    public List<DeliveryMethod> findDeliveryMethodsByMarketAreaId(Long marketAreaId, Object... params) {
+        return deliveryMethodDao.findDeliveryMethodsByMarketAreaId(marketAreaId, params);
+    }
+
+    public DeliveryMethod saveOrUpdateDeliveryMethod(DeliveryMethod deliveryMethod) {
+        return deliveryMethodDao.saveOrUpdateDeliveryMethod(deliveryMethod);
+    }
+
+    public void deleteDeliveryMethod(DeliveryMethod deliveryMethod) {
+        deliveryMethodDao.deleteDeliveryMethod(deliveryMethod);
+    }
 
 }

@@ -11,18 +11,65 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerConnectionLogDao {
+@Repository("customerConnectionLogDao")
+public class CustomerConnectionLogDao extends AbstractGenericDao {
 
-	CustomerConnectionLog getCustomerConnectionLogById(Long customerConnectionLogId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId, Object... params);
+	public CustomerConnectionLog getCustomerConnectionLogById(final Long customerConnectionLogId, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("id", customerConnectionLogId));
+        CustomerConnectionLog customerConnectionLog = (CustomerConnectionLog) criteria.uniqueResult();
+        return customerConnectionLog;
+	}
 
-	List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(Long customerId, String appCode, Object... params);
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerId(Long customerId, Object... params){
+        Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
+        
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<CustomerConnectionLog> customerConnectionLogs = criteria.list();
+        return customerConnectionLogs;
+	}
 	
-	CustomerConnectionLog saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
+	public List<CustomerConnectionLog> findCustomerConnectionLogsByCustomerIdAndAppCode(final Long customerId, final String appCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(CustomerConnectionLog.class);
+        criteria.add(Restrictions.eq("customerId", customerId));
+        criteria.add(Restrictions.eq("appCode", appCode));
+        
+        criteria.addOrder(Order.asc("loginDate"));
 
-	void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog);
+        @SuppressWarnings("unchecked")
+        List<CustomerConnectionLog> customerConnectionLogs = criteria.list();
+        return customerConnectionLogs;
+	}
+	
+	public CustomerConnectionLog saveOrUpdateCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
+        if (customerConnectionLog.getId() != null) {
+            if(em.contains(customerConnectionLog)){
+                em.refresh(customerConnectionLog);
+            }
+            CustomerConnectionLog mergedCustomerConnectionLog = em.merge(customerConnectionLog);
+            em.flush();
+            return mergedCustomerConnectionLog;
+        } else {
+            em.persist(customerConnectionLog);
+            return customerConnectionLog;
+        }
+	}
+
+	public void deleteCustomerConnectionLog(CustomerConnectionLog customerConnectionLog) {
+		em.remove(customerConnectionLog);
+	}
 
 }

@@ -55,11 +55,11 @@
 		<property name="targetSource" ref="storeUnmarshallerTarget" />
 	</bean>
 
-	<bean id="storeUnmarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.impl.StoreUnmarshalXmlHelperImpl">
+	<bean id="storeUnmarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.StoreUnmarshalXmlHelper">
 		<property name="unmarshaller" ref="storeUnmarshaller" />
 	</bean>
 
-	<bean id="storeMarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.impl.StoreMarshalXmlHelperImpl">
+	<bean id="storeMarshalXmlHelper" class="org.hoteia.qalingo.binding.jaxb.helper.StoreMarshalXmlHelper">
 		<property name="marshaller" ref="storeMarshaller" />
 	</bean>
 

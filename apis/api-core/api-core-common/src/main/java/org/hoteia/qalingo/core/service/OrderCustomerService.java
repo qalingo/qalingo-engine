@@ -11,24 +11,55 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.OrderCustomerDao;
 import org.hoteia.qalingo.core.domain.OrderCustomer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface OrderCustomerService {
+@Service("orderCustomerService")
+@Transactional
+public class OrderCustomerService {
 
-    OrderCustomer getOrderById(Long orderCustomerId, Object... params);
+    @Autowired
+    private OrderCustomerDao orderDao;
+
+    public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
+        return orderDao.getOrderById(orderCustomerId, params);
+    }
     
-	OrderCustomer getOrderById(String orderCustomerId, Object... params);
+    public OrderCustomer getOrderById(final String rawOrderCustomerId, Object... params) {
+        long orderId = -1;
+        try {
+            orderId = Long.parseLong(rawOrderCustomerId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getOrderById(orderId, params);
+    }
 
-	OrderCustomer getOrderByOrderNum(String orderNum, Object... params);
-	
-	List<OrderCustomer> findOrders(Object... params);
-	
-	List<OrderCustomer> findOrdersByCustomerId(String customerId, Object... params);
-	
-	OrderCustomer createNewOrder(OrderCustomer orderCustomer);
-	
-	void saveOrUpdateOrder(OrderCustomer orderCustomer);
-	
-	void deleteOrder(OrderCustomer orderCustomer);
+    public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
+        return orderDao.getOrderByOrderNum(orderNum, params);
+    }
+
+    public List<OrderCustomer> findOrdersByCustomerId(final String customerId, Object... params) {
+        return orderDao.findOrdersByCustomerId(Long.parseLong(customerId), params);
+    }
+
+    public List<OrderCustomer> findOrders(Object... params) {
+        return orderDao.findOrders(params);
+    }
+
+    public OrderCustomer createNewOrder(final OrderCustomer orderCustomer) {
+        return orderDao.createNewOrder(orderCustomer);
+    }
+
+    public void saveOrUpdateOrder(final OrderCustomer orderCustomer) {
+        orderDao.saveOrUpdateOrder(orderCustomer);
+    }
+
+    public void deleteOrder(final OrderCustomer orderCustomer) {
+        orderDao.deleteOrder(orderCustomer);
+    }
 
 }

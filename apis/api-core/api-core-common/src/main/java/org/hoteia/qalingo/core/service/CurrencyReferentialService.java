@@ -11,20 +11,47 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.CurrencyReferentialDao;
 import org.hoteia.qalingo.core.domain.CurrencyReferential;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CurrencyReferentialService {
+@Service("currencyReferentialService")
+@Transactional
+public class CurrencyReferentialService {
 
-    CurrencyReferential getCurrencyReferentialById(Long currencyReferentialId, Object... params);
-    
-	CurrencyReferential getCurrencyReferentialById(String currencyReferentialId, Object... params);
+    @Autowired
+    private CurrencyReferentialDao currencyReferentialDao;
 
-	CurrencyReferential getCurrencyReferentialByCode(String currencyReferentialCode, Object... params);
+    public CurrencyReferential getCurrencyReferentialById(final Long currencyReferentialId, Object... params) {
+        return currencyReferentialDao.getCurrencyReferentialById(currencyReferentialId, params);
+    }
 
-	List<CurrencyReferential> findCurrencyReferentials(Object... params);
-	
-	void saveOrUpdateCurrencyReferential(CurrencyReferential currencyReferential);
-	
-	void deleteCurrencyReferential(CurrencyReferential currencyReferential);
+    public CurrencyReferential getCurrencyReferentialById(final String rawCurrencyReferentialId, Object... params) {
+        long currencyReferentialId = -1;
+        try {
+            currencyReferentialId = Long.parseLong(rawCurrencyReferentialId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCurrencyReferentialById(currencyReferentialId, params);
+    }
+
+    public CurrencyReferential getCurrencyReferentialByCode(final String currencyReferentialCode, Object... params) {
+        return currencyReferentialDao.getCurrencyReferentialByCode(currencyReferentialCode, params);
+    }
+
+    public List<CurrencyReferential> findCurrencyReferentials(Object... params) {
+        return currencyReferentialDao.findCurrencyReferentials(params);
+    }
+
+    public void saveOrUpdateCurrencyReferential(final CurrencyReferential currencyReferential) {
+        currencyReferentialDao.saveOrUpdateCurrencyReferential(currencyReferential);
+    }
+
+    public void deleteCurrencyReferential(final CurrencyReferential currencyReferential) {
+        currencyReferentialDao.deleteCurrencyReferential(currencyReferential);
+    }
 
 }

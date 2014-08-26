@@ -9,14 +9,70 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Cart;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface CartDao {
+@Repository("cartDao")
+public class CartDao extends AbstractGenericDao {
 
-	Cart getCartById(Long cartId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	Cart saveOrUpdateCart(Cart cart);
+	public Cart getCartById(final Long cartId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Cart.class);
+        
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria);
+        
+        criteria.add(Restrictions.eq("id", cartId));
+        Cart cart = (Cart) criteria.uniqueResult();
+        if(cart != null){
+            cart.setFetchPlan(fetchPlan);
+        }
+        return cart;
+	}
 
-	void deleteCart(Cart cart);
+	public Cart saveOrUpdateCart(final Cart cart) {
+		if(cart.getDateCreate() == null){
+			cart.setDateCreate(new Date());
+		}
+		cart.setDateUpdate(new Date());
+        if (cart.getId() != null) {
+            if(em.contains(cart)){
+                em.refresh(cart);
+            }
+            Cart mergedCart = em.merge(cart);
+            em.flush();
+            return mergedCart;
+        } else {
+            em.persist(cart);
+            return cart;
+        }
+	}
 
+	public void deleteCart(final Cart cart) {
+	    if(em.contains(cart)){
+	        cart.deleteAllCartItem();
+	        em.remove(cart);
+	    } else {
+            cart.deleteAllCartItem();
+	        em.remove(em.merge(cart));
+	    }
+	}
+	
+    @Override
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
+        }
+    }
+	   
 }

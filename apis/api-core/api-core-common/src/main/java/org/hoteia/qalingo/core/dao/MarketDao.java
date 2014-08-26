@@ -9,54 +9,284 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.market.FetchPlanGraphMarket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface MarketDao {
+@Repository("marketDao")
+public class MarketDao extends AbstractGenericDao {
 
-    // MARKET PLACE
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    MarketPlace getDefaultMarketPlace(Object... params);
-
-    MarketPlace getMarketPlaceById(Long marketPlaceId, Object... params);
-
-    MarketPlace getMarketPlaceByCode(String code, Object... params);
-
-    List<MarketPlace> findMarketPlaces(Object... params);
-
-    MarketPlace saveOrUpdateMarketPlace(MarketPlace marketPlace);
-
-    void deleteMarketPlace(MarketPlace marketPlace);
-
-    // MARKET
-
-    Market getDefaultMarket(Object... params);
-
-    Market getMarketById(Long marketId, Object... params);
-
-    Market getMarketByCode(String code, Object... params);
-
-    List<Market> findMarkets(Object... params);
-
-    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode, Object... params);
-
-    Market saveOrUpdateMarket(Market market);
-
-    void deleteMarket(Market market);
-
-    // MARKET AREA
-
-    MarketArea getMarketAreaById(Long marketAreaId, Object... params);
-
-    MarketArea getMarketAreaByCode(String code, Object... params);
-
-    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode, Object... params);
-
-    MarketArea saveOrUpdateMarketArea(MarketArea marketArea);
-
-    void deleteMarketArea(MarketArea marketArea);
+	// MARKET PLACE
+	
+    public MarketPlace getDefaultMarketPlace(Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
+        
+        criteria.add(Restrictions.eq("isDefault", true));
+        
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
+        return marketPlace;
+    }
     
+    public MarketPlace getMarketPlaceById(final Long marketPlaceId, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
+
+        criteria.add(Restrictions.eq("id", marketPlaceId));
+        
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
+        return marketPlace;
+    }
+    
+    public MarketPlace getMarketPlaceByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketPlace(criteria, params);
+
+        criteria.add(Restrictions.eq("code", code));
+        
+        MarketPlace marketPlace = (MarketPlace) criteria.uniqueResult();
+        if(marketPlace != null){
+            marketPlace.setFetchPlan(fetchPlan);
+        }
+        return marketPlace;
+    }
+    
+    public List<MarketPlace> findMarketPlaces(Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketPlace.class);
+
+        handleSpecificFetchModeMarketPlace(criteria, params);
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<MarketPlace> marketPlaces = criteria.list();
+        return marketPlaces;
+    }
+
+    public MarketPlace saveOrUpdateMarketPlace(final MarketPlace marketPlace) {
+        if(marketPlace.getDateCreate() == null){
+            marketPlace.setDateCreate(new Date());
+        }
+        marketPlace.setDateUpdate(new Date());
+        if (marketPlace.getId() != null) {
+            if(em.contains(marketPlace)){
+                em.refresh(marketPlace);
+            }
+            MarketPlace mergedMarketPlace = em.merge(marketPlace);
+            em.flush();
+            return mergedMarketPlace;
+        } else {
+            em.persist(marketPlace);
+            return marketPlace;
+        }
+    }
+
+    public void deleteMarketPlace(final MarketPlace marketPlace) {
+        em.remove(marketPlace);
+    }
+
+    protected FetchPlan handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketPlaceFetchPlan());
+        }
+    }
+    
+	// MARKET
+	
+	public Market getDefaultMarket(Object... params) {
+        Criteria criteria = createDefaultCriteria(Market.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
+        
+        criteria.add(Restrictions.eq("isDefault", true));
+        
+        Market market = (Market) criteria.uniqueResult();
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
+		return market;
+	}
+	
+	public Market getMarketById(final Long marketId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Market.class);
+
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
+
+        criteria.add(Restrictions.eq("id", marketId));
+        
+        Market market = (Market) criteria.uniqueResult();
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
+        return market;
+	}
+
+	public Market getMarketByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(Market.class);
+
+        FetchPlan fetchPlan = handleSpecificFetchModeMarket(criteria, params);
+
+        criteria.add(Restrictions.eq("code", code));
+        
+        Market market = (Market) criteria.uniqueResult();
+        if(market != null){
+            market.setFetchPlan(fetchPlan);
+        }
+		return market;
+	}
+	
+	public List<Market> findMarkets(Object... params) {
+        Criteria criteria = createDefaultCriteria(Market.class);
+        
+        handleSpecificFetchModeMarket(criteria, params);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Market> markets = criteria.list();
+		return markets;
+	}
+	
+    public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Market.class);
+
+        handleSpecificFetchModeMarket(criteria, params);
+        
+        criteria.createAlias("marketPlace", "mp", JoinType.LEFT_OUTER_JOIN);
+        criteria.add( Restrictions.eq("mp.code", marketPlaceCode));
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<Market> markets = criteria.list();
+        return markets;
+    }
+
+	public Market saveOrUpdateMarket(final Market market) {
+		if(market.getDateCreate() == null){
+			market.setDateCreate(new Date());
+		}
+		market.setDateUpdate(new Date());
+        if (market.getId() != null) {
+            if(em.contains(market)){
+                em.refresh(market);
+            }
+            Market mergedMarket = em.merge(market);
+            em.flush();
+            return mergedMarket;
+        } else {
+            em.persist(market);
+            return market;
+        }
+	}
+
+	public void deleteMarket(final Market market) {
+		em.remove(market);
+	}
+	
+    protected FetchPlan handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketFetchPlan());
+        }
+    }
+	
+	// MARKET AREA
+
+	public MarketArea getMarketAreaById(final Long marketAreaId, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
+
+        criteria.add(Restrictions.eq("id", marketAreaId));
+        
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+        if(marketArea != null){
+            marketArea.setFetchPlan(fetchPlan);
+        }
+        return marketArea;
+	}
+	
+	public MarketArea getMarketAreaByCode(final String code, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchModeMarketArea(criteria, params);
+        
+        criteria.add(Restrictions.eq("code", code));
+        
+        MarketArea marketArea = (MarketArea) criteria.uniqueResult();
+        if(marketArea != null){
+            marketArea.setFetchPlan(fetchPlan);
+        }
+		return marketArea;
+	}
+
+    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(MarketArea.class);
+
+        handleSpecificFetchModeMarketArea(criteria, params);
+
+        criteria.add(Restrictions.eq("geolocCountryCode", countryCode));
+        
+        @SuppressWarnings("unchecked")
+        List<MarketArea> marketAreas = criteria.list();
+        return marketAreas;
+    }
+
+    public MarketArea saveOrUpdateMarketArea(final MarketArea marketArea) {
+        if(marketArea.getDateCreate() == null){
+            marketArea.setDateCreate(new Date());
+        }
+        marketArea.setDateUpdate(new Date());
+        if (marketArea.getId() != null) {
+            if(em.contains(marketArea)){
+                em.refresh(marketArea);
+            }
+            MarketArea mergedMarketArea = em.merge(marketArea);
+            em.flush();
+            return mergedMarketArea;
+        } else {
+            em.persist(marketArea);
+            return marketArea;
+        }
+    }
+
+    public void deleteMarketArea(final MarketArea marketArea) {
+        em.remove(marketArea);
+    }
+    
+    protected FetchPlan handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketAreaFetchPlan());
+        }
+    }
+	
 }

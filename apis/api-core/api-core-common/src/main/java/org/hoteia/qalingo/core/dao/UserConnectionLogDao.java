@@ -11,18 +11,65 @@ package org.hoteia.qalingo.core.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface UserConnectionLogDao {
+@Repository("userConnectionLogDao")
+public class UserConnectionLogDao extends AbstractGenericDao {
 
-	UserConnectionLog getUserConnectionLogById(Long userConnectionLogId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	List<UserConnectionLog> findUserConnectionLogsByUserId(Long userId, Object... params);
+	public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("id", userConnectionLogId));
+        UserConnectionLog userConnectionLog = (UserConnectionLog) criteria.uniqueResult();
+        return userConnectionLog;
+	}
 
-	List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(Long userId, String appCode, Object... params);
+	public List<UserConnectionLog> findUserConnectionLogsByUserId(final Long userId, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("userId", userId));
 
-	UserConnectionLog saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog);
+        criteria.addOrder(Order.asc("loginDate"));
 
-	void deleteUserConnectionLog(UserConnectionLog userConnectionLog);
+        @SuppressWarnings("unchecked")
+        List<UserConnectionLog> userConnectionLogs = criteria.list();
+		return userConnectionLogs;
+	}
+	
+	public List<UserConnectionLog> findUserConnectionLogsByUserIdAndAppCode(final Long userId, final String appCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(UserConnectionLog.class);
+        criteria.add(Restrictions.eq("userId", userId));
+        criteria.add(Restrictions.eq("app", appCode));
+        
+        criteria.addOrder(Order.asc("loginDate"));
+
+        @SuppressWarnings("unchecked")
+        List<UserConnectionLog> userConnectionLogs = criteria.list();
+		return userConnectionLogs;
+	}
+
+	public UserConnectionLog saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
+        if (userConnectionLog.getId() != null) {
+            if(em.contains(userConnectionLog)){
+                em.refresh(userConnectionLog);
+            }
+            UserConnectionLog mergedUserConnectionLog = em.merge(userConnectionLog);
+            em.flush();
+            return mergedUserConnectionLog;
+        } else {
+            em.persist(userConnectionLog);
+            return userConnectionLog;
+        }
+	}
+
+	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {
+		em.remove(userConnectionLog);
+	}
 
 }

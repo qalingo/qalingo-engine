@@ -9,23 +9,102 @@
  */
 package org.hoteia.qalingo.core.dao;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.AbstractPaymentGateway;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
+import org.hoteia.qalingo.core.fetchplan.FetchPlan;
+import org.hoteia.qalingo.core.fetchplan.common.FetchPlanGraphCommon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-public interface PaymentGatewayDao {
+@Repository("paymentGatewayDao")
+public class PaymentGatewayDao extends AbstractGenericDao {
 
-    AbstractPaymentGateway getPaymentGatewayById(Long paymentGatewayId, Object... params);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    AbstractPaymentGateway getPaymentGatewayByCode(String paymentGatewayCode, Object... params);
+	public AbstractPaymentGateway getPaymentGatewayById(final Long paymentGatewayId, Object... params) {
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
+        
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
 
-    List<AbstractPaymentGateway> findPaymentGateways(Object... params);
+        criteria.add(Restrictions.eq("id", paymentGatewayId));
+        AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
+        if(paymentGateway != null){
+            paymentGateway.setFetchPlan(fetchPlan);
+        }
+        return paymentGateway;
+	}
 
-    List<PaymentGatewayOption> findPaymentGatewayOptions();
-    
-    AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway);
+    public AbstractPaymentGateway getPaymentGatewayByCode(final String paymentGatewayCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
 
-    void deletePaymentGateway(AbstractPaymentGateway paymentGateway);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("code", paymentGatewayCode));
+        AbstractPaymentGateway paymentGateway = (AbstractPaymentGateway) criteria.uniqueResult();
+        if(paymentGateway != null){
+            paymentGateway.setFetchPlan(fetchPlan);
+        }
+        return paymentGateway;
+    }
+	
+	public List<AbstractPaymentGateway> findPaymentGateways(Object... params) {
+        Criteria criteria = createDefaultCriteria(AbstractPaymentGateway.class);
+
+        handleSpecificGroupFetchMode(criteria, params);
+        
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<AbstractPaymentGateway> paymentGateways = criteria.list();
+		return paymentGateways;
+	}
+	
+    public List<PaymentGatewayOption> findPaymentGatewayOptions() {
+        Criteria criteria = createDefaultCriteria(PaymentGatewayOption.class);
+
+        criteria.addOrder(Order.asc("code"));
+
+        @SuppressWarnings("unchecked")
+        List<PaymentGatewayOption> paymentGatewayOptions = criteria.list();
+        return paymentGatewayOptions;
+    }
+
+	public AbstractPaymentGateway saveOrUpdatePaymentGateway(AbstractPaymentGateway paymentGateway) {
+		if(paymentGateway.getDateCreate() == null){
+			paymentGateway.setDateCreate(new Date());
+		}
+		paymentGateway.setDateUpdate(new Date());
+        if (paymentGateway.getId() != null) {
+            if(em.contains(paymentGateway)){
+                em.refresh(paymentGateway);
+            }
+            AbstractPaymentGateway mergedPaymentGateway = em.merge(paymentGateway);
+            em.flush();
+            return mergedPaymentGateway;
+        } else {
+            em.persist(paymentGateway);
+            return paymentGateway;
+        }
+	}
+
+	public void deletePaymentGateway(AbstractPaymentGateway paymentGateway) {
+		em.remove(paymentGateway);
+	}
+	
+    @Override
+    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificGroupFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultPaymentGatewayFetchPlan());
+        }
+    }
 
 }

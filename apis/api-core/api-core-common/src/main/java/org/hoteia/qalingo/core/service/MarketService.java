@@ -11,54 +11,119 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.MarketDao;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface MarketService {
+@Service("marketService")
+@Transactional
+public class MarketService {
+
+    @Autowired
+    private MarketDao marketDao;
 
     // MARKET PLACE
 
-    MarketPlace getDefaultMarketPlace(Object... params);
+    public MarketPlace getDefaultMarketPlace(Object... params) {
+        return marketDao.getDefaultMarketPlace(params);
+    }
 
-    MarketPlace getMarketPlaceById(Long marketPlaceId, Object... params);
+    public MarketPlace getMarketPlaceById(final Long marketPlaceId, Object... params) {
+        return marketDao.getMarketPlaceById(marketPlaceId, params);
+    }
 
-    MarketPlace getMarketPlaceById(String marketPlaceId, Object... params);
+    public MarketPlace getMarketPlaceById(final String rawMarketPlaceId, Object... params) {
+        long marketPlaceId = -1;
+        try {
+            marketPlaceId = Long.parseLong(rawMarketPlaceId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMarketPlaceById(marketPlaceId, params);
+    }
 
-    MarketPlace getMarketPlaceByCode(String marketPlaceCode, Object... params);
+    public MarketPlace getMarketPlaceByCode(final String marketPlaceCode, Object... params) {
+        return marketDao.getMarketPlaceByCode(marketPlaceCode, params);
+    }
 
-    List<MarketPlace> findMarketPlaces(Object... params);
+    public List<MarketPlace> findMarketPlaces(Object... params) {
+        return marketDao.findMarketPlaces(params);
+    }
 
-    void saveOrUpdateMarketPlace(MarketPlace marketPlace);
+    public void saveOrUpdateMarketPlace(final MarketPlace marketPlace) {
+        marketDao.saveOrUpdateMarketPlace(marketPlace);
+    }
 
-    void deleteMarketPlace(MarketPlace marketPlace);
+    public void deleteMarketPlace(final MarketPlace marketPlace) {
+        marketDao.deleteMarketPlace(marketPlace);
+    }
 
     // MARKET
 
-    Market getDefaultMarket(Object... params);
+    public Market getDefaultMarket(Object... params) {
+        return marketDao.getDefaultMarket(params);
+    }
 
-    Market getMarketById(Long marketId, Object... params);
+    public Market getMarketById(final Long marketId, Object... params) {
+        return marketDao.getMarketById(marketId, params);
+    }
 
-    Market getMarketById(String marketId, Object... params);
+    public Market getMarketById(final String rawMarketId, Object... params) {
+        long marketId = -1;
+        try {
+            marketId = Long.parseLong(rawMarketId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMarketById(marketId, params);
+    }
 
-    Market getMarketByCode(String marketCode, Object... params);
+    public Market getMarketByCode(final String marketCode, Object... params) {
+        return marketDao.getMarketByCode(marketCode, params);
+    }
 
-    List<Market> findMarkets(Object... params);
+    public List<Market> findMarkets(Object... params) {
+        return marketDao.findMarkets(params);
+    }
 
-    List<Market> getMarketsByMarketPlaceCode(String marketPlaceCode, Object... params);
+    public List<Market> getMarketsByMarketPlaceCode(final String marketPlaceCode, Object... params) {
+        return marketDao.getMarketsByMarketPlaceCode(marketPlaceCode, params);
+    }
 
-    void saveOrUpdateMarket(Market market);
+    public void saveOrUpdateMarket(Market market) {
+        marketDao.saveOrUpdateMarket(market);
+    }
 
-    void deleteMarket(Market market);
+    public void deleteMarket(Market market) {
+        marketDao.deleteMarket(market);
+    }
 
     // MARKET AREA
 
-    MarketArea getMarketAreaById(Long marketAreaId, Object... params);
+    public MarketArea getMarketAreaById(final Long marketAreaId, Object... params) {
+        return marketDao.getMarketAreaById(marketAreaId, params);
+    }
 
-    MarketArea getMarketAreaById(String marketAreaId, Object... params);
+    public MarketArea getMarketAreaById(final String rawMarketAreaId, Object... params) {
+        long marketAreaId = -1;
+        try {
+            marketAreaId = Long.parseLong(rawMarketAreaId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMarketAreaById(marketAreaId, params);
+    }
 
-    MarketArea getMarketAreaByCode(String marketAreaCode, Object... params);
-
-    List<MarketArea> getMarketAreaByGeolocCountryCode(String countryCode, Object... params);
-
+    public MarketArea getMarketAreaByCode(final String marketAreaCode, Object... params) {
+        return marketDao.getMarketAreaByCode(marketAreaCode, params);
+    }
+    
+    public List<MarketArea> getMarketAreaByGeolocCountryCode(final String countryCode, Object... params) {
+        return marketDao.getMarketAreaByGeolocCountryCode(countryCode, params);
+    }
+    
 }

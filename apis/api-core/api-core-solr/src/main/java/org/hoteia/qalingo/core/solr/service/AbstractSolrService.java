@@ -7,7 +7,7 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.solr.service.impl;
+package org.hoteia.qalingo.core.solr.service;
 
 public abstract class AbstractSolrService {
 

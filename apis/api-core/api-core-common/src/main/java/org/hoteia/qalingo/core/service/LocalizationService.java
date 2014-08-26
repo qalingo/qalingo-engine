@@ -11,22 +11,51 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.LocalizationDao;
 import org.hoteia.qalingo.core.domain.Localization;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface LocalizationService {
+@Service("localizationService")
+@Transactional
+public class LocalizationService {
 
-    Localization getLocalizationById(Long localizationId, Object... params);
+    @Autowired
+    private LocalizationDao localizationDao;
 
-    Localization getLocalizationById(String localizationId, Object... params);
-	
-	Localization getLocalizationByCode(String localeCode, Object... params);
-	
-	List<Localization> findLocalizations(Object... params);
-	
-	List<Localization> findLocalizationsByMarketAreaCode(String marketAreaCode, Object... params);
-	
-	void saveOrUpdateLocalization(Localization localization);
-	
-	void deleteLocalization(Localization localization);
+    public Localization getLocalizationById(final Long localizationId, Object... params) {
+        return localizationDao.getLocalizationById(localizationId);
+    }
+
+    public Localization getLocalizationById(final String rawLocalizationId, Object... params) {
+        long localizationId = -1;
+        try {
+            localizationId = Long.parseLong(rawLocalizationId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getLocalizationById(localizationId, params);
+    }
+
+    public Localization getLocalizationByCode(final String code, Object... params) {
+        return localizationDao.getLocalizationByCode(code, params);
+    }
+
+    public List<Localization> findLocalizations(Object... params) {
+        return localizationDao.findLocalizations(params);
+    }
+
+    public List<Localization> findLocalizationsByMarketAreaCode(final String marketAreaCode, Object... params) {
+        return localizationDao.findLocalizationsByMarketAreaCode(marketAreaCode, params);
+    }
+
+    public void saveOrUpdateLocalization(final Localization localization) {
+        localizationDao.saveOrUpdateLocalization(localization);
+    }
+
+    public void deleteLocalization(final Localization localization) {
+        localizationDao.deleteLocalization(localization);
+    }
 
 }

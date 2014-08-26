@@ -205,4 +205,5 @@ public class Constants {
 	public static final String PRODUCT_QUALITY_RATING_TYPE = "QUALITY_OF_SERVICE";
 	public static final String PRODUCT_PRICE_RATING_TYPE = "RATIO_QUALITY_PRICE";
 	public static final String PRODUCT_VALUE_RATING_TYPE = "PRICE_SCORE";
+	
 }

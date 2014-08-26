@@ -9,29 +9,74 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import org.hoteia.qalingo.core.dao.GroupRoleDao;
 import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.UserGroup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface GroupRoleService {
+@Service("groupRoleService")
+@Transactional
+public class GroupRoleService {
 
-    CustomerGroup getCustomerGroupById(Long customerGroupId, Object... params);
+    @Autowired
+    private GroupRoleDao groupRoleDao;
 
-	CustomerGroup getCustomerGroupById(String customerGroupId, Object... params);
-	
-	CustomerGroup getCustomerGroupByCode(String code, Object... params);
-	
-	void saveOrUpdateCustomerGroup(CustomerGroup customerGroup);
-	
-	void deleteCustomerGroup(CustomerGroup customerGroup);
-
-    UserGroup getUserGroupById(Long userGroupId, Object... params);
-
-    UserGroup getUserGroupById(String userGroupId, Object... params);
+    // CUSTOMER GROUP
     
-    UserGroup getUserGroupByCode(String code, Object... params);
+    public CustomerGroup getCustomerGroupById(final Long customerGroupId, Object... params) {
+        return groupRoleDao.getCustomerGroupById(customerGroupId, params);
+    }
+
+    public CustomerGroup getCustomerGroupById(final String rawCustomerGroupId, Object... params) {
+        long customerGroupId = -1;
+        try {
+            customerGroupId = Long.parseLong(rawCustomerGroupId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerGroupById(customerGroupId, params);
+    }
+
+    public CustomerGroup getCustomerGroupByCode(final String code, Object... params) {
+        return groupRoleDao.getCustomerGroupByCode(code, params);
+    }
+
+    public void saveOrUpdateCustomerGroup(final CustomerGroup customerGroup) {
+        groupRoleDao.saveOrUpdateCustomerGroup(customerGroup);
+    }
+
+    public void deleteCustomerGroup(final CustomerGroup customerGroup) {
+        groupRoleDao.deleteCustomerGroup(customerGroup);
+    }
+
+    // USER GROUP
     
-    void saveOrUpdateUserGroup(UserGroup userGroup);
-    
-    void deleteUserGroup(UserGroup userGroup);
+    public UserGroup getUserGroupById(final Long userGroupId, Object... params) {
+        return groupRoleDao.getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupById(final String rawUserGroupId, Object... params) {
+        long userGroupId = -1;
+        try {
+            userGroupId = Long.parseLong(rawUserGroupId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getUserGroupById(userGroupId, params);
+    }
+
+    public UserGroup getUserGroupByCode(final String code, Object... params) {
+        return groupRoleDao.getUserGroupByCode(code, params);
+    }
+
+    public void saveOrUpdateUserGroup(final UserGroup userGroup) {
+        groupRoleDao.saveOrUpdateUserGroup(userGroup);
+    }
+
+    public void deleteUserGroup(final UserGroup userGroup) {
+        groupRoleDao.deleteUserGroup(userGroup);
+    }
     
 }

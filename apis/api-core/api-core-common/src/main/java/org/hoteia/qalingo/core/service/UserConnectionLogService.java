@@ -9,16 +9,58 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.List;
+
+import org.hoteia.qalingo.core.dao.UserConnectionLogDao;
 import org.hoteia.qalingo.core.domain.UserConnectionLog;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface UserConnectionLogService {
+@Service("userConnectionLogService")
+@Transactional
+public class UserConnectionLogService {
 
-    UserConnectionLog getUserConnectionLogById(Long userConnectionLogId, Object... params);
-
-    UserConnectionLog getUserConnectionLogById(String userConnectionLogId, Object... params);
+	@Autowired
+	private UserConnectionLogDao userConnectionLogDao;
 	
-	void saveOrUpdateUserConnectionLog(UserConnectionLog userConnectionLog);
-	
-	void deleteUserConnectionLog(UserConnectionLog userConnectionLog);
+	@Autowired
+	protected EngineSettingService engineSettingService;
+
+    public UserConnectionLog getUserConnectionLogById(final Long userConnectionLogId, Object... params) {
+        return userConnectionLogDao.getUserConnectionLogById(userConnectionLogId, params);
+    }
+    
+	public UserConnectionLog getUserConnectionLogById(final String rawUserConnectionLogId, Object... params) {
+		long userConnectionLogId = -1;
+		try {
+			userConnectionLogId = Long.parseLong(rawUserConnectionLogId);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException(e);
+		}
+		return getUserConnectionLogById(userConnectionLogId, params);
+	}
+
+	public void saveOrUpdateUserConnectionLog(final UserConnectionLog userConnectionLog) {
+		String maxConnectionToLog = engineSettingService.getEngineSettingDefaultValueByCode(EngineSettingService.ENGINE_SETTING_MAX_USER_CONNECTION_LOG);
+		final Long userId = userConnectionLog.getUserId();
+		final String appCode = userConnectionLog.getApp();
+		List<UserConnectionLog> userConnectionLogs  = userConnectionLogDao.findUserConnectionLogsByUserIdAndAppCode(userId, appCode);
+		if(userConnectionLogs.size() >= new Integer(maxConnectionToLog)){
+			UserConnectionLog userConnectionLogToUpdate = userConnectionLogs.get(0);
+			userConnectionLogToUpdate.setPrivateAddress(userConnectionLog.getPrivateAddress());
+            userConnectionLogToUpdate.setPublicAddress(userConnectionLog.getPublicAddress());
+			userConnectionLogToUpdate.setHost(userConnectionLog.getHost());
+			userConnectionLogToUpdate.setLoginDate(userConnectionLog.getLoginDate());
+            userConnectionLogToUpdate.setApp(userConnectionLog.getApp());
+			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLogToUpdate);
+		} else {
+			userConnectionLogDao.saveOrUpdateUserConnectionLog(userConnectionLog);
+		}
+	}
+
+	public void deleteUserConnectionLog(final UserConnectionLog userConnectionLog) {
+		userConnectionLogDao.deleteUserConnectionLog(userConnectionLog);
+	}
 
 }

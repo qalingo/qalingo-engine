@@ -23,7 +23,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
-import org.hoteia.qalingo.core.dao.impl.AbstractGenericDaoImpl;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository("productDao")
-public class ProductDao extends AbstractGenericDaoImpl {
+public class ProductDao extends AbstractGenericDao {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

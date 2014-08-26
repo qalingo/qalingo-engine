@@ -11,20 +11,47 @@ package org.hoteia.qalingo.core.service;
 
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.CustomerProductCommentDao;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CustomerProductCommentService {
+@Service("customerProductCommentService")
+@Transactional
+public class CustomerProductCommentService {
 
-    CustomerProductComment getCustomerProductCommentById(Long customerId, Object... params);
+    @Autowired
+    private CustomerProductCommentDao customerProductCommentDao;
 
-    CustomerProductComment getCustomerProductCommentById(String customerId, Object... params);
+    public CustomerProductComment getCustomerProductCommentById(final Long customerProductCommentId, Object... params) {
+        return customerProductCommentDao.getCustomerProductCommentById(customerProductCommentId, params);
+    }
 
-	List<CustomerProductComment> findCustomerProductCommentByCustomerId(Long customerId, Object... params);
-	
-	List<CustomerProductComment> findCustomerProductCommentByProductSkuId(Long productSkuId, Object... params);
-	
-	void saveOrUpdateCustomerProductComment(CustomerProductComment customer);
-	
-	void deleteCustomerProductComment(CustomerProductComment customer);
+    public CustomerProductComment getCustomerProductCommentById(final String rawCustomerProductCommentId, Object... params) {
+        long customerProductCommentId = -1;
+        try {
+            customerProductCommentId = Long.parseLong(rawCustomerProductCommentId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getCustomerProductCommentById(customerProductCommentId, params);
+    }
+
+    public List<CustomerProductComment> findCustomerProductCommentByCustomerId(final Long customerId, Object... params) {
+        return customerProductCommentDao.findCustomerProductCommentByCustomerId(customerId, params);
+    }
+
+    public List<CustomerProductComment> findCustomerProductCommentByProductSkuId(final Long productSkuId, Object... params) {
+        return customerProductCommentDao.findCustomerProductCommentByProductSkuId(productSkuId, params);
+    }
+
+    public void saveOrUpdateCustomerProductComment(final CustomerProductComment customerProductComment) {
+        customerProductCommentDao.saveOrUpdateCustomerProductComment(customerProductComment);
+    }
+
+    public void deleteCustomerProductComment(final CustomerProductComment customerProductComment) {
+        customerProductCommentDao.deleteCustomerProductComment(customerProductComment);
+    }
 
 }

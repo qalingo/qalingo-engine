@@ -9,61 +9,136 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.hoteia.qalingo.core.dao.CatalogCategoryDao;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface CatalogCategoryService {
+@Service("catalogCategoryService")
+@Transactional
+public class CatalogCategoryService {
 
-	// MASTER
+    @Autowired
+    private CatalogCategoryDao catalogCategoryDao;
+
+    // MASTER
+
+    public CatalogCategoryMaster getMasterCatalogCategoryById(final Long catalogCategoryId, Object... params) {
+        return catalogCategoryDao.getMasterCatalogCategoryById(catalogCategoryId, params);
+    }
+
+    public CatalogCategoryMaster getMasterCatalogCategoryById(final String rawCatalogCategoryId, Object... params) {
+        long catalogCategoryId = -1;
+        try {
+            catalogCategoryId = Long.parseLong(rawCatalogCategoryId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getMasterCatalogCategoryById(catalogCategoryId, params);
+    }
+
+    public CatalogCategoryMaster getMasterCatalogCategoryByCode(final String catalogCategoryCode, final String catalogMasterCode, Object... params) {
+        return catalogCategoryDao.getMasterCatalogCategoryByCode(catalogCategoryCode, catalogMasterCode, params);
+    }
+
+    public List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(final String catalogMasterCode, Object... params) {
+        List<CatalogCategoryMaster> categories = catalogCategoryDao.findRootMasterCatalogCategoriesByCatalogCode(catalogMasterCode, params);
+        return orderCategoryMasterList(categories);
+    }
     
-    CatalogCategoryMaster getMasterCatalogCategoryById(Long catalogCategoryId, Object... params);
+    public List<CatalogCategoryMaster> findAllMasterCatalogCategoriesByCatalogCode(final String catalogMasterCode, Object... params) {
+        List<CatalogCategoryMaster> categories = catalogCategoryDao.findAllMasterCatalogCategoriesByCatalogCode(catalogMasterCode, params);
+        return orderCategoryMasterList(categories);
+    }
 
-    CatalogCategoryMaster getMasterCatalogCategoryById(String catalogCategoryId, Object... params);
-
-    CatalogCategoryMaster getMasterCatalogCategoryByCode(String catalogCategoryCode, String catalogMasterCode, Object... params);
-
-    List<CatalogCategoryMaster> findRootMasterCatalogCategoriesByCatalogCode(String catalogMasterCode, Object... params);
-
-    List<CatalogCategoryMaster> findAllMasterCatalogCategoriesByCatalogCode(String catalogMasterCode, Object... params);
-
-//    List<CatalogCategoryMaster> findMasterCategories(Object... params);
-
-    List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(Long productSkuId, Object... params);
-
-//    List<CatalogCategoryMaster> findMasterCategoriesByProductMarketingId(Long productMarketingId, Object... params);
-
-    List<CatalogCategoryMaster> orderCategoryMasterList(List<CatalogCategoryMaster> categories);
-
-    CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory);
-
-    void deleteCatalogCategory(CatalogCategoryMaster catalogCategory);
-
-	// VIRTUAL
-	
-    CatalogCategoryVirtual getVirtualCatalogCategoryById(Long catalogCategoryId, Object... params);
+    public List<CatalogCategoryMaster> findMasterCategoriesByProductSkuId(final Long productSkuId, Object... params) {
+        return catalogCategoryDao.findMasterCategoriesByProductSkuId(productSkuId, params);
+    }
     
-	CatalogCategoryVirtual getVirtualCatalogCategoryById(String catalogCategoryId, Object... params);
+    public List<CatalogCategoryMaster> orderCategoryMasterList(final List<CatalogCategoryMaster> categories) {
+        return categories;
+    }
+    
+    public CatalogCategoryMaster saveOrUpdateCatalogCategory(CatalogCategoryMaster catalogCategory) {
+        return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
+    }
 
-	CatalogCategoryVirtual getVirtualCatalogCategoryByCode(String catalogCategoryCode, String catalogVirtualCode, String catalogMasterCode, Object... params);
+    public void deleteCatalogCategory(CatalogCategoryMaster catalogCategory) {
+        catalogCategoryDao.deleteCatalogCategory(catalogCategory);
+    }
 
-	CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductSkuId(Long productskuId, Object... params);
-	
-	List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(String catalogVirtualCode, Object... params);
+    // VIRTUAL
 
-    List<CatalogCategoryVirtual> findAllVirtualCatalogCategoriesByCatalogCode(String catalogVirtualCode, Object... params);
+    public CatalogCategoryVirtual getVirtualCatalogCategoryById(final Long catalogCategoryId, Object... params) {
+        return catalogCategoryDao.getVirtualCatalogCategoryById(catalogCategoryId, params);
+    }
 
-//	List<CatalogCategoryVirtual> findVirtualCategories(Object... params);
+    public CatalogCategoryVirtual getVirtualCatalogCategoryById(final String rawCatalogCategoryId, Object... params) {
+        long catalogCategoryId = -1;
+        try {
+            catalogCategoryId = Long.parseLong(rawCatalogCategoryId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return getVirtualCatalogCategoryById(catalogCategoryId, params);
+    }
 
-	List<CatalogCategoryVirtual> findVirtualCategoriesByProductSkuId(Long productSkuId, Object... params);
+    public CatalogCategoryVirtual getVirtualCatalogCategoryByCode(final String catalogCategoryCode, final String catalogVirtualCode, final String catalogMasterCode, Object... params) {
+        // FIRST TRY TO LOAD A VIRTUAL CATEGORY BY THE MASTER CATEGORY CODE 
+        CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByMasterCategoryCode(catalogCategoryCode, catalogVirtualCode, catalogMasterCode, params);
+        if(catalogCategoryVirtual == null){
+            // TRY TO FIND VIRTUAL CATAGORY WITH HIS OWN CODE
+            catalogCategoryVirtual = catalogCategoryDao.getVirtualCatalogCategoryByVirtualCategoryCode(catalogCategoryCode, catalogVirtualCode, params);
+        }
+        return catalogCategoryVirtual;
+    }
 
-//    List<CatalogCategoryVirtual> findVirtualCategoriesByProductMarketingId(Long productMarketingId, Object... params);
+    public CatalogCategoryVirtual getDefaultVirtualCatalogCategoryByProductSkuId(final Long productSkuId, Object... params) {
+        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findVirtualCategoriesByProductSkuId(productSkuId, params);
+        CatalogCategoryVirtual catalogCategoryVirtual = null;
+        if (categories != null) {
+            for (Iterator<CatalogCategoryVirtual> iterator = categories.iterator(); iterator.hasNext();) {
+                CatalogCategoryVirtual catalogCategoryVirtualIterator = (CatalogCategoryVirtual) iterator.next();
+                if (catalogCategoryVirtualIterator.isDefault()) {
+                    catalogCategoryVirtual = catalogCategoryVirtualIterator;
+                }
+            }
+            if (categories.size() > 0 && catalogCategoryVirtual == null) {
+                catalogCategoryVirtual = categories.iterator().next();
+            }
+        }
+        return catalogCategoryVirtual;
+    }
 
-	List<CatalogCategoryVirtual> orderCategoryVirtualList(List<CatalogCategoryVirtual> categories);
+    public List<CatalogCategoryVirtual> findRootVirtualCatalogCategoriesByCatalogCode(final String catalogVirtualCode, Object... params) {
+        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findRootVirtualCatalogCategoriesByCatalogCode(catalogVirtualCode, params);
+        return orderCategoryVirtualList(categories);
+    }
 
-	CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory);
-	
-	void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory);
+    public List<CatalogCategoryVirtual> findAllVirtualCatalogCategoriesByCatalogCode(final String catalogVirtualCode, Object... params) {
+        List<CatalogCategoryVirtual> categories = catalogCategoryDao.findAllVirtualCatalogCategoriesByCatalogCode(catalogVirtualCode, params);
+        return orderCategoryVirtualList(categories);
+    }
+    
+    public List<CatalogCategoryVirtual> findVirtualCategoriesByProductSkuId(final Long productSkuId, Object... params) {
+        return catalogCategoryDao.findVirtualCategoriesByProductSkuId(productSkuId, params);
+    }
+    
+    public List<CatalogCategoryVirtual> orderCategoryVirtualList(final List<CatalogCategoryVirtual> categories) {
+        return categories;
+    }
+
+    public CatalogCategoryVirtual saveOrUpdateCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+        return catalogCategoryDao.saveOrUpdateCatalogCategory(catalogCategory);
+    }
+
+    public void deleteCatalogCategory(CatalogCategoryVirtual catalogCategory) {
+        catalogCategoryDao.deleteCatalogCategory(catalogCategory);
+    }
 
 }

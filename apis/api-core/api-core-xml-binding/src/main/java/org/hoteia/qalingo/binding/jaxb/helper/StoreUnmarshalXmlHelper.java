@@ -9,15 +9,54 @@
  */
 package org.hoteia.qalingo.binding.jaxb.helper;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Unmarshaller;
+
 import org.hoteia.qalingo.core.domain.Store;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public interface StoreUnmarshalXmlHelper {
+public class StoreUnmarshalXmlHelper {
+	
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
+	private Unmarshaller unmarshaller;
 
-	Store getStore(String xml) throws UnsupportedEncodingException;
+	public Store getStore(String xml) throws UnsupportedEncodingException {
+		InputStream inputStream = new ByteArrayInputStream(xml.getBytes(("UTF-8")));
+		return getStore(inputStream);
+	}
 
-	Store getStore(InputStream inputStream);
+	public Store getStore(InputStream inputStream) {
+		Store store = null;
+		store = getStoreByXml(inputStream);
+		return store;
+	}
+
+	/**
+	 * Parse the XML document using the unmarshaller created earlier. Note that the unmarshaller is NOT thread-safe.
+	 * 
+	 * @param xsdInputStream the input stream.
+	 * @return the parsed object model
+	 */
+	protected Store getStoreByXml(InputStream xsdInputStream) {
+		Store store = null;
+		if (xsdInputStream != null) {
+			try {
+				store = ((JAXBElement<Store>)unmarshaller.unmarshal(xsdInputStream)).getValue();
+			} catch (javax.xml.bind.JAXBException e) {
+				logger.error("something is wrong with jaxb", e);
+			}
+		}
+		return store;
+	}
+
+	public void setUnmarshaller(Unmarshaller unmarshaller) {
+		this.unmarshaller = unmarshaller;
+	}
 
 }
