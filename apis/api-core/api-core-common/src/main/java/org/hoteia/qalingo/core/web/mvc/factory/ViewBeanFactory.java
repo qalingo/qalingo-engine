@@ -531,6 +531,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public List<MarketAreaViewBean> buildListViewBeanMarketArea(final RequestData requestData, final Market market, final List<MarketArea> marketAreas) throws Exception {
         List<MarketAreaViewBean> marketAreaViewBeans = new ArrayList<MarketAreaViewBean>();
+        final MarketArea currentMarketArea = requestData.getMarketArea();
         if(marketAreas!= null
                 && !marketAreas.isEmpty()){
             for (Iterator<MarketArea> iteratorMarketArea = marketAreas.iterator(); iteratorMarketArea.hasNext();) {
@@ -555,7 +556,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 requestDataForThisMarketArea.setMarketAreaRetailer(defaultRetailer);
                 requestDataForThisMarketArea.setMarketAreaCurrency(defaultCurrency);
                 
-                marketAreaViewBeans.add(buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea));
+                MarketAreaViewBean marketAreaViewBean = buildViewBeanMarketArea(requestDataForThisMarketArea, marketArea);
+                if(marketAreaViewBean.getCode().equalsIgnoreCase(currentMarketArea.getCode())){
+                    marketAreaViewBean.setActive(true);
+                }
+                marketAreaViewBeans.add(marketAreaViewBean);
             }
         }
         return marketAreaViewBeans;
@@ -570,11 +575,11 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         marketAreaViewBean.setDescription(marketArea.getDescription());
         marketAreaViewBean.setCode(marketArea.getCode());
 
-        marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestData));
-        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
-
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());
+
+        marketAreaViewBean.setChangeContextUrl(urlService.buildChangeContextUrl(requestData));
+        marketAreaViewBean.setHomeUrl(urlService.generateUrl(FoUrls.HOME, requestData));
 
         return marketAreaViewBean;
     }
