@@ -191,7 +191,6 @@ public abstract class AbstractUrlService {
         return string;
     }
 
-
     protected String handleSeoSpecificEscape(String string) {
         String stringToReturn = string;
         if (StringUtils.isNotEmpty(stringToReturn)) {

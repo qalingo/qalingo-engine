@@ -248,7 +248,8 @@ public class RequestData implements Serializable {
     }
     
     public boolean isBackoffice() throws Exception {
-        if (getContextNameValue().contains("BO_")) {
+        if (getContextNameValue() != null
+                && getContextNameValue().contains("BO_")) {
             return true;
         }
         return false;
