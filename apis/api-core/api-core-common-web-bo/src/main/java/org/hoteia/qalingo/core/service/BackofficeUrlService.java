@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("backofficeUrlService")
 @Transactional
-public class BackofficeUrlService extends AbstractUrlServiceImpl {
+public class BackofficeUrlService extends AbstractUrlService {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	

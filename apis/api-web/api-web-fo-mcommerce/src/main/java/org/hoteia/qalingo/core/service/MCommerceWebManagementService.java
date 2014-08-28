@@ -7,11 +7,11 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.core.service.impl;
+package org.hoteia.qalingo.core.service;
 
 import org.hoteia.qalingo.core.service.WebManagementService;
 
-public class PrehomeWebManagementServiceImpl extends WebManagementService {
+public class MCommerceWebManagementService extends WebManagementService {
 
     // HERE YOUR SPECIFIC OVERRIDE
     

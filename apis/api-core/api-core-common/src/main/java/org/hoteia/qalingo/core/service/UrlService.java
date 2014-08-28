@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "urlService")
 @Transactional
-public class UrlService extends AbstractUrlServiceImpl {
+public class UrlService extends AbstractUrlService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -7,14 +7,14 @@
  * http://www.hoteia.com - http://twitter.com/hoteia - contact@hoteia.com
  *
  */
-package org.hoteia.qalingo.web.mvc.factory.impl;
+package org.hoteia.qalingo.web.mvc.factory;
 
 import org.hoteia.qalingo.core.web.mvc.factory.FrontofficeViewBeanFactory;
 
 /**
  * 
  */
-public class MCommerceViewBeanFactoryImpl extends FrontofficeViewBeanFactory {
+public class MCommerceViewBeanFactory extends FrontofficeViewBeanFactory {
 
 	
 }
