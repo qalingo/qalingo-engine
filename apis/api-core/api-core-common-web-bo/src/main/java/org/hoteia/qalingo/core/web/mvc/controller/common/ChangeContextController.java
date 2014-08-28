@@ -9,19 +9,19 @@
  */
 package org.hoteia.qalingo.core.web.mvc.controller.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
+import org.hoteia.qalingo.core.pojo.RequestData;
+import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
+import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
-import org.hoteia.qalingo.core.web.servlet.view.RedirectView;
 
 /**
  * Change context
@@ -31,20 +31,47 @@ public class ChangeContextController extends AbstractBackofficeQalingoController
 
 	@RequestMapping(BoUrls.CHANGE_LANGUAGE_URL)
 	public ModelAndView changeLanguage(final HttpServletRequest request, final Model model) throws Exception {
-		List<String> excludedPatterns = new ArrayList<String>();
-		excludedPatterns.add(BoUrls.CHANGE_LANGUAGE_URL);
-		String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
-        return new ModelAndView(new RedirectView(url));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, requestData);
+        RedirectView redirectView = new RedirectView(redirectUrl);
+        redirectView.setExposeModelAttributes(false);
+        return new ModelAndView(redirectView);
 	}
 	
 	@RequestMapping(BoUrls.CHANGE_CONTEXT_URL)
 	public ModelAndView changeContext(final HttpServletRequest request, final Model model) throws Exception {
-		List<String> excludedPatterns = new ArrayList<String>();
-		excludedPatterns.add(BoUrls.CHANGE_CONTEXT_URL);
-		String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestUtil.getRequestData(request));
-		final String url = requestUtil.getLastRequestUrl(request, excludedPatterns, fallbackUrl);
-        return new ModelAndView(new RedirectView(url));
+        final RequestData requestData = requestUtil.getRequestData(request);
+        String redirectUrl = backofficeUrlService.generateUrl(getTargetUrl(requestData), true, requestData);
+        RedirectView redirectView = new RedirectView(redirectUrl);
+        redirectView.setExposeModelAttributes(false);
+        return new ModelAndView(redirectView);
 	}
-	
+
+    protected String getTargetUrl(final RequestData requestData) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final Locale locale = requestData.getLocale();
+        String fallbackUrl = backofficeUrlService.generateUrl(BoUrls.HOME, requestData);
+        final String lastRequestUrl = requestUtil.getLastRequestUrl(request, fallbackUrl);
+        String lastRequestUri = lastRequestUrl.replace(request.getContextPath(), "");
+        if (lastRequestUri.startsWith("/")) {
+            lastRequestUri = lastRequestUri.substring(1, lastRequestUri.length());
+        }
+        String[] uriSegments = lastRequestUri.toString().split("/");
+        String url = "";
+        int uriSegmentCount = 4;
+        String seoSegmentMain = urlService.getSeoSegmentMain(locale);
+        if (StringUtils.isNotEmpty(seoSegmentMain)) {
+            // ALSO REMOVE DEFAULT SEO SEGMENT
+            uriSegmentCount++;
+        }
+        if (uriSegments.length > uriSegmentCount) {
+            // SEO URL : Keep the last part
+            int uriSegmentIt = uriSegmentCount + 1;
+            for (int i = uriSegmentIt; i < uriSegments.length; i++) {
+                url = url + "/" + uriSegments[i];
+            }
+        }
+        return url;
+    }
+	   
 }

@@ -357,6 +357,8 @@ public class RequestUtil {
 
         EngineBoSession engineBoSession = getCurrentBoSession(request);
 
+        engineBoSession = checkEngineBoSession(request);
+        
         MarketPlace currentMarketPlace = engineBoSession.getCurrentMarketPlace();
         if (StringUtils.isNotEmpty(marketPlaceCode) && StringUtils.isNotEmpty(marketCode) && StringUtils.isNotEmpty(marketAreaCode) && StringUtils.isNotEmpty(localizationCode)) {
             if (currentMarketPlace != null && !currentMarketPlace.getCode().equalsIgnoreCase(marketPlaceCode)) {

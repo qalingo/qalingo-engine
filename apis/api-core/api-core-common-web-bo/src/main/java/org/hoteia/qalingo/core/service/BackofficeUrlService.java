@@ -81,12 +81,12 @@ public class BackofficeUrlService extends AbstractUrlService {
 		return url;
 	}
 	
-    public String generateUrl(final BoUrls url, final RequestData requestData) {
-    	return generateUrl(url, requestData, null);
+    public String generateUrl(final BoUrls url, final RequestData requestData, Object... params) {
+    	return generateUrl(url.getUrlWithoutWildcard(), url.withPrefixSEO(), requestData, params);
     }
     
     @SuppressWarnings("unchecked")
-    public String generateUrl(final BoUrls url, final RequestData requestData, Object... params) {
+    public String generateUrl(final String urlWithoutWildcard, final boolean isSEO, final RequestData requestData, Object... params) {
     	String urlStr = null;
     	Map<String, String> getParams = new HashMap<String, String>();
     	Map<String, String> urlParams = new HashMap<String, String>();
@@ -152,7 +152,7 @@ public class BackofficeUrlService extends AbstractUrlService {
                         getParams.put(RequestConstants.REQUEST_PARAMETER_PAYMENT_GATEWAY_CODE, handleParamValue(paymentGateway.getCode().toString()));
                         break;
                     } else if (param instanceof User
-                            && !url.equals(BoUrls.PERSONAL_DETAILS) && !url.equals(BoUrls.PERSONAL_EDIT)) {
+                            && !urlWithoutWildcard.equals(BoUrls.PERSONAL_DETAILS.getUrlWithoutWildcard()) && !urlWithoutWildcard.equals(BoUrls.PERSONAL_EDIT.getUrlWithoutWildcard())) {
                         User user = (User) param;
                         getParams.put(RequestConstants.REQUEST_PARAMETER_USER_CODE, handleParamValue(user.getLogin()));
                         break;
@@ -176,7 +176,7 @@ public class BackofficeUrlService extends AbstractUrlService {
         	if(StringUtils.isEmpty(urlStr)){
                 // AD THE DEFAULT PREFIX - DEFAULT PATH IS 
                 urlStr = buildDefaultPrefix(requestData);
-                if(url.withPrefixSEO()){
+                if(isSEO){
                     urlStr = getFullPrefixUrl(requestData);
                 }
         	}
@@ -186,7 +186,7 @@ public class BackofficeUrlService extends AbstractUrlService {
                 urlStr = urlStr.substring(0, urlStr.length() - 1);
             }
         	
-        	urlStr = urlStr + url.getUrlWithoutWildcard();
+        	urlStr = urlStr + urlWithoutWildcard;
 	        
         } catch (Exception e) {
         	logger.error("Can't build Url!", e);
