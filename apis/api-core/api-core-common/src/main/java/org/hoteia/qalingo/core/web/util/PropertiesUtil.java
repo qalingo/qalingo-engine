@@ -33,7 +33,9 @@ public class PropertiesUtil extends org.springframework.beans.BeanUtils {
                     String key = "engine.setting.webapp.context." + keySuffix;
                     Properties prop = new Properties();
                     prop.load(resource.getInputStream());
-                    webappContextKey = prop.getProperty(key);
+                    if(prop.getProperty(key) != null){
+                        webappContextKey = prop.getProperty(key);
+                    }
                 }
             }
             
