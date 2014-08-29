@@ -77,6 +77,10 @@ public class UserService {
         return getCompanyById(companyId);
     }
     
+    public Company getCompanyByCode(String companyCode, Object... params) {
+        return userDao.getCompanyByCode(companyCode, params);
+    }
+    
     public List<Company> findCompanies(Object... params) {
         return userDao.findCompanies(params);
     }

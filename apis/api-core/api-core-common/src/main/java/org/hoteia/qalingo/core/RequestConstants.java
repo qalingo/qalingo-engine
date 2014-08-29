@@ -74,6 +74,8 @@ public class RequestConstants {
     
     public static final String REQUEST_PARAMETER_USER_ID                    = "user-id";
     public static final String REQUEST_PARAMETER_USER_CODE                  = "user-code";
+    public static final String REQUEST_PARAMETER_COMPANY_ID                 = "company-id";
+    public static final String REQUEST_PARAMETER_COMPANY_CODE               = "company-code";
 
 	public static final String REQUEST_PARAMETER_PAGE_ID					= "page-id";
 

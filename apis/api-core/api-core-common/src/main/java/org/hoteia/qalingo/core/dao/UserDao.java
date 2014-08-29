@@ -125,6 +125,17 @@ public class UserDao extends AbstractGenericDao {
         return company;
     }
     
+    public Company getCompanyByCode(final String companyCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("code", companyCode));
+        Company company = (Company) criteria.uniqueResult();
+        if(company != null){
+            company.setFetchPlan(fetchPlan);
+        }
+        return company;
+    }
+    
     public List<Company> findCompanies(Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
         handleCompanySpecificFetchMode(criteria, params);
