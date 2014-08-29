@@ -18,13 +18,13 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Asset;
-import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
@@ -553,8 +553,7 @@ public class ProductDao extends AbstractGenericDao {
     public List<ProductBrand> findProductBrandsByText(String text, Object... params) {
         Criteria criteria = createDefaultCriteria(ProductBrand.class);
         handleSpecificProductBrandFetchMode(criteria, params);
-        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.like("name", text, MatchMode.ANYWHERE), Restrictions.like("description", text, MatchMode.ANYWHERE)));
 
         @SuppressWarnings("unchecked")
         List<ProductBrand> productBrands = criteria.list();

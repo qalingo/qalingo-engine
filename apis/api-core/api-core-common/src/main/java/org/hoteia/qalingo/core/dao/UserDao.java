@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hoteia.qalingo.core.domain.Company;
@@ -137,8 +138,7 @@ public class UserDao extends AbstractGenericDao {
     public List<Company> findCompaniesByText(String text, Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
         handleCompanySpecificFetchMode(criteria, params);
-        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.like("name", text, MatchMode.ANYWHERE), Restrictions.like("description", text, MatchMode.ANYWHERE)));
 
         @SuppressWarnings("unchecked")
         List<Company> companies = criteria.list();
