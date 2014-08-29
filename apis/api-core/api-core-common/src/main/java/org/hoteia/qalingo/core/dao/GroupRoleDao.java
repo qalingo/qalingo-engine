@@ -78,9 +78,9 @@ public class GroupRoleDao extends AbstractGenericDao {
 	
     protected FetchPlan handleSpecificCustomerGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
         }
     }
     
@@ -136,9 +136,9 @@ public class GroupRoleDao extends AbstractGenericDao {
     
     protected FetchPlan handleSpecificUserGroupFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerGroupFetchPlan());
         }
     }
 

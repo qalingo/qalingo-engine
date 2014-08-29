@@ -35,7 +35,7 @@ public class UserDao extends AbstractGenericDao {
     
     public User getUserById(final Long userId, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("id", userId));
         User user = (User) criteria.uniqueResult();
         if(user != null){
@@ -46,7 +46,7 @@ public class UserDao extends AbstractGenericDao {
     
     public User getUserByCode(final String userCode, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", userCode));
         User user = (User) criteria.uniqueResult();
         if(user != null){
@@ -57,7 +57,7 @@ public class UserDao extends AbstractGenericDao {
 
     public User getUserByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         criteria.add(Restrictions.eq("active", true));
         User user = (User) criteria.uniqueResult();
@@ -69,7 +69,7 @@ public class UserDao extends AbstractGenericDao {
 
     public List<User> findUsers(Object... params) {
         Criteria criteria = createDefaultCriteria(User.class);
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
         @SuppressWarnings("unchecked")
@@ -104,11 +104,11 @@ public class UserDao extends AbstractGenericDao {
     }
     
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultUserFetchPlan());
         }
     }
     
@@ -127,7 +127,7 @@ public class UserDao extends AbstractGenericDao {
     
     public Company getCompanyByCode(final String companyCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Company.class);
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleCompanySpecificFetchMode(criteria, params);
         criteria.add(Restrictions.eq("code", companyCode));
         Company company = (Company) criteria.uniqueResult();
         if(company != null){
@@ -156,14 +156,6 @@ public class UserDao extends AbstractGenericDao {
         return companies;
     }
 
-    protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
-        if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
-        } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
-        }
-    }
-    
     public Company saveOrUpdateCompany(Company company) {
         if (company.getDateCreate() == null) {
             company.setDateCreate(new Date());
@@ -184,6 +176,14 @@ public class UserDao extends AbstractGenericDao {
 
     public void deleteCompany(Company company) {
         em.remove(company);
+    }
+    
+    protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCompanyFetchPlan());
+        }
     }
 
 }

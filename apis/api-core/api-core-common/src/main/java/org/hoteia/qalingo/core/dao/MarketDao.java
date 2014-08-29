@@ -110,9 +110,9 @@ public class MarketDao extends AbstractGenericDao {
 
     protected FetchPlan handleSpecificFetchModeMarketPlace(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketPlaceFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketPlaceFetchPlan());
         }
     }
     
@@ -211,9 +211,9 @@ public class MarketDao extends AbstractGenericDao {
 	
     protected FetchPlan handleSpecificFetchModeMarket(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketFetchPlan());
         }
     }
 	
@@ -283,9 +283,9 @@ public class MarketDao extends AbstractGenericDao {
     
     protected FetchPlan handleSpecificFetchModeMarketArea(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphMarket.defaultMarketAreaFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphMarket.defaultMarketAreaFetchPlan());
         }
     }
 	

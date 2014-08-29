@@ -30,7 +30,7 @@ public class TaxDao extends AbstractGenericDao {
 	public Tax getTaxById(final Long taxId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", taxId));
         Tax tax = (Tax) criteria.uniqueResult();
@@ -43,7 +43,7 @@ public class TaxDao extends AbstractGenericDao {
     public Tax getTaxByCode(final String taxCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", taxCode));
         Tax tax = (Tax) criteria.uniqueResult();
@@ -56,7 +56,7 @@ public class TaxDao extends AbstractGenericDao {
     public List<Tax> findTaxes(Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -68,7 +68,7 @@ public class TaxDao extends AbstractGenericDao {
     public List<Tax> findTaxesByMarketAreaId(Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(Tax.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.createAlias("marketAreas", "marketArea", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("marketArea.id", marketAreaId));
@@ -99,11 +99,11 @@ public class TaxDao extends AbstractGenericDao {
 	}
 
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultTaxFetchPlan());
         }
     }
     

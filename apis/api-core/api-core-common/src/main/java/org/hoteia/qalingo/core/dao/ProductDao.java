@@ -311,9 +311,9 @@ public class ProductDao extends AbstractGenericDao {
 	
     protected FetchPlan handleSpecificProductMarketingFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphProduct.productMarketingDefaultFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productMarketingDefaultFetchPlan());
         }
     }
     
@@ -463,9 +463,9 @@ public class ProductDao extends AbstractGenericDao {
     
     protected FetchPlan handleSpecificProductSkuFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphProduct.productSkuDefaultFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuDefaultFetchPlan());
         }
     }
     
@@ -584,9 +584,9 @@ public class ProductDao extends AbstractGenericDao {
     
     protected FetchPlan handleSpecificProductBrandFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
         }
     }
     

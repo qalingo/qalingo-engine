@@ -35,7 +35,7 @@ public class CatalogDao extends AbstractGenericDao {
     public CatalogMaster getMasterCatalogById(final Long masterCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
 
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", masterCatalogId));
         
@@ -49,7 +49,7 @@ public class CatalogDao extends AbstractGenericDao {
     public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
         
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("id"));
 
@@ -85,7 +85,7 @@ public class CatalogDao extends AbstractGenericDao {
     public CatalogVirtual getVirtualCatalogById(final Long virtualCatalogId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.add(Restrictions.eq("id", virtualCatalogId));
         
@@ -99,7 +99,7 @@ public class CatalogDao extends AbstractGenericDao {
 	public CatalogVirtual getVirtualCatalogByMarketAreaId(final Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         criteria.setFetchMode("catalogMaster", FetchMode.JOIN);
         criteria.createAlias("marketArea", "marketArea", JoinType.LEFT_OUTER_JOIN);
@@ -113,11 +113,11 @@ public class CatalogDao extends AbstractGenericDao {
 	}
 	
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCatalogFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCatalogFetchPlan());
         }
     }
 }

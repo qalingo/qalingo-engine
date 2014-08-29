@@ -34,7 +34,7 @@ public class EngineSettingDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("id", engineSettingId));
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
         if(engineSetting != null){
@@ -47,7 +47,7 @@ public class EngineSettingDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         criteria.add(Restrictions.eq("code", code));
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
         
         EngineSetting engineSetting = (EngineSetting) criteria.uniqueResult();
         if(engineSetting != null){
@@ -59,7 +59,7 @@ public class EngineSettingDao extends AbstractGenericDao {
 	public List<EngineSetting> findEngineSettings(Object... params) {
         Criteria criteria = createDefaultCriteria(EngineSetting.class);
         
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("code"));
 
@@ -119,11 +119,11 @@ public class EngineSettingDao extends AbstractGenericDao {
     }
 
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultEngineSettingFetchPlan());
         }
     }
 }

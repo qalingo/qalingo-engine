@@ -131,9 +131,9 @@ public class CatalogCategoryDao extends AbstractGenericDao {
 
     protected FetchPlan handleSpecificFetchMasterCategoryMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCategory.defaultMasterCatalogCategoryFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultMasterCatalogCategoryFetchPlan());
         }
     }
 
@@ -289,9 +289,9 @@ public class CatalogCategoryDao extends AbstractGenericDao {
 	
 	protected FetchPlan handleSpecificFetchVirtualCategoryMode(Criteria criteria, Object... params){
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCategory.defaultVirtualCatalogCategoryFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCategory.defaultVirtualCatalogCategoryFetchPlan());
         }
 	}
 	

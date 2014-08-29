@@ -28,7 +28,7 @@ public class CartDao extends AbstractGenericDao {
 	public Cart getCartById(final Long cartId, Object... params) {
         Criteria criteria = createDefaultCriteria(Cart.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
         
         criteria.add(Restrictions.eq("id", cartId));
         Cart cart = (Cart) criteria.uniqueResult();
@@ -67,11 +67,11 @@ public class CartDao extends AbstractGenericDao {
 	}
 	
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultCartFetchPlan());
         }
     }
 	   

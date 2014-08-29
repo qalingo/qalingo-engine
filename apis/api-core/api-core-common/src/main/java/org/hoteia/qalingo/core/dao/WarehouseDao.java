@@ -36,7 +36,7 @@ public class WarehouseDao extends AbstractGenericDao {
     public Warehouse getWarehouseById(final Long warehouseId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", warehouseId));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
@@ -49,7 +49,7 @@ public class WarehouseDao extends AbstractGenericDao {
     public Warehouse getWarehouseByCode(final String warehouseCode, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", warehouseCode));
         Warehouse warehouse = (Warehouse) criteria.uniqueResult();
@@ -62,7 +62,7 @@ public class WarehouseDao extends AbstractGenericDao {
     public List<Warehouse> findWarehouses(Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("code"));
 
@@ -75,7 +75,7 @@ public class WarehouseDao extends AbstractGenericDao {
     public List<Warehouse> findWarehousesByMarketAreaId(Long marketAreaId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.createAlias("warehouseMarketAreaRels", "warehouseMarketAreaRel", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("warehouseMarketAreaRel.pk.marketArea.id", marketAreaId));
@@ -90,7 +90,7 @@ public class WarehouseDao extends AbstractGenericDao {
     public List<Warehouse> findWarehousesByDeliveryMethodId(Long deliveryMethodId, Object... params) {
         Criteria criteria = createDefaultCriteria(Warehouse.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.createAlias("deliveryMethods", "deliveryMethod", JoinType.LEFT_OUTER_JOIN);
         criteria.add(Restrictions.eq("deliveryMethod.id", deliveryMethodId));
@@ -129,11 +129,11 @@ public class WarehouseDao extends AbstractGenericDao {
     }
 
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultWarehouseFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultWarehouseFetchPlan());
         }
     }
 	    

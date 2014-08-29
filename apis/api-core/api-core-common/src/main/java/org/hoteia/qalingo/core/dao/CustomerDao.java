@@ -32,7 +32,7 @@ public class CustomerDao extends AbstractGenericDao {
 	public Customer getCustomerById(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", customerId));
         Customer customer = (Customer) criteria.uniqueResult();
@@ -45,7 +45,7 @@ public class CustomerDao extends AbstractGenericDao {
 	public Customer getCustomerByCode(final String code, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("code", code));
         Customer customer = (Customer) criteria.uniqueResult();
@@ -58,7 +58,7 @@ public class CustomerDao extends AbstractGenericDao {
 	public Customer getCustomerByPermalink(final String permalink, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("permalink", permalink));
         Customer customer = (Customer) criteria.uniqueResult();
@@ -71,7 +71,7 @@ public class CustomerDao extends AbstractGenericDao {
 	public Customer getCustomerByLoginOrEmail(final String usernameOrEmail, Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.or(Restrictions.eq("login", usernameOrEmail), Restrictions.eq("email", usernameOrEmail)));
         Customer customer = (Customer) criteria.uniqueResult();
@@ -84,7 +84,7 @@ public class CustomerDao extends AbstractGenericDao {
 	public List<Customer> findCustomers(Object... params) {
         Criteria criteria = createDefaultCriteria(Customer.class);
         
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
         
         criteria.addOrder(Order.asc("lastname"));
         criteria.addOrder(Order.asc("firstname"));
@@ -160,11 +160,11 @@ public class CustomerDao extends AbstractGenericDao {
 	}
 	
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCustomer.defaultCustomerFetchPlan());
         }
     }
 

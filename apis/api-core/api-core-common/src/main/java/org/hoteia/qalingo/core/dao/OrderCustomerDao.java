@@ -36,7 +36,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
     public OrderCustomer getOrderById(final Long orderCustomerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        FetchPlan fetchPlan =  handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan =  handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("id", orderCustomerId));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
@@ -49,7 +49,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
     public OrderCustomer getOrderByOrderNum(final String orderNum, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        FetchPlan fetchPlan = handleSpecificGroupFetchMode(criteria, params);
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("orderNum", orderNum));
         OrderCustomer orderCustomer = (OrderCustomer) criteria.uniqueResult();
@@ -62,7 +62,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
     public List<OrderCustomer> findOrders(Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.addOrder(Order.asc("dateCreate"));
 
@@ -75,7 +75,7 @@ public class OrderCustomerDao extends AbstractGenericDao {
     public List<OrderCustomer> findOrdersByCustomerId(final Long customerId, Object... params) {
         Criteria criteria = createDefaultCriteria(OrderCustomer.class);
 
-        handleSpecificGroupFetchMode(criteria, params);
+        handleSpecificFetchMode(criteria, params);
 
         criteria.add(Restrictions.eq("customerId", customerId));
 
@@ -173,11 +173,11 @@ public class OrderCustomerDao extends AbstractGenericDao {
     }
 
     @Override
-    protected FetchPlan handleSpecificGroupFetchMode(Criteria criteria, Object... params) {
+    protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
-            return super.handleSpecificGroupFetchMode(criteria, params);
+            return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificGroupFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphCommon.defaultOrderCustomerFetchPlan());
         }
     }
     
