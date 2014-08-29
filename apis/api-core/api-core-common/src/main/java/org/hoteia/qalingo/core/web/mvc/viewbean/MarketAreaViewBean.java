@@ -21,9 +21,9 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	private static final long serialVersionUID = -8350224752431629863L;
 
 	// ENTITY
+    private String code;
 	private String name;
 	private String description;
-	private String code;
     
 	private boolean isDefault;
 	private boolean isEcommerce;
@@ -40,6 +40,14 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 	private String homeUrl;
 	private boolean active;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
 	public String getName() {
 		return name;
 	}
@@ -54,14 +62,6 @@ public class MarketAreaViewBean extends AbstractViewBean implements Serializable
 
 	public void setDescription(String description) {
     	this.description = description;
-    }
-
-	public String getCode() {
-    	return code;
-    }
-
-	public void setCode(String code) {
-    	this.code = code;
     }
 
 	public boolean isDefault() {

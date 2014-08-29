@@ -18,6 +18,7 @@ import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
@@ -346,6 +347,10 @@ public class ProductService {
         return productDao.findProductBrandsByCatalogCategoryCode(categoryCode, params);
     }
 
+    public List<ProductBrand> findProductBrandsByText(String text, Object... params) {
+        return productDao.findProductBrandsByText(text, params);
+    }
+    
     public ProductBrand saveOrUpdateProductBrand(final ProductBrand productBrand) {
         return productDao.saveOrUpdateProductBrand(productBrand);
     }

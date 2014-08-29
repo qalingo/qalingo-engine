@@ -32,6 +32,7 @@ import org.hoteia.qalingo.core.domain.AttributeDefinition;
 import org.hoteia.qalingo.core.domain.BatchProcessObject;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.EngineSetting;
@@ -70,6 +71,7 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.BatchViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogCategoryViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CatalogViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CommonViewBean;
+import org.hoteia.qalingo.core.web.mvc.viewbean.CompanyViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.CustomerViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.DeliveryMethodViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.EngineSettingValueViewBean;
@@ -714,6 +716,15 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         userViewBean.setPassword(user.getPassword());
         userViewBean.setActive(user.isActive());
 
+        userViewBean.setAddress1(user.getAddress1());
+        userViewBean.setAddress2(user.getAddress2());
+        userViewBean.setAddressAdditionalInformation(user.getAddressAdditionalInformation());
+        userViewBean.setPostalCode(user.getPostalCode());
+        userViewBean.setCity(user.getCity());
+        userViewBean.setStateCode(user.getStateCode());
+        userViewBean.setAreaCode(user.getAreaCode());
+        userViewBean.setCountryCode(user.getCountryCode());
+        
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (user.getDateCreate() != null) {
             userViewBean.setDateCreate(dateFormat.format(user.getDateCreate()));
@@ -795,6 +806,61 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         return userViewBeans;
     }
 
+    /**
+     * @throws Exception
+     * 
+     */
+    public CompanyViewBean buildViewBeanCompany(final RequestData requestData, final Company company) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        final CompanyViewBean companyViewBean = new CompanyViewBean();
+        companyViewBean.setId(company.getId());
+        companyViewBean.setCode(company.getCode());
+        companyViewBean.setName(company.getName());
+        companyViewBean.setDescription(company.getDescription());
+
+        companyViewBean.setAddress1(company.getAddress1());
+        companyViewBean.setAddress2(company.getAddress2());
+        companyViewBean.setAddressAdditionalInformation(company.getAddressAdditionalInformation());
+        companyViewBean.setPostalCode(company.getPostalCode());
+        companyViewBean.setCity(company.getCity());
+        companyViewBean.setStateCode(company.getStateCode());
+        companyViewBean.setAreaCode(company.getAreaCode());
+        companyViewBean.setCountryCode(company.getCountryCode());
+        
+        DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
+        if (company.getDateCreate() != null) {
+            companyViewBean.setDateCreate(dateFormat.format(company.getDateCreate()));
+        } else {
+            companyViewBean.setDateCreate(Constants.NOT_AVAILABLE);
+        }
+        if (company.getDateUpdate() != null) {
+            companyViewBean.setDateUpdate(dateFormat.format(company.getDateUpdate()));
+        } else {
+            companyViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
+        }
+
+        final List<String> excludedPatterns = new ArrayList<String>();
+        excludedPatterns.add("form");
+        companyViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
+
+        companyViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_DETAILS, requestData, company));
+        companyViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_EDIT, requestData, company));
+
+        return companyViewBean;
+    }
+
+    /**
+     * 
+     */
+    public List<CompanyViewBean> buildListViewBeanCompany(final RequestData requestData, final List<Company> companys) throws Exception {
+        final List<CompanyViewBean> companyViewBeans = new ArrayList<CompanyViewBean>();
+        for (Iterator<Company> iterator = companys.iterator(); iterator.hasNext();) {
+            Company company = (Company) iterator.next();
+            companyViewBeans.add(buildViewBeanCompany(requestData, company));
+        }
+        return companyViewBeans;
+    }
+    
     /**
      * @throws Exception
      * 

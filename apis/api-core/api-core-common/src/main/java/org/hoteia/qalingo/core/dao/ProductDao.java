@@ -24,6 +24,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.hoteia.qalingo.core.domain.Asset;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
@@ -544,6 +545,17 @@ public class ProductDao extends AbstractGenericDao {
         criteria.add(Restrictions.eq("defaultCatalogCategory.code", categoryCode));
 
         
+        @SuppressWarnings("unchecked")
+        List<ProductBrand> productBrands = criteria.list();
+        return productBrands;
+    }
+    
+    public List<ProductBrand> findProductBrandsByText(String text, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductBrand.class);
+        handleSpecificProductBrandFetchMode(criteria, params);
+        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+
         @SuppressWarnings("unchecked")
         List<ProductBrand> productBrands = criteria.list();
         return productBrands;

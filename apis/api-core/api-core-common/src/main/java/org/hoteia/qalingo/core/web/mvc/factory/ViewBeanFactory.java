@@ -571,9 +571,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
      */
     public MarketAreaViewBean buildViewBeanMarketArea(final RequestData requestData, final MarketArea marketArea) throws Exception {
         final MarketAreaViewBean marketAreaViewBean = new MarketAreaViewBean();
+        marketAreaViewBean.setCode(marketArea.getCode());
         marketAreaViewBean.setName(marketArea.getName());
         marketAreaViewBean.setDescription(marketArea.getDescription());
-        marketAreaViewBean.setCode(marketArea.getCode());
 
         marketAreaViewBean.setLatitude(marketArea.getLatitude());
         marketAreaViewBean.setLongitude(marketArea.getLongitude());

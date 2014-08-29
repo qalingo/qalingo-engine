@@ -130,7 +130,10 @@ public enum BoUrls {
     USER_DETAILS(BoUrls.USER_DETAILS_URL, BoUrls.USER_DETAILS_KEY, BoUrls.USER_DETAILS_VELOCITY_PAGE, true),
     USER_EDIT(BoUrls.USER_EDIT_URL, BoUrls.USER_EDIT_KEY, BoUrls.USER_EDIT_VELOCITY_PAGE, true),
     USER_CREATE_ACCOUNT(BoUrls.USER_CREATE_ACCOUNT_URL, BoUrls.USER_CREATE_ACCOUNT_KEY, BoUrls.USER_CREATE_ACCOUNT_VELOCITY_PAGE, true),
-    
+
+    COMPANY_DETAILS(BoUrls.COMPANY_DETAILS_URL, BoUrls.COMPANY_DETAILS_KEY, BoUrls.COMPANY_DETAILS_VELOCITY_PAGE, true),
+    COMPANY_EDIT(BoUrls.COMPANY_EDIT_URL, BoUrls.COMPANY_EDIT_KEY, BoUrls.COMPANY_EDIT_VELOCITY_PAGE, true),
+
     CONTEXT(BoUrls.CONTEXT_URL, BoUrls.CONTEXT_KEY, BoUrls.CONTEXT_VELOCITY_PAGE, false),
 
     ERROR_500(BoUrls.ERROR_500_URL, BoUrls.ERROR_500_KEY, BoUrls.ERROR_500_VELOCITY_PAGE, false),
@@ -479,6 +482,14 @@ public enum BoUrls {
     public static final String USER_CREATE_ACCOUNT_KEY              = "user-create-account";
     public static final String USER_CREATE_ACCOUNT_URL              = "/**/user-create-account.html";
     public static final String USER_CREATE_ACCOUNT_VELOCITY_PAGE    = "user/user-create-account";
+
+    public static final String COMPANY_DETAILS_KEY             = "company-details";
+    public static final String COMPANY_DETAILS_URL             = "/**/company-details.html";
+    public static final String COMPANY_DETAILS_VELOCITY_PAGE   = "company/company-details";
+
+    public static final String COMPANY_EDIT_KEY                = "company-edit";
+    public static final String COMPANY_EDIT_URL                = "/**/company-edit.html";
+    public static final String COMPANY_EDIT_VELOCITY_PAGE      = "company/company-edit";
 
     public static final String CONTEXT_KEY            = "context";
     public static final String CONTEXT_URL            = "/**/bo-context.config"; // WARN: *.config pattern must be without any web cache

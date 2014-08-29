@@ -20,6 +20,7 @@ import org.hoteia.qalingo.core.domain.AbstractRuleReferential;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryMaster;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
@@ -44,6 +45,7 @@ import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.service.BackofficeUrlService;
 import org.hoteia.qalingo.core.web.mvc.form.AssetForm;
 import org.hoteia.qalingo.core.web.mvc.form.CatalogCategoryForm;
+import org.hoteia.qalingo.core.web.mvc.form.CompanyForm;
 import org.hoteia.qalingo.core.web.mvc.form.CustomerForm;
 import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
@@ -130,8 +132,37 @@ public class BackofficeFormFactory {
             userForm.setLastname(user.getLastname());
             userForm.setEmail(user.getEmail());
             userForm.setActive(user.isActive());
+            
+            userForm.setAddress1(user.getAddress1());
+            userForm.setAddress2(user.getAddress2());
+            userForm.setPostalCode(user.getPostalCode());
+            userForm.setCity(user.getCity());
+            userForm.setStateCode(user.getStateCode());
+            userForm.setAreaCode(user.getAreaCode());
+
         }
         return userForm;
+    }
+    
+    public CompanyForm buildUserForm(final RequestData requestData, final Company company) throws Exception {
+        final CompanyForm companyForm = new CompanyForm();
+        if(company != null){
+            companyForm.setId(company.getId().toString());
+            companyForm.setVersion(company.getVersion());
+            companyForm.setCode(company.getCode());
+            companyForm.setName(company.getName());
+            companyForm.setDescription(company.getDescription());
+            companyForm.setActive(company.isActive());
+            
+            companyForm.setAddress1(company.getAddress1());
+            companyForm.setAddress2(company.getAddress2());
+            companyForm.setPostalCode(company.getPostalCode());
+            companyForm.setCity(company.getCity());
+            companyForm.setStateCode(company.getStateCode());
+            companyForm.setAreaCode(company.getAreaCode())
+
+        }
+        return companyForm;
     }
 
     public QuickSearchForm buildEngineSettingQuickSearchForm(final RequestData requestData) throws Exception {

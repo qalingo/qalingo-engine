@@ -64,6 +64,33 @@ public class Company extends AbstractEntity {
     @Column(name = "THEME")
     private String theme;
 
+    @Column(name = "IS_ACTIVE", nullable = false, columnDefinition = "tinyint(1) default 1")
+    private boolean active;
+    
+    @Column(name = "ADDRESS1")
+    private String address1;
+
+    @Column(name = "ADDRESS2")
+    private String address2;
+
+    @Column(name = "ADDITIONAL_INFORMATION")
+    private String addressAdditionalInformation;
+
+    @Column(name = "POSTAL_CODE")
+    private String postalCode;
+
+    @Column(name = "CITY")
+    private String city;
+
+    @Column(name = "STATE_CODE")
+    private String stateCode;
+
+    @Column(name = "AREA_CODE")
+    private String areaCode;
+
+    @Column(name = "COUNTRY_CODE")
+    private String countryCode;
+    
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     private Set<User> users = new HashSet<User>();
@@ -75,6 +102,14 @@ public class Company extends AbstractEntity {
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Localization.class)
     @JoinTable(name = "TBO_COMPANY_LOCALIZATION_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "LOCALIZATION_ID"))
     private Set<Localization> localizations = new HashSet<Localization>();
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.Retailer.class)
+    @JoinTable(name = "TBO_COMPANY_RETAILER_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "RETAILER_ID"))
+    private Set<Retailer> retailers = new HashSet<Retailer>();
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductBrand.class)
+    @JoinTable(name = "TBO_COMPANY_BRAND_REL", joinColumns = @JoinColumn(name = "COMPANY_ID"), inverseJoinColumns = @JoinColumn(name = "BRAND_ID"))
+    private Set<ProductBrand> brands = new HashSet<ProductBrand>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -135,6 +170,86 @@ public class Company extends AbstractEntity {
         this.theme = theme;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getAddressAdditionalInformation() {
+        return addressAdditionalInformation;
+    }
+
+    public void setAddressAdditionalInformation(String addressAdditionalInformation) {
+        this.addressAdditionalInformation = addressAdditionalInformation;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public Set<ProductBrand> getBrands() {
+        return brands;
+    }
+
+    public void setBrands(Set<ProductBrand> brands) {
+        this.brands = brands;
+    }
+
     public Set<User> getUsers() {
         return users;
     }
@@ -156,22 +271,65 @@ public class Company extends AbstractEntity {
     }
 
     public Localization getLocalization(String code) {
-        Localization localeToReturn = null;
         Set<Localization> localizations = getLocalizations();
         if (localizations != null 
                 && Hibernate.isInitialized(localizations)) {
             for (Iterator<Localization> iterator = localizations.iterator(); iterator.hasNext();) {
                 Localization localization = (Localization) iterator.next();
                 if (localization.getCode().equalsIgnoreCase(code)) {
-                    localeToReturn = localization;
+                    return localization;
                 }
             }
         }
-        return localeToReturn;
+        return null;
     }
 
     public void setLocalizations(Set<Localization> localizations) {
         this.localizations = localizations;
+    }
+
+    public Set<ProductBrand> getProductBrands() {
+        return brands;
+    }
+
+    public ProductBrand getProductBrand(String code) {
+        Set<ProductBrand> brands = getProductBrands();
+        if (brands != null 
+                && Hibernate.isInitialized(brands)) {
+            for (Iterator<ProductBrand> iterator = brands.iterator(); iterator.hasNext();) {
+                ProductBrand brand = (ProductBrand) iterator.next();
+                if (brand.getCode().equalsIgnoreCase(code)) {
+                    return brand;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void setProductBrands(Set<ProductBrand> brands) {
+        this.brands = brands;
+    }
+
+    public Set<Retailer> getRetailers() {
+        return retailers;
+    }
+    
+    public Retailer getRetailer(String code) {
+        Set<Retailer> localizations = getRetailers();
+        if (retailers != null 
+                && Hibernate.isInitialized(retailers)) {
+            for (Iterator<Retailer> iterator = retailers.iterator(); iterator.hasNext();) {
+                Retailer retailer = (Retailer) iterator.next();
+                if (retailer.getCode().equalsIgnoreCase(code)) {
+                    return retailer;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void setRetailers(Set<Retailer> retailers) {
+        this.retailers = retailers;
     }
 
     public Date getDateCreate() {

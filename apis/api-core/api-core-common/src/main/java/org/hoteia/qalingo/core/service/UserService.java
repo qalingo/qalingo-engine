@@ -80,6 +80,10 @@ public class UserService {
     public List<Company> findCompanies(Object... params) {
         return userDao.findCompanies(params);
     }
+    
+    public List<Company> findCompaniesByText(String text, Object... params) {
+        return userDao.findCompaniesByText(text, params);
+    }
 
     public Company saveOrUpdateCompany(Company company) {
         return userDao.saveOrUpdateCompany(company);

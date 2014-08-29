@@ -133,6 +133,17 @@ public class UserDao extends AbstractGenericDao {
         List<Company> companies = criteria.list();
         return companies;
     }
+    
+    public List<Company> findCompaniesByText(String text, Object... params) {
+        Criteria criteria = createDefaultCriteria(Company.class);
+        handleCompanySpecificFetchMode(criteria, params);
+        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+
+        @SuppressWarnings("unchecked")
+        List<Company> companies = criteria.list();
+        return companies;
+    }
 
     protected FetchPlan handleCompanySpecificFetchMode(Criteria criteria, Object... params) {
         if (params != null && params.length > 0) {
