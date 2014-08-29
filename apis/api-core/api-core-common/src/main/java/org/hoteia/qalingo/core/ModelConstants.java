@@ -138,6 +138,7 @@ public class ModelConstants {
 
     public static final String USER_VIEW_BEAN                   = "user";
     public static final String AUTHENTICATED_USER_VIEW_BEAN     = "authenticatedUser";
+    public static final String COMPANY_VIEW_BEAN                = "company";
     
     // SPRING FORM
     public static final String ASSET_FORM                       = "assetForm";

@@ -30,8 +30,11 @@ public class CompanyViewBean extends AbstractViewBean implements Serializable {
     private String postalCode;
     private String city;
     private String stateCode;
+    private String stateName;
     private String areaCode;
+    private String areaName;
     private String countryCode;
+    private String countryName;
     
 	private String backUrl;
 	private String detailsUrl;
@@ -125,6 +128,14 @@ public class CompanyViewBean extends AbstractViewBean implements Serializable {
         this.stateCode = stateCode;
     }
 
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
     public String getAreaCode() {
         return areaCode;
     }
@@ -133,12 +144,28 @@ public class CompanyViewBean extends AbstractViewBean implements Serializable {
         this.areaCode = areaCode;
     }
 
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
     public String getCountryCode() {
         return countryCode;
     }
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public String getBackUrl() {
