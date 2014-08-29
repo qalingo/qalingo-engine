@@ -144,7 +144,7 @@ public class BackofficeFormFactory {
         return userForm;
     }
     
-    public CompanyForm buildUserForm(final RequestData requestData, final Company company) throws Exception {
+    public CompanyForm buildCompanyForm(final RequestData requestData, final Company company) throws Exception {
         final CompanyForm companyForm = new CompanyForm();
         if(company != null){
             companyForm.setId(company.getId().toString());
