@@ -159,7 +159,7 @@ public class BackofficeFormFactory {
             companyForm.setPostalCode(company.getPostalCode());
             companyForm.setCity(company.getCity());
             companyForm.setStateCode(company.getStateCode());
-            companyForm.setAreaCode(company.getAreaCode())
+            companyForm.setAreaCode(company.getAreaCode());
 
         }
         return companyForm;
