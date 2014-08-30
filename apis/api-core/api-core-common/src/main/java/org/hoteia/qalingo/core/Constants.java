@@ -144,6 +144,10 @@ public class Constants {
 	public static final String TITLE_MESSAGE_PREFIX = "title.";
 	public static final String COUNTRIES_RESOURCE_BUNDLE = "qalingo-countries";
 	public static final String COUNTRY_MESSAGE_PREFIX = "country.";
+    public static final String AREAS_RESOURCE_BUNDLE = "qalingo-areas";
+    public static final String AREA_MESSAGE_PREFIX = "area.";
+    public static final String STATES_RESOURCE_BUNDLE = "qalingo-states";
+    public static final String STATE_MESSAGE_PREFIX = "state.";
 
 	// VELOCITY LAYOUT ATTRIBUTES
     public static final String VELOCITY_LAYOUT_ATTRIBUTE_HEAD_META = "head_meta";

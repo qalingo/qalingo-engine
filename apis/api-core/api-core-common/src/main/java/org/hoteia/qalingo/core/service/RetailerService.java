@@ -69,30 +69,30 @@ public class RetailerService {
         return retailerDao.findRetailersByMarketAreaCode(marketAreaCode, params);
     }
 
-    public List<Retailer> findRetailersByTag(final Long marketAreaId, final Long retailerId, final String tag, Object... params) {
+    public List<Retailer> findRetailersByTag(final String tag, Object... params) {
         List<String> tags = new ArrayList<String>();
         tags.add(tag);
-        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
+        return retailerDao.findRetailersByTags(tags, params);
     }
 
-    public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags, Object... params) {
-        return retailerDao.findRetailersByTags(marketAreaId, retailerId, tags, params);
+    public List<Retailer> findRetailersByTags(final List<String> tags, Object... params) {
+        return retailerDao.findRetailersByTags(tags, params);
     }
 
-    public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
-        return retailerDao.findLastRetailers(marketAreaId, retailerId, maxResults, params);
+    public List<Retailer> findLastRetailers(final int maxResults, Object... params) {
+        return retailerDao.findLastRetailers(maxResults, params);
     }
 
-    public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
-        return retailerDao.findBestRetailersByQualityOfService(marketAreaId, retailerId, maxResults, params);
+    public List<Retailer> findBestRetailersByQualityOfService(final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityOfService(maxResults, params);
     }
 
-    public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, final int maxResults, Object... params) {
-        return retailerDao.findBestRetailersByQualityPrice(marketAreaId, retailerId, maxResults, params);
+    public List<Retailer> findBestRetailersByQualityPrice(final int maxResults, Object... params) {
+        return retailerDao.findBestRetailersByQualityPrice(maxResults, params);
     }
 
-    public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt, Object... params) {
-        return retailerDao.findRetailersByText(marketAreaId, retailerId, searchTxt, params);
+    public List<Retailer> findRetailersByText(final String searchTxt, Object... params) {
+        return retailerDao.findRetailersByText(searchTxt, params);
     }
 
     public Retailer saveOrUpdateRetailer(final Retailer retailer) {

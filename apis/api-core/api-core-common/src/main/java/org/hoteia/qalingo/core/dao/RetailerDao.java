@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -101,7 +102,7 @@ public class RetailerDao extends AbstractGenericDao {
         return retailers;
   }
 
-    public List<Retailer> findRetailers(final Long marketAreaId, final Long retailerId, Object... params) {
+    public List<Retailer> findRetailers(Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
         handleSpecificRetailerFetchMode(criteria, params);
@@ -113,7 +114,7 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailers;
 	}
 	
-	public List<Retailer> findRetailersByTags(final Long marketAreaId, final Long retailerId, final List<String> tags, Object... params) {
+	public List<Retailer> findRetailersByTags(final List<String> tags, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
 
         handleSpecificRetailerFetchMode(criteria, params);
@@ -128,7 +129,7 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailers;
 	}
 
-	public List<Retailer> findLastRetailers(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
+	public List<Retailer> findLastRetailers(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
         handleSpecificRetailerFetchMode(criteria, params);
@@ -140,7 +141,7 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailers;
 	}
 	
-	public List<Retailer> findBestRetailersByQualityOfService(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
+	public List<Retailer> findBestRetailersByQualityOfService(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
         handleSpecificRetailerFetchMode(criteria, params);
@@ -152,7 +153,7 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailers;
 	}
 	
-	public List<Retailer> findBestRetailersByQualityPrice(final Long marketAreaId, final Long retailerId, int maxResults, Object... params) {
+	public List<Retailer> findBestRetailersByQualityPrice(int maxResults, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
         handleSpecificRetailerFetchMode(criteria, params);
@@ -164,14 +165,12 @@ public class RetailerDao extends AbstractGenericDao {
 		return retailers;
 	}
 	
-	public List<Retailer> findRetailersByText(final Long marketAreaId, final Long retailerId, final String searchTxt, Object... params) {
+	public List<Retailer> findRetailersByText(final String text, Object... params) {
         Criteria criteria = createDefaultCriteria(Retailer.class);
         
         handleSpecificRetailerFetchMode(criteria, params);
 
-        criteria.add(Restrictions.or(Restrictions.eq("code", "%" + searchTxt + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + searchTxt + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + searchTxt + "%")));
+        criteria.add(Restrictions.or(Restrictions.like("code", text, MatchMode.ANYWHERE), Restrictions.like("name", text, MatchMode.ANYWHERE), Restrictions.like("description", text, MatchMode.ANYWHERE)));
         
         criteria.addOrder(Order.asc("id"));
 

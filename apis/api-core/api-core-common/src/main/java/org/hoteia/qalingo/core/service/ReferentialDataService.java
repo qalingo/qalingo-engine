@@ -27,7 +27,11 @@ public class ReferentialDataService {
 
 	Map<Locale, Map<String, String>> titlesByLocale = new HashMap<Locale, Map<String, String>>();
 
-	Map<Locale, Map<String, String>> countriesByLocale = new HashMap<Locale, Map<String, String>>();
+    Map<Locale, Map<String, String>> countriesByLocale = new HashMap<Locale, Map<String, String>>();
+
+    Map<Locale, Map<String, String>> statesByLocale = new HashMap<Locale, Map<String, String>>();
+
+    Map<Locale, Map<String, String>> areasByLocale = new HashMap<Locale, Map<String, String>>();
 
 	public String getTitleByLocale(final String titleCode, final Locale locale) {
 		Map<String, String> titlesResourceByLocale = getTitlesByLocale(locale);
@@ -75,6 +79,52 @@ public class ReferentialDataService {
 		return countriesMapByLocale;
 	}
 
+    public String getStateByLocale(final String stateCode, final Locale locale) {
+        Map<String, String> statesResourceBundle = getStatesByLocale(locale);
+        String state = statesResourceBundle.get(stateCode);
+        if(StringUtils.isEmpty(state)){
+            state = statesResourceBundle.get(Constants.STATE_MESSAGE_PREFIX + stateCode);
+        }
+        return state;
+    }
+
+    public Map<String, String> getStatesByLocale(final Locale locale) {
+        Map<String, String> statesMapByLocale = statesByLocale.get(locale);
+        if(statesMapByLocale == null){
+            ResourceBundle statesBundleByLocale = getStatesBundleByLocale(locale);
+            if(statesBundleByLocale != null){
+                statesByLocale.put(locale, buildMap(statesBundleByLocale));
+                statesMapByLocale = statesByLocale.get(locale);
+            } else {
+                statesMapByLocale = getStatesByLocale(Locale.ENGLISH);
+            }
+        }
+        return statesMapByLocale;
+    }
+    
+    public String getAreaByLocale(final String areaCode, final Locale locale) {
+        Map<String, String> areasResourceBundle = getAreasByLocale(locale);
+        String area = areasResourceBundle.get(areaCode);
+        if(StringUtils.isEmpty(area)){
+            area = areasResourceBundle.get(Constants.AREA_MESSAGE_PREFIX + areaCode);
+        }
+        return area;
+    }
+
+    public Map<String, String> getAreasByLocale(final Locale locale) {
+        Map<String, String> areasMapByLocale = areasByLocale.get(locale);
+        if(areasMapByLocale == null){
+            ResourceBundle areasBundleByLocale = getAreasBundleByLocale(locale);
+            if(areasBundleByLocale != null){
+                areasByLocale.put(locale, buildMap(areasBundleByLocale));
+                areasMapByLocale = areasByLocale.get(locale);
+            } else {
+                areasMapByLocale = getAreasByLocale(Locale.ENGLISH);
+            }
+        }
+        return areasMapByLocale;
+    }
+    
 	private ResourceBundle getTitlesBundleByLocale(final Locale locale) {
 		return ResourceBundle.getBundle(Constants.TITLES_RESOURCE_BUNDLE, locale);
 	}
@@ -82,6 +132,14 @@ public class ReferentialDataService {
 	private ResourceBundle getCountriesBundleByLocale(final Locale locale) {
 		return ResourceBundle.getBundle(Constants.COUNTRIES_RESOURCE_BUNDLE, locale);
 	}
+	
+    private ResourceBundle getAreasBundleByLocale(final Locale locale) {
+        return ResourceBundle.getBundle(Constants.AREAS_RESOURCE_BUNDLE, locale);
+    }
+    
+    private ResourceBundle getStatesBundleByLocale(final Locale locale) {
+        return ResourceBundle.getBundle(Constants.STATES_RESOURCE_BUNDLE, locale);
+    }
 
 	private Map<String, String> buildMap(final ResourceBundle bundleByLocale){
 		Map<String, String> mapByLocale = new HashMap<String, String>();

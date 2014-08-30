@@ -79,9 +79,7 @@ public class ProductDao extends AbstractGenericDao {
         Criteria criteria = createDefaultCriteria(ProductMarketing.class);
         handleSpecificProductMarketingFetchMode(criteria, params);
 
-        criteria.add(Restrictions.or(Restrictions.eq("code", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("name", "%" + text + "%")));
-        criteria.add(Restrictions.or(Restrictions.eq("description", "%" + text + "%")));
+        criteria.add(Restrictions.or(Restrictions.like("code", text, MatchMode.ANYWHERE), Restrictions.like("name", text, MatchMode.ANYWHERE), Restrictions.like("description", text, MatchMode.ANYWHERE)));
         
         criteria.addOrder(Order.asc("id"));
 

@@ -89,14 +89,12 @@ public class RetailerController extends AbstractBusinessBackofficeController {
 	public ModelAndView searchRetailerList(final HttpServletRequest request, final Model model) throws Exception {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.RETAILER_LIST.getVelocityPage());
 		final RequestData requestData = requestUtil.getRequestData(request);
-		final MarketArea marketArea = requestData.getMarketArea();
-		final Retailer retailer = requestData.getMarketAreaRetailer();
 		
 		final String searchText = request.getParameter(RequestConstants.REQUEST_PARAMETER_SEARCH_TXT);
 		if(StringUtils.isNotEmpty(searchText)){
 			// DEFAULT WAY - BEFORE INTEGRATE SEARCH WITH SOLR
 	        request.getSession().removeAttribute(SESSION_KEY); 
-			List<Retailer> retailers = retailerService.findRetailersByText(marketArea.getId(), retailer.getId(), searchText);
+			List<Retailer> retailers = retailerService.findRetailersByText(searchText);
 			displayList(request, model, requestData, retailers);
 		} else {
 			return retailerList(request, model);

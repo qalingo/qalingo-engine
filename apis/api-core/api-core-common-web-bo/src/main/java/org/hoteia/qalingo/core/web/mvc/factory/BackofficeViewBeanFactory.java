@@ -811,7 +811,8 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
      * 
      */
     public CompanyViewBean buildViewBeanCompany(final RequestData requestData, final Company company) throws Exception {
-        final HttpServletRequest request = requestData.getRequest();
+        final Locale locale = requestData.getLocale();
+        
         final CompanyViewBean companyViewBean = new CompanyViewBean();
         companyViewBean.setId(company.getId());
         companyViewBean.setCode(company.getCode());
@@ -823,9 +824,18 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         companyViewBean.setAddressAdditionalInformation(company.getAddressAdditionalInformation());
         companyViewBean.setPostalCode(company.getPostalCode());
         companyViewBean.setCity(company.getCity());
+        
+        String stateName = referentialDataService.getStateByLocale(company.getStateCode(), locale);
         companyViewBean.setStateCode(company.getStateCode());
+        companyViewBean.setStateName(stateName);
+        
+        String areaName = referentialDataService.getAreaByLocale(company.getAreaCode(), locale);
         companyViewBean.setAreaCode(company.getAreaCode());
+        companyViewBean.setAreaName(areaName);
+        
+        String countryName = referentialDataService.getCountryByLocale(company.getCountryCode(), locale);
         companyViewBean.setCountryCode(company.getCountryCode());
+        companyViewBean.setCountryName(countryName);
         
         DateFormat dateFormat = requestUtil.getFormatDate(requestData, DateFormat.MEDIUM, DateFormat.MEDIUM);
         if (company.getDateCreate() != null) {
@@ -838,10 +848,6 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         } else {
             companyViewBean.setDateUpdate(Constants.NOT_AVAILABLE);
         }
-
-        final List<String> excludedPatterns = new ArrayList<String>();
-        excludedPatterns.add("form");
-        companyViewBean.setBackUrl(requestUtil.getLastRequestUrl(request, excludedPatterns));
 
         companyViewBean.setDetailsUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_DETAILS, requestData, company));
         companyViewBean.setEditUrl(backofficeUrlService.generateUrl(BoUrls.COMPANY_EDIT, requestData, company));

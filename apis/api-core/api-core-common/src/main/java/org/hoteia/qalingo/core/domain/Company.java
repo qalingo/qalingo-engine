@@ -242,18 +242,20 @@ public class Company extends AbstractEntity {
         this.countryCode = countryCode;
     }
 
-    public Set<ProductBrand> getBrands() {
-        return brands;
-    }
-
-    public void setBrands(Set<ProductBrand> brands) {
-        this.brands = brands;
-    }
-
     public Set<User> getUsers() {
         return users;
     }
 
+    public void addUser(User user) {
+        if(this.users != null){
+            this.users.add(user);
+        } else {
+            Set<User> users = new HashSet<User>();
+            users.add(user);
+            this.users = users;
+        }
+    }
+    
     public void setUsers(Set<User> users) {
         this.users = users;
     }
@@ -284,6 +286,16 @@ public class Company extends AbstractEntity {
         return null;
     }
 
+    public void addLocalization(Localization localization) {
+        if(this.localizations != null){
+            this.localizations.add(localization);
+        } else {
+            Set<Localization> localizations = new HashSet<Localization>();
+            localizations.add(localization);
+            this.localizations = localizations;
+        }
+    }
+    
     public void setLocalizations(Set<Localization> localizations) {
         this.localizations = localizations;
     }
@@ -304,6 +316,16 @@ public class Company extends AbstractEntity {
             }
         }
         return null;
+    }
+    
+    public void addProductBrand(ProductBrand productBrand) {
+        if(this.brands != null){
+            this.brands.add(productBrand);
+        } else {
+            Set<ProductBrand> brands = new HashSet<ProductBrand>();
+            brands.add(productBrand);
+            this.brands = brands;
+        }
     }
     
     public void setProductBrands(Set<ProductBrand> brands) {
@@ -328,6 +350,16 @@ public class Company extends AbstractEntity {
         return null;
     }
 
+    public void addRetailer(Retailer retailer) {
+        if(this.retailers != null){
+            this.retailers.add(retailer);
+        } else {
+            Set<Retailer> retailers = new HashSet<Retailer>();
+            retailers.add(retailer);
+            this.retailers = retailers;
+        }
+    }
+    
     public void setRetailers(Set<Retailer> retailers) {
         this.retailers = retailers;
     }

@@ -36,7 +36,6 @@ public class CompanyViewBean extends AbstractViewBean implements Serializable {
     private String countryCode;
     private String countryName;
     
-	private String backUrl;
 	private String detailsUrl;
 	private String editUrl;
 	
@@ -167,14 +166,6 @@ public class CompanyViewBean extends AbstractViewBean implements Serializable {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
-
-    public String getBackUrl() {
-		return backUrl;
-	}
-
-	public void setBackUrl(String backUrl) {
-		this.backUrl = backUrl;
-	}
 
     public String getDetailsUrl() {
         return detailsUrl;
