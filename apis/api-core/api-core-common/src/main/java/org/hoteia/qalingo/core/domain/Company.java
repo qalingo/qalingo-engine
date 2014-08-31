@@ -249,6 +249,15 @@ public class Company extends AbstractEntity {
         return createdByUserId;
     }
     
+    public boolean isCreatedByUser(User user) {
+        boolean userIsCompanyAdmin = false;
+        if(createdByUserId != null
+                && createdByUserId.equals(user.getId())){
+            userIsCompanyAdmin = true;
+        }
+        return userIsCompanyAdmin;
+    }
+    
     public void setCreatedByUserId(Long createdByUserId) {
         this.createdByUserId = createdByUserId;
     }

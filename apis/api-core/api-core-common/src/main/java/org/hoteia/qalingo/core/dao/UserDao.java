@@ -161,6 +161,10 @@ public class UserDao extends AbstractGenericDao {
             company.setDateCreate(new Date());
         }
         company.setDateUpdate(new Date());
+        if(StringUtils.isEmpty(company.getCode())){
+            company.setCode(UUID.randomUUID().toString());
+        }
+        
         if (company.getId() != null) {
             if(em.contains(company)){
                 em.refresh(company);
