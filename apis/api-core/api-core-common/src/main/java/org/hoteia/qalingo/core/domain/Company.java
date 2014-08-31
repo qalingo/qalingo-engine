@@ -91,6 +91,9 @@ public class Company extends AbstractEntity {
     @Column(name = "COUNTRY_CODE")
     private String countryCode;
     
+    @Column(name = "CREATED_BY_USER_ID")
+    private Long createdByUserId;
+    
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     private Set<User> users = new HashSet<User>();
@@ -240,6 +243,14 @@ public class Company extends AbstractEntity {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+    
+    public Long getCreatedByUserId() {
+        return createdByUserId;
+    }
+    
+    public void setCreatedByUserId(Long createdByUserId) {
+        this.createdByUserId = createdByUserId;
     }
 
     public Set<User> getUsers() {
