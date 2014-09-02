@@ -194,7 +194,7 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	
     public boolean hasUserGroup(String userGroupCode) {
         if (userGroups != null 
-                && userGroups.isEmpty() 
+                && !userGroups.isEmpty() 
                 && userGroups.get(userGroupCode) != null) {
             return true;
         }
@@ -211,7 +211,7 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	
     public boolean hasUserRole(String userRoleCode) {
         if (userRoles != null 
-                && userRoles.isEmpty() 
+                && !userRoles.isEmpty() 
                 && userRoles.get(userRoleCode) != null) {
             return true;
         }
@@ -228,7 +228,7 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	
     public boolean hasUserPermission(String userPermissionCode) {
         if (userPermissions != null 
-                && userPermissions.isEmpty() 
+                && !userPermissions.isEmpty() 
                 && userPermissions.get(userPermissionCode) != null) {
             return true;
         }
