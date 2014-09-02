@@ -742,21 +742,21 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
             UserGroup group = (UserGroup) iteratorGroup.next();
             String keyUserGroup = group.getCode();
             String valueUserGroup = group.getName();
-            userViewBean.getUserGroups().put(keyUserGroup, valueUserGroup);
+            userViewBean.getGroups().put(keyUserGroup, valueUserGroup);
 
             final Set<UserRole> roles = group.getRoles();
             for (Iterator<UserRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
                 UserRole role = (UserRole) iteratorRole.next();
-                String keyUserRole = role.getCode() + " (" + group.getCode() + ")";
+                String keyUserRole = role.getCode();
                 String valueUserRole = role.getName();
-                userViewBean.getUserRoles().put(keyUserRole, valueUserRole);
+                userViewBean.getRoles().put(keyUserRole, valueUserRole);
 
                 final Set<UserPermission> permissions = role.getPermissions();
                 for (Iterator<UserPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
                     UserPermission permission = (UserPermission) iteratorPermission.next();
-                    String keyUserPermission = permission.getCode() + " (" + role.getCode() + ")";
+                    String keyUserPermission = permission.getCode();
                     String valueUserPermission = permission.getName();
-                    userViewBean.getUserPermissions().put(keyUserPermission, valueUserPermission);
+                    userViewBean.getPermissions().put(keyUserPermission, valueUserPermission);
                 }
             }
         }

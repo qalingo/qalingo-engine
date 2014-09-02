@@ -10,7 +10,9 @@
 package org.hoteia.qalingo.core.web.mvc.viewbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomerViewBean extends AbstractViewBean implements Serializable {
@@ -36,9 +38,14 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
 
     private String avatarImg;
 
-    private String lastConnectionDate;
-
     private Map<String, ValueBean> customerAttributes = new HashMap<String, ValueBean>();
+
+    private Map<String, String> groups = new HashMap<String, String>();
+    private Map<String, String> roles = new HashMap<String, String>();
+    private Map<String, String> permissions = new HashMap<String, String>();
+
+    private String lastConnectionDate;
+    private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
 
     private String detailsUrl;
     private String editUrl;
@@ -139,14 +146,6 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
         this.avatarImg = avatarImg;
     }
 
-    public String getLastConnectionDate() {
-        return lastConnectionDate;
-    }
-
-    public void setLastConnectionDate(String lastConnectionDate) {
-        this.lastConnectionDate = lastConnectionDate;
-    }
-
     public Map<String, ValueBean> getCustomerAttributes() {
         return customerAttributes;
     }
@@ -167,6 +166,73 @@ public class CustomerViewBean extends AbstractViewBean implements Serializable {
             screenNameValue = getLastname() + " " + getFirstname();
         }
         return screenNameValue;
+    }
+
+    public Map<String, String> getGroups() {
+        return groups;
+    }
+    
+    public boolean hasGroup(String groupCode) {
+        if (groups != null 
+                && !groups.isEmpty() 
+                && groups.get(groupCode) != null) {
+            return true;
+        }
+        return false;
+    }
+       
+    public void setGroups(Map<String, String> groups) {
+        this.groups = groups;
+    }
+    
+    public Map<String, String> getRoles() {
+        return roles;
+    }
+    
+    public boolean hasRole(String roleCode) {
+        if (roles != null 
+                && !roles.isEmpty() 
+                && roles.get(roleCode) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setRoles(Map<String, String> roles) {
+        this.roles = roles;
+    }
+
+    public Map<String, String> getPermissions() {
+        return permissions;
+    }
+    
+    public boolean hasPermission(String permissionCode) {
+        if (permissions != null 
+                && !permissions.isEmpty() 
+                && permissions.get(permissionCode) != null) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void setPermissions(Map<String, String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public String getLastConnectionDate() {
+        return lastConnectionDate;
+    }
+
+    public void setLastConnectionDate(String lastConnectionDate) {
+        this.lastConnectionDate = lastConnectionDate;
+    }
+
+    public List<UserConnectionLogValueBean> getUserConnectionLogs() {
+        return userConnectionLogs;
+    }
+
+    public void setUserConnectionLogs(List<UserConnectionLogValueBean> userConnectionLogs) {
+        this.userConnectionLogs = userConnectionLogs;
     }
 
     public String getDetailsUrl() {

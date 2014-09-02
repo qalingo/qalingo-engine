@@ -39,8 +39,11 @@ import org.hoteia.qalingo.core.domain.CurrencyReferential;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerConnectionLog;
+import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerPermission;
 import org.hoteia.qalingo.core.domain.CustomerProductComment;
+import org.hoteia.qalingo.core.domain.CustomerRole;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.DeliveryMethodPrice;
@@ -135,7 +138,6 @@ import org.hoteia.qalingo.core.web.mvc.viewbean.StoreViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.TaxViewBean;
 import org.hoteia.qalingo.core.web.mvc.viewbean.ValueBean;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
-import org.hoteia.tools.richsnippets.mapping.datavocabulary.pojo.ReviewDataVocabularyPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -1060,6 +1062,30 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 customerViewBean.setDateUpdate(dateFormat.format(customer.getDateUpdate()));
             }
 
+            final Set<CustomerGroup> groups = customer.getGroups();
+            for (Iterator<CustomerGroup> iteratorGroup = groups.iterator(); iteratorGroup.hasNext();) {
+                CustomerGroup group = (CustomerGroup) iteratorGroup.next();
+                String keyCustomerGroup = group.getCode();
+                String valueCustomerGroup = group.getName();
+                customerViewBean.getGroups().put(keyCustomerGroup, valueCustomerGroup);
+
+                final Set<CustomerRole> roles = group.getRoles();
+                for (Iterator<CustomerRole> iteratorRole = roles.iterator(); iteratorRole.hasNext();) {
+                    CustomerRole role = (CustomerRole) iteratorRole.next();
+                    String keyCustomerRole = role.getCode();
+                    String valueCustomerRole = role.getName();
+                    customerViewBean.getRoles().put(keyCustomerRole, valueCustomerRole);
+
+                    final Set<CustomerPermission> permissions = role.getPermissions();
+                    for (Iterator<CustomerPermission> iteratorPermission = permissions.iterator(); iteratorPermission.hasNext();) {
+                        CustomerPermission permission = (CustomerPermission) iteratorPermission.next();
+                        String keyCustomerPermission = permission.getCode();
+                        String valueCustomerPermission = permission.getName();
+                        customerViewBean.getPermissions().put(keyCustomerPermission, valueCustomerPermission);
+                    }
+                }
+            }
+            
             final Set<CustomerConnectionLog> connectionLogs = customer.getConnectionLogs();
             if (connectionLogs != null && Hibernate.isInitialized(connectionLogs) && connectionLogs.size() > 0) {
                 CustomerConnectionLog customerConnectionLog = connectionLogs.iterator().next();

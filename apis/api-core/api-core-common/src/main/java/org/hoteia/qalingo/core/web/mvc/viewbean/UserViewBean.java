@@ -40,10 +40,11 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
     private String areaCode;
     private String countryCode;
     
-	private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
-	private Map<String, String> userGroups = new HashMap<String, String>();
-	private Map<String, String> userRoles = new HashMap<String, String>();
-	private Map<String, String> userPermissions = new HashMap<String, String>();
+    private Map<String, String> groups = new HashMap<String, String>();
+    private Map<String, String> roles = new HashMap<String, String>();
+    private Map<String, String> permissions = new HashMap<String, String>();
+    
+    private List<UserConnectionLogValueBean> userConnectionLogs = new ArrayList<UserConnectionLogValueBean>();
 	
 	private String backUrl;
 	private String userDetailsUrl;
@@ -188,56 +189,55 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 		this.userConnectionLogs = userConnectionLogs;
 	}
 	
-	public Map<String, String> getUserGroups() {
-		return userGroups;
+	public Map<String, String> getGroups() {
+		return groups;
 	}
 	
-    public boolean hasUserGroup(String userGroupCode) {
-        if (userGroups != null 
-                && !userGroups.isEmpty() 
-                && userGroups.get(userGroupCode) != null) {
+    public boolean hasGroup(String groupCode) {
+        if (groups != null 
+                && !groups.isEmpty() 
+                && groups.get(groupCode) != null) {
             return true;
         }
         return false;
     }
 	   
-	public void setUserGroups(Map<String, String> userGroups) {
-		this.userGroups = userGroups;
+	public void setGroups(Map<String, String> groups) {
+		this.groups = groups;
 	}
 	
-	public Map<String, String> getUserRoles() {
-		return userRoles;
+	public Map<String, String> getRoles() {
+		return roles;
 	}
 	
-    public boolean hasUserRole(String userRoleCode) {
-        if (userRoles != null 
-                && !userRoles.isEmpty() 
-                && userRoles.get(userRoleCode) != null) {
+    public boolean hasRole(String roleCode) {
+        if (roles != null 
+                && !roles.isEmpty() 
+                && roles.get(roleCode) != null) {
             return true;
         }
         return false;
     }
 
-	public void setUserRoles(Map<String, String> userRoles) {
-		this.userRoles = userRoles;
+	public void setRoles(Map<String, String> roles) {
+		this.roles = roles;
 	}
 
-	public Map<String, String> getUserPermissions() {
-		return userPermissions;
+	public Map<String, String> getPermissions() {
+		return permissions;
 	}
 	
-    public boolean hasUserPermission(String userPermissionCode) {
-        if (userPermissions != null 
-                && !userPermissions.isEmpty() 
-                && userPermissions.get(userPermissionCode) != null) {
+    public boolean hasPermission(String permissionCode) {
+        if (permissions != null 
+                && !permissions.isEmpty() 
+                && permissions.get(permissionCode) != null) {
             return true;
         }
         return false;
     }
-
 	
-	public void setUserPermissions(Map<String, String> userPermissions) {
-		this.userPermissions = userPermissions;
+	public void setPermissions(Map<String, String> permissions) {
+		this.permissions = permissions;
 	}
 	
 	public String getBackUrl() {
