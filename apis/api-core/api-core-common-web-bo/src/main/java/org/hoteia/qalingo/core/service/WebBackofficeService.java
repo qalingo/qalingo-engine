@@ -238,8 +238,12 @@ public class WebBackofficeService {
             brand = new ProductBrand();
         }
         
-        brand.setCode(brandForm.getCode());
-        brand.setName(brandForm.getName());
+        if(StringUtils.isNotEmpty(brandForm.getCode())){
+            brand.setCode(brandForm.getCode());
+        }
+        if(StringUtils.isNotEmpty(brandForm.getName())){
+            brand.setName(brandForm.getName());
+        }
         brand.setDescription(brandForm.getDescription());
         
         if(brandForm != null
@@ -272,8 +276,14 @@ public class WebBackofficeService {
 	public CatalogCategoryMaster createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryMaster parentCatalogCategory, 
 	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
-		catalogCategory.setName(catalogCategoryForm.getName());
-		catalogCategory.setCode(catalogCategoryForm.getCode());
+		
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
+            catalogCategory.setCode(catalogCategoryForm.getCode());
+        }
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
+            catalogCategory.setName(catalogCategoryForm.getName());
+        }
+        
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
         if(StringUtils.isNotEmpty(catalogCategoryForm.getRanking())){
             try {
@@ -337,8 +347,12 @@ public class WebBackofficeService {
 	
 	public CatalogCategoryMaster updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
 	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
-		catalogCategory.setName(catalogCategoryForm.getName());
-		catalogCategory.setCode(catalogCategoryForm.getCode());
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
+            catalogCategory.setCode(catalogCategoryForm.getCode());
+        }
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
+            catalogCategory.setName(catalogCategoryForm.getName());
+        }
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
 	      if(StringUtils.isNotEmpty(catalogCategoryForm.getRanking())){
 	          try {
@@ -405,8 +419,12 @@ public class WebBackofficeService {
 	public CatalogCategoryVirtual createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryVirtual parentCatalogCategory,
 	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
         String catalogCategoryCode = catalogCategoryForm.getCode();
-        catalogCategory.setName(catalogCategoryForm.getName());
-        catalogCategory.setCode(catalogCategoryForm.getCode());
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
+            catalogCategory.setCode(catalogCategoryForm.getCode());
+        }
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
+            catalogCategory.setName(catalogCategoryForm.getName());
+        }
         catalogCategory.setDescription(catalogCategoryForm.getDescription());
         if(StringUtils.isNotEmpty(catalogCategoryForm.getRanking())){
             try {
@@ -469,8 +487,12 @@ public class WebBackofficeService {
 	
 	public CatalogCategoryVirtual updateCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Retailer retailer, final Localization localization, 
 	                                  final CatalogCategoryVirtual catalogCategory, final CatalogCategoryForm catalogCategoryForm) {
-		catalogCategory.setName(catalogCategoryForm.getName());
-		catalogCategory.setCode(catalogCategoryForm.getCode());
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getCode())){
+            catalogCategory.setCode(catalogCategoryForm.getCode());
+        }
+        if(StringUtils.isNotEmpty(catalogCategoryForm.getName())){
+            catalogCategory.setName(catalogCategoryForm.getName());
+        }
 		catalogCategory.setDescription(catalogCategoryForm.getDescription());
         if(StringUtils.isNotEmpty(catalogCategoryForm.getRanking())){
             try {
@@ -609,8 +631,12 @@ public class WebBackofficeService {
        if(productMarketing == null){
            productMarketing = new ProductMarketing();
         }
-		productMarketing.setName(productMarketingForm.getName());
-		productMarketing.setCode(productMarketingForm.getCode());
+        if (StringUtils.isNotEmpty(productMarketingForm.getCode())) {
+            productMarketing.setCode(productMarketingForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(productMarketingForm.getName())) {
+            productMarketing.setName(productMarketingForm.getName());
+        }
 		productMarketing.setDescription(productMarketingForm.getDescription());
 		
 		ProductMarketing savedProductMarketing = productService.saveOrUpdateProductMarketing(productMarketing);
@@ -621,8 +647,12 @@ public class WebBackofficeService {
 	    if(productSku == null){
 	        productSku = new ProductSku();
 	    }
-		productSku.setName(productSkuForm.getName());
-		productSku.setCode(productSkuForm.getCode());
+        if (StringUtils.isNotEmpty(productSkuForm.getCode())) {
+            productSku.setCode(productSkuForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(productSkuForm.getName())) {
+            productSku.setName(productSkuForm.getName());
+        }
 		productSku.setDescription(productSkuForm.getDescription());
 
 		ProductSku savedProductSku = null;
@@ -635,7 +665,9 @@ public class WebBackofficeService {
 	}
 	
 	public Asset createOrUpdateProductMarketingAsset(final Asset asset, final AssetForm assetForm) {
-		asset.setName(assetForm.getName());
+        if (StringUtils.isNotEmpty(assetForm.getName())) {
+            asset.setName(assetForm.getName());
+        }
 		asset.setDescription(assetForm.getDescription());
 
 //		asset.setType(assetForm.getType);
@@ -651,8 +683,12 @@ public class WebBackofficeService {
 	    if (retailer == null) {
 	        retailer = new Retailer();
 	    }
-		retailer.setCode(retailerForm.getCode());
-		retailer.setName(retailerForm.getName());
+        if (StringUtils.isNotEmpty(retailerForm.getCode())) {
+            retailer.setCode(retailerForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(retailerForm.getName())) {
+            retailer.setName(retailerForm.getName());
+        }
 		retailer.setDescription(retailerForm.getDescription());
 		
 		RetailerAddress retailerAddress = retailer.getDefaultAddress();
@@ -733,8 +769,12 @@ public class WebBackofficeService {
             warehouseMarketAreas.add(warehouseMarketArea);
             warehouse.setWarehouseMarketAreaRels(warehouseMarketAreas);
         }
-        warehouse.setCode(warehouseForm.getCode());
-        warehouse.setName(warehouseForm.getName());
+        if (StringUtils.isNotEmpty(warehouseForm.getCode())) {
+            warehouse.setCode(warehouseForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(warehouseForm.getName())) {
+            warehouse.setName(warehouseForm.getName());
+        }
         warehouse.setDescription(warehouseForm.getDescription());
 
         warehouse.setAddress1(warehouseForm.getAddress1());
@@ -756,8 +796,12 @@ public class WebBackofficeService {
         if (deliveryMethod == null) {
             deliveryMethod = new DeliveryMethod();
         }
-        deliveryMethod.setCode(deliveryMethodForm.getCode());
-        deliveryMethod.setName(deliveryMethodForm.getName());
+        if (StringUtils.isNotEmpty(deliveryMethodForm.getCode())) {
+            deliveryMethod.setCode(deliveryMethodForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(deliveryMethodForm.getName())) {
+            deliveryMethod.setName(deliveryMethodForm.getName());
+        }
         deliveryMethod.setDescription(deliveryMethodForm.getDescription());
 
         return deliveryMethodService.saveOrUpdateDeliveryMethod(deliveryMethod);
@@ -767,8 +811,12 @@ public class WebBackofficeService {
         if (tax == null) {
             tax = new Tax();
         }
-        tax.setCode(taxForm.getCode());
-        tax.setName(taxForm.getName());
+        if (StringUtils.isNotEmpty(taxForm.getCode())) {
+            tax.setCode(taxForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(taxForm.getName())) {
+            tax.setName(taxForm.getName());
+        }
         tax.setDescription(taxForm.getDescription());
         tax.setPercent(new BigDecimal(taxForm.getPercent()));
 
@@ -784,8 +832,12 @@ public class WebBackofficeService {
     }
 
     public AbstractPaymentGateway createOrUpdatePaymentGateway(final MarketArea marketArea, AbstractPaymentGateway paymentGateway, final PaymentGatewayForm paymentGatewayForm) {
-        paymentGateway.setCode(paymentGatewayForm.getCode());
-        paymentGateway.setName(paymentGatewayForm.getName());
+        if (StringUtils.isNotEmpty(paymentGatewayForm.getCode())) {
+            paymentGateway.setCode(paymentGatewayForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(paymentGatewayForm.getName())) {
+            paymentGateway.setName(paymentGatewayForm.getName());
+        }
         paymentGateway.setDescription(paymentGatewayForm.getDescription());
         
         if (paymentGatewayForm.isActive()) {
@@ -855,8 +907,12 @@ public class WebBackofficeService {
     	if (store == null) {
     		store = new Store();
 	    }
-    	store.setCode(storeForm.getCode());
-    	store.setName(storeForm.getName());
+        if (StringUtils.isNotEmpty(storeForm.getCode())) {
+            store.setCode(storeForm.getCode());
+        }
+        if (StringUtils.isNotEmpty(storeForm.getName())) {
+            store.setName(storeForm.getName());
+        }
 		
     	store.setAddress1(storeForm.getAddress1());
     	store.setAddress2(storeForm.getAddress2());

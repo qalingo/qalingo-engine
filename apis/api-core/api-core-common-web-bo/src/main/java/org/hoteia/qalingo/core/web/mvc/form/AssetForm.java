@@ -20,7 +20,6 @@ public class AssetForm {
 	private String id;
 	private int version;
 	private String name;
-	private String code;
 	private String description;
 	private String path;
 	private String type;
@@ -54,14 +53,6 @@ public class AssetForm {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getDescription() {
