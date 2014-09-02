@@ -726,7 +726,8 @@ public class WebBackofficeService {
 		}
 		
         MultipartFile multipartFile = retailerForm.getFile();
-        if (multipartFile.getSize() > 0) {
+        if (multipartFile != null
+                && multipartFile.getSize() > 0) {
             UUID uuid = UUID.randomUUID();
             String pathRetailerLogoImage = new StringBuilder(uuid.toString()).append(System.getProperty ("file.separator")).append(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toString();
 
