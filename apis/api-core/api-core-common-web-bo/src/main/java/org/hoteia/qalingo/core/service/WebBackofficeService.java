@@ -22,6 +22,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.io.FilenameUtils;
@@ -41,6 +47,8 @@ import org.hoteia.qalingo.core.domain.EngineSettingValue;
 import org.hoteia.qalingo.core.domain.Localization;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.PaymentGatewayOption;
+import org.hoteia.qalingo.core.domain.ProductBrand;
+import org.hoteia.qalingo.core.domain.ProductBrandAttribute;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
@@ -62,6 +70,7 @@ import org.hoteia.qalingo.core.web.mvc.form.DeliveryMethodForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingForm;
 import org.hoteia.qalingo.core.web.mvc.form.EngineSettingValueForm;
 import org.hoteia.qalingo.core.web.mvc.form.PaymentGatewayForm;
+import org.hoteia.qalingo.core.web.mvc.form.ProductBrandForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductMarketingForm;
 import org.hoteia.qalingo.core.web.mvc.form.ProductSkuForm;
 import org.hoteia.qalingo.core.web.mvc.form.RetailerForm;
@@ -224,6 +233,42 @@ public class WebBackofficeService {
     
     // CATALOG
     
+    public ProductBrand createOrUpdateProductBrand(final MarketArea marketArea, final Localization localization, ProductBrand brand, final ProductBrandForm brandForm) throws Exception {
+        if(brand == null){
+            brand = new ProductBrand();
+        }
+        
+        brand.setCode(brandForm.getCode());
+        brand.setName(brandForm.getName());
+        brand.setDescription(brandForm.getDescription());
+        
+        if(brandForm != null
+                && brandForm.getMarketAreaAttributes() != null) {
+            Map<String, String> attributes = brandForm.getMarketAreaAttributes();
+            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
+                String attributeKey = (String) iterator.next();
+                String value = attributes.get(attributeKey);
+                if(StringUtils.isNotEmpty(value)) {
+                    brand.getMarketAreaAttributes(marketArea.getId()).add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, false));
+                }
+            }
+        }
+        
+        if(brandForm != null
+                && brandForm.getGlobalAttributes() != null) {
+            Map<String, String> attributes = brandForm.getGlobalAttributes();
+            for (Iterator<String> iterator = attributes.keySet().iterator(); iterator.hasNext();) {
+                String attributeKey = (String) iterator.next();
+                String value = attributes.get(attributeKey);
+                if(StringUtils.isNotEmpty(value)) {
+                    brand.getGlobalAttributes().add(buildProductBrandAttribute(marketArea, localization, attributeKey, value, true));
+                }
+            }
+        }
+        
+        return brand;
+    }
+    
 	public CatalogCategoryMaster createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryMaster parentCatalogCategory, 
 	                                  final CatalogCategoryMaster catalogCategory, final CatalogCategoryForm catalogCategoryForm) throws UniqueConstraintCodeCategoryException {
 		String catalogCategoryCode = catalogCategoryForm.getCode();
@@ -261,7 +306,7 @@ public class WebBackofficeService {
 				String attributeKey = (String) iterator.next();
 				String value = attributes.get(attributeKey);
 				if(StringUtils.isNotEmpty(value)) {
-					catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
+					catalogCategory.getGlobalAttributes().add(buildCatalogCategoryMasterAttribute(marketArea, localization, attributeKey, value, true));
 				}
 			}
 		}
@@ -394,7 +439,7 @@ public class WebBackofficeService {
                 String attributeKey = (String) iterator.next();
                 String value = attributes.get(attributeKey);
                 if(StringUtils.isNotEmpty(value)) {
-                    catalogCategory.getMarketAreaAttributes(marketArea.getId()).add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, true));
+                    catalogCategory.getGlobalAttributes().add(buildCatalogCategoryVirtualAttribute(marketArea, localization, attributeKey, value, true));
                 }
             }
         }
@@ -517,11 +562,25 @@ public class WebBackofficeService {
 		return catalogCategoryService.saveOrUpdateCatalogCategory(catalogCategory);
 	}
 
+    private ProductBrandAttribute buildProductBrandAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
+
+        // TODO : denis : 20130125 : add cache
+        AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
+
+        ProductBrandAttribute productBrandAttribute = new ProductBrandAttribute();
+        productBrandAttribute.setAttributeDefinition(attributeDefinition);
+        productBrandAttribute.setLocalizationCode(localization.getCode());
+        productBrandAttribute.setMarketAreaId(marketArea.getId());
+        productBrandAttribute.setStartDate(new Date());
+        productBrandAttribute.setValue(attributeValue);
+        return productBrandAttribute;
+    }
+	   
 	private CatalogCategoryMasterAttribute buildCatalogCategoryMasterAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
 		
 		//TODO : denis : 20130125 : add cache
-		
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
+
 		CatalogCategoryMasterAttribute catalogCategoryMasterAttribute = new CatalogCategoryMasterAttribute();
 		catalogCategoryMasterAttribute.setAttributeDefinition(attributeDefinition);
 		catalogCategoryMasterAttribute.setLocalizationCode(localization.getCode());
@@ -534,8 +593,8 @@ public class WebBackofficeService {
 	private CatalogCategoryVirtualAttribute buildCatalogCategoryVirtualAttribute(final MarketArea marketArea, final Localization localization, final String attributeKey, final String attributeValue, boolean isGlobal) {
 		
 		//TODO : denis : 20130125 : add cache
-		
 		AttributeDefinition attributeDefinition = attributeService.getAttributeDefinitionByCode(attributeKey);
+
 		CatalogCategoryVirtualAttribute catalogCategoryVirtualAttribute = new CatalogCategoryVirtualAttribute();
 		catalogCategoryVirtualAttribute.setAttributeDefinition(attributeDefinition);
 		catalogCategoryVirtualAttribute.setLocalizationCode(localization.getCode());

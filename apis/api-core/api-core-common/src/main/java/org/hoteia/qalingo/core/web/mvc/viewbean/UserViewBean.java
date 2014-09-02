@@ -192,6 +192,15 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 		return userGroups;
 	}
 	
+    public boolean hasUserGroup(String userGroupCode) {
+        if (userGroups != null 
+                && userGroups.isEmpty() 
+                && userGroups.get(userGroupCode) != null) {
+            return true;
+        }
+        return false;
+    }
+	   
 	public void setUserGroups(Map<String, String> userGroups) {
 		this.userGroups = userGroups;
 	}
@@ -200,6 +209,15 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 		return userRoles;
 	}
 	
+    public boolean hasUserRole(String userRoleCode) {
+        if (userRoles != null 
+                && userRoles.isEmpty() 
+                && userRoles.get(userRoleCode) != null) {
+            return true;
+        }
+        return false;
+    }
+
 	public void setUserRoles(Map<String, String> userRoles) {
 		this.userRoles = userRoles;
 	}
@@ -207,6 +225,16 @@ public class UserViewBean extends AbstractViewBean implements Serializable {
 	public Map<String, String> getUserPermissions() {
 		return userPermissions;
 	}
+	
+    public boolean hasUserPermission(String userPermissionCode) {
+        if (userPermissions != null 
+                && userPermissions.isEmpty() 
+                && userPermissions.get(userPermissionCode) != null) {
+            return true;
+        }
+        return false;
+    }
+
 	
 	public void setUserPermissions(Map<String, String> userPermissions) {
 		this.userPermissions = userPermissions;
