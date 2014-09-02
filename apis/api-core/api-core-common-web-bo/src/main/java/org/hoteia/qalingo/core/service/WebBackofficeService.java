@@ -270,7 +270,7 @@ public class WebBackofficeService {
             }
         }
         
-        return brand;
+        return productService.saveOrUpdateProductBrand(brand);
     }
     
 	public CatalogCategoryMaster createCatalogCategory(final RequestData requestData, final MarketArea marketArea, final Localization localization, final CatalogCategoryMaster parentCatalogCategory, 
