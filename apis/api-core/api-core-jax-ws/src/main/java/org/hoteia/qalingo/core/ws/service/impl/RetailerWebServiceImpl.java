@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
-import org.hoteia.qalingo.core.service.pojo.RetailerPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 import org.hoteia.qalingo.core.ws.service.RetailerWebService;
 
 @Service("retailerWebService")
 @WebService(endpointInterface="org.hoteia.qalingo.core.ws.service.RetailerWebService")
 public class RetailerWebServiceImpl implements RetailerWebService {
 
-    @Autowired private RetailerPojoFactory retailerService;
+    @Autowired private RetailerPojoService retailerService;
 
     @Override
     public List<RetailerPojo> findAllRetailers() {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.BoUrls;
-import org.hoteia.qalingo.core.pojo.ContextPojo;
+import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlPojo;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractBackofficeQalingoController;
@@ -40,7 +40,7 @@ public class ContextController extends AbstractBackofficeQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), BoUrls.CONTEXT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);
-        final ContextPojo context = new ContextPojo();
+        final VelocityPageContextDataPojo context = new VelocityPageContextDataPojo();
         
         UrlPojo url = new UrlPojo();
         url.setCode(BoUrls.GET_CATALOG_AJAX.name());

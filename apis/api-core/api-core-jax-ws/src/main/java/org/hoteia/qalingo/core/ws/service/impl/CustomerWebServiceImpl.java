@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import org.hoteia.qalingo.core.service.pojo.CustomerPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.CustomerPojoService;
 import org.hoteia.qalingo.core.ws.service.CustomerWebService;
 
 @Service("customerWebService")
 @WebService(endpointInterface = "org.hoteia.qalingo.core.ws.service.CustomerWebService")
 public class CustomerWebServiceImpl implements CustomerWebService {
 
-    @Autowired private CustomerPojoFactory customerService;
+    @Autowired private CustomerPojoService customerService;
 
     @Override
     public CustomerPojo getCustomerById(final String customerId) {

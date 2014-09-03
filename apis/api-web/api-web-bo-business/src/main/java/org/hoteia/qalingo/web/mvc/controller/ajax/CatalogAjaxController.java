@@ -51,7 +51,7 @@ import org.hoteia.qalingo.core.pojo.product.ProductSkuPojo;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.CatalogService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.pojo.CatalogPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractBusinessBackofficeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
     protected CatalogService catalogService;
 
     @Autowired
-    private CatalogPojoFactory catalogPojoService;
+    private CatalogPojoService catalogPojoService;
 
     @Autowired
     protected ProductService productService;

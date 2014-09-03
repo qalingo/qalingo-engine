@@ -40,7 +40,7 @@ import org.hoteia.qalingo.core.i18n.enumtype.I18nKeyValueUniverse;
 import org.hoteia.qalingo.core.i18n.enumtype.ScopeDocumentMessage;
 import org.hoteia.qalingo.core.i18n.message.CoreMessageSource;
 import org.hoteia.qalingo.core.pojo.OrderCustomerPojo;
-import org.hoteia.qalingo.core.service.pojo.OrderPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.OrderPojoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +64,7 @@ public class DocumentService {
     protected CoreMessageSource coreMessageSource;
     
     @Autowired
-    protected OrderPojoFactory orderPojoService;
+    protected OrderPojoService orderPojoService;
     
     // ORDER CONFIRMATION CONFIRMATION
     

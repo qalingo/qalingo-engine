@@ -21,7 +21,8 @@
 		<module>api-core-common-web-bo</module>
 		<module>api-core-common-web-fo</module>
 		<module>api-core-xml-binding</module>
-		<module>api-core-jax-rs</module>
+		<module>api-core-jax-rs-bo</module>
+		<module>api-core-jax-rs-fo</module>
 		<module>api-core-jax-ws</module>
 		<module>api-core-drools</module>
 		<module>api-core-batch</module>

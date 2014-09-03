@@ -39,8 +39,8 @@ import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.service.DeliveryMethodService;
 import org.hoteia.qalingo.core.service.MarketService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.pojo.CatalogPojoFactory;
-import org.hoteia.qalingo.core.service.pojo.CheckoutPojoFactory;
+import org.hoteia.qalingo.core.service.pojo.CatalogPojoService;
+import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.hoteia.qalingo.web.mvc.controller.AbstractMCommerceController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +65,10 @@ public class CartAjaxController extends AbstractMCommerceController {
     private DeliveryMethodService deliveryMethodService;
     
     @Autowired
-    protected CheckoutPojoFactory checkoutPojoService;
+    protected CheckoutPojoService checkoutPojoService;
 
     @Autowired
-    protected CatalogPojoFactory catalogPojoService;
+    protected CatalogPojoService catalogPojoService;
     
     @Autowired
     protected MarketService marketService;

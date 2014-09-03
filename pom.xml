@@ -99,7 +99,12 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>qalingo-api-core-jax-rs</artifactId>
+				<artifactId>qalingo-api-core-jax-rs-bo</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>qalingo-api-core-jax-rs-fo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

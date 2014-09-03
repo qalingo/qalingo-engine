@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hoteia.qalingo.core.ModelConstants;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
-import org.hoteia.qalingo.core.pojo.ContextPojo;
+import org.hoteia.qalingo.core.pojo.VelocityPageContextDataPojo;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.pojo.UrlPojo;
 import org.hoteia.qalingo.core.web.mvc.controller.AbstractFrontofficeQalingoController;
@@ -40,7 +40,7 @@ public class ContextController extends AbstractFrontofficeQalingoController {
 		ModelAndViewThemeDevice modelAndView = new ModelAndViewThemeDevice(getCurrentVelocityPath(request), FoUrls.CONTEXT.getVelocityPage());
 
         final RequestData requestData = requestUtil.getRequestData(request);
-        final ContextPojo context = new ContextPojo();
+        final VelocityPageContextDataPojo context = new VelocityPageContextDataPojo();
         
         // TODO : move this value in a EngineSetting
         context.setCartMaxItemQuantity(5);

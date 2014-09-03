@@ -21,8 +21,6 @@
 		<module>api-web-bo-technical</module>
 		<module>api-web-fo-mcommerce</module>
 		<module>api-web-fo-prehome</module>
-		<module>api-web-remote-rest</module>
-		<module>api-web-remote-ws</module>
 	</modules>
 	
 	<properties>

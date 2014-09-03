@@ -38,6 +38,10 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>qalingo-api-core-solr</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>qalingo-api-core-jax-rs-fo</artifactId>
+		</dependency>
 
 		<!-- Hoteia libs -->
 		<dependency>
