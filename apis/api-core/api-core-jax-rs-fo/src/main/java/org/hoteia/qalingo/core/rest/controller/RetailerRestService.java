@@ -17,7 +17,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.hoteia.qalingo.core.pojo.retailer.RetailerListPojoResponse;
 import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
+import org.hoteia.qalingo.core.pojo.retailer.RetailerPojoResponse;
 import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,15 +33,21 @@ public class RetailerRestService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<RetailerPojo> getAllRetailers() {
-        return retailerService.findAllRetailers();
+    public RetailerListPojoResponse getAllRetailers() {
+        RetailerListPojoResponse retailerListPojoResponse = new RetailerListPojoResponse();
+        List<RetailerPojo> retailers = retailerService.findAllRetailers();
+        retailerListPojoResponse.setRetailers(retailers);
+        return retailerListPojoResponse;
     }
 
     @GET
+    @Path("{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
-    public RetailerPojo getStoreById(@PathParam("id") final String id) {
-        return retailerService.getRetailerById(id);
+    public RetailerPojoResponse getRetailerByCode(@PathParam("code") final String code) {
+        RetailerPojoResponse retailerPojoResponse = new RetailerPojoResponse();
+        RetailerPojo retailerPojo = retailerService.getRetailerByCode(code);
+        retailerPojoResponse.setRetailer(retailerPojo);
+        return retailerPojoResponse;
     }
 
 }

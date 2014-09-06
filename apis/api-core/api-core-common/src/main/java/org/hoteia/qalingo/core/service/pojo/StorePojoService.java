@@ -49,6 +49,12 @@ public class StorePojoService {
         logger.debug("Found {} store for id {}", store, id);
         return store == null ? null : dozerBeanMapper.map(store, StorePojo.class);
     }
+    
+    public StorePojo getStoreByCode(final String code) {
+        Store store = retailerService.getStoreByCode(code);
+        logger.debug("Found {} store for code {}", store, code);
+        return store == null ? null : dozerBeanMapper.map(store, StorePojo.class);
+    }
 
     public void saveOrUpdate(final StorePojo storeJsonBean) {
         Store store = dozerBeanMapper.map(storeJsonBean, Store.class);
