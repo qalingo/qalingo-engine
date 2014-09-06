@@ -16,8 +16,12 @@ public class CustomerWishlistPojo {
     private Long id;
     private int version;
     private int position;
+    
     private String productSkuCode;
+    private String catalogCategoryCode;
+    
     private Long customerMarketAreaId;
+    
     private Date dateCreate;
     private Date dateUpdate;
 
@@ -51,6 +55,14 @@ public class CustomerWishlistPojo {
 
     public void setProductSkuCode(final String productSkuCode) {
         this.productSkuCode = productSkuCode;
+    }
+
+    public String getCatalogCategoryCode() {
+        return catalogCategoryCode;
+    }
+
+    public void setCatalogCategoryCode(String catalogCategoryCode) {
+        this.catalogCategoryCode = catalogCategoryCode;
     }
 
     public Long getCustomerMarketAreaId() {

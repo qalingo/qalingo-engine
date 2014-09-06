@@ -18,6 +18,7 @@ import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
+import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
@@ -25,9 +26,9 @@ import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.pojo.cart.CartPojo;
 import org.hoteia.qalingo.core.pojo.deliverymethod.DeliveryMethodPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
+import org.hoteia.qalingo.core.service.CartService;
 import org.hoteia.qalingo.core.service.CatalogCategoryService;
 import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.pojo.CheckoutPojoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,50 @@ public class CheckoutPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
+    protected CartService cartService;
+
+    @Autowired
     protected ProductService productService;
-    
+
     @Autowired 
     protected CatalogCategoryService catalogCategoryService;
     
     @Autowired 
     private Mapper dozerBeanMapper;
+    
+    public CartPojo getCart(MarketArea marketArea, Customer customer) throws Exception {
+        Cart cart = cartService.getCartByMarketAreaIdAndCustomerId(marketArea.getId(), customer.getId());
+        String catalogVirtualCode = marketArea.getCatalog().getCode();
+        String catalogMasterCode = marketArea.getCatalog().getCatalogMaster().getCode();
+        CartPojo cartPojo = handleCartMapping(cart, catalogVirtualCode, catalogMasterCode);
+        return cartPojo;
+    }
+    
+    public void addProductSkuToCart(Cart cart, final String catalogCategoryCode, final String productSkuCode, final int quantity) throws Exception {
+        cartService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
+    }
+    
+    public void updateCartItem(Cart cart, String productSkuCode, int quantity) throws Exception {
+        cartService.updateCartItem(cart, productSkuCode, quantity);
+    }
+    
+    public void deleteCartItem(Cart cart, String productSkuCode) throws Exception {
+        cartService.deleteCartItem(cart, productSkuCode);
+    }
+    
+    public void setShippingAddress(final Cart cart, final Customer customer, final String customerBillingAddressId) throws Exception {
+        Long customerAddressId = Long.parseLong(customerBillingAddressId);
+        cartService.setShippingAddress(cart, customer, customerAddressId);
+    }
+    
+    public void setBillingAddress(final Cart cart, final Customer customer, final String customerBillingAddressId) throws Exception {
+        Long customerAddressId = Long.parseLong(customerBillingAddressId);
+        cartService.setBillingAddress(cart, customer, customerAddressId);
+    }
+    
+    public void setDeliveryMethod(final Cart cart, final String deliveryMethodCode) throws Exception {
+        cartService.setDeliveryMethod(cart, deliveryMethodCode);
+    }
     
     public CartPojo handleCartMapping(final Cart cart, final String catalogVirtualCode, final String catalogMasterCode) {
         if(cart != null){

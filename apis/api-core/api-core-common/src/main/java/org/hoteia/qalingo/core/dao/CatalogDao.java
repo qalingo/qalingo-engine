@@ -17,6 +17,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogMaster;
 import org.hoteia.qalingo.core.domain.CatalogVirtual;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
@@ -45,6 +46,20 @@ public class CatalogDao extends AbstractGenericDao {
         }
         return catalogMaster;
 	}
+    
+    public CatalogMaster getMasterCatalogByCode(final String masterCatalogCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(CatalogMaster.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("code", masterCatalogCode));
+
+        CatalogMaster catalog = (CatalogMaster) criteria.uniqueResult();
+        if(catalog != null){
+            catalog.setFetchPlan(fetchPlan);
+        }
+        return catalog;
+    }
     
     public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         Criteria criteria = createDefaultCriteria(CatalogMaster.class);
@@ -111,6 +126,20 @@ public class CatalogDao extends AbstractGenericDao {
         }
 		return catalogVirtual;
 	}
+	
+    public CatalogVirtual getVirtualCatalogByCode(final String virtualCatalogCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(CatalogVirtual.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria, params);
+
+        criteria.add(Restrictions.eq("code", virtualCatalogCode));
+
+        CatalogVirtual catalog = (CatalogVirtual) criteria.uniqueResult();
+        if(catalog != null){
+            catalog.setFetchPlan(fetchPlan);
+        }
+        return catalog;
+    }
 	
     @Override
     protected FetchPlan handleSpecificFetchMode(Criteria criteria, Object... params) {

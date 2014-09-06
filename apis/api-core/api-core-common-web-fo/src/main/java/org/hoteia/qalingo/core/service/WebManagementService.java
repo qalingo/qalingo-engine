@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -25,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.Cart;
 import org.hoteia.qalingo.core.domain.CartItem;
 import org.hoteia.qalingo.core.domain.CartItemTax;
-import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerAddress;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
@@ -33,7 +31,6 @@ import org.hoteia.qalingo.core.domain.CustomerGroup;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
 import org.hoteia.qalingo.core.domain.CustomerOptin;
 import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
-import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.DeliveryMethod;
 import org.hoteia.qalingo.core.domain.Email;
 import org.hoteia.qalingo.core.domain.EngineEcoSession;
@@ -44,8 +41,6 @@ import org.hoteia.qalingo.core.domain.OrderCustomer;
 import org.hoteia.qalingo.core.domain.OrderItem;
 import org.hoteia.qalingo.core.domain.OrderShipment;
 import org.hoteia.qalingo.core.domain.OrderTax;
-import org.hoteia.qalingo.core.domain.ProductMarketing;
-import org.hoteia.qalingo.core.domain.ProductSku;
 import org.hoteia.qalingo.core.domain.Retailer;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.FoUrls;
@@ -57,22 +52,9 @@ import org.hoteia.qalingo.core.email.bean.CustomerResetPasswordConfirmationEmail
 import org.hoteia.qalingo.core.email.bean.NewsletterEmailBean;
 import org.hoteia.qalingo.core.email.bean.OrderConfirmationEmailBean;
 import org.hoteia.qalingo.core.email.bean.RetailerContactEmailBean;
-import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.hoteia.qalingo.core.exception.UniqueNewsletterSubscriptionException;
 import org.hoteia.qalingo.core.pojo.RequestData;
 import org.hoteia.qalingo.core.security.util.SecurityUtil;
-import org.hoteia.qalingo.core.service.CartService;
-import org.hoteia.qalingo.core.service.CatalogCategoryService;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.EmailService;
-import org.hoteia.qalingo.core.service.EngineSessionService;
-import org.hoteia.qalingo.core.service.GroupRoleService;
-import org.hoteia.qalingo.core.service.OrderCustomerService;
-import org.hoteia.qalingo.core.service.ProductService;
-import org.hoteia.qalingo.core.service.ReferentialDataService;
-import org.hoteia.qalingo.core.service.RetailerService;
-import org.hoteia.qalingo.core.service.UrlService;
-import org.hoteia.qalingo.core.service.WebManagementService;
 import org.hoteia.qalingo.core.web.util.RequestUtil;
 import org.hoteia.qalingo.web.mvc.form.ContactForm;
 import org.hoteia.qalingo.web.mvc.form.CreateAccountForm;
@@ -156,7 +138,7 @@ public class WebManagementService {
             }
         }
         
-        updateCart(requestData, catalogCategoryCode, productSkuCode, finalQuantity);
+        cartService.addProductSkuToCart(cart, catalogCategoryCode, productSkuCode, quantity);
     }
     
     /**
@@ -180,38 +162,9 @@ public class WebManagementService {
             EngineEcoSession engineEcoSession = requestUtil.getCurrentEcoSession(request);
             cart = engineEcoSession.addNewCart();
         }
-        Set<CartItem> cartItems = cart.getCartItems();
-        boolean productSkuIsNew = true;
-        for (Iterator<CartItem> iterator = cartItems.iterator(); iterator.hasNext();) {
-            CartItem cartItem = (CartItem) iterator.next();
-            if (cartItem.getProductSkuCode().equalsIgnoreCase(productSkuCode)) {
-                cartItem.setQuantity(quantity);
-                productSkuIsNew = false;
-            }
-        }
-        if (productSkuIsNew) {
-            final ProductSku productSku = productService.getProductSkuByCode(productSkuCode);
-            if(productSku != null){
-                CartItem cartItem = new CartItem();
-                cartItem.setProductSkuCode(productSkuCode);
-                cartItem.setProductSku(productSku);
-
-                cartItem.setProductMarketingCode(productSku.getProductMarketing().getCode());
-                cartItem.setQuantity(quantity);
-                
-                if(StringUtils.isNotEmpty(catalogCategoryCode)){
-                    cartItem.setCatalogCategoryCode(catalogCategoryCode);
-                } else {
-                    final ProductMarketing reloadedProductMarketing = productService.getProductMarketingByCode(productSku.getProductMarketing().getCode());
-                    final List<CatalogCategoryVirtual> catalogCategories = catalogCategoryService.findVirtualCategoriesByProductSkuId(productSku.getId());
-                    final CatalogCategoryVirtual defaultVirtualCatalogCategory = productService.getDefaultVirtualCatalogCategory(reloadedProductMarketing, catalogCategories, true);
-                    cartItem.setCatalogCategoryCode(defaultVirtualCatalogCategory.getCode());
-                }
-                cart.getCartItems().add(cartItem);
-            } else {
-                // TODO : throw ??
-            }
-        }
+        
+        cartService.updateCartItem(cart, catalogCategoryCode, productSkuCode, quantity);
+        
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -252,19 +205,44 @@ public class WebManagementService {
     /**
      * 
      */
-    public void deleteCartItem(final RequestData requestData, final String skuCode) throws Exception {
+    public void deleteCartItem(final RequestData requestData, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         Cart cart = requestData.getCart();
-        if(cart != null){
-            Set<CartItem> cartItems = new HashSet<CartItem>(cart.getCartItems());
-            for (Iterator<CartItem> iterator = cart.getCartItems().iterator(); iterator.hasNext();) {
-                CartItem cartItem = (CartItem) iterator.next();
-                if (cartItem.getProductSkuCode().equalsIgnoreCase(skuCode)) {
-                    cartItems.remove(cartItem);
-                }
-            }
-            cart.setCartItems(cartItems);
-        }
+        Cart savedCart = cartService.deleteCartItem(cart, productSkuCode);
+        requestUtil.updateCurrentCart(request, savedCart);
+    }
+    
+    /**
+     * 
+     */
+    public void setShippingAddress(final RequestData requestData, final String customerShippingAddressId) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Customer customer = requestData.getCustomer();
+        Cart cart = requestData.getCart();
+        Long customerAddressId = Long.parseLong(customerShippingAddressId);
+        cartService.setShippingAddress(cart, customer, customerAddressId);
+        requestUtil.updateCurrentCart(request, cart);
+    }
+    
+    /**
+     * 
+     */
+    public void setBillingAddress(final RequestData requestData, final String customerBillingAddressId) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Customer customer = requestData.getCustomer();
+        Cart cart = requestData.getCart();
+        Long customerAddressId = Long.parseLong(customerBillingAddressId);
+        cartService.setBillingAddress(cart, customer, customerAddressId);
+        requestUtil.updateCurrentCart(request, cart);
+    }
+    
+    /**
+     * 
+     */
+    public void setDeliveryMethod(final RequestData requestData, final String deliveryMethodCode) throws Exception {
+        final HttpServletRequest request = requestData.getRequest();
+        Cart cart = requestData.getCart();
+        cartService.setDeliveryMethod(cart, deliveryMethodCode);
         requestUtil.updateCurrentCart(request, cart);
     }
     
@@ -656,28 +634,17 @@ public class WebManagementService {
         return customer;
     }
     
-    public Customer addProductSkuToWishlist(final RequestData requestData, final String productSkuCode) throws Exception {
+    public Customer addProductSkuToWishlist(final RequestData requestData, final String catalogCategoryCode, final String productSkuCode) throws Exception {
         final HttpServletRequest request = requestData.getRequest();
         final MarketArea marketArea = requestData.getMarketArea();
         Customer customer = requestData.getCustomer();
         customer = checkCustomerMarketArea(requestData, customer);
         
-        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
-        CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
-        if(customerWishlist == null){
-            customerWishlist = new CustomerWishlist();
-            customerWishlist.setCustomerMarketAreaId(customerMarketArea.getId());
-            customerWishlist.setProductSkuCode(productSkuCode);
-            customerWishlist.setPosition(customerMarketArea.getWishlistProducts().size() + 1);
-            customerMarketArea.getWishlistProducts().add(customerWishlist);
-            customer.getCustomerMarketAreas().add(customerMarketArea);
-            customerService.saveOrUpdateCustomer(customer);
-            customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
-            requestUtil.updateCurrentCustomer(request, customer);
-        } else {
-            // Wishlist for this product sku code already exist
-            throw new ProductAlreadyExistInWishlistException(); 
-        }
+        customerService.addProductSkuToWishlist(marketArea, customer, catalogCategoryCode, productSkuCode);
+        // TODO : denis : 20140904 : is it necessary to reload or not ?
+        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        requestUtil.updateCurrentCustomer(request, customer);
+
         return customer;
     }
     
@@ -687,16 +654,11 @@ public class WebManagementService {
         Customer customer = requestData.getCustomer();
         customer = checkCustomerMarketArea(requestData, customer);
         
-        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        customerService.removeProductSkuFromWishlist(marketArea, customer, productSkuCode);
+        // TODO : denis : 20140904 : is it necessary to reload or not ?
+        customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
+        requestUtil.updateCurrentCustomer(request, customer);
         
-        CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
-        if(customerWishlist != null){
-            customerMarketArea.getWishlistProducts().remove(customerWishlist);
-            customer.getCustomerMarketAreas().add(customerMarketArea);
-            customerService.saveOrUpdateCustomer(customer);
-            customer = customerService.getCustomerByLoginOrEmail(customer.getEmail());
-            requestUtil.updateCurrentCustomer(request, customer);
-        }
         return customer;
     }
     

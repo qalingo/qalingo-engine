@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.hoteia.qalingo</groupId>
+		<artifactId>qalingo-api-web</artifactId>
+		<version>0.8.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>qalingo-api-web-remote-ws</artifactId>
+	<packaging>jar</packaging>
+	<name>{Q} Commerce Solution Web Remote WS API</name>
+	<description>{Q} Commerce Solution Web Remote WS API</description>
+	<url>http://www.qalingo.com</url>
+	<organization>
+		<name>Hoteia</name>
+		<url>http://www.hoteia.com</url>
+	</organization>
+
+	<properties>
+		<root.basedir>${project.parent.parent.parent.basedir}</root.basedir> 
+	</properties>
+
+	<build>
+		<finalName>qalingo-api-web-remote-ws</finalName>
+	</build>
+	
+	<dependencies>
+		<!-- Qalingo libs -->
+		<dependency>
+			<groupId>org.hoteia.qalingo</groupId>
+			<artifactId>qalingo-api-core-common</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qalingo-api-core-solr</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.hoteia.qalingo</groupId>
+			<artifactId>qalingo-api-core-jax-ws</artifactId>
+		</dependency>
+
+	</dependencies>
+</project>

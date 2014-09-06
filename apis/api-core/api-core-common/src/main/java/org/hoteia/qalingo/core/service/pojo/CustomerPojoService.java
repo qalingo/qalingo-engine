@@ -10,19 +10,23 @@
 package org.hoteia.qalingo.core.service.pojo;
 
 import java.util.List;
+import java.util.Set;
 
 import org.dozer.Mapper;
+import org.hoteia.qalingo.core.domain.Customer;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
+import org.hoteia.qalingo.core.pojo.customer.CustomerWishlistPojo;
+import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
+import org.hoteia.qalingo.core.service.CustomerService;
+import org.hoteia.qalingo.core.service.MarketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.hoteia.qalingo.core.domain.Customer;
-import org.hoteia.qalingo.core.pojo.customer.CustomerPojo;
-import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
-import org.hoteia.qalingo.core.service.CustomerService;
-import org.hoteia.qalingo.core.service.pojo.CustomerPojoService;
 
 @Service("customerPojoService")
 @Transactional(readOnly = true)
@@ -32,6 +36,9 @@ public class CustomerPojoService {
 
     @Autowired
     private Mapper dozerBeanMapper;
+    
+    @Autowired 
+    protected MarketService marketService;
     
     @Autowired
     private CustomerService customerService;
@@ -66,5 +73,16 @@ public class CustomerPojoService {
         logger.info("Saving customer {}", customer);
         customerService.saveOrUpdateCustomer(customer);
     }
+    
+    public List<CustomerWishlistPojo> getWishlist(final Customer customer, final MarketArea marketArea) {
+        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        Set<CustomerWishlist> wishlistProducts = customerMarketArea.getWishlistProducts();
+        List<CustomerWishlistPojo> wishlists = PojoUtil.mapAll(dozerBeanMapper, wishlistProducts, CustomerWishlistPojo.class);
+        return wishlists;
+    }
 
+    public void addProductSkuToWishlist(MarketArea marketArea, Customer customer, String catalogCategoryCode, String productSkuCode) throws Exception {
+        customerService.addProductSkuToWishlist(marketArea, customer, catalogCategoryCode, productSkuCode);
+    }
+    
 }

@@ -18,7 +18,6 @@ import org.hoteia.qalingo.core.dao.ProductDao;
 import org.hoteia.qalingo.core.domain.Asset;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtual;
 import org.hoteia.qalingo.core.domain.CatalogCategoryVirtualProductSkuRel;
-import org.hoteia.qalingo.core.domain.Company;
 import org.hoteia.qalingo.core.domain.ProductBrand;
 import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
@@ -36,6 +35,9 @@ public class ProductService {
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private CatalogCategoryService catalogCategoryService;
+    
     // PRODUCT MARKETING
 
     public ProductMarketing getProductMarketingById(final Long productMarketingId, Object... params) {
@@ -118,6 +120,12 @@ public class ProductService {
     public List<ProductMarketing> findProductMarketingsByVirtualCatalogCategoryId(final Long categoryId, Object... params){
     	List<ProductMarketing> productMarketings = productDao.findProductMarketingsByVirtualCatalogCategoryId(categoryId, params);
     	return productMarketings;
+    }
+    
+    public List<ProductMarketing> findProductMarketingsByVirtualCatalogCategoryCode(final String catalogVirtualCode, final String categoryCode, Object... params){
+        CatalogCategoryVirtual catalogCategoryVirtual = catalogCategoryService.getVirtualCatalogCategoryByCode(categoryCode, catalogVirtualCode, categoryCode, params);
+        List<ProductMarketing> productMarketings = productDao.findProductMarketingsByVirtualCatalogCategoryId(catalogCategoryVirtual.getId(), params);
+        return productMarketings;
     }
 
     public ProductMarketing saveOrUpdateProductMarketing(final ProductMarketing productMarketing) {
@@ -248,8 +256,14 @@ public class ProductService {
         return productDao.getProductSkuByCode(skuCode, params);
     }
 
-    public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketing, Object... params) {
-        List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketing, params);
+    public List<ProductSku> findProductSkusByProductMarketingId(final Long productMarketingId, Object... params) {
+        List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketingId, params);
+        return skus;
+    }
+    
+    public List<ProductSku> findProductSkusByProductMarketingCode(final String productMarketingCode, Object... params) {
+        ProductMarketing productMarketing = getProductMarketingByCode(productMarketingCode, params);
+        List<ProductSku> skus = productDao.findProductSkusByproductMarketingId(productMarketing.getId(), params);
         return skus;
     }
 

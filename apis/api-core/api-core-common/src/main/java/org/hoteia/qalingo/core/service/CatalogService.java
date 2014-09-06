@@ -41,6 +41,10 @@ public class CatalogService {
         return getMasterCatalogById(masterCatalogId, params);
     }
     
+    public CatalogMaster getMasterCatalogByCode(final String masterCatalogCode, Object... params) {
+        return catalogDao.getMasterCatalogByCode(masterCatalogCode, params);
+    }
+
     public List<CatalogMaster> findAllCatalogMasters(Object... params) {
         return catalogDao.findAllCatalogMasters(params);
     }
@@ -71,6 +75,10 @@ public class CatalogService {
 
     public CatalogVirtual getVirtualCatalogbyMarketAreaId(final Long marketAreaId, Object... params) {
         return catalogDao.getVirtualCatalogByMarketAreaId(marketAreaId, params);
+    }
+    
+    public CatalogVirtual getVirtualCatalogByCode(final String virtualCatalogCode, Object... params) {
+        return catalogDao.getVirtualCatalogByCode(virtualCatalogCode, params);
     }
 
 }

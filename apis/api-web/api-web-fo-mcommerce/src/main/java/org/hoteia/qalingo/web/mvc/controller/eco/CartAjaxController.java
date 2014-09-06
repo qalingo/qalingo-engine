@@ -79,6 +79,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         final RequestData requestData = requestUtil.getRequestData(request);
         final Localization localization = requestData.getMarketAreaLocalization();
         final Locale locale = requestData.getLocale();
+        final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
         final String productSkuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
         
         final FoAddToWishlistPojo addToWishlist = new FoAddToWishlistPojo();
@@ -89,7 +90,7 @@ public class CartAjaxController extends AbstractMCommerceController {
 
         addToWishlist.setWishListDetailsUrl(urlService.generateUrl(FoUrls.PERSONAL_WISHLIST, requestData));
         try {
-            webManagementService.addProductSkuToWishlist(requestData, productSkuCode);
+            webManagementService.addProductSkuToWishlist(requestData, catalogCategoryCode, productSkuCode);
             
             FoMessagePojo successMessage = new FoMessagePojo();
             successMessage.setId("success-add-to-wishlist-product-sku");
@@ -262,10 +263,10 @@ public class CartAjaxController extends AbstractMCommerceController {
     @ResponseBody
     public FoCheckoutPojo setShippingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final String shippingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_SHIPPING_ADDRESS_GUID);
+        final String customerShippingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_SHIPPING_ADDRESS_GUID);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-//            webManagementService.deleteCartItem(requestData, productSkuCode);
+            webManagementService.setShippingAddress(requestData, customerShippingAddressGuid);
         } catch (Exception e) {
             logger.error("", e);
             FoMessagePojo errorMessage = new FoMessagePojo();
@@ -283,10 +284,10 @@ public class CartAjaxController extends AbstractMCommerceController {
     @ResponseBody
     public FoCheckoutPojo setBillingAddress(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final RequestData requestData = requestUtil.getRequestData(request);
-        final String billingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_BILLING_ADDRESS_GUID);
+        final String customerBillingAddressGuid = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_BILLING_ADDRESS_GUID);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-//            webManagementService.deleteCartItem(requestData, productSkuCode);
+            webManagementService.setBillingAddress(requestData, customerBillingAddressGuid);
         } catch (Exception e) {
             logger.error("", e);
             FoMessagePojo errorMessage = new FoMessagePojo();
@@ -307,14 +308,7 @@ public class CartAjaxController extends AbstractMCommerceController {
         final String deliveryMethodCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CART_DELIVERY_METHOD_CODE);
         final FoCheckoutPojo checkout = new FoCheckoutPojo();
         try {
-            final Cart cart = requestData.getCart();
-            if(cart.getDeliveryMethods().isEmpty()){
-                cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
-            } else {
-                cart.getDeliveryMethods().clear();
-                cart.getDeliveryMethods().add(deliveryMethodService.getDeliveryMethodByCode(deliveryMethodCode));
-            }
-            requestUtil.updateCurrentCart(request, cart);
+            webManagementService.deleteCartItem(requestData, deliveryMethodCode);
             
         } catch (Exception e) {
             logger.error("", e);

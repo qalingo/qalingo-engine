@@ -23,6 +23,6 @@ public interface CatalogWebService {
     @WebMethod(operationName = "getAllCatalogMasters")
     List<CatalogPojo> getAllCatalogMasters();
 
-    @WebMethod(operationName = "getProductCatalogById")
-    CatalogPojo getProductCatalogById(@WebParam(name = "id") String productCatalogId);
+    @WebMethod(operationName = "getProductCatalogByCode")
+    CatalogPojo getProductCatalogByCode(@WebParam(name = "productCatalogCode") String productCatalogCode);
 }

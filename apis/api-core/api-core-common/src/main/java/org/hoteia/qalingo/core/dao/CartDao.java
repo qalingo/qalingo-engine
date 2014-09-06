@@ -37,6 +37,21 @@ public class CartDao extends AbstractGenericDao {
         }
         return cart;
 	}
+	
+    public Cart getCartByMarketAreaIdAndCustomerId(final Long marketAreaId, final Long customerId, Object... params) {
+        Criteria criteria = createDefaultCriteria(Cart.class);
+        
+        FetchPlan fetchPlan = handleSpecificFetchMode(criteria);
+        
+        criteria.add(Restrictions.eq("marketAreaId", marketAreaId));
+        criteria.add(Restrictions.eq("customerId", customerId));
+
+        Cart cart = (Cart) criteria.uniqueResult();
+        if(cart != null){
+            cart.setFetchPlan(fetchPlan);
+        }
+        return cart;
+    }
 
 	public Cart saveOrUpdateCart(final Cart cart) {
 		if(cart.getDateCreate() == null){

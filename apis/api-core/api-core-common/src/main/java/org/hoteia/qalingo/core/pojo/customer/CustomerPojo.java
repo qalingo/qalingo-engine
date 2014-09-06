@@ -10,14 +10,14 @@
 package org.hoteia.qalingo.core.pojo.customer;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
-import java.util.HashSet;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 
 import org.hoteia.qalingo.core.domain.enumtype.CustomerNetworkOrigin;
 import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
+import org.hoteia.qalingo.core.pojo.AbstractPojo;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * 
@@ -30,7 +30,7 @@ import org.hoteia.qalingo.core.domain.enumtype.CustomerPlatformOrigin;
  * 
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CustomerPojo {
+public class CustomerPojo extends AbstractPojo {
 
     private Long id;
     private int version;
@@ -42,6 +42,7 @@ public class CustomerPojo {
     private String password;
     private String defaultLocale;
     private boolean active;
+    private boolean guest;
     private Date dateCreate;
     private Date dateUpdate;
     private CustomerPlatformOrigin platformOrigin;
@@ -135,6 +136,14 @@ public class CustomerPojo {
 
     public void setActive(final boolean active) {
         this.active = active;
+    }
+
+    public boolean isGuest() {
+        return guest;
+    }
+
+    public void setGuest(boolean guest) {
+        this.guest = guest;
     }
 
     public Date getDateCreate() {

@@ -14,6 +14,10 @@ import java.util.List;
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
+import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerWishlist;
+import org.hoteia.qalingo.core.domain.MarketArea;
+import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +58,39 @@ public class CustomerService {
         return customerDao.findCustomers(params);
     }
 
+    public Customer addProductSkuToWishlist(final MarketArea marketArea, Customer customer, final String catalogCategoryCode, final String productSkuCode) throws Exception {
+        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
+        if(customerWishlist == null){
+            customerWishlist = new CustomerWishlist();
+            customerWishlist.setCustomerMarketAreaId(customerMarketArea.getId());
+            customerWishlist.setCatalogCategoryCode(catalogCategoryCode);
+            customerWishlist.setProductSkuCode(productSkuCode);
+            customerWishlist.setPosition(customerMarketArea.getWishlistProducts().size() + 1);
+            customerMarketArea.getWishlistProducts().add(customerWishlist);
+            customer.getCustomerMarketAreas().add(customerMarketArea);
+            customer = saveOrUpdateCustomer(customer);
+            
+        } else {
+            // Wishlist for this product sku code already exist
+            throw new ProductAlreadyExistInWishlistException(); 
+        }
+        
+        return customer;
+    }
+    
+    public Customer removeProductSkuFromWishlist(final MarketArea marketArea, Customer customer, final String productSkuCode) throws Exception {
+        final CustomerMarketArea customerMarketArea = customer.getCurrentCustomerMarketArea(marketArea.getId());
+        CustomerWishlist customerWishlist = customerMarketArea.getCustomerWishlistByProductSkuCode(productSkuCode);
+        if(customerWishlist != null){
+            customerMarketArea.getWishlistProducts().remove(customerWishlist);
+            customer.getCustomerMarketAreas().add(customerMarketArea);
+            customer = saveOrUpdateCustomer(customer);
+        }
+        
+        return customer;
+    }
+    
     public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {
         return customerDao.saveOrUpdateCustomer(customer);
     }

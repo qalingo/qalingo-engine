@@ -36,10 +36,10 @@ public class CatalogRestService {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{catalogCode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public CatalogPojo getCustomerById(@PathParam("id") final String id) {
-        return catalogService.getMasterCatalogById(id);
+    public CatalogPojo getCatalogById(@PathParam("catalogCode") final String catalogCode) {
+        return catalogService.getMasterCatalogByCode(catalogCode);
     }
 
 }

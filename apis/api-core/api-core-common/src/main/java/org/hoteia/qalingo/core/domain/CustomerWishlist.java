@@ -45,6 +45,9 @@ public class CustomerWishlist extends AbstractEntity {
 	@Column(name="PRODUCT_SKU_CODE")
 	private String productSkuCode;
 	
+    @Column(name="CATALOG_CATEGORY_CODE")
+    private String catalogCategoryCode;
+	
 	@Column(name="CUSTOMER_MARKET_AREA_ID")
 	private Long customerMarketAreaId;
 	
@@ -91,6 +94,14 @@ public class CustomerWishlist extends AbstractEntity {
 		this.productSkuCode = productSkuCode;
 	}
 
+	public String getCatalogCategoryCode() {
+        return catalogCategoryCode;
+    }
+	
+	public void setCatalogCategoryCode(String catalogCategoryCode) {
+        this.catalogCategoryCode = catalogCategoryCode;
+    }
+	
 	public Long getCustomerMarketAreaId() {
 		return customerMarketAreaId;
 	}

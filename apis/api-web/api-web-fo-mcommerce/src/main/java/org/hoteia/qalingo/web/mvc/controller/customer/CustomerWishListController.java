@@ -66,10 +66,11 @@ public class CustomerWishListController extends AbstractCustomerController {
 	
 	@RequestMapping(FoUrls.WISHLIST_ADD_PRODUCT_URL)
 	public ModelAndView AddToWishlist(final HttpServletRequest request, final Model model) throws Exception {
+        final String catalogCategoryCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_CATALOG_CATEGORY_CODE);
 		final String skuCode = request.getParameter(RequestConstants.REQUEST_PARAMETER_PRODUCT_SKU_CODE);
 		final RequestData requestData = requestUtil.getRequestData(request);
 		try {
-			webManagementService.addProductSkuToWishlist(requestData, skuCode);
+			webManagementService.addProductSkuToWishlist(requestData, catalogCategoryCode, skuCode);
 			
 		} catch (Exception e) {
 			logger.error("Error with the wishlist, skuCode:" + skuCode, e);

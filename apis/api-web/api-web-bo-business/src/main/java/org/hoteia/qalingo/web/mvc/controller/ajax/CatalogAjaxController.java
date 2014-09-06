@@ -141,7 +141,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogMaster.setCatalogCategories(new HashSet<CatalogCategoryMaster>(catalogCategories));
             
             try {
-                catalogPojo = (CatalogPojo) catalogPojoService.getMasterCatalog(catalogMaster);
+                catalogPojo = (CatalogPojo) catalogPojoService.buildMasterCatalog(catalogMaster);
             } catch (Exception e) {
                 logger.error("", e);
             }
@@ -169,7 +169,7 @@ public class CatalogAjaxController extends AbstractBusinessBackofficeController 
             catalogVirtual.setCatalogCategories(new HashSet<CatalogCategoryVirtual>(catalogCategories));
             
             try {
-                catalogPojo = (CatalogPojo) catalogPojoService.getVirtualCatalog(catalogVirtual);
+                catalogPojo = (CatalogPojo) catalogPojoService.buildVirtualCatalog(catalogVirtual);
             } catch (Exception e) {
                 logger.error("", e);
             }
