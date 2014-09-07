@@ -44,11 +44,15 @@
 			<ref bean="wadlProvider" />
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
+            <ref bean=cartRestService/>
+			<ref bean="catalogRestService"/>
+            <ref bean="checkoutRestService"/>
             <ref bean="cmsRestService"/>
-			<ref bean="customerRestService"/>
-            <ref bean="catalogRestService"/>
+            <ref bean="contextRestService"/>
+            <ref bean="customerRestService"/>
+            <ref bean="referentialDataRestService"/>
             <ref bean="retailerRestService"/>
-			<ref bean="storeRestService"/>
+            <ref bean="storeRestService"/>
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 

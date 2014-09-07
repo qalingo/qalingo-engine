@@ -103,7 +103,7 @@ public class CartOrderPaymentController extends AbstractMCommerceController {
 		
 		if(marketArea.withSavedPaymentInformation()
 		        && paymentForm.isWantSavedPaymentInformations()){
-	        // Create and Save a new order
+	        // Save payment information
 	        webManagementService.savePaymentInformation(requestUtil.getRequestData(request), paymentForm);
 		}
 		

@@ -9,12 +9,14 @@
  */
 package org.hoteia.qalingo.core.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hoteia.qalingo.core.dao.CustomerDao;
 import org.hoteia.qalingo.core.domain.Customer;
 import org.hoteia.qalingo.core.domain.CustomerCredential;
 import org.hoteia.qalingo.core.domain.CustomerMarketArea;
+import org.hoteia.qalingo.core.domain.CustomerPaymentInformation;
 import org.hoteia.qalingo.core.domain.CustomerWishlist;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.exception.ProductAlreadyExistInWishlistException;
@@ -89,6 +91,13 @@ public class CustomerService {
         }
         
         return customer;
+    }
+    
+    public Customer savePaymentInformation(final Customer customer, final CustomerPaymentInformation customerPaymentInformation) throws Exception {
+        customerPaymentInformation.setDateCreate(new Date());
+        customerPaymentInformation.setDateUpdate(new Date());
+        customer.getPaymentInformations().add(customerPaymentInformation);
+        return saveOrUpdateCustomer(customer);
     }
     
     public Customer saveOrUpdateCustomer(final Customer customer) throws Exception {

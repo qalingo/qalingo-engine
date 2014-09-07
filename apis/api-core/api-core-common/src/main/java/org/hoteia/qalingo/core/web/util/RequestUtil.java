@@ -70,7 +70,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 
 /**
@@ -1662,12 +1661,12 @@ public class RequestUtil {
         final String remoteAddress = getRemoteAddr(request);
         GeolocData geolocData = engineEcoSession.getGeolocData();
         if (geolocData == null) {
-            geolocData = initGeolocData(remoteAddress);
+            geolocData = geolocService.getGeolocData(remoteAddress);
         } else {
             if (StringUtils.isNotEmpty(geolocData.getRemoteAddress()) 
                     && !geolocData.getRemoteAddress().equals(remoteAddress)) {
                 // IP ADDRESS HAS CHANGED - RELOAD
-                geolocData = initGeolocData(remoteAddress);
+                geolocData = geolocService.getGeolocData(remoteAddress);
             }
         }
         if (geolocData != null) {
@@ -1677,25 +1676,6 @@ public class RequestUtil {
         return engineEcoSession;
     }
     
-    /**
-     * 
-     */
-    protected GeolocData initGeolocData(final String remoteAddress) throws Exception {
-        GeolocData geolocData = null;
-        if(!remoteAddress.equals("127.0.0.1")){
-            geolocData = new GeolocData();
-            final Country country = geolocService.geolocAndGetCountry(remoteAddress);
-            geolocData.setRemoteAddress(remoteAddress);
-            if(country != null 
-                    && StringUtils.isNotEmpty(country.getIsoCode())){
-                geolocData.setCountry(country);
-                final City city = geolocService.geolocAndGetCity(remoteAddress);
-                geolocData.setCity(city);
-            }
-        }
-        return geolocData;
-    }
-
     /**
      * 
      */

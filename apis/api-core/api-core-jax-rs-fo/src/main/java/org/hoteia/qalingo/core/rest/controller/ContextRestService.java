@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.hoteia.qalingo.core.pojo.LocalizationPojo;
@@ -25,6 +27,8 @@ import org.hoteia.qalingo.core.pojo.catalog.CatalogPojo;
 import org.hoteia.qalingo.core.pojo.cms.CmsCategoriesPojo;
 import org.hoteia.qalingo.core.pojo.cms.CmsProductsPojo;
 import org.hoteia.qalingo.core.pojo.context.ContextPojo;
+import org.hoteia.qalingo.core.pojo.geoloc.GeolocContextResponse;
+import org.hoteia.qalingo.core.pojo.geoloc.GeolocDataPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
@@ -33,6 +37,8 @@ import org.hoteia.qalingo.core.pojo.retailer.RetailerPojo;
 import org.hoteia.qalingo.core.service.pojo.LocalizationPojoService;
 import org.hoteia.qalingo.core.service.pojo.MarketPojoService;
 import org.hoteia.qalingo.core.service.pojo.RetailerPojoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +46,8 @@ import org.springframework.stereotype.Component;
 @Component("contextRestService")
 public class ContextRestService {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     @Autowired
     private MarketPojoService marketPojoService;
 
@@ -48,6 +56,26 @@ public class ContextRestService {
 
     @Autowired
     private LocalizationPojoService localizationPojoService;
+    
+    @GET
+    @Path("geoloc")
+    @Produces(MediaType.APPLICATION_JSON)
+    public GeolocContextResponse getGeolocMarketArea(@Context HttpServletRequest request) {
+        GeolocContextResponse geolocContextResponse = new GeolocContextResponse();
+        
+        try {
+            GeolocDataPojo geolocDataPojo = marketPojoService.getGeolocDataByRemoteAddress(request.getRemoteAddr());
+            MarketAreaPojo marketAreaPojo = marketPojoService.getMarketAreaByGeolocData(geolocDataPojo);
+            geolocContextResponse.setMarketArea(marketAreaPojo);
+            
+        } catch (Exception e) {
+            logger.error("Some error during the Geoloc Context.", e);
+            
+            // TODO SET ERROR IN THE RESPONSE
+        }
+        
+        return geolocContextResponse;
+    }
     
     @GET
     @Path("marketplaces")

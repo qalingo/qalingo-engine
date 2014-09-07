@@ -66,6 +66,12 @@
 			<artifactId>cxf-rt-rs-security-cors</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
     </dependencies>
 
 </project>

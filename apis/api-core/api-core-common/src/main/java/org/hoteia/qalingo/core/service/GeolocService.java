@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
 
+import org.apache.commons.lang.StringUtils;
 import org.hoteia.qalingo.core.domain.EngineSetting;
+import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,25 @@ public class GeolocService {
     
     @Autowired
     protected EngineSettingService engineSettingService;
+    
+    /**
+     * 
+     */
+    public GeolocData getGeolocData(final String remoteAddress) throws Exception {
+        GeolocData geolocData = null;
+        if(!remoteAddress.equals("127.0.0.1")){
+            geolocData = new GeolocData();
+            final Country country = geolocAndGetCountry(remoteAddress);
+            geolocData.setRemoteAddress(remoteAddress);
+            if(country != null 
+                    && StringUtils.isNotEmpty(country.getIsoCode())){
+                geolocData.setCountry(country);
+                final City city = geolocAndGetCity(remoteAddress);
+                geolocData.setCity(city);
+            }
+        }
+        return geolocData;
+    }
     
     /**
      * 

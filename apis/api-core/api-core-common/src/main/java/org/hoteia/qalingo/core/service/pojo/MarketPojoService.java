@@ -9,18 +9,22 @@
  */
 package org.hoteia.qalingo.core.service.pojo;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.dozer.Mapper;
 import org.hoteia.qalingo.core.domain.Market;
 import org.hoteia.qalingo.core.domain.MarketArea;
 import org.hoteia.qalingo.core.domain.MarketPlace;
+import org.hoteia.qalingo.core.pojo.geoloc.GeolocDataPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketAreaPojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPlacePojo;
 import org.hoteia.qalingo.core.pojo.market.MarketPojo;
 import org.hoteia.qalingo.core.pojo.util.mapper.PojoUtil;
+import org.hoteia.qalingo.core.service.GeolocService;
 import org.hoteia.qalingo.core.service.MarketService;
-import org.hoteia.qalingo.core.service.pojo.MarketPojoService;
+import org.hoteia.qalingo.core.web.bean.geoloc.GeolocData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +38,14 @@ public class MarketPojoService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected Mapper dozerBeanMapper;
-    
+    private GeolocService geolocService;
+
     @Autowired
     protected MarketService marketService;
 
+    @Autowired
+    protected Mapper dozerBeanMapper;
+    
     public MarketPlacePojo getMarketPlaceByCode(final String marketPlaceCode) {
         final MarketPlace marketPlace = marketService.getMarketPlaceByCode(marketPlaceCode);
         logger.debug("Found {} marketPlace:", marketPlace.getName());
@@ -68,5 +75,36 @@ public class MarketPojoService {
         logger.debug("Found {} marketArea:", marketArea.getName());
         return dozerBeanMapper.map(marketArea, MarketAreaPojo.class);
     }
-
+    
+    public GeolocDataPojo getGeolocDataByRemoteAddress(final String remoteAddress) throws Exception {
+        final GeolocData geolocData = geolocService.getGeolocData(remoteAddress);
+        GeolocDataPojo geolocDataPojo = new GeolocDataPojo();
+        geolocDataPojo.setCountryName(geolocData.getCountry().getName());
+        geolocDataPojo.setCountryIsoCode(geolocData.getCountry().getIsoCode());
+        geolocDataPojo.setCityName(geolocData.getCity().getName());
+        geolocDataPojo.setGeoNameId(geolocData.getCity().getGeoNameId());
+        return dozerBeanMapper.map(geolocData, GeolocDataPojo.class);
+    }
+    
+    public MarketAreaPojo getMarketAreaByGeolocData(final GeolocDataPojo geolocData) throws Exception {
+        MarketArea marketAreaGeoloc = null;
+        if(geolocData != null){
+            if(geolocData != null && StringUtils.isNotEmpty(geolocData.getCountryIsoCode())){
+                List<MarketArea> marketAreas = marketService.getMarketAreaByGeolocCountryCode(geolocData.getCountryIsoCode());
+                if(marketAreas != null && marketAreas.size() == 1){
+                    marketAreaGeoloc = marketAreas.get(0);
+                } else {
+                    // WE HAVE MANY MARKET AREA FOR THE CURRENT COUNTRY CODE - WE SELECT THE DEFAULT MARKET PLACE ASSOCIATE
+                    for (Iterator<MarketArea> iterator = marketAreas.iterator(); iterator.hasNext();) {
+                        MarketArea marketAreaIt = (MarketArea) iterator.next();
+                        if(marketAreaIt.getMarket().getMarketPlace().isDefault()){
+                            marketAreaGeoloc = marketAreaIt;
+                        }
+                    }
+                }
+            }
+        }
+        return dozerBeanMapper.map(marketAreaGeoloc, MarketAreaPojo.class);
+    }
+    
 }
