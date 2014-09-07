@@ -79,10 +79,16 @@ public class MarketPojoService {
     public GeolocDataPojo getGeolocDataByRemoteAddress(final String remoteAddress) throws Exception {
         final GeolocData geolocData = geolocService.getGeolocData(remoteAddress);
         GeolocDataPojo geolocDataPojo = new GeolocDataPojo();
-        geolocDataPojo.setCountryName(geolocData.getCountry().getName());
-        geolocDataPojo.setCountryIsoCode(geolocData.getCountry().getIsoCode());
-        geolocDataPojo.setCityName(geolocData.getCity().getName());
-        geolocDataPojo.setGeoNameId(geolocData.getCity().getGeoNameId());
+        if(geolocData != null){
+            if(geolocData.getCountry() != null){
+                geolocDataPojo.setCountryName(geolocData.getCountry().getName());
+                geolocDataPojo.setCountryIsoCode(geolocData.getCountry().getIsoCode());
+            }
+            if(geolocData.getCity() != null){
+                geolocDataPojo.setCityName(geolocData.getCity().getName());
+                geolocDataPojo.setGeoNameId(geolocData.getCity().getGeoNameId());
+            }
+        }
         return dozerBeanMapper.map(geolocData, GeolocDataPojo.class);
     }
     

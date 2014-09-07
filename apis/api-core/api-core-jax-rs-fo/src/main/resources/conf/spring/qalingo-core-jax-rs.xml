@@ -44,7 +44,7 @@
 			<ref bean="wadlProvider" />
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
-            <ref bean=cartRestService/>
+            <ref bean="cartRestService"/>
 			<ref bean="catalogRestService"/>
             <ref bean="checkoutRestService"/>
             <ref bean="cmsRestService"/>
