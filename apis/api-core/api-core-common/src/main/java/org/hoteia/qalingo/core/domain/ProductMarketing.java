@@ -474,74 +474,91 @@ public class ProductMarketing extends AbstractEntity {
   
 	// ASSET
    
-	public Asset getDefaultPaskshotImage(String size) {
-		Asset defaultProductImage = null;
-		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-		if(assetsIsGlobal != null
-		        && Hibernate.isInitialized(assetsIsGlobal)
-				&& size != null){
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productAsset = (Asset) iterator.next();
-				if(AssetType.PACKSHOT.equals(productAsset.getType())
-						&& size.equals(productAsset.getSize().name())
-						&& productAsset.isDefault()){
-					defaultProductImage = productAsset;
-				}
-			}
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productImage = (Asset) iterator.next();
-				if(AssetType.PACKSHOT.equals(productImage.getType())
-						&& size.equals(productImage.getSize().name())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
-	
-	public Asset getDefaultBackgroundImage() {
-		Asset defaultProductImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if(assetsIsGlobal != null
-                && Hibernate.isInitialized(assetsIsGlobal)){
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productImage = (Asset) iterator.next();
-				if(AssetType.BACKGROUND.equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productImage = (Asset) iterator.next();
-				if(AssetType.BACKGROUND.equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
-	
-	public Asset getDefaultIconImage() {
-		Asset defaultProductImage = null;
-        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if(assetsIsGlobal != null
-                && Hibernate.isInitialized(assetsIsGlobal)){
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productImage = (Asset) iterator.next();
-				if(AssetType.ICON.equals(productImage.getType())
-						&& productImage.isDefault()){
-					defaultProductImage = productImage;
-				}
-			}
-			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
-				Asset productImage = (Asset) iterator.next();
-				if(AssetType.ICON.equals(productImage.getType())){
-					defaultProductImage = productImage;
-				}
-			}
-		}
-		return defaultProductImage;
-	}
+   public Asset getDefaultBackgroundImage() {
+       Asset defaultImage = null;
+       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+       if (assetsIsGlobal != null) {
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
+                       && productImage.isDefault()) {
+                   defaultImage = productImage;
+               }
+           }
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
+                   defaultImage = productImage;
+               }
+           }
+       }
+       return defaultImage;
+   }
+
+   public Asset getDefaultSlideshowImage() {
+       Asset defaultImage = null;
+       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+       if (assetsIsGlobal != null) {
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
+                       && productImage.isDefault()) {
+                   defaultImage = productImage;
+               }
+           }
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
+                   defaultImage = productImage;
+               }
+           }
+       }
+       return defaultImage;
+   }
+
+   public Asset getDefaultPackshotImage(String size) {
+       Asset defaultImage = null;
+       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+       if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productAsset = (Asset) iterator.next();
+               if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
+                       && size.equals(productAsset.getSize()) 
+                       && productAsset.isDefault()) {
+                   defaultImage = productAsset;
+               }
+           }
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
+                       && size.equals(productImage.getSize())) {
+                   defaultImage = productImage;
+               }
+           }
+       }
+       return defaultImage;
+   }
+
+   public Asset getDefaultThumbnailImage() {
+       Asset defaultImage = null;
+       List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+       if (assetsIsGlobal != null) {
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
+                       && productImage.isDefault()) {
+                   defaultImage = productImage;
+               }
+           }
+           for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+               Asset productImage = (Asset) iterator.next();
+               if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
+                   defaultImage = productImage;
+               }
+           }
+       }
+       return defaultImage;
+   }
 
     @Override
     public int hashCode() {

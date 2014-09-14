@@ -937,7 +937,7 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             storeViewBean.setDefaultImage("");
         }
-        final Asset defaultIconImage = store.getDefaultIconImage();
+        final Asset defaultIconImage = store.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
             final String iconImage = requestUtil.getRetailerOrStoreImageWebPath(defaultIconImage);
             storeViewBean.setIconImage(iconImage);
@@ -1323,14 +1323,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
                 catalogCategoryViewBean.setBackgroundImage("");
             }
 
-            final Asset defaultPaskshotImage = catalogCategory.getDefaultPaskshotImage(ImageSize.SMALL.getPropertyKey());
-            if (defaultPaskshotImage != null) {
-                final String carouselImage = requestUtil.getCatalogImageWebPath(defaultPaskshotImage);
+            final Asset defaultPackshotImage = catalogCategory.getDefaultPackshotImage(ImageSize.SMALL.getPropertyKey());
+            if (defaultPackshotImage != null) {
+                final String carouselImage = requestUtil.getCatalogImageWebPath(defaultPackshotImage);
                 catalogCategoryViewBean.setCarouselImage(carouselImage);
             } else {
                 catalogCategoryViewBean.setCarouselImage("");
             }
-            final Asset defaultIconImage = catalogCategory.getDefaultIconImage();
+            final Asset defaultIconImage = catalogCategory.getDefaultThumbnailImage();
             if (defaultIconImage != null) {
                 final String iconImage = requestUtil.getCatalogImageWebPath(defaultIconImage);
                 catalogCategoryViewBean.setIconImage(iconImage);
@@ -1490,14 +1490,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productMarketingViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            final String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            final String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
             productMarketingViewBean.setCarouselImage(carouselImage);
         } else {
             productMarketingViewBean.setCarouselImage("");
         }
-        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
+        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
             final String iconImage = requestUtil.getProductMarketingImageWebPath(defaultIconImage);
             productMarketingViewBean.setIconImage(iconImage);
@@ -1595,14 +1595,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productSkuViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            String carouselImage = requestUtil.getProductSkuImageWebPath(defaultPaskshotImage);
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            String carouselImage = requestUtil.getProductSkuImageWebPath(defaultPackshotImage);
             productSkuViewBean.setCarouselImage(carouselImage);
         } else {
             productSkuViewBean.setCarouselImage("");
         }
-        final Asset defaultIconImage = productSku.getDefaultIconImage();
+        final Asset defaultIconImage = productSku.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
             String iconImage = requestUtil.getProductSkuImageWebPath(defaultIconImage);
             productSkuViewBean.setIconImage(iconImage);
@@ -1659,14 +1659,14 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         } else {
             productAssociationLinkViewBean.setBackgroundImage("");
         }
-        final Asset defaultPaskshotImage = productMarketing.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
+        final Asset defaultPackshotImage = productMarketing.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            String carouselImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
             productAssociationLinkViewBean.setCrossLinkImage(carouselImage);
         } else {
             productAssociationLinkViewBean.setCrossLinkImage("");
         }
-        final Asset defaultIconImage = productMarketing.getDefaultIconImage();
+        final Asset defaultIconImage = productMarketing.getDefaultThumbnailImage();
         if (defaultIconImage != null) {
             String iconImage = requestUtil.getProductMarketingImageWebPath(defaultIconImage);
             productAssociationLinkViewBean.setIconImage(iconImage);
@@ -1781,9 +1781,9 @@ public class ViewBeanFactory extends AbstractViewBeanFactory {
         cartItemViewBean.setI18nName(productSku.getI18nName(localizationCode));
         cartItemViewBean.setQuantity(cartItem.getQuantity());
 
-        final Asset defaultPaskshotImage = productSku.getDefaultPaskshotImage(ImageSize.SMALL.name());
-        if (defaultPaskshotImage != null) {
-            String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
+        final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
+        if (defaultPackshotImage != null) {
+            String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
             cartItemViewBean.setSummaryImage(summaryImage);
         } else {
             cartItemViewBean.setSummaryImage("");

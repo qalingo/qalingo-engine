@@ -34,6 +34,11 @@ public enum AssetType {
 	 */
 	ICON("ICON"),
 	
+    /**
+     * 
+     */
+    THUMBNAIL("THUMBNAIL"),
+	
 	/**
 	 * 
 	 */

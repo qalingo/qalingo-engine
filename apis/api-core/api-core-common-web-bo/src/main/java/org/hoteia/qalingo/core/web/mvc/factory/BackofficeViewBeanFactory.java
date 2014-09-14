@@ -637,13 +637,13 @@ public class BackofficeViewBeanFactory extends ViewBeanFactory {
         assetViewBean.setDescription(asset.getDescription());
         assetViewBean.setPath(asset.getPath());
         if (asset.getScope() != null) {
-            assetViewBean.setScope(asset.getScope().getPropertyKey());
+            assetViewBean.setScope(asset.getScope());
         }
         if (asset.getType() != null) {
-            assetViewBean.setType(asset.getType().getPropertyKey());
+            assetViewBean.setType(asset.getType());
         }
         if (asset.getSize() != null) {
-            assetViewBean.setSize(asset.getSize().getPropertyKey());
+            assetViewBean.setSize(asset.getSize());
         }
         assetViewBean.setFileSize("" + asset.getFileSize());
         assetViewBean.setIsDefault("" + asset.isDefault());

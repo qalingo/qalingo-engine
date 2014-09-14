@@ -76,8 +76,8 @@ public abstract class AbstractCatalogCategory<A, B, C, D> extends AbstractEntity
 
     public abstract Asset getDefaultSlideshowImage();
 
-    public abstract Asset getDefaultPaskshotImage(String size);
+    public abstract Asset getDefaultPackshotImage(String size);
 
-    public abstract Asset getDefaultIconImage();
+    public abstract Asset getDefaultThumbnailImage();
     
 }

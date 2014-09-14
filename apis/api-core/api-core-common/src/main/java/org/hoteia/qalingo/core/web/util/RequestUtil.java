@@ -887,7 +887,7 @@ public class RequestUtil {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String catalogImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
         if (catalogImageWebPath.endsWith("/")) {
             catalogImageWebPath = catalogImageWebPath.substring(0, catalogImageWebPath.length() - 1);
         }
@@ -903,7 +903,7 @@ public class RequestUtil {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String productMarketingImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
         if (productMarketingImageWebPath.endsWith("/")) {
             productMarketingImageWebPath = productMarketingImageWebPath.substring(0, productMarketingImageWebPath.length() - 1);
         }
@@ -919,7 +919,7 @@ public class RequestUtil {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String productSkuImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
         if (productSkuImageWebPath.endsWith("/")) {
             productSkuImageWebPath = productSkuImageWebPath.substring(0, productSkuImageWebPath.length() - 1);
         }
@@ -935,7 +935,7 @@ public class RequestUtil {
         if (engineSetting != null) {
             prefixPath = engineSetting.getDefaultValue();
         }
-        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().name().toLowerCase() + "/" + asset.getType().getPropertyKey().toLowerCase() + "/" + asset.getPath();
+        String storeImageWebPath = getRootAssetWebPath() + prefixPath + "/" + asset.getScope().toLowerCase() + "/" + asset.getType().toLowerCase() + "/" + asset.getPath();
         if (storeImageWebPath.endsWith("/")) {
             storeImageWebPath = storeImageWebPath.substring(0, storeImageWebPath.length() - 1);
         }

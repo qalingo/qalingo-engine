@@ -76,9 +76,9 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
-                    final Asset defaultPaskshotImage = cartItem.getProductSku().getDefaultPaskshotImage(ImageSize.SMALL.name());
-                    if (defaultPaskshotImage != null) {
-                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
+                    final Asset defaultPackshotImage = cartItem.getProductSku().getDefaultPackshotImage(ImageSize.SMALL.name());
+                    if (defaultPackshotImage != null) {
+                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
                         cartItemPojo.setSummaryImage(summaryImage);
                     } else {
                         cartItemPojo.setSummaryImage("");
@@ -107,12 +107,12 @@ public class FrontofficePojoEventListener implements DozerEventListener {
                     final Localization localization = requestData.getMarketAreaLocalization();
                     final String localizationCode = localization.getCode();
                     
-                    final Asset defaultPaskshotImage = productSku.getDefaultPaskshotImage(ImageSize.SMALL.name());
-                    if (defaultPaskshotImage != null) {
-                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPaskshotImage);
-                        productSkuPojo.setDefaultPaskshotImage(summaryImage);
+                    final Asset defaultPackshotImage = productSku.getDefaultPackshotImage(ImageSize.SMALL.name());
+                    if (defaultPackshotImage != null) {
+                        String summaryImage = requestUtil.getProductMarketingImageWebPath(defaultPackshotImage);
+                        productSkuPojo.setDefaultPackshotImage(summaryImage);
                     } else {
-                        productSkuPojo.setDefaultPaskshotImage("");
+                        productSkuPojo.setDefaultPackshotImage("");
                     }
                     
                     productSkuPojo.setI18nName(productSku.getI18nName(localizationCode));

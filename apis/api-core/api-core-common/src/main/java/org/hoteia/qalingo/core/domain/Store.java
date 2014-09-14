@@ -410,71 +410,91 @@ public class Store extends AbstractEntity {
     
     // ASSET
     
- 	public Asset getDefaultPackshotImage(String size) {
- 		Asset defaultStoreImage = null;
- 		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
- 		if(assetsIsGlobal != null
- 		       && StringUtils.isNotEmpty(size)){
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeAsset = (Asset) iterator.next();
- 				if(AssetType.PACKSHOT.equals(storeAsset.getType())
- 						&& size.equals(storeAsset.getSize().name())
- 						&& storeAsset.isDefault()){
- 					defaultStoreImage = storeAsset;
- 				}
- 			}
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.PACKSHOT.equals(storeImage.getType())
- 						&& size.equals(storeImage.getSize().name())){
- 					defaultStoreImage = storeImage;
- 				}
- 			}
- 		}
- 		return defaultStoreImage;
- 	}
- 	
- 	public Asset getDefaultBackgroundImage() {
- 		Asset defaultStoreImage = null;
- 		List<Asset> assetsIsGlobal = getAssetsIsGlobal();
- 		if(assetsIsGlobal != null){
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.BACKGROUND.equals(storeImage.getType())
- 						&& storeImage.isDefault()){
- 					defaultStoreImage = storeImage;
- 				}
- 			}
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.BACKGROUND.equals(storeImage.getType())){
- 					defaultStoreImage = storeImage;
- 				}
- 			}
- 		}
- 		return defaultStoreImage;
- 	}
- 	
- 	public Asset getDefaultIconImage() {
- 		Asset defaultStoreImage = null;
+    public Asset getDefaultBackgroundImage() {
+        Asset defaultImage = null;
         List<Asset> assetsIsGlobal = getAssetsIsGlobal();
-        if(assetsIsGlobal != null){
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.ICON.equals(storeImage.getType())
- 						&& storeImage.isDefault()){
- 					defaultStoreImage = storeImage;
- 				}
- 			}
- 			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
- 				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.ICON.equals(storeImage.getType())){
- 					defaultStoreImage = storeImage;
- 				}
- 			}
- 		}
- 		return defaultStoreImage;
- 	}
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
+                        && productImage.isDefault()) {
+                    defaultImage = productImage;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
+                }
+            }
+        }
+        return defaultImage;
+    }
+
+    public Asset getDefaultSlideshowImage() {
+        Asset defaultImage = null;
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
+                        && productImage.isDefault()) {
+                    defaultImage = productImage;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
+                }
+            }
+        }
+        return defaultImage;
+    }
+
+    public Asset getDefaultPackshotImage(String size) {
+        Asset defaultImage = null;
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productAsset = (Asset) iterator.next();
+                if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
+                        && size.equals(productAsset.getSize()) 
+                        && productAsset.isDefault()) {
+                    defaultImage = productAsset;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
+                        && size.equals(productImage.getSize())) {
+                    defaultImage = productImage;
+                }
+            }
+        }
+        return defaultImage;
+    }
+
+    public Asset getDefaultThumbnailImage() {
+        Asset defaultImage = null;
+        List<Asset> assetsIsGlobal = getAssetsIsGlobal();
+        if (assetsIsGlobal != null) {
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
+                        && productImage.isDefault()) {
+                    defaultImage = productImage;
+                }
+            }
+            for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
+                Asset productImage = (Asset) iterator.next();
+                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
+                }
+            }
+        }
+        return defaultImage;
+    }
  	
 	public List<Asset> getSlideShows() {
  		List<Asset> slideShows = new ArrayList<Asset>();
@@ -482,7 +502,7 @@ public class Store extends AbstractEntity {
         if(assetsIsGlobal != null){
  			for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
  				Asset storeImage = (Asset) iterator.next();
- 				if(AssetType.SLIDESHOW.equals(storeImage.getType())){
+ 				if(AssetType.SLIDESHOW.getPropertyKey().equals(storeImage.getType())){
  					slideShows.add(storeImage);
  				}
  			}

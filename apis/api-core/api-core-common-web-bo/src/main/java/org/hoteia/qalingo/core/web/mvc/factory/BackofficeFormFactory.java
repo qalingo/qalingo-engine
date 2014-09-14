@@ -302,8 +302,8 @@ public class BackofficeFormFactory {
             assetForm.setDescription(asset.getDescription());
             assetForm.setDefault(asset.isDefault());
             assetForm.setPath(asset.getPath());
-            assetForm.setType(asset.getType().getPropertyKey());
-            assetForm.setSize(asset.getSize().getPropertyKey());
+            assetForm.setType(asset.getType());
+            assetForm.setSize(asset.getSize());
         }
         return assetForm;
     }

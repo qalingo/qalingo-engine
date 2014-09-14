@@ -535,89 +535,89 @@ public class CatalogCategoryVirtual extends AbstractCatalogCategory<CatalogVirtu
     // ASSET
     
     public Asset getDefaultBackgroundImage() {
-        Asset defaultProductImage = null;
+        Asset defaultImage = null;
         List<Asset> assetsIsGlobal = getAssetsIsGlobal();
         if (assetsIsGlobal != null) {
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType()) 
+                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType()) 
                         && productImage.isDefault()) {
-                    defaultProductImage = productImage;
+                    defaultImage = productImage;
                 }
             }
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.BACKGROUND.equals(productImage.getType())) {
-                    defaultProductImage = productImage;
+                if (AssetType.BACKGROUND.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
                 }
             }
         }
-        return defaultProductImage;
+        return defaultImage;
     }
 
     public Asset getDefaultSlideshowImage() {
-        Asset defaultProductImage = null;
+        Asset defaultImage = null;
         List<Asset> assetsIsGlobal = getAssetsIsGlobal();
         if (assetsIsGlobal != null) {
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.equals(productImage.getType()) 
+                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType()) 
                         && productImage.isDefault()) {
-                    defaultProductImage = productImage;
+                    defaultImage = productImage;
                 }
             }
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.SLIDESHOW.equals(productImage.getType())) {
-                    defaultProductImage = productImage;
+                if (AssetType.SLIDESHOW.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
                 }
             }
         }
-        return defaultProductImage;
+        return defaultImage;
     }
 
-    public Asset getDefaultPaskshotImage(String size) {
-        Asset defaultProductImage = null;
+    public Asset getDefaultPackshotImage(String size) {
+        Asset defaultImage = null;
         List<Asset> assetsIsGlobal = getAssetsIsGlobal();
         if (assetsIsGlobal != null && StringUtils.isNotEmpty(size)) {
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productAsset = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productAsset.getType()) 
-                        && size.equals(productAsset.getSize().name()) 
+                if (AssetType.PACKSHOT.getPropertyKey().equals(productAsset.getType()) 
+                        && size.equals(productAsset.getSize()) 
                         && productAsset.isDefault()) {
-                    defaultProductImage = productAsset;
+                    defaultImage = productAsset;
                 }
             }
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.PACKSHOT.equals(productImage.getType()) 
-                        && size.equals(productImage.getSize().name())) {
-                    defaultProductImage = productImage;
+                if (AssetType.PACKSHOT.getPropertyKey().equals(productImage.getType()) 
+                        && size.equals(productImage.getSize())) {
+                    defaultImage = productImage;
                 }
             }
         }
-        return defaultProductImage;
+        return defaultImage;
     }
 
-    public Asset getDefaultIconImage() {
-        Asset defaultProductImage = null;
+    public Asset getDefaultThumbnailImage() {
+        Asset defaultImage = null;
         List<Asset> assetsIsGlobal = getAssetsIsGlobal();
         if (assetsIsGlobal != null) {
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.ICON.equals(productImage.getType()) 
+                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType()) 
                         && productImage.isDefault()) {
-                    defaultProductImage = productImage;
+                    defaultImage = productImage;
                 }
             }
             for (Iterator<Asset> iterator = assetsIsGlobal.iterator(); iterator.hasNext();) {
                 Asset productImage = (Asset) iterator.next();
-                if (AssetType.ICON.equals(productImage.getType())) {
-                    defaultProductImage = productImage;
+                if (AssetType.THUMBNAIL.getPropertyKey().equals(productImage.getType())) {
+                    defaultImage = productImage;
                 }
             }
         }
-        return defaultProductImage;
+        return defaultImage;
     }
 
     @Override

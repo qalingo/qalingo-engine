@@ -29,7 +29,7 @@ public class ProductSkuPojo {
     private Integer height;
     private Integer length;
     private Integer weight;
-    private String defaultPaskshotImage;
+    private String defaultPackshotImage;
     private String defaultBackgroundImage;
     private String defaultIconImage;
     private String priceWithStandardCurrencySign;
@@ -124,12 +124,12 @@ public class ProductSkuPojo {
         this.weight = weight;
     }
 
-    public String getDefaultPaskshotImage() {
-        return defaultPaskshotImage;
+    public String getDefaultPackshotImage() {
+        return defaultPackshotImage;
     }
 
-    public void setDefaultPaskshotImage(String defaultPaskshotImage) {
-        this.defaultPaskshotImage = defaultPaskshotImage;
+    public void setDefaultPackshotImage(String defaultPackshotImage) {
+        this.defaultPackshotImage = defaultPackshotImage;
     }
 
     public String getDefaultBackgroundImage() {

@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,9 +47,9 @@ public class ProductSkuOption extends AbstractEntity {
     @Column(name = "ORDERING", nullable = false, columnDefinition = "int(11) default 0")
     private int ordering;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "PRODUCT_SKU_OPTION_ID")
-    private Set<ProductSkuOptionDefinition> productSkuOptionDefinitions = new HashSet<ProductSkuOptionDefinition>();
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition.class)
+    @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID", insertable = true, updatable = true)
+    private ProductSkuOptionDefinition productSkuOptionDefinition;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -87,12 +86,12 @@ public class ProductSkuOption extends AbstractEntity {
         this.ordering = ordering;
     }
 
-    public Set<ProductSkuOptionDefinition> getProductSkuOptionDefinitions() {
-        return productSkuOptionDefinitions;
+    public ProductSkuOptionDefinition getProductSkuOptionDefinition() {
+        return productSkuOptionDefinition;
     }
-
-    public void setProductSkuOptionDefinitions(Set<ProductSkuOptionDefinition> productSkuOptionDefinitions) {
-        this.productSkuOptionDefinitions = productSkuOptionDefinitions;
+    
+    public void setProductSkuOptionDefinition(ProductSkuOptionDefinition productSkuOptionDefinition) {
+        this.productSkuOptionDefinition = productSkuOptionDefinition;
     }
 
     public Date getDateCreate() {
@@ -144,7 +143,7 @@ public class ProductSkuOption extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "ProductSkuOption [id=" + id + ", version=" + version + ", ordering=" + ordering + ", productSkuOptionDefinitions=" + productSkuOptionDefinitions + ", dateCreate=" + dateCreate
+        return "ProductSkuOption [id=" + id + ", version=" + version + ", ordering=" + ordering + ", dateCreate=" + dateCreate
                 + ", dateUpdate=" + dateUpdate + "]";
     }
 

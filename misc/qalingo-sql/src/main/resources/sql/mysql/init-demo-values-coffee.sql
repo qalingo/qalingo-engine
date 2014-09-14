@@ -477,7 +477,7 @@ INSERT INTO teco_asset
 (id, description, path, is_default, name, version, type, size, is_global, store_id, scope)
  VALUES 
 (1011, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 10', 1, 'PACKSHOT', 'SMALL', 1, 10, 'STORE'), 
-(1012, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 10', 1, 'ICON', null, 1, 10, 'STORE'),
+(1012, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 10', 1, 'THUMBNAIL', null, 1, 10, 'STORE'),
 (1013, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
 (1014, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
 (1015, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
@@ -485,7 +485,7 @@ INSERT INTO teco_asset
 (1017, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 10', 1, 'SLIDESHOW', null, 1, 10, 'STORE'),
 
 (1021, 'image ...', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 20, 'STORE'), 
-(1022, 'image ...', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 20, 'STORE'),
+(1022, 'image ...', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 20, 'STORE'),
 (1023, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
 (1024, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
 (1025, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 20, 'STORE'),
@@ -496,7 +496,7 @@ INSERT INTO teco_asset
 
 
 (1031, 'image ...', '278-west-hillcrest.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 30, 'STORE'), 
-(1032, 'image ...', '278-west-hillcrest-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 30, 'STORE'),
+(1032, 'image ...', '278-west-hillcrest-icon.jpg', 0, 'icon 1 store 30', 1, 'THUMBNAIL', null, 1, 30, 'STORE'),
 (1033, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
 (1034, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
 (1035, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
@@ -505,7 +505,7 @@ INSERT INTO teco_asset
 (1038, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 30, 'STORE'),
 
 (1041, 'image ...', 'westlake-blvd.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 40, 'STORE'), 
-(1042, 'image ...', 'westlake-blvd-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 40, 'STORE'),
+(1042, 'image ...', 'westlake-blvd-icon.jpg', 0, 'icon 1 store 40', 1, 'THUMBNAIL', null, 1, 40, 'STORE'),
 (1043, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
 (1044, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
 (1045, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
@@ -514,7 +514,7 @@ INSERT INTO teco_asset
 (1048, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 40, 'STORE'),
 
 (1051, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 50, 'STORE'), 
-(1052, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 50, 'STORE'),
+(1052, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 50, 'STORE'),
 (1053, 'image slide show', 'store-full2', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
 (1054, 'image ...', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
 (1055, 'image ...', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
@@ -523,7 +523,7 @@ INSERT INTO teco_asset
 (1058, 'image ...', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 50, 'STORE'),
 
 (1061, 'image ...', 'store-1-img.png', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 60, 'STORE'), 
-(1062, 'image ...', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 60, 'STORE'),
+(1062, 'image ...', 'store-1-img-icon.png', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 60, 'STORE'),
 (1063, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
 (1064, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
 (1065, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 60, 'STORE'),
@@ -532,7 +532,7 @@ INSERT INTO teco_asset
 
 
 (1071, 'image ...', 'san-vicente-boulevard.jpg', 0, 'image 1 store 30', 1, 'PACKSHOT', 'SMALL', 1, 70, 'STORE'), 
-(1072, 'image ...', 'san-vicente-boulevard-icon.jpg', 0, 'icon 1 store 30', 1, 'ICON', null, 1, 70, 'STORE'),
+(1072, 'image ...', 'san-vicente-boulevard-icon.jpg', 0, 'icon 1 store 30', 1, 'THUMBNAIL', null, 1, 70, 'STORE'),
 (1073, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
 (1074, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
 (1075, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
@@ -541,7 +541,7 @@ INSERT INTO teco_asset
 (1078, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 30', 1, 'SLIDESHOW', null, 1, 70, 'STORE'),
 
 (1081, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 40', 1, 'PACKSHOT', 'SMALL', 1, 80, 'STORE'), 
-(1082, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 40', 1, 'ICON', null, 1, 80, 'STORE'),
+(1082, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 40', 1, 'THUMBNAIL', null, 1, 80, 'STORE'),
 (1083, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
 (1084, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
 (1085, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
@@ -550,7 +550,7 @@ INSERT INTO teco_asset
 (1088, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 40', 1, 'SLIDESHOW', null, 1, 80, 'STORE'),
 
 (1091, 'image ...', 'exposition-blvd.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 90, 'STORE'), 
-(1092, 'image ...', 'exposition-blvd-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 90, 'STORE'),
+(1092, 'image ...', 'exposition-blvd-icon.jpg', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 90, 'STORE'),
 (1093, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
 (1094, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
 (1095, 'image slide show', 'store-full4.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
@@ -559,7 +559,7 @@ INSERT INTO teco_asset
 (1098, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 90, 'STORE'),
 
 (10101, 'image ...', 'le-tropic-cafe.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 100, 'STORE'), 
-(10102, 'image ...', 'le-tropic-cafe-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 100, 'STORE'),
+(10102, 'image ...', 'le-tropic-cafe-icon.jpg', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 100, 'STORE'),
 (10103, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
 (10104, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
 (10105, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
@@ -568,7 +568,7 @@ INSERT INTO teco_asset
 (10108, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 100, 'STORE'),
 
 (10111, 'image ...', 'le-fouquets.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 110, 'STORE'), 
-(10112, 'image ...', 'le-fouquets-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 110, 'STORE'),
+(10112, 'image ...', 'le-fouquets-icon.jpg', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 110, 'STORE'),
 (10113, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
 (10114, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
 (10115, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
@@ -577,7 +577,7 @@ INSERT INTO teco_asset
 (10118, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 110, 'STORE'),
 
 (10121, 'image ...', 'espressamente-france.jpg', 0, 'image 1 store 20', 1, 'PACKSHOT', 'SMALL', 1, 120, 'STORE'), 
-(10122, 'image ...', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'ICON', null, 1, 120, 'STORE'),
+(10122, 'image ...', 'espressamente-france-icon.jpg', 0, 'icon 1 store 20', 1, 'THUMBNAIL', null, 1, 120, 'STORE'),
 (10123, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
 (10124, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
 (10125, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
@@ -586,7 +586,7 @@ INSERT INTO teco_asset
 (10128, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 20', 1, 'SLIDESHOW', null, 1, 120, 'STORE'),
 
 (10131, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 130', 1, 'PACKSHOT', 'SMALL', 1, 130, 'STORE'), 
-(10132, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'ICON', null, 1, 130, 'STORE'),
+(10132, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 130', 1, 'THUMBNAIL', null, 1, 130, 'STORE'),
 (10133, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
 (10134, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
 (10135, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
@@ -596,7 +596,7 @@ INSERT INTO teco_asset
 (10139, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 130', 1, 'SLIDESHOW', null, 1, 130, 'STORE'),
 
 (10141, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 140', 1, 'PACKSHOT', 'SMALL', 1, 140, 'STORE'), 
-(10142, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 140', 1, 'ICON', null, 1, 140, 'STORE'),
+(10142, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 140', 1, 'THUMBNAIL', null, 1, 140, 'STORE'),
 (10143, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
 (10144, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
 (10145, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
@@ -605,7 +605,7 @@ INSERT INTO teco_asset
 (10148, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 140', 1, 'SLIDESHOW', null, 1, 140, 'STORE'),
 
 (10151, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 150', 1, 'PACKSHOT', 'SMALL', 1, 150, 'STORE'), 
-(10152, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 150', 1, 'ICON', null, 1, 150, 'STORE'),
+(10152, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 150', 1, 'THUMBNAIL', null, 1, 150, 'STORE'),
 (10153, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
 (10154, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
 (10155, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
@@ -614,7 +614,7 @@ INSERT INTO teco_asset
 (10158, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 150', 1, 'SLIDESHOW', null, 1, 150, 'STORE'),
 
 (10161, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 160', 1, 'PACKSHOT', 'SMALL', 1, 160, 'STORE'), 
-(10162, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 160', 1, 'ICON', null, 1, 160, 'STORE'),
+(10162, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 160', 1, 'THUMBNAIL', null, 1, 160, 'STORE'),
 (10163, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
 (10164, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
 (10165, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
@@ -624,7 +624,7 @@ INSERT INTO teco_asset
 (10169, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 160', 1, 'SLIDESHOW', null, 1, 160, 'STORE'),
 
 (10171, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 170', 1, 'PACKSHOT', 'SMALL', 1, 170, 'STORE'), 
-(10172, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 170', 1, 'ICON', null, 1, 170, 'STORE'),
+(10172, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 170', 1, 'THUMBNAIL', null, 1, 170, 'STORE'),
 (10173, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
 (10174, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
 (10175, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
@@ -633,7 +633,7 @@ INSERT INTO teco_asset
 (10178, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 170', 1, 'SLIDESHOW', null, 1, 170, 'STORE'),
 
 (10181, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 180', 1, 'PACKSHOT', 'SMALL', 1, 180, 'STORE'), 
-(10182, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 180', 1, 'ICON', null, 1, 180, 'STORE'),
+(10182, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 180', 1, 'THUMBNAIL', null, 1, 180, 'STORE'),
 (10183, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
 (10184, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
 (10185, 'image slide show', 'store-full7.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
@@ -642,7 +642,7 @@ INSERT INTO teco_asset
 (10188, 'image slide show', 'store-full4.jpg', 0, 'icon 1 store 180', 1, 'SLIDESHOW', null, 1, 180, 'STORE'),
 
 (10191, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 190', 1, 'PACKSHOT', 'SMALL', 1, 190, 'STORE'), 
-(10192, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 190', 1, 'ICON', null, 1, 190, 'STORE'),
+(10192, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 190', 1, 'THUMBNAIL', null, 1, 190, 'STORE'),
 (10193, 'image slide show', 'store-full4.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
 (10194, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
 (10195, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
@@ -651,7 +651,7 @@ INSERT INTO teco_asset
 (10198, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 190', 1, 'SLIDESHOW', null, 1, 190, 'STORE'),
 
 (10201, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 200', 1, 'PACKSHOT', 'SMALL', 1, 200, 'STORE'), 
-(10202, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 200', 1, 'ICON', null, 1, 200, 'STORE'),
+(10202, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 200', 1, 'THUMBNAIL', null, 1, 200, 'STORE'),
 (10203, 'image slide show', 'store-full5.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
 (10204, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
 (10205, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
@@ -661,7 +661,7 @@ INSERT INTO teco_asset
 (10209, 'image slide show', 'store-full6.jpg', 0, 'icon 1 store 200', 1, 'SLIDESHOW', null, 1, 200, 'STORE'),
 
 (10211, 'image ...', 'store-2-img.jpg', 0, 'image 1 store 210', 1, 'PACKSHOT', 'SMALL', 1, 210, 'STORE'), 
-(10212, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'ICON', null, 1, 210, 'STORE'),
+(10212, 'image ...', 'store-2-img-icon.jpg', 0, 'icon 1 store 210', 1, 'THUMBNAIL', null, 1, 210, 'STORE'),
 (10213, 'image slide show', 'store-full1.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
 (10214, 'image slide show', 'store-full2.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),
 (10215, 'image slide show', 'store-full3.jpg', 0, 'icon 1 store 210', 1, 'SLIDESHOW', null, 1, 210, 'STORE'),

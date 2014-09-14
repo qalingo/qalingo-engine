@@ -25,8 +25,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hoteia.qalingo.core.domain.enumtype.AssetScope;
-import org.hoteia.qalingo.core.domain.enumtype.AssetType;
-import org.hoteia.qalingo.core.domain.enumtype.ImageSize;
 
 @Entity
 @Table(name="TECO_ASSET")
@@ -57,16 +55,13 @@ public class Asset extends AbstractEntity {
     private String path;
 
     @Column(name = "SCOPE")
-    @Enumerated(EnumType.STRING)
-    private AssetScope scope;
+    private String scope;
 
     @Column(name = "TYPE")
-    @Enumerated(EnumType.STRING)
-    private AssetType type;
+    private String type;
 
     @Column(name = "SIZE")
-    @Enumerated(EnumType.STRING)
-    private ImageSize size;
+    private String size;
 
     @Column(name = "FILE_SIZE")
     private Long fileSize;
@@ -134,27 +129,27 @@ public class Asset extends AbstractEntity {
 		this.path = path;
 	}
 	
-	public AssetScope getScope() {
+	public String getScope() {
 		return scope;
 	}
 	
-	public void setScope(AssetScope scope) {
+	public void setScope(String scope) {
 		this.scope = scope;
 	}
 	
-	public AssetType getType() {
+	public String getType() {
 		return type;
 	}
 	
-	public void setType(AssetType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	
-	public ImageSize getSize() {
+	public String getSize() {
 		return size;
 	}
 	
-	public void setSize(ImageSize size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 	

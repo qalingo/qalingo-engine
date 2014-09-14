@@ -120,7 +120,7 @@ public class AssetController extends AbstractBusinessBackofficeController {
 					assetProductMarketingFilePath = "/" + assetProductMarketingFilePath;
 				}
 				
-				String absoluteFilePath = assetFileRootPath + assetProductMarketingFilePath + "/" + asset.getType().getPropertyKey().toLowerCase() + "/"  + pathProductMarketingImage;
+				String absoluteFilePath = assetFileRootPath + assetProductMarketingFilePath + "/" + asset.getType().toLowerCase() + "/"  + pathProductMarketingImage;
 				
 				InputStream inputStream = multipartFile.getInputStream();
 				URI url = new URI(absoluteFilePath);
