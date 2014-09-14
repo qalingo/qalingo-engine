@@ -197,6 +197,10 @@ public class AttributeDefinition extends AbstractEntity {
             return "MARKET_AREA";
         } else if (type == OBJECT_TYPE_TAX) {
             return "TAX";
+        }else if (type == OBJECT_TYPE_RETAILER) {
+            return "RETAILER";
+        }else if (type == OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION) {
+            return "PRODUCT_SKU_OPTION_DEFINITION";
         }
         return null;
     }

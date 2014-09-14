@@ -41,7 +41,7 @@ public class FetchPlanGraphProduct {
         return new FetchPlan(fetchplans);
     }
     
-    public static FetchPlan productBrandDefaultFetchPlan(){
+    public static FetchPlan productSkuOptionDefinitionDefaultFetchPlan(){
         List<SpecificFetchMode> fetchplans = new ArrayList<SpecificFetchMode>();
         fetchplans.add(new SpecificFetchMode(ProductBrand_.attributes.getName()));
         return new FetchPlan(fetchplans);

@@ -558,7 +558,7 @@ public class ProductDao extends AbstractGenericDao {
         if (params != null && params.length > 0) {
             return super.handleSpecificFetchMode(criteria, params);
         } else {
-            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productSkuOptionDefinitionDefaultFetchPlan());
         }
     }
     
