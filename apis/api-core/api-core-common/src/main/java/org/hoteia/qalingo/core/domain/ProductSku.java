@@ -78,6 +78,10 @@ public class ProductSku extends AbstractEntity {
     @JoinColumn(name = "PRODUCT_SKU_ID")
     private Set<ProductSkuAttribute> attributes = new HashSet<ProductSkuAttribute>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PRODUCT_SKU_ID")
+    private Set<ProductSkuOption> options = new HashSet<ProductSkuOption>();
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_MARKETING_ID", insertable = true, updatable = true)
     private ProductMarketing productMarketing;
@@ -210,6 +214,14 @@ public class ProductSku extends AbstractEntity {
         return productSkuMarketAreaAttributes;
 	}
 
+	public Set<ProductSkuOption> getOptions() {
+        return options;
+    }
+	
+	public void setOptions(Set<ProductSkuOption> options) {
+        this.options = options;
+    }
+	
 	public ProductMarketing getProductMarketing() {
 		return productMarketing;
 	}

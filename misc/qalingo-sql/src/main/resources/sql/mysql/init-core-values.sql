@@ -108,18 +108,12 @@ VALUES
 (5010, 'Store attribute description', 'Store attribute description', 'STORE_I18N_DESCRIPTION', 2, 5, 1, 1, 0, 1, 2),
 (5020, 'Store attribute city name', 'Store attribute city name', 'STORE_I18N_CITY_NAME',       1, 5, 1, 1, 0, 1, 3);
 
--- ATTRIBUTES : RETAILER
-INSERT INTO teco_attribute_definition 
-(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
-VALUES 
-(10000, 'Retailer attribute name', 'Retailer attribute name', 'RETAILER_I18N_NAME',                      1, 10, 1, 1, 0, 1, 1),
-(10010, 'Retailer attribute description', 'Retailer attribute description', 'RETAILER_I18N_DESCRIPTION', 2, 10, 1, 1, 0, 1, 1);
-
 -- ATTRIBUTES : PAYMENT GATEWAY
 INSERT INTO teco_attribute_definition 
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
 VALUES 
 (6000, 'Payment Gateway client id', 'Payment Gateway client id', 'PAYMENT_GATEWAY_CLIENT_TOKEN', 1, 6, 1, 0, 0, 1, 1);
+
 
 -- ATTRIBUTES : MARKET AREA
 INSERT INTO teco_attribute_definition 
@@ -142,6 +136,21 @@ INSERT INTO teco_attribute_definition
 (id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version)
 VALUES 
 (9000, 'Tax alias name', 'Tax alias name', 'TAX_ALIAS_NAME', 1, 9, 1, 1, 0, 1);
+
+-- ATTRIBUTES : RETAILER
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
+VALUES 
+(10000, 'Retailer attribute name', 'Retailer attribute name', 'RETAILER_I18N_NAME',                      1, 10, 1, 1, 0, 1, 1),
+(10010, 'Retailer attribute description', 'Retailer attribute description', 'RETAILER_I18N_DESCRIPTION', 2, 10, 1, 1, 0, 1, 1);
+
+-- ATTRIBUTES : PRODUCT SKU OPTION DEFINITION
+INSERT INTO teco_attribute_definition 
+(id, name, description, code, attribute_type, object_type, localizable, global, with_planner, version, ordering)
+VALUES 
+(11000, 'Product Sku Option Definition attribute name', 'Product Sku Option Definition attribute name', 'PRODUCT_SKU_OPTION_I18N_NAME', 1, 11, 1, 1, 0, 1, 1),
+(11010, 'Product Sku Option Definition attribute description', 'Product Sku Option Definition attribute description', 'PRODUCT_SKU_OPTION_I18N_DESCRIPTION', 2, 11, 1, 1, 0, 1, 1);
+
 
 -- CORE ENGINE SETTINGS
 -- Environment Staging/Reel setting

@@ -40,16 +40,17 @@ public class AttributeDefinition extends AbstractEntity {
     public static int ATTRIBUTE_TYPE_BLOB           = 6;
     public static int ATTRIBUTE_TYPE_BOOLEAN        = 7;
 
-    public static int OBJECT_TYPE_CATALOG_CATEGORY  = 1;
-    public static int OBJECT_TYPE_PRODUCT_MARKETING = 2;
-    public static int OBJECT_TYPE_PRODUCT_SKU       = 3;
-    public static int OBJECT_TYPE_CUSTOMER          = 4;
-    public static int OBJECT_TYPE_STORE             = 5;
-    public static int OBJECT_TYPE_PAYMENT_GATEWAY   = 6;
-    public static int OBJECT_TYPE_RULE_REFERENTIAL  = 7;
-    public static int OBJECT_TYPE_MARKET_AREA       = 8;
-    public static int OBJECT_TYPE_TAX               = 9;
-    public static int OBJECT_TYPE_RETAILER          = 10;
+    public static int OBJECT_TYPE_CATALOG_CATEGORY              = 1;
+    public static int OBJECT_TYPE_PRODUCT_MARKETING             = 2;
+    public static int OBJECT_TYPE_PRODUCT_SKU                   = 3;
+    public static int OBJECT_TYPE_CUSTOMER                      = 4;
+    public static int OBJECT_TYPE_STORE                         = 5;
+    public static int OBJECT_TYPE_PAYMENT_GATEWAY               = 6;
+    public static int OBJECT_TYPE_RULE_REFERENTIAL              = 7;
+    public static int OBJECT_TYPE_MARKET_AREA                   = 8;
+    public static int OBJECT_TYPE_TAX                           = 9;
+    public static int OBJECT_TYPE_RETAILER                      = 10;
+    public static int OBJECT_TYPE_PRODUCT_SKU_OPTION_DEFINITION = 11;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

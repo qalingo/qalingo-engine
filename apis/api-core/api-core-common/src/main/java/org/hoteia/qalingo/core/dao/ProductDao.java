@@ -30,6 +30,7 @@ import org.hoteia.qalingo.core.domain.ProductMarketing;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerComment;
 import org.hoteia.qalingo.core.domain.ProductMarketingCustomerRate;
 import org.hoteia.qalingo.core.domain.ProductSku;
+import org.hoteia.qalingo.core.domain.ProductSkuOptionDefinition;
 import org.hoteia.qalingo.core.fetchplan.FetchPlan;
 import org.hoteia.qalingo.core.fetchplan.catalog.FetchPlanGraphProduct;
 import org.slf4j.Logger;
@@ -496,6 +497,69 @@ public class ProductDao extends AbstractGenericDao {
 
     public void deleteProductSkuAsset(final Asset productSkuAsset) {
         em.remove(productSkuAsset);
+    }
+    
+    // PRODUCT SKU OPTION
+    
+    public ProductSkuOptionDefinition getProductSkuOptionDefinitionById(final Long productSkuOptionDefinitionId, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuOptionDefinition.class);
+        FetchPlan fetchPlan = handleSpecificProductSkuOptionDefinitionFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("id", productSkuOptionDefinitionId));
+        ProductSkuOptionDefinition productSkuOptionDefinition = (ProductSkuOptionDefinition) criteria.uniqueResult();
+        if(productSkuOptionDefinition != null){
+            productSkuOptionDefinition.setFetchPlan(fetchPlan);
+        }
+        return productSkuOptionDefinition;
+    }
+
+    public ProductSkuOptionDefinition getProductSkuOptionDefinitionByCode(final String productSkuOptionDefinitionCode, Object... params) {
+        Criteria criteria = createDefaultCriteria(ProductSkuOptionDefinition.class);
+        FetchPlan fetchPlan = handleSpecificProductSkuOptionDefinitionFetchMode(criteria, params);
+        criteria.add(Restrictions.eq("code", productSkuOptionDefinitionCode));
+        ProductSkuOptionDefinition productSkuOptionDefinition = (ProductSkuOptionDefinition) criteria.uniqueResult();
+        if(productSkuOptionDefinition != null){
+            productSkuOptionDefinition.setFetchPlan(fetchPlan);
+        }
+        return productSkuOptionDefinition;
+    }
+    
+    public List<ProductSkuOptionDefinition> findAllProductSkuOptionDefinitions(Object... params) {
+        Criteria criteria = getSession().createCriteria(ProductSkuOptionDefinition.class);
+        handleSpecificProductSkuOptionDefinitionFetchMode(criteria, params);
+        
+        @SuppressWarnings("unchecked")
+        List<ProductSkuOptionDefinition> productSkuOptionDefinitions = criteria.list();
+        return productSkuOptionDefinitions;
+    }
+    
+    public ProductSkuOptionDefinition saveOrUpdateProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
+        if(productSkuOptionDefinition.getDateCreate() == null){
+            productSkuOptionDefinition.setDateCreate(new Date());
+        }
+        productSkuOptionDefinition.setDateUpdate(new Date());
+        if (productSkuOptionDefinition.getId() != null) {
+            if(em.contains(productSkuOptionDefinition)){
+                em.refresh(productSkuOptionDefinition);
+            }
+            ProductSkuOptionDefinition mergedProductSkuOptionDefinition = em.merge(productSkuOptionDefinition);
+            em.flush();
+            return mergedProductSkuOptionDefinition;
+        } else {
+            em.persist(productSkuOptionDefinition);
+            return productSkuOptionDefinition;
+        }
+    }
+
+    public void deleteProductSkuOptionDefinition(final ProductSkuOptionDefinition productSkuOptionDefinition) {
+        em.remove(productSkuOptionDefinition);
+    }
+    
+    protected FetchPlan handleSpecificProductSkuOptionDefinitionFetchMode(Criteria criteria, Object... params) {
+        if (params != null && params.length > 0) {
+            return super.handleSpecificFetchMode(criteria, params);
+        } else {
+            return super.handleSpecificFetchMode(criteria, FetchPlanGraphProduct.productBrandDefaultFetchPlan());
+        }
     }
     
     // PRODUCT BRAND

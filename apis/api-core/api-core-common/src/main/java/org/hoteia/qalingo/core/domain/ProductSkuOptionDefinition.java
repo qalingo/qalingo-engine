@@ -58,7 +58,7 @@ public class ProductSkuOptionDefinition extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_SKU_OPTION_DEFINITION_ID")
-    private Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
+    private Set<ProductSkuOptionDefinitionAttribute> attributes = new HashSet<ProductSkuOptionDefinitionAttribute>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_CREATE")
@@ -111,12 +111,12 @@ public class ProductSkuOptionDefinition extends AbstractEntity {
         this.description = description;
     }
 
-    public Set<ProductSkuOptionDefinitionAttribute> getProductSkuOptionDefinitionAttributes() {
-        return productSkuOptionDefinitionAttributes;
+    public Set<ProductSkuOptionDefinitionAttribute> getAttributes() {
+        return attributes;
     }
-
-    public void setProductSkuOptionDefinitionAttributes(Set<ProductSkuOptionDefinitionAttribute> productSkuOptionDefinitionAttributes) {
-        this.productSkuOptionDefinitionAttributes = productSkuOptionDefinitionAttributes;
+    
+    public void setAttributes(Set<ProductSkuOptionDefinitionAttribute> attributes) {
+        this.attributes = attributes;
     }
 
     public Date getDateCreate() {
